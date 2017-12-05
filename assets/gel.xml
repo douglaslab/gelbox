@@ -1,0 +1,21 @@
+<GelParticleSource>
+	
+	<Kind>
+		<Speed				value="1"/>
+		<Deviation			value=".25"/>
+		<ProbabilityWeight	value="2"/>
+	</Kind>
+
+	<Kind>
+		<Speed				value=".8"/>
+		<Deviation			value=".15"/>
+		<ProbabilityWeight	value="1"/>
+	</Kind>
+
+	<Kind>
+		<Speed				value=".3"/>
+		<Deviation			value=".15"/>
+		<ProbabilityWeight	value="1"/>
+	</Kind>
+	
+</GelParticleSource>

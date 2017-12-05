@@ -27,15 +27,10 @@ class GelboxApp : public App {
 void GelboxApp::setup()
 {
 	// init source data
-	{
-		GelParticleSource::Kind k[3];
-		k[0].mSpeed = 1.f;
-		k[1].mSpeed = .5f;
-		k[2].mSpeed = .8f;
-		
-		mGelSource.mKinds.push_back(k[0]);
-		mGelSource.mKinds.push_back(k[1]);
-		mGelSource.mKinds.push_back(k[2]);
+	try {
+		mGelSource.loadXml( ci::XmlTree(loadAsset("gel.xml")) );
+	} catch (...) {
+		cout << "failed to load gel.xml" << endl;
 	}
 	
 	// gel
@@ -48,9 +43,12 @@ void GelboxApp::setup()
 	 5
 	 );
 	
-	mGel->insertSamples( mGelSource, 0, 10   );
-	mGel->insertSamples( mGelSource, 1, 100  );
-	mGel->insertSamples( mGelSource, 2, 1000 );
+//	mGel->insertSamples( mGelSource, 0, 10   );
+	int col=0;
+	mGel->insertSamples( mGelSource, col++, 100  );
+	mGel->insertSamples( mGelSource, col++, 100  );
+	mGel->insertSamples( mGelSource, col++, 100  );
+	mGel->insertSamples( mGelSource, col++, 1000 );
 	
 	// gel view
 	mGelView = make_shared<GelView>( mGel );

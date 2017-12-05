@@ -8,6 +8,7 @@
 
 #include <vector>
 #include "cinder/Rand.h"
+#include "cinder/Xml.h"
 
 class GelParticleSource
 {
@@ -28,6 +29,11 @@ public:
 	};
 
 	std::vector<Kind> mKinds;
+	
+	GelParticleSource() {}
+	GelParticleSource( const ci::XmlTree& xml ) { loadXml(xml); }
+	
+	void   loadXml( const ci::XmlTree& ); // clears existing mKinds first
 	
 	Result next( ci::Rand& ) const;
 	
