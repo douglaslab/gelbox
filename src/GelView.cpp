@@ -37,9 +37,15 @@ void GelView::draw()
 	
 	auto ps = mGel->getParticles();
 	
+	vec2 rectSize( mGel->getLaneWidth() * .25f, mGel->getLaneWidth()*.05f );
+	
 	for( auto &p : ps )
 	{
 		gl::color( p.mColor );
-		gl::drawSolidCircle( p.mLoc, 2.f );
+		
+		Rectf r(p.mLoc,p.mLoc);
+		r.inflate( rectSize );
+		
+		gl::drawSolidRect(r);
 	}
 }

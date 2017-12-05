@@ -52,6 +52,8 @@ public:
 	const std::vector<Particle>&	getParticles() const { return mParticles; }
 	ci::PolyLine2					getOutlineAsPolyLine() const;
 	
+	float getLaneWidth() const { return mLaneWidth; }
+	
 private:
 	
 	void updateParticlesWithTime( float t );
