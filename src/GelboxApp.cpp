@@ -48,6 +48,7 @@ void GelboxApp::setup()
 	mGel->insertSamples( mGelSource, col++, 100  );
 	mGel->insertSamples( mGelSource, col++, 100  );
 	mGel->insertSamples( mGelSource, col++, 100  );
+	mGel->insertSamples( mGelSource, col++, 100  );
 	mGel->insertSamples( mGelSource, col++, 1000 );
 	
 	// gel view

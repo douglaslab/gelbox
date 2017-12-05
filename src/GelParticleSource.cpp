@@ -37,8 +37,29 @@ GelParticleSource::next( ci::Rand& randgen ) const
 	}
 	
 	// fill it out
+	auto randcurved = [&randgen]( int curve ) -> float
+	{
+//		follow this spec:
+//		randgen.nextFloat(-1.f,1.f);
+		
+		// for sure there is a better way to do this...
+		
+		float q = randgen.nextFloat();
+		
+		while (curve-- > 1)
+		{
+			q *= randgen.nextFloat();
+		}
+		
+		// fit 0..1 to -1 .. 0 OR 0 .. 1
+		if ( randgen.nextBool() ) q -= 1.f;
+		else q = 1.f - q; 
+		
+		return q;
+	};
+	
 	Result r;
-	r.mSpeed = mKinds[k].mSpeed + randgen.nextFloat(-1.f,1.f) * mKinds[k].mDeviation;
+	r.mSpeed = mKinds[k].mSpeed + randcurved(3) * mKinds[k].mDeviation;
 	return r;
 }
 
