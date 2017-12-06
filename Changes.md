@@ -5,6 +5,7 @@
 - Created changelog
 - Adding view logic (based on La Tabla)
 - Adding Timeline scrubber
+- Can drop images into window, move them around 
 
 ## 12/5/2017
 

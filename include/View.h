@@ -19,6 +19,8 @@
 class View;
 typedef std::shared_ptr<View> ViewRef;
 
+class ViewCollection;
+
 glm::mat4 getRectMappingAsMatrix( ci::Rectf from, ci::Rectf to );
 
 class View
@@ -81,13 +83,19 @@ public:
 	bool getHasMouseDown() const { return mHasMouseDown; }
 	void setHasMouseDown( bool v ) { mHasMouseDown=v; }
 
+	glm::vec2 getMouseDownLoc() const;
+	
 protected:
 	glm::ivec2 getScissorLowerLeft( ci::Rectf ) const;
 	glm::ivec2 getScissorSize( ci::Rectf ) const;
 	glm::ivec2 getScissorLowerLeft() const { return getScissorLowerLeft(getFrame()); }
 	glm::ivec2 getScissorSize() const { return getScissorSize(getFrame()); }
 
+	ViewCollection* getCollection() const { return mCollection; }
+	
 private:
+	friend class ViewCollection;	
+
 	bool	mHasRollover=false;
 	bool	mHasMouseDown=false;
 	
@@ -97,6 +105,7 @@ private:
 		// initing to unit rect so that by default it does a valid no transform (no divide by zero)
 	
 	ViewRef mParent;
+	ViewCollection* mCollection=0;
 };
 
 
@@ -108,7 +117,7 @@ public:
 	ViewRef	pickView( glm::vec2 ); // tests in reverse order added
 	ViewRef getViewByName( std::string );
 	
-	void addView   ( ViewRef v ) { mViews.push_back(v); }
+	void addView   ( ViewRef v ) { mViews.push_back(v); v->mCollection=this; }
 	bool removeView( ViewRef v ); // returns whether found
 	
 	void mouseDown( ci::app::MouseEvent );
@@ -120,8 +129,12 @@ public:
 	ViewRef getMouseDownView() const { return mMouseDownView; }
 	ViewRef getRolloverView()  const { return mRolloverView; }
 	
+	ci::vec2 getMouseDownLoc() const { return mMouseDownLoc; }
+	
 private:
 	void updateRollover( glm::vec2 );
+	
+	glm::vec2 mMouseDownLoc;
 	
 	ViewRef mMouseDownView;
 	ViewRef mRolloverView;

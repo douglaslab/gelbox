@@ -49,6 +49,12 @@ ivec2 View::getScissorSize( Rectf r ) const
 	return ivec2( toPixels(r.getWidth()), toPixels(r.getHeight()) );
 }
 
+vec2 View::getMouseDownLoc() const
+{
+	if (mCollection) return mCollection->getMouseDownLoc();
+	else return vec2(0,0);
+}
+
 void ViewCollection::draw()
 {
 	for( const auto &v : mViews )
@@ -100,6 +106,8 @@ bool ViewCollection::removeView( ViewRef v )
 
 void ViewCollection::mouseDown( MouseEvent event )
 {
+	mMouseDownLoc = event.getPos();
+	
 	// mouse down event
 	mMouseDownView = pickView( event.getPos() );
 	

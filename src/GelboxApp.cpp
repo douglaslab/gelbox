@@ -7,6 +7,7 @@
 #include "GelParticleSource.h"
 #include "View.h"
 #include "TimelineView.h"
+#include "ImageView.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -19,6 +20,8 @@ class GelboxApp : public App {
 	void mouseUp  ( MouseEvent event ) override;
 	void mouseMove( MouseEvent event ) override;
 	void mouseDrag( MouseEvent event ) override;
+	void fileDrop ( FileDropEvent event ) override;
+
 	void update() override;
 	void draw() override;
 	
@@ -93,6 +96,43 @@ void GelboxApp::mouseMove( MouseEvent event )
 void GelboxApp::mouseDrag( MouseEvent event )
 {
 	mViews.mouseDrag(event);
+}
+
+void GelboxApp::fileDrop ( FileDropEvent event )
+{
+	auto					files		  = event.getFiles();
+	const vec2				pos			  = vec2( event.getPos() );
+	const vector<string>	imgExtensions = {".jpg",".png",".gif"};
+	
+	for( auto i : files )
+	{
+		std::string ext = i.extension().string();
+		
+		// image?
+		if ( find( imgExtensions.begin(), imgExtensions.end(), ext ) != imgExtensions.end() )
+		{
+			try {
+				gl::TextureRef image = gl::Texture::create( loadImage(i) );
+				
+				if (image) {
+					// make view
+					auto imageView = make_shared<ImageView>(image);
+					
+					// center frame on drop loc
+					Rectf frame = imageView->getFrame();
+					
+					frame.offsetCenterTo(pos);
+					
+					imageView->setFrame( frame );
+					
+					mViews.addView(imageView);
+				}
+			} catch (...)
+			{
+				cout << "Failed to load image '" << i << "'" << endl;
+			}
+		}
+	}
 }
 
 void GelboxApp::update()
