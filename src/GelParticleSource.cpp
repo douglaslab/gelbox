@@ -52,8 +52,7 @@ GelParticleSource::next( ci::Rand& randgen ) const
 		}
 		
 		// fit 0..1 to -1 .. 0 OR 0 .. 1
-		if ( randgen.nextBool() ) q -= 1.f;
-		else q = 1.f - q; 
+		if ( randgen.nextBool() ) q = (1.f - q) - 1.f;
 		
 		return q;
 	};
