@@ -74,8 +74,11 @@ void GelboxApp::makeGel( const GelParticleSource& source, vec2 center )
 	// timeline
 	{
 		// in gelview frame coordinate space
-		vec2 topleft( 0, gelView->getFrame().getHeight() + 10 ); 
-		vec2 size   ( gelView->getFrame().getWidth(), 20 );
+		const float kTimelineHeight = 20.f;
+		const float kTimelineGutter = 10.f;
+		
+		vec2 topleft( 0, gelView->getFrame().getHeight() + kTimelineGutter ); 
+		vec2 size   ( gelView->getFrame().getWidth(), kTimelineHeight );
 		Rectf timelineRect( topleft, topleft + size );
 		
 		auto timelineView = make_shared<TimelineView>( timelineRect );

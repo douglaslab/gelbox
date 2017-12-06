@@ -7,6 +7,7 @@
 - Adding Timeline scrubber
 - Can drop images into window, move them around 
 - Refactor gel view into new View system; simplify Gel layout params
+- Can drag around Gel and Timeline is attached. Aesthetic tweaks to Timeline.
 
 ## 12/5/2017
 
