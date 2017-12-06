@@ -11,6 +11,8 @@
 using namespace std;
 using namespace ci;
 
+const std::string GelParticleSource::kRootXMLNodeName = "GelParticleSource";
+
 GelParticleSource::Result
 GelParticleSource::next( ci::Rand& randgen ) const
 {
@@ -67,9 +69,9 @@ GelParticleSource::loadXml( const ci::XmlTree& xml )
 {
 	mKinds.clear();
 	
-	if ( !xml.hasChild("GelParticleSource") )
+	if ( !xml.hasChild(kRootXMLNodeName) )
 	{
-		cout << "GelParticleSource::loadXml no GelParticleSource root node" << endl;
+		cout << "GelParticleSource::loadXml no " << kRootXMLNodeName << " root node" << endl;
 	}
 	
 	auto childAttrValue = []( const XmlTree& xml, std::string child, auto def )
@@ -83,7 +85,7 @@ GelParticleSource::loadXml( const ci::XmlTree& xml )
 		return def;
 	};
 	
-	for ( auto i = xml.begin("GelParticleSource/Kind"); i != xml.end(); ++i )
+	for ( auto i = xml.begin(kRootXMLNodeName+"/Kind"); i != xml.end(); ++i )
 	{
 		Kind k;
 		

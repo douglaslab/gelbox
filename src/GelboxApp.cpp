@@ -5,6 +5,7 @@
 #include "Gel.h"
 #include "GelView.h"
 #include "GelParticleSource.h"
+#include "GelParticleSourceView.h"
 #include "View.h"
 #include "TimelineView.h"
 #include "ImageView.h"
@@ -125,6 +126,29 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 	{
 		std::string ext = i.extension().string();
 		
+		// xml?
+		if ( ext == ".xml" )
+		{
+			try
+			{
+				XmlTree xml( loadFile(i) );
+				
+				// GelParticleSource?
+				if ( xml.hasChild(GelParticleSource::kRootXMLNodeName) )
+				{
+					GelParticleSourceRef	 source = std::make_shared<GelParticleSource>(xml);
+					GelParticleSourceViewRef view	= std::make_shared<GelParticleSourceView>(source);
+					
+					view->setFrame( view->getFrame() + (pos - view->getFrame().getCenter()) );
+					
+					mViews.addView(view);
+				}
+			}
+			catch (...) {
+				cout << "Failed to load .xml '" << i << "'" << endl;
+			}
+		}
+		
 		// image?
 		if ( find( imgExtensions.begin(), imgExtensions.end(), ext ) != imgExtensions.end() )
 		{
@@ -144,8 +168,7 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 					
 					mViews.addView(imageView);
 				}
-			} catch (...)
-			{
+			} catch (...) {
 				cout << "Failed to load image '" << i << "'" << endl;
 			}
 		}

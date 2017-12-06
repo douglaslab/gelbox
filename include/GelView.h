@@ -11,9 +11,6 @@
 #include "Gel.h"
 #include "View.h"
 
-class GelView;
-typedef std::shared_ptr<GelView> GelViewRef;
-
 class GelView : public View
 {
 public:

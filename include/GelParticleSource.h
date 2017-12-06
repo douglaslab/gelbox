@@ -6,9 +6,14 @@
 //
 //
 
+#pragma once
+
 #include <vector>
 #include "cinder/Rand.h"
 #include "cinder/Xml.h"
+
+class GelParticleSource;
+typedef std::shared_ptr<GelParticleSource> GelParticleSourceRef;
 
 class GelParticleSource
 {
@@ -36,5 +41,7 @@ public:
 	void   loadXml( const ci::XmlTree& ); // clears existing mKinds first
 	
 	Result next( ci::Rand& ) const;
+	
+	static const std::string kRootXMLNodeName;
 	
 };
