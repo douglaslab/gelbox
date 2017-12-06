@@ -5,6 +5,8 @@
 #include "Gel.h"
 #include "GelView.h"
 #include "GelParticleSource.h"
+#include "View.h"
+#include "TimelineView.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -14,10 +16,15 @@ class GelboxApp : public App {
   public:
 	void setup() override;
 	void mouseDown( MouseEvent event ) override;
+	void mouseUp  ( MouseEvent event ) override;
+	void mouseMove( MouseEvent event ) override;
+	void mouseDrag( MouseEvent event ) override;
 	void update() override;
 	void draw() override;
 	
   public:
+	ViewCollection		mViews;
+	
 	GelParticleSource	mGelSource;
 	GelRef				mGel;
 	GelViewRef			mGelView;
@@ -53,15 +60,46 @@ void GelboxApp::setup()
 	
 	// gel view
 	mGelView = make_shared<GelView>( mGel );
+	
+	// timeline
+	{
+		Rectf timelineRect( vec2(100,440), vec2(400,460) );
+		
+		auto timelineView = make_shared<TimelineView>( timelineRect );
+		
+		timelineView->mGetTime = [this](){ return mGel->getTime(); };
+		timelineView->mSetTime = [this]( float t ){ mGel->setTime(t); };
+		timelineView->mGetDuration = [this](){ return mGel->getDuration(); };
+		
+		mViews.addView(timelineView);
+	}
 }
 
 void GelboxApp::mouseDown( MouseEvent event )
 {
+	mViews.mouseDown(event);
+}
+
+void GelboxApp::mouseUp( MouseEvent event )
+{
+	mViews.mouseUp(event);
+}
+
+void GelboxApp::mouseMove( MouseEvent event )
+{
+	mViews.mouseMove(event);
+}
+
+void GelboxApp::mouseDrag( MouseEvent event )
+{
+	mViews.mouseDrag(event);
 }
 
 void GelboxApp::update()
 {
 	mGel->tick(.1f);
+	
+//	mViews.tick();
 }
 
 void GelboxApp::draw()
@@ -69,6 +107,8 @@ void GelboxApp::draw()
 	gl::clear( Color( 1, 1, 1 ) );
 	
 	if (mGelView) mGelView->draw();
+	
+	mViews.draw();
 }
 
 CINDER_APP( GelboxApp, RendererGl )

@@ -17,6 +17,8 @@
 		00B9955A1B128DF400A5C623 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995581B128DF400A5C623 /* IOKit.framework */; };
 		00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995591B128DF400A5C623 /* IOSurface.framework */; };
 		0DD83F71512F417A9DCFE978 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3B437E2879754131A72F26A6 /* CinderApp.icns */; };
+		26054E9A1FD8726C007DB5F8 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054E991FD8726C007DB5F8 /* View.cpp */; };
+		26054EA51FD876B6007DB5F8 /* TimelineView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054EA41FD876B6007DB5F8 /* TimelineView.cpp */; };
 		2642C0F31FD5FFA300528061 /* Gel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F21FD5FFA300528061 /* Gel.cpp */; };
 		2642C0F71FD72EE600528061 /* GelView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F61FD72EE600528061 /* GelView.cpp */; };
 		2642C0FA1FD730F000528061 /* GelParticleSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F91FD730F000528061 /* GelParticleSource.cpp */; };
@@ -38,6 +40,13 @@
 		00B995591B128DF400A5C623 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		2029F7E3D4854834BD477628 /* Gelbox_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = Gelbox_Prefix.pch; sourceTree = "<group>"; };
+		26054E981FD87264007DB5F8 /* View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = View.h; path = ../include/View.h; sourceTree = "<group>"; };
+		26054E991FD8726C007DB5F8 /* View.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = View.cpp; path = ../src/View.cpp; sourceTree = "<group>"; };
+		26054E9B1FD87455007DB5F8 /* TimelineView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TimelineView.h; path = ../include/TimelineView.h; sourceTree = "<group>"; };
+		26054E9C1FD87473007DB5F8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		26054EA01FD874C2007DB5F8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		26054EA21FD874D1007DB5F8 /* Changes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Changes.md; path = ../Changes.md; sourceTree = "<group>"; };
+		26054EA41FD876B6007DB5F8 /* TimelineView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TimelineView.cpp; path = ../src/TimelineView.cpp; sourceTree = "<group>"; };
 		2642C0F21FD5FFA300528061 /* Gel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gel.cpp; path = ../src/Gel.cpp; sourceTree = "<group>"; };
 		2642C0F41FD5FFB000528061 /* Gel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Gel.h; path = ../include/Gel.h; sourceTree = "<group>"; };
 		2642C0F51FD72ED700528061 /* GelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelView.h; path = ../include/GelView.h; sourceTree = "<group>"; };
@@ -91,6 +100,8 @@
 				2642C0F21FD5FFA300528061 /* Gel.cpp */,
 				2642C0F61FD72EE600528061 /* GelView.cpp */,
 				2642C0F91FD730F000528061 /* GelParticleSource.cpp */,
+				26054E991FD8726C007DB5F8 /* View.cpp */,
+				26054EA41FD876B6007DB5F8 /* TimelineView.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -133,6 +144,9 @@
 		29B97314FDCFA39411CA2CEA /* Gelbox */ = {
 			isa = PBXGroup;
 			children = (
+				26054EA21FD874D1007DB5F8 /* Changes.md */,
+				26054E9C1FD87473007DB5F8 /* README.md */,
+				26054EA01FD874C2007DB5F8 /* LICENSE */,
 				01B97315FEAEA392516A2CEA /* Blocks */,
 				29B97315FDCFA39411CA2CEA /* Headers */,
 				080E96DDFE201D6D7F000001 /* Source */,
@@ -152,6 +166,8 @@
 				2642C0F41FD5FFB000528061 /* Gel.h */,
 				2642C0F51FD72ED700528061 /* GelView.h */,
 				2642C0F81FD7300D00528061 /* GelParticleSource.h */,
+				26054E981FD87264007DB5F8 /* View.h */,
+				26054E9B1FD87455007DB5F8 /* TimelineView.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -240,8 +256,10 @@
 			files = (
 				2642C0F71FD72EE600528061 /* GelView.cpp in Sources */,
 				2642C0F31FD5FFA300528061 /* Gel.cpp in Sources */,
+				26054EA51FD876B6007DB5F8 /* TimelineView.cpp in Sources */,
 				5BABC631A5484737AB27EE73 /* GelboxApp.cpp in Sources */,
 				2642C0FA1FD730F000528061 /* GelParticleSource.cpp in Sources */,
+				26054E9A1FD8726C007DB5F8 /* View.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

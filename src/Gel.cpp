@@ -49,6 +49,8 @@ void Gel::insertSamples( const GelParticleSource& src, int lane, int num )
 		
 		mParticles.push_back(p);
 	}
+	
+	mDuration = calcDuration();
 }
 
 void Gel::clearSamples()
@@ -59,6 +61,7 @@ void Gel::clearSamples()
 void Gel::tick   ( float dt )
 {
 	mTime += dt;
+	mTime = min( mTime, mDuration );
 	updateParticlesWithTime(mTime);
 }
 
@@ -66,6 +69,21 @@ void Gel::setTime( float t )
 {
 	mTime = t;
 	updateParticlesWithTime(mTime);
+}
+
+float Gel::calcDuration() const
+{
+	if ( mParticles.empty() ) return 0.f;
+	
+	float d = MAXFLOAT;
+	
+	for( auto &p : mParticles )
+	{
+		// assume created at the top for now to simplify this...
+		d = min( d, mLengthInLaneVec / p.mSpeed );
+	}
+	
+	return d;
 }
 
 void Gel::updateParticlesWithTime( float t )

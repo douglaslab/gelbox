@@ -46,8 +46,10 @@ public:
 	void insertSamples( const GelParticleSource&, int lane, int num ); // at current time
 	void clearSamples();
 	
-	void tick   ( float dt );
-	void setTime( float t );
+	void  tick   ( float dt );
+	void  setTime( float t );
+	float getTime() const { return mTime; }
+	float getDuration() const { return mDuration; }
 	
 	const std::vector<Particle>&	getParticles() const { return mParticles; }
 	ci::PolyLine2					getOutlineAsPolyLine() const;
@@ -57,13 +59,14 @@ public:
 private:
 	
 	void updateParticlesWithTime( float t );
-	
+	float calcDuration() const;
 	
 	ci::Rand				mRand;
 	
 	std::vector<Particle>	mParticles;
 
 	float					mTime = 0.f;
+	float					mDuration = 0.f;
 	
 	// layout
 	glm::vec2				mOrigin;  // loc lane 0, -			 (i.e. translation)
