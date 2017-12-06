@@ -133,16 +133,19 @@ public:
 	ViewRef getRolloverView()  const { return mRolloverView; }
 	
 	ci::vec2 getMouseDownLoc() const { return mMouseDownLoc; }
+	ci::vec2 getMouseMoved()   const { return mMouseMoved; }
 	
 private:
+	void updateMouseLoc( glm::vec2 );
 	void updateRollover( glm::vec2 );
 	
 	glm::vec2 mMouseDownLoc;
+	glm::vec2 mLastMouseLoc, mMouseMoved;
 	
 	ViewRef mMouseDownView;
 	ViewRef mRolloverView;
 	std::vector< ViewRef > mViews;
-	
+
 };
 
 #endif /* View_hpp */

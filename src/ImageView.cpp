@@ -33,8 +33,3 @@ void ImageView::draw()
 		gl::draw( mImage, getBounds() );
 	}
 }
-
-void ImageView::mouseDrag( ci::app::MouseEvent e )
-{
-	setFrame( mMouseDownFrame.getOffset( vec2(e.getPos()) - getMouseDownLoc() ) );
-}

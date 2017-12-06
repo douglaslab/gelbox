@@ -18,11 +18,11 @@ public:
 	ImageView( ci::gl::TextureRef );
 	
 	void draw() override;
-	void mouseDown( ci::app::MouseEvent ) override { mMouseDownFrame=getFrame(); }
-	void mouseDrag( ci::app::MouseEvent ) override;
+	void mouseDrag( ci::app::MouseEvent ) override {
+		setFrame( getFrame() + getCollection()->getMouseMoved() );
+	}
 	
 private:
-	ci::Rectf mMouseDownFrame;
 	ci::gl::TextureRef mImage;
 	
 };

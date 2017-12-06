@@ -57,9 +57,12 @@ void GelView::draw()
 	}
 }
 
-void GelView::mouseDown( ci::app::MouseEvent e )
+void GelView::mouseUp( ci::app::MouseEvent e )
 {
-	if (mGel) mGel->setIsPaused( ! mGel->getIsPaused() );
+	if ( mGel && distance( vec2(e.getPos()), getCollection()->getMouseDownLoc() ) < 1.f )
+	{
+		mGel->setIsPaused( ! mGel->getIsPaused() );
+	}
 }
 
 void GelView::tick( float dt )

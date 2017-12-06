@@ -25,6 +25,8 @@ class GelboxApp : public App {
 	void update() override;
 	void draw() override;
 	
+	void makeGel( const GelParticleSource&, vec2 center );
+	
   public:
 	ViewCollection		mViews;
 	
@@ -34,36 +36,47 @@ class GelboxApp : public App {
 
 void GelboxApp::setup()
 {
-	// init source data
+	// get gel source data
 	try {
 		mGelSource.loadXml( ci::XmlTree(loadAsset("gel.xml")) );
+		makeGel( mGelSource, getWindowCenter() );
 	} catch (...) {
 		cout << "failed to load gel.xml" << endl;
 	}
-	
+}
+
+void GelboxApp::makeGel( const GelParticleSource& source, vec2 center )
+{	
 	// gel
 	auto gel = make_shared<Gel>();
 	gel->setLayout( 300.f, 400.f, 5 );
 	
-//	gel->insertSamples( mGelSource, 0, 10   );
+	// populate it
+//	gel->insertSamples( source, 0, 10   );
 	int col=0;
-	gel->insertSamples( mGelSource, col++, 100  );
-	gel->insertSamples( mGelSource, col++, 100  );
-	gel->insertSamples( mGelSource, col++, 100  );
-	gel->insertSamples( mGelSource, col++, 100  );
-	gel->insertSamples( mGelSource, col++, 1000 );
+	gel->insertSamples( source, col++, 100  );
+	gel->insertSamples( source, col++, 100  );
+	gel->insertSamples( source, col++, 100  );
+	gel->insertSamples( source, col++, 100  );
+	gel->insertSamples( source, col++, 1000 );
 	
 	// gel view
 	auto gelView = make_shared<GelView>( gel );
 	
 	{
-		gelView->setFrame( gelView->getFrame().getOffset( vec2(100,10)) );
+		Rectf frame = gelView->getFrame();
+		frame += center - frame.getCenter();
+		
+		gelView->setFrame( frame );
 		mViews.addView(gelView);
 	}
 	
 	// timeline
 	{
-		Rectf timelineRect( vec2(100,440), vec2(400,460) );
+		// in gelview frame coordinate space
+		vec2 topleft( 0, gelView->getFrame().getHeight() + 10 ); 
+		vec2 size   ( gelView->getFrame().getWidth(), 20 );
+		Rectf timelineRect( topleft, topleft + size );
 		
 		auto timelineView = make_shared<TimelineView>( timelineRect );
 		
@@ -72,6 +85,8 @@ void GelboxApp::setup()
 		timelineView->mGetDuration	= [gel](){ return gel->getDuration(); };
 		timelineView->mGetIsPlaying = [gel](){ return ! gel->getIsPaused(); };
 		timelineView->mSetIsPlaying = [gel]( bool v ){ gel->setIsPaused( !v ); };
+		
+		timelineView->setParent(gelView);
 		
 		mViews.addView(timelineView);
 	}

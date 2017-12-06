@@ -82,7 +82,11 @@ ViewRef	ViewCollection::pickView( vec2 p )
 {
 	for( int i=(int)mViews.size()-1; i>=0; --i )
 	{
-		if ( mViews[i]->pick(p) ) return mViews[i];
+		// a little sledgehammer like, but it works
+		vec2 pInFrame = mViews[i]->rootToChild(p);
+		pInFrame = mViews[i]->childToParent(pInFrame);
+		
+		if ( mViews[i]->pick(pInFrame) ) return mViews[i];
 	}
 	
 	return nullptr;
@@ -131,22 +135,32 @@ void ViewCollection::mouseDown( MouseEvent event )
 
 void ViewCollection::mouseUp( MouseEvent event )
 {
+	// mouseUp
 	if (mMouseDownView) {
 		mMouseDownView->mouseUp(event);
 		mMouseDownView->setHasMouseDown(false);
 		mMouseDownView=0;
 	}
-	
-	updateRollover(event.getPos());
+
+	// rollover
+	updateRollover(event.getPos());	
 }
 
 void ViewCollection::mouseMove( MouseEvent event )
 {
+	updateMouseLoc( event.getPos() );
+	
 	if (mMouseDownView)
 	{
 		mMouseDownView->mouseMove(event);
 	}
 	else updateRollover(event.getPos());
+}
+
+void ViewCollection::updateMouseLoc( vec2 pos )
+{
+	mMouseMoved = pos - mLastMouseLoc;
+	mLastMouseLoc = pos;
 }
 
 void ViewCollection::updateRollover( vec2 pos )
@@ -160,6 +174,8 @@ void ViewCollection::updateRollover( vec2 pos )
 
 void ViewCollection::mouseDrag( MouseEvent event )
 {
+	updateMouseLoc( event.getPos() );
+
 	if (mMouseDownView) mMouseDownView->mouseDrag(event);
 }
 

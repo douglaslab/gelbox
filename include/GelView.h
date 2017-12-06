@@ -25,7 +25,11 @@ public:
 	void draw() override;
 	void tick( float dt ) override;
 
-	void mouseDown( ci::app::MouseEvent ) override;
+	void mouseUp( ci::app::MouseEvent ) override;
+
+	void mouseDrag( ci::app::MouseEvent ) override {
+		setFrame( getFrame() + getCollection()->getMouseMoved() );
+	}
 	
 private:
 	GelRef mGel;

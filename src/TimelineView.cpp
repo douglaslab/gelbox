@@ -40,7 +40,7 @@ void TimelineView::draw()
 
 void TimelineView::setTimeWithMouse( ci::app::MouseEvent e )
 {
-	vec2 loc = parentToChild(e.getPos());
+	vec2 loc = rootToChild(e.getPos());
 	
 	const Rectf bounds = getBounds();
 
