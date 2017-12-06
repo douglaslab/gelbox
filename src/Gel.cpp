@@ -12,28 +12,23 @@
 using namespace std;
 using namespace ci;
 
+const vec2 kLaneVec(1,0);
+const vec2 kPosVec (0,1);
+
 void Gel::setLayout(
-	glm::vec2	origin,
-	glm::vec2	plusElectricVec,
-	float		laneAxisLength,
-	float		electricAxisLength,
+	float		lane_dimension, 
+	float		pos_elec_dimension,
 	int			numLanes )
 {
-	mOrigin  = origin;
-	mPosVec  = plusElectricVec;
-	mLaneVec = -vec2( cross( vec3(0,0,1), vec3(mPosVec,0) ) );
-	// not sure why -vec2, but it works
-	
-	mLengthInLaneVec = laneAxisLength;
-	mLengthInPosVec  = electricAxisLength;
+	mSize = vec2( lane_dimension, pos_elec_dimension );
 	
 	mNumLanes  = numLanes;
-	mLaneWidth = mLengthInLaneVec / (float)numLanes; 
+	mLaneWidth = mSize.x / (float)numLanes; 
 }
 
 void Gel::insertSamples( const GelParticleSource& src, int lane, int num )
 {
-	vec2 laneLoc = mLaneVec * ((float)lane*mLaneWidth + mLaneWidth/2.f) + mOrigin;
+	vec2 laneLoc = kLaneVec * ((float)lane*mLaneWidth + mLaneWidth/2.f);
 	
 	for( int i = 0; i<num; ++i )
 	{
@@ -58,7 +53,7 @@ void Gel::clearSamples()
 	mParticles.clear();
 }
 
-void Gel::tick   ( float dt )
+void Gel::stepTime ( float dt )
 {
 	mTime += dt;
 	mTime = min( mTime, mDuration );
@@ -80,7 +75,7 @@ float Gel::calcDuration() const
 	for( auto &p : mParticles )
 	{
 		// assume created at the top for now to simplify this...
-		d = min( d, mLengthInLaneVec / p.mSpeed );
+		d = min( d, mSize.y / p.mSpeed );
 	}
 	
 	return d;
@@ -96,28 +91,8 @@ void Gel::updateParticlesWithTime( float t )
 		
 		float travel = p.mSpeed * particleTime;
 		
-		travel = min( travel, mLengthInPosVec ); // no falling off the edge
+		travel = min( travel, mSize.y ); // no falling off the edge
 		
-		p.mLoc = p.mStartLoc + mPosVec * travel;
+		p.mLoc = p.mStartLoc + kPosVec * travel;
 	}
-}
-
-ci::PolyLine2
-Gel::getOutlineAsPolyLine() const
-{
-	PolyLine2 p;
-	
-	vec2 x = mLaneVec * mLengthInLaneVec;
-	vec2 y = mPosVec  * mLengthInPosVec;
-	
-	p.push_back( vec2(0,0) );
-	p.push_back( x );
-	p.push_back( x + y );
-	p.push_back( y );
-	
-	p.offset( mOrigin );
-	
-	p.setClosed();
-	
-	return p;
 }

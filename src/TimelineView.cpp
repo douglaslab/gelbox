@@ -30,7 +30,9 @@ void TimelineView::draw()
 	
 	if (duration>0.f)
 	{
-		gl::color(0,0,1);
+		if (getIsPlaying()) gl::color(0,0,1);
+		else gl::color(.5,.5,.5);
+		
 		float tx = lerp( bounds.x1, bounds.x2, getTime() / duration );
 		gl::drawLine( vec2(tx,bounds.y1), vec2(tx,bounds.y2) );
 	}

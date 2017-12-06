@@ -69,6 +69,8 @@ public:
 	}
 	
 	// interaction
+	virtual void tick( float dt ) {}
+
 	virtual bool pick( glm::vec2 p ) { return mFrame.contains(p); }
 
 	virtual void mouseDown( ci::app::MouseEvent ){}
@@ -113,6 +115,7 @@ class ViewCollection
 {
 public:
 	
+	void	tick( float dt );
 	void	draw(); // draws all views in order they were added
 	ViewRef	pickView( glm::vec2 ); // tests in reverse order added
 	ViewRef getViewByName( std::string );

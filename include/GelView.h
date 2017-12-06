@@ -9,21 +9,25 @@
 #pragma once
 
 #include "Gel.h"
+#include "View.h"
 
 class GelView;
 typedef std::shared_ptr<GelView> GelViewRef;
 
-class GelView
+class GelView : public View
 {
 public:
 
-	GelView( GelRef gel )
-	: mGel(gel)
-	  {}
+	GelView( GelRef gel ) { setGel(gel); }
 	
-	void draw();
+	void setGel( GelRef );
+	
+	void draw() override;
+	void tick( float dt ) override;
+
+	void mouseDown( ci::app::MouseEvent ) override;
 	
 private:
 	GelRef mGel;
-	
+
 };

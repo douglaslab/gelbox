@@ -13,7 +13,6 @@
 #include "glm/vec2.hpp"
 #include "cinder/Rand.h"
 #include "cinder/Color.h"
-#include "cinder/PolyLine.h"
 
 class GelParticleSource;
 class Gel;
@@ -37,23 +36,24 @@ public:
 	
 	// Methods
 	void setLayout(
-		glm::vec2	origin,
-		glm::vec2	plusElectricVec,
-		float		laneAxisLength,
-		float		electricAxisLength,
+		float		lane_dimension_length,		// x 
+		float		pos_elec_dimension_length,	// y
 		int			numLanes );
 	
 	void insertSamples( const GelParticleSource&, int lane, int num ); // at current time
 	void clearSamples();
 	
-	void  tick   ( float dt );
+	void  stepTime( float dt );
+	
 	void  setTime( float t );
 	float getTime() const { return mTime; }
 	float getDuration() const { return mDuration; }
+	bool  getIsPaused() const { return mIsPaused; }
+	void  setIsPaused( bool v ) { mIsPaused=v; }
 	
 	const std::vector<Particle>&	getParticles() const { return mParticles; }
-	ci::PolyLine2					getOutlineAsPolyLine() const;
 	
+	glm::vec2 getSize() const { return mSize; }
 	float getLaneWidth() const { return mLaneWidth; }
 	
 private:
@@ -67,15 +67,12 @@ private:
 
 	float					mTime = 0.f;
 	float					mDuration = 0.f;
+	bool					mIsPaused = false;
 	
 	// layout
-	glm::vec2				mOrigin;  // loc lane 0, -			 (i.e. translation)
-	glm::vec2				mPosVec;  // orientation of   - => + (i.e. y+)
-	glm::vec2				mLaneVec; // vector from lane 0 => 1 (i.e. x+)
+	glm::vec2				mSize; // ( lane dimension, pos elec dimension )
 	
-	float					mLengthInPosVec, mLengthInLaneVec; // size(y,x)
-	
-	float					mLaneWidth;
+	float					mLaneWidth; // = mSize.x / mNumLanes
 	int						mNumLanes;
 	
 };

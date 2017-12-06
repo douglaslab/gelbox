@@ -55,6 +55,14 @@ vec2 View::getMouseDownLoc() const
 	else return vec2(0,0);
 }
 
+void ViewCollection::tick( float dt )
+{
+	for( auto &v : mViews )
+	{
+		v->tick(dt);
+	}
+}
+
 void ViewCollection::draw()
 {
 	for( const auto &v : mViews )

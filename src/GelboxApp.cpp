@@ -29,8 +29,6 @@ class GelboxApp : public App {
 	ViewCollection		mViews;
 	
 	GelParticleSource	mGelSource;
-	GelRef				mGel;
-	GelViewRef			mGelView;
 	
 };
 
@@ -44,25 +42,24 @@ void GelboxApp::setup()
 	}
 	
 	// gel
-	mGel = make_shared<Gel>();
-	mGel->setLayout(
-	 vec2(100,20),
-	 vec2(0,1),
-	 300.f,
-	 400.f,
-	 5
-	 );
+	auto gel = make_shared<Gel>();
+	gel->setLayout( 300.f, 400.f, 5 );
 	
-//	mGel->insertSamples( mGelSource, 0, 10   );
+//	gel->insertSamples( mGelSource, 0, 10   );
 	int col=0;
-	mGel->insertSamples( mGelSource, col++, 100  );
-	mGel->insertSamples( mGelSource, col++, 100  );
-	mGel->insertSamples( mGelSource, col++, 100  );
-	mGel->insertSamples( mGelSource, col++, 100  );
-	mGel->insertSamples( mGelSource, col++, 1000 );
+	gel->insertSamples( mGelSource, col++, 100  );
+	gel->insertSamples( mGelSource, col++, 100  );
+	gel->insertSamples( mGelSource, col++, 100  );
+	gel->insertSamples( mGelSource, col++, 100  );
+	gel->insertSamples( mGelSource, col++, 1000 );
 	
 	// gel view
-	mGelView = make_shared<GelView>( mGel );
+	auto gelView = make_shared<GelView>( gel );
+	
+	{
+		gelView->setFrame( gelView->getFrame().getOffset( vec2(100,10)) );
+		mViews.addView(gelView);
+	}
 	
 	// timeline
 	{
@@ -70,9 +67,11 @@ void GelboxApp::setup()
 		
 		auto timelineView = make_shared<TimelineView>( timelineRect );
 		
-		timelineView->mGetTime = [this](){ return mGel->getTime(); };
-		timelineView->mSetTime = [this]( float t ){ mGel->setTime(t); };
-		timelineView->mGetDuration = [this](){ return mGel->getDuration(); };
+		timelineView->mGetTime		= [gel](){ return gel->getTime(); };
+		timelineView->mSetTime		= [gel]( float t ){ gel->setTime(t); };
+		timelineView->mGetDuration	= [gel](){ return gel->getDuration(); };
+		timelineView->mGetIsPlaying = [gel](){ return ! gel->getIsPaused(); };
+		timelineView->mSetIsPlaying = [gel]( bool v ){ gel->setIsPaused( !v ); };
 		
 		mViews.addView(timelineView);
 	}
@@ -136,17 +135,13 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 }
 
 void GelboxApp::update()
-{
-	mGel->tick(.1f);
-	
-//	mViews.tick();
+{	
+	mViews.tick(.1f);
 }
 
 void GelboxApp::draw()
 {
 	gl::clear( Color( 1, 1, 1 ) );
-	
-	if (mGelView) mGelView->draw();
 	
 	mViews.draw();
 }

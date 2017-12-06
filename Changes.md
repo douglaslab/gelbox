@@ -6,6 +6,7 @@
 - Adding view logic (based on La Tabla)
 - Adding Timeline scrubber
 - Can drop images into window, move them around 
+- Refactor gel view into new View system; simplify Gel layout params
 
 ## 12/5/2017
 

@@ -12,29 +12,36 @@ using namespace ci;
 using namespace std;
 
 
+void GelView::setGel( GelRef gel )
+{
+	auto oldGel = mGel;
+	
+	mGel = gel;
+	
+	if (mGel)
+	{
+		vec2 size = mGel->getSize();
+
+		Rectf bounds( vec2(0,0), size );
+		setBounds(bounds);
+		
+		Rectf frame = bounds;
+		if (oldGel) frame.offsetCenterTo( getFrame().getCenter() ); // center on old
+		setFrame(frame);
+	}
+}
+
 void GelView::draw()
 {
 	if (!mGel) return;
 
-	// axis debug helpers
-	if (0)
-	{
-		gl::color(1,0,0);
-		gl::drawSolidCircle(vec2(0,0), 10.f);
-
-		gl::color(0,1,0);
-		gl::drawSolidCircle(vec2(100,0), 10.f);
-
-		gl::color(0,0,1);
-		gl::drawSolidCircle(vec2(0,100), 10.f);
-	}
-	
 	// gel background
 //	gl::color(0,0,0,.5f);
 //	gl::draw( mGel->getOutlineAsPolyLine() );
 	gl::color(0,0,0,.5f);
-	gl::drawSolid( mGel->getOutlineAsPolyLine() );
+	gl::drawSolidRect( Rectf( vec2(0,0), mGel->getSize() ) );
 	
+	// particles
 	auto ps = mGel->getParticles();
 	
 	vec2 rectSize( mGel->getLaneWidth() * .25f, mGel->getLaneWidth()*.05f );
@@ -48,4 +55,14 @@ void GelView::draw()
 		
 		gl::drawSolidRect(r);
 	}
+}
+
+void GelView::mouseDown( ci::app::MouseEvent e )
+{
+	if (mGel) mGel->setIsPaused( ! mGel->getIsPaused() );
+}
+
+void GelView::tick( float dt )
+{
+	if (mGel && !mGel->getIsPaused()) mGel->stepTime(dt);
 }
