@@ -1,5 +1,12 @@
 # Change log
 
+## 12/11/2017
+
+- Dropped gel sources can show icons + names
+- Varying particle gfx sizes
+- Got particles drawing w/ polygon smooth
+- Can pick gel view lanes
+
 ## 12/6/2017
 
 - Created changelog

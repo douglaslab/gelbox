@@ -11,6 +11,9 @@
 #include "Gel.h"
 #include "View.h"
 
+class GelView;
+typedef std::shared_ptr<GelView> GelViewRef;
+
 class GelView : public View
 {
 public:
@@ -27,6 +30,9 @@ public:
 	void mouseDrag( ci::app::MouseEvent ) override {
 		setFrame( getFrame() + getCollection()->getMouseMoved() );
 	}
+
+	int  pickLane ( ci::vec2 ) const;	// loc in frame space
+	ci::Rectf getLaneRect( int ) const; // in bounds space 
 	
 private:
 	GelRef mGel;

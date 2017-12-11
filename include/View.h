@@ -71,7 +71,7 @@ public:
 	// interaction
 	virtual void tick( float dt ) {}
 
-	virtual bool pick( glm::vec2 p ) { return mFrame.contains(p); }
+	virtual bool pick( glm::vec2 p ) const { return mFrame.contains(p); }
 
 	virtual void mouseDown( ci::app::MouseEvent ){}
 	virtual void mouseUp  ( ci::app::MouseEvent ){}
@@ -117,7 +117,11 @@ public:
 	
 	void	tick( float dt );
 	void	draw(); // draws all views in order they were added
-	ViewRef	pickView( glm::vec2 ); // tests in reverse order added
+	ViewRef	pickView( glm::vec2, std::function<bool(ViewRef,glm::vec2)> customPickFunc=0 ) const;
+		// pick tests in reverse order added
+		// if customPickFunc specified:
+		// - will use customPickFunc instead of each view's View::pick() method
+		// - pos is in view's frame space 
 	ViewRef getViewByName( std::string );
 	
 	void addView   ( ViewRef v ) { mViews.push_back(v); v->mCollection=this; }
@@ -134,6 +138,7 @@ public:
 	
 	ci::vec2 getMouseDownLoc() const { return mMouseDownLoc; }
 	ci::vec2 getMouseMoved()   const { return mMouseMoved; }
+	ci::vec2 getMouseLoc()     const { return mLastMouseLoc; }
 	
 private:
 	void updateMouseLoc( glm::vec2 );

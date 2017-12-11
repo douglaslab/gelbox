@@ -56,6 +56,7 @@ public:
 	
 	glm::vec2 getSize() const { return mSize; }
 	float getLaneWidth() const { return mLaneWidth; }
+	int   getNumLanes() const { return mNumLanes; }
 	
 private:
 	

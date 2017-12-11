@@ -12,6 +12,8 @@
 
 #include "View.h"
 #include "GelParticleSource.h"
+#include "GelView.h"
+
 
 class GelboxApp : public ci::app::App {
   public:
@@ -31,6 +33,7 @@ class GelboxApp : public ci::app::App {
 	void draw() override;
 	
 	void makeGel( const GelParticleSource&, ci::vec2 center );
+	GelViewRef pickGelView( ci::vec2 loc, int* pickedLane=0 ) const;
 	
 	ci::gl::TextureFontRef getUIFont() const { return mUIFont; }
 	

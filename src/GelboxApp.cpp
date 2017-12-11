@@ -31,6 +31,10 @@ GelboxApp::~GelboxApp()
 
 void GelboxApp::setup()
 {
+//	glEnable( GL_MULTISAMPLE_ARB );
+//	glEnable( GL_LINE_SMOOTH );
+//	glEnable( GL_POLYGON_SMOOTH );
+	
 	// get gel source data
 	try {
 		mGelSource.loadXml( ci::XmlTree(loadAsset("gel.xml")) );
@@ -91,6 +95,28 @@ void GelboxApp::makeGel( const GelParticleSource& source, vec2 center )
 		
 		mViews.addView(timelineView);
 	}
+}
+
+GelViewRef GelboxApp::pickGelView( vec2 loc, int* pickedLane ) const
+{
+	GelViewRef pick=0;
+	
+	mViews.pickView( loc, [&pick,pickedLane]( ViewRef view, vec2 inFrameLoc ) -> bool
+	{
+		GelViewRef gelView = dynamic_pointer_cast<GelView>(view);
+		
+		bool hit = gelView && view->pick(inFrameLoc);
+		
+		if ( hit )
+		{
+			pick = gelView;
+			if (pickedLane) *pickedLane = gelView->pickLane(inFrameLoc);
+		}
+		
+		return hit;
+	});
+	
+	return pick;
 }
 
 void GelboxApp::mouseDown( MouseEvent event )
@@ -182,6 +208,35 @@ void GelboxApp::draw()
 	gl::clear( Color( 1, 1, 1 ) );
 	
 	mViews.draw();
+
+	// anti-aliasing/smoothing test
+	if (0)
+	{
+		Rectf r(0,0,10,10);	
+		gl::color( 0,0,0 );
+		for( int i=0; i<4; ++i )
+		{
+			gl::drawSolidRect(r);
+			r += vec2( r.getWidth() * 2.f, .25f );
+		}
+		
+		gl::drawLine( vec2(0, 0), vec2(50, 200) );
+	}
+	
+	// lane pick test
+	{
+		int lane;
+		GelViewRef gelView = pickGelView( mViews.getMouseLoc(), &lane );
+		
+		if ( gelView )
+		{
+			gl::color(1,0,0);
+			gl::pushModelMatrix();
+			gl::multModelMatrix( gelView->getChildToRootMatrix() );
+			gl::drawStrokedRect( gelView->getLaneRect(lane) );
+			gl::popModelMatrix();
+		}
+	}
 }
 
 CINDER_APP( GelboxApp, RendererGl )

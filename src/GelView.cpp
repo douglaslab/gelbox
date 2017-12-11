@@ -38,21 +38,39 @@ void GelView::draw()
 	// gel background
 //	gl::color(0,0,0,.5f);
 //	gl::draw( mGel->getOutlineAsPolyLine() );
-	gl::color(0,0,0,.5f);
+	gl::color(.5,.5,.5);
 	gl::drawSolidRect( Rectf( vec2(0,0), mGel->getSize() ) );
 	
-	// particles
+	// particles	
 	auto ps = mGel->getParticles();
+
+	gl::VertBatch vb( GL_TRIANGLES );
+
+	auto fillRect = [&vb]( ColorA c, Rectf r )
+	{
+		vb.color(c);
+
+		vb.vertex(r.getUpperLeft ());
+		vb.vertex(r.getUpperRight());
+		vb.vertex(r.getLowerRight());
+
+		vb.vertex(r.getLowerRight());
+		vb.vertex(r.getLowerLeft ());
+		vb.vertex(r.getUpperLeft ());		
+	};
 	
 	for( auto &p : ps )
 	{
-		gl::color( p.mColor );
-		
 		Rectf r(p.mLoc,p.mLoc);
-		r.inflate( p.mSize );
-		
-		gl::drawSolidRect(r);
+		r.inflate( p.mSize );		
+		fillRect( p.mColor, r );
 	}
+
+	glEnable( GL_POLYGON_SMOOTH );
+
+	vb.draw();
+	
+	glDisable( GL_POLYGON_SMOOTH );
 }
 
 void GelView::mouseUp( ci::app::MouseEvent e )
@@ -66,4 +84,25 @@ void GelView::mouseUp( ci::app::MouseEvent e )
 void GelView::tick( float dt )
 {
 	if (mGel && !mGel->getIsPaused()) mGel->stepTime(dt);
+}
+
+int GelView::pickLane ( vec2 loc ) const
+{
+	// move to bounds space
+	loc = parentToChild(loc);
+	
+	int lane = loc.x / (float)mGel->getLaneWidth();
+	
+	lane = constrain( lane, 0, mGel->getNumLanes()-1 );
+	
+	return lane;
+}
+
+ci::Rectf GelView::getLaneRect( int lane ) const
+{
+	Rectf r(0,0,mGel->getLaneWidth(),mGel->getSize().y);
+	
+	r.offset( vec2( (float)lane * mGel->getLaneWidth(), 0 ) );
+	
+	return r;
 }

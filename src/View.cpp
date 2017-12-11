@@ -78,7 +78,7 @@ void ViewCollection::draw()
 	}
 }
 
-ViewRef	ViewCollection::pickView( vec2 p )
+ViewRef	ViewCollection::pickView( vec2 p, std::function<bool(ViewRef,glm::vec2)> customPickFunc ) const
 {
 	for( int i=(int)mViews.size()-1; i>=0; --i )
 	{
@@ -86,7 +86,11 @@ ViewRef	ViewCollection::pickView( vec2 p )
 		vec2 pInFrame = mViews[i]->rootToChild(p);
 		pInFrame = mViews[i]->childToParent(pInFrame);
 		
-		if ( mViews[i]->pick(pInFrame) ) return mViews[i];
+		if ( customPickFunc )
+		{
+			if ( customPickFunc(mViews[i],pInFrame) ) return mViews[i];
+		}
+		else if ( mViews[i]->pick(pInFrame) ) return mViews[i];
 	}
 	
 	return nullptr;

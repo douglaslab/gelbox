@@ -32,8 +32,8 @@ void Gel::insertSamples( const GelParticleSource& src, int lane, int num )
 	
 	vec2 size;
 	size.x = mLaneWidth * .25f;
-	size.y = mLaneWidth * .05f;
-//	size.y = (mSize.y * .5f) / (float)num; // doesn't work right b/c of rect aliasing...
+//	size.y = mLaneWidth * .05f;
+	size.y = (mSize.y) / (float)num; // doesn't work right b/c of rect aliasing...
 	
 	for( int i = 0; i<num; ++i )
 	{
