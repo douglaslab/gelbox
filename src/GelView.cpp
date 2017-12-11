@@ -44,14 +44,12 @@ void GelView::draw()
 	// particles
 	auto ps = mGel->getParticles();
 	
-	vec2 rectSize( mGel->getLaneWidth() * .25f, mGel->getLaneWidth()*.05f );
-	
 	for( auto &p : ps )
 	{
 		gl::color( p.mColor );
 		
 		Rectf r(p.mLoc,p.mLoc);
-		r.inflate( rectSize );
+		r.inflate( p.mSize );
 		
 		gl::drawSolidRect(r);
 	}

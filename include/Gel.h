@@ -32,6 +32,7 @@ public:
 		float		mCreateTime;
 		bool		mExists; // in case we are playing with time travel and go to time before creation
 		ci::ColorA	mColor;
+		glm::vec2	mSize;
 	};
 	
 	// Methods

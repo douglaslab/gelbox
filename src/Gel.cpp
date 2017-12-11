@@ -30,6 +30,11 @@ void Gel::insertSamples( const GelParticleSource& src, int lane, int num )
 {
 	vec2 laneLoc = kLaneVec * ((float)lane*mLaneWidth + mLaneWidth/2.f);
 	
+	vec2 size;
+	size.x = mLaneWidth * .25f;
+	size.y = mLaneWidth * .05f;
+//	size.y = (mSize.y * .5f) / (float)num; // doesn't work right b/c of rect aliasing...
+	
 	for( int i = 0; i<num; ++i )
 	{
 		GelParticleSource::Result gen = src.next(mRand);
@@ -41,6 +46,7 @@ void Gel::insertSamples( const GelParticleSource& src, int lane, int num )
 		p.mCreateTime	= mTime;
 		p.mExists		= true;
 		p.mColor		= ColorA(1.f,1.f,1.f,.1f); // just make up a color for now...
+		p.mSize			= size;
 		
 		mParticles.push_back(p);
 	}
