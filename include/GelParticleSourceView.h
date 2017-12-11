@@ -29,6 +29,8 @@ public:
 	}
 	
 private:
-	GelParticleSourceRef mSource;
+	GelParticleSourceRef	mSource;
 
+	ci::gl::TextureRef		mIcon;
+	
 };

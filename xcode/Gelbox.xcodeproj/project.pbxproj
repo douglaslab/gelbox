@@ -53,6 +53,7 @@
 		26054EA81FD8826A007DB5F8 /* ImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImageView.h; path = ../include/ImageView.h; sourceTree = "<group>"; };
 		26054EAB1FD8ACC5007DB5F8 /* GelParticleSourceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelParticleSourceView.h; path = ../include/GelParticleSourceView.h; sourceTree = "<group>"; };
 		26054EAC1FD8ACD3007DB5F8 /* GelParticleSourceView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GelParticleSourceView.cpp; path = ../src/GelParticleSourceView.cpp; sourceTree = "<group>"; };
+		26247E6E1FDF0BF00094711F /* GelboxApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelboxApp.h; path = ../include/GelboxApp.h; sourceTree = "<group>"; };
 		2642C0F21FD5FFA300528061 /* Gel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gel.cpp; path = ../src/Gel.cpp; sourceTree = "<group>"; };
 		2642C0F41FD5FFB000528061 /* Gel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Gel.h; path = ../include/Gel.h; sourceTree = "<group>"; };
 		2642C0F51FD72ED700528061 /* GelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelView.h; path = ../include/GelView.h; sourceTree = "<group>"; };
@@ -178,6 +179,7 @@
 				26054E9B1FD87455007DB5F8 /* TimelineView.h */,
 				26054EA81FD8826A007DB5F8 /* ImageView.h */,
 				26054EAB1FD8ACC5007DB5F8 /* GelParticleSourceView.h */,
+				26247E6E1FDF0BF00094711F /* GelboxApp.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";

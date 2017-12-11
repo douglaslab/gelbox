@@ -1,4 +1,3 @@
-#include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 
@@ -10,30 +9,25 @@
 #include "TimelineView.h"
 #include "ImageView.h"
 
+#include "GelboxApp.h"
+
 using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-class GelboxApp : public App {
-  public:
-	void setup() override;
-	void mouseDown( MouseEvent event ) override;
-	void mouseUp  ( MouseEvent event ) override;
-	void mouseMove( MouseEvent event ) override;
-	void mouseDrag( MouseEvent event ) override;
-	void fileDrop ( FileDropEvent event ) override;
+GelboxApp* GelboxApp::mInstance = 0;
 
-	void update() override;
-	void draw() override;
-	
-	void makeGel( const GelParticleSource&, vec2 center );
-	
-  public:
-	ViewCollection		mViews;
-	
-	GelParticleSource	mGelSource;
-	
-};
+GelboxApp::GelboxApp()
+{
+	assert( !mInstance );
+	mInstance = this;
+}
+
+GelboxApp::~GelboxApp()
+{
+	assert( mInstance==this );
+	mInstance=0;
+}
 
 void GelboxApp::setup()
 {
@@ -44,6 +38,9 @@ void GelboxApp::setup()
 	} catch (...) {
 		cout << "failed to load gel.xml" << endl;
 	}
+	
+	// ui assets
+	mUIFont = gl::TextureFont::create( Font("Avenir",12) );
 }
 
 void GelboxApp::makeGel( const GelParticleSource& source, vec2 center )

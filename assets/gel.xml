@@ -1,4 +1,8 @@
-<GelParticleSource>
+<GelParticleSource
+	name="Test"
+	icon="beaker.png"
+	iconScale=".5"
+	>
 	
 	<Kind>
 		<Speed				value="1"/>

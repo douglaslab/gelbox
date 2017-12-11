@@ -7,32 +7,66 @@
 //
 
 #include "GelParticleSourceView.h"
+#include "GelboxApp.h" // ui text
 
 using namespace std;
 using namespace ci;
+using namespace ci::app;
 
 void GelParticleSourceView::setSource( GelParticleSourceRef source )
 {
-	auto oldSource = mSource;
+	// layout params
+	vec2 center(0,0);
+	vec2 size(32,32);
+
+	// keep old center?
+	if (mSource) center = getFrame().getCenter();
 	
+	// set source
 	mSource = source;
 	
-	if (mSource)
+	// load image
+	try
 	{
-		vec2 size(32,32);
-
-		Rectf bounds( vec2(0,0), size );
-		setBounds(bounds);
+		mIcon = gl::Texture::create( loadImage( getAssetPath(mSource->mIconFileName) ) );
 		
-		Rectf frame = bounds;
-		if (oldSource) frame.offsetCenterTo( getFrame().getCenter() ); // center on old
-		setFrame(frame);
-	}	
+		size = vec2( mIcon->getSize() );
+		
+		size *= mSource->mIconScale;
+	}
+	catch (...)
+	{
+		mIcon = 0;
+	}
+
+	// layout
+	Rectf bounds( vec2(0,0), size );
+	setBounds(bounds);
+	
+	Rectf frame = bounds;
+	frame.offsetCenterTo( center );
+	setFrame(frame);
 }
 
 void GelParticleSourceView::draw()
 {
-	gl::color(0,1,0);
-	gl::drawSolidRect( getBounds() );
+	if (mIcon)
+	{
+		gl::color(1,1,1);
+		gl::draw( mIcon, getBounds() );
+	}
+	else
+	{
+		gl::color(.5,.5,.5);
+		gl::drawSolidRect( getBounds() );
+	}
+	
+	gl::color(0,0,0);
+	auto font = GelboxApp::instance()->getUIFont(); 
+	vec2 strSize = font->measureString(mSource->mName); 
+	font->drawString(
+		mSource->mName,
+		getBounds().getCenter()
+		+ vec2( -strSize.x/2.f, getBounds().getHeight()/2.f + font->getDescent() + font->getAscent() )
+		);
 }
-

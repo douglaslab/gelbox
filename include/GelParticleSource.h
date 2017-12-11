@@ -35,6 +35,10 @@ public:
 
 	std::vector<Kind> mKinds;
 	
+	std::string mName;
+	std::string mIconFileName;
+	float		mIconScale=1.f;
+	
 	GelParticleSource() {}
 	GelParticleSource( const ci::XmlTree& xml ) { loadXml(xml); }
 	

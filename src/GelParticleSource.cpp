@@ -65,7 +65,7 @@ GelParticleSource::next( ci::Rand& randgen ) const
 }
 
 void
-GelParticleSource::loadXml( const ci::XmlTree& xml )
+GelParticleSource::loadXml( const XmlTree& xml )
 {
 	mKinds.clear();
 	
@@ -73,31 +73,39 @@ GelParticleSource::loadXml( const ci::XmlTree& xml )
 	{
 		cout << "GelParticleSource::loadXml no " << kRootXMLNodeName << " root node" << endl;
 	}
-	
-	auto childAttrValue = []( const XmlTree& xml, std::string child, auto def )
+	else
 	{
-		if ( xml.hasChild(child) )
+		XmlTree root = xml.getChild(kRootXMLNodeName);
+		
+		mName			= root.getAttributeValue("name", string() );
+		mIconFileName	= root.getAttributeValue("icon", string() );
+		mIconScale		= root.getAttributeValue("iconScale", 1.f );
+		
+		auto childAttrValue = []( const XmlTree& xml, std::string child, auto def )
 		{
-			auto j = xml.getChild(child);
-			def = j.getAttributeValue("value",def);
+			if ( xml.hasChild(child) )
+			{
+				auto j = xml.getChild(child);
+				def = j.getAttributeValue("value",def);
+			}
+			
+			return def;
+		};
+		
+		for ( auto i = root.begin("Kind"); i != root.end(); ++i )
+		{
+			Kind k;
+			
+			k.mSpeed				= childAttrValue( *i, "Speed", k.mSpeed );
+			k.mDeviation			= childAttrValue( *i, "Deviation", k.mSpeed );
+			k.mProbabilityWeight	= childAttrValue( *i, "ProbabilityWeight", k.mSpeed );
+			
+			mKinds.push_back(k);
+			
+			if (0)
+			{
+				cout << "Kind speed=" << k.mSpeed << " dev=" << k.mDeviation << " p=" << k.mProbabilityWeight << endl;
+			}		
 		}
-		
-		return def;
-	};
-	
-	for ( auto i = xml.begin(kRootXMLNodeName+"/Kind"); i != xml.end(); ++i )
-	{
-		Kind k;
-		
-		k.mSpeed				= childAttrValue( *i, "Speed", k.mSpeed );
-		k.mDeviation			= childAttrValue( *i, "Deviation", k.mSpeed );
-		k.mProbabilityWeight	= childAttrValue( *i, "ProbabilityWeight", k.mSpeed );
-		
-		mKinds.push_back(k);
-		
-		if (0)
-		{
-			cout << "Kind speed=" << k.mSpeed << " dev=" << k.mDeviation << " p=" << k.mProbabilityWeight << endl;
-		}		
 	}
 }
