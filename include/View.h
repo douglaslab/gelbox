@@ -85,6 +85,7 @@ public:
 	bool getHasMouseDown() const { return mHasMouseDown; }
 	void setHasMouseDown( bool v ) { mHasMouseDown=v; }
 
+	glm::vec2 getMouseLoc() const;
 	glm::vec2 getMouseDownLoc() const;
 	
 protected:

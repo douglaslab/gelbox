@@ -10,6 +10,7 @@
 
 #include "View.h"
 #include "GelParticleSource.h"
+#include "GelView.h"
 
 class GelParticleSourceView;
 typedef std::shared_ptr<GelParticleSourceView> GelParticleSourceViewRef;
@@ -24,13 +25,14 @@ public:
 	
 	void draw() override;
 
-	void mouseDrag( ci::app::MouseEvent ) override {
-		setFrame( getFrame() + getCollection()->getMouseMoved() );
-	}
+	void mouseDrag( ci::app::MouseEvent ) override;
+	void mouseUp( ci::app::MouseEvent ) override;
 	
 private:
 	GelParticleSourceRef	mSource;
 
 	ci::gl::TextureRef		mIcon;
-	
+
+	GelViewRef				mGelDropTarget;
+	int						mGelDropTargetLane;
 };

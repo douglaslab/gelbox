@@ -61,9 +61,12 @@ void GelView::draw()
 	
 	for( auto &p : ps )
 	{
-		Rectf r(p.mLoc,p.mLoc);
-		r.inflate( p.mSize );		
-		fillRect( p.mColor, r );
+		if (p.mExists)
+		{
+			Rectf r(p.mLoc,p.mLoc);
+			r.inflate( p.mSize );		
+			fillRect( p.mColor, r );
+		}
 	}
 
 	glEnable( GL_POLYGON_SMOOTH );

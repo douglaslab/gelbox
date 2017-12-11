@@ -6,6 +6,9 @@
 - Varying particle gfx sizes
 - Got particles drawing w/ polygon smooth
 - Can pick gel view lanes
+- Can drop gel sources into lanes!
+- Fixed a bug with time travel (drawing particles that haven't been created yet)
+- Gel starts paused.
 
 ## 12/6/2017
 

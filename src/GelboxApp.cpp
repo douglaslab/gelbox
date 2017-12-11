@@ -35,32 +35,21 @@ void GelboxApp::setup()
 //	glEnable( GL_LINE_SMOOTH );
 //	glEnable( GL_POLYGON_SMOOTH );
 	
-	// get gel source data
-	try {
-		mGelSource.loadXml( ci::XmlTree(loadAsset("gel.xml")) );
-		makeGel( mGelSource, getWindowCenter() );
-	} catch (...) {
-		cout << "failed to load gel.xml" << endl;
-	}
+	// make gel
+	makeGel( getWindowCenter() );
 	
 	// ui assets
 	mUIFont = gl::TextureFont::create( Font("Avenir",12) );
+	
+	// test gel.xml drop
+	fileDrop( FileDropEvent( getWindow(), 64, 64, {getAssetPath("gel.xml")} ));
 }
 
-void GelboxApp::makeGel( const GelParticleSource& source, vec2 center )
+void GelboxApp::makeGel( vec2 center )
 {	
 	// gel
 	auto gel = make_shared<Gel>();
 	gel->setLayout( 300.f, 400.f, 5 );
-	
-	// populate it
-//	gel->insertSamples( source, 0, 10   );
-	int col=0;
-	gel->insertSamples( source, col++, 100  );
-	gel->insertSamples( source, col++, 100  );
-	gel->insertSamples( source, col++, 100  );
-	gel->insertSamples( source, col++, 100  );
-	gel->insertSamples( source, col++, 1000 );
 	
 	// gel view
 	auto gelView = make_shared<GelView>( gel );
@@ -90,6 +79,9 @@ void GelboxApp::makeGel( const GelParticleSource& source, vec2 center )
 		timelineView->mGetDuration	= [gel](){ return gel->getDuration(); };
 		timelineView->mGetIsPlaying = [gel](){ return ! gel->getIsPaused(); };
 		timelineView->mSetIsPlaying = [gel]( bool v ){ gel->setIsPaused( !v ); };
+		// This is silly. Let's just make a TimelineModelInterface and subclass it;
+		// If we want this level of runtime customization then let's just have a subclass
+		// with a bunch of closures. 
 		
 		timelineView->setParent(gelView);
 		
@@ -221,21 +213,6 @@ void GelboxApp::draw()
 		}
 		
 		gl::drawLine( vec2(0, 0), vec2(50, 200) );
-	}
-	
-	// lane pick test
-	{
-		int lane;
-		GelViewRef gelView = pickGelView( mViews.getMouseLoc(), &lane );
-		
-		if ( gelView )
-		{
-			gl::color(1,0,0);
-			gl::pushModelMatrix();
-			gl::multModelMatrix( gelView->getChildToRootMatrix() );
-			gl::drawStrokedRect( gelView->getLaneRect(lane) );
-			gl::popModelMatrix();
-		}
 	}
 }
 

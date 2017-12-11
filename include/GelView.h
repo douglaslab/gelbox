@@ -20,18 +20,19 @@ public:
 
 	GelView( GelRef gel ) { setGel(gel); }
 	
-	void setGel( GelRef );
+	void	setGel( GelRef );
+	GelRef	getGel() { return mGel; }
 	
-	void draw() override;
-	void tick( float dt ) override;
+	void	draw() override;
+	void	tick( float dt ) override;
 
-	void mouseUp( ci::app::MouseEvent ) override;
+	void	mouseUp( ci::app::MouseEvent ) override;
 
-	void mouseDrag( ci::app::MouseEvent ) override {
+	void	mouseDrag( ci::app::MouseEvent ) override {
 		setFrame( getFrame() + getCollection()->getMouseMoved() );
 	}
 
-	int  pickLane ( ci::vec2 ) const;	// loc in frame space
+	int		pickLane ( ci::vec2 ) const;	// loc in frame space
 	ci::Rectf getLaneRect( int ) const; // in bounds space 
 	
 private:

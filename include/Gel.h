@@ -69,7 +69,7 @@ private:
 
 	float					mTime = 0.f;
 	float					mDuration = 0.f;
-	bool					mIsPaused = false;
+	bool					mIsPaused = true;
 	
 	// layout
 	glm::vec2				mSize; // ( lane dimension, pos elec dimension )

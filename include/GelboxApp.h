@@ -32,7 +32,7 @@ class GelboxApp : public ci::app::App {
 	void update() override;
 	void draw() override;
 	
-	void makeGel( const GelParticleSource&, ci::vec2 center );
+	void makeGel( ci::vec2 center );
 	GelViewRef pickGelView( ci::vec2 loc, int* pickedLane=0 ) const;
 	
 	ci::gl::TextureFontRef getUIFont() const { return mUIFont; }
@@ -41,8 +41,6 @@ class GelboxApp : public ci::app::App {
 	ci::gl::TextureFontRef	mUIFont;
 
 	ViewCollection		mViews;
-	
-	GelParticleSource	mGelSource;
 
 	static GelboxApp*	mInstance;
 	

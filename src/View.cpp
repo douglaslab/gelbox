@@ -49,6 +49,12 @@ ivec2 View::getScissorSize( Rectf r ) const
 	return ivec2( toPixels(r.getWidth()), toPixels(r.getHeight()) );
 }
 
+vec2 View::getMouseLoc() const
+{
+	if (mCollection) return mCollection->getMouseLoc();
+	else return vec2(0,0);
+}
+
 vec2 View::getMouseDownLoc() const
 {
 	if (mCollection) return mCollection->getMouseDownLoc();

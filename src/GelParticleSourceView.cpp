@@ -7,7 +7,7 @@
 //
 
 #include "GelParticleSourceView.h"
-#include "GelboxApp.h" // ui text
+#include "GelboxApp.h" // ui text, gel picking
 
 using namespace std;
 using namespace ci;
@@ -50,23 +50,73 @@ void GelParticleSourceView::setSource( GelParticleSourceRef source )
 
 void GelParticleSourceView::draw()
 {
-	if (mIcon)
+	// draw drop target
+	if ( mGelDropTarget )
 	{
-		gl::color(1,1,1);
-		gl::draw( mIcon, getBounds() );
+		gl::color(1,0,1,.5f);
+		gl::ScopedModelMatrix modelMatrix;
+		gl::multModelMatrix( getRootToChildMatrix() * mGelDropTarget->getChildToRootMatrix() );
+		gl::drawStrokedRect( mGelDropTarget->getLaneRect(mGelDropTargetLane) );
+	}	
+	
+	// image
+	auto drawImage = [this]( vec2 delta, float alpha )
+	{
+		if (mIcon)
+		{
+			gl::color(1,1,1,alpha);
+			gl::draw( mIcon, getBounds() + delta );
+		}
+		else
+		{
+			gl::color(.5,.5,.5,alpha);
+			gl::drawSolidRect( getBounds() + delta );
+		}
+	};
+	
+	if ( getHasMouseDown() )
+	{
+		drawImage( getMouseLoc() - getMouseDownLoc(), 1.f );
+		drawImage( vec2(0,0), .25f );
 	}
 	else
 	{
-		gl::color(.5,.5,.5);
-		gl::drawSolidRect( getBounds() );
+		drawImage( vec2(0,0), 1.f );
 	}
 	
+	// text label
 	gl::color(0,0,0);
 	auto font = GelboxApp::instance()->getUIFont(); 
 	vec2 strSize = font->measureString(mSource->mName); 
 	font->drawString(
 		mSource->mName,
 		getBounds().getCenter()
-		+ vec2( -strSize.x/2.f, getBounds().getHeight()/2.f + font->getDescent() + font->getAscent() )
+		+ vec2( -strSize.x/2.f, getBounds().getHeight()/2.f + font->getDescent() + font->getAscent() ),
+		gl::TextureFont::DrawOptions().pixelSnap()
 		);
+}
+
+void GelParticleSourceView::mouseDrag( ci::app::MouseEvent event )
+{
+	mGelDropTarget = GelboxApp::instance()->pickGelView( vec2(event.getPos()), &mGelDropTargetLane );
+}
+
+void GelParticleSourceView::mouseUp( ci::app::MouseEvent event )
+{
+	const int kDropNSamples = 200;
+
+	if ( mGelDropTarget )
+	{
+		// drop!
+		assert( mGelDropTarget->getGel() );
+		
+		mGelDropTarget->getGel()->insertSamples( *mSource.get(), mGelDropTargetLane, kDropNSamples );
+		
+		mGelDropTarget=0;
+	}
+	else
+	{
+		// move
+		setFrame( getFrame() + getMouseLoc() - getMouseDownLoc() );
+	}
 }

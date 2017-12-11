@@ -105,12 +105,8 @@
 			children = (
 				ABD8A9D321AC4187846DB4F6 /* GelboxApp.cpp */,
 				2642C0F21FD5FFA300528061 /* Gel.cpp */,
-				2642C0F61FD72EE600528061 /* GelView.cpp */,
 				2642C0F91FD730F000528061 /* GelParticleSource.cpp */,
-				26054E991FD8726C007DB5F8 /* View.cpp */,
-				26054EA41FD876B6007DB5F8 /* TimelineView.cpp */,
-				26054EA61FD88259007DB5F8 /* ImageView.cpp */,
-				26054EAC1FD8ACD3007DB5F8 /* GelParticleSourceView.cpp */,
+				26247E701FDF2DCC0094711F /* Views */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -150,6 +146,30 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		26247E6F1FDF2DAB0094711F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				26054E981FD87264007DB5F8 /* View.h */,
+				2642C0F51FD72ED700528061 /* GelView.h */,
+				26054E9B1FD87455007DB5F8 /* TimelineView.h */,
+				26054EA81FD8826A007DB5F8 /* ImageView.h */,
+				26054EAB1FD8ACC5007DB5F8 /* GelParticleSourceView.h */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		26247E701FDF2DCC0094711F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				26054E991FD8726C007DB5F8 /* View.cpp */,
+				2642C0F61FD72EE600528061 /* GelView.cpp */,
+				26054EA41FD876B6007DB5F8 /* TimelineView.cpp */,
+				26054EA61FD88259007DB5F8 /* ImageView.cpp */,
+				26054EAC1FD8ACD3007DB5F8 /* GelParticleSourceView.cpp */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* Gelbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,13 +193,9 @@
 				7DB7066D3F64466AB6A78935 /* Resources.h */,
 				2029F7E3D4854834BD477628 /* Gelbox_Prefix.pch */,
 				2642C0F41FD5FFB000528061 /* Gel.h */,
-				2642C0F51FD72ED700528061 /* GelView.h */,
 				2642C0F81FD7300D00528061 /* GelParticleSource.h */,
-				26054E981FD87264007DB5F8 /* View.h */,
-				26054E9B1FD87455007DB5F8 /* TimelineView.h */,
-				26054EA81FD8826A007DB5F8 /* ImageView.h */,
-				26054EAB1FD8ACC5007DB5F8 /* GelParticleSourceView.h */,
 				26247E6E1FDF0BF00094711F /* GelboxApp.h */,
+				26247E6F1FDF2DAB0094711F /* Views */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
