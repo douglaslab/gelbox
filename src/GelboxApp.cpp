@@ -3,8 +3,8 @@
 
 #include "Gel.h"
 #include "GelView.h"
-#include "GelParticleSource.h"
-#include "GelParticleSourceView.h"
+#include "Sample.h"
+#include "SampleView.h"
 #include "View.h"
 #include "TimelineView.h"
 #include "ImageView.h"
@@ -65,9 +65,31 @@ void GelboxApp::setup()
 
 void GelboxApp::makeGel( vec2 center )
 {	
+	// layout in cm;
+	// this messes up our Timeline view, which is parented to us.
+	// i think there is a bug in View that prevents me from putting it right;
+	// but in any event, doing the timeline layout in cm doesn't feel right (though maybe it is)
+/*
 	// gel
 	auto gel = make_shared<Gel>();
-	gel->setLayout( 300.f, 400.f, 5 );
+	gel->setLayout( 12.f, 14.f, 5, 1.f );
+	
+	// gel view
+	auto gelView = make_shared<GelView>( gel );
+	
+	{
+		Rectf frame( vec2(0,0), gel->getSize() );
+		frame.scale( 300.f / frame.getWidth() ); // make gelview 300pts wide (it's only 12cm wide internally) 
+		frame.offsetCenterTo(center);
+		
+		gelView->setFrame( frame );
+		mViews.addView(gelView);
+	}
+*/
+
+	// gel
+	auto gel = make_shared<Gel>();
+	gel->setLayout( 300.f, 400.f, 5, 10.f ); // layout in points
 	
 	// gel view
 	auto gelView = make_shared<GelView>( gel );
@@ -166,11 +188,11 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 			{
 				XmlTree xml( loadFile(i) );
 				
-				// GelParticleSource?
-				if ( xml.hasChild(GelParticleSource::kRootXMLNodeName) )
+				// Sample?
+				if ( xml.hasChild(Sample::kRootXMLNodeName) )
 				{
-					GelParticleSourceRef	 source = std::make_shared<GelParticleSource>(xml);
-					GelParticleSourceViewRef view	= std::make_shared<GelParticleSourceView>(source);
+					SampleRef	 source = std::make_shared<Sample>(xml);
+					SampleViewRef view	= std::make_shared<SampleView>(source);
 					
 					view->setFrame( view->getFrame() + (pos - view->getFrame().getCenter()) );
 					

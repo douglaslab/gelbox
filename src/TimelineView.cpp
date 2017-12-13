@@ -41,7 +41,7 @@ void TimelineView::draw()
 		
 		float tx = lerp( bounds.x1, bounds.x2, getTime() / duration );
 		Rectf tr( vec2(tx,bounds.y1), vec2(tx,bounds.y2) );
-		tr.inflate( vec2(1.f,0.f) );
+		tr.inflate( vec2(bounds.getHeight()*.1f,0.f) );
 		gl::drawSolidRect(tr);
 //		gl::drawLine( vec2(tx,bounds.y1), vec2(tx,bounds.y2) );
 	}

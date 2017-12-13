@@ -1,5 +1,5 @@
 //
-//  GelParticleSourceView.h
+//  SampleView.h
 //  Gelbox
 //
 //  Created by Chaim Gingold on 12/6/17.
@@ -9,19 +9,19 @@
 #pragma once
 
 #include "View.h"
-#include "GelParticleSource.h"
+#include "Sample.h"
 #include "GelView.h"
 
-class GelParticleSourceView;
-typedef std::shared_ptr<GelParticleSourceView> GelParticleSourceViewRef;
+class SampleView;
+typedef std::shared_ptr<SampleView> SampleViewRef;
 
-class GelParticleSourceView : public View
+class SampleView : public View
 {
 public:
 
-	GelParticleSourceView( GelParticleSourceRef source ) { setSource(source); }
+	SampleView( SampleRef source ) { setSource(source); }
 	
-	void setSource( GelParticleSourceRef );
+	void setSource( SampleRef );
 	
 	void draw() override;
 
@@ -29,7 +29,7 @@ public:
 	void mouseUp( ci::app::MouseEvent ) override;
 	
 private:
-	GelParticleSourceRef	mSource;
+	SampleRef	mSource;
 
 	ci::gl::TextureRef		mIcon;
 

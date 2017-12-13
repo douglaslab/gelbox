@@ -14,7 +14,7 @@
 #include "cinder/Rand.h"
 #include "cinder/Color.h"
 
-class GelParticleSource;
+class Sample;
 class Gel;
 typedef std::shared_ptr<Gel> GelRef;
 
@@ -22,13 +22,16 @@ class Gel
 {
 public:
 	
-	// A single simulated particle of macromolecule/fragment
-	class Particle
+	// A single simulated Band of macromolecule/fragment
+	class Band
 	{
 	public:
 		glm::vec2	mLoc, mStartLoc;
-		float		mSpeed; // speed this particle travels at
-			// unit is implicit/dimensionless, based on time + space scale used.
+		
+		int			mBases		= 0;
+		float		mMass		= 0.f;
+		float		mDegrade	= 0.f;
+		
 		float		mCreateTime;
 		bool		mExists; // in case we are playing with time travel and go to time before creation
 		ci::ColorA	mColor;
@@ -37,11 +40,12 @@ public:
 	
 	// Methods
 	void setLayout(
-		float		lane_dimension_length,		// x 
-		float		pos_elec_dimension_length,	// y
-		int			numLanes );
+		float		lane_dimension_length,		// x cm
+		float		pos_elec_dimension_length,	// y cm
+		int			numLanes,
+		float		ymargin );
 	
-	void insertSamples( const GelParticleSource&, int lane, int num ); // at current time
+	void insertSample( const Sample&, int lane ); // at current time
 	void clearSamples();
 	
 	void  stepTime( float dt );
@@ -51,8 +55,9 @@ public:
 	float getDuration() const { return mDuration; }
 	bool  getIsPaused() const { return mIsPaused; }
 	void  setIsPaused( bool v ) { mIsPaused=v; }
+	bool  isFinishedPlaying() const { return getTime() >= getDuration(); }
 	
-	const std::vector<Particle>&	getParticles() const { return mParticles; }
+	const std::vector<Band>&	getBands() const { return mBands; }
 	
 	glm::vec2 getSize() const { return mSize; }
 	float getLaneWidth() const { return mLaneWidth; }
@@ -60,20 +65,20 @@ public:
 	
 private:
 	
-	void updateParticlesWithTime( float t );
-	float calcDuration() const;
+	void updateBandsWithTime( float t );
 	
-	ci::Rand				mRand;
+	float getYForBases( int bases, float t ) const; // t=1.f means when done
 	
-	std::vector<Particle>	mParticles;
+	std::vector<Band>		mBands;
 
-	float					mTime = 0.f;
-	float					mDuration = 0.f;
+	float					mTime	  = 1.f;
+	float					mDuration = 1.f;
 	bool					mIsPaused = true;
 	
 	// layout
-	glm::vec2				mSize; // ( lane dimension, pos elec dimension )
+	glm::vec2				mSize; // ( lane dimension, pos elec dimension ) cm
 	
+	float					mYMargin;
 	float					mLaneWidth; // = mSize.x / mNumLanes
 	int						mNumLanes;
 	

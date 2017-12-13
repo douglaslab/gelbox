@@ -6,11 +6,66 @@
 	
 <!-- https://www.neb.com/products/n3232-1-kb-dna-ladder#Product%20Information -->
 	
-	<Water value="">
 	
-	<Band>
-		<Bases value="10000">
-		<MoleculeCount value="1">
+	<Fragment>
+		<Mass  value="42"/>
+		<Bases value="10002"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="42"/>
+		<Bases value="8001"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="50"/>
+		<Bases value="6001"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="42"/>
+		<Bases value="5001"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="33"/>
+		<Bases value="4001"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="125"/>
+		<Bases value="3001"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="48"/>
+		<Bases value="2000"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="36"/>
+		<Bases value="1500"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="42"/>
+		<Bases value="1000"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="21"/>
+		<Bases value="517"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="21"/>
+		<Bases value="500"/>
+	</Fragment>
+	
+	
+<!--	<Fragment>-->
+<!--		<Bases value="10000">-->
+<!--		<MoleculeCount value="1">-->
 		
 <!--	Mass is implicit.
 		Mass = (Bases * MoleculeCount) / Avogadro's # -->
@@ -19,80 +74,14 @@
 <!--		<Mass  value="42">-->
 <!--	Mass is ng - nanograms	-->
 
-		<Degrade value="">
+<!--		<Degrade value="">-->
 <!--	Draw smear ahead; it adds small particles.
 		0..1..2
-		0 means draw super sharp band
+		0 means draw super sharp Fragment
 		1 full intensity visible, but vary y from Bases to 0 (Bases=0)
 		1..2 fade out what is there
 -->		
 		
-	</Band>
-	
-	
-<!-- e.g. after aggregating: -->
-
-	<Band>
-		<Bases value="10000">
-
-		<Mass  value="10">
-<!--	Mass is ng - nanograms	-->
-
-		<Degrade value="">
-<!--	Draw smear ahead; it adds small particles.
-		0..1..2
-		0 means draw super sharp band
-		1 full intensity visible, but vary y from Bases to 0 (Bases=0)
-		1..2 fade out what is there
--->		
-	</Band>
-	
-	<Band>
-		<Bases value="20000">
-
-		<Mass  value="21">
-<!--	Mass is ng - nanograms	-->
-
-		<Degrade value="">
-<!--	Draw smear ahead; it adds small particles.
-		0..1..2
-		0 means draw super sharp band
-		1 full intensity visible, but vary y from Bases to 0 (Bases=0)
-		1..2 fade out what is there
--->		
-	</Band>
-	
-		<Band>
-		<Bases value="30000">
-
-		<Mass  value="11">
-<!--	Mass is ng - nanograms	-->
-
-		<Degrade value="">
-<!--	Draw smear ahead; it adds small particles.
-		0..1..2
-		0 means draw super sharp band
-		1 full intensity visible, but vary y from Bases to 0 (Bases=0)
-		1..2 fade out what is there
--->		
-	</Band>
-	
-	<Kind>
-		<Speed				value="1"/>
-		<Deviation			value=".25"/>
-		<ProbabilityWeight	value="2"/>
-	</Kind>
-
-	<Kind>
-		<Speed				value=".8"/>
-		<Deviation			value=".15"/>
-		<ProbabilityWeight	value="1"/>
-	</Kind>
-
-	<Kind>
-		<Speed				value=".3"/>
-		<Deviation			value=".15"/>
-		<ProbabilityWeight	value="1"/>
-	</Kind>
+<!--	</Fragment>-->
 	
 </Sample>

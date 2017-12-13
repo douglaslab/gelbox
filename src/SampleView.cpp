@@ -1,19 +1,19 @@
 //
-//  GelParticleSourceView.cpp
+//  SampleView.cpp
 //  Gelbox
 //
 //  Created by Chaim Gingold on 12/6/17.
 //
 //
 
-#include "GelParticleSourceView.h"
+#include "SampleView.h"
 #include "GelboxApp.h" // ui text, gel picking
 
 using namespace std;
 using namespace ci;
 using namespace ci::app;
 
-void GelParticleSourceView::setSource( GelParticleSourceRef source )
+void SampleView::setSource( SampleRef source )
 {
 	// layout params
 	vec2 center(0,0);
@@ -48,7 +48,7 @@ void GelParticleSourceView::setSource( GelParticleSourceRef source )
 	setFrame(frame);
 }
 
-void GelParticleSourceView::draw()
+void SampleView::draw()
 {
 	// draw drop target
 	if ( mGelDropTarget )
@@ -96,21 +96,19 @@ void GelParticleSourceView::draw()
 		);
 }
 
-void GelParticleSourceView::mouseDrag( ci::app::MouseEvent event )
+void SampleView::mouseDrag( ci::app::MouseEvent event )
 {
 	mGelDropTarget = GelboxApp::instance()->pickGelView( vec2(event.getPos()), &mGelDropTargetLane );
 }
 
-void GelParticleSourceView::mouseUp( ci::app::MouseEvent event )
+void SampleView::mouseUp( ci::app::MouseEvent event )
 {
-	const int kDropNSamples = 200;
-
 	if ( mGelDropTarget )
 	{
 		// drop!
 		assert( mGelDropTarget->getGel() );
 		
-		mGelDropTarget->getGel()->insertSamples( *mSource.get(), mGelDropTargetLane, kDropNSamples );
+		mGelDropTarget->getGel()->insertSample( *mSource.get(), mGelDropTargetLane );
 		
 		mGelDropTarget=0;
 	}

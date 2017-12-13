@@ -41,8 +41,8 @@ void GelView::draw()
 	gl::color(.5,.5,.5);
 	gl::drawSolidRect( Rectf( vec2(0,0), mGel->getSize() ) );
 	
-	// particles	
-	auto ps = mGel->getParticles();
+	// aggregate bands into one batch
+	auto bands = mGel->getBands();
 
 	gl::VertBatch vb( GL_TRIANGLES );
 
@@ -59,16 +59,18 @@ void GelView::draw()
 		vb.vertex(r.getUpperLeft ());		
 	};
 	
-	for( auto &p : ps )
+	for( auto &b : bands )
 	{
-		if (p.mExists)
+		if (b.mExists)
 		{
-			Rectf r(p.mLoc,p.mLoc);
-			r.inflate( p.mSize );		
-			fillRect( p.mColor, r );
+			Rectf r(b.mLoc,b.mLoc);
+			r.inflate( b.mSize );		
+			fillRect( b.mColor, r );
 		}
 	}
 
+
+	// draw batch
 	glEnable( GL_POLYGON_SMOOTH );
 
 	vb.draw();
@@ -86,7 +88,12 @@ void GelView::mouseUp( ci::app::MouseEvent e )
 
 void GelView::tick( float dt )
 {
-	if (mGel && !mGel->getIsPaused()) mGel->stepTime(dt);
+	if (mGel && !mGel->getIsPaused())
+	{
+		mGel->stepTime(dt);
+		
+		if (mGel->isFinishedPlaying()) mGel->setIsPaused(true);
+	}
 }
 
 int GelView::pickLane ( vec2 loc ) const

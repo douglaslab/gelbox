@@ -11,7 +11,7 @@
 #include "cinder/app/App.h"
 
 #include "View.h"
-#include "GelParticleSource.h"
+#include "Sample.h"
 #include "GelView.h"
 
 
