@@ -33,6 +33,12 @@ public:
 	std::string mIconFileName;
 	float		mIconScale=1.f;
 	
+	
+	void degrade( float d ) {
+		for ( auto& f : mFragments ) f.mDegrade = std::min( 2.f, f.mDegrade + d );
+	}
+	
+	
 	Sample() {}
 	Sample( const ci::XmlTree& xml ) { loadXml(xml); }
 	

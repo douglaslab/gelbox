@@ -1,0 +1,98 @@
+<Sample
+	name="1kb ladder degraded"
+	icon="beaker.png"
+	iconScale=".5"
+	>
+	
+<!-- https://www.neb.com/products/n3232-1-kb-dna-ladder#Product%20Information -->
+	
+	
+	<Fragment>
+		<Mass  value="42"/>
+		<Bases value="10002"/>
+		<Degrade value="1.5"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="42"/>
+		<Bases value="8001"/>
+		<Degrade value="1.5"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="50"/>
+		<Bases value="6001"/>
+		<Degrade value="1.5"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="42"/>
+		<Bases value="5001"/>
+		<Degrade value="1.5"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="33"/>
+		<Bases value="4001"/>
+		<Degrade value="1.5"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="125"/>
+		<Bases value="3001"/>
+		<Degrade value="1.5"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="48"/>
+		<Bases value="2000"/>
+		<Degrade value="1.5"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="36"/>
+		<Bases value="1500"/>
+		<Degrade value="1.5"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="42"/>
+		<Bases value="1000"/>
+		<Degrade value="1.5"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="21"/>
+		<Bases value="517"/>
+		<Degrade value="1.5"/>
+	</Fragment>
+
+	<Fragment>
+		<Mass  value="21"/>
+		<Bases value="500"/>
+		<Degrade value="1.5"/>
+	</Fragment>
+	
+	
+<!--	<Fragment>-->
+<!--		<Bases value="10000">-->
+<!--		<MoleculeCount value="1">-->
+		
+<!--	Mass is implicit.
+		Mass = (Bases * MoleculeCount) / Avogadro's # -->
+<!--	e.g. 42 = 10000 * Count / kA-->
+		
+<!--		<Mass  value="42">-->
+<!--	Mass is ng - nanograms	-->
+
+<!--		<Degrade value="">-->
+<!--	Draw smear ahead; it adds small particles.
+		0..1..2
+		0 means draw super sharp Fragment
+		1 full intensity visible, but vary y from Bases to 0 (Bases=0)
+		1..2 fade out what is there
+-->		
+		
+<!--	</Fragment>-->
+	
+</Sample>

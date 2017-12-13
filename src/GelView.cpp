@@ -63,9 +63,7 @@ void GelView::draw()
 	{
 		if (b.mExists)
 		{
-			Rectf r(b.mLoc,b.mLoc);
-			r.inflate( b.mSize );		
-			fillRect( b.mColor, r );
+			fillRect( b.mColor, b.mBounds );
 		}
 	}
 

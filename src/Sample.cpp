@@ -47,7 +47,7 @@ Sample::loadXml( const XmlTree& xml )
 			
 			k.mBases	= childAttrValue( *i, "Bases",		k.mBases	);
 			k.mMass		= childAttrValue( *i, "Mass",		k.mMass		);
-			k.mDegrade	= childAttrValue( *i, "Degrage",	k.mDegrade	);
+			k.mDegrade	= childAttrValue( *i, "Degrade",	k.mDegrade	);
 			
 			mFragments.push_back(k);
 			

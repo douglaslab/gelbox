@@ -26,7 +26,7 @@ public:
 	class Band
 	{
 	public:
-		glm::vec2	mLoc, mStartLoc;
+		glm::vec2	mStartLoc;
 		
 		int			mBases		= 0;
 		float		mMass		= 0.f;
@@ -35,7 +35,7 @@ public:
 		float		mCreateTime;
 		bool		mExists; // in case we are playing with time travel and go to time before creation
 		ci::ColorA	mColor;
-		glm::vec2	mSize;
+		ci::Rectf	mBounds;
 	};
 	
 	// Methods
@@ -66,8 +66,11 @@ public:
 private:
 	
 	void updateBandsWithTime( float t );
+	ci::Rectf calcBandBounds( const Band& ) const;
 	
-	float getYForBases( int bases, float t ) const; // t=1.f means when done
+	float normalizeBases( int bases ) const; // 0...10000 mapped to 0...1
+	float getYForNormalizedBases( float normalizedBases, float t ) const; // t=1.f means when done
+	
 	
 	std::vector<Band>		mBands;
 

@@ -1,5 +1,10 @@
 # Change log
 
+## 12/13/2017
+- New Sample model (mass, bases, degradation)
+- Timeline just 0..1
+- 1kb test ladders
+
 ## 12/11/2017
 
 - Dropped gel sources can show icons + names
