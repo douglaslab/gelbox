@@ -41,8 +41,26 @@ void GelboxApp::setup()
 	// ui assets
 	mUIFont = gl::TextureFont::create( Font("Avenir",12) );
 	
-	// test gel.xml drop
-	fileDrop( FileDropEvent( getWindow(), 64, 64, {getAssetPath("gel.xml")} ));
+	// gel source palette
+	bool verbosePalette = true;
+	
+	try
+	{
+		vec2 pos(64,64), posDelta(0,128);
+		
+		if (verbosePalette) cout << "Palette path: " << getAssetPath("palette") << endl;
+		
+		for( auto& p : fs::directory_iterator(getAssetPath("palette")) )
+		{
+			if (verbosePalette) cout << "\t" << p << '\n';
+			fileDrop( FileDropEvent( getWindow(), pos.x, pos.y, {p.path()} ));
+			pos += posDelta;
+		}
+	}
+	catch (...)
+	{
+		cout << "Could not find palette" << endl;
+	}
 }
 
 void GelboxApp::makeGel( vec2 center )
