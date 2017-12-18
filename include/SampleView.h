@@ -11,6 +11,7 @@
 #include "View.h"
 #include "Sample.h"
 #include "GelView.h"
+#include "DropTarget.h"
 
 class SampleView;
 typedef std::shared_ptr<SampleView> SampleViewRef;
@@ -33,6 +34,6 @@ private:
 
 	ci::gl::TextureRef		mIcon;
 
-	GelViewRef				mGelDropTarget;
-	int						mGelDropTargetLane;
+	DropTargetRef			mDropTarget;
+
 };

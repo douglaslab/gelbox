@@ -133,16 +133,16 @@ float Gel::getYForNormalizedBases( float normalizedBases, float t ) const
 //	y = 1.f - t * (1.f - y);
 	
 	// output is non-linear
-	if (0)
+	if (1)
 	{
-		const float K = .5f;
+		const float K = 3.7f;
 	//	float K = lerp( 0.f, 2.f, t );
 		
-		y = powf( y, K );
+		y = .05f + powf( 1.f - y, K );
 	}
 	
 	// flip it, so that y=1 puts us at bottom of gel
-	y = 1.f - y; 
+//	y = 1.f - y; 
 
 	// time
 	y *= t;

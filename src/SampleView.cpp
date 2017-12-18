@@ -51,12 +51,12 @@ void SampleView::setSource( SampleRef source )
 void SampleView::draw()
 {
 	// draw drop target
-	if ( mGelDropTarget )
+	if ( mDropTarget )
 	{
-		gl::color(1,0,1,.5f);
+		// get to root 
 		gl::ScopedModelMatrix modelMatrix;
-		gl::multModelMatrix( getRootToChildMatrix() * mGelDropTarget->getChildToRootMatrix() );
-		gl::drawStrokedRect( mGelDropTarget->getLaneRect(mGelDropTargetLane) );
+		gl::multModelMatrix( getRootToChildMatrix() );		
+		mDropTarget->draw();
 	}	
 	
 	// image
@@ -98,19 +98,17 @@ void SampleView::draw()
 
 void SampleView::mouseDrag( ci::app::MouseEvent event )
 {
-	mGelDropTarget = GelboxApp::instance()->pickGelView( vec2(event.getPos()), &mGelDropTargetLane );
+	mDropTarget = GelboxApp::instance()->pickDropTarget( vec2(event.getPos()) );
 }
 
 void SampleView::mouseUp( ci::app::MouseEvent event )
 {
-	if ( mGelDropTarget )
+	if ( mDropTarget )
 	{
 		// drop!
-		assert( mGelDropTarget->getGel() );
+		mDropTarget->receive( *mSource.get() );
 		
-		mGelDropTarget->getGel()->insertSample( *mSource.get(), mGelDropTargetLane );
-		
-		mGelDropTarget=0;
+		mDropTarget=0;
 	}
 	else
 	{

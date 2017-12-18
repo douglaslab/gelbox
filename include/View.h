@@ -38,6 +38,9 @@ public:
 	void setFrame ( ci::Rectf f ) { mFrame  = f ; }
 	void setBounds( ci::Rectf b ) { mBounds = b ; }
 	
+	void setFrameAndBoundsWithSize( ci::Rectf f )
+		{ setFrame(f); setBounds( ci::Rectf(glm::vec2(0,0),f.getSize()) ); }
+	
 	glm::mat4 getParentToChildMatrix() const { return getRectMappingAsMatrix(mFrame,mBounds); }
 	glm::mat4 getChildToParentMatrix() const { return getRectMappingAsMatrix(mBounds,mFrame); }
 	

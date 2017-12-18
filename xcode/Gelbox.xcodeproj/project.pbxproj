@@ -25,6 +25,9 @@
 		2642C0F71FD72EE600528061 /* GelView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F61FD72EE600528061 /* GelView.cpp */; };
 		2642C0FA1FD730F000528061 /* Sample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F91FD730F000528061 /* Sample.cpp */; };
 		2642C0FE1FD75FBC00528061 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 2642C0FD1FD75FBC00528061 /* assets */; };
+		26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA611FE86194003AAE8D /* Interaction.cpp */; };
+		26CEEA641FE8631D003AAE8D /* OperationView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA631FE8631D003AAE8D /* OperationView.cpp */; };
+		26CEEA671FE86919003AAE8D /* DropTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA661FE86919003AAE8D /* DropTarget.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5BABC631A5484737AB27EE73 /* GelboxApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD8A9D321AC4187846DB4F6 /* GelboxApp.cpp */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -62,6 +65,14 @@
 		2642C0F81FD7300D00528061 /* Sample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Sample.h; path = ../include/Sample.h; sourceTree = "<group>"; };
 		2642C0F91FD730F000528061 /* Sample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sample.cpp; path = ../src/Sample.cpp; sourceTree = "<group>"; };
 		2642C0FD1FD75FBC00528061 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
+		26CEEA5E1FE860B7003AAE8D /* OperationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OperationView.h; path = ../include/OperationView.h; sourceTree = "<group>"; };
+		26CEEA5F1FE860E2003AAE8D /* NodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NodeView.h; path = ../include/NodeView.h; sourceTree = "<group>"; };
+		26CEEA601FE86151003AAE8D /* Interaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Interaction.h; path = ../include/Interaction.h; sourceTree = "<group>"; };
+		26CEEA611FE86194003AAE8D /* Interaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Interaction.cpp; path = ../src/Interaction.cpp; sourceTree = "<group>"; };
+		26CEEA631FE8631D003AAE8D /* OperationView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OperationView.cpp; path = ../src/OperationView.cpp; sourceTree = "<group>"; };
+		26CEEA651FE86829003AAE8D /* DropTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DropTarget.h; path = ../include/DropTarget.h; sourceTree = "<group>"; };
+		26CEEA661FE86919003AAE8D /* DropTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DropTarget.cpp; path = ../src/DropTarget.cpp; sourceTree = "<group>"; };
+		26CEEA681FE86E0B003AAE8D /* DropTargetSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DropTargetSource.h; path = ../include/DropTargetSource.h; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		3B437E2879754131A72F26A6 /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
@@ -108,6 +119,8 @@
 				2642C0F21FD5FFA300528061 /* Gel.cpp */,
 				2642C0F91FD730F000528061 /* Sample.cpp */,
 				26247E701FDF2DCC0094711F /* Views */,
+				26CEEA611FE86194003AAE8D /* Interaction.cpp */,
+				26CEEA661FE86919003AAE8D /* DropTarget.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -155,6 +168,9 @@
 				26054E9B1FD87455007DB5F8 /* TimelineView.h */,
 				26054EA81FD8826A007DB5F8 /* ImageView.h */,
 				26054EAB1FD8ACC5007DB5F8 /* SampleView.h */,
+				26CEEA5E1FE860B7003AAE8D /* OperationView.h */,
+				26CEEA5F1FE860E2003AAE8D /* NodeView.h */,
+				26CEEA681FE86E0B003AAE8D /* DropTargetSource.h */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -167,6 +183,7 @@
 				26054EA41FD876B6007DB5F8 /* TimelineView.cpp */,
 				26054EA61FD88259007DB5F8 /* ImageView.cpp */,
 				26054EAC1FD8ACD3007DB5F8 /* SampleView.cpp */,
+				26CEEA631FE8631D003AAE8D /* OperationView.cpp */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -198,6 +215,8 @@
 				2642C0F81FD7300D00528061 /* Sample.h */,
 				26247E6E1FDF0BF00094711F /* GelboxApp.h */,
 				26247E6F1FDF2DAB0094711F /* Views */,
+				26CEEA601FE86151003AAE8D /* Interaction.h */,
+				26CEEA651FE86829003AAE8D /* DropTarget.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -286,11 +305,14 @@
 			files = (
 				2642C0F71FD72EE600528061 /* GelView.cpp in Sources */,
 				2642C0F31FD5FFA300528061 /* Gel.cpp in Sources */,
+				26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */,
 				26054EAD1FD8ACD3007DB5F8 /* SampleView.cpp in Sources */,
 				26054EA51FD876B6007DB5F8 /* TimelineView.cpp in Sources */,
 				26054EA71FD88259007DB5F8 /* ImageView.cpp in Sources */,
 				5BABC631A5484737AB27EE73 /* GelboxApp.cpp in Sources */,
 				2642C0FA1FD730F000528061 /* Sample.cpp in Sources */,
+				26CEEA671FE86919003AAE8D /* DropTarget.cpp in Sources */,
+				26CEEA641FE8631D003AAE8D /* OperationView.cpp in Sources */,
 				26054E9A1FD8726C007DB5F8 /* View.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

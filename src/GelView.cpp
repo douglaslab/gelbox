@@ -7,6 +7,7 @@
 //
 
 #include "GelView.h"
+#include "DropTarget.h" 
 
 using namespace ci;
 using namespace std;
@@ -113,4 +114,13 @@ ci::Rectf GelView::getLaneRect( int lane ) const
 	r.offset( vec2( (float)lane * mGel->getLaneWidth(), 0 ) );
 	
 	return r;
+}
+
+DropTargetRef GelView::getDropTarget( glm::vec2 locInFrame )
+{
+	if ( pick(locInFrame) )
+	{
+		return make_shared<DropTargetGelView>( shared_from_this(), pickLane(locInFrame) );
+	}
+	else return 0;
 }

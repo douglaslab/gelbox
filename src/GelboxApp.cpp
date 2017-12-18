@@ -8,6 +8,8 @@
 #include "View.h"
 #include "TimelineView.h"
 #include "ImageView.h"
+#include "Interaction.h"
+#include "OperationView.h"
 
 #include "GelboxApp.h"
 
@@ -60,6 +62,25 @@ void GelboxApp::setup()
 	catch (...)
 	{
 		cout << "Could not find palette" << endl;
+	}
+	
+	//
+	{
+		auto ov = make_shared<OperationView>("Degrade",
+			[]( const Sample &s )
+			{
+				Sample s2;
+				s2.degrade(.1f);
+				return s2;
+			}
+		);
+		
+		Rectf r( 0, 0, 64, 64 );
+		r.offsetCenterTo( vec2(500,64) );
+		
+		ov->setFrameAndBoundsWithSize(r);
+		
+		mViews.addView(ov);
 	}
 }
 
@@ -129,45 +150,51 @@ void GelboxApp::makeGel( vec2 center )
 	}
 }
 
-GelViewRef GelboxApp::pickGelView( vec2 loc, int* pickedLane ) const
+DropTargetRef GelboxApp::pickDropTarget( ci::vec2 loc ) const
 {
-	GelViewRef pick=0;
+	DropTargetRef target;
 	
-	mViews.pickView( loc, [&pick,pickedLane]( ViewRef view, vec2 inFrameLoc ) -> bool
+	mViews.pickView( loc, [&target]( ViewRef view, vec2 inFrameLoc ) -> bool
 	{
-		GelViewRef gelView = dynamic_pointer_cast<GelView>(view);
+		DropTargetSourceRef source = dynamic_pointer_cast<DropTargetSource>(view);
 		
-		bool hit = gelView && view->pick(inFrameLoc);
-		
-		if ( hit )
+		if ( source )
 		{
-			pick = gelView;
-			if (pickedLane) *pickedLane = gelView->pickLane(inFrameLoc);
+			DropTargetRef t = source->getDropTarget(inFrameLoc);
+			if (t)
+			{
+				target=t;
+				return true;
+			}
 		}
 		
-		return hit;
+		return false;
 	});
 	
-	return pick;
+	return target;
 }
 
 void GelboxApp::mouseDown( MouseEvent event )
 {
+	if ( Interaction::get() ) Interaction::get()->mouseDown(event);
 	mViews.mouseDown(event);
 }
 
 void GelboxApp::mouseUp( MouseEvent event )
 {
+	if ( Interaction::get() ) Interaction::get()->mouseUp(event);
 	mViews.mouseUp(event);
 }
 
 void GelboxApp::mouseMove( MouseEvent event )
 {
+	if ( Interaction::get() ) Interaction::get()->mouseMove(event);
 	mViews.mouseMove(event);
 }
 
 void GelboxApp::mouseDrag( MouseEvent event )
 {
+	if ( Interaction::get() ) Interaction::get()->mouseDrag(event);
 	mViews.mouseDrag(event);
 }
 
@@ -233,6 +260,7 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 void GelboxApp::update()
 {	
 	mViews.tick(.1f);
+	if ( Interaction::get() ) Interaction::get()->update();
 }
 
 void GelboxApp::draw()
@@ -254,6 +282,9 @@ void GelboxApp::draw()
 		
 		gl::drawLine( vec2(0, 0), vec2(50, 200) );
 	}
+	
+	//
+	if ( Interaction::get() ) Interaction::get()->draw();
 }
 
 CINDER_APP( GelboxApp, RendererGl )
