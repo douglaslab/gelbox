@@ -10,6 +10,7 @@
 #include "GelboxApp.h"
 #include "cinder/gl/TextureFont.h"
 #include "DropTarget.h"
+#include "SampleView.h"
 
 using namespace std;
 using namespace ci;
@@ -45,4 +46,22 @@ DropTargetRef OperationView::getDropTarget( glm::vec2 locInFrame )
 	}
 	
 	return 0;
+}
+
+void OperationView::receive( const Sample& in )
+{	
+	if (mFunc)
+	{
+		// new sample
+		SampleRef out = make_shared<Sample>( mFunc(in) );
+		
+		// new sample view
+		SampleViewRef view = make_shared<SampleView>( out );
+		
+		Rectf r = getFrame() + vec2(96,0);
+		
+		view->setFrameAndBoundsWithSize(r);
+		
+		getCollection()->addView(view);
+	}
 }

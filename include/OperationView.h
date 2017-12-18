@@ -30,7 +30,9 @@ public:
 	void draw() override;
 
 	DropTargetRef getDropTarget( glm::vec2 locInFrame ) override;
-
+	
+	void receive( const Sample& );
+	
 private:
 	std::string mName;
 	tOpFunc		mFunc;

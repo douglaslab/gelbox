@@ -8,4 +8,4 @@
 
 #include "Interaction.h"
 
-Interaction* Interaction::sInteraction=0;
+InteractionRef Interaction::sInteraction;

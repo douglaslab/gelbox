@@ -69,7 +69,7 @@ void GelboxApp::setup()
 		auto ov = make_shared<OperationView>("Degrade",
 			[]( const Sample &s )
 			{
-				Sample s2;
+				Sample s2=s;
 				s2.degrade(.1f);
 				return s2;
 			}

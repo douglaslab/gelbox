@@ -16,24 +16,22 @@
 class SampleView;
 typedef std::shared_ptr<SampleView> SampleViewRef;
 
-class SampleView : public View
+class SampleView : public View, public std::enable_shared_from_this<SampleView>
 {
 public:
 
 	SampleView( SampleRef source ) { setSource(source); }
 	
 	void setSource( SampleRef );
+	SampleRef getSource() const { return mSource; }
 	
 	void draw() override;
 
-	void mouseDrag( ci::app::MouseEvent ) override;
-	void mouseUp( ci::app::MouseEvent ) override;
+	void mouseDown( ci::app::MouseEvent ) override;
 	
 private:
 	SampleRef	mSource;
 
 	ci::gl::TextureRef		mIcon;
-
-	DropTargetRef			mDropTarget;
 
 };

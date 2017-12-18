@@ -8,6 +8,7 @@
 
 #include "SampleView.h"
 #include "GelboxApp.h" // ui text, gel picking
+#include "Interactions.h"
 
 using namespace std;
 using namespace ci;
@@ -50,15 +51,6 @@ void SampleView::setSource( SampleRef source )
 
 void SampleView::draw()
 {
-	// draw drop target
-	if ( mDropTarget )
-	{
-		// get to root 
-		gl::ScopedModelMatrix modelMatrix;
-		gl::multModelMatrix( getRootToChildMatrix() );		
-		mDropTarget->draw();
-	}	
-	
 	// image
 	auto drawImage = [this]( vec2 delta, float alpha )
 	{
@@ -74,6 +66,8 @@ void SampleView::draw()
 		}
 	};
 	
+	// this alpha logic dovetails with DragSampleInteraction
+	// (not really ideal...)
 	if ( getHasMouseDown() )
 	{
 		drawImage( getMouseLoc() - getMouseDownLoc(), 1.f );
@@ -96,23 +90,8 @@ void SampleView::draw()
 		);
 }
 
-void SampleView::mouseDrag( ci::app::MouseEvent event )
+void SampleView::mouseDown( ci::app::MouseEvent event )
 {
-	mDropTarget = GelboxApp::instance()->pickDropTarget( vec2(event.getPos()) );
-}
-
-void SampleView::mouseUp( ci::app::MouseEvent event )
-{
-	if ( mDropTarget )
-	{
-		// drop!
-		mDropTarget->receive( *mSource.get() );
-		
-		mDropTarget=0;
-	}
-	else
-	{
-		// move
-		setFrame( getFrame() + getMouseLoc() - getMouseDownLoc() );
-	}
+	auto i = make_shared<DragSampleInteraction>(shared_from_this());
+	i->begin();
 }

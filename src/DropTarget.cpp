@@ -44,7 +44,7 @@ void DropTargetOpView::draw()
 	}
 }
 
-void DropTargetOpView::receive( const Sample& )
+void DropTargetOpView::receive( const Sample& in )
 {
-	printf("OP\n");
+	if ( mOperationView ) mOperationView->receive(in);
 }

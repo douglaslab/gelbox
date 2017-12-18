@@ -8,7 +8,10 @@
 
 #pragma once
 
-class Interaction
+class Interaction;
+typedef std::shared_ptr<Interaction> InteractionRef;
+
+class Interaction : public std::enable_shared_from_this<Interaction>
 {
 public:
 	
@@ -20,10 +23,14 @@ public:
 	virtual void draw() {}	
 
 	// global interaction accessors
-	static Interaction* get() { return sInteraction; }
-	static void set( Interaction* i ) { sInteraction=i; }
+	static InteractionRef get() { return sInteraction; }
+	static void set( InteractionRef i ) { sInteraction=i; }
+	
+	// begin/end convenience
+	void begin() { set(shared_from_this()); }
+	void end() { if (get().get()==this) set(0); }
 	
 private:
-	static Interaction* sInteraction;
+	static InteractionRef sInteraction;
 	
 };
