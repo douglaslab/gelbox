@@ -4,7 +4,7 @@
 #include "Gel.h"
 #include "GelView.h"
 #include "Sample.h"
-#include "SampleView.h"
+#include "SampleTubeView.h"
 #include "View.h"
 #include "TimelineView.h"
 #include "ImageView.h"
@@ -33,12 +33,14 @@ GelboxApp::~GelboxApp()
 
 void GelboxApp::setup()
 {
+	setWindowSize( 1024, 768 );
+	
 //	glEnable( GL_MULTISAMPLE_ARB );
 //	glEnable( GL_LINE_SMOOTH );
 //	glEnable( GL_POLYGON_SMOOTH );
 	
 	// make gel
-	makeGel( getWindowCenter() );
+	makeGel( ivec2( getWindowWidth()/3, getWindowHeight()/2 ) );
 	
 	// ui assets
 	mUIFont = gl::TextureFont::create( Font("Avenir",12) );
@@ -219,7 +221,7 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 				if ( xml.hasChild(Sample::kRootXMLNodeName) )
 				{
 					SampleRef	 source = std::make_shared<Sample>(xml);
-					SampleViewRef view	= std::make_shared<SampleView>(source);
+					SampleTubeViewRef view	= std::make_shared<SampleTubeView>(source);
 					
 					view->setFrame( view->getFrame() + (pos - view->getFrame().getCenter()) );
 					

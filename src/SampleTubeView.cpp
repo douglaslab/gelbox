@@ -1,12 +1,12 @@
 //
-//  SampleView.cpp
+//  SampleTubeView.cpp
 //  Gelbox
 //
 //  Created by Chaim Gingold on 12/6/17.
 //
 //
 
-#include "SampleView.h"
+#include "SampleTubeView.h"
 #include "GelboxApp.h" // ui text, gel picking
 #include "Interactions.h"
 
@@ -14,7 +14,7 @@ using namespace std;
 using namespace ci;
 using namespace ci::app;
 
-void SampleView::setSource( SampleRef source )
+void SampleTubeView::setSource( SampleRef source )
 {
 	// layout params
 	vec2 center(0,0);
@@ -49,7 +49,7 @@ void SampleView::setSource( SampleRef source )
 	setFrame(frame);
 }
 
-void SampleView::draw()
+void SampleTubeView::draw()
 {
 	// image
 	auto drawImage = [this]( vec2 delta, float alpha )
@@ -90,7 +90,7 @@ void SampleView::draw()
 		);
 }
 
-void SampleView::mouseDown( ci::app::MouseEvent event )
+void SampleTubeView::mouseDown( ci::app::MouseEvent event )
 {
 	auto i = make_shared<DragSampleInteraction>(shared_from_this());
 	i->begin();

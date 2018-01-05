@@ -20,7 +20,7 @@
 		26054E9A1FD8726C007DB5F8 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054E991FD8726C007DB5F8 /* View.cpp */; };
 		26054EA51FD876B6007DB5F8 /* TimelineView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054EA41FD876B6007DB5F8 /* TimelineView.cpp */; };
 		26054EA71FD88259007DB5F8 /* ImageView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054EA61FD88259007DB5F8 /* ImageView.cpp */; };
-		26054EAD1FD8ACD3007DB5F8 /* SampleView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054EAC1FD8ACD3007DB5F8 /* SampleView.cpp */; };
+		26054EAD1FD8ACD3007DB5F8 /* SampleTubeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054EAC1FD8ACD3007DB5F8 /* SampleTubeView.cpp */; };
 		2642C0F31FD5FFA300528061 /* Gel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F21FD5FFA300528061 /* Gel.cpp */; };
 		2642C0F71FD72EE600528061 /* GelView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F61FD72EE600528061 /* GelView.cpp */; };
 		2642C0FA1FD730F000528061 /* Sample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F91FD730F000528061 /* Sample.cpp */; };
@@ -54,8 +54,8 @@
 		26054EA41FD876B6007DB5F8 /* TimelineView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TimelineView.cpp; path = ../src/TimelineView.cpp; sourceTree = "<group>"; };
 		26054EA61FD88259007DB5F8 /* ImageView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageView.cpp; path = ../src/ImageView.cpp; sourceTree = "<group>"; };
 		26054EA81FD8826A007DB5F8 /* ImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImageView.h; path = ../include/ImageView.h; sourceTree = "<group>"; };
-		26054EAB1FD8ACC5007DB5F8 /* SampleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleView.h; path = ../include/SampleView.h; sourceTree = "<group>"; };
-		26054EAC1FD8ACD3007DB5F8 /* SampleView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SampleView.cpp; path = ../src/SampleView.cpp; sourceTree = "<group>"; };
+		26054EAB1FD8ACC5007DB5F8 /* SampleTubeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleTubeView.h; path = ../include/SampleTubeView.h; sourceTree = "<group>"; };
+		26054EAC1FD8ACD3007DB5F8 /* SampleTubeView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SampleTubeView.cpp; path = ../src/SampleTubeView.cpp; sourceTree = "<group>"; };
 		26247E6E1FDF0BF00094711F /* GelboxApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelboxApp.h; path = ../include/GelboxApp.h; sourceTree = "<group>"; };
 		26247E711FE1A9890094711F /* TODO.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = TODO.md; path = ../TODO.md; sourceTree = "<group>"; };
 		2642C0F21FD5FFA300528061 /* Gel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gel.cpp; path = ../src/Gel.cpp; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 				2642C0F51FD72ED700528061 /* GelView.h */,
 				26054E9B1FD87455007DB5F8 /* TimelineView.h */,
 				26054EA81FD8826A007DB5F8 /* ImageView.h */,
-				26054EAB1FD8ACC5007DB5F8 /* SampleView.h */,
+				26054EAB1FD8ACC5007DB5F8 /* SampleTubeView.h */,
 				26CEEA5E1FE860B7003AAE8D /* OperationView.h */,
 				26CEEA5F1FE860E2003AAE8D /* NodeView.h */,
 				26CEEA681FE86E0B003AAE8D /* DropTargetSource.h */,
@@ -183,7 +183,7 @@
 				2642C0F61FD72EE600528061 /* GelView.cpp */,
 				26054EA41FD876B6007DB5F8 /* TimelineView.cpp */,
 				26054EA61FD88259007DB5F8 /* ImageView.cpp */,
-				26054EAC1FD8ACD3007DB5F8 /* SampleView.cpp */,
+				26054EAC1FD8ACD3007DB5F8 /* SampleTubeView.cpp */,
 				26CEEA631FE8631D003AAE8D /* OperationView.cpp */,
 			);
 			name = Views;
@@ -308,7 +308,7 @@
 				2642C0F71FD72EE600528061 /* GelView.cpp in Sources */,
 				2642C0F31FD5FFA300528061 /* Gel.cpp in Sources */,
 				26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */,
-				26054EAD1FD8ACD3007DB5F8 /* SampleView.cpp in Sources */,
+				26054EAD1FD8ACD3007DB5F8 /* SampleTubeView.cpp in Sources */,
 				26054EA51FD876B6007DB5F8 /* TimelineView.cpp in Sources */,
 				26054EA71FD88259007DB5F8 /* ImageView.cpp in Sources */,
 				5BABC631A5484737AB27EE73 /* GelboxApp.cpp in Sources */,

@@ -1,5 +1,5 @@
 //
-//  SampleView.h
+//  SampleTubeView.h
 //  Gelbox
 //
 //  Created by Chaim Gingold on 12/6/17.
@@ -13,14 +13,14 @@
 #include "GelView.h"
 #include "DropTarget.h"
 
-class SampleView;
-typedef std::shared_ptr<SampleView> SampleViewRef;
+class SampleTubeView;
+typedef std::shared_ptr<SampleTubeView> SampleTubeViewRef;
 
-class SampleView : public View, public std::enable_shared_from_this<SampleView>
+class SampleTubeView : public View, public std::enable_shared_from_this<SampleTubeView>
 {
 public:
 
-	SampleView( SampleRef source ) { setSource(source); }
+	SampleTubeView( SampleRef source ) { setSource(source); }
 	
 	void setSource( SampleRef );
 	SampleRef getSource() const { return mSource; }

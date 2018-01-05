@@ -15,7 +15,7 @@ class DragSampleInteraction : public Interaction
 {
 public:
 
-	DragSampleInteraction( SampleViewRef s )
+	DragSampleInteraction( SampleTubeViewRef s )
 	: mSample(s)
 	{
 	}
@@ -48,7 +48,7 @@ public:
 	}	
 	
 private:
-	SampleViewRef mSample;
+	SampleTubeViewRef mSample;
 	DropTargetRef mTarget;
 	
 };

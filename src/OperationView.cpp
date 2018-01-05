@@ -10,7 +10,7 @@
 #include "GelboxApp.h"
 #include "cinder/gl/TextureFont.h"
 #include "DropTarget.h"
-#include "SampleView.h"
+#include "SampleTubeView.h"
 
 using namespace std;
 using namespace ci;
@@ -56,7 +56,7 @@ void OperationView::receive( const Sample& in )
 		SampleRef out = make_shared<Sample>( mFunc(in) );
 		
 		// new sample view
-		SampleViewRef view = make_shared<SampleView>( out );
+		SampleTubeViewRef view = make_shared<SampleTubeView>( out );
 		
 		Rectf r = getFrame() + vec2(96,0);
 		
