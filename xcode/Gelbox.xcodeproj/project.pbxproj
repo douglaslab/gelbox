@@ -25,6 +25,7 @@
 		2642C0F71FD72EE600528061 /* GelView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F61FD72EE600528061 /* GelView.cpp */; };
 		2642C0FA1FD730F000528061 /* Sample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F91FD730F000528061 /* Sample.cpp */; };
 		2642C0FE1FD75FBC00528061 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 2642C0FD1FD75FBC00528061 /* assets */; };
+		2693E3262000415300633564 /* SampleView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2693E3252000415300633564 /* SampleView.cpp */; };
 		26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA611FE86194003AAE8D /* Interaction.cpp */; };
 		26CEEA641FE8631D003AAE8D /* OperationView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA631FE8631D003AAE8D /* OperationView.cpp */; };
 		26CEEA671FE86919003AAE8D /* DropTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA661FE86919003AAE8D /* DropTarget.cpp */; };
@@ -65,6 +66,8 @@
 		2642C0F81FD7300D00528061 /* Sample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Sample.h; path = ../include/Sample.h; sourceTree = "<group>"; };
 		2642C0F91FD730F000528061 /* Sample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sample.cpp; path = ../src/Sample.cpp; sourceTree = "<group>"; };
 		2642C0FD1FD75FBC00528061 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
+		2693E3242000407400633564 /* SampleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleView.h; path = ../include/SampleView.h; sourceTree = "<group>"; };
+		2693E3252000415300633564 /* SampleView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SampleView.cpp; path = ../src/SampleView.cpp; sourceTree = "<group>"; };
 		26CEEA5E1FE860B7003AAE8D /* OperationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OperationView.h; path = ../include/OperationView.h; sourceTree = "<group>"; };
 		26CEEA5F1FE860E2003AAE8D /* NodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NodeView.h; path = ../include/NodeView.h; sourceTree = "<group>"; };
 		26CEEA601FE86151003AAE8D /* Interaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Interaction.h; path = ../include/Interaction.h; sourceTree = "<group>"; };
@@ -172,6 +175,7 @@
 				26CEEA5E1FE860B7003AAE8D /* OperationView.h */,
 				26CEEA5F1FE860E2003AAE8D /* NodeView.h */,
 				26CEEA681FE86E0B003AAE8D /* DropTargetSource.h */,
+				2693E3242000407400633564 /* SampleView.h */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -185,6 +189,7 @@
 				26054EA61FD88259007DB5F8 /* ImageView.cpp */,
 				26054EAC1FD8ACD3007DB5F8 /* SampleTubeView.cpp */,
 				26CEEA631FE8631D003AAE8D /* OperationView.cpp */,
+				2693E3252000415300633564 /* SampleView.cpp */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -305,6 +310,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2693E3262000415300633564 /* SampleView.cpp in Sources */,
 				2642C0F71FD72EE600528061 /* GelView.cpp in Sources */,
 				2642C0F31FD5FFA300528061 /* Gel.cpp in Sources */,
 				26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */,

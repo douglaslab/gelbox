@@ -5,6 +5,7 @@
 #include "GelView.h"
 #include "Sample.h"
 #include "SampleTubeView.h"
+#include "SampleView.h"
 #include "View.h"
 #include "TimelineView.h"
 #include "ImageView.h"
@@ -40,7 +41,25 @@ void GelboxApp::setup()
 //	glEnable( GL_POLYGON_SMOOTH );
 	
 	// make gel
-	makeGel( ivec2( getWindowWidth()/3, getWindowHeight()/2 ) );
+	makeGel( ivec2( getWindowWidth()/3 - 64, getWindowHeight()/2 ) );
+	
+	// test sample view
+	{
+		SampleViewRef sv = make_shared<SampleView>();
+		
+		vec2 size(400.f,400.f);
+		
+		sv->setBounds( Rectf( vec2(0,0), size ) );
+		
+		Rectf frame = sv->getBounds();
+		frame.offsetCenterTo( vec2(getWindowWidth()/3 * 2, getWindowHeight()/2) );
+		
+		sv->setFrame( frame );
+		
+		sv->setCalloutAnchor( vec2(32,32) );
+		
+		mViews.addView(sv);
+	}
 	
 	// ui assets
 	mUIFont = gl::TextureFont::create( Font("Avenir",12) );
