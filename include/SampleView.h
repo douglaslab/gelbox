@@ -30,6 +30,8 @@ public:
 	void draw() override;
 	void drawFrame() override; 
 	
+	void mouseDown( ci::app::MouseEvent ) override;
+	
 private:
 
 	void updateCallout();
@@ -39,11 +41,13 @@ private:
 	
 	SampleRef		mSample; // source data
 	int				mSelectedFragment=-1;
+	int				mRolloverFragment=-1;
 	
 	// particle sim
 	void tickSim( float dt ); // dt=1 for normal speed
 	void drawSim();
-	
+	int  pickPart( ci::vec2 ) const;
+	int  pickFragment( ci::vec2 ) const;
 	
 	class Frag
 	{
