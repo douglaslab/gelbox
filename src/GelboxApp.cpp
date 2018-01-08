@@ -37,7 +37,7 @@ void GelboxApp::setup()
 	setWindowSize( 1024, 768 );
 	
 //	glEnable( GL_MULTISAMPLE_ARB );
-//	glEnable( GL_LINE_SMOOTH );
+	glEnable( GL_LINE_SMOOTH );
 //	glEnable( GL_POLYGON_SMOOTH );
 	
 	// make gel
@@ -278,6 +278,16 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 	}
 }
 
+void GelboxApp::keyDown  ( ci::app::KeyEvent event )
+{
+	if ( mViews.getKeyboardFocusView() ) mViews.getKeyboardFocusView()->keyDown(event);
+}
+
+void GelboxApp::keyUp    ( ci::app::KeyEvent event )
+{
+	if ( mViews.getKeyboardFocusView() ) mViews.getKeyboardFocusView()->keyUp(event);
+}
+
 void GelboxApp::update()
 {	
 	mViews.tick(.1f);
@@ -307,5 +317,11 @@ void GelboxApp::draw()
 	//
 	if ( Interaction::get() ) Interaction::get()->draw();
 }
+
+#if defined( CINDER_MSW ) && ! defined( CINDER_GL_ANGLE )
+auto options = RendererGl::Options().version( 3, 3 ); // instancing functions are technically only in GL 3.3
+#else
+auto options = RendererGl::Options().msaa(4); // implemented as extensions in Mac OS 10.7+
+#endif
 
 CINDER_APP( GelboxApp, RendererGl )

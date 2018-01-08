@@ -28,6 +28,8 @@ class GelboxApp : public ci::app::App {
 	void mouseMove( ci::app::MouseEvent event ) override;
 	void mouseDrag( ci::app::MouseEvent event ) override;
 	void fileDrop ( ci::app::FileDropEvent event ) override;
+	void keyDown  ( ci::app::KeyEvent ) override;
+	void keyUp    ( ci::app::KeyEvent ) override;
 
 	void update() override;
 	void draw() override;

@@ -195,3 +195,15 @@ void ViewCollection::resize()
 		v->resize();
 	}
 }
+
+void ViewCollection::setKeyboardFocusView( ViewRef v )
+{
+	if (v!=mKeyboardFocusView)
+	{
+		if (mKeyboardFocusView) mKeyboardFocusView->setHasKeyboardFocus(false);
+		
+		mKeyboardFocusView=v;
+		
+		if (mKeyboardFocusView) mKeyboardFocusView->setHasKeyboardFocus(true);
+	}
+}

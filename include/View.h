@@ -35,8 +35,8 @@ public:
 	ci::Rectf getFrame () const { return mFrame ; }
 	ci::Rectf getBounds() const { return mBounds ; }
 
-	void setFrame ( ci::Rectf f ) { mFrame  = f ; }
-	void setBounds( ci::Rectf b ) { mBounds = b ; }
+	virtual void setFrame ( ci::Rectf f ) { mFrame  = f ; }
+	virtual void setBounds( ci::Rectf b ) { mBounds = b ; }
 	
 	void setFrameAndBoundsWithSize( ci::Rectf f )
 		{ setFrame(f); setBounds( ci::Rectf(glm::vec2(0,0),f.getSize()) ); }
@@ -80,14 +80,15 @@ public:
 	virtual void mouseUp  ( ci::app::MouseEvent ){}
 	virtual void mouseMove( ci::app::MouseEvent ){}
 	virtual void mouseDrag( ci::app::MouseEvent ){}
+	virtual void keyDown  ( ci::app::KeyEvent ){}
+	virtual void keyUp    ( ci::app::KeyEvent ){}
+
 	virtual void resize(){}
 	
-	void setHasRollover( bool v ) { mHasRollover=v; }
 	bool getHasRollover() const { return mHasRollover; }
-	
 	bool getHasMouseDown() const { return mHasMouseDown; }
-	void setHasMouseDown( bool v ) { mHasMouseDown=v; }
-
+	bool getHasKeyboardFocus() const { return mHasKeyboardFocus; }
+	
 	glm::vec2 getMouseLoc() const;
 	glm::vec2 getMouseDownLoc() const;
 	
@@ -102,8 +103,14 @@ protected:
 private:
 	friend class ViewCollection;	
 
+	void setHasRollover( bool v ) { mHasRollover=v; }
+	void setHasMouseDown( bool v ) { mHasMouseDown=v; }
+	void setHasKeyboardFocus( bool v ) { mHasKeyboardFocus=v; }
+	// set rollover, mouse down, focus are meant to be called by view collection.
+
 	bool	mHasRollover=false;
 	bool	mHasMouseDown=false;
+	bool	mHasKeyboardFocus=false;
 	
 	std::string	mName;
 	ci::Rectf	mFrame = ci::Rectf(0,0,1,1); // where it is in parent coordinate space
@@ -139,6 +146,8 @@ public:
 	
 	ViewRef getMouseDownView() const { return mMouseDownView; }
 	ViewRef getRolloverView()  const { return mRolloverView; }
+	ViewRef getKeyboardFocusView() const { return mKeyboardFocusView; }
+	void    setKeyboardFocusView( ViewRef );
 	
 	ci::vec2 getMouseDownLoc() const { return mMouseDownLoc; }
 	ci::vec2 getMouseMoved()   const { return mMouseMoved; }
@@ -153,6 +162,7 @@ private:
 	
 	ViewRef mMouseDownView;
 	ViewRef mRolloverView;
+	ViewRef mKeyboardFocusView;
 	std::vector< ViewRef > mViews;
 
 };

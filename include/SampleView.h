@@ -17,7 +17,7 @@ class SampleView;
 typedef std::shared_ptr<SampleView> SampleViewRef;
 
 
-class SampleView : public View
+class SampleView : public View, public std::enable_shared_from_this<SampleView>
 {
 public:
 
@@ -29,11 +29,21 @@ public:
 	void tick( float dt ) override;
 	void draw() override;
 	void drawFrame() override; 
+
+	void setBounds( ci::Rectf b ) override;
 	
 	void mouseDown( ci::app::MouseEvent ) override;
+	void keyDown( ci::app::KeyEvent ) override;
+	
+	bool pick( glm::vec2 ) const override;
+	
+	
+	void deleteFragment( int i ); // fades out instances
 	
 private:
 
+	bool isFragment( int i ) const { return i >=0 && i < mFragments.size() ; }
+	bool pickNewBtn( glm::vec2 ) const;
 	void updateCallout();
 	
 	glm::vec2		mAnchor; // anchor for callout. in frame (parent) space
@@ -42,6 +52,9 @@ private:
 	SampleRef		mSample; // source data
 	int				mSelectedFragment=-1;
 	int				mRolloverFragment=-1;
+	
+	glm::vec2		mNewBtnLoc;
+	float			mNewBtnRadius;
 	
 	// particle sim
 	void tickSim( float dt ); // dt=1 for normal speed
@@ -66,6 +79,7 @@ private:
 		glm::vec2	mLoc;
 		glm::vec2	mFace, mVel;
 		float		mRadius;
+		ci::Color	mColor;
 		
 		float		mAge=0.f;
 		
