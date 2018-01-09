@@ -26,6 +26,7 @@
 		2642C0FA1FD730F000528061 /* Sample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F91FD730F000528061 /* Sample.cpp */; };
 		2642C0FE1FD75FBC00528061 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 2642C0FD1FD75FBC00528061 /* assets */; };
 		2693E3262000415300633564 /* SampleView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2693E3252000415300633564 /* SampleView.cpp */; };
+		2693E3292004019800633564 /* FragmentView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2693E3282004019800633564 /* FragmentView.cpp */; };
 		26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA611FE86194003AAE8D /* Interaction.cpp */; };
 		26CEEA641FE8631D003AAE8D /* OperationView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA631FE8631D003AAE8D /* OperationView.cpp */; };
 		26CEEA671FE86919003AAE8D /* DropTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA661FE86919003AAE8D /* DropTarget.cpp */; };
@@ -68,6 +69,8 @@
 		2642C0FD1FD75FBC00528061 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
 		2693E3242000407400633564 /* SampleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleView.h; path = ../include/SampleView.h; sourceTree = "<group>"; };
 		2693E3252000415300633564 /* SampleView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SampleView.cpp; path = ../src/SampleView.cpp; sourceTree = "<group>"; };
+		2693E3272004018B00633564 /* FragmentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FragmentView.h; path = ../include/FragmentView.h; sourceTree = "<group>"; };
+		2693E3282004019800633564 /* FragmentView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FragmentView.cpp; path = ../src/FragmentView.cpp; sourceTree = "<group>"; };
 		26CEEA5E1FE860B7003AAE8D /* OperationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OperationView.h; path = ../include/OperationView.h; sourceTree = "<group>"; };
 		26CEEA5F1FE860E2003AAE8D /* NodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NodeView.h; path = ../include/NodeView.h; sourceTree = "<group>"; };
 		26CEEA601FE86151003AAE8D /* Interaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Interaction.h; path = ../include/Interaction.h; sourceTree = "<group>"; };
@@ -176,6 +179,7 @@
 				26CEEA5F1FE860E2003AAE8D /* NodeView.h */,
 				26CEEA681FE86E0B003AAE8D /* DropTargetSource.h */,
 				2693E3242000407400633564 /* SampleView.h */,
+				2693E3272004018B00633564 /* FragmentView.h */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -190,6 +194,7 @@
 				26054EAC1FD8ACD3007DB5F8 /* SampleTubeView.cpp */,
 				26CEEA631FE8631D003AAE8D /* OperationView.cpp */,
 				2693E3252000415300633564 /* SampleView.cpp */,
+				2693E3282004019800633564 /* FragmentView.cpp */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -316,6 +321,7 @@
 				26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */,
 				26054EAD1FD8ACD3007DB5F8 /* SampleTubeView.cpp in Sources */,
 				26054EA51FD876B6007DB5F8 /* TimelineView.cpp in Sources */,
+				2693E3292004019800633564 /* FragmentView.cpp in Sources */,
 				26054EA71FD88259007DB5F8 /* ImageView.cpp in Sources */,
 				5BABC631A5484737AB27EE73 /* GelboxApp.cpp in Sources */,
 				2642C0FA1FD730F000528061 /* Sample.cpp in Sources */,

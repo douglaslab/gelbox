@@ -16,6 +16,9 @@ typedef std::shared_ptr<Sample> SampleRef;
 class SampleView;
 typedef std::shared_ptr<SampleView> SampleViewRef;
 
+class FragmentView;
+typedef std::shared_ptr<FragmentView> FragmentViewRef;
+
 
 class SampleView : public View, public std::enable_shared_from_this<SampleView>
 {
@@ -55,6 +58,9 @@ private:
 	
 	glm::vec2		mNewBtnLoc;
 	float			mNewBtnRadius;
+	
+	// fragment editor
+	FragmentViewRef mFragEditor;
 	
 	// particle sim
 	void tickSim( float dt ); // dt=1 for normal speed

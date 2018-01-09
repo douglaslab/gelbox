@@ -34,14 +34,14 @@ GelboxApp::~GelboxApp()
 
 void GelboxApp::setup()
 {
-	setWindowSize( 1024, 768 );
+	setWindowSize( 1324, 768 );
 	
 //	glEnable( GL_MULTISAMPLE_ARB );
 	glEnable( GL_LINE_SMOOTH );
 //	glEnable( GL_POLYGON_SMOOTH );
 	
 	// make gel
-	makeGel( ivec2( getWindowWidth()/3 - 64, getWindowHeight()/2 ) );
+	makeGel( ivec2( getWindowWidth()/4 - 64, getWindowHeight()/2 ) );
 	
 	// test sample view
 	{
@@ -52,7 +52,7 @@ void GelboxApp::setup()
 		sv->setBounds( Rectf( vec2(0,0), size ) );
 		
 		Rectf frame = sv->getBounds();
-		frame.offsetCenterTo( vec2(getWindowWidth()/3 * 2, getWindowHeight()/2) );
+		frame.offsetCenterTo( vec2(getWindowWidth()/2, getWindowHeight()/2) );
 		
 		sv->setFrame( frame );
 		

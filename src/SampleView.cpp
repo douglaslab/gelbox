@@ -7,6 +7,7 @@
 //
 
 #include "SampleView.h"
+#include "FragmentView.h"
 #include "cinder/ConvexHull.h"
 #include "cinder/Rand.h"
 
@@ -28,6 +29,8 @@ const float kPartMinPickRadius = 4.f;
 
 const float kNewBtnRadius = 24.f;
 const float kNewBtnGutter = 16.f;
+
+const float kFragViewGutter = 16.f;
 
 SampleView::SampleView()
 {
@@ -55,8 +58,8 @@ void SampleView::draw()
 	// focus
 	if ( getHasKeyboardFocus() )
 	{
-		gl::color(1,1,0,.35f);
-		gl::drawStrokedRect(getBounds(),3.f);
+		gl::color(1,1,.3,.35f);
+		gl::drawStrokedRect(getBounds(),2.f);
 	}
 	
 	// bkgnd, frame
@@ -152,6 +155,31 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 
 		// take keyboard focus
 		getCollection()->setKeyboardFocusView( shared_from_this() );
+		
+		// open fragment editor
+		if ( !mFragEditor )
+		{
+			mFragEditor = make_shared<FragmentView>();
+			
+			vec2 center;
+			Rectf frame(-.5,-.5,.5,.5);
+			frame.scaleCentered(kFragmentViewSize);
+			frame.offsetCenterTo(
+				vec2( getFrame().getX2(), getFrame().getCenter().y )
+				+ vec2( frame.getWidth()/2.f + kFragViewGutter, 0 )
+				);
+			
+			mFragEditor->setFrameAndBoundsWithSize( frame );
+			
+			getCollection()->addView(mFragEditor);
+		}
+		
+		// close fragment editor
+		if ( mFragEditor && !isFragment(mSelectedFragment) )
+		{
+			getCollection()->removeView(mFragEditor);
+			mFragEditor = 0;
+		}
 	}
 }
 
