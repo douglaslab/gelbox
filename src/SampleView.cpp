@@ -114,6 +114,12 @@ void SampleView::updateCallout()
 	mCallout.setClosed();
 }
 
+void SampleView::closeFragEditor()
+{
+	getCollection()->removeView(mFragEditor);
+	mFragEditor = 0;
+}
+
 int  SampleView::pickPart( vec2 loc ) const
 {
 	// in reverse, so pick order matches draw order 
@@ -177,8 +183,7 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 		// close fragment editor
 		if ( mFragEditor && !isFragment(mSelectedFragment) )
 		{
-			getCollection()->removeView(mFragEditor);
-			mFragEditor = 0;
+			closeFragEditor();
 		}
 	}
 }
@@ -191,6 +196,7 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 		{
 			deleteFragment( mSelectedFragment );
 			mSelectedFragment = -1;
+			closeFragEditor();
 		}
 	}
 }

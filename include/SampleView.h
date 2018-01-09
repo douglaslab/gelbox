@@ -48,6 +48,7 @@ private:
 	bool isFragment( int i ) const { return i >=0 && i < mFragments.size() ; }
 	bool pickNewBtn( glm::vec2 ) const;
 	void updateCallout();
+	void closeFragEditor();
 	
 	glm::vec2		mAnchor; // anchor for callout. in frame (parent) space
 	ci::PolyLine2   mCallout;

@@ -20,12 +20,16 @@ const Color kSliderLineColor   = Color::hex(0x979797);
 const Color kSliderHandleColor = Color::hex(0x4990E2);
 const vec2  kSliderHandleSize  = vec2(16,20);
 const float kSliderNotchRadius = 2.5f;
-const float kIntersliderVStep  = 56;
-const float kVStepToFirstSliderLine = 42;
 const float kSliderLineLength = 133;
 const float kSliderIconGutter = 12;
+const vec2  kSliderIconNotionalSize(26,26); // for layout purposes; they can be different sizes
+const float kIntersliderVStep  = 56;
+const float kVStepToFirstSliderLine = 42;
 
 const float kVStepToColors = 42; 
+
+const int kNumMultimerNotches = 7;
+
 
 FragmentView::FragmentView()
 {
@@ -47,19 +51,59 @@ FragmentView::FragmentView()
 	
 	mSelectedColor=0;
 	
-	
-	for( int i=0; i<5; ++i )
 	{
-		Slider s;
-
-		mSliders.push_back(s);
+		fs::path iconPathBase = getAssetPath("fragment-icons");
+		
+		auto loadIcons = [iconPathBase]( Slider& s, string name )
+		{
+			fs::path paths[2] =
+			{
+				iconPathBase / (name + "-lo.png"),
+				iconPathBase / (name + "-hi.png")
+			};
+			
+			for( int i=0; i<2; ++i )
+			{
+				s.mIcon[i] = gl::Texture::create( loadImage(paths[i]) );
+				
+				if ( s.mIcon[i] )
+				{
+					s.mIconSize[i] = vec2( s.mIcon[i]->getWidth(), s.mIcon[i]->getHeight() );
+				}
+				else s.mIconSize[i] = kSliderIconNotionalSize;
+			}
+		};
+		
+		vector<string> names =
+		{
+			"size",
+			"concentration",
+			"aspect",
+			"multimer",
+			"degrade"
+		};
+		
+		for( int i=0; i<names.size(); ++i )
+		{
+			Slider s;
+			
+			loadIcons(s,names[i]);
+//			loadIcons(s,"aspect");
+			
+			mSliders.push_back(s);
+		}
+		
+		mSliders[3].mNotches = kNumMultimerNotches;
 	}
-	
-	mSliders[3].mNotches = 7;
 }
 
 void FragmentView::updateLayout()
 {
+	auto snapToPixel = []( vec2 p )
+	{
+		return vec2( roundf(p.x), roundf(p.y) );
+	};
+	
 	// sliders
 	float sliderx[2] = {
 		getBounds().getCenter().x - kSliderLineLength/2,
@@ -75,11 +119,12 @@ void FragmentView::updateLayout()
 		s.mEndpoint[0] = vec2( sliderx[0], slidery );
 		s.mEndpoint[1] = vec2( sliderx[1], slidery );
 		
-		vec2 iconSize(26,26);
-		s.mIconRect[0] = Rectf( vec2(0,0), iconSize );
-		s.mIconRect[1] = Rectf( vec2(0,0), iconSize );
-		s.mIconRect[0].offsetCenterTo( s.mEndpoint[0] - vec2(s.mIconRect[0].getWidth()/2+kSliderIconGutter,0) );
-		s.mIconRect[1].offsetCenterTo( s.mEndpoint[1] + vec2(s.mIconRect[1].getWidth()/2+kSliderIconGutter,0) );
+		vec2 offset = vec2(kSliderIconNotionalSize.x/2+kSliderIconGutter,0);
+		
+		s.mIconRect[0] = Rectf( vec2(0,0), s.mIconSize[0] );
+		s.mIconRect[1] = Rectf( vec2(0,0), s.mIconSize[1] );
+		s.mIconRect[0].offsetCenterTo( snapToPixel(s.mEndpoint[0] - offset) );
+		s.mIconRect[1].offsetCenterTo( snapToPixel(s.mEndpoint[1] + offset) );
 	}
 
 	// colors
@@ -206,9 +251,9 @@ void FragmentView::draw()
 		gl::drawSolidRect(calcSliderHandleRect(s));
 		
 		// icons
-		gl::color(0,0,0,.2f);
-		gl::drawSolidRect(s.mIconRect[0]);
-		gl::drawSolidRect(s.mIconRect[1]);
+		gl::color(1,1,1);
+		gl::draw( s.mIcon[0], s.mIconRect[0] );
+		gl::draw( s.mIcon[1], s.mIconRect[1] );
 		
 		// text label
 	}

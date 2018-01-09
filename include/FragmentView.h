@@ -49,6 +49,8 @@ private:
 	public:
 		
 		ci::Rectf	mIconRect[2];
+		ci::gl::TextureRef  mIcon[2];
+		glm::vec2			mIconSize[2]; // in points
 		
 		glm::vec2	mEndpoint[2];
 		
