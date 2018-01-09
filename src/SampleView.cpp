@@ -114,10 +114,33 @@ void SampleView::updateCallout()
 	mCallout.setClosed();
 }
 
+void SampleView::openFragEditor()
+{
+	if ( !mFragEditor )
+	{
+		mFragEditor = make_shared<FragmentView>();
+		
+		vec2 center;
+		Rectf frame(-.5,-.5,.5,.5);
+		frame.scaleCentered(kFragmentViewSize);
+		frame.offsetCenterTo(
+			vec2( getFrame().getX2(), getFrame().getCenter().y )
+			+ vec2( frame.getWidth()/2.f + kFragViewGutter, 0 )
+			);
+		
+		mFragEditor->setFrameAndBoundsWithSize( frame );
+		
+		getCollection()->addView(mFragEditor);
+	}
+}
+
 void SampleView::closeFragEditor()
 {
-	getCollection()->removeView(mFragEditor);
-	mFragEditor = 0;
+	if ( mFragEditor )
+	{
+		getCollection()->removeView(mFragEditor);
+		mFragEditor = 0;
+	}
 }
 
 int  SampleView::pickPart( vec2 loc ) const
@@ -153,6 +176,8 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 		mFragments.push_back(f);
 		
 		mSelectedFragment = mFragments.size()-1;
+
+		openFragEditor();
 	}
 	else
 	{
@@ -178,6 +203,8 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 			mFragEditor->setFrameAndBoundsWithSize( frame );
 			
 			getCollection()->addView(mFragEditor);
+			
+			openFragEditor();
 		}
 		
 		// close fragment editor
@@ -203,10 +230,17 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 
 void SampleView::tick( float dt )
 {
-	tickSim( getHasRollover() ? .1f : 1.f );
+	tickSim( (getHasRollover() && !pickNewBtn(getMouseLoc()) ) ? .1f : 1.f );
 	
 	// rollover
 	mRolloverFragment = pickFragment( rootToChild(getMouseLoc()) );
+	
+	// deselect?
+	if ( isFragment(mSelectedFragment) && !getHasKeyboardFocus() )
+	{
+		mSelectedFragment = -1;
+		closeFragEditor();
+	}
 }
 
 void SampleView::deleteFragment( int i )

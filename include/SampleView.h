@@ -49,6 +49,7 @@ private:
 	bool pickNewBtn( glm::vec2 ) const;
 	void updateCallout();
 	void closeFragEditor();
+	void openFragEditor();
 	
 	glm::vec2		mAnchor; // anchor for callout. in frame (parent) space
 	ci::PolyLine2   mCallout;

@@ -198,25 +198,30 @@ DropTargetRef GelboxApp::pickDropTarget( ci::vec2 loc ) const
 void GelboxApp::mouseDown( MouseEvent event )
 {
 	if ( Interaction::get() ) Interaction::get()->mouseDown(event);
-	mViews.mouseDown(event);
+	else
+	{
+		mViews.mouseDown(event);
+		
+		if ( !mViews.getMouseDownView() ) mViews.setKeyboardFocusView(0); 
+	}
 }
 
 void GelboxApp::mouseUp( MouseEvent event )
 {
 	if ( Interaction::get() ) Interaction::get()->mouseUp(event);
-	mViews.mouseUp(event);
+	else mViews.mouseUp(event);
 }
 
 void GelboxApp::mouseMove( MouseEvent event )
 {
 	if ( Interaction::get() ) Interaction::get()->mouseMove(event);
-	mViews.mouseMove(event);
+	else mViews.mouseMove(event);
 }
 
 void GelboxApp::mouseDrag( MouseEvent event )
 {
 	if ( Interaction::get() ) Interaction::get()->mouseDrag(event);
-	mViews.mouseDrag(event);
+	else mViews.mouseDrag(event);
 }
 
 void GelboxApp::fileDrop ( FileDropEvent event )
