@@ -36,24 +36,35 @@ const float kMaxAspectRatio = 8.f;
 
 const int kNumMultimerNotches = 7;
 
+vector<ci::Color> FragmentView::sColorPalette;
+
+const vector<Color>& FragmentView::getColorPalette()
+{
+	if ( sColorPalette.empty() )
+	{
+		sColorPalette = vector<Color>{
+			Color::hex(0x0066cc),
+			Color::hex(0xcc0000),
+			Color::hex(0xf74308),
+			Color::hex(0xf7931e),
+			Color::hex(0xaaaa00),
+			Color::hex(0x57bb00),
+
+			Color::hex(0x007200),
+			Color::hex(0x03b6a2),
+			Color::hex(0x1700de),
+			Color::hex(0x7300de),
+			Color::hex(0xb8056c),
+			Color::hex(0x333333)
+		};
+	}
+	
+	return sColorPalette;
+}
 
 FragmentView::FragmentView()
 {
-	mColors = vector<Color>{
-		Color::hex(0x0066cc),
-		Color::hex(0xcc0000),
-		Color::hex(0xf74308),
-		Color::hex(0xf7931e),
-		Color::hex(0xaaaa00),
-		Color::hex(0x57bb00),
-
-		Color::hex(0x007200),
-		Color::hex(0x03b6a2),
-		Color::hex(0x1700de),
-		Color::hex(0x7300de),
-		Color::hex(0xb8056c),
-		Color::hex(0x333333)
-	};
+	mColors = getColorPalette();
 	
 	mSelectedColor=0;
 	
@@ -209,6 +220,7 @@ void FragmentView::mouseDown( ci::app::MouseEvent e )
 	else if ( color != -1 )
 	{
 		mSelectedColor = color;
+		syncModelToColor();
 	}
 	else
 	{
@@ -254,11 +266,17 @@ void FragmentView::setFragment( SampleRef s, int f )
 	mEditFragment = f;
 	
 	syncSlidersToModel();
+	syncColorToModel();
+}
+
+bool FragmentView::isEditFragmentValid() const
+{
+	return mEditSample && mEditFragment >= 0 && mEditFragment < mEditSample->mFragments.size();
 }
 
 void FragmentView::syncSlidersToModel()
 {
-	if ( mEditSample && mEditFragment >= 0 && mEditFragment < mEditSample->mFragments.size() )
+	if ( isEditFragmentValid() )
 	{
 		for( Slider &s : mSliders )
 		{
@@ -274,7 +292,7 @@ void FragmentView::syncSlidersToModel()
 
 void FragmentView::syncModelToSlider( Slider& s ) const
 {
-	if ( mEditSample && mEditFragment >= 0 && mEditFragment < mEditSample->mFragments.size() )
+	if ( isEditFragmentValid() )
 	{
 		if (s.mSetter)
 		{
@@ -282,7 +300,39 @@ void FragmentView::syncModelToSlider( Slider& s ) const
 			
 			s.mSetter( mEditSample->mFragments[mEditFragment], value );			
 		}
-	}	
+	}
+}
+
+void FragmentView::syncModelToColor() const
+{
+	if ( isEditFragmentValid() && mSelectedColor >= 0 && mSelectedColor < mColors.size() )
+	{
+		mEditSample->mFragments[mEditFragment].mColor = mColors[ mSelectedColor ];
+	}
+}
+
+void FragmentView::syncColorToModel()
+{
+	if ( isEditFragmentValid() )
+	{
+		Color c = mEditSample->mFragments[mEditFragment].mColor;
+		
+		int closest = 0;
+		float bestdist = MAXFLOAT;
+		
+		for( int i=0; i<mColors.size(); ++i )
+		{
+			float d = distance( mColors[i], c );
+			
+			if ( d < bestdist )
+			{
+				closest  = i;
+				bestdist = d;
+			}
+		}
+		
+		mSelectedColor = closest;
+	}
 }
 
 void FragmentView::mouseDrag( ci::app::MouseEvent e )
@@ -310,6 +360,8 @@ void FragmentView::mouseDrag( ci::app::MouseEvent e )
 		// revert?
 //		if (mSelectedColor==-1) mSelectedColor = pickColor(mouseDownLocal);
 		if (mSelectedColor==-1) mSelectedColor = oldColor;
+
+		syncModelToColor();
 	}
 }
 

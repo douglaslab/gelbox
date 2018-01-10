@@ -39,12 +39,17 @@ public:
 	
 	void setBounds( ci::Rectf b ) override { View::setBounds(b); updateLayout(); }
 	
-private:
+	static const std::vector<ci::Color>& getColorPalette();
 
+private:
+	
+	static std::vector<ci::Color> sColorPalette;
+	
 	void updateLayout();
 	
 	SampleRef				mEditSample;
 	int						mEditFragment = -1; // which fragment index are we editing? 
+	bool					isEditFragmentValid() const;
 	
 	int						mDragSlider = -1;
 	float					mDragSliderStartValue;
@@ -84,6 +89,9 @@ private:
 
 	void					syncSlidersToModel(); // just reads it in
 	void					syncModelToSlider( Slider& ) const; // just this slider
+
+	void					syncModelToColor() const;
+	void					syncColorToModel();
 	
 	// color picker
 	std::vector<ci::Color>	mColors;

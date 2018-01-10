@@ -236,8 +236,9 @@ void SampleView::syncToModel()
 			Frag &f = mFragments[i];
 			auto  s = mSample->mFragments[i];
 			
-			f.mColor	= s.mColor;
-			f.mRadius	= lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
+			f.mColor		= s.mColor;
+			f.mRadius		= lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
+			f.mTargetPop	= max( 1.f, s.mMass * 50.f ); // ??? just assuming 0..1 for now 
 		}
 	}
 }
@@ -248,8 +249,11 @@ void SampleView::newFragment()
 	{
 		Sample::Fragment f;
 		
-		f.mColor = ci::Color(randFloat(),randFloat(),randFloat());
+		auto colors = FragmentView::getColorPalette();
+		
+		f.mColor = colors[ randInt() % colors.size() ];
 		f.mBases = lerp(1.f,14000.f,randFloat()*randFloat());
+		f.mMass  = randFloat();
 		
 		mSample->mFragments.push_back(f);
 		
@@ -328,7 +332,7 @@ void SampleView::tickSim( float dt )
 	// update population counts
 	for( int f = 0; f<mFragments.size(); ++f )
 	{
-		int targetPop = 15;
+		int targetPop = max( 1, mFragments[f].mTargetPop );
 		
 		// make (1 this frame)
 		if ( pop[f] < targetPop  )

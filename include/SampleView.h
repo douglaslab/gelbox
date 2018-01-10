@@ -78,6 +78,7 @@ private:
 		Frag( ci::Color c, float r ) : mColor(c), mRadius(r) {}
 		Frag() : mColor(0,0,0), mRadius(1.f) {}
 		
+		int			mTargetPop=20;
 		float		mRadius;
 		ci::Color	mColor;
 	};
