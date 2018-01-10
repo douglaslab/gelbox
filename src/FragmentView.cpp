@@ -7,6 +7,7 @@
 //
 
 #include "FragmentView.h"
+#include "Sample.h"
 
 using namespace std;
 using namespace ci;
@@ -27,6 +28,11 @@ const float kIntersliderVStep  = 56;
 const float kVStepToFirstSliderLine = 42;
 
 const float kVStepToColors = 42; 
+
+const float kMinBases = 1;
+const float kMaxBases = 14000;
+
+const float kMaxAspectRatio = 8.f;
 
 const int kNumMultimerNotches = 7;
 
@@ -52,6 +58,7 @@ FragmentView::FragmentView()
 	mSelectedColor=0;
 	
 	{
+		// icon loading helper
 		fs::path iconPathBase = getAssetPath("fragment-icons");
 		
 		auto loadIcons = [iconPathBase]( Slider& s, string name )
@@ -64,7 +71,12 @@ FragmentView::FragmentView()
 			
 			for( int i=0; i<2; ++i )
 			{
-				s.mIcon[i] = gl::Texture::create( loadImage(paths[i]) );
+				try {
+					s.mIcon[i] = gl::Texture::create( loadImage(paths[i]) );
+				} catch (...)
+				{
+					cerr << "ERROR failed to load icon " << paths[i] << endl;
+				}
 				
 				if ( s.mIcon[i] )
 				{
@@ -74,26 +86,71 @@ FragmentView::FragmentView()
 			}
 		};
 		
-		vector<string> names =
-		{
-			"size",
-			"concentration",
-			"aspect",
-			"multimer",
-			"degrade"
+		// config sliders
+		Slider size;
+		Slider concentration;
+		Slider aspect;
+		Slider aggregate;
+		Slider degrade;
+		
+		size.mValueMappedLo = kMinBases;
+		size.mValueMappedHi = kMaxBases;
+		size.mSetter = []( Sample::Fragment& f, float v ) {
+			f.mBases = v;  
+		};
+		size.mGetter = []( Sample::Fragment& f ) {
+			return f.mBases; 
 		};
 		
-		for( int i=0; i<names.size(); ++i )
-		{
-			Slider s;
-			
-			loadIcons(s,names[i]);
-//			loadIcons(s,"aspect");
-			
-			mSliders.push_back(s);
-		}
+		// ??? what should mapping be?
+		concentration.mSetter = []( Sample::Fragment& f, float v ) {
+			f.mMass = v;  
+		};
+		concentration.mGetter = []( Sample::Fragment& f ) {
+			return f.mMass; 
+		};
+
+		aspect.mValueMappedLo = 1.f;
+		aspect.mValueMappedHi = kMaxAspectRatio;
+		aspect.mSetter = []( Sample::Fragment& f, float v ) {
+			f.mAspectRatio = v;  
+		};
+		aspect.mGetter = []( Sample::Fragment& f ) {
+			return f.mAspectRatio; 
+		};
+
+		aggregate.mNotches = kNumMultimerNotches;
+		aggregate.mValueMappedLo = 1;
+		aggregate.mValueMappedHi = kNumMultimerNotches;
+		aggregate.mSetter = []( Sample::Fragment& f, float v ) {
+			f.mAggregate = v;  
+		};
+		aggregate.mGetter = []( Sample::Fragment& f ) {
+			return f.mAggregate; 
+		};
 		
-		mSliders[3].mNotches = kNumMultimerNotches;
+		degrade.mValueMappedLo = 0.f;
+		degrade.mValueMappedHi = 2.f;
+		degrade.mSetter = []( Sample::Fragment& f, float v ) {
+			f.mDegrade = v;  
+		};
+		degrade.mGetter = []( Sample::Fragment& f ) {
+			return f.mDegrade; 
+		};
+		
+		// load icons
+		loadIcons( size, "size" );
+		loadIcons( concentration, "concentration" );
+		loadIcons( aspect, "aspect" );
+		loadIcons( aggregate, "multimer" );
+		loadIcons( degrade, "degrade" );
+		
+		// insert
+		mSliders.push_back(size);
+		mSliders.push_back(concentration);
+		mSliders.push_back(aspect);
+		mSliders.push_back(aggregate);
+		mSliders.push_back(degrade);
 	}
 }
 
@@ -189,6 +246,43 @@ int FragmentView::tryInstantSliderSet( vec2 local )
 	}
 	
 	return s;
+}
+
+void FragmentView::setFragment( SampleRef s, int f )
+{
+	mEditSample   = s;
+	mEditFragment = f;
+	
+	syncSlidersToModel();
+}
+
+void FragmentView::syncSlidersToModel()
+{
+	if ( mEditSample && mEditFragment >= 0 && mEditFragment < mEditSample->mFragments.size() )
+	{
+		for( Slider &s : mSliders )
+		{
+			if (s.mGetter)
+			{
+				float value = s.mGetter( mEditSample->mFragments[mEditFragment] );
+
+				s.mValue = lmap( value, s.mValueMappedLo, s.mValueMappedHi, 0.f, 1.f );
+			}
+		}
+	}
+}
+
+void FragmentView::syncModelToSlider( Slider& s ) const
+{
+	if ( mEditSample && mEditFragment >= 0 && mEditFragment < mEditSample->mFragments.size() )
+	{
+		if (s.mSetter)
+		{
+			float value = lerp( s.mValueMappedLo, s.mValueMappedHi, s.mValue );
+			
+			s.mSetter( mEditSample->mFragments[mEditFragment], value );			
+		}
+	}	
 }
 
 void FragmentView::mouseDrag( ci::app::MouseEvent e )
@@ -325,6 +419,8 @@ void FragmentView::setSliderValue( Slider& s, float value )
 		s.mValue = round( s.mValue * (float)(s.mNotches-1) );
 		s.mValue /= (float)(s.mNotches-1);
 	}
+	
+	syncModelToSlider(s);
 }
 
 int	

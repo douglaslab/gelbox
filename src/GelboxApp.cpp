@@ -43,24 +43,6 @@ void GelboxApp::setup()
 	// make gel
 	makeGel( ivec2( getWindowWidth()/4 - 64, getWindowHeight()/2 ) );
 	
-	// test sample view
-	{
-		SampleViewRef sv = make_shared<SampleView>();
-		
-		vec2 size(400.f,400.f);
-		
-		sv->setBounds( Rectf( vec2(0,0), size ) );
-		
-		Rectf frame = sv->getBounds();
-		frame.offsetCenterTo( vec2(getWindowWidth()/2, getWindowHeight()/2) );
-		
-		sv->setFrame( frame );
-		
-		sv->setCalloutAnchor( vec2(32,32) );
-		
-		mViews.addView(sv);
-	}
-	
 	// ui assets
 	mUIFont = gl::TextureFont::create( Font("Avenir",12) );
 	
@@ -102,6 +84,25 @@ void GelboxApp::setup()
 		ov->setFrameAndBoundsWithSize(r);
 		
 		mViews.addView(ov);
+	}
+
+	// test sample view
+	{
+		SampleViewRef sv = make_shared<SampleView>();
+		
+		vec2 size(400.f,400.f);
+		
+		sv->setBounds( Rectf( vec2(0,0), size ) );
+		
+		Rectf frame = sv->getBounds();
+		frame.offsetCenterTo( vec2(getWindowWidth()/2, getWindowHeight()/2) );
+		
+		sv->setFrame( frame );
+		
+		sv->setCalloutAnchor( vec2(32,32) );
+		sv->setSample( std::make_shared<Sample>() ); // make a dummy sample to play with
+		
+		mViews.addView(sv);
 	}
 }
 
@@ -198,30 +199,27 @@ DropTargetRef GelboxApp::pickDropTarget( ci::vec2 loc ) const
 void GelboxApp::mouseDown( MouseEvent event )
 {
 	if ( Interaction::get() ) Interaction::get()->mouseDown(event);
-	else
-	{
-		mViews.mouseDown(event);
-		
-		if ( !mViews.getMouseDownView() ) mViews.setKeyboardFocusView(0); 
-	}
+	mViews.mouseDown(event);
+	
+	if ( !mViews.getMouseDownView() ) mViews.setKeyboardFocusView(0);
 }
 
 void GelboxApp::mouseUp( MouseEvent event )
 {
 	if ( Interaction::get() ) Interaction::get()->mouseUp(event);
-	else mViews.mouseUp(event);
+	mViews.mouseUp(event);
 }
 
 void GelboxApp::mouseMove( MouseEvent event )
 {
 	if ( Interaction::get() ) Interaction::get()->mouseMove(event);
-	else mViews.mouseMove(event);
+	mViews.mouseMove(event);
 }
 
 void GelboxApp::mouseDrag( MouseEvent event )
 {
 	if ( Interaction::get() ) Interaction::get()->mouseDrag(event);
-	else mViews.mouseDrag(event);
+	mViews.mouseDrag(event);
 }
 
 void GelboxApp::fileDrop ( FileDropEvent event )

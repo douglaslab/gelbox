@@ -9,6 +9,7 @@
 #pragma once
 
 #include "View.h"
+#include "Sample.h"
 
 class SampleView;
 typedef std::shared_ptr<SampleView> SampleViewRef;
@@ -31,6 +32,8 @@ public:
 	void mouseUp  ( ci::app::MouseEvent ) override;
 	void mouseDrag( ci::app::MouseEvent ) override;
 	
+	void setFragment( SampleRef, int );
+	
 	SampleViewRef getSampleView() const { return mSampleView; }
 	void setSampleView( SampleViewRef s ) { mSampleView=s; }
 	
@@ -40,13 +43,21 @@ private:
 
 	void updateLayout();
 	
-	int   mDragSlider = -1;
-	float mDragSliderStartValue;
+	SampleRef				mEditSample;
+	int						mEditFragment = -1; // which fragment index are we editing? 
+	
+	int						mDragSlider = -1;
+	float					mDragSliderStartValue;
+	
+	typedef std::function< void ( Sample::Fragment&, float ) > tSetter;
+	typedef std::function< float( Sample::Fragment& ) > tGetter;
 	
 	// sliders
 	class Slider
 	{
 	public:
+		
+		std::string mIconName;
 		
 		ci::Rectf	mIconRect[2];
 		ci::gl::TextureRef  mIcon[2];
@@ -57,15 +68,22 @@ private:
 		int			mNotches=0;
 		
 		float		mValue=.5f; // 0..1
+		float		mValueMappedLo=0.f, mValueMappedHi=1.f;
+		
+		tSetter		mSetter;
+		tGetter		mGetter;
 	};
 		
 	std::vector<Slider>		mSliders;
-
+	
 	ci::Rectf				calcSliderHandleRect( const Slider& ) const;
 	int						pickSliderHandle( glm::vec2 ) const; // local coords
 	int						pickSliderBar( glm::vec2, float& valuePicked ) const;
 	void					setSliderValue( Slider&, float value ); // constrains, updates
 	int						tryInstantSliderSet( glm::vec2 local ); // returns which slider, if any
+
+	void					syncSlidersToModel(); // just reads it in
+	void					syncModelToSlider( Slider& ) const; // just this slider
 	
 	// color picker
 	std::vector<ci::Color>	mColors;

@@ -34,12 +34,12 @@ const float kFragViewGutter = 16.f;
 
 SampleView::SampleView()
 {
-	mFragments = vector<Frag>{
-		Frag( Color(.5,1,1), 5 ), 
-		Frag( Color(1,.5,.5), 10 ),
-		Frag( Color(.5,.5,1), 3 ),
-		Frag( Color(.5,1,.8), 7 ) 
-	};
+//	mFragments = vector<Frag>{
+//		Frag( Color(.5,1,1), 5 ), 
+//		Frag( Color(1,.5,.5), 10 ),
+//		Frag( Color(.5,.5,1), 3 ),
+//		Frag( Color(.5,1,.8), 7 ) 
+//	};
 }
 
 void SampleView::draw()
@@ -114,6 +114,18 @@ void SampleView::updateCallout()
 	mCallout.setClosed();
 }
 
+void SampleView::selectFragment( int i )
+{
+	mSelectedFragment = i;
+	
+	if ( isFragment(mSelectedFragment) )
+	{
+		openFragEditor();
+		mFragEditor->setFragment( mSample, mSelectedFragment );
+	}
+	else closeFragEditor();
+}
+
 void SampleView::openFragEditor()
 {
 	if ( !mFragEditor )
@@ -171,47 +183,16 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 {
 	if ( pickNewBtn(e.getPos()) )
 	{
-		// new fragment!
-		Frag f( ci::Color(randFloat(),randFloat(),randFloat()), lerp(2.f,16.f,randFloat()*randFloat()) );
-		mFragments.push_back(f);
-		
-		mSelectedFragment = mFragments.size()-1;
-
-		openFragEditor();
+		newFragment();		
+		selectFragment( mFragments.size()-1 );
 	}
 	else
 	{
 		// pick fragment
-		mSelectedFragment = pickFragment( rootToChild(e.getPos()) );
+		selectFragment( pickFragment( rootToChild(e.getPos()) ) );
 
 		// take keyboard focus
 		getCollection()->setKeyboardFocusView( shared_from_this() );
-		
-		// open fragment editor
-		if ( !mFragEditor )
-		{
-			mFragEditor = make_shared<FragmentView>();
-			
-			vec2 center;
-			Rectf frame(-.5,-.5,.5,.5);
-			frame.scaleCentered(kFragmentViewSize);
-			frame.offsetCenterTo(
-				vec2( getFrame().getX2(), getFrame().getCenter().y )
-				+ vec2( frame.getWidth()/2.f + kFragViewGutter, 0 )
-				);
-			
-			mFragEditor->setFrameAndBoundsWithSize( frame );
-			
-			getCollection()->addView(mFragEditor);
-			
-			openFragEditor();
-		}
-		
-		// close fragment editor
-		if ( mFragEditor && !isFragment(mSelectedFragment) )
-		{
-			closeFragEditor();
-		}
 	}
 }
 
@@ -221,15 +202,17 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 	{
 		if ( isFragment(mSelectedFragment) )
 		{
-			deleteFragment( mSelectedFragment );
-			mSelectedFragment = -1;
-			closeFragEditor();
+			int which = mSelectedFragment;
+			selectFragment(-1);
+			deleteFragment( which );
 		}
 	}
 }
 
 void SampleView::tick( float dt )
 {
+	syncToModel();
+
 	tickSim( (getHasRollover() && !pickNewBtn(getMouseLoc()) ) ? .1f : 1.f );
 	
 	// rollover
@@ -238,13 +221,51 @@ void SampleView::tick( float dt )
 	// deselect?
 	if ( isFragment(mSelectedFragment) && !getHasKeyboardFocus() )
 	{
-		mSelectedFragment = -1;
-		closeFragEditor();
+		selectFragment(-1);
+	}
+}
+
+void SampleView::syncToModel()
+{
+	if (mSample)
+	{
+		mFragments.resize( mSample->mFragments.size() );
+		
+		for( int i=0; i<mFragments.size(); ++i )
+		{
+			Frag &f = mFragments[i];
+			auto  s = mSample->mFragments[i];
+			
+			f.mColor	= s.mColor;
+			f.mRadius	= lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
+		}
+	}
+}
+
+void SampleView::newFragment()
+{
+	if (mSample)
+	{
+		Sample::Fragment f;
+		
+		f.mColor = ci::Color(randFloat(),randFloat(),randFloat());
+		f.mBases = lerp(1.f,14000.f,randFloat()*randFloat());
+		
+		mSample->mFragments.push_back(f);
+		
+		syncToModel();
+	}
+	else
+	{
+		Frag f( ci::Color(randFloat(),randFloat(),randFloat()), lerp(2.f,16.f,randFloat()*randFloat()) );
+		mFragments.push_back(f);
 	}
 }
 
 void SampleView::deleteFragment( int i )
 {
+	syncToModel();
+	
 	if ( i >= 0 && i < mFragments.size() )
 	{
 		// fade out particles
@@ -255,8 +276,8 @@ void SampleView::deleteFragment( int i )
 				p.mFragment = -1;
 			}
 		}
-		
-		// remove
+
+		// remove from our list
 		int from, to;
 		
 		from = mFragments.size()-1;
@@ -264,6 +285,15 @@ void SampleView::deleteFragment( int i )
 		
 		mFragments[to] = mFragments[from];
 		mFragments.pop_back();
+		
+		// remove from mSample
+		if (mSample)
+		{
+			assert( mFragments.size()+1 == mSample->mFragments.size() ); // +1 since we just popped it
+
+			mSample->mFragments[to] = mSample->mFragments[from];
+			mSample->mFragments.pop_back();
+		}
 		
 		// reindex
 		for ( auto &p : mParts )
@@ -366,7 +396,14 @@ void SampleView::tickSim( float dt )
 		if ( p.mLoc.x > bounds.x2 ) p.mLoc.x = bounds.x1 + (p.mLoc.x - bounds.x2); 
 		if ( p.mLoc.x < bounds.x1 ) p.mLoc.x = bounds.x2 - (bounds.x1 - p.mLoc.x); 
 		if ( p.mLoc.y > bounds.y2 ) p.mLoc.y = bounds.y1 + (p.mLoc.y - bounds.y2); 
-		if ( p.mLoc.y < bounds.y1 ) p.mLoc.y = bounds.y2 - (bounds.y1 - p.mLoc.y); 
+		if ( p.mLoc.y < bounds.y1 ) p.mLoc.y = bounds.y2 - (bounds.y1 - p.mLoc.y);
+		
+		// sync to frag
+		if (frag)
+		{
+			p.mColor	= lerp( p.mColor,  frag->mColor,  .5f );
+			p.mRadius	= lerp( p.mRadius, frag->mRadius, .5f );
+		} 
 	}
 	
 	// cull dead ones

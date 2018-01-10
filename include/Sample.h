@@ -22,9 +22,14 @@ public:
 	class Fragment
 	{
 	public:
-		int   mBases	= 0;   // base count
-		float mMass		= 0.f; // ng
-		float mDegrade	= 0.f; // 0..2
+		int   mBases		= 0;   // base count
+		float mMass			= 0.f; // ng
+		
+		float mDegrade		= 0.f; // 0..2
+		int   mAggregate	= 1; // default is 1, dimer is 2, etc...
+		
+		float mAspectRatio	= 1.f;
+		ci::Color mColor	= ci::Color(.5,.5,.5);
 	};
 
 	std::vector<Fragment> mFragments;

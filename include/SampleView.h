@@ -27,7 +27,7 @@ public:
 	SampleView();
 	
 	void setCalloutAnchor( glm::vec2 p ) { mAnchor=p; updateCallout(); }
-	void setSample( SampleRef s ) { mSample=s; }
+	void setSample( SampleRef s ) { mSample=s; syncToModel(); }
 	
 	void tick( float dt ) override;
 	void draw() override;
@@ -40,16 +40,18 @@ public:
 	
 	bool pick( glm::vec2 ) const override;
 	
-	
+	void newFragment();
 	void deleteFragment( int i ); // fades out instances
 	
 private:
 
 	bool isFragment( int i ) const { return i >=0 && i < mFragments.size() ; }
+	void selectFragment( int i );
 	bool pickNewBtn( glm::vec2 ) const;
 	void updateCallout();
 	void closeFragEditor();
 	void openFragEditor();
+	void syncToModel(); // updates mFragments to match mSample
 	
 	glm::vec2		mAnchor; // anchor for callout. in frame (parent) space
 	ci::PolyLine2   mCallout;
@@ -74,6 +76,7 @@ private:
 	{
 	public:
 		Frag( ci::Color c, float r ) : mColor(c), mRadius(r) {}
+		Frag() : mColor(0,0,0), mRadius(1.f) {}
 		
 		float		mRadius;
 		ci::Color	mColor;
