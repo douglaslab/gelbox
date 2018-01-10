@@ -262,11 +262,14 @@ int FragmentView::tryInstantSliderSet( vec2 local )
 
 void FragmentView::setFragment( SampleRef s, int f )
 {
-	mEditSample   = s;
-	mEditFragment = f;
-	
-	syncSlidersToModel();
-	syncColorToModel();
+	if ( s != mEditSample || f != mEditFragment )
+	{
+		mEditSample   = s;
+		mEditFragment = f;
+		
+		syncSlidersToModel();
+		syncColorToModel();
+	}
 }
 
 bool FragmentView::isEditFragmentValid() const

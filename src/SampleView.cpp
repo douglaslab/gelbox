@@ -117,11 +117,15 @@ void SampleView::updateCallout()
 void SampleView::selectFragment( int i )
 {
 	mSelectedFragment = i;
-	
-	if ( isFragment(mSelectedFragment) )
+	showFragmentEditor(mSelectedFragment);
+}
+
+void SampleView::showFragmentEditor( int i )
+{
+	if ( isFragment(i) )
 	{
 		openFragEditor();
-		mFragEditor->setFragment( mSample, mSelectedFragment );
+		mFragEditor->setFragment( mSample, i );
 	}
 	else closeFragEditor();
 }
@@ -162,9 +166,18 @@ int  SampleView::pickPart( vec2 loc ) const
 	{
 		const Part& p = mParts[i];
 		
-		if ( distance(p.mLoc,loc) <= max(p.mRadius,kPartMinPickRadius) )
+		mat4 xform = glm::inverse( p.getTransform() );
+		vec2 ploc = vec2( xform * vec4(loc,0,1) );
+		
+		if ( length(ploc) <= 1.f )
 		{
 			return i;
+		}
+		
+		// TODO: do proper transform into local particle space
+		if ( distance(p.mLoc,loc) <= max( max(p.mRadius.x,p.mRadius.y), kPartMinPickRadius ) )
+		{
+//			return i;
 		}
 	}
 	
@@ -183,17 +196,17 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 {
 	if ( pickNewBtn(e.getPos()) )
 	{
-		newFragment();		
+		newFragment();
 		selectFragment( mFragments.size()-1 );
 	}
 	else
 	{
 		// pick fragment
 		selectFragment( pickFragment( rootToChild(e.getPos()) ) );
-
-		// take keyboard focus
-		getCollection()->setKeyboardFocusView( shared_from_this() );
 	}
+
+	// take keyboard focus
+	getCollection()->setKeyboardFocusView( shared_from_this() );
 }
 
 void SampleView::keyDown( ci::app::KeyEvent e )
@@ -223,6 +236,13 @@ void SampleView::tick( float dt )
 	{
 		selectFragment(-1);
 	}
+	
+	// fragment show on hover -- can enable/disable this feature on its own
+	if (1)
+	{
+		if ( isFragment(mRolloverFragment) ) showFragmentEditor(mRolloverFragment);
+		else showFragmentEditor(mSelectedFragment);  
+	}
 }
 
 void SampleView::syncToModel()
@@ -236,8 +256,10 @@ void SampleView::syncToModel()
 			Frag &f = mFragments[i];
 			auto  s = mSample->mFragments[i];
 			
+			float r = lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );;
+			
 			f.mColor		= s.mColor;
-			f.mRadius		= lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
+			f.mRadius		= vec2( s.mAspectRatio, 1.f ) * r;
 			f.mTargetPop	= max( 1.f, s.mMass * 50.f ); // ??? just assuming 0..1 for now 
 		}
 	}
@@ -342,10 +364,12 @@ void SampleView::tickSim( float dt )
 			p.mLoc  = vec2( randFloat(), randFloat() )
 					* vec2( bounds.getSize() )
 					+ bounds.getUpperLeft();
-			p.mFace = randVec2();
 			p.mVel  = randVec2() * .5f; 
 			
 			p.mAge += randInt(kMaxAge); // stagger ages to prevent simul-fadeout-rebirth
+
+			p.mAngle    = randFloat() * M_PI * 2.f;
+			p.mAngleVel = randFloat(-1.f,1.f) * M_PI * .002f;
 			
 			p.mFragment = f;
 			p.mRadius = mFragments[p.mFragment].mRadius ;
@@ -396,6 +420,8 @@ void SampleView::tickSim( float dt )
 		p.mLoc += p.mVel * dt;
 		p.mLoc += randVec2() * randFloat() * kJitter * dt;
 		
+		p.mAngle += p.mAngleVel * dt;
+		
 		// wrap?
 		if ( p.mLoc.x > bounds.x2 ) p.mLoc.x = bounds.x1 + (p.mLoc.x - bounds.x2); 
 		if ( p.mLoc.x < bounds.x1 ) p.mLoc.x = bounds.x2 - (bounds.x1 - p.mLoc.x); 
@@ -422,12 +448,17 @@ void SampleView::drawSim()
 {	
 	for ( const auto &p : mParts )
 	{
+		gl::ScopedModelMatrix modelMatrix;
+		gl::multModelMatrix( p.getTransform() );
+
+		int nsegs = 32;
+				
 		gl::color( ColorA( p.mColor, p.mFade ) );
 		
-		gl::drawSolidCircle( p.mLoc, p.mRadius ); // fill
+		gl::drawSolidCircle( vec2(0,0), 1.f, nsegs ); // fill
 		if (p.mFade==1.f)
 		{
-			gl::drawStrokedCircle( p.mLoc, p.mRadius ); // outline for anti-aliasing... assumes GL_LINE_SMOOTH
+			gl::drawStrokedCircle( vec2(0,0), 1.f, nsegs ); // outline for anti-aliasing... assumes GL_LINE_SMOOTH
 		}
 		
 		const bool selected = isFragment(p.mFragment) && p.mFragment == mSelectedFragment;
@@ -435,9 +466,26 @@ void SampleView::drawSim()
 		 
 		if ( selected || rollover )
 		{
-			ColorA color = selected ? ColorA(kSelectColor,p.mFade) : ColorA(kRolloverColor,p.mFade);
+			ColorA color;
+			
+			if (selected && rollover) color = ColorA( lerp( kSelectColor, kRolloverColor, .5f ), p.mFade );
+			else color = selected ? ColorA(kSelectColor,p.mFade) : ColorA(kRolloverColor,p.mFade);
+			
 			gl::color( color );
-			gl::drawStrokedCircle( p.mLoc, p.mRadius + kOutlineWidth/2.f, kOutlineWidth );
+			float lineWidth = kOutlineWidth / p.mRadius.x;
+			gl::drawStrokedCircle( vec2(0,0), 1.f + lineWidth/2.f, lineWidth, nsegs );
+			// i guess to get proportional line scaling we could draw a second circle and deform it appropriately...
+			// not sure that would actually work though. easiest to just generate our own line shapes...
 		}
 	}
+}
+
+glm::mat4
+SampleView::Part::getTransform() const
+{
+	mat4 xform;
+	xform *= translate( vec3(mLoc,0) );
+	xform *= glm::rotate( mAngle, vec3(0,0,1) );
+	xform *= scale( vec3(mRadius.x,mRadius.y,1.f) );	
+	return xform;
 }

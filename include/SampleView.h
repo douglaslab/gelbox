@@ -47,6 +47,7 @@ private:
 
 	bool isFragment( int i ) const { return i >=0 && i < mFragments.size() ; }
 	void selectFragment( int i );
+	void showFragmentEditor( int i );
 	bool pickNewBtn( glm::vec2 ) const;
 	void updateCallout();
 	void closeFragEditor();
@@ -79,7 +80,7 @@ private:
 		Frag() : mColor(0,0,0), mRadius(1.f) {}
 		
 		int			mTargetPop=20;
-		float		mRadius;
+		glm::vec2	mRadius;
 		ci::Color	mColor;
 	};
 	
@@ -89,14 +90,18 @@ private:
 		int			mFragment=0;
 		
 		glm::vec2	mLoc;
-		glm::vec2	mFace, mVel;
-		float		mRadius;
+		glm::vec2	mVel;
+		glm::vec2	mRadius;
+		float		mAngle=0.f, mAngleVel=0.f; // radians, and radians per unit time step
 		ci::Color	mColor;
 		
 		float		mAge=0.f;
 		
 		float		mFade=0.f;
 		bool		mAlive=true; // fading in or out?
+
+		glm::mat4 getTransform() const;
+
 	};
 	
 	std::vector<Frag> mFragments;	
