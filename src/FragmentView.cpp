@@ -401,8 +401,22 @@ void FragmentView::draw()
 		
 		// icons
 		gl::color(1,1,1);
-		gl::draw( s.mIcon[0], s.mIconRect[0] );
-		gl::draw( s.mIcon[1], s.mIconRect[1] );
+		
+		if (1)
+		{
+			gl::draw( s.mIcon[0], s.mIconRect[0] );
+			gl::draw( s.mIcon[1], s.mIconRect[1] );
+		}
+		else
+		{
+			// hmm this version doesn't fix aliasing issue
+			for( int i=0; i<2; ++i  )
+			{
+				gl::ScopedModelMatrix model;
+				gl::translate( s.mIconRect[i].getCenter() - vec2(s.mIcon[0]->getSize())*.5f );
+				gl::draw(s.mIcon[i]);
+			}
+		}
 		
 		// text label
 	}

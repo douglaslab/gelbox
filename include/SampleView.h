@@ -82,7 +82,10 @@ private:
 		Frag() : mColor(0,0,0), mRadius(1.f) {}
 		
 		int			mTargetPop=20;
+
 		glm::vec2	mRadius;
+		glm::vec2	mRadiusDegraded; // lower end of radii; in case its a range
+		
 		ci::Color	mColor;
 	};
 	
@@ -101,7 +104,9 @@ private:
 		
 		float		mFade=0.f;
 		bool		mAlive=true; // fading in or out?
-
+		
+		float		mDegradeSizeKey=0.f; // random, from 0..1; for inter-frame coherency when dialing size + degradation 
+	
 		glm::mat4 getTransform() const;
 
 	};

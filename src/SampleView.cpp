@@ -265,7 +265,9 @@ void SampleView::tick( float dt )
 {
 	syncToModel();
 
-	tickSim( (getHasRollover() && !pickNewBtn(getMouseLoc()) ) ? .1f : 1.f );
+	bool slow = ( getHasRollover() || getHasMouseDown() ) && !pickNewBtn(getMouseLoc());
+	
+	tickSim( slow ? .1f : 1.f );
 	
 	// rollover
 	mRolloverFragment = pickFragment( rootToChild(getMouseLoc()) );
@@ -299,7 +301,20 @@ void SampleView::syncToModel()
 			
 			f.mColor		= s.mColor;
 			f.mRadius		= vec2( s.mAspectRatio, 1.f ) * r;
-			f.mTargetPop	= max( 1.f, s.mMass * 50.f ); // ??? just assuming 0..1 for now 
+			f.mRadiusDegraded = f.mRadius;
+			
+			f.mTargetPop	= max( 1.f, s.mMass * 50.f ); // ??? just assuming 0..1 for now
+			
+			// do degrade (NOTE: this replicates logic in Gel::calcBandBounds)
+			// just have multiple degrade params in each frag, to make this  simpler then encoding it all in 0..2?
+			f.mRadiusDegraded *= max( 0.f, 1.f - s.mDegrade ); // as degrade goes 0..1, low end drops out--shorter base pairs, lower radii
+		
+			if ( s.mDegrade > 1.f ) f.mRadius *= 2.f - min(2.f,s.mDegrade); // as degrade goes 1..2, upper radii moves drops out--shorter
+			
+			// set a lower limit on degrade...
+			const vec2 kMinRadius(1,1); 
+			f.mRadiusDegraded = glm::max( f.mRadiusDegraded, kMinRadius );
+			f.mRadius		  = glm::max( f.mRadius,		 kMinRadius );
 		}
 	}
 }
@@ -422,6 +437,8 @@ void SampleView::tickSim( float dt )
 			p.mRadius = mFragments[p.mFragment].mRadius ;
 			p.mColor  = mFragments[p.mFragment].mColor ; 
 			
+			p.mDegradeSizeKey = randFloat();
+			
 			mParts.push_back(p);
 			
 			pop[f]++;
@@ -486,8 +503,10 @@ void SampleView::tickSim( float dt )
 		// sync to frag
 		if (frag)
 		{
-			p.mColor	= lerp( p.mColor,  frag->mColor,  .5f );
-			p.mRadius	= lerp( p.mRadius, frag->mRadius, .5f );
+			vec2 fragRadius = lerp( frag->mRadiusDegraded, frag->mRadius, p.mDegradeSizeKey );
+			
+			p.mColor	= lerp( p.mColor,  frag->mColor, .5f );
+			p.mRadius	= lerp( p.mRadius, fragRadius,	 .5f );
 		} 
 	}
 	
