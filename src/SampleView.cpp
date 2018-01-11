@@ -28,18 +28,31 @@ const float kOutlineWidth = 4.f;
 
 const float kFadeInStep = .05f; 
 const float kFadeOutStep = .05f; 
-const float kMaxAge = 30 * 30;
+const float kMaxAge = 30 * 1000;
 const float kJitter = .5f;
 
-const float kPartMinPickRadius = 4.f;	
+const float kPartMinPickRadius = 8.f;	
 
-const float kNewBtnRadius = 24.f;
+const float kNewBtnRadius = 53.f / 2.f;
 const float kNewBtnGutter = 16.f;
+const Color kNewBtnDownColor = Color(1.f,1.f,1.f)*.7f;		
 
 const float kFragViewGutter = 16.f;
 
 SampleView::SampleView()
 {
+	fs::path newBtnPath = "???";
+	
+	try
+	{
+		newBtnPath = getAssetPath("new-btn.png");
+		
+		mNewBtnImage = gl::Texture::create( loadImage(newBtnPath) );
+	}
+	catch (...)
+	{
+		cerr <<  "ERROR loading new btn image "  << newBtnPath << endl;
+	}	
 }
 
 void SampleView::draw()
@@ -72,8 +85,28 @@ void SampleView::draw()
 	drawSim();
 	
 	// new btn
-	gl::color(.5,.5,.5);
-	gl::drawSolidCircle(mNewBtnLoc, mNewBtnRadius);
+	{
+		const bool hasMouseDown = getHasMouseDown() && pickNewBtn(getMouseDownLoc()) && pickNewBtn(getMouseLoc()); 
+		
+		if (mNewBtnImage)
+		{
+			if ( hasMouseDown ) gl::color(kNewBtnDownColor);
+			else gl::color(1,1,1);
+					
+			gl::ScopedModelMatrix model;
+
+			gl::translate( mNewBtnLoc - vec2(kNewBtnRadius) );
+			
+			gl::draw(mNewBtnImage);
+		}
+		else
+		{
+			if ( hasMouseDown ) gl::color(kNewBtnDownColor);
+			else gl::color(.5,.5,.5);
+			
+			gl::drawSolidCircle(mNewBtnLoc, mNewBtnRadius);
+		}
+	}
 }
 
 void SampleView::drawFrame()
@@ -164,7 +197,10 @@ int  SampleView::pickPart( vec2 loc ) const
 	// in reverse, so pick order matches draw order 
 	for( int i=mParts.size()-1; i>=0; --i )
 	{
-		const Part& p = mParts[i];
+		Part p = mParts[i]; // copy so we can inflate
+		
+		p.mRadius.x = max( p.mRadius.x, kPartMinPickRadius );
+		p.mRadius.y = max( p.mRadius.y, kPartMinPickRadius );
 		
 		mat4 xform = glm::inverse( p.getTransform() );
 		vec2 ploc = vec2( xform * vec4(loc,0,1) );
@@ -172,12 +208,6 @@ int  SampleView::pickPart( vec2 loc ) const
 		if ( length(ploc) <= 1.f )
 		{
 			return i;
-		}
-		
-		// TODO: do proper transform into local particle space
-		if ( distance(p.mLoc,loc) <= max( max(p.mRadius.x,p.mRadius.y), kPartMinPickRadius ) )
-		{
-//			return i;
 		}
 	}
 	
@@ -194,19 +224,28 @@ int  SampleView::pickFragment( vec2 loc ) const
 
 void SampleView::mouseDown( ci::app::MouseEvent e )
 {
-	if ( pickNewBtn(e.getPos()) )
-	{
-		newFragment();
-		selectFragment( mFragments.size()-1 );
-	}
-	else
-	{
-		// pick fragment
-		selectFragment( pickFragment( rootToChild(e.getPos()) ) );
-	}
-
 	// take keyboard focus
 	getCollection()->setKeyboardFocusView( shared_from_this() );
+}
+
+void SampleView::mouseUp( ci::app::MouseEvent e )
+{
+	if ( getHasMouseDown() )
+	{
+		if ( pickNewBtn(e.getPos()) && pickNewBtn(getMouseDownLoc()) )
+		{
+			newFragment();
+			selectFragment( mFragments.size()-1 );
+		}
+		else
+		{
+			// pick fragment
+			selectFragment( pickFragment( rootToChild(e.getPos()) ) );
+		}
+
+		// take keyboard focus
+		getCollection()->setKeyboardFocusView( shared_from_this() );
+	}
 }
 
 void SampleView::keyDown( ci::app::KeyEvent e )
@@ -413,7 +452,6 @@ void SampleView::tickSim( float dt )
 			if (   !frag
 				|| p.mAge > kMaxAge
 				|| randFloat() < cullChance[p.mFragment] // ok to index bc of !frag test above
-//				|| ! bounds.inflated(vec2(p.mRadius)).contains( p.mLoc )
 				)
 			{
 				p.mAlive = false;
@@ -440,7 +478,7 @@ void SampleView::tickSim( float dt )
 		}
 		
 		// kill if out of bounds
-		if ( !p.mAlive && ! bounds.inflated( vec2( max(p.mRadius.x, p.mRadius.y) ) ).contains( p.mLoc ) )
+		if ( p.mAlive && ! bounds.inflated( vec2( max(p.mRadius.x, p.mRadius.y) ) ).contains( p.mLoc ) )
 		{
 			p.mAlive = false;
 		}

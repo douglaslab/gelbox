@@ -35,6 +35,7 @@ public:
 
 	void setBounds( ci::Rectf b ) override;
 	
+	void mouseUp( ci::app::MouseEvent ) override;
 	void mouseDown( ci::app::MouseEvent ) override;
 	void keyDown( ci::app::KeyEvent ) override;
 	
@@ -63,6 +64,7 @@ private:
 	
 	glm::vec2		mNewBtnLoc;
 	float			mNewBtnRadius;
+	ci::gl::TextureRef mNewBtnImage;
 	
 	// fragment editor
 	FragmentViewRef mFragEditor;
