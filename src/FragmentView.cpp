@@ -32,7 +32,7 @@ const float kVStepToColors = 42;
 const float kMinBases = 1;
 const float kMaxBases = 14000;
 
-const float kMaxAspectRatio = 8.f;
+const float kMaxAspectRatio = 16.f;
 
 const int kNumMultimerNotches = 7;
 

@@ -297,24 +297,30 @@ void SampleView::syncToModel()
 			Frag &f = mFragments[i];
 			auto  s = mSample->mFragments[i];
 			
+			f.mColor		= s.mColor;
+			f.mTargetPop	= max( 1.f, s.mMass * 50.f ); // ??? just assuming 0..1 for now
+						
+			// radius
 			float r = lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
 			
-			f.mColor		= s.mColor;
-			f.mRadius		= vec2( s.mAspectRatio, 1.f ) * r;
-			f.mRadiusDegraded = f.mRadius;
+			f.mRadius.y = sqrt( (r*r) / s.mAspectRatio );
+			f.mRadius.x = s.mAspectRatio * f.mRadius.y;
+			// this calculation maintains the area for a circle in an ellipse that meets desired aspect ratio
+			// math for maintaining circumfrence is wickedly harder
 			
-			f.mTargetPop	= max( 1.f, s.mMass * 50.f ); // ??? just assuming 0..1 for now
-			
+			// degraded radius				
 			// do degrade (NOTE: this replicates logic in Gel::calcBandBounds)
 			// just have multiple degrade params in each frag, to make this  simpler then encoding it all in 0..2?
+			f.mRadiusDegraded = f.mRadius;
+			
 			f.mRadiusDegraded *= max( 0.f, 1.f - s.mDegrade ); // as degrade goes 0..1, low end drops out--shorter base pairs, lower radii
 		
 			if ( s.mDegrade > 1.f ) f.mRadius *= 2.f - min(2.f,s.mDegrade); // as degrade goes 1..2, upper radii moves drops out--shorter
 			
 			// set a lower limit on degrade...
-			const vec2 kMinRadius(1,1); 
+			const vec2 kMinRadius(1,1);
 			f.mRadiusDegraded = glm::max( f.mRadiusDegraded, kMinRadius );
-			f.mRadius		  = glm::max( f.mRadius,		 kMinRadius );
+//			f.mRadius		  = glm::max( f.mRadius,		 kMinRadius );
 		}
 	}
 }
