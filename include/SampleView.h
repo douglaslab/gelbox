@@ -70,10 +70,13 @@ private:
 	FragmentViewRef mFragEditor;
 	
 	// particle sim
+	class Part;
+	
 	void tickSim( float dt ); // dt=1 for normal speed
 	void drawSim();
 	int  pickPart( ci::vec2 ) const;
 	int  pickFragment( ci::vec2 ) const;
+	Part randomPart( int fragment ) const;
 	
 	class Frag
 	{
@@ -87,6 +90,8 @@ private:
 		glm::vec2	mRadiusDegraded; // lower end of radii; in case its a range
 		
 		ci::Color	mColor;
+		
+		int			mAggregate=1;
 	};
 	
 	class Part
@@ -106,8 +111,15 @@ private:
 		bool		mAlive=true; // fading in or out?
 		
 		float		mDegradeSizeKey=0.f; // random, from 0..1; for inter-frame coherency when dialing size + degradation 
-	
-		glm::mat4 getTransform() const;
+		
+		struct Multi
+		{
+			glm::vec2	mLoc	= glm::vec2(0,0); // normalized, so (1,1) means one unit radius away in x and y
+			float		mAngle	= 0.f;
+		};
+		std::vector<Multi> mMulti;
+		
+		glm::mat4 getTransform( int multiIndex=-1 ) const;
 
 	};
 	

@@ -29,7 +29,7 @@ const float kOutlineWidth = 4.f;
 const float kFadeInStep = .05f; 
 const float kFadeOutStep = .05f; 
 const float kMaxAge = 30 * 1000;
-const float kJitter = .5f;
+const float kJitter = .75f;
 
 const float kPartMinPickRadius = 8.f;	
 
@@ -201,13 +201,16 @@ int  SampleView::pickPart( vec2 loc ) const
 		
 		p.mRadius.x = max( p.mRadius.x, kPartMinPickRadius );
 		p.mRadius.y = max( p.mRadius.y, kPartMinPickRadius );
-		
-		mat4 xform = glm::inverse( p.getTransform() );
-		vec2 ploc = vec2( xform * vec4(loc,0,1) );
-		
-		if ( length(ploc) <= 1.f )
-		{
-			return i;
+
+		for( int m=0; m<p.mMulti.size(); ++m )
+		{	
+			mat4 xform = glm::inverse( p.getTransform(m) );
+			vec2 ploc = vec2( xform * vec4(loc,0,1) );
+			
+			if ( length(ploc) <= 1.f )
+			{
+				return i;
+			}
 		}
 	}
 	
@@ -270,7 +273,10 @@ void SampleView::tick( float dt )
 	tickSim( slow ? .1f : 1.f );
 	
 	// rollover
-	mRolloverFragment = pickFragment( rootToChild(getMouseLoc()) );
+	if ( getHasRollover() )
+	{
+		mRolloverFragment = pickFragment( rootToChild(getMouseLoc()) );
+	}
 	
 	// deselect?
 	if ( isFragment(mSelectedFragment) && !getHasKeyboardFocus() )
@@ -299,7 +305,8 @@ void SampleView::syncToModel()
 			
 			f.mColor		= s.mColor;
 			f.mTargetPop	= max( 1.f, s.mMass * 50.f ); // ??? just assuming 0..1 for now
-						
+			f.mAggregate	= s.mAggregate;
+			
 			// radius
 			float r = lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
 			
@@ -398,6 +405,33 @@ void SampleView::deleteFragment( int i )
 	}
 }
 
+SampleView::Part
+SampleView::randomPart( int f ) const
+{
+	Part p;
+		
+	p.mLoc  = vec2( randFloat(), randFloat() )
+			* vec2( getBounds().getSize() )
+			+ getBounds().getUpperLeft();
+	p.mVel  = randVec2() * .5f;
+	
+	p.mAge += randInt(kMaxAge); // stagger ages to prevent simul-fadeout-rebirth
+
+	p.mAngle    = randFloat() * M_PI * 2.f;
+	p.mAngleVel = randFloat(-1.f,1.f) * M_PI * .002f;
+	
+	p.mFragment = f;
+	p.mRadius = mFragments[p.mFragment].mRadius ;
+	p.mColor  = mFragments[p.mFragment].mColor ; 
+	
+	p.mDegradeSizeKey = randFloat();
+	
+	Part::Multi m;
+	p.mMulti.push_back(m);
+	
+	return p;
+}
+
 void SampleView::tickSim( float dt )
 {
 	const Rectf bounds = getBounds();
@@ -427,25 +461,7 @@ void SampleView::tickSim( float dt )
 		// make (1 this frame)
 		if ( alivepop[f] < targetPop  )
 		{
-			Part p;
-			
-			p.mLoc  = vec2( randFloat(), randFloat() )
-					* vec2( bounds.getSize() )
-					+ bounds.getUpperLeft();
-			p.mVel  = randVec2() * .5f;
-			
-			p.mAge += randInt(kMaxAge); // stagger ages to prevent simul-fadeout-rebirth
-
-			p.mAngle    = randFloat() * M_PI * 2.f;
-			p.mAngleVel = randFloat(-1.f,1.f) * M_PI * .002f;
-			
-			p.mFragment = f;
-			p.mRadius = mFragments[p.mFragment].mRadius ;
-			p.mColor  = mFragments[p.mFragment].mColor ; 
-			
-			p.mDegradeSizeKey = randFloat();
-			
-			mParts.push_back(p);
+			mParts.push_back( randomPart(f) );
 			
 			pop[f]++;
 		}
@@ -513,6 +529,28 @@ void SampleView::tickSim( float dt )
 			
 			p.mColor	= lerp( p.mColor,  frag->mColor, .5f );
 			p.mRadius	= lerp( p.mRadius, fragRadius,	 .5f );
+			
+			// aggregates
+			if ( p.mMulti.size() > frag->mAggregate ) p.mMulti.resize(frag->mAggregate);
+			else
+			{
+				while ( p.mMulti.size() < frag->mAggregate )
+				{
+					Part::Multi m;
+					
+					m.mAngle = randFloat() * M_PI * 2.f;
+
+					if (!p.mMulti.empty())
+					{
+						Part::Multi parent = p.mMulti[ randInt() % p.mMulti.size() ];					
+
+						m.mLoc = parent.mLoc + randVec2();
+					}
+					else m.mLoc = vec2(0,0); // in case we ever get empty... (shouldn't happen!) 
+					
+					p.mMulti.push_back(m);
+				}
+			}
 		} 
 	}
 	
@@ -547,44 +585,55 @@ void SampleView::drawSim()
 	// draw parts
 	for ( const auto &p : mParts )
 	{
-		gl::ScopedModelMatrix modelMatrix;
-		gl::multModelMatrix( p.getTransform() );
+		for( int i=0; i<p.mMulti.size(); ++i )
+		{
+			gl::ScopedModelMatrix modelMatrix;
+			gl::multModelMatrix( p.getTransform(i) );
 
-		int nsegs = 32;
+			int nsegs = 32;
+					
+			gl::color( ColorA( p.mColor, p.mFade ) );
+			
+			gl::drawSolidCircle( vec2(0,0), 1.f, nsegs ); // fill
+			if (p.mFade==1.f)
+			{
+				gl::drawStrokedCircle( vec2(0,0), 1.f, nsegs ); // outline for anti-aliasing... assumes GL_LINE_SMOOTH
+			}
+			
+			const bool selected = isFragment(p.mFragment) && p.mFragment == mSelectedFragment;
+			const bool rollover = isFragment(p.mFragment) && p.mFragment == mRolloverFragment;
+			 
+			if ( selected || rollover )
+			{
+				ColorA color;
 				
-		gl::color( ColorA( p.mColor, p.mFade ) );
-		
-		gl::drawSolidCircle( vec2(0,0), 1.f, nsegs ); // fill
-		if (p.mFade==1.f)
-		{
-			gl::drawStrokedCircle( vec2(0,0), 1.f, nsegs ); // outline for anti-aliasing... assumes GL_LINE_SMOOTH
-		}
-		
-		const bool selected = isFragment(p.mFragment) && p.mFragment == mSelectedFragment;
-		const bool rollover = isFragment(p.mFragment) && p.mFragment == mRolloverFragment;
-		 
-		if ( selected || rollover )
-		{
-			ColorA color;
-			
-			if (selected && rollover) color = ColorA( lerp( kSelectColor, kRolloverColor, .5f ), p.mFade );
-			else color = selected ? ColorA(kSelectColor,p.mFade) : ColorA(kRolloverColor,p.mFade);
-			
-			gl::color( color );
-			float lineWidth = kOutlineWidth / p.mRadius.x;
-			gl::drawStrokedCircle( vec2(0,0), 1.f + lineWidth/2.f, lineWidth, nsegs );
-			// i guess to get proportional line scaling we could draw a second circle and deform it appropriately...
-			// not sure that would actually work though. easiest to just generate our own line shapes...
-		}
-	}
+				if (selected && rollover) color = ColorA( lerp( kSelectColor, kRolloverColor, .5f ), p.mFade );
+				else color = selected ? ColorA(kSelectColor,p.mFade) : ColorA(kRolloverColor,p.mFade);
+				
+				gl::color( color );
+				float lineWidth = kOutlineWidth / p.mRadius.x;
+				gl::drawStrokedCircle( vec2(0,0), 1.f + lineWidth/2.f, lineWidth, nsegs );
+				// i guess to get proportional line scaling we could draw a second circle and deform it appropriately...
+				// not sure that would actually work though. easiest to just generate our own line shapes...
+			}
+		} // multi
+	} // part
 }
 
 glm::mat4
-SampleView::Part::getTransform() const
+SampleView::Part::getTransform( int multiIndex ) const
 {
 	mat4 xform;
 	xform *= translate( vec3(mLoc,0) );
 	xform *= glm::rotate( mAngle, vec3(0,0,1) );
+	
+	if ( multiIndex >= 0 && multiIndex < mMulti.size() )
+	{
+		const Multi &m = mMulti[multiIndex];
+		xform *= translate( vec3( m.mLoc * min(mRadius.x,mRadius.y) * 2.f, 0) );
+		xform *= glm::rotate( m.mAngle, vec3(0,0,1) );
+	}
+	
 	xform *= scale( vec3(mRadius.x,mRadius.y,1.f) );	
 	return xform;
 }
