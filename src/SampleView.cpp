@@ -16,6 +16,12 @@ using namespace ci;
 using namespace ci::app;
 
 
+// sim
+const int kRandFragMinNumBases = 1;
+const int kRandFragMaxNumBases = 14000;
+const float kRandFragMaxAspect = 8.f;
+
+// ui
 const Color kSelectColor(0,0,0);
 const Color kRolloverColor(1,1,0);
 const float kOutlineWidth = 4.f;
@@ -34,12 +40,6 @@ const float kFragViewGutter = 16.f;
 
 SampleView::SampleView()
 {
-//	mFragments = vector<Frag>{
-//		Frag( Color(.5,1,1), 5 ), 
-//		Frag( Color(1,.5,.5), 10 ),
-//		Frag( Color(.5,.5,1), 3 ),
-//		Frag( Color(.5,1,.8), 7 ) 
-//	};
 }
 
 void SampleView::draw()
@@ -256,7 +256,7 @@ void SampleView::syncToModel()
 			Frag &f = mFragments[i];
 			auto  s = mSample->mFragments[i];
 			
-			float r = lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );;
+			float r = lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
 			
 			f.mColor		= s.mColor;
 			f.mRadius		= vec2( s.mAspectRatio, 1.f ) * r;
@@ -274,8 +274,14 @@ void SampleView::newFragment()
 		auto colors = FragmentView::getColorPalette();
 		
 		f.mColor = colors[ randInt() % colors.size() ];
-		f.mBases = lerp(1.f,14000.f,randFloat()*randFloat());
+		f.mBases = lerp((float)kRandFragMinNumBases,(float)kRandFragMaxNumBases,randFloat()*randFloat());
 		f.mMass  = randFloat();
+		f.mAspectRatio = 1.f;
+		
+		if ( randInt() % 3 == 0 )
+		{
+			f.mAspectRatio = 1.f + (kRandFragMaxAspect-1.f) * randFloat();
+		}
 		
 		mSample->mFragments.push_back(f);
 		
@@ -338,16 +344,18 @@ void SampleView::tickSim( float dt )
 	
 	// census
 	vector<int> pop;
+	vector<int> alivepop;
 	vector<float> cullChance;
 	cullChance.resize(mFragments.size(),0);
 	pop.resize(mFragments.size(),0);
-
+	alivepop.resize(mFragments.size(),0);
 	
 	for ( const auto &p : mParts )
 	{
 		if ( p.mFragment>=0 && p.mFragment<pop.size() )
 		{
 			pop[p.mFragment]++;
+			if (p.mAlive) alivepop[p.mFragment]++;
 		}
 	}
 	
@@ -357,14 +365,14 @@ void SampleView::tickSim( float dt )
 		int targetPop = max( 1, mFragments[f].mTargetPop );
 		
 		// make (1 this frame)
-		if ( pop[f] < targetPop  )
+		if ( alivepop[f] < targetPop  )
 		{
 			Part p;
 			
 			p.mLoc  = vec2( randFloat(), randFloat() )
 					* vec2( bounds.getSize() )
 					+ bounds.getUpperLeft();
-			p.mVel  = randVec2() * .5f; 
+			p.mVel  = randVec2() * .5f;
 			
 			p.mAge += randInt(kMaxAge); // stagger ages to prevent simul-fadeout-rebirth
 
@@ -381,9 +389,9 @@ void SampleView::tickSim( float dt )
 		}
 		
 		// cull		
-		if ( pop[f] > targetPop )
+		if ( alivepop[f] > targetPop )
 		{
-			cullChance[f] = (float)(pop[f] - targetPop) / (float)targetPop;
+			cullChance[f] = (float)(alivepop[f] - targetPop) / (float)targetPop;
 		}
 	}
 	
@@ -423,10 +431,19 @@ void SampleView::tickSim( float dt )
 		p.mAngle += p.mAngleVel * dt;
 		
 		// wrap?
-		if ( p.mLoc.x > bounds.x2 ) p.mLoc.x = bounds.x1 + (p.mLoc.x - bounds.x2); 
-		if ( p.mLoc.x < bounds.x1 ) p.mLoc.x = bounds.x2 - (bounds.x1 - p.mLoc.x); 
-		if ( p.mLoc.y > bounds.y2 ) p.mLoc.y = bounds.y1 + (p.mLoc.y - bounds.y2); 
-		if ( p.mLoc.y < bounds.y1 ) p.mLoc.y = bounds.y2 - (bounds.y1 - p.mLoc.y);
+		if (0)
+		{
+			if ( p.mLoc.x > bounds.x2 ) p.mLoc.x = bounds.x1 + (p.mLoc.x - bounds.x2); 
+			if ( p.mLoc.x < bounds.x1 ) p.mLoc.x = bounds.x2 - (bounds.x1 - p.mLoc.x); 
+			if ( p.mLoc.y > bounds.y2 ) p.mLoc.y = bounds.y1 + (p.mLoc.y - bounds.y2); 
+			if ( p.mLoc.y < bounds.y1 ) p.mLoc.y = bounds.y2 - (bounds.y1 - p.mLoc.y);
+		}
+		
+		// kill if out of bounds
+		if ( !p.mAlive && ! bounds.inflated( vec2( max(p.mRadius.x, p.mRadius.y) ) ).contains( p.mLoc ) )
+		{
+			p.mAlive = false;
+		}
 		
 		// sync to frag
 		if (frag)
@@ -445,7 +462,26 @@ void SampleView::tickSim( float dt )
 }
 
 void SampleView::drawSim()
-{	
+{
+	// clip
+	ivec2 scissorLowerLeft, scissorSize; // (0,0) is lower left of window!
+	
+	{
+		vec2 lowerLeftInRoot = childToRoot( getBounds().getLowerLeft() );
+		
+		scissorLowerLeft.x = lowerLeftInRoot.x;
+		scissorLowerLeft.y = getWindowHeight() - lowerLeftInRoot.y; // invert y
+		
+		vec2 upperRightInRoot = childToRoot( getBounds().getUpperRight() );
+		
+		scissorSize.x = upperRightInRoot.x - lowerLeftInRoot.x;
+		scissorSize.y = lowerLeftInRoot.y  - upperRightInRoot.y;
+	}
+	
+	gl::ScopedScissor scissor( scissorLowerLeft, scissorSize );
+	
+	
+	// draw parts
 	for ( const auto &p : mParts )
 	{
 		gl::ScopedModelMatrix modelMatrix;
