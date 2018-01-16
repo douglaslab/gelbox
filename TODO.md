@@ -19,6 +19,7 @@
 - "Bite" effect for degradation.
 - Performance issues
 - Fading/picking issue. (No aging out? No fade out while mouse in view, or near particle?)
+	√ No aging out. See if it's still an issue with Shawn.
 
 ## Per 12/12/17 discussion with Shawn
 - Choose ml amount when inserting into a gel (pipet interface, like click-click (or click-hold) to draw up and click again to put down?)

@@ -19,19 +19,18 @@ class GelView : public View, public DropTargetSource, public std::enable_shared_
 {
 public:
 
-	GelView( GelRef gel ) { setGel(gel); }
+	GelView( GelRef gel );
 	
 	void	setGel( GelRef );
 	GelRef	getGel() { return mGel; }
 	
 	void	draw() override;
 	void	tick( float dt ) override;
-
-	void	mouseUp( ci::app::MouseEvent ) override;
-
-	void	mouseDrag( ci::app::MouseEvent ) override {
-		setFrame( getFrame() + getCollection()->getMouseMoved() );
-	}
+	bool	pick( ci::vec2 ) const override;
+	
+	void	mouseDown( ci::app::MouseEvent ) override;
+	void	mouseUp  ( ci::app::MouseEvent ) override;
+	void	mouseDrag( ci::app::MouseEvent ) override;
 
 	DropTargetRef getDropTarget( glm::vec2 locInFrame ) override;
 
@@ -39,6 +38,13 @@ public:
 	ci::Rectf getLaneRect( int ) const; // in bounds space 
 	
 private:
-	GelRef mGel;
+	GelRef				mGel;
 
+	int					mSelectedMicrotube=-1, mMouseDownMicrotube=-1;
+	
+	ci::gl::TextureRef	mMicrotubeIcon;
+
+	ci::Rectf calcMicrotubeIconRect( int lane ) const;
+	int		  pickMicrotube( ci::vec2 ) const; // local coords
+	
 };

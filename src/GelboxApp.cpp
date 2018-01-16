@@ -48,26 +48,31 @@ void GelboxApp::setup()
 	
 	// gel source palette
 	bool verbosePalette = true;
+	bool loadPalette = false;
 	
-	try
+	if (loadPalette)
 	{
-		vec2 pos(64,64), posDelta(0,128);
-		
-		if (verbosePalette) cout << "Palette path: " << getAssetPath("palette") << endl;
-		
-		for( auto& p : fs::directory_iterator(getAssetPath("palette")) )
+		try
 		{
-			if (verbosePalette) cout << "\t" << p << '\n';
-			fileDrop( FileDropEvent( getWindow(), pos.x, pos.y, {p.path()} ));
-			pos += posDelta;
+			vec2 pos(64,64), posDelta(0,128);
+			
+			if (verbosePalette) cout << "Palette path: " << getAssetPath("palette") << endl;
+			
+			for( auto& p : fs::directory_iterator(getAssetPath("palette")) )
+			{
+				if (verbosePalette) cout << "\t" << p << '\n';
+				fileDrop( FileDropEvent( getWindow(), pos.x, pos.y, {p.path()} ));
+				pos += posDelta;
+			}
 		}
-	}
-	catch (...)
-	{
-		cout << "Could not find palette" << endl;
-	}
+		catch (...)
+		{
+			cout << "Could not find palette" << endl;
+		}
+	}	
 	
-	//
+	// deprecated
+	if (0)
 	{
 		auto ov = make_shared<OperationView>("Degrade",
 			[]( const Sample &s )
@@ -87,6 +92,7 @@ void GelboxApp::setup()
 	}
 
 	// test sample view
+	if (0)
 	{
 		SampleViewRef sv = make_shared<SampleView>();
 		
@@ -132,7 +138,7 @@ void GelboxApp::makeGel( vec2 center )
 
 	// gel
 	auto gel = make_shared<Gel>();
-	gel->setLayout( 300.f, 400.f, 5, 10.f ); // layout in points
+	gel->setLayout( 300.f, 400.f, 7, 10.f ); // layout in points
 	
 	// gel view
 	auto gelView = make_shared<GelView>( gel );

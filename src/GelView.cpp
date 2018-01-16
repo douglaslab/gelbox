@@ -12,6 +12,23 @@
 using namespace ci;
 using namespace std;
 
+GelView::GelView( GelRef gel )
+{
+	setGel(gel);
+	
+	//
+	fs::path iconPath = "microtube1500ul.png";
+	
+	try
+	{
+		mMicrotubeIcon = gl::Texture::create( loadImage( app::getAssetPath(iconPath) ) );
+	}
+	catch (...)
+	{
+		cerr << "ERROR loading icon " << iconPath << endl;
+	}	
+}
+
 
 void GelView::setGel( GelRef gel )
 {
@@ -32,10 +49,37 @@ void GelView::setGel( GelRef gel )
 	}
 }
 
+bool GelView::pick( vec2 p ) const
+{
+	return View::pick(p) || -1 != pickMicrotube( rootToChild(p) );
+}
+
 void GelView::draw()
 {
 	if (!mGel) return;
 
+	// microtubes
+	{
+		for( int i=0; i<mGel->getNumLanes(); ++i )
+		{
+			Rectf r = calcMicrotubeIconRect(i);
+			
+			if (mSelectedMicrotube==i) gl::color(1,1,.5,1.f); 
+			else gl::color(.5,.5,.5,.25f);
+			
+			gl::drawStrokedRect(r);
+			
+			if (mMicrotubeIcon)
+			{
+				Rectf fit(0,0,mMicrotubeIcon->getWidth(),mMicrotubeIcon->getHeight());
+				fit = fit.getCenteredFit(r,true);
+				
+				gl::color(1,1,1);
+				gl::draw( mMicrotubeIcon, fit );
+			}
+		}
+	}
+	
 	// gel background
 //	gl::color(0,0,0,.5f);
 //	gl::draw( mGel->getOutlineAsPolyLine() );
@@ -77,11 +121,27 @@ void GelView::draw()
 	glDisable( GL_POLYGON_SMOOTH );
 }
 
+void GelView::mouseDown( ci::app::MouseEvent e )
+{
+	mMouseDownMicrotube = pickMicrotube( rootToChild(e.getPos()) );
+	
+	if (mMouseDownMicrotube==mSelectedMicrotube) mSelectedMicrotube = -1;
+	else mSelectedMicrotube = mMouseDownMicrotube;
+}
+
 void GelView::mouseUp( ci::app::MouseEvent e )
 {
 	if ( mGel && distance( vec2(e.getPos()), getCollection()->getMouseDownLoc() ) < 1.f )
 	{
 		mGel->setIsPaused( ! mGel->getIsPaused() );
+	}
+}
+
+void GelView::mouseDrag( ci::app::MouseEvent )
+{
+	if ( mMouseDownMicrotube == -1 )
+	{
+		setFrame( getFrame() + getCollection()->getMouseMoved() );
 	}
 }
 
@@ -123,4 +183,36 @@ DropTargetRef GelView::getDropTarget( glm::vec2 locInFrame )
 		return make_shared<DropTargetGelView>( shared_from_this(), pickLane(locInFrame) );
 	}
 	else return 0;
+}
+
+ci::Rectf GelView::calcMicrotubeIconRect( int lane ) const
+{
+	assert( mGel->getNumLanes() >=0 );
+	
+	const float kVGutter = 12.f;
+	const float kPad = 4.f;
+	
+	const float w = getBounds().getWidth() / mGel->getNumLanes();
+	const float h = w;
+	
+	vec2 c = getBounds().getUpperLeft() + vec2(w/2,-h/2);
+	c.x += (float)lane * w; 
+	
+	vec2 size = vec2(w,h) - vec2(kPad);
+	Rectf r( c - size/2.f, c + size/2.f );
+	
+	r += vec2( 0, -kVGutter );
+	
+	return r;
+}
+
+int GelView::pickMicrotube( vec2 p ) const
+{
+	for( int i=0; i<mGel->getNumLanes(); ++i )
+	{
+		Rectf r = calcMicrotubeIconRect(i);
+		
+		if ( r.contains(p) ) return i;
+	}
+	return -1;
 }
