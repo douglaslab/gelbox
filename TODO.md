@@ -15,8 +15,10 @@
 
 ### Particles
 - Make into strings (allow both visualizations?)
-- Fix aspect ratio; should maintain surface area
+√ Fix aspect ratio; should maintain surface area (i fixed by maintaining area; math is hard for surface area)
 - "Bite" effect for degradation.
+- Performance issues
+- Fading/picking issue. (No aging out? No fade out while mouse in view, or near particle?)
 
 ## Per 12/12/17 discussion with Shawn
 - Choose ml amount when inserting into a gel (pipet interface, like click-click (or click-hold) to draw up and click again to put down?)

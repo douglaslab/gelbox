@@ -20,6 +20,7 @@ using namespace ci::app;
 const int kRandFragMinNumBases = 1;
 const int kRandFragMaxNumBases = 14000;
 const float kRandFragMaxAspect = 8.f;
+const bool  kPartSimIsOldAgeDeathEnabled = false;
 
 // ui
 const Color kSelectColor(0,0,0);
@@ -489,7 +490,7 @@ void SampleView::tickSim( float dt )
 			
 			// maybe cull?
 			if (   !frag
-				|| p.mAge > kMaxAge
+				|| (p.mAge > kMaxAge && kPartSimIsOldAgeDeathEnabled)
 				|| randFloat() < cullChance[p.mFragment] // ok to index bc of !frag test above
 				)
 			{
