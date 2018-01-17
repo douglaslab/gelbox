@@ -13,6 +13,7 @@
 - curious how it looks with lower fill opacity on the white "zoom wedge" region, or just lines? once the gel is more populated would gel bands be obscured?
 
 ## Chaim feedback/notes
+- rollover bugs... moving mouse from gel view across sample view to frag editor sometimes results in wrong things selected or highlighted. i think we need ANOTHER variable/overlay for rollover indicated by gel view to get things properly working.
 
 ## New Particle / Fragment Sim + UI
 

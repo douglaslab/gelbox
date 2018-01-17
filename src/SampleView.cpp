@@ -180,6 +180,11 @@ void SampleView::setRolloverFragment( int i )
 	mRolloverFragment = i;	
 }
 
+void SampleView::setHighlightFragment( int i )
+{
+	mHighlightFragment = i;	
+}
+
 void SampleView::showFragmentEditor( int i )
 {
 	if ( isFragment(i) )
@@ -303,7 +308,8 @@ void SampleView::fragmentDidChange( int fragment )
 
 int SampleView::getFocusFragment() const
 {
-	if ( isFragment(mRolloverFragment) ) return mRolloverFragment;
+	if ( isFragment(mHighlightFragment) ) return mHighlightFragment;
+	if ( isFragment(mRolloverFragment ) ) return mRolloverFragment;
 	else return mSelectedFragment;
 }
 
@@ -320,6 +326,7 @@ void SampleView::tick( float dt )
 	{
 		setRolloverFragment( pickFragment( rootToChild(getMouseLoc()) ) );
 	}
+	else setRolloverFragment(-1);
 	
 	// deselect?
 	if ( isFragment(mSelectedFragment) && !getHasKeyboardFocus() )
@@ -327,11 +334,10 @@ void SampleView::tick( float dt )
 		selectFragment(-1);
 	}
 
-	// fragment editor on hover/selection -- can enable/disable this feature on its own
+	// fragment editor on highlight/hover/selection -- can enable/disable this feature on its own
 	if (1)
 	{
-		if ( isFragment(mRolloverFragment) ) showFragmentEditor(mRolloverFragment);
-		else showFragmentEditor(mSelectedFragment);  
+		showFragmentEditor( getFocusFragment() );
 	}
 }
 
@@ -339,7 +345,9 @@ void SampleView::syncToModel()
 {
 	if (mSample)
 	{
-		mFragments.resize( mSample->mFragments.size() );
+		mFragments    .resize( mSample->mFragments.size() );
+		mFragPopScale .resize( mSample->mFragments.size(),  1.f );
+		mFragSpeedBias.resize( mSample->mFragments.size(), -1.f );
 		
 		for( int i=0; i<mFragments.size(); ++i )
 		{
@@ -461,6 +469,7 @@ SampleView::randomPart( int f )
 	p.mLoc  = vec2( mRand.nextFloat(), mRand.nextFloat() )
 			* vec2( getBounds().getSize() )
 			+ getBounds().getUpperLeft();
+			
 	p.mVel  = mRand.nextVec2() * .5f;
 	
 	p.mAge += mRand.nextInt(kMaxAge); // stagger ages to prevent simul-fadeout-rebirth
@@ -473,6 +482,8 @@ SampleView::randomPart( int f )
 	p.mColor  = mFragments[p.mFragment].mColor ; 
 	
 	p.mDegradeSizeKey = mRand.nextFloat();
+	
+	if ( mFragSpeedBias[f] != -1.f ) p.mDegradeSizeKey = 1.f - mFragSpeedBias[f];
 	
 	Part::Multi m;
 	p.mMulti.push_back(m);
@@ -520,7 +531,11 @@ void SampleView::tickSim( float dt )
 	// update population counts
 	for( int f = 0; f<mFragments.size(); ++f )
 	{
-		int targetPop = max( 1, mFragments[f].mTargetPop ) * (float)mPopDensityScale ;
+		float popScale = (float)mPopDensityScale;
+		
+		if ( f < mFragPopScale.size() ) popScale *= mFragPopScale[f];
+		
+		int targetPop = max( 1, mFragments[f].mTargetPop ) * popScale ;
 		
 		// make (1 this frame)
 		if ( alivepop[f] < targetPop  )
@@ -650,7 +665,10 @@ void SampleView::drawSim()
 			}
 			
 			const bool selected = isFragment(p.mFragment) && p.mFragment == mSelectedFragment;
-			const bool rollover = isFragment(p.mFragment) && p.mFragment == mRolloverFragment;
+			
+			const bool rollover = isFragment(p.mFragment) &&
+								 (p.mFragment == mRolloverFragment ||
+								  p.mFragment == mHighlightFragment );
 			 
 			if ( selected || rollover )
 			{

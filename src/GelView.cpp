@@ -14,6 +14,7 @@ using namespace ci;
 using namespace std;
 
 const bool kEnableDrag = false;
+const bool kBandRolloverOpensSampleView = false;
 
 GelView::GelView( GelRef gel )
 {
@@ -361,6 +362,22 @@ void GelView::updateGelDetailView( vec2 withSampleAtPos )
 			mGelDetailViewAtPos = withSampleAtPos;
 			mGelDetailView->clearParticles();
 			
+			// tweak population count
+			for( auto &s : mGelDetailView->getFragPopScale() ) s=0.f; // zero all 
+			
+			auto bands = pickBands(withSampleAtPos);
+			
+			for( auto b : bands )
+			{
+				// pump up what we found
+				assert( mGelDetailView->getFragPopScale().size() > b.mFragment );
+				
+				float speedBias = (withSampleAtPos.y - b.mBounds.getY1()) / b.mBounds.getHeight() ;
+				
+				mGelDetailView->getFragPopScale ()[b.mFragment] = 1.f;
+				mGelDetailView->getFragSpeedBias()[b.mFragment] = speedBias;
+			}
+			
 			// insure fully spawned
 			mGelDetailView->prerollSim();
 		}
@@ -377,22 +394,27 @@ void GelView::tick( float dt )
 	}
 	
 	
-	vec2 localMouseLoc = rootToChild(getMouseLoc()); 
+	vec2 localMouseLoc  = rootToChild(getMouseLoc()); 
+	vec2 parentMouseLoc = childToParent(localMouseLoc);
 	
 	// band rollover
-	if ( getHasRollover() )
 	{
+		int pickedLane = pickLane(parentMouseLoc);
 		Gel::Band band;
 		
-		if ( pickBand( localMouseLoc, band ) )
+		if ( getHasRollover() && pickBand( localMouseLoc, band ) )
 		{
-			selectMicrotube(band.mLane);
-			if (mSampleView) mSampleView->setRolloverFragment(band.mFragment);
+			if (kBandRolloverOpensSampleView) selectMicrotube(band.mLane);
+			
+			if (mSampleView && mSelectedMicrotube == pickedLane) 
+			{
+				mSampleView->setHighlightFragment(band.mFragment);
+			}
 		}
-		else if (mSampleView) mSampleView->setRolloverFragment(-1);
+		else if (mSampleView) mSampleView->setHighlightFragment(-1);
 	}
 	
-	// gel rollover
+	// gel detail rollover
 	{
 		if ( getHasRollover() && pickLane(getMouseLoc()) != -1 )
 		{
@@ -499,7 +521,7 @@ bool GelView::pickBand( vec2 loc, Gel::Band& picked ) const
 		
 		if ( h < smallest )
 		{
-			picked = b[0];
+			picked   = x;
 			smallest = h;
 		}
 	}

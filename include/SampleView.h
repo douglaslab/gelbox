@@ -57,7 +57,7 @@ public:
 
 	// public so gelview can twiddle what is highlighted
 	void selectFragment( int i );
-	void setRolloverFragment( int i );
+	void setHighlightFragment( int i );
 	
 	// options so we can make frozen gel callout views 
 	void setIsNewBtnEnabled( bool v ) { mNewBtnEnabled=v; }
@@ -66,6 +66,9 @@ public:
 	void setSimTimeScale( float s) { mSimTimeScale=s; }
 	void clearParticles() { mParts.clear(); }
 	void setRand( ci::Rand r ) { mRand = r; }
+	
+	std::vector<float>& getFragPopScale () { return mFragPopScale ; }
+	std::vector<float>& getFragSpeedBias() { return mFragSpeedBias; }
 	
 private:
 
@@ -76,6 +79,8 @@ private:
 	void closeFragEditor();
 	void openFragEditor();
 	void syncToModel(); // updates mFragments to match mSample
+
+	void setRolloverFragment( int i );
 	
 	glm::vec2		mAnchor; // anchor for callout. in frame (parent) space
 	ci::PolyLine2   mCallout;
@@ -83,6 +88,7 @@ private:
 	SampleRef		mSample; // source data
 	int				mSelectedFragment=-1;
 	int				mRolloverFragment=-1;
+	int				mHighlightFragment=-1;
 	
 	bool			mNewBtnEnabled=true;
 	glm::vec2		mNewBtnLoc;
@@ -151,6 +157,9 @@ private:
 	
 	std::vector<Frag> mFragments;	
 	std::vector<Part> mParts;
+	
+	std::vector<float> mFragPopScale;
+	std::vector<float> mFragSpeedBias; // -1 for none, 0 for big + slow, 1 for small + fast 
 	
 	float mPopDensityScale=1.f;
 	float mSimTimeScale   =1.f;
