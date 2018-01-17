@@ -15,6 +15,9 @@
 class GelView;
 typedef std::shared_ptr<GelView> GelViewRef;
 
+class SampleView;
+typedef std::shared_ptr<SampleView> SampleViewRef;
+
 class GelView : public View, public DropTargetSource, public std::enable_shared_from_this<GelView>
 {
 public:
@@ -43,8 +46,14 @@ private:
 	int					mSelectedMicrotube=-1, mMouseDownMicrotube=-1;
 	
 	ci::gl::TextureRef	mMicrotubeIcon;
+		
+	SampleViewRef		mSampleView;
+	
+	ci::Rectf	calcMicrotubeIconRect( int lane ) const;
+	int			pickMicrotube( ci::vec2 ) const; // local coords
 
-	ci::Rectf calcMicrotubeIconRect( int lane ) const;
-	int		  pickMicrotube( ci::vec2 ) const; // local coords
+	void		selectMicrotube( int );
+	void		openSampleView();
+	void		closeSampleView();
 	
 };

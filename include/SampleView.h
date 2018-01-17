@@ -13,6 +13,9 @@
 class Sample;
 typedef std::shared_ptr<Sample> SampleRef;
 
+class GelView;
+typedef std::shared_ptr<GelView> GelViewRef;
+
 class SampleView;
 typedef std::shared_ptr<SampleView> SampleViewRef;
 
@@ -25,6 +28,10 @@ class SampleView : public View, public std::enable_shared_from_this<SampleView>
 public:
 
 	SampleView();
+	
+	void setGelView( GelViewRef v ) { mGelView=v; }
+	
+	void close(); // removes from view, closes frag editor if any
 	
 	void setCalloutAnchor( glm::vec2 p ) { mAnchor=p; updateCallout(); }
 	void setSample( SampleRef s ) { mSample=s; syncToModel(); }
@@ -43,6 +50,8 @@ public:
 	
 	void newFragment();
 	void deleteFragment( int i ); // fades out instances
+	
+	void fragmentDidChange( int frag ); // -1 for we deleted one; in practice ignores frag 
 	
 private:
 
@@ -66,7 +75,8 @@ private:
 	float			mNewBtnRadius;
 	ci::gl::TextureRef mNewBtnImage;
 	
-	// fragment editor
+	// other views
+	GelViewRef		mGelView;
 	FragmentViewRef mFragEditor;
 	
 	// particle sim

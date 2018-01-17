@@ -28,7 +28,8 @@ void DropTargetGelView::receive( const Sample& s )
 {
 	if ( mGelView && mGelView->getGel() )
 	{
-		mGelView->getGel()->insertSample( s, mGelViewLane );
+		assert( 0 && "DropTargetGelView::receive() deprecated; refactor needed" );
+//		mGelView->getGel()->insertSample( s, mGelViewLane );
 	}
 }
 

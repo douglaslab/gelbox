@@ -8,9 +8,12 @@
 
 #include "GelView.h"
 #include "DropTarget.h" 
+#include "SampleView.h"
 
 using namespace ci;
 using namespace std;
+
+const bool kEnableDrag = false;
 
 GelView::GelView( GelRef gel )
 {
@@ -69,7 +72,7 @@ void GelView::draw()
 			
 			gl::drawStrokedRect(r);
 			
-			if (mMicrotubeIcon)
+			if (mMicrotubeIcon && mGel->getSamples()[i])
 			{
 				Rectf fit(0,0,mMicrotubeIcon->getWidth(),mMicrotubeIcon->getHeight());
 				fit = fit.getCenteredFit(r,true);
@@ -125,8 +128,8 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 {
 	mMouseDownMicrotube = pickMicrotube( rootToChild(e.getPos()) );
 	
-	if (mMouseDownMicrotube==mSelectedMicrotube) mSelectedMicrotube = -1;
-	else mSelectedMicrotube = mMouseDownMicrotube;
+	if (mMouseDownMicrotube==mSelectedMicrotube) selectMicrotube(-1);
+	else selectMicrotube( mMouseDownMicrotube );
 }
 
 void GelView::mouseUp( ci::app::MouseEvent e )
@@ -139,9 +142,67 @@ void GelView::mouseUp( ci::app::MouseEvent e )
 
 void GelView::mouseDrag( ci::app::MouseEvent )
 {
-	if ( mMouseDownMicrotube == -1 )
+	if ( mMouseDownMicrotube == -1 && kEnableDrag )
 	{
 		setFrame( getFrame() + getCollection()->getMouseMoved() );
+	}
+}
+
+void GelView::selectMicrotube( int i )
+{
+	if ( mSelectedMicrotube != i )
+	{
+		mSelectedMicrotube = i;
+		
+		closeSampleView();
+		
+		if (mSelectedMicrotube != -1) openSampleView();
+	}	
+}
+
+void GelView::openSampleView()
+{
+	if ( mSampleView ) closeSampleView();
+	
+	int tube = mSelectedMicrotube;
+
+	if ( tube != -1 )
+	{
+		// make view
+		mSampleView = make_shared<SampleView>();
+		mSampleView->setGelView( shared_from_this() );
+		
+		// layout + add
+		vec2 size(400.f,400.f);
+		
+		mSampleView->setBounds( Rectf( vec2(0,0), size ) );
+		
+		Rectf frame = mSampleView->getBounds();
+		frame.offsetCenterTo(
+			vec2( getFrame().getX2(),getFrame().getCenter().y )
+			+ vec2(size.x/2 + 32.f,0.f) );
+		
+		mSampleView->setFrame( frame );
+		
+		mSampleView->setCalloutAnchor( childToRoot( calcMicrotubeIconRect(tube).getCenter() ) );
+
+		getCollection()->addView(mSampleView);
+		
+		// make + set sample
+		if ( ! mGel->getSamples()[tube] )
+		{
+			mGel->getSamples()[tube] = make_shared<Sample>();
+		}
+		mSampleView->setSample( mGel->getSamples()[tube] );
+	}
+}
+
+void GelView::closeSampleView()
+{
+	if ( mSampleView )
+	{
+		mSampleView->close();
+		mSampleView=0;
 	}
 }
 

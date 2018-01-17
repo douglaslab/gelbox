@@ -6,10 +6,13 @@
 //
 //
 
-#include "SampleView.h"
-#include "FragmentView.h"
 #include "cinder/ConvexHull.h"
 #include "cinder/Rand.h"
+
+#include "SampleView.h"
+#include "FragmentView.h"
+#include "GelView.h"
+#include "Tuning.h"
 
 using namespace std;
 using namespace ci;
@@ -21,6 +24,7 @@ const int kRandFragMinNumBases = 1;
 const int kRandFragMaxNumBases = 14000;
 const float kRandFragMaxAspect = 8.f;
 const bool  kPartSimIsOldAgeDeathEnabled = false;
+const int kNumPartsPerMassHigh = 50;
 
 // ui
 const Color kSelectColor(0,0,0);
@@ -53,7 +57,13 @@ SampleView::SampleView()
 	catch (...)
 	{
 		cerr <<  "ERROR loading new btn image "  << newBtnPath << endl;
-	}	
+	}
+}
+
+void SampleView::close()
+{
+	closeFragEditor();
+	getCollection()->removeView( shared_from_this() );
 }
 
 void SampleView::draw()
@@ -67,6 +77,12 @@ void SampleView::draw()
 		
 		gl::color(1,1,1,.8);
 		gl::drawSolid(mCallout);
+
+		if (1)
+		{
+			gl::color(0,0,0,.15);
+			gl::draw(mCallout);
+		}
 	}	
 
 	// focus
@@ -180,6 +196,8 @@ void SampleView::openFragEditor()
 		
 		mFragEditor->setFrameAndBoundsWithSize( frame );
 		
+		mFragEditor->setSampleView( shared_from_this() );
+		
 		getCollection()->addView(mFragEditor);
 	}
 }
@@ -265,6 +283,14 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 	}
 }
 
+void SampleView::fragmentDidChange( int fragment )
+{
+	if ( mGelView && mGelView->getGel() )
+	{
+		mGelView->getGel()->syncBandsToSample(mSample);
+	}
+}
+
 void SampleView::tick( float dt )
 {
 	syncToModel();
@@ -305,7 +331,7 @@ void SampleView::syncToModel()
 			auto  s = mSample->mFragments[i];
 			
 			f.mColor		= s.mColor;
-			f.mTargetPop	= max( 1.f, s.mMass * 50.f ); // ??? just assuming 0..1 for now
+			f.mTargetPop	= max( 1.f, (s.mMass/kSampleMassHigh) * kNumPartsPerMassHigh );
 			f.mAggregate	= s.mAggregate;
 			
 			// radius
@@ -352,6 +378,7 @@ void SampleView::newFragment()
 		}
 		
 		mSample->mFragments.push_back(f);
+		fragmentDidChange(mSample->mFragments.size()-1);
 		
 		syncToModel();
 	}
@@ -402,7 +429,10 @@ void SampleView::deleteFragment( int i )
 			{
 				p.mFragment = to;
 			}
-		}		
+		}
+		
+		//	
+		fragmentDidChange(-1);			
 	}
 }
 

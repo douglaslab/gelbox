@@ -71,6 +71,7 @@
 		2693E3252000415300633564 /* SampleView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SampleView.cpp; path = ../src/SampleView.cpp; sourceTree = "<group>"; };
 		2693E3272004018B00633564 /* FragmentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FragmentView.h; path = ../include/FragmentView.h; sourceTree = "<group>"; };
 		2693E3282004019800633564 /* FragmentView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FragmentView.cpp; path = ../src/FragmentView.cpp; sourceTree = "<group>"; };
+		26A4B745200ED0C300D2119E /* Tuning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Tuning.h; path = ../include/Tuning.h; sourceTree = "<group>"; };
 		26CEEA5E1FE860B7003AAE8D /* OperationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OperationView.h; path = ../include/OperationView.h; sourceTree = "<group>"; };
 		26CEEA5F1FE860E2003AAE8D /* NodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NodeView.h; path = ../include/NodeView.h; sourceTree = "<group>"; };
 		26CEEA601FE86151003AAE8D /* Interaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Interaction.h; path = ../include/Interaction.h; sourceTree = "<group>"; };
@@ -229,6 +230,7 @@
 				26CEEA601FE86151003AAE8D /* Interaction.h */,
 				26CEEA651FE86829003AAE8D /* DropTarget.h */,
 				26CEEA691FE873D8003AAE8D /* Interactions.h */,
+				26A4B745200ED0C300D2119E /* Tuning.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";

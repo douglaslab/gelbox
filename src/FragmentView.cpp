@@ -8,6 +8,8 @@
 
 #include "FragmentView.h"
 #include "Sample.h"
+#include "SampleView.h"
+#include "Tuning.h"
 
 using namespace std;
 using namespace ci;
@@ -114,6 +116,8 @@ FragmentView::FragmentView()
 		};
 		
 		// ??? what should mapping be?
+		concentration.mValueMappedLo = 0.f;
+		concentration.mValueMappedHi = kSampleMassHigh;
 		concentration.mSetter = []( Sample::Fragment& f, float v ) {
 			f.mMass = v;  
 		};
@@ -303,6 +307,8 @@ void FragmentView::syncModelToSlider( Slider& s ) const
 			
 			s.mSetter( mEditSample->mFragments[mEditFragment], value );			
 		}
+
+		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
 	}
 }
 
@@ -311,6 +317,8 @@ void FragmentView::syncModelToColor() const
 	if ( isEditFragmentValid() && mSelectedColor >= 0 && mSelectedColor < mColors.size() )
 	{
 		mEditSample->mFragments[mEditFragment].mColor = mColors[ mSelectedColor ];
+		
+		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
 	}
 }
 

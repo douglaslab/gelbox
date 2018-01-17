@@ -15,6 +15,8 @@
 #include "cinder/Color.h"
 
 class Sample;
+typedef std::shared_ptr<Sample> SampleRef;
+
 class Gel;
 typedef std::shared_ptr<Gel> GelRef;
 
@@ -26,6 +28,8 @@ public:
 	class Band
 	{
 	public:
+		int			mLane		= -1;
+		
 		glm::vec2	mStartLoc;
 		
 		int			mBases		= 0;
@@ -45,8 +49,8 @@ public:
 		int			numLanes,
 		float		ymargin );
 	
-	void insertSample( const Sample&, int lane ); // at current time
-	void clearSamples();
+	std::vector<SampleRef>&	getSamples() { return mSamples; }
+	void  syncBandsToSample( SampleRef ); // tell us when SampleRef changed...
 	
 	void  stepTime( float dt );
 	
@@ -65,12 +69,16 @@ public:
 	
 private:
 	
+	std::vector<SampleRef>	mSamples;
+	
 	void updateBandsWithTime( float t );
 	ci::Rectf calcBandBounds( const Band& ) const;
 	
 	float normalizeBases( int bases ) const; // 0...10000 mapped to 0...1
 	float getYForNormalizedBases( float normalizedBases, float t ) const; // t=1.f means when done
 	
+	void insertSample( const Sample&, int lane ); // at current time
+	void clearSamples( int lane );	
 	
 	std::vector<Band>		mBands;
 

@@ -8,6 +8,7 @@
 
 #include "Gel.h"
 #include "Sample.h"
+#include "Tuning.h"
 
 using namespace std;
 using namespace ci;
@@ -26,7 +27,35 @@ void Gel::setLayout(
 	mSize = vec2( lane_dimension, pos_elec_dimension );
 	
 	mNumLanes  = numLanes;
-	mLaneWidth = mSize.x / (float)numLanes; 
+	mLaneWidth = mSize.x / (float)numLanes;
+	
+	mSamples.resize(numLanes);
+}
+
+void Gel::syncBandsToSample( SampleRef sample )
+{
+	int lane=-1;
+	
+	// find
+	for( int i=0; i<mNumLanes; ++i )
+	{
+		if ( mSamples[i] == sample )
+		{
+			lane=i;
+			break;
+		}
+	}
+	
+	// check
+	assert( lane >= 0 && lane < mNumLanes );
+	
+	// update
+	clearSamples(lane);
+	
+	if ( mSamples[lane] )
+	{
+		insertSample( *mSamples[lane], lane );
+	}
 }
 
 void Gel::insertSample( const Sample& src, int lane )
@@ -41,6 +70,8 @@ void Gel::insertSample( const Sample& src, int lane )
 	{
 		Band b;
 
+		b.mLane			= lane;
+		
 		b.mBases		= frag.mBases;
 		b.mMass			= frag.mMass;
 		b.mDegrade		= frag.mDegrade;
@@ -48,7 +79,7 @@ void Gel::insertSample( const Sample& src, int lane )
 		b.mStartLoc		= laneLoc;
 		
 		// calculate alpha
-		float a = min( 1.f, b.mMass / 125.f ); // alpha set to mass 125ml
+		float a = min( 1.f, b.mMass / kSampleMassHigh ); // alpha set to mass / 125ml
 		
 		if (b.mDegrade > 1.f) a *= min( b.mDegrade - 1.f, 1.f ); // degrade alpha
 		
@@ -63,9 +94,16 @@ void Gel::insertSample( const Sample& src, int lane )
 	}
 }
 
-void Gel::clearSamples()
+void Gel::clearSamples( int lane )
 {
-	mBands.clear();
+	std::vector<Band> nb;
+	
+	for( const auto &b : mBands )
+	{
+		if (b.mLane != lane) nb.push_back(b);
+	}
+	
+	mBands = nb;
 }
 
 void Gel::stepTime ( float dt )

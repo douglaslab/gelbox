@@ -90,26 +90,6 @@ void GelboxApp::setup()
 		
 		mViews.addView(ov);
 	}
-
-	// test sample view
-	if (0)
-	{
-		SampleViewRef sv = make_shared<SampleView>();
-		
-		vec2 size(400.f,400.f);
-		
-		sv->setBounds( Rectf( vec2(0,0), size ) );
-		
-		Rectf frame = sv->getBounds();
-		frame.offsetCenterTo( vec2(getWindowWidth()/2, getWindowHeight()/2) );
-		
-		sv->setFrame( frame );
-		
-		sv->setCalloutAnchor( vec2(32,32) );
-		sv->setSample( std::make_shared<Sample>() ); // make a dummy sample to play with
-		
-		mViews.addView(sv);
-	}
 }
 
 void GelboxApp::makeGel( vec2 center )
