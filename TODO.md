@@ -4,9 +4,17 @@
 - Degradation UI
 	- Some kind of flow chart UI for seeing live outcomes? maybe shift drag or something, so it's not immediately apparent, but direct manpulation is?
 
+## Shawn rolling feedback:
+
+### 1/16/2018
+- the aspect ratio has a relatively small effect on mobility, maybe 10-20% as much as size.
+- we might think about how to specify discrete aggregation (which might make a mixed population of monomers, dimers, timers, etc) and transient aggregation which makes things smear out
+- we should add the gel "wells" at some point, in addition to the tube (you might revisit some online animations if we haven't discussed for a while). max aggregation causes stuff to all get stuck in the well.
+- curious how it looks with lower fill opacity on the white "zoom wedge" region, or just lines? once the gel is more populated would gel bands be obscured?
+
 ## New Particle / Fragment Sim + UI
 
-- Clean up deprecated UI, etc... from milestone 1
+√ Clean up deprecated UI, etc... from milestone 1
 
 ### Icons
 - Fix aliased icons

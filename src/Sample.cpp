@@ -7,6 +7,7 @@
 //
 
 #include "Sample.h"
+#include <cstdlib>
 
 using namespace std;
 using namespace ci;
@@ -40,6 +41,19 @@ Sample::loadXml( const XmlTree& xml )
 			
 			return def;
 		};
+
+		auto childAttrValueColor = []( const XmlTree& xml, std::string child, Color def )
+		{
+			if ( xml.hasChild(child) )
+			{
+				auto j = xml.getChild(child);
+				string s = j.getAttributeValue("value",string("000000"));
+				
+				def = Color::hex( strtoul( s.data(), 0, 16 ) );
+			}
+			
+			return def;
+		};
 		
 		for ( auto i = root.begin("Fragment"); i != root.end(); ++i )
 		{
@@ -48,6 +62,8 @@ Sample::loadXml( const XmlTree& xml )
 			k.mBases	= childAttrValue( *i, "Bases",		k.mBases	);
 			k.mMass		= childAttrValue( *i, "Mass",		k.mMass		);
 			k.mDegrade	= childAttrValue( *i, "Degrade",	k.mDegrade	);
+			
+			k.mColor	= childAttrValueColor( *i, "Color",		k.mColor	);
 			
 			mFragments.push_back(k);
 			

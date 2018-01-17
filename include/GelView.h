@@ -39,7 +39,7 @@ public:
 
 	int		pickLane ( ci::vec2 ) const;	// loc in frame space
 	ci::Rectf getLaneRect( int ) const; // in bounds space 
-	
+
 private:
 	GelRef				mGel;
 
@@ -51,6 +51,8 @@ private:
 	
 	ci::Rectf	calcMicrotubeIconRect( int lane ) const;
 	int			pickMicrotube( ci::vec2 ) const; // local coords
+
+	std::vector<Gel::Band> pickBands( ci::vec2 ) const; // local coords
 
 	void		selectMicrotube( int );
 	void		openSampleView();

@@ -10,59 +10,70 @@
 	<Fragment>
 		<Mass  value="42"/>
 		<Bases value="10002"/>
+		<Color value="333333"/>
 	</Fragment>
 
 	<Fragment>
 		<Mass  value="42"/>
 		<Bases value="8001"/>
+		<Color value="0066cc"/>
 	</Fragment>
 
 	<Fragment>
 		<Mass  value="50"/>
 		<Bases value="6001"/>
+		<Color value="cc0000"/>
 	</Fragment>
 
 	<Fragment>
 		<Mass  value="42"/>
 		<Bases value="5001"/>
+		<Color value="f74308"/>
 	</Fragment>
 
 	<Fragment>
 		<Mass  value="33"/>
 		<Bases value="4001"/>
+		<Color value="f7931e"/>
 	</Fragment>
 
 	<Fragment>
 		<Mass  value="125"/>
 		<Bases value="3001"/>
+		<Color value="aaaa00"/>
 	</Fragment>
 
 	<Fragment>
 		<Mass  value="48"/>
 		<Bases value="2000"/>
+		<Color value="57bb00"/>
 	</Fragment>
 
 	<Fragment>
 		<Mass  value="36"/>
 		<Bases value="1500"/>
+		<Color value="007200"/>
 	</Fragment>
 
 	<Fragment>
 		<Mass  value="42"/>
 		<Bases value="1000"/>
+		<Color value="03b6a2"/>
 	</Fragment>
 
 	<Fragment>
 		<Mass  value="21"/>
 		<Bases value="517"/>
+		<Color value="1700de"/>
 	</Fragment>
 
 	<Fragment>
 		<Mass  value="21"/>
 		<Bases value="500"/>
+		<Color value="7300de"/>
 	</Fragment>
 	
-	
+
 <!--	<Fragment>-->
 <!--		<Bases value="10000">-->
 <!--		<MoleculeCount value="1">-->

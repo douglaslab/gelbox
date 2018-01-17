@@ -310,3 +310,18 @@ int GelView::pickMicrotube( vec2 p ) const
 	}
 	return -1;
 }
+
+std::vector<Gel::Band> GelView::pickBands( vec2 loc ) const
+{
+	std::vector<Gel::Band> r;
+	
+	if (mGel)
+	{
+		for( auto b : mGel->getBands() )
+		{
+			if (b.mBounds.contains(loc)) r.push_back(b);
+		}
+	}
+	
+	return r;
+}

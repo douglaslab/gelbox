@@ -156,6 +156,19 @@ void GelboxApp::makeGel( vec2 center )
 		
 		mViews.addView(timelineView);
 	}
+	
+	// add samples
+	try
+	{
+		fs::path ladder = getAssetPath("palette") / "1kbladder.xml";
+		
+		SampleRef sample = loadSample( ladder );
+		
+		gel->setSample( sample, 0 );
+	}
+	catch (...) {
+		cerr << "ERROR loading 1kb ladder" << endl;
+	}
 }
 
 DropTargetRef GelboxApp::pickDropTarget( ci::vec2 loc ) const
@@ -306,6 +319,39 @@ void GelboxApp::draw()
 	//
 	if ( Interaction::get() ) Interaction::get()->draw();
 }
+
+SampleRef GelboxApp::loadSample( ci::fs::path path ) const
+{
+	std::string ext = path.extension().string();
+	SampleRef source;
+	
+	// xml?
+	if ( ext == ".xml" )
+	{
+		try
+		{
+			XmlTree xml( loadFile(path) );
+			
+			// Sample?
+			if ( xml.hasChild(Sample::kRootXMLNodeName) )
+			{
+				source = std::make_shared<Sample>(xml);
+			}
+			else
+			{
+				cerr << "ERROR xml for sample " << path << " has no root '"
+					 << Sample::kRootXMLNodeName << "'" << endl;
+			}
+		}
+		catch(...)
+		{
+			cerr << "ERROR could not parse xml for sample " << path << endl; 
+		}
+	}
+	else cerr << "ERROR sample " << path << " is not .xml file" << endl;
+	
+	return source;
+}	
 
 #if defined( CINDER_MSW ) && ! defined( CINDER_GL_ANGLE )
 auto options = RendererGl::Options().version( 3, 3 ); // instancing functions are technically only in GL 3.3

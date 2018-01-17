@@ -46,5 +46,8 @@ class GelboxApp : public ci::app::App {
 	ViewCollection		mViews;
 
 	static GelboxApp*	mInstance;
+
+
+	SampleRef loadSample( ci::fs::path ) const;	
 	
 };
