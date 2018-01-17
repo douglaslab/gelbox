@@ -53,7 +53,8 @@ private:
 	int			pickMicrotube( ci::vec2 ) const; // local coords
 
 	std::vector<Gel::Band> pickBands( ci::vec2 ) const; // local coords
-
+	bool		pickBand( ci::vec2, Gel::Band& picked ) const;
+	
 	void		selectMicrotube( int lane );
 	void		openSampleView(); 
 	void		closeSampleView();

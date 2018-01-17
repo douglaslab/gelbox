@@ -149,26 +149,41 @@ void GelView::draw()
 
 void GelView::mouseDown( ci::app::MouseEvent e )
 {
-	bool toggle = true;
+	vec2 localPos = rootToChild(e.getPos());
+	Gel::Band band;
 	
-	// pick tube icon
-	mMouseDownMicrotube = pickMicrotube( rootToChild(e.getPos()) );
+	// pick tube icon	
+	mMouseDownMicrotube = pickMicrotube( localPos );
 	
-	// else pick lane if sample exists
-	if (mMouseDownMicrotube==-1)
+	if ( mMouseDownMicrotube != -1 )
+	{	
+		// select (w/ toggle)
+		if (mMouseDownMicrotube==mSelectedMicrotube) selectMicrotube(-1);
+		else selectMicrotube( mMouseDownMicrotube );		
+	}
+	// else pick band
+	else if ( pickBand(localPos,band) )
+	{
+		mMouseDownMicrotube = band.mLane;
+		selectMicrotube(band.mLane);
+		
+		if (mSampleView)
+		{
+			mSampleView->selectFragment(band.mFragment);
+			getCollection()->setKeyboardFocusView(mSampleView); // for consistency; also, it will auto-deselect otherwise
+		}
+	}
+	// else pick lane
+	else
 	{
 		int lane = pickLane(e.getPos());
 		
 		if ( lane != -1 && mGel && mGel->getSamples()[lane] )
 		{
 			mMouseDownMicrotube = lane;
-			toggle = false;
+			selectMicrotube(mMouseDownMicrotube); // select
 		}
 	}
-	
-	// select
-	if (mMouseDownMicrotube==mSelectedMicrotube && toggle) selectMicrotube(-1);
-	else selectMicrotube( mMouseDownMicrotube );
 }
 
 void GelView::mouseUp( ci::app::MouseEvent e )
@@ -269,13 +284,14 @@ void GelView::tick( float dt )
 	// band rollover
 	if ( getHasRollover() )
 	{
-		auto bands = pickBands( rootToChild(getMouseLoc()) );
+		Gel::Band band;
 		
-		if ( !bands.empty() )
+		if ( pickBand( rootToChild(getMouseLoc()),band) )
 		{
-			selectMicrotube(bands[0].mLane);
-			if (mSampleView) mSampleView->setRolloverFragment(bands[0].mFragment);
+			selectMicrotube(band.mLane);
+			if (mSampleView) mSampleView->setRolloverFragment(band.mFragment);
 		}
+		else if (mSampleView) mSampleView->setRolloverFragment(-1);
 	}
 }
 
@@ -354,4 +370,27 @@ std::vector<Gel::Band> GelView::pickBands( vec2 loc ) const
 	}
 	
 	return r;
+}
+
+bool GelView::pickBand( vec2 loc, Gel::Band& picked ) const
+{
+	auto b = pickBands(loc);
+	
+	if (b.empty()) return false;
+	
+	// pick smallest
+	float smallest = MAXFLOAT; 
+	
+	for( auto x : b )
+	{
+		float h = x.mBounds.getHeight();
+		
+		if ( h < smallest )
+		{
+			picked = b[0];
+			smallest = h;
+		}
+	}
+	
+	return true;
 }

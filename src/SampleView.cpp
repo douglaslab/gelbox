@@ -380,8 +380,9 @@ void SampleView::newFragment()
 		
 		f.mColor = colors[ randInt() % colors.size() ];
 		f.mBases = lerp((float)kRandFragMinNumBases,(float)kRandFragMaxNumBases,randFloat()*randFloat());
-		f.mMass  = randFloat();
+		f.mMass  = randFloat() * kSampleMassHigh;
 		f.mAspectRatio = 1.f;
+		f.mDegrade = randFloat() * randFloat() * randFloat() * .25f;
 		
 		if ( randInt() % 3 == 0 )
 		{
