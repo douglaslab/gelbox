@@ -93,10 +93,13 @@ public:
 	glm::vec2 getMouseDownLoc() const;
 	
 protected:
-	glm::ivec2 getScissorLowerLeft( ci::Rectf ) const;
-	glm::ivec2 getScissorSize( ci::Rectf ) const;
-	glm::ivec2 getScissorLowerLeft() const { return getScissorLowerLeft(getFrame()); }
-	glm::ivec2 getScissorSize() const { return getScissorSize(getFrame()); }
+//	glm::ivec2 getScissorLowerLeft( ci::Rectf ) const;
+//	glm::ivec2 getScissorSize( ci::Rectf ) const;
+//	glm::ivec2 getScissorLowerLeft() const { return getScissorLowerLeft(getFrame()); }
+//	glm::ivec2 getScissorSize() const { return getScissorSize(getFrame()); }
+
+	glm::ivec2 getScissorLowerLeftForBounds() const;
+	glm::ivec2 getScissorSizeForBounds() const;
 
 	ViewCollection* getCollection() const { return mCollection; }
 	

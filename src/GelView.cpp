@@ -89,6 +89,9 @@ void GelView::draw()
 	gl::color(.5,.5,.5);
 	gl::drawSolidRect( Rectf( vec2(0,0), mGel->getSize() ) );
 	
+	// clip
+	gl::ScopedScissor scissor( getScissorLowerLeftForBounds(), getScissorSizeForBounds() );	
+	
 	// aggregate bands into one batch
 	auto bands = mGel->getBands();
 
@@ -122,6 +125,26 @@ void GelView::draw()
 	vb.draw();
 	
 	glDisable( GL_POLYGON_SMOOTH );
+	
+	
+	// focus
+	if (mSampleView && mGel)
+	{
+		int lane = mSelectedMicrotube;
+		int frag = mSampleView->getFocusFragment();
+		
+		if ( frag != -1 && lane != -1 )
+		{
+			for( auto &b : bands )
+			{
+				if ( b.mExists && b.mLane == lane && b.mFragment == frag )
+				{
+					gl::color( b.mFocusColor );
+					gl::drawStrokedRect( b.mBounds );
+				}
+			}			
+		}
+	}
 }
 
 void GelView::mouseDown( ci::app::MouseEvent e )

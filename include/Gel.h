@@ -29,6 +29,7 @@ public:
 	{
 	public:
 		int			mLane		= -1;
+		int			mFragment	= -1;
 		
 		glm::vec2	mStartLoc;
 		
@@ -42,6 +43,8 @@ public:
 		bool		mExists; // in case we are playing with time travel and go to time before creation
 		ci::ColorA	mColor;
 		ci::Rectf	mBounds;
+	
+		ci::Color   mFocusColor;
 	};
 	
 	// Methods
@@ -53,6 +56,7 @@ public:
 	
 	std::vector<SampleRef>&	getSamples() { return mSamples; }
 	void  syncBandsToSample( SampleRef ); // tell us when SampleRef changed...
+	int	  getLaneForSample ( SampleRef ) const;
 	
 	void  stepTime( float dt );
 	

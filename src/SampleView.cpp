@@ -291,6 +291,12 @@ void SampleView::fragmentDidChange( int fragment )
 	}
 }
 
+int SampleView::getFocusFragment() const
+{
+	if ( isFragment(mRolloverFragment) ) return mRolloverFragment;
+	else return mSelectedFragment;
+}
+
 void SampleView::tick( float dt )
 {
 	syncToModel();
@@ -596,22 +602,7 @@ void SampleView::tickSim( float dt )
 void SampleView::drawSim()
 {
 	// clip
-	ivec2 scissorLowerLeft, scissorSize; // (0,0) is lower left of window!
-	
-	{
-		vec2 lowerLeftInRoot = childToRoot( getBounds().getLowerLeft() );
-		
-		scissorLowerLeft.x = lowerLeftInRoot.x;
-		scissorLowerLeft.y = getWindowHeight() - lowerLeftInRoot.y; // invert y
-		
-		vec2 upperRightInRoot = childToRoot( getBounds().getUpperRight() );
-		
-		scissorSize.x = upperRightInRoot.x - lowerLeftInRoot.x;
-		scissorSize.y = lowerLeftInRoot.y  - upperRightInRoot.y;
-	}
-	
-	gl::ScopedScissor scissor( scissorLowerLeft, scissorSize );
-	
+	gl::ScopedScissor scissor( getScissorLowerLeftForBounds(), getScissorSizeForBounds() );	
 	
 	// draw parts
 	for ( const auto &p : mParts )

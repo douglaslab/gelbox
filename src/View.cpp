@@ -38,7 +38,7 @@ mat4 View::getChildToRootMatrix() const
 	if (mParent) return getChildToParentMatrix() * mParent->getChildToRootMatrix();
 	else return getChildToParentMatrix();
 }
-
+/*
 ivec2 View::getScissorLowerLeft( Rectf r ) const
 {
 	return ivec2( toPixels(r.x1), toPixels(getWindowHeight()) - toPixels(r.y2));
@@ -47,6 +47,33 @@ ivec2 View::getScissorLowerLeft( Rectf r ) const
 ivec2 View::getScissorSize( Rectf r ) const
 {
 	return ivec2( toPixels(r.getWidth()), toPixels(r.getHeight()) );
+}*/
+
+glm::ivec2 View::getScissorLowerLeftForBounds() const
+{
+	vec2 lowerLeftInRoot = childToRoot( getBounds().getLowerLeft() );
+	vec2 scissorLowerLeft;
+	
+	scissorLowerLeft.x = lowerLeftInRoot.x;
+	scissorLowerLeft.y = getWindowHeight() - lowerLeftInRoot.y; // invert y
+	
+	return scissorLowerLeft;
+}
+
+glm::ivec2 View::getScissorSizeForBounds() const
+{
+	vec2 lowerLeftInRoot = childToRoot( getBounds().getLowerLeft() );
+
+	ivec2 scissorLowerLeft, scissorSize; // (0,0) is lower left of window!
+	
+	{
+		vec2 upperRightInRoot = childToRoot( getBounds().getUpperRight() );
+		
+		scissorSize.x = upperRightInRoot.x - lowerLeftInRoot.x;
+		scissorSize.y = lowerLeftInRoot.y  - upperRightInRoot.y;
+	}
+
+	return scissorSize;
 }
 
 vec2 View::getMouseLoc() const

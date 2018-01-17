@@ -52,6 +52,7 @@ public:
 	void deleteFragment( int i ); // fades out instances
 	
 	void fragmentDidChange( int frag ); // -1 for we deleted one; in practice ignores frag 
+	int  getFocusFragment() const; // rollover or selection (for feedback)
 	
 private:
 

@@ -32,19 +32,22 @@ void Gel::setLayout(
 	mSamples.resize(numLanes);
 }
 
-void Gel::syncBandsToSample( SampleRef sample )
+int Gel::getLaneForSample( SampleRef sample ) const
 {
-	int lane=-1;
-	
-	// find
 	for( int i=0; i<mNumLanes; ++i )
 	{
 		if ( mSamples[i] == sample )
 		{
-			lane=i;
-			break;
+			return i;
 		}
 	}
+	
+	return -1;
+}
+
+void Gel::syncBandsToSample( SampleRef sample )
+{
+	int lane = getLaneForSample(sample);
 	
 	// check
 	assert( lane >= 0 && lane < mNumLanes );
@@ -66,11 +69,16 @@ void Gel::insertSample( const Sample& src, int lane )
 	size.x = mLaneWidth * .25f;
 	size.y = mLaneWidth * .05f;
 	
-	for( auto frag : src.mFragments )
+	for( int i=0; i<src.mFragments.size(); ++i )
 	{
+		const auto& frag = src.mFragments[i]; 
+		
 		Band b;
 
 		b.mLane			= lane;
+		b.mFragment		= i;
+		
+		b.mFocusColor	= frag.mColor;
 		
 		b.mBases		= frag.mBases * frag.mAggregate;
 		b.mMass			= frag.mMass  * (float)frag.mAggregate;
