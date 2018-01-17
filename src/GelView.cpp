@@ -93,22 +93,28 @@ void GelView::draw()
 	// clip
 	gl::ScopedScissor scissor( getScissorLowerLeftForBounds(), getScissorSizeForBounds() );	
 	
-	// aggregate bands into one batch
+	
+	// aggregate bands into one mesh
 	auto bands = mGel->getBands();
 
-	gl::VertBatch vb( GL_TRIANGLES );
-
-	auto fillRect = [&vb]( ColorA c, Rectf r )
+	TriMesh mesh( TriMesh::Format().positions(2).colors(4) );
+	
+	auto fillRect = [&mesh]( ColorA c, Rectf r )
 	{
-		vb.color(c);
+		mesh.appendColorRgba(c);
+		mesh.appendColorRgba(c);
+		mesh.appendColorRgba(c);
+		mesh.appendColorRgba(c);
 
-		vb.vertex(r.getUpperLeft ());
-		vb.vertex(r.getUpperRight());
-		vb.vertex(r.getLowerRight());
-
-		vb.vertex(r.getLowerRight());
-		vb.vertex(r.getLowerLeft ());
-		vb.vertex(r.getUpperLeft ());		
+		mesh.appendPosition(r.getUpperLeft());
+		mesh.appendPosition(r.getUpperRight());
+		mesh.appendPosition(r.getLowerRight());
+		mesh.appendPosition(r.getLowerLeft());
+		
+		const int i = mesh.getNumVertices() - 4; 
+		
+		mesh.appendTriangle( i+0, i+1, i+2 );
+		mesh.appendTriangle( i+2, i+3, i+0 );
 	};
 	
 	for( auto &b : bands )
@@ -120,13 +126,8 @@ void GelView::draw()
 	}
 
 
-	// draw batch
-	glEnable( GL_POLYGON_SMOOTH );
-
-	vb.draw();
-	
-	glDisable( GL_POLYGON_SMOOTH );
-	
+	// draw mesh
+	gl::draw(mesh);	
 	
 	// focus
 	if (mSampleView && mGel)
