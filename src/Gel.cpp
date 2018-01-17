@@ -72,16 +72,18 @@ void Gel::insertSample( const Sample& src, int lane )
 
 		b.mLane			= lane;
 		
-		b.mBases		= frag.mBases;
-		b.mMass			= frag.mMass;
+		b.mBases		= frag.mBases * frag.mAggregate;
+		b.mMass			= frag.mMass  * (float)frag.mAggregate;
 		b.mDegrade		= frag.mDegrade;
-				
+		
 		b.mStartLoc		= laneLoc;
 		
-		// calculate alpha
-		float a = min( 1.f, b.mMass / kSampleMassHigh ); // alpha set to mass / 125ml
+		b.mAspectRatioYNormBonus = (frag.mAspectRatio - 1.f) / 16.f;
 		
-		if (b.mDegrade > 1.f) a *= min( b.mDegrade - 1.f, 1.f ); // degrade alpha
+		// calculate alpha
+		float a = constrain( b.mMass / kSampleMassHigh, 0.1f, 1.f ); // alpha set to mass / 125ml
+		
+		if (b.mDegrade > 1.f) a *= 1.f - min( b.mDegrade - 1.f, 1.f ); // degrade alpha
 		
 		
 		b.mCreateTime	= 0.f; // always start it at the start (not mTime); otherwise is kind of silly...
@@ -137,8 +139,11 @@ ci::Rectf Gel::calcBandBounds( const Band& b ) const
 	const float h2 = mLaneWidth * .05f;
 	
 	// what base pair location to use for y1 and y2
-	float y1b = normalizeBases(b.mBases);
+	float y1b = constrain( normalizeBases(b.mBases), 0.f, 1.f );
 	float y2b = y1b;
+	
+	y1b -= b.mAspectRatioYNormBonus * bandTime;
+	y2b -= b.mAspectRatioYNormBonus * bandTime;
 	
 	// degrade base pair location
 	y2b -= min( 1.f, b.mDegrade ); // as degrade goes 0..1, y2 moves to end of chart--shorter base pairs

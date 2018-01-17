@@ -36,6 +36,8 @@ public:
 		float		mMass		= 0.f;
 		float		mDegrade	= 0.f;
 		
+		float		mAspectRatioYNormBonus = 0.f;
+		
 		float		mCreateTime;
 		bool		mExists; // in case we are playing with time travel and go to time before creation
 		ci::ColorA	mColor;

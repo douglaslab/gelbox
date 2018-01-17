@@ -115,7 +115,6 @@ FragmentView::FragmentView()
 			return f.mBases; 
 		};
 		
-		// ??? what should mapping be?
 		concentration.mValueMappedLo = 0.f;
 		concentration.mValueMappedHi = kSampleMassHigh;
 		concentration.mSetter = []( Sample::Fragment& f, float v ) {

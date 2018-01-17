@@ -126,8 +126,18 @@ void GelView::draw()
 
 void GelView::mouseDown( ci::app::MouseEvent e )
 {
+	// pick tube icon
 	mMouseDownMicrotube = pickMicrotube( rootToChild(e.getPos()) );
 	
+	// else pick lane if sample exists
+	if (mMouseDownMicrotube==-1)
+	{
+		int lane = pickLane(e.getPos());
+		
+		if ( lane != -1 && mGel && mGel->getSamples()[lane] ) mMouseDownMicrotube = lane; 
+	}
+	
+	// select
 	if (mMouseDownMicrotube==mSelectedMicrotube) selectMicrotube(-1);
 	else selectMicrotube( mMouseDownMicrotube );
 }
