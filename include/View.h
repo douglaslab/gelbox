@@ -141,6 +141,8 @@ public:
 	void addView   ( ViewRef v ) { mViews.push_back(v); v->mCollection=this; }
 	bool removeView( ViewRef v ); // returns whether found
 	
+	void moveViewToTop( ViewRef v ) { if (removeView(v)) addView(v); }
+	
 	void mouseDown( ci::app::MouseEvent );
 	void mouseUp  ( ci::app::MouseEvent );
 	void mouseMove( ci::app::MouseEvent );

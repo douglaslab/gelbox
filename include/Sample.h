@@ -35,6 +35,8 @@ public:
 	std::vector<Fragment> mFragments;
 	
 	std::string mName;
+	int			mID = -1;
+	
 	std::string mIconFileName;
 	float		mIconScale=1.f;
 	

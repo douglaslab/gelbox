@@ -102,6 +102,7 @@ void SampleView::draw()
 	drawSim();
 	
 	// new btn
+	if (mNewBtnEnabled)
 	{
 		const bool hasMouseDown = getHasMouseDown() && pickNewBtn(getMouseDownLoc()) && pickNewBtn(getMouseLoc()); 
 		
@@ -145,7 +146,11 @@ bool SampleView::pick( glm::vec2 p ) const
 
 bool SampleView::pickNewBtn( glm::vec2 p ) const
 {
-	return distance( parentToChild(p), mNewBtnLoc ) <= mNewBtnRadius;
+	if (!mNewBtnEnabled) return false;
+	else
+	{
+		return distance( parentToChild(p), mNewBtnLoc ) <= mNewBtnRadius;
+	}
 }
 
 void SampleView::updateCallout()
@@ -308,7 +313,7 @@ void SampleView::tick( float dt )
 
 	bool slow = ( getHasRollover() || getHasMouseDown() ) && !pickNewBtn(getMouseLoc());
 	
-	tickSim( slow ? .1f : 1.f );
+	tickSim( (slow ? .1f : 1.f) * mSimTimeScale );
 	
 	// rollover
 	if ( getHasRollover() )
@@ -378,15 +383,15 @@ void SampleView::newFragment()
 		
 		auto colors = FragmentView::getColorPalette();
 		
-		f.mColor = colors[ randInt() % colors.size() ];
-		f.mBases = lerp((float)kRandFragMinNumBases,(float)kRandFragMaxNumBases,randFloat()*randFloat());
-		f.mMass  = randFloat() * kSampleMassHigh;
+		f.mColor = colors[ mRand.nextInt() % colors.size() ];
+		f.mBases = lerp((float)kRandFragMinNumBases,(float)kRandFragMaxNumBases,mRand.nextFloat()*mRand.nextFloat());
+		f.mMass  = mRand.nextFloat() * kSampleMassHigh;
 		f.mAspectRatio = 1.f;
-		f.mDegrade = randFloat() * randFloat() * randFloat() * .25f;
+		f.mDegrade = mRand.nextFloat() * mRand.nextFloat() * mRand.nextFloat() * .25f;
 		
-		if ( randInt() % 3 == 0 )
+		if ( mRand.nextInt() % 3 == 0 )
 		{
-			f.mAspectRatio = 1.f + (kRandFragMaxAspect-1.f) * randFloat();
+			f.mAspectRatio = 1.f + (kRandFragMaxAspect-1.f) * mRand.nextFloat();
 		}
 		
 		mSample->mFragments.push_back(f);
@@ -396,7 +401,7 @@ void SampleView::newFragment()
 	}
 	else
 	{
-		Frag f( ci::Color(randFloat(),randFloat(),randFloat()), lerp(2.f,16.f,randFloat()*randFloat()) );
+		Frag f( ci::Color(mRand.nextFloat(),mRand.nextFloat(),mRand.nextFloat()), lerp(2.f,16.f,mRand.nextFloat()*mRand.nextFloat()) );
 		mFragments.push_back(f);
 	}
 }
@@ -449,30 +454,46 @@ void SampleView::deleteFragment( int i )
 }
 
 SampleView::Part
-SampleView::randomPart( int f ) const
+SampleView::randomPart( int f )
 {
 	Part p;
 		
-	p.mLoc  = vec2( randFloat(), randFloat() )
+	p.mLoc  = vec2( mRand.nextFloat(), mRand.nextFloat() )
 			* vec2( getBounds().getSize() )
 			+ getBounds().getUpperLeft();
-	p.mVel  = randVec2() * .5f;
+	p.mVel  = mRand.nextVec2() * .5f;
 	
-	p.mAge += randInt(kMaxAge); // stagger ages to prevent simul-fadeout-rebirth
+	p.mAge += mRand.nextInt(kMaxAge); // stagger ages to prevent simul-fadeout-rebirth
 
-	p.mAngle    = randFloat() * M_PI * 2.f;
+	p.mAngle    = mRand.nextFloat() * M_PI * 2.f;
 	p.mAngleVel = randFloat(-1.f,1.f) * M_PI * .002f;
 	
 	p.mFragment = f;
 	p.mRadius = mFragments[p.mFragment].mRadius ;
 	p.mColor  = mFragments[p.mFragment].mColor ; 
 	
-	p.mDegradeSizeKey = randFloat();
+	p.mDegradeSizeKey = mRand.nextFloat();
 	
 	Part::Multi m;
 	p.mMulti.push_back(m);
 	
 	return p;
+}
+
+void SampleView::prerollSim()
+{
+	// step it a bunch so we spawn particles
+	for( int i=0; i<100; ++i )
+	{
+		tickSim(mSimTimeScale);
+	}
+	
+	// force fade in/out
+	for ( auto &p : mParts )
+	{
+		if (p.mAlive) p.mFade = 1.f;
+		else p.mFade = 0.f;
+	}
 }
 
 void SampleView::tickSim( float dt )
@@ -499,7 +520,7 @@ void SampleView::tickSim( float dt )
 	// update population counts
 	for( int f = 0; f<mFragments.size(); ++f )
 	{
-		int targetPop = max( 1, mFragments[f].mTargetPop );
+		int targetPop = max( 1, mFragments[f].mTargetPop ) * (float)mPopDensityScale ;
 		
 		// make (1 this frame)
 		if ( alivepop[f] < targetPop  )
@@ -533,7 +554,7 @@ void SampleView::tickSim( float dt )
 			// maybe cull?
 			if (   !frag
 				|| (p.mAge > kMaxAge && kPartSimIsOldAgeDeathEnabled)
-				|| randFloat() < cullChance[p.mFragment] // ok to index bc of !frag test above
+				|| mRand.nextFloat() < cullChance[p.mFragment] // ok to index bc of !frag test above
 				)
 			{
 				p.mAlive = false;
@@ -546,7 +567,7 @@ void SampleView::tickSim( float dt )
 		
 		// move
 		p.mLoc += p.mVel * dt;
-		p.mLoc += randVec2() * randFloat() * kJitter * dt;
+		p.mLoc += mRand.nextVec2() * mRand.nextFloat() * kJitter * dt;
 		
 		p.mAngle += p.mAngleVel * dt;
 		
@@ -581,13 +602,13 @@ void SampleView::tickSim( float dt )
 				{
 					Part::Multi m;
 					
-					m.mAngle = randFloat() * M_PI * 2.f;
+					m.mAngle = mRand.nextFloat() * M_PI * 2.f;
 
 					if (!p.mMulti.empty())
 					{
-						Part::Multi parent = p.mMulti[ randInt() % p.mMulti.size() ];					
+						Part::Multi parent = p.mMulti[ mRand.nextInt() % p.mMulti.size() ];					
 
-						m.mLoc = parent.mLoc + randVec2();
+						m.mLoc = parent.mLoc + mRand.nextVec2();
 					}
 					else m.mLoc = vec2(0,0); // in case we ever get empty... (shouldn't happen!) 
 					

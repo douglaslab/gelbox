@@ -59,6 +59,14 @@ public:
 	void selectFragment( int i );
 	void setRolloverFragment( int i );
 	
+	// options so we can make frozen gel callout views 
+	void setIsNewBtnEnabled( bool v ) { mNewBtnEnabled=v; }
+	void setPopDensityScale( float s ) { mPopDensityScale=s; }
+	void prerollSim();
+	void setSimTimeScale( float s) { mSimTimeScale=s; }
+	void clearParticles() { mParts.clear(); }
+	void setRand( ci::Rand r ) { mRand = r; }
+	
 private:
 
 	bool isFragment( int i ) const { return i >=0 && i < mFragments.size() ; }
@@ -76,6 +84,7 @@ private:
 	int				mSelectedFragment=-1;
 	int				mRolloverFragment=-1;
 	
+	bool			mNewBtnEnabled=true;
 	glm::vec2		mNewBtnLoc;
 	float			mNewBtnRadius;
 	ci::gl::TextureRef mNewBtnImage;
@@ -91,7 +100,7 @@ private:
 	void drawSim();
 	int  pickPart( ci::vec2 ) const;
 	int  pickFragment( ci::vec2 ) const;
-	Part randomPart( int fragment ) const;
+	Part randomPart( int fragment );
 	
 	class Frag
 	{
@@ -138,7 +147,12 @@ private:
 
 	};
 	
+	ci::Rand		  mRand;
+	
 	std::vector<Frag> mFragments;	
 	std::vector<Part> mParts;
+	
+	float mPopDensityScale=1.f;
+	float mSimTimeScale   =1.f;
 	
 };

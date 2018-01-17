@@ -48,6 +48,8 @@ private:
 	ci::gl::TextureRef	mMicrotubeIcon;
 		
 	SampleViewRef		mSampleView;
+	SampleViewRef		mGelDetailView;
+	ci::vec2			mGelDetailViewAtPos;
 	
 	ci::Rectf	calcMicrotubeIconRect( int lane ) const;
 	int			pickMicrotube( ci::vec2 ) const; // local coords
@@ -58,5 +60,9 @@ private:
 	void		selectMicrotube( int lane );
 	void		openSampleView(); 
 	void		closeSampleView();
+	
+	void		updateGelDetailView( ci::vec2 withSampleAtPos ); // local coords; implicitly opens it
+	void		openGelDetailView();
+	void		closeGelDetailView();
 	
 };

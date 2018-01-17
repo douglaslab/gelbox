@@ -12,6 +12,8 @@
 - we should add the gel "wells" at some point, in addition to the tube (you might revisit some online animations if we haven't discussed for a while). max aggregation causes stuff to all get stuck in the well.
 - curious how it looks with lower fill opacity on the white "zoom wedge" region, or just lines? once the gel is more populated would gel bands be obscured?
 
+## Chaim feedback/notes
+
 ## New Particle / Fragment Sim + UI
 
 √ Clean up deprecated UI, etc... from milestone 1
