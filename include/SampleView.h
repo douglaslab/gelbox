@@ -35,6 +35,7 @@ public:
 	
 	void setCalloutAnchor( glm::vec2 p ) { mAnchor=p; updateCallout(); }
 	void setSample( SampleRef s ) { mSample=s; syncToModel(); }
+	SampleRef getSample() const { return mSample; }
 	
 	void tick( float dt ) override;
 	void draw() override;
@@ -53,11 +54,14 @@ public:
 	
 	void fragmentDidChange( int frag ); // -1 for we deleted one; in practice ignores frag 
 	int  getFocusFragment() const; // rollover or selection (for feedback)
+
+	// public so gelview can twiddle what is highlighted
+	void selectFragment( int i );
+	void setRolloverFragment( int i );
 	
 private:
 
 	bool isFragment( int i ) const { return i >=0 && i < mFragments.size() ; }
-	void selectFragment( int i );
 	void showFragmentEditor( int i );
 	bool pickNewBtn( glm::vec2 ) const;
 	void updateCallout();

@@ -54,8 +54,8 @@ private:
 
 	std::vector<Gel::Band> pickBands( ci::vec2 ) const; // local coords
 
-	void		selectMicrotube( int );
-	void		openSampleView();
+	void		selectMicrotube( int lane );
+	void		openSampleView(); 
 	void		closeSampleView();
 	
 };

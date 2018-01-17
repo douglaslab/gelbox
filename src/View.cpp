@@ -90,9 +90,16 @@ vec2 View::getMouseDownLoc() const
 
 void ViewCollection::tick( float dt )
 {
-	for( auto &v : mViews )
+	list< weak_ptr<View> > old; 
+	
+	for( auto v : mViews ) old.push_back(v);
+	
+	for( auto v : old )
 	{
-		v->tick(dt);
+		if ( auto spt = v.lock() )
+		{
+			spt->tick(dt);
+		}
 	}
 }
 
@@ -113,17 +120,18 @@ void ViewCollection::draw()
 
 ViewRef	ViewCollection::pickView( vec2 p, std::function<bool(ViewRef,glm::vec2)> customPickFunc ) const
 {
-	for( int i=(int)mViews.size()-1; i>=0; --i )
+	// pick order is reverse of draw order
+	for( auto i = mViews.rbegin(); i != mViews.rend(); ++i )
 	{
 		// a little sledgehammer like, but it works
-		vec2 pInFrame = mViews[i]->rootToChild(p);
-		pInFrame = mViews[i]->childToParent(pInFrame);
+		vec2 pInFrame = i->get()->rootToChild(p);
+		pInFrame = i->get()->childToParent(pInFrame);
 		
 		if ( customPickFunc )
 		{
-			if ( customPickFunc(mViews[i],pInFrame) ) return mViews[i];
+			if ( customPickFunc(*i,pInFrame) ) return *i;
 		}
-		else if ( mViews[i]->pick(pInFrame) ) return mViews[i];
+		else if ( i->get()->pick(pInFrame) ) return *i;
 	}
 	
 	return nullptr;

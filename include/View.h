@@ -166,7 +166,7 @@ private:
 	ViewRef mMouseDownView;
 	ViewRef mRolloverView;
 	ViewRef mKeyboardFocusView;
-	std::vector< ViewRef > mViews;
+	std::list< ViewRef > mViews;
 
 };
 

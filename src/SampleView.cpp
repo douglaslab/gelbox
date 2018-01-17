@@ -170,6 +170,11 @@ void SampleView::selectFragment( int i )
 	showFragmentEditor(mSelectedFragment);
 }
 
+void SampleView::setRolloverFragment( int i )
+{
+	mRolloverFragment = i;	
+}
+
 void SampleView::showFragmentEditor( int i )
 {
 	if ( isFragment(i) )
@@ -308,7 +313,7 @@ void SampleView::tick( float dt )
 	// rollover
 	if ( getHasRollover() )
 	{
-		mRolloverFragment = pickFragment( rootToChild(getMouseLoc()) );
+		setRolloverFragment( pickFragment( rootToChild(getMouseLoc()) ) );
 	}
 	
 	// deselect?
@@ -316,8 +321,8 @@ void SampleView::tick( float dt )
 	{
 		selectFragment(-1);
 	}
-	
-	// fragment show on hover -- can enable/disable this feature on its own
+
+	// fragment editor on hover/selection -- can enable/disable this feature on its own
 	if (1)
 	{
 		if ( isFragment(mRolloverFragment) ) showFragmentEditor(mRolloverFragment);

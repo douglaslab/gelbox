@@ -149,6 +149,8 @@ void GelView::draw()
 
 void GelView::mouseDown( ci::app::MouseEvent e )
 {
+	bool toggle = true;
+	
 	// pick tube icon
 	mMouseDownMicrotube = pickMicrotube( rootToChild(e.getPos()) );
 	
@@ -157,11 +159,15 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 	{
 		int lane = pickLane(e.getPos());
 		
-		if ( lane != -1 && mGel && mGel->getSamples()[lane] ) mMouseDownMicrotube = lane; 
+		if ( lane != -1 && mGel && mGel->getSamples()[lane] )
+		{
+			mMouseDownMicrotube = lane;
+			toggle = false;
+		}
 	}
 	
 	// select
-	if (mMouseDownMicrotube==mSelectedMicrotube) selectMicrotube(-1);
+	if (mMouseDownMicrotube==mSelectedMicrotube && toggle) selectMicrotube(-1);
 	else selectMicrotube( mMouseDownMicrotube );
 }
 
@@ -195,38 +201,50 @@ void GelView::selectMicrotube( int i )
 
 void GelView::openSampleView()
 {
-	if ( mSampleView ) closeSampleView();
-	
-	int tube = mSelectedMicrotube;
-
-	if ( tube != -1 )
+	// close old?
+	if ( mSampleView
+	  && mGel
+	  && mSelectedMicrotube != -1 
+	  && mSampleView->getSample() != mGel->getSamples()[mSelectedMicrotube]
+	  )
 	{
-		// make view
-		mSampleView = make_shared<SampleView>();
-		mSampleView->setGelView( shared_from_this() );
-		
-		// layout + add
-		vec2 size(400.f,400.f);
-		
-		mSampleView->setBounds( Rectf( vec2(0,0), size ) );
-		
-		Rectf frame = mSampleView->getBounds();
-		frame.offsetCenterTo(
-			vec2( getFrame().getX2(),getFrame().getCenter().y )
-			+ vec2(size.x/2 + 32.f,0.f) );
-		
-		mSampleView->setFrame( frame );
-		
-		mSampleView->setCalloutAnchor( childToRoot( calcMicrotubeIconRect(tube).getCenter() ) );
+		closeSampleView();
+	}
 
-		getCollection()->addView(mSampleView);
-		
-		// make + set sample
-		if ( ! mGel->getSamples()[tube] )
+	// make new
+	if ( !mSampleView )
+	{
+		int tube = mSelectedMicrotube;
+
+		if ( tube != -1 )
 		{
-			mGel->getSamples()[tube] = make_shared<Sample>();
+			// make view
+			mSampleView = make_shared<SampleView>();
+			mSampleView->setGelView( shared_from_this() );
+			
+			// layout + add
+			vec2 size(400.f,400.f);
+			
+			mSampleView->setBounds( Rectf( vec2(0,0), size ) );
+			
+			Rectf frame = mSampleView->getBounds();
+			frame.offsetCenterTo(
+				vec2( getFrame().getX2(),getFrame().getCenter().y )
+				+ vec2(size.x/2 + 32.f,0.f) );
+			
+			mSampleView->setFrame( frame );
+			
+			mSampleView->setCalloutAnchor( childToRoot( calcMicrotubeIconRect(tube).getCenter() ) );
+
+			getCollection()->addView(mSampleView);
+			
+			// make + set sample
+			if ( ! mGel->getSamples()[tube] )
+			{
+				mGel->getSamples()[tube] = make_shared<Sample>();
+			}
+			mSampleView->setSample( mGel->getSamples()[tube] );
 		}
-		mSampleView->setSample( mGel->getSamples()[tube] );
 	}
 }
 
@@ -246,6 +264,18 @@ void GelView::tick( float dt )
 		mGel->stepTime(dt);
 		
 		if (mGel->isFinishedPlaying()) mGel->setIsPaused(true);
+	}
+	
+	// band rollover
+	if ( getHasRollover() )
+	{
+		auto bands = pickBands( rootToChild(getMouseLoc()) );
+		
+		if ( !bands.empty() )
+		{
+			selectMicrotube(bands[0].mLane);
+			if (mSampleView) mSampleView->setRolloverFragment(bands[0].mFragment);
+		}
 	}
 }
 
