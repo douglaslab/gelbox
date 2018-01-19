@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>Gelbox</string>
 	<key>CFBundleIconFile</key>
-	<string>CinderApp.icns</string>
+	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.libcinder.Gelbox</string>
 	<key>CFBundleInfoDictionaryVersion</key>
