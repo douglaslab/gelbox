@@ -75,7 +75,7 @@ void SampleView::draw()
 		
 		gl::multModelMatrix( getParentToChildMatrix() );
 		
-		gl::color(1,1,1,.8);
+		gl::color(1,1,1,.35);
 		gl::drawSolid(mCallout);
 
 		if (1)

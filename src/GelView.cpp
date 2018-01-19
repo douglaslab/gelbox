@@ -68,10 +68,22 @@ void GelView::draw()
 		{
 			Rectf r = calcMicrotubeIconRect(i);
 			
-			if (mSelectedMicrotube==i) gl::color(1,1,.5,1.f); 
-			else gl::color(.5,.5,.5,.25f);
 			
-			gl::drawStrokedRect(r);
+			if (mSelectedMicrotube==i)
+			{
+				gl::color(1,1,.5,1.f);
+				
+				Rectf r2 = r;
+				
+				r2.y2 = getBounds().y2 + ( getBounds().y1 - r2.y2 )/2.f ;
+				
+				gl::drawSolidRect(r2);
+			}
+			else
+			{
+				gl::color(.5,.5,.5,.25f);
+				gl::drawStrokedRect(r);
+			}
 			
 			if (mMicrotubeIcon && mGel->getSamples()[i])
 			{
