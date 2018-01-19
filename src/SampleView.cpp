@@ -651,41 +651,55 @@ void SampleView::drawSim()
 	// draw parts
 	for ( const auto &p : mParts )
 	{
-		for( int i=0; i<p.mMulti.size(); ++i )
-		{
-			gl::ScopedModelMatrix modelMatrix;
-			gl::multModelMatrix( p.getTransform(i) );
+		const int nsegs = 32;
 
-			int nsegs = 32;
+		const bool selected = isFragment(p.mFragment) && p.mFragment == mSelectedFragment;
+		
+		const bool rollover = isFragment(p.mFragment) &&
+							 (p.mFragment == mRolloverFragment ||
+							  p.mFragment == mHighlightFragment );
+		 
+
+		auto drawPart = [&]( bool outline )
+		{
+			if ( outline && !selected && !rollover ) return; 
+			
+			for( int i=0; i<p.mMulti.size(); ++i )
+			{
+				gl::ScopedModelMatrix modelMatrix;
+				gl::multModelMatrix( p.getTransform(i) );
+				
+				if (!outline)
+				{
+					gl::color( ColorA( p.mColor, p.mFade ) );
 					
-			gl::color( ColorA( p.mColor, p.mFade ) );
-			
-			gl::drawSolidCircle( vec2(0,0), 1.f, nsegs ); // fill
-			if (p.mFade==1.f)
-			{
-				gl::drawStrokedCircle( vec2(0,0), 1.f, nsegs ); // outline for anti-aliasing... assumes GL_LINE_SMOOTH
-			}
-			
-			const bool selected = isFragment(p.mFragment) && p.mFragment == mSelectedFragment;
-			
-			const bool rollover = isFragment(p.mFragment) &&
-								 (p.mFragment == mRolloverFragment ||
-								  p.mFragment == mHighlightFragment );
-			 
-			if ( selected || rollover )
-			{
-				ColorA color;
+					gl::drawSolidCircle( vec2(0,0), 1.f, nsegs ); // fill
+					if (p.mFade==1.f)
+					{
+						gl::drawStrokedCircle( vec2(0,0), 1.f, nsegs ); // outline for anti-aliasing... assumes GL_LINE_SMOOTH
+					}
+				}
 				
-				if (selected && rollover) color = ColorA( lerp( kSelectColor, kRolloverColor, .5f ), p.mFade );
-				else color = selected ? ColorA(kSelectColor,p.mFade) : ColorA(kRolloverColor,p.mFade);
-				
-				gl::color( color );
-				float lineWidth = kOutlineWidth / p.mRadius.x;
-				gl::drawStrokedCircle( vec2(0,0), 1.f + lineWidth/2.f, lineWidth, nsegs );
-				// i guess to get proportional line scaling we could draw a second circle and deform it appropriately...
-				// not sure that would actually work though. easiest to just generate our own line shapes...
-			}
-		} // multi
+				if ( outline && (selected || rollover) )
+				{
+					ColorA color;
+					
+					if (selected && rollover) color = ColorA( lerp( kSelectColor, kRolloverColor, .5f ), p.mFade );
+					else color = selected ? ColorA(kSelectColor,p.mFade) : ColorA(kRolloverColor,p.mFade);
+					
+					gl::color( color );
+					float lineWidth = kOutlineWidth / p.mRadius.x;
+					gl::drawStrokedCircle( vec2(0,0), 1.f + lineWidth/2.f, lineWidth, nsegs );
+					// i guess to get proportional line scaling we could draw a second circle and deform it appropriately...
+					// not sure that would actually work though. easiest to just generate our own line shapes...
+				}
+			} // multi			
+		};
+		
+		// outlines in 1st pass, for proper outline effect
+		drawPart(true);
+		drawPart(false);
+
 	} // part
 }
 
