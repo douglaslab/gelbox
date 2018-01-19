@@ -272,6 +272,8 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 					imageView->setFrame( frame );
 					
 					mViews.addView(imageView);
+					
+					mViews.setKeyboardFocusView(imageView);
 				}
 			} catch (...) {
 				cout << "Failed to load image '" << i << "'" << endl;
