@@ -94,7 +94,7 @@ void Gel::insertSample( const Sample& src, int lane )
 		
 		b.mStartBounds	= getWellBounds(lane);
 		
-		b.mAspectRatioYNormBonus = (frag.mAspectRatio - 1.f) / 16.f;
+		b.mAspectRatioYNormBonus = ((frag.mAspectRatio - 1.f) / 16.f) * .25f;
 		
 		// calculate alpha
 		float a = constrain( b.mMass / kSampleMassHigh, 0.1f, 1.f ); // alpha set to mass / 125ml
