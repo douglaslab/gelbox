@@ -61,14 +61,22 @@ void Gel::syncBandsToSample( SampleRef sample )
 	}
 }
 
-void Gel::insertSample( const Sample& src, int lane )
+ci::Rectf Gel::getWellBounds( int lane ) const
 {
 	vec2 laneLoc = vec2(0.f,mYMargin) + kLaneVec * ((float)lane*mLaneWidth + mLaneWidth/2.f);
 	
-	vec2 size;
-	size.x = mLaneWidth * .25f;
-	size.y = mLaneWidth * .05f;
+	float w = mLaneWidth * .5f ;
+	float h = mLaneWidth * .1f ;
 	
+	Rectf r(0,0,w,h);
+	
+	r.offsetCenterTo(laneLoc); // yay aliasing. dumbest function ever
+	
+	return r;
+}
+
+void Gel::insertSample( const Sample& src, int lane )
+{
 	for( int i=0; i<src.mFragments.size(); ++i )
 	{
 		const auto& frag = src.mFragments[i]; 
@@ -84,7 +92,7 @@ void Gel::insertSample( const Sample& src, int lane )
 		b.mMass			= frag.mMass  * (float)frag.mAggregate;
 		b.mDegrade		= frag.mDegrade;
 		
-		b.mStartLoc		= laneLoc;
+		b.mStartBounds	= getWellBounds(lane);
 		
 		b.mAspectRatioYNormBonus = (frag.mAspectRatio - 1.f) / 16.f;
 		
@@ -143,9 +151,6 @@ ci::Rectf Gel::calcBandBounds( const Band& b ) const
 {
 	const float bandTime = max(mTime - b.mCreateTime,0.f);
 
-	const float w2 = mLaneWidth * .25f;
-	const float h2 = mLaneWidth * .05f;
-	
 	// what base pair location to use for y1 and y2
 	float y1b = constrain( normalizeBases(b.mBases), 0.f, 1.f );
 	float y2b = y1b;
@@ -158,13 +163,10 @@ ci::Rectf Gel::calcBandBounds( const Band& b ) const
 	if ( b.mDegrade > 1.f ) y1b -= min( 1.f, b.mDegrade - 1.f ); // as degrade goes 1..2, y1 moves to end of chart--shorter bp  
 	
 	// get bounds in cm
-	Rectf r;
+	Rectf r = b.mStartBounds;
 	
-	r.x1 = b.mStartLoc.x - w2;
-	r.x2 = b.mStartLoc.x + w2;
-	
-	r.y1 = b.mStartLoc.y - h2 + getYForNormalizedBases( y1b, bandTime );
-	r.y2 = b.mStartLoc.y + h2 + getYForNormalizedBases( y2b, bandTime );
+	r.y1 += getYForNormalizedBases( y1b, bandTime );
+	r.y2 += getYForNormalizedBases( y2b, bandTime );
 	
 	return r;
 }

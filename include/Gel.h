@@ -31,7 +31,7 @@ public:
 		int			mLane		= -1;
 		int			mFragment	= -1;
 		
-		glm::vec2	mStartLoc;
+		ci::Rectf	mStartBounds;
 		
 		int			mBases		= 0;
 		float		mMass		= 0.f;
@@ -70,9 +70,10 @@ public:
 	
 	const std::vector<Band>&	getBands() const { return mBands; }
 	
-	glm::vec2 getSize() const { return mSize; }
-	float getLaneWidth() const { return mLaneWidth; }
-	int   getNumLanes() const { return mNumLanes; }
+	glm::vec2	getSize() const { return mSize; }
+	float		getLaneWidth() const { return mLaneWidth; }
+	int			getNumLanes() const { return mNumLanes; }
+	ci::Rectf	getWellBounds( int lane ) const;
 	
 private:
 	

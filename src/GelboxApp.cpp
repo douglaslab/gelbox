@@ -118,7 +118,7 @@ void GelboxApp::makeGel( vec2 center )
 
 	// gel
 	auto gel = make_shared<Gel>();
-	gel->setLayout( 300.f, 400.f, 7, 10.f ); // layout in points
+	gel->setLayout( 300.f, 400.f, 7, 20.f ); // layout in points
 	
 	// gel view
 	auto gelView = make_shared<GelView>( gel );

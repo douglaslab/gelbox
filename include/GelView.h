@@ -64,5 +64,10 @@ private:
 	void		updateGelDetailView( ci::vec2 withSampleAtPos ); // local coords; implicitly opens it
 	void		openGelDetailView();
 	void		closeGelDetailView();
+
+	void		drawMicrotubes() const;
+	void		drawBands() const;
+	void		drawWells() const;
+	void		drawBandFocus() const;
 	
 };

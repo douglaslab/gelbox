@@ -63,48 +63,60 @@ void GelView::draw()
 	if (!mGel) return;
 
 	// microtubes
-	{
-		for( int i=0; i<mGel->getNumLanes(); ++i )
-		{
-			Rectf r = calcMicrotubeIconRect(i);
-			
-			
-			if (mSelectedMicrotube==i)
-			{
-				gl::color(1,1,.5,1.f);
-				
-				Rectf r2 = r;
-				
-				r2.y2 = getBounds().y2 + ( getBounds().y1 - r2.y2 )/2.f ;
-				
-				gl::drawSolidRect(r2);
-			}
-			else
-			{
-				gl::color(.5,.5,.5,.25f);
-				gl::drawStrokedRect(r);
-			}
-			
-			if (mMicrotubeIcon && mGel->getSamples()[i])
-			{
-				Rectf fit(0,0,mMicrotubeIcon->getWidth(),mMicrotubeIcon->getHeight());
-				fit = fit.getCenteredFit(r,true);
-				
-				gl::color(1,1,1);
-				gl::draw( mMicrotubeIcon, fit );
-			}
-		}
-	}
+	drawMicrotubes();
 	
 	// gel background
-//	gl::color(0,0,0,.5f);
-//	gl::draw( mGel->getOutlineAsPolyLine() );
 	gl::color(.5,.5,.5);
 	gl::drawSolidRect( Rectf( vec2(0,0), mGel->getSize() ) );
 	
 	// clip
 	gl::ScopedScissor scissor( getScissorLowerLeftForBounds(), getScissorSizeForBounds() );	
-	
+
+	// interior content
+	drawBands();
+	drawWells();
+	drawBandFocus();
+}
+
+void GelView::drawMicrotubes() const
+{
+	if (!mGel) return;
+
+	for( int i=0; i<mGel->getNumLanes(); ++i )
+	{
+		Rectf r = calcMicrotubeIconRect(i);
+		
+		
+		if (mSelectedMicrotube==i)
+		{
+			gl::color(1,1,.5,1.f);
+			
+			Rectf r2 = r;
+			
+			r2.y2 = getBounds().y2 + ( getBounds().y1 - r2.y2 )/2.f ;
+			
+			gl::drawSolidRect(r2);
+		}
+		else
+		{
+			gl::color(.5,.5,.5,.25f);
+			gl::drawStrokedRect(r);
+		}
+		
+		if (mMicrotubeIcon && mGel->getSamples()[i])
+		{
+			Rectf fit(0,0,mMicrotubeIcon->getWidth(),mMicrotubeIcon->getHeight());
+			fit = fit.getCenteredFit(r,true);
+			
+			gl::color(1,1,1);
+			gl::draw( mMicrotubeIcon, fit );
+		}
+	}	
+}
+
+void GelView::drawBands() const
+{
+	if (!mGel) return;
 	
 	// aggregate bands into one mesh
 	auto bands = mGel->getBands();
@@ -139,9 +151,25 @@ void GelView::draw()
 
 
 	// draw mesh
-	gl::draw(mesh);	
+	gl::draw(mesh);
+}
+
+void GelView::drawWells() const
+{
+	if (!mGel) return;
 	
-	// focus
+	const float kGray = .8f;
+	
+	gl::color(kGray,kGray,kGray,.8f);
+	
+	for( int i=0; i<mGel->getNumLanes(); ++i )
+	{
+		gl::drawStrokedRect(mGel->getWellBounds(i));
+	}
+}
+
+void GelView::drawBandFocus() const
+{
 	if (mSampleView && mGel)
 	{
 		int lane = mSelectedMicrotube;
@@ -149,7 +177,7 @@ void GelView::draw()
 		
 		if ( frag != -1 && lane != -1 )
 		{
-			for( auto &b : bands )
+			for( auto &b : mGel->getBands() )
 			{
 				if ( b.mExists && b.mLane == lane && b.mFragment == frag )
 				{
@@ -158,7 +186,7 @@ void GelView::draw()
 				}
 			}			
 		}
-	}
+	}	
 }
 
 void GelView::mouseDown( ci::app::MouseEvent e )
