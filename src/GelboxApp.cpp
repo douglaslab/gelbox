@@ -258,7 +258,7 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 		if ( find( imgExtensions.begin(), imgExtensions.end(), ext ) != imgExtensions.end() )
 		{
 			try {
-				gl::TextureRef image = gl::Texture::create( loadImage(i) );
+				gl::TextureRef image = gl::Texture::create( loadImage(i), gl::Texture2d::Format().mipmap() );
 				
 				if (image) {
 					// make view

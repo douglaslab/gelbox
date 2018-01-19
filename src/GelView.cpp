@@ -25,7 +25,7 @@ GelView::GelView( GelRef gel )
 	
 	try
 	{
-		mMicrotubeIcon = gl::Texture::create( loadImage( app::getAssetPath(iconPath) ) );
+		mMicrotubeIcon = gl::Texture::create( loadImage( app::getAssetPath(iconPath) ), gl::Texture2d::Format().mipmap() );
 	}
 	catch (...)
 	{

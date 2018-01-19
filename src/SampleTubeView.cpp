@@ -29,7 +29,7 @@ void SampleTubeView::setSource( SampleRef source )
 	// load image
 	try
 	{
-		mIcon = gl::Texture::create( loadImage( getAssetPath(mSource->mIconFileName) ) );
+		mIcon = gl::Texture::create( loadImage( getAssetPath(mSource->mIconFileName) ), gl::Texture2d::Format().mipmap() );
 		
 		size = vec2( mIcon->getSize() );
 		

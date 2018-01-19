@@ -52,7 +52,7 @@ SampleView::SampleView()
 	{
 		newBtnPath = getAssetPath("new-btn.png");
 		
-		mNewBtnImage = gl::Texture::create( loadImage(newBtnPath) );
+		mNewBtnImage = gl::Texture::create( loadImage(newBtnPath), gl::Texture2d::Format().mipmap() );
 	}
 	catch (...)
 	{

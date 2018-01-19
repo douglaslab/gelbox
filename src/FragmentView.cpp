@@ -85,7 +85,7 @@ FragmentView::FragmentView()
 			for( int i=0; i<2; ++i )
 			{
 				try {
-					s.mIcon[i] = gl::Texture::create( loadImage(paths[i]) );
+					s.mIcon[i] = gl::Texture::create( loadImage(paths[i]), gl::Texture2d::Format().mipmap() );
 				} catch (...)
 				{
 					cerr << "ERROR failed to load icon " << paths[i] << endl;
