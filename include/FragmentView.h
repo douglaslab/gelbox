@@ -77,6 +77,10 @@ private:
 		
 		tSetter		mSetter;
 		tGetter		mGetter;
+		
+		float		getMappedValue() const { return ci::lerp( mValueMappedLo, mValueMappedHi, mValue ); }
+		
+		std::function<std::string(float v)> mMappedValueToStr;
 	};
 		
 	std::vector<Slider>		mSliders;

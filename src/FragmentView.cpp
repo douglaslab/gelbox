@@ -10,6 +10,7 @@
 #include "Sample.h"
 #include "SampleView.h"
 #include "Tuning.h"
+#include "GelboxApp.h" // for getUIFont()
 
 using namespace std;
 using namespace ci;
@@ -64,6 +65,23 @@ const vector<Color>& FragmentView::getColorPalette()
 	return sColorPalette;
 }
 
+static string addCommasToNumericStr( string num )
+{
+	string numc;
+	
+	// commas
+	for( int i=0; i < num.size(); ++i )
+	{
+		int j = num.size()-i-1;
+		
+		if ( i && (i%3==0) ) numc = "," + numc;
+		
+		numc = num[j] + numc;
+	}
+	
+	return numc;
+} 
+
 FragmentView::FragmentView()
 {
 	mColors = getColorPalette();
@@ -80,8 +98,6 @@ FragmentView::FragmentView()
 			{
 				iconPathBase / (name + "-lo.png"),
 				iconPathBase / (name + "-hi.png")
-//				iconPathBase / ("degrade-hi.png"),
-//				iconPathBase / ("degrade-hi.png")
 			};
 			
 			for( int i=0; i<2; ++i )
@@ -111,10 +127,16 @@ FragmentView::FragmentView()
 		size.mValueMappedLo = kMinBases;
 		size.mValueMappedHi = kMaxBases;
 		size.mSetter = []( Sample::Fragment& f, float v ) {
-			f.mBases = v;  
+			f.mBases = roundf(v);  
 		};
 		size.mGetter = []( Sample::Fragment& f ) {
 			return f.mBases; 
+		};
+		size.mMappedValueToStr = []( float v )
+		{
+			v = roundf(v); // we get fractional values, so fix that.
+			
+			return addCommasToNumericStr( toString(v) ) + " bp";
 		};
 		
 		concentration.mValueMappedLo = 0.f;
@@ -125,6 +147,12 @@ FragmentView::FragmentView()
 		concentration.mGetter = []( Sample::Fragment& f ) {
 			return f.mMass; 
 		};
+		concentration.mMappedValueToStr = []( float v )
+		{
+			v = roundf(v); // show as whole numbers
+			
+			return addCommasToNumericStr( toString(v) ) + " ml";
+		};
 
 		aspect.mValueMappedLo = 1.f;
 		aspect.mValueMappedHi = kMaxAspectRatio;
@@ -134,7 +162,13 @@ FragmentView::FragmentView()
 		aspect.mGetter = []( Sample::Fragment& f ) {
 			return f.mAspectRatio; 
 		};
-
+		aspect.mMappedValueToStr = []( float v )
+		{
+			v = roundf(v); // show as whole numbers
+			
+			return addCommasToNumericStr( toString(v) ) + " : 1";
+		};
+		
 		aggregate.mNotches = kNumMultimerNotches;
 		aggregate.mValueMappedLo = 1;
 		aggregate.mValueMappedHi = kNumMultimerNotches;
@@ -301,9 +335,7 @@ void FragmentView::syncModelToSlider( Slider& s ) const
 	{
 		if (s.mSetter)
 		{
-			float value = lerp( s.mValueMappedLo, s.mValueMappedHi, s.mValue );
-			
-			s.mSetter( mEditSample->mFragments[mEditFragment], value );			
+			s.mSetter( mEditSample->mFragments[mEditFragment], s.getMappedValue() );			
 		}
 
 		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
@@ -383,6 +415,8 @@ void FragmentView::draw()
 	gl::drawStrokedRect(getBounds());
 	
 	// sliders
+	const auto fontRef = GelboxApp::instance()->getUIFont();
+	
 	for ( const auto &s : mSliders )
 	{
 		// line
@@ -402,8 +436,9 @@ void FragmentView::draw()
 		}
 		
 		// handle
+		Rectf sliderHandleRect = calcSliderHandleRect(s);
 		gl::color(kSliderHandleColor);
-		gl::drawSolidRect(calcSliderHandleRect(s));
+		gl::drawSolidRect(sliderHandleRect);
 		
 		// icons
 		gl::color(1,1,1);
@@ -425,6 +460,20 @@ void FragmentView::draw()
 		}
 		
 		// text label
+		gl::color(0,0,0);
+		if (s.mMappedValueToStr)
+		{
+			string str = s.mMappedValueToStr( s.getMappedValue() );
+			
+			vec2 size = fontRef->measureString(str);
+
+			vec2 baseline;
+			
+			baseline.y = sliderHandleRect.y2 + sliderHandleRect.getHeight() * .75;			
+			baseline.x = sliderHandleRect.getCenter().x - size.x/2;
+			
+			fontRef->drawString( str, snapToPixel(baseline) );
+		}
 	}
 	
 	// colors
