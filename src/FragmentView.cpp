@@ -80,6 +80,8 @@ FragmentView::FragmentView()
 			{
 				iconPathBase / (name + "-lo.png"),
 				iconPathBase / (name + "-hi.png")
+//				iconPathBase / ("degrade-hi.png"),
+//				iconPathBase / ("degrade-hi.png")
 			};
 			
 			for( int i=0; i<2; ++i )
@@ -169,12 +171,7 @@ FragmentView::FragmentView()
 }
 
 void FragmentView::updateLayout()
-{
-	auto snapToPixel = []( vec2 p )
-	{
-		return vec2( roundf(p.x), roundf(p.y) );
-	};
-	
+{	
 	// sliders
 	float sliderx[2] = {
 		getBounds().getCenter().x - kSliderLineLength/2,
@@ -192,10 +189,12 @@ void FragmentView::updateLayout()
 		
 		vec2 offset = vec2(kSliderIconNotionalSize.x/2+kSliderIconGutter,0);
 		
-		s.mIconRect[0] = Rectf( vec2(0,0), s.mIconSize[0] );
-		s.mIconRect[1] = Rectf( vec2(0,0), s.mIconSize[1] );
-		s.mIconRect[0].offsetCenterTo( snapToPixel(s.mEndpoint[0] - offset) );
-		s.mIconRect[1].offsetCenterTo( snapToPixel(s.mEndpoint[1] + offset) );
+		for( int i=0; i<2; ++i )
+		{
+			s.mIconRect[i] = Rectf( vec2(0,0), s.mIconSize[i] );
+			s.mIconRect[i].offsetCenterTo( s.mEndpoint[i] + offset * ( i ? 1.f : -1.f ) );
+			s.mIconRect[i] = snapToPixel(s.mIconRect[i]);
+		}
 	}
 
 	// colors

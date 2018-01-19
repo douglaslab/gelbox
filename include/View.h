@@ -92,6 +92,10 @@ public:
 	glm::vec2 getMouseLoc() const;
 	glm::vec2 getMouseDownLoc() const;
 	
+	// TODO: make work 100% properly in local space; AND respect retina
+	ci::vec2  snapToPixel( ci::vec2  p ) const;
+	ci::Rectf snapToPixel( ci::Rectf r ) const;
+
 protected:
 //	glm::ivec2 getScissorLowerLeft( ci::Rectf ) const;
 //	glm::ivec2 getScissorSize( ci::Rectf ) const;

@@ -209,6 +209,8 @@ void SampleView::openFragEditor()
 			+ vec2( frame.getWidth()/2.f + kFragViewGutter, 0 )
 			);
 		
+		frame = snapToPixel(frame); // this is done in our local space; but whatever 
+		
 		mFragEditor->setFrameAndBoundsWithSize( frame );
 		
 		mFragEditor->setSampleView( shared_from_this() );

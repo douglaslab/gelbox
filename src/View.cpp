@@ -88,6 +88,24 @@ vec2 View::getMouseDownLoc() const
 	else return vec2(0,0);
 }
 
+vec2 View::snapToPixel ( vec2 p ) const
+{
+	return vec2( roundf(p.x), roundf(p.y) );
+}
+
+Rectf View::snapToPixel( Rectf r ) const
+{
+	// from upper left
+	
+	vec2 s = r.getSize();
+	vec2 ul = snapToPixel(r.getUpperLeft());
+	
+	ul = snapToPixel(ul);
+//	s = snapToPixel(s);
+	
+	return Rectf( ul, ul + s );
+};
+
 void ViewCollection::tick( float dt )
 {
 	list< weak_ptr<View> > old; 
