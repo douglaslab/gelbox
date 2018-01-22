@@ -84,8 +84,8 @@ void GelView::drawMicrotubes() const
 
 	for( int i=0; i<mGel->getNumLanes(); ++i )
 	{
-		Rectf r = calcMicrotubeIconRect(i);
-		
+		const Rectf r = calcMicrotubeIconRect(i);
+		const bool  laneHasSample = mGel->getSamples()[i] != nullptr;
 		
 		if (mSelectedMicrotube==i)
 		{
@@ -97,13 +97,13 @@ void GelView::drawMicrotubes() const
 			
 			gl::drawSolidRect(r2);
 		}
-		else
+		else if ( ! laneHasSample )
 		{
 			gl::color(.5,.5,.5,.25f);
 			gl::drawStrokedRect(r);
 		}
 		
-		if (mMicrotubeIcon && mGel->getSamples()[i])
+		if ( mMicrotubeIcon && laneHasSample )
 		{
 			Rectf fit(0,0,mMicrotubeIcon->getWidth(),mMicrotubeIcon->getHeight());
 			fit = fit.getCenteredFit(r,true);

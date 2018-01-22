@@ -151,7 +151,7 @@ FragmentView::FragmentView()
 		{
 			v = roundf(v); // show as whole numbers
 			
-			return addCommasToNumericStr( toString(v) ) + " ml";
+			return addCommasToNumericStr( toString(v) ) + " ng";
 		};
 
 		aspect.mValueMappedLo = 1.f;

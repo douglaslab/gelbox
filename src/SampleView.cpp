@@ -397,7 +397,7 @@ void SampleView::newFragment()
 		f.mBases = lerp((float)kRandFragMinNumBases,(float)kRandFragMaxNumBases,mRand.nextFloat()*mRand.nextFloat());
 		f.mMass  = mRand.nextFloat() * kSampleMassHigh;
 		f.mAspectRatio = 1.f;
-		f.mDegrade = mRand.nextFloat() * mRand.nextFloat() * mRand.nextFloat() * .25f;
+		f.mDegrade = 0.f ; //mRand.nextFloat() * mRand.nextFloat() * mRand.nextFloat() * .25f;
 		
 		if ( mRand.nextInt() % 3 == 0 )
 		{
