@@ -30,6 +30,8 @@ const vec2  kSliderIconNotionalSize(26,26); // for layout purposes; they can be 
 const float kIntersliderVStep  = 56;
 const float kVStepToFirstSliderLine = 42;
 
+const float kSliderGraphHeight = 32.f;
+
 const float kVStepToColors = 42; 
 
 const float kMinBases = 1;
@@ -160,7 +162,7 @@ FragmentView::FragmentView()
 			f.mAspectRatio = v;  
 		};
 		aspect.mGetter = []( Sample::Fragment& f ) {
-			return f.mAspectRatio; 
+			return f.mAspectRatio;
 		};
 		aspect.mMappedValueToStr = []( float v )
 		{
@@ -169,15 +171,23 @@ FragmentView::FragmentView()
 			return addCommasToNumericStr( toString(v) ) + " : 1";
 		};
 		
+		
 		aggregate.mNotches = kNumMultimerNotches;
 		aggregate.mValueMappedLo = 1;
 		aggregate.mValueMappedHi = kNumMultimerNotches;
+		
+		aggregate.mIsGraph = true;
+		aggregate.mGraphValues.resize( aggregate.mNotches );
+		aggregate.mGraphHeight = kSliderGraphHeight; 
+		for( float &x : aggregate.mGraphValues ) x = randFloat(); // test data		
+		
 		aggregate.mSetter = []( Sample::Fragment& f, float v ) {
 			f.mAggregate = v;  
 		};
 		aggregate.mGetter = []( Sample::Fragment& f ) {
 			return f.mAggregate; 
 		};
+		
 		
 		degrade.mValueMappedLo = 0.f;
 		degrade.mValueMappedHi = 2.f;
@@ -229,6 +239,14 @@ void FragmentView::updateLayout()
 			s.mIconRect[i].offsetCenterTo( s.mEndpoint[i] + offset * ( i ? 1.f : -1.f ) );
 			s.mIconRect[i] = snapToPixel(s.mIconRect[i]);
 		}
+		
+		// shift graph endpoints -- after we've layed out icons with proper endpoints
+		if (s.mIsGraph)
+		{
+			float d = s.mGraphHeight * .5f;
+			s.mEndpoint[0].y += d;
+			s.mEndpoint[1].y += d;
+		}
 	}
 
 	// colors
@@ -246,21 +264,31 @@ void FragmentView::mouseDown( ci::app::MouseEvent e )
 {
 	vec2 local = rootToChild(e.getPos());
 	
-	int slider = pickSliderHandle(local);
-	int color  = pickColor(local);
+	int sliderB = pickSliderBar(local);
+	int sliderH = pickSliderHandle(local);
+	int color   = pickColor(local);
 	
-	if ( slider != -1 )
+	if ( sliderH != -1 )
 	{
-		mDragSlider = slider;
+		mDragSlider = sliderH;
+	}
+	else if ( sliderB != -1 )
+	{
+		mDragSlider = sliderB;
+		
+		if ( mSliders[mDragSlider].mIsGraph )
+		{
+			tryInstantSliderGraphValueSet( mDragSlider, local );
+		}
+		else
+		{
+			tryInstantSliderSet(local);		
+		}
 	}
 	else if ( color != -1 )
 	{
 		mSelectedColor = color;
 		syncModelToColor();
-	}
-	else
-	{
-		mDragSlider = tryInstantSliderSet(local);		
 	}
 
 	// capture start value if dragging slider
@@ -286,14 +314,46 @@ void FragmentView::mouseUp ( ci::app::MouseEvent e )
 int FragmentView::tryInstantSliderSet( vec2 local )
 {
 	float value;
-	int s = pickSliderBar( local, value );
+	int s = pickSliderBar( local, &value );
 	
-	if ( s != -1 )
+	if ( s != -1 && !mSliders[s].mIsGraph )
 	{
 		setSliderValue( mSliders[s], value );
 	}
 	
 	return s;
+}
+
+int FragmentView::tryInstantSliderGraphValueSet( int si, glm::vec2 p )
+{
+	if ( si == -1 )
+	{
+		si = pickSliderBar(p);
+	}
+	
+	if ( si != -1 )
+	{
+		Slider& s = mSliders[si];
+		
+		assert( s.mIsGraph );
+		assert( !s.mGraphValues.empty() );
+		
+		float fx = (p.x - s.mEndpoint[0].x) / (s.mEndpoint[1].x - s.mEndpoint[0].x);
+		
+		int x = roundf( fx * (float)(s.mGraphValues.size()-1) );
+		
+		x = constrain( x, 0, (int)s.mGraphValues.size() );
+		
+		float fy = (s.mEndpoint[0].y - p.y) / s.mGraphHeight;
+		
+		fy = constrain( fy, 0.f, 1.f );
+		
+		s.mGraphValues[x] = fy;
+		
+		syncModelToSlider( mSliders[si] );
+	}
+	
+	return si;
 }
 
 void FragmentView::setFragment( SampleRef s, int f )
@@ -387,9 +447,16 @@ void FragmentView::mouseDrag( ci::app::MouseEvent e )
 	{
 		Slider &s = mSliders[mDragSlider];
 		
-		float deltaVal = delta.x / kSliderLineLength; 
-		
-		setSliderValue( s, mDragSliderStartValue + deltaVal );
+		if ( s.mIsGraph )
+		{
+			tryInstantSliderGraphValueSet( mDragSlider, local );		
+		}
+		else
+		{		
+			float deltaVal = delta.x / kSliderLineLength; 
+			
+			setSliderValue( s, mDragSliderStartValue + deltaVal );
+		}
 	}
 	// color
 	else if ( pickColor(mouseDownLocal) != -1 )
@@ -415,67 +482,116 @@ void FragmentView::draw()
 	gl::drawStrokedRect(getBounds());
 	
 	// sliders
-	const auto fontRef = GelboxApp::instance()->getUIFont();
-	
 	for ( const auto &s : mSliders )
 	{
-		// line
-		gl::color(kSliderLineColor);
-		gl::drawLine(s.mEndpoint[0], s.mEndpoint[1]);
-		
-		// notches
-		if ( s.mNotches>0 )
-		{
-			float step = 1.f / (float)(s.mNotches-1);
-			
-			for( int i=0; i<s.mNotches; ++i )
-			{
-				vec2 c = lerp( s.mEndpoint[0], s.mEndpoint[1], step * (float)i );
-				gl::drawSolidCircle( c, kSliderNotchRadius );
-			}
-		}
-		
-		// handle
-		Rectf sliderHandleRect = calcSliderHandleRect(s);
-		gl::color(kSliderHandleColor);
-		gl::drawSolidRect(sliderHandleRect);
-		
-		// icons
-		gl::color(1,1,1);
-		
-		if (1)
-		{
-			gl::draw( s.mIcon[0], s.mIconRect[0] );
-			gl::draw( s.mIcon[1], s.mIconRect[1] );
-		}
-		else
-		{
-			// hmm this version doesn't fix aliasing issue
-			for( int i=0; i<2; ++i  )
-			{
-				gl::ScopedModelMatrix model;
-				gl::translate( s.mIconRect[i].getCenter() - vec2(s.mIcon[0]->getSize())*.5f );
-				gl::draw(s.mIcon[i]);
-			}
-		}
-		
-		// text label
-		gl::color(0,0,0);
-		if (s.mMappedValueToStr)
-		{
-			string str = s.mMappedValueToStr( s.getMappedValue() );
-			
-			vec2 size = fontRef->measureString(str);
+		drawSlider(s);
+	}
+	
+	// colors
+	drawColors();
+}
 
-			vec2 baseline;
+void FragmentView::drawSlider( const Slider& s ) const
+{
+	const auto fontRef = GelboxApp::instance()->getUIFont();
+	
+	const bool hasHandle = ! s.mIsGraph;
+
+	// graph
+	if ( s.mIsGraph )
+	{
+		const float stepx = 1.f / (float)(s.mGraphValues.size()-1);
+		
+
+		// build poly
+		PolyLine2 p;
+		
+		p.push_back(s.mEndpoint[0]);
+		
+		for( int i=0; i<s.mGraphValues.size(); ++i )
+		{
+			vec2 o = lerp( s.mEndpoint[0], s.mEndpoint[1], stepx * (float)i );
 			
-			baseline.y = sliderHandleRect.y2 + sliderHandleRect.getHeight() * .75;			
-			baseline.x = sliderHandleRect.getCenter().x - size.x/2;
+			o.y -= s.mGraphValues[i] * s.mGraphHeight; 
 			
-			fontRef->drawString( str, snapToPixel(baseline) );
+			p.push_back(o);
+		}
+		
+		p.push_back(s.mEndpoint[1]);
+		
+		
+		// draw it
+		gl::color( ColorA( Color::gray(.5f), .5f ) );
+		gl::drawStrokedRect( calcSliderPickRect(s) );
+		
+		gl::color( kSliderHandleColor );
+		gl::drawSolid(p);
+		gl::color( kSliderHandleColor * .5f );
+		gl::draw(p);
+	}
+		
+	// line
+	gl::color(kSliderLineColor);
+	gl::drawLine(s.mEndpoint[0], s.mEndpoint[1]);
+	
+	// notches
+	if ( s.mNotches>0 )
+	{
+		gl::color( kSliderLineColor * .5f );
+		
+		float step = 1.f / (float)(s.mNotches-1);
+		
+		for( int i=0; i<s.mNotches; ++i )
+		{
+			vec2 c = lerp( s.mEndpoint[0], s.mEndpoint[1], step * (float)i );
+			gl::drawSolidCircle( c, kSliderNotchRadius );
 		}
 	}
 	
+	// handle
+	if ( hasHandle )
+	{
+		Rectf sliderHandleRect = calcSliderHandleRect(s);
+		gl::color(kSliderHandleColor);
+		gl::drawSolidRect(sliderHandleRect);
+		gl::color(kSliderHandleColor*.5f);
+		gl::drawStrokedRect(sliderHandleRect);
+	}
+	
+	// icons
+	gl::color(1,1,1);	
+	gl::draw( s.mIcon[0], s.mIconRect[0] );
+	gl::draw( s.mIcon[1], s.mIconRect[1] );
+	
+	// text label
+	if (s.mMappedValueToStr)
+	{
+		string str = s.mMappedValueToStr( s.getMappedValue() );
+		
+		vec2 size = fontRef->measureString(str);
+
+		vec2 baseline;
+		
+		if (hasHandle)
+		{
+			Rectf sliderHandleRect = calcSliderHandleRect(s);
+			
+			baseline.y = sliderHandleRect.y2 + sliderHandleRect.getHeight() * .75;			
+			baseline.x = sliderHandleRect.getCenter().x - size.x/2;
+		}
+		else
+		{
+			baseline = lerp( s.mEndpoint[0], s.mEndpoint[1], .5f );
+			baseline.y += kSliderHandleSize.y * 1.25f;
+		}
+
+		gl::color(0,0,0);		
+		fontRef->drawString( str, snapToPixel(baseline) );
+	}
+}
+
+void FragmentView::drawColors() const
+{
 	// colors
 	for( int i=0; i<mColors.size(); ++i )
 	{
@@ -502,29 +618,44 @@ FragmentView::calcSliderHandleRect( const Slider& s ) const
 	return r;
 }
 
+ci::Rectf FragmentView::calcSliderPickRect( const Slider& s ) const
+{
+	Rectf r( s.mEndpoint[0], s.mEndpoint[1] );
+
+	if ( s.mIsGraph ) r.y1 -= s.mGraphHeight;
+	else
+	{
+		r = Rectf( s.mEndpoint[0], s.mEndpoint[1] );
+		r.inflate( vec2(0,kSliderHandleSize.y/2) );
+	}
+	
+	return r;
+}
+
 int
 FragmentView::pickSliderHandle( glm::vec2 loc ) const
 {
 	for ( int i=0; i<mSliders.size(); ++i )
 	{
-		if ( calcSliderHandleRect(mSliders[i]).contains(loc) ) return i;
+		const bool hasHandle = ! mSliders[i].mIsGraph;
+		
+		if ( hasHandle && calcSliderHandleRect(mSliders[i]).contains(loc) ) return i;
 	}
 	
 	return -1;
 }
 
-int	FragmentView::pickSliderBar( glm::vec2 p, float& valuePicked ) const
+int	FragmentView::pickSliderBar( glm::vec2 p, float* valuePicked ) const
 {
 	for ( int i=0; i<mSliders.size(); ++i )
 	{
 		const Slider& s = mSliders[i];
 		
-		Rectf r( s.mEndpoint[0], s.mEndpoint[1] );
-		r.inflate( vec2(0,kSliderHandleSize.y/2) );
+		Rectf r = calcSliderPickRect(s);
 		
 		if ( r.contains(p) )
 		{
-			valuePicked = (p.x - r.getX1()) / r.getWidth();
+			if (valuePicked) *valuePicked = (p.x - r.getX1()) / r.getWidth();
 			
 			return i;
 		}

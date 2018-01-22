@@ -74,6 +74,11 @@ private:
 		
 		float		mValue=.5f; // 0..1
 		float		mValueMappedLo=0.f, mValueMappedHi=1.f;
+
+		bool		mIsGraph		=	false;
+		float		mGraphHeight	=	32.f;
+		float		mGraphValueMappedLo=0.f, mGraphValueMappedHi=1.f; // per notch graph		
+		std::vector<float> mGraphValues;
 		
 		tSetter		mSetter;
 		tGetter		mGetter;
@@ -86,16 +91,21 @@ private:
 	std::vector<Slider>		mSliders;
 	
 	ci::Rectf				calcSliderHandleRect( const Slider& ) const;
+	ci::Rectf				calcSliderPickRect( const Slider& ) const;
 	int						pickSliderHandle( glm::vec2 ) const; // local coords
-	int						pickSliderBar( glm::vec2, float& valuePicked ) const;
+	int						pickSliderBar( glm::vec2, float* valuePicked=0 ) const;
 	void					setSliderValue( Slider&, float value ); // constrains, updates
 	int						tryInstantSliderSet( glm::vec2 local ); // returns which slider, if any
+
+	int						tryInstantSliderGraphValueSet( int, glm::vec2 local ); // constrains, updates; pass -1 slider to try to pick one
 
 	void					syncSlidersToModel(); // just reads it in
 	void					syncModelToSlider( Slider& ) const; // just this slider
 
 	void					syncModelToColor() const;
 	void					syncColorToModel();
+	
+	void					drawSlider( const Slider& ) const;
 	
 	// color picker
 	std::vector<ci::Color>	mColors;
@@ -107,6 +117,7 @@ private:
 	
 	ci::Rectf				calcColorRect( int i ) const;
 	int						pickColor( glm::vec2 ) const; // local coords
+	void					drawColors() const;
 	
 	// sample
 	SampleViewRef mSampleView;

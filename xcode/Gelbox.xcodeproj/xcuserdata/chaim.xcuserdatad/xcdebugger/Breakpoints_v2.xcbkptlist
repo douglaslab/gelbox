@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/FragmentView.cpp"
-            timestampString = "538088118.681025"
+            timestampString = "538345618.701645"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
             landmarkName = "FragmentView::updateLayout()"
             landmarkType = "5">
          </BreakpointContent>
