@@ -26,6 +26,10 @@ const float kRandFragMaxAspect = 8.f;
 const bool  kPartSimIsOldAgeDeathEnabled = false;
 const int kNumPartsPerMassHigh = 50;
 
+const int kNewFragNumAggregateBands = 7;
+	// magic number we are copying from # notches in sample view...
+	// !! TODO: pull out into a const !!
+
 // ui
 const Color kSelectColor(0,0,0);
 const Color kRolloverColor(1,1,0);
@@ -360,6 +364,9 @@ void SampleView::syncToModel()
 			f.mTargetPop	= max( 1.f, (s.mMass/kSampleMassHigh) * kNumPartsPerMassHigh );
 			f.mAggregate	= s.mAggregate;
 			
+			f.mAggregateWeightSum = 0.f;
+			for( auto w : f.mAggregate ) f.mAggregateWeightSum += w;
+			
 			// radius
 			float r = lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
 			
@@ -402,6 +409,24 @@ void SampleView::newFragment()
 		if ( mRand.nextInt() % 3 == 0 )
 		{
 			f.mAspectRatio = 1.f + (kRandFragMaxAspect-1.f) * mRand.nextFloat();
+		}
+		
+		// random multimer
+		{
+			f.mAggregate.resize( kNewFragNumAggregateBands );
+			
+			if ( mRand.nextInt(5)==0 )
+			{
+				int r = mRand.nextInt( f.mAggregate.size() );
+				for( int i=0; i<r; ++i )
+				{
+					f.mAggregate[i] = mRand.nextFloat();
+				}
+			}
+			else
+			{
+				f.mAggregate[0] = 1.f;
+			}
 		}
 		
 		mSample->mFragments.push_back(f);
@@ -486,11 +511,54 @@ SampleView::randomPart( int f )
 	p.mDegradeSizeKey = mRand.nextFloat();
 	
 	if ( mFragSpeedBias[f] != -1.f ) p.mDegradeSizeKey = 1.f - mFragSpeedBias[f];
-	
+
+	// multimer setup
 	Part::Multi m;
 	p.mMulti.push_back(m);
+
+	int aggregate = getRandomWeightedAggregateSize(p.mFragment);
+	
+	while ( p.mMulti.size() < aggregate )
+	{
+		Part::Multi m;
+	
+		m.mAngle = mRand.nextFloat() * M_PI * 2.f;
+
+		if (!p.mMulti.empty())
+		{
+			Part::Multi parent = p.mMulti[ mRand.nextInt() % p.mMulti.size() ];					
+
+			m.mLoc = parent.mLoc + mRand.nextVec2();
+		}
+		else m.mLoc = vec2(0,0); // in case we ever get empty... (shouldn't happen!) 
+		
+		p.mMulti.push_back(m);
+	}
 	
 	return p;
+}
+
+int
+SampleView::getRandomWeightedAggregateSize( int fragment )
+{
+	const auto &frag = mFragments[fragment];
+	
+	if (frag.mAggregate.empty()) return 1; // empty means monomer
+	
+	float r = mRand.nextFloat() * frag.mAggregateWeightSum;
+	
+	for( int i=0; i<frag.mAggregate.size(); ++i )
+	{
+		if ( r <= frag.mAggregate[i] )
+		{
+			return i+1;
+		}
+		
+		r -= frag.mAggregate[i];
+	}
+	
+	assert( 0 && "aggregate weight sum is wrong" );
+	return 1; // monomer
 }
 
 void SampleView::prerollSim()
@@ -521,12 +589,32 @@ void SampleView::tickSim( float dt )
 	pop.resize(mFragments.size(),0);
 	alivepop.resize(mFragments.size(),0);
 	
+	// setup aggregate counters
+	vector< vector<int> > aggregatePop;
+	vector< vector<float> > aggregateCullChance;
+	aggregatePop.resize( mFragments.size(), vector<int>() );
+	aggregateCullChance.resize( mFragments.size(), vector<float>() );
+	
+	for( int i=0; i<mFragments.size(); ++i )
+	{
+		aggregatePop[i]       .resize( max( (size_t)1, mFragments[i].mAggregate.size()), 0 );
+		aggregateCullChance[i].resize( max( (size_t)1, mFragments[i].mAggregate.size()), 0.f );
+	}
+	
+	// tally
 	for ( const auto &p : mParts )
 	{
-		if ( p.mFragment>=0 && p.mFragment<pop.size() )
+		const int f = p.mFragment;
+		
+		if ( f>=0 && f<pop.size() )
 		{
-			pop[p.mFragment]++;
-			if (p.mAlive) alivepop[p.mFragment]++;
+			pop[f]++;
+			if (p.mAlive)
+			{
+				alivepop[f]++;
+			
+				if (p.mMulti.size()>0) aggregatePop[f][p.mMulti.size()-1]++;
+			}
 		}
 	}
 	
@@ -552,6 +640,23 @@ void SampleView::tickSim( float dt )
 		{
 			cullChance[f] = (float)(alivepop[f] - targetPop) / (float)targetPop;
 		}
+
+		// aggregate cull?
+		for( int m=0; m<mFragments[f].mAggregate.size(); ++m )
+		{
+			int targetMultiPop = ( mFragments[f].mAggregate[m] / mFragments[f].mAggregateWeightSum )
+				* (float)targetPop;
+			
+			// get rid of dithering artifacts by being lenient / less aggressive
+			const float kCullChanceScale = (1.f / 30.f);
+			const int   kEps = 1;
+			
+			if ( aggregatePop[f][m] - kEps > targetMultiPop )
+			{
+				aggregateCullChance[f][m] = (float)(aggregatePop[f][m] - targetMultiPop) / (float)(aggregatePop[f][m]) ;
+				aggregateCullChance[f][m] *= kCullChanceScale;
+			}			
+		}
 	}
 	
 	// update each
@@ -572,6 +677,7 @@ void SampleView::tickSim( float dt )
 			if (   !frag
 				|| (p.mAge > kMaxAge && kPartSimIsOldAgeDeathEnabled)
 				|| mRand.nextFloat() < cullChance[p.mFragment] // ok to index bc of !frag test above
+				|| mRand.nextFloat() < aggregateCullChance[p.mFragment][p.mMulti.size()-1]
 				)
 			{
 				p.mAlive = false;
@@ -611,28 +717,7 @@ void SampleView::tickSim( float dt )
 			p.mColor	= lerp( p.mColor,  frag->mColor, .5f );
 			p.mRadius	= lerp( p.mRadius, fragRadius,	 .5f );
 			
-			// aggregates
-			if ( p.mMulti.size() > frag->mAggregate ) p.mMulti.resize(frag->mAggregate);
-			else
-			{
-				while ( p.mMulti.size() < frag->mAggregate )
-				{
-					Part::Multi m;
-					
-					m.mAngle = mRand.nextFloat() * M_PI * 2.f;
-
-					if (!p.mMulti.empty())
-					{
-						Part::Multi parent = p.mMulti[ mRand.nextInt() % p.mMulti.size() ];					
-
-						m.mLoc = parent.mLoc + mRand.nextVec2();
-					}
-					else m.mLoc = vec2(0,0); // in case we ever get empty... (shouldn't happen!) 
-					
-					p.mMulti.push_back(m);
-				}
-			}
-		} 
+		} // sync
 	}
 	
 	// cull dead ones

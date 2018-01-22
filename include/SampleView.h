@@ -107,6 +107,7 @@ private:
 	int  pickPart( ci::vec2 ) const;
 	int  pickFragment( ci::vec2 ) const;
 	Part randomPart( int fragment );
+	int  getRandomWeightedAggregateSize( int fragment );
 	
 	class Frag
 	{
@@ -121,7 +122,8 @@ private:
 		
 		ci::Color	mColor;
 		
-		int			mAggregate=1;
+		std::vector<float>	mAggregate; // weights per multimer size (empty means all are monomers)
+		float				mAggregateWeightSum=0.f;
 	};
 	
 	class Part

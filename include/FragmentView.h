@@ -55,7 +55,10 @@ private:
 	float					mDragSliderStartValue;
 	
 	typedef std::function< void ( Sample::Fragment&, float ) > tSetter;
-	typedef std::function< float( Sample::Fragment& ) > tGetter;
+	typedef std::function< float( const Sample::Fragment& ) > tGetter;
+
+	typedef std::function< void ( Sample::Fragment&, std::vector<float> ) > tGraphSetter;
+	typedef std::function< std::vector<float>( const Sample::Fragment& ) > tGraphGetter;
 	
 	// sliders
 	class Slider
@@ -82,6 +85,9 @@ private:
 		
 		tSetter		mSetter;
 		tGetter		mGetter;
+		
+		tGraphSetter	mGraphSetter;
+		tGraphGetter	mGraphGetter;
 		
 		float		getMappedValue() const { return ci::lerp( mValueMappedLo, mValueMappedHi, mValue ); }
 		

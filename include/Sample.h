@@ -26,7 +26,13 @@ public:
 		float mMass			= 0.f; // ng
 		
 		float mDegrade		= 0.f; // 0..2
-		int   mAggregate	= 1; // default is 1, dimer is 2, etc...
+		std::vector<float> mAggregate;
+		/* - empty means default (monomer)
+		   - dimer is {0,1} (0 for size 1, 1 for size 2)
+		   - 50/50 dimers and trimers is {0,1,1}
+		   - can no non-uniform distributions, e.g.: {.5,1,2}
+		   etc...
+		*/
 		
 		float mAspectRatio	= 1.f;
 		ci::Color mColor	= ci::Color(.5,.5,.5);

@@ -88,8 +88,8 @@ void Gel::insertSample( const Sample& src, int lane )
 		
 		b.mFocusColor	= frag.mColor;
 		
-		b.mBases		= frag.mBases * frag.mAggregate;
-		b.mMass			= frag.mMass  * (float)frag.mAggregate;
+		b.mBases		= frag.mBases; // * frag.mAggregate;
+		b.mMass			= frag.mMass;  // * (float)frag.mAggregate;
 		b.mDegrade		= frag.mDegrade;
 		
 		b.mStartBounds	= getWellBounds(lane);

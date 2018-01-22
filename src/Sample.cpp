@@ -65,6 +65,21 @@ Sample::loadXml( const XmlTree& xml )
 			
 			k.mColor	= childAttrValueColor( *i, "Color",		k.mColor	);
 			
+			// multimer aggregates
+			for( auto m = i->begin("Aggregate"); m != i->end(); ++m )
+			{
+				if ( m->hasAttribute("Size") && m->hasAttribute("Weight") )
+				{
+					int   s = m->getAttributeValue<int>("Size");
+					float w = m->getAttributeValue<int>("Weight");
+					
+					if ( k.mAggregate.size() < s ) k.mAggregate.resize(s,0.f);
+					
+					k.mAggregate[s] = w;
+				}
+				else cerr << "ERROR Sample::loadXml malformed <Aggregate> node; needs Size and Weight attributes." << endl;
+			}
+			
 			mFragments.push_back(k);
 			
 			if (0)

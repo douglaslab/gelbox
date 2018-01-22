@@ -43,6 +43,12 @@ const int kNumMultimerNotches = 7;
 
 vector<ci::Color> FragmentView::sColorPalette;
 
+std::vector<float> lmap( std::vector<float> v, float inMin, float inMax, float outMin, float outMax )
+{
+	for( auto &f : v ) f = lmap(f,inMin,inMax,outMin,outMax);
+	return v;
+}
+
 const vector<Color>& FragmentView::getColorPalette()
 {
 	if ( sColorPalette.empty() )
@@ -131,7 +137,7 @@ FragmentView::FragmentView()
 		size.mSetter = []( Sample::Fragment& f, float v ) {
 			f.mBases = roundf(v);  
 		};
-		size.mGetter = []( Sample::Fragment& f ) {
+		size.mGetter = []( const Sample::Fragment& f ) {
 			return f.mBases; 
 		};
 		size.mMappedValueToStr = []( float v )
@@ -146,7 +152,7 @@ FragmentView::FragmentView()
 		concentration.mSetter = []( Sample::Fragment& f, float v ) {
 			f.mMass = v;  
 		};
-		concentration.mGetter = []( Sample::Fragment& f ) {
+		concentration.mGetter = []( const Sample::Fragment& f ) {
 			return f.mMass; 
 		};
 		concentration.mMappedValueToStr = []( float v )
@@ -161,7 +167,7 @@ FragmentView::FragmentView()
 		aspect.mSetter = []( Sample::Fragment& f, float v ) {
 			f.mAspectRatio = v;  
 		};
-		aspect.mGetter = []( Sample::Fragment& f ) {
+		aspect.mGetter = []( const Sample::Fragment& f ) {
 			return f.mAspectRatio;
 		};
 		aspect.mMappedValueToStr = []( float v )
@@ -181,11 +187,22 @@ FragmentView::FragmentView()
 		aggregate.mGraphHeight = kSliderGraphHeight; 
 		for( float &x : aggregate.mGraphValues ) x = randFloat(); // test data		
 		
-		aggregate.mSetter = []( Sample::Fragment& f, float v ) {
+		aggregate.mGraphSetter = []( Sample::Fragment& f, std::vector<float> v ) {
 			f.mAggregate = v;  
 		};
-		aggregate.mGetter = []( Sample::Fragment& f ) {
-			return f.mAggregate; 
+		aggregate.mGraphGetter = []( const Sample::Fragment& f )
+		{
+			if ( f.mAggregate.empty() )
+			{
+				// default value
+				vector<float> v = std::vector<float>(kNumMultimerNotches,0.f);
+				v[0] = 1;
+				return v;
+			}
+			else
+			{
+				return f.mAggregate;
+			}
 		};
 		
 		
@@ -194,7 +211,7 @@ FragmentView::FragmentView()
 		degrade.mSetter = []( Sample::Fragment& f, float v ) {
 			f.mDegrade = v;  
 		};
-		degrade.mGetter = []( Sample::Fragment& f ) {
+		degrade.mGetter = []( const Sample::Fragment& f ) {
 			return f.mDegrade; 
 		};
 		
@@ -379,9 +396,18 @@ void FragmentView::syncSlidersToModel()
 	{
 		for( Slider &s : mSliders )
 		{
+			const auto &frag = mEditSample->mFragments[mEditFragment]; 
+			
+			if (s.mGraphGetter)
+			{
+				s.mGraphValues = s.mGraphGetter( frag );
+				
+				s.mGraphValues = lmap( s.mGraphValues, s.mGraphValueMappedLo, s.mGraphValueMappedHi, 0.f, 1.f );
+			}
+			
 			if (s.mGetter)
 			{
-				float value = s.mGetter( mEditSample->mFragments[mEditFragment] );
+				float value = s.mGetter( frag );
 
 				s.mValue = lmap( value, s.mValueMappedLo, s.mValueMappedHi, 0.f, 1.f );
 			}
@@ -393,11 +419,18 @@ void FragmentView::syncModelToSlider( Slider& s ) const
 {
 	if ( isEditFragmentValid() )
 	{
+		auto &frag = mEditSample->mFragments[mEditFragment]; 
+		
 		if (s.mSetter)
 		{
-			s.mSetter( mEditSample->mFragments[mEditFragment], s.getMappedValue() );			
+			s.mSetter( frag, s.getMappedValue() );			
 		}
-
+		
+		if (s.mGraphSetter)
+		{
+			s.mGraphSetter( frag, lmap( s.mGraphValues, 0.f, 1.f, s.mGraphValueMappedLo, s.mGraphValueMappedHi ) );
+		}
+		
 		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
 	}
 }
