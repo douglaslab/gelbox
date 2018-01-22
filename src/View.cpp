@@ -26,7 +26,6 @@ mat4 getRectMappingAsMatrix( Rectf from, Rectf to )
 	return m;	
 }
 
-
 mat4 View::getRootToChildMatrix() const
 {
 	if (mParent) return mParent->getRootToChildMatrix() * getParentToChildMatrix();
@@ -38,6 +37,19 @@ mat4 View::getChildToRootMatrix() const
 	if (mParent) return getChildToParentMatrix() * mParent->getChildToRootMatrix();
 	else return getChildToParentMatrix();
 }
+
+mat4 View::getRootToParentMatrix() const
+{
+	if (mParent) return mParent->getRootToChildMatrix();
+	else return mat4(); // identity
+}
+
+mat4 View::getParentToRootMatrix() const
+{
+	if (mParent) return mParent->getChildToRootMatrix();
+	else return mat4(); // identity
+}
+
 /*
 ivec2 View::getScissorLowerLeft( Rectf r ) const
 {

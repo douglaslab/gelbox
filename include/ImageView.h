@@ -18,6 +18,7 @@ public:
 	ImageView( ci::gl::TextureRef );
 	
 	void draw() override;
+	void drawFrame() override;
 	
 	void mouseDown( ci::app::MouseEvent ) override;
 	void mouseDrag( ci::app::MouseEvent ) override;
@@ -25,6 +26,17 @@ public:
 	void keyDown  ( ci::app::KeyEvent   ) override;
 	
 private:
-	ci::gl::TextureRef mImage;
+	ci::Rectf mMouseDownFrame;
 	
+	ci::gl::TextureRef mImage;
+
+	ci::Rectf calcResizeBox() const; // in frame (parent) space
+	
+	enum Action
+	{
+		Drag,
+		Resize
+	};
+	
+	Action mAction;
 };

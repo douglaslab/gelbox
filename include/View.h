@@ -55,6 +55,12 @@ public:
 
 	glm::vec2 rootToChild( glm::vec2 p ) const { return glm::vec2( getRootToChildMatrix() * glm::vec4(p,0,1) ); }
 	glm::vec2 childToRoot( glm::vec2 p ) const { return glm::vec2( getChildToRootMatrix() * glm::vec4(p,0,1) ); }
+
+	glm::mat4 getRootToParentMatrix() const;
+	glm::mat4 getParentToRootMatrix() const;
+	
+	glm::vec2 rootToParent( glm::vec2 p ) const { return glm::vec2( getRootToParentMatrix() * glm::vec4(p,0,1) ); }
+	glm::vec2 parentToRoot( glm::vec2 p ) const { return glm::vec2( getParentToRootMatrix() * glm::vec4(p,0,1) ); }
 	
 	// drawing
 	virtual void draw()
