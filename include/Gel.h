@@ -31,9 +31,11 @@ public:
 		int			mLane		= -1;
 		int			mFragment	= -1;
 		
-		ci::Rectf	mStartBounds;
+		ci::Rectf	mStartBounds; // well 
 		
 		int			mBases		= 0;
+		int			mBasesLow	= 0;
+		
 		float		mMass		= 0.f;
 		float		mDegrade	= 0.f;
 		

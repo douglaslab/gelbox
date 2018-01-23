@@ -37,6 +37,11 @@ public:
 		   etc...
 		*/
 		
+		float mAspectRatio	= 1.f;
+		ci::Color mColor	= ci::Color(.5,.5,.5);
+		
+		
+		// derived properties
 		float calcAggregateSum() const {
 			float sum = 0.f;
 			for( auto w : mAggregate ) sum += w;
@@ -49,8 +54,24 @@ public:
 			return sum; 
 		}
 		
-		float mAspectRatio	= 1.f;
-		ci::Color mColor	= ci::Color(.5,.5,.5);
+		int calcAggregateRange( int& lo, int& hi ) const
+		{
+			lo = hi = -1;
+			
+			int numNonZeroMultimers = 0;
+			
+			for( int m=0; m<mAggregate.size(); ++m )
+			{
+				if ( mAggregate[m] > 0.f )
+				{
+					numNonZeroMultimers++;
+					if ( lo == -1 ) lo = m;
+					hi = m;					
+				}
+			}
+			
+			return numNonZeroMultimers;			
+		} 
 	};
 
 	std::vector<Fragment> mFragments;

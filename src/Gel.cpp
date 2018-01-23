@@ -77,7 +77,7 @@ ci::Rectf Gel::getWellBounds( int lane ) const
 
 void Gel::insertSample( const Sample& src, int lane )
 {
-	auto addBand = [=]( int fragi, int multimer, float massFrac )
+	auto addBand = [=]( int fragi, int multimer, int multimerlow, float multilowfrac, float massFrac ) -> Band&
 	{
 		const auto& frag = src.mFragments[fragi]; 
 
@@ -89,27 +89,33 @@ void Gel::insertSample( const Sample& src, int lane )
 		b.mFocusColor	= frag.mColor;
 		
 		b.mBases		= frag.mBases * (float)multimer;
-		b.mMass			= frag.mMass  * (float)multimer * massFrac;
+		b.mBasesLow		= frag.mBases * (float)multimerlow;
+		
+//		b.mMass			= frag.mMass  * (float)multimer * massFrac;
+		b.mMass			= frag.mMass  * massFrac;
+		
 		b.mDegrade		= frag.mDegrade;
 		
 		b.mStartBounds	= getWellBounds(lane);
 		
 		b.mAspectRatioYNormBonus = ((frag.mAspectRatio - 1.f) / 16.f) * .25f;
 		
-		if ( frag.mAggregate.empty() )
+		if (multimer != 1)
 		{
-			assert( multimer==1 );
+			int n  = multimer-1;
+			int n2 = multimerlow-1;
+
+			b.mAggregate.resize( max( frag.mAggregate.size(), (size_t)max(n,n2) ), 0.f );
+				// ensure we have an appropriate aggregate array
+			
+			b.mAggregate[n ] = 1.f;
+			if (n2 != n) b.mAggregate[n2] = multilowfrac;
 		}
-		else
-		{
-			int n = multimer-1;
-			assert( ( n >= 0 && n < frag.mAggregate.size() ) );
-			b.mAggregate.resize( frag.mAggregate.size(), 0.f );
-			b.mAggregate[n] = 1.f; 
-		}
+		else assert( multimerlow == 1 );
 		
 		// calculate alpha
-		float a = constrain( b.mMass / kSampleMassHigh, 0.1f, 1.f );
+//		float a = constrain( b.mMass / kSampleMassHigh, 0.1f, 1.f );
+		float a = constrain( (b.mMass * (float)multimer) / kSampleMassHigh, 0.1f, 1.f );
 		
 		if (b.mDegrade > 1.f) a *= 1.f - min( b.mDegrade - 1.f, 1.f ); // degrade alpha
 		
@@ -120,8 +126,12 @@ void Gel::insertSample( const Sample& src, int lane )
 		
 		b.mBounds		= calcBandBounds(b);
 		
-		mBands.push_back(b);		
+		mBands.push_back(b);	
+		return mBands.back();
 	};
+	
+	const float kMultimerSmearFrac = .2f;
+	// smear is 10% of total, and we scale the rest to 90%
 	
 	for( int fragi=0; fragi<src.mFragments.size(); ++fragi )
 	{		
@@ -129,18 +139,36 @@ void Gel::insertSample( const Sample& src, int lane )
 
 		const float wsum = frag.calcAggregateWeightedSum();
 		
-		if ( frag.mAggregate.empty() || wsum==0.f ) addBand( fragi, 1, 1.f );
+		if ( frag.mAggregate.empty() || wsum==0.f ) addBand( fragi, 1, 1, 0.f, 1.f );
 		else
 		{
+			int bandhi, bandlo;
+			int numNonZeroMultimers = frag.calcAggregateRange(bandlo,bandhi);
+						
+			// add band for each multimer size
 			for( int m=0; m<frag.mAggregate.size(); ++m )
 			{
 				if ( frag.mAggregate[m] > 0.f )
 				{
-					addBand( fragi, m+1, frag.mAggregate[m] / wsum );
+					// add
+					float scale = 1.f;
+					
+					if (numNonZeroMultimers>1) scale = 1.f - kMultimerSmearFrac;
+					
+					addBand( fragi, m+1, m+1, 0.f, (frag.mAggregate[m] / wsum) * scale );
 				}
+			} // m
+			
+			// one smeary band for all multimers...
+			if ( bandlo != -1 && bandlo != bandhi )
+			{
+				float loratio = frag.mAggregate[bandlo] / frag.mAggregate[bandhi];  
+				
+				addBand( fragi, bandhi+1, bandlo+1, loratio, kMultimerSmearFrac );
 			}
-		}
-	}
+			
+		} // aggregates
+	} // fragi
 }
 
 void Gel::clearSamples( int lane )
@@ -183,8 +211,8 @@ ci::Rectf Gel::calcBandBounds( const Band& b ) const
 	const float bandTime = max(mTime - b.mCreateTime,0.f);
 
 	// what base pair location to use for y1 and y2
-	float y1b = constrain( normalizeBases(b.mBases), 0.f, 1.f );
-	float y2b = y1b;
+	float y1b = constrain( normalizeBases(b.mBases   ), 0.f, 1.f );
+	float y2b = constrain( normalizeBases(b.mBasesLow), 0.f, 1.f );
 	
 	y1b -= b.mAspectRatioYNormBonus * bandTime;
 	y2b -= b.mAspectRatioYNormBonus * bandTime;

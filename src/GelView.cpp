@@ -400,6 +400,8 @@ void GelView::updateGelDetailView( vec2 withSampleAtPos )
 
 SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 {
+	assert(mGel);
+	
 	SampleRef s = make_shared<Sample>();
 
 	auto bands = pickBands(pos);
@@ -413,8 +415,37 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		// speed bias
 		f.mSampleSizeBias = (pos.y - b.mBounds.getY1()) / b.mBounds.getHeight() ;
 		
+		//
+		f.mMass = b.mMass;
+		
 		// aggregates
 		f.mAggregate = b.mAggregate;
+		
+		// if we are an aggregate smeary band, (num non-zero multimers >1)
+		// then bias aggregation with sample size bias
+		if ( ! f.mAggregate.empty() )
+		{
+			int hi, lo;
+			int numNonZeroMultimers = f.calcAggregateRange(lo,hi);
+			
+			if ( numNonZeroMultimers > 1 )
+			{
+				for( int m=lo; m<=hi; ++m )
+				{
+					float mf = 1.f - (float)(m - lo) / (float)(hi - lo);
+					// 0 at hi (0 means big and slow)
+					// 1 at lo (1 means small and fast)
+					
+					float scale = 1.f - fabs( mf - f.mSampleSizeBias );
+					// near goal means scale 100%
+					// far from it means scale 0%
+					
+					scale = powf( scale, 2.f );
+					
+					f.mAggregate[m] *= scale;
+				}
+			}
+		}
 		
 		// push
 		s->mFragments.push_back(f);
