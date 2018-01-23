@@ -23,11 +23,12 @@ public:
 	{
 	public:
 		int   mBases		= 0;   // base count
-//		int   mBasesRange   = 0;   // bases randomly picked from [mBases , mBases + mBasesRange]
 		
 		float mMass			= 0.f; // ng
 		
 		float mDegrade		= 0.f; // 0..2
+		float mSampleSizeBias = -1.f; // -1 for none, 0 to skew towards big + slow, 1 for small + fast 
+		
 		std::vector<float> mAggregate;
 		/* - empty means default (monomer)
 		   - dimer is {0,1} (0 for size 1, 1 for size 2)

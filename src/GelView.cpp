@@ -411,9 +411,7 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		Sample::Fragment f = mGel->getSamples()[b.mLane]->mFragments[b.mFragment];
 
 		// speed bias
-		const float speedBias = (pos.y - b.mBounds.getY1()) / b.mBounds.getHeight() ;
-
-//		f.mba
+		f.mSampleSizeBias = (pos.y - b.mBounds.getY1()) / b.mBounds.getHeight() ;
 		
 		// aggregates
 		f.mAggregate = b.mAggregate;

@@ -371,6 +371,8 @@ void SampleView::syncToModel()
 			f.mAggregate	= s.mAggregate;			
 			f.mAggregateWeightSum = s.calcAggregateSum();
 			
+			f.mSampleSizeBias = s.mSampleSizeBias;
+			
 			// radius
 			float r = lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
 			
@@ -513,6 +515,7 @@ SampleView::randomPart( int f )
 	p.mColor  = mFragments[p.mFragment].mColor ; 
 	
 	p.mRadiusScaleKey = mRand.nextFloat();
+	if ( mFragments[p.mFragment].mSampleSizeBias != -1.f ) p.mRadiusScaleKey = 1.f - mFragments[p.mFragment].mSampleSizeBias;
 
 	// multimer setup
 	Part::Multi m;

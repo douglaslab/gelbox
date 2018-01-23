@@ -121,6 +121,8 @@ private:
 		
 		std::vector<float>	mAggregate; // weights per multimer size (empty means all are monomers)
 		float				mAggregateWeightSum=0.f;
+		
+		float				mSampleSizeBias=-1.f; // mirrors Sample::Fragment
 	};
 	
 	class Part
