@@ -411,7 +411,7 @@ void SampleView::newFragment()
 			f.mAspectRatio = 1.f + (kRandFragMaxAspect-1.f) * mRand.nextFloat();
 		}
 		
-		// random multimer
+		// random multimers
 		{
 			f.mAggregate.resize( kNewFragNumAggregateBands );
 			
