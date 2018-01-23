@@ -34,6 +34,18 @@ public:
 		   etc...
 		*/
 		
+		float calcAggregateSum() const {
+			float sum = 0.f;
+			for( auto w : mAggregate ) sum += w;
+			return sum; 
+		}
+
+		float calcAggregateWeightedSum() const {
+			float sum = 0.f;
+			for( int i=0; i<mAggregate.size(); ++i ) sum += mAggregate[i] * (float)i;
+			return sum; 
+		}
+		
 		float mAspectRatio	= 1.f;
 		ci::Color mColor	= ci::Color(.5,.5,.5);
 	};

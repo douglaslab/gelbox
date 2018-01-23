@@ -36,20 +36,28 @@ const Color kRolloverColor(1,1,0);
 const float kOutlineWidth = 4.f;
 
 const float kFadeInStep = .05f; 
-const float kFadeOutStep = .05f; 
+const float kFadeOutStep = .05f;
 const float kMaxAge = 30 * 1000;
+
+// mitigate dithering artifacts by being lenient / less aggressive with aggregate culling
+const float kAggregateCullChanceScale = (1.f / 30.f) * .5f;
+const int   kAggregateCullPopEps = 0;
+const float kMaxAgeMisfitAggregate = 30 * 30;
+ 
 const float kJitter = .75f;
 
 const float kPartMinPickRadius = 8.f;	
 
 const float kNewBtnRadius = 53.f / 2.f;
 const float kNewBtnGutter = 16.f;
-const Color kNewBtnDownColor = Color(1.f,1.f,1.f)*.7f;		
+const Color kNewBtnDownColor = Color(1.f,1.f,1.f)*.7f;
 
 const float kFragViewGutter = 16.f;
 
 SampleView::SampleView()
 {
+	mRand.seed( randInt() ); // random random seed :-)
+	
 	fs::path newBtnPath = "???";
 	
 	try
@@ -351,21 +359,22 @@ void SampleView::syncToModel()
 {
 	if (mSample)
 	{
-		mFragments    .resize( mSample->mFragments.size() );
-		mFragPopScale .resize( mSample->mFragments.size(),  1.f );
-		mFragSpeedBias.resize( mSample->mFragments.size(), -1.f );
+		mFragments			.resize( mSample->mFragments.size() );
+		mFragPopScale		.resize( mSample->mFragments.size(),  1.f );
+		mFragSpeedBias		.resize( mSample->mFragments.size(), -1.f );
+		mFragAggregateScale	.resize( mSample->mFragments.size() );
 		
 		for( int i=0; i<mFragments.size(); ++i )
 		{
 			Frag &f = mFragments[i];
 			auto  s = mSample->mFragments[i];
 			
+			mFragAggregateScale[i].resize( s.mAggregate.size(), 1.f );
+			
 			f.mColor		= s.mColor;
 			f.mTargetPop	= max( 1.f, (s.mMass/kSampleMassHigh) * kNumPartsPerMassHigh );
-			f.mAggregate	= s.mAggregate;
-			
-			f.mAggregateWeightSum = 0.f;
-			for( auto w : f.mAggregate ) f.mAggregateWeightSum += w;
+			f.mAggregate	= s.mAggregate;			
+			f.mAggregateWeightSum = s.calcAggregateSum();
 			
 			// radius
 			float r = lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
@@ -543,18 +552,37 @@ SampleView::getRandomWeightedAggregateSize( int fragment )
 {
 	const auto &frag = mFragments[fragment];
 	
+	// empty?
 	if (frag.mAggregate.empty()) return 1; // empty means monomer
 	
-	float r = mRand.nextFloat() * frag.mAggregateWeightSum;
+	// calc weights to choose from (incorporate scaling modifiers)
+	vector<float> a = frag.mAggregate; 
 	
-	for( int i=0; i<frag.mAggregate.size(); ++i )
+	if ( mFragAggregateScale.size() >= fragment )
 	{
-		if ( r <= frag.mAggregate[i] )
+		int n = min( a.size(), mFragAggregateScale[fragment].size() );
+		
+		for( int i=0; i<n; ++i )
+		{
+			a[i] *= mFragAggregateScale[fragment][i];
+		}
+	}
+	
+	// sum weights
+	float sum=0.f;
+	for( auto w : a ) sum += w; 
+	
+	// choose
+	float r = mRand.nextFloat() * sum;
+	
+	for( int i=0; i<a.size(); ++i )
+	{
+		if ( r <= a[i] )
 		{
 			return i+1;
 		}
 		
-		r -= frag.mAggregate[i];
+		r -= a[i];
 	}
 	
 	assert( 0 && "aggregate weight sum is wrong" );
@@ -647,14 +675,10 @@ void SampleView::tickSim( float dt )
 			int targetMultiPop = ( mFragments[f].mAggregate[m] / mFragments[f].mAggregateWeightSum )
 				* (float)targetPop;
 			
-			// get rid of dithering artifacts by being lenient / less aggressive
-			const float kCullChanceScale = (1.f / 30.f);
-			const int   kEps = 1;
-			
-			if ( aggregatePop[f][m] - kEps > targetMultiPop )
+			if ( aggregatePop[f][m] - kAggregateCullPopEps > targetMultiPop )
 			{
 				aggregateCullChance[f][m] = (float)(aggregatePop[f][m] - targetMultiPop) / (float)(aggregatePop[f][m]) ;
-				aggregateCullChance[f][m] *= kCullChanceScale;
+				aggregateCullChance[f][m] *= kAggregateCullChanceScale;
 			}			
 		}
 	}
@@ -677,7 +701,7 @@ void SampleView::tickSim( float dt )
 			if (   !frag
 				|| (p.mAge > kMaxAge && kPartSimIsOldAgeDeathEnabled)
 				|| mRand.nextFloat() < cullChance[p.mFragment] // ok to index bc of !frag test above
-				|| mRand.nextFloat() < aggregateCullChance[p.mFragment][p.mMulti.size()-1]
+				|| (p.mAge > kMaxAgeMisfitAggregate && mRand.nextFloat() < aggregateCullChance[p.mFragment][p.mMulti.size()-1])
 				)
 			{
 				p.mAlive = false;

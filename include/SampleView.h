@@ -69,6 +69,7 @@ public:
 	
 	std::vector<float>& getFragPopScale () { return mFragPopScale ; }
 	std::vector<float>& getFragSpeedBias() { return mFragSpeedBias; }
+	std::vector< std::vector<float> >& getFragAggregateScale() { return mFragAggregateScale; }
 	
 private:
 
@@ -162,6 +163,7 @@ private:
 	
 	std::vector<float> mFragPopScale;
 	std::vector<float> mFragSpeedBias; // -1 for none, 0 for big + slow, 1 for small + fast 
+	std::vector< std::vector<float> > mFragAggregateScale;
 	
 	float mPopDensityScale=1.f;
 	float mSimTimeScale   =1.f;

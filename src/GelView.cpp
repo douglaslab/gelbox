@@ -417,6 +417,9 @@ void GelView::updateGelDetailView( vec2 withSampleAtPos )
 				
 				mGelDetailView->getFragPopScale ()[b.mFragment] = 1.f;
 				mGelDetailView->getFragSpeedBias()[b.mFragment] = speedBias;
+				
+				// aggregates
+				mGelDetailView->getFragAggregateScale()[b.mFragment] = b.mAggregate;
 			}
 			
 			// insure fully spawned

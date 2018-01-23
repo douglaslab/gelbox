@@ -45,6 +45,8 @@ public:
 		ci::Rectf	mBounds;
 	
 		ci::Color   mFocusColor;
+		
+		std::vector<float> mAggregate;
 	};
 	
 	// Methods

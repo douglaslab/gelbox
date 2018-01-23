@@ -77,27 +77,39 @@ ci::Rectf Gel::getWellBounds( int lane ) const
 
 void Gel::insertSample( const Sample& src, int lane )
 {
-	for( int i=0; i<src.mFragments.size(); ++i )
+	auto addBand = [=]( int fragi, int multimer, float massFrac )
 	{
-		const auto& frag = src.mFragments[i]; 
-		
+		const auto& frag = src.mFragments[fragi]; 
+
 		Band b;
 
 		b.mLane			= lane;
-		b.mFragment		= i;
+		b.mFragment		= fragi;
 		
 		b.mFocusColor	= frag.mColor;
 		
-		b.mBases		= frag.mBases; // * frag.mAggregate;
-		b.mMass			= frag.mMass;  // * (float)frag.mAggregate;
+		b.mBases		= frag.mBases * (float)multimer;
+		b.mMass			= frag.mMass  * (float)multimer * massFrac;
 		b.mDegrade		= frag.mDegrade;
 		
 		b.mStartBounds	= getWellBounds(lane);
 		
 		b.mAspectRatioYNormBonus = ((frag.mAspectRatio - 1.f) / 16.f) * .25f;
 		
+		if ( frag.mAggregate.empty() )
+		{
+			assert( multimer==1 );
+		}
+		else
+		{
+			int n = multimer-1;
+			assert( ( n >= 0 && n < frag.mAggregate.size() ) );
+			b.mAggregate.resize( frag.mAggregate.size(), 0.f );
+			b.mAggregate[n] = 1.f; 
+		}
+		
 		// calculate alpha
-		float a = constrain( b.mMass / kSampleMassHigh, 0.1f, 1.f ); // alpha set to mass / 125ml
+		float a = constrain( b.mMass / kSampleMassHigh, 0.1f, 1.f );
 		
 		if (b.mDegrade > 1.f) a *= 1.f - min( b.mDegrade - 1.f, 1.f ); // degrade alpha
 		
@@ -108,7 +120,26 @@ void Gel::insertSample( const Sample& src, int lane )
 		
 		b.mBounds		= calcBandBounds(b);
 		
-		mBands.push_back(b);
+		mBands.push_back(b);		
+	};
+	
+	for( int fragi=0; fragi<src.mFragments.size(); ++fragi )
+	{		
+		const auto& frag = src.mFragments[fragi]; 
+
+		const float wsum = frag.calcAggregateWeightedSum();
+		
+		if ( frag.mAggregate.empty() || wsum==0.f ) addBand( fragi, 1, 1.f );
+		else
+		{
+			for( int m=0; m<frag.mAggregate.size(); ++m )
+			{
+				if ( frag.mAggregate[m] > 0.f )
+				{
+					addBand( fragi, m+1, frag.mAggregate[m] / wsum );
+				}
+			}
+		}
 	}
 }
 
