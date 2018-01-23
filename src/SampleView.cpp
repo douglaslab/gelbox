@@ -359,17 +359,12 @@ void SampleView::syncToModel()
 {
 	if (mSample)
 	{
-		mFragments			.resize( mSample->mFragments.size() );
-		mFragPopScale		.resize( mSample->mFragments.size(),  1.f );
-		mFragSpeedBias		.resize( mSample->mFragments.size(), -1.f );
-		mFragAggregateScale	.resize( mSample->mFragments.size() );
-		
+		mFragments	  .resize( mSample->mFragments.size() );
+
 		for( int i=0; i<mFragments.size(); ++i )
 		{
 			Frag &f = mFragments[i];
 			auto  s = mSample->mFragments[i];
-			
-			mFragAggregateScale[i].resize( s.mAggregate.size(), 1.f );
 			
 			f.mColor		= s.mColor;
 			f.mTargetPop	= max( 1.f, (s.mMass/kSampleMassHigh) * kNumPartsPerMassHigh );
@@ -379,23 +374,23 @@ void SampleView::syncToModel()
 			// radius
 			float r = lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
 			
-			f.mRadius.y = sqrt( (r*r) / s.mAspectRatio );
-			f.mRadius.x = s.mAspectRatio * f.mRadius.y;
+			f.mRadiusHi.y = sqrt( (r*r) / s.mAspectRatio );
+			f.mRadiusHi.x = s.mAspectRatio * f.mRadiusHi.y;
 			// this calculation maintains the area for a circle in an ellipse that meets desired aspect ratio
 			// math for maintaining circumfrence is wickedly harder
 			
 			// degraded radius				
 			// do degrade (NOTE: this replicates logic in Gel::calcBandBounds)
 			// just have multiple degrade params in each frag, to make this  simpler then encoding it all in 0..2?
-			f.mRadiusDegraded = f.mRadius;
+			f.mRadiusLo = f.mRadiusHi;
 			
-			f.mRadiusDegraded *= max( 0.f, 1.f - s.mDegrade ); // as degrade goes 0..1, low end drops out--shorter base pairs, lower radii
+			f.mRadiusLo *= max( 0.f, 1.f - s.mDegrade ); // as degrade goes 0..1, low end drops out--shorter base pairs, lower radii
 		
-			if ( s.mDegrade > 1.f ) f.mRadius *= 2.f - min(2.f,s.mDegrade); // as degrade goes 1..2, upper radii moves drops out--shorter
+			if ( s.mDegrade > 1.f ) f.mRadiusHi *= 2.f - min(2.f,s.mDegrade); // as degrade goes 1..2, upper radii moves drops out--shorter
 			
 			// set a lower limit on degrade...
 			const vec2 kMinRadius(1,1);
-			f.mRadiusDegraded = glm::max( f.mRadiusDegraded, kMinRadius );
+			f.mRadiusLo = glm::max( f.mRadiusLo, kMinRadius );
 //			f.mRadius		  = glm::max( f.mRadius,		 kMinRadius );
 		}
 	}
@@ -514,12 +509,10 @@ SampleView::randomPart( int f )
 	p.mAngleVel = randFloat(-1.f,1.f) * M_PI * .002f;
 	
 	p.mFragment = f;
-	p.mRadius = mFragments[p.mFragment].mRadius ;
+	p.mRadius = mFragments[p.mFragment].mRadiusHi ;
 	p.mColor  = mFragments[p.mFragment].mColor ; 
 	
-	p.mDegradeSizeKey = mRand.nextFloat();
-	
-	if ( mFragSpeedBias[f] != -1.f ) p.mDegradeSizeKey = 1.f - mFragSpeedBias[f];
+	p.mRadiusScaleKey = mRand.nextFloat();
 
 	// multimer setup
 	Part::Multi m;
@@ -555,22 +548,9 @@ SampleView::getRandomWeightedAggregateSize( int fragment )
 	// empty?
 	if (frag.mAggregate.empty()) return 1; // empty means monomer
 	
-	// calc weights to choose from (incorporate scaling modifiers)
-	vector<float> a = frag.mAggregate; 
-	
-	if ( mFragAggregateScale.size() >= fragment )
-	{
-		int n = min( a.size(), mFragAggregateScale[fragment].size() );
-		
-		for( int i=0; i<n; ++i )
-		{
-			a[i] *= mFragAggregateScale[fragment][i];
-		}
-	}
-	
-	// sum weights
-	float sum=0.f;
-	for( auto w : a ) sum += w; 
+	// weights to use
+	const vector<float>& a = frag.mAggregate; 
+	const float sum = frag.mAggregateWeightSum;
 	
 	// choose
 	float r = mRand.nextFloat() * sum;
@@ -649,11 +629,7 @@ void SampleView::tickSim( float dt )
 	// update population counts
 	for( int f = 0; f<mFragments.size(); ++f )
 	{
-		float popScale = (float)mPopDensityScale;
-		
-		if ( f < mFragPopScale.size() ) popScale *= mFragPopScale[f];
-		
-		int targetPop = max( 1, mFragments[f].mTargetPop ) * popScale ;
+		int targetPop = (float)max( 1, mFragments[f].mTargetPop ) * (float)mPopDensityScale ;
 		
 		// make (1 this frame)
 		if ( alivepop[f] < targetPop  )
@@ -736,7 +712,7 @@ void SampleView::tickSim( float dt )
 		// sync to frag
 		if (frag)
 		{
-			vec2 fragRadius = lerp( frag->mRadiusDegraded, frag->mRadius, p.mDegradeSizeKey );
+			vec2 fragRadius = lerp( frag->mRadiusLo, frag->mRadiusHi, p.mRadiusScaleKey );
 			
 			p.mColor	= lerp( p.mColor,  frag->mColor, .5f );
 			p.mRadius	= lerp( p.mRadius, fragRadius,	 .5f );

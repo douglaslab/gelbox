@@ -23,6 +23,8 @@ public:
 	{
 	public:
 		int   mBases		= 0;   // base count
+//		int   mBasesRange   = 0;   // bases randomly picked from [mBases , mBases + mBasesRange]
+		
 		float mMass			= 0.f; // ng
 		
 		float mDegrade		= 0.f; // 0..2

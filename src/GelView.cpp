@@ -360,8 +360,6 @@ void GelView::updateGelDetailView( vec2 withSampleAtPos )
 	if (!mGel) return;
 	
 	// open it?
-	bool didOpen = !mGelDetailView; 
-	
 	if (!mGelDetailView) openGelDetailView();
 	
 	// layout
@@ -382,50 +380,50 @@ void GelView::updateGelDetailView( vec2 withSampleAtPos )
 	
 	if ( ((!s || s->mID != lane) || withSampleAtPos != mGelDetailViewAtPos) && lane != -1 )
 	{
-		s = make_shared<Sample>();
+		mGelDetailViewAtPos = withSampleAtPos;
 		
-		s->mID = lane;
+		// reset view particles
+		mGelDetailView->clearParticles();
+		mGelDetailView->setRand( ci::Rand( withSampleAtPos.x*19 + withSampleAtPos.y*1723 ) );
+
+		// make new sample
+		s = makeSampleFromGelPos( withSampleAtPos );
 		
-		// copy data from input sample
-		if ( mGel->getSamples()[lane] )
-		{
-			s->mFragments = mGel->getSamples()[lane]->mFragments;
-		}
+		s->mID = lane;				
 		
-		// set sample
 		mGelDetailView->setSample(s);
 		
-		// reset particles
-		if ( !didOpen )
-		{
-			mGelDetailView->setRand( ci::Rand( withSampleAtPos.x*19 + withSampleAtPos.y*1723 ) );
-			
-			mGelDetailViewAtPos = withSampleAtPos;
-			mGelDetailView->clearParticles();
-			
-			// tweak population count
-			for( auto &s : mGelDetailView->getFragPopScale() ) s=0.f; // zero all 
-			
-			auto bands = pickBands(withSampleAtPos);
-			
-			for( auto b : bands )
-			{
-				// pump up what we found
-				assert( mGelDetailView->getFragPopScale().size() > b.mFragment );
-				
-				float speedBias = (withSampleAtPos.y - b.mBounds.getY1()) / b.mBounds.getHeight() ;
-				
-				mGelDetailView->getFragPopScale ()[b.mFragment] = 1.f;
-				mGelDetailView->getFragSpeedBias()[b.mFragment] = speedBias;
-				
-				// aggregates
-				mGelDetailView->getFragAggregateScale()[b.mFragment] = b.mAggregate;
-			}
-			
-			// insure fully spawned
-			mGelDetailView->prerollSim();
-		}
+		// insure fully spawned
+		mGelDetailView->prerollSim();
 	}
+}
+
+SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
+{
+	SampleRef s = make_shared<Sample>();
+
+	auto bands = pickBands(pos);
+	
+	
+	for( auto b : bands )
+	{
+		// get band's source fragment
+		Sample::Fragment f = mGel->getSamples()[b.mLane]->mFragments[b.mFragment];
+
+		// speed bias
+		const float speedBias = (pos.y - b.mBounds.getY1()) / b.mBounds.getHeight() ;
+
+//		f.mba
+		
+		// aggregates
+		f.mAggregate = b.mAggregate;
+		
+		// push
+		s->mFragments.push_back(f);
+	}
+		
+	
+	return s;
 }
 
 void GelView::tick( float dt )

@@ -67,10 +67,6 @@ public:
 	void clearParticles() { mParts.clear(); }
 	void setRand( ci::Rand r ) { mRand = r; }
 	
-	std::vector<float>& getFragPopScale () { return mFragPopScale ; }
-	std::vector<float>& getFragSpeedBias() { return mFragSpeedBias; }
-	std::vector< std::vector<float> >& getFragAggregateScale() { return mFragAggregateScale; }
-	
 private:
 
 	bool isFragment( int i ) const { return i >=0 && i < mFragments.size() ; }
@@ -113,13 +109,13 @@ private:
 	class Frag
 	{
 	public:
-		Frag( ci::Color c, float r ) : mColor(c), mRadius(r) {}
-		Frag() : mColor(0,0,0), mRadius(1.f) {}
+		Frag( ci::Color c, float r ) : mColor(c), mRadiusHi(r), mRadiusLo(r) {}
+		Frag() : mColor(0,0,0), mRadiusHi(1.f), mRadiusLo(1.f) {}
 		
 		int			mTargetPop=20;
 
-		glm::vec2	mRadius;
-		glm::vec2	mRadiusDegraded; // lower end of radii; in case its a range
+		glm::vec2	mRadiusHi;
+		glm::vec2	mRadiusLo;
 		
 		ci::Color	mColor;
 		
@@ -143,7 +139,7 @@ private:
 		float		mFade=0.f;
 		bool		mAlive=true; // fading in or out?
 		
-		float		mDegradeSizeKey=0.f; // random, from 0..1; for inter-frame coherency when dialing size + degradation 
+		float		mRadiusScaleKey=0.f; // random, from 0..1; for inter-frame coherency when dialing size + degradation 
 		
 		struct Multi
 		{
@@ -160,11 +156,7 @@ private:
 	
 	std::vector<Frag> mFragments;	
 	std::vector<Part> mParts;
-	
-	std::vector<float> mFragPopScale;
-	std::vector<float> mFragSpeedBias; // -1 for none, 0 for big + slow, 1 for small + fast 
-	std::vector< std::vector<float> > mFragAggregateScale;
-	
+
 	float mPopDensityScale=1.f;
 	float mSimTimeScale   =1.f;
 	
