@@ -115,7 +115,9 @@ void Gel::insertSample( const Sample& src, int lane )
 		
 		// calculate alpha
 //		float a = constrain( b.mMass / kSampleMassHigh, 0.1f, 1.f );
-		float a = constrain( (b.mMass * (float)multimer) / kSampleMassHigh, 0.1f, 1.f );
+
+		float mscale = (float)(multimer + multimerlow) / 2.f;
+		float a = constrain( (b.mMass * (float)mscale) / kSampleMassHigh, 0.1f, 1.f );
 		
 		if (b.mDegrade > 1.f) a *= 1.f - min( b.mDegrade - 1.f, 1.f ); // degrade alpha
 		
