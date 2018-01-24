@@ -40,12 +40,6 @@ const int kNumMultimerNotches = 7;
 
 vector<ci::Color> FragmentView::sColorPalette;
 
-std::vector<float> lmap( std::vector<float> v, float inMin, float inMax, float outMin, float outMax )
-{
-	for( auto &f : v ) f = lmap(f,inMin,inMax,outMin,outMax);
-	return v;
-}
-
 const vector<Color>& FragmentView::getColorPalette()
 {
 	if ( sColorPalette.empty() )
@@ -303,7 +297,7 @@ void FragmentView::mouseDown( ci::app::MouseEvent e )
 		
 		mSliders[mDragSlider].setValueWithMouse(local);
 
-		syncModelToSlider(mSliders[mDragSlider]);
+		fragmentDidChange();
 	}
 	else if ( color != -1 )
 	{
@@ -331,7 +325,7 @@ void FragmentView::mouseUp ( ci::app::MouseEvent e )
 		if ( s != -1 )
 		{
 			mSliders[s].setValueWithMouse(local);
-			syncModelToSlider(mSliders[s]);
+			fragmentDidChange();
 		}
 	}
 	
@@ -362,43 +356,15 @@ void FragmentView::syncSlidersToModel()
 	{
 		for( Slider &s : mSliders )
 		{
-			if (s.mGraphGetter)
-			{
-				s.mGraphValues = s.mGraphGetter();
-				
-				if (s.mAreGraphValuesReversed) s.mGraphValues = vector<float>( s.mGraphValues.rbegin(), s.mGraphValues.rend() );
-				
-				s.mGraphValues = lmap( s.mGraphValues, s.mGraphValueMappedLo, s.mGraphValueMappedHi, 0.f, 1.f );
-			}
-			
-			if (s.mGetter)
-			{
-				float value = s.mGetter();
-
-				s.mValue = lmap( value, s.mValueMappedLo, s.mValueMappedHi, 0.f, 1.f );
-			}
+			s.pullValueFromGetter();
 		}
 	}
 }
 
-void FragmentView::syncModelToSlider( Slider& s ) const
+void FragmentView::fragmentDidChange() const
 {
 	if ( isEditFragmentValid() )
 	{
-		if (s.mSetter)
-		{
-			s.mSetter( s.getMappedValue() );
-		}
-		
-		if (s.mGraphSetter)
-		{
-			vector<float> gv = lmap( s.mGraphValues, 0.f, 1.f, s.mGraphValueMappedLo, s.mGraphValueMappedHi );
-			
-			if (s.mAreGraphValuesReversed) gv = vector<float>( gv.rbegin(), gv.rend() );
-			 
-			s.mGraphSetter( gv );
-		}
-		
 		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
 	}
 }
@@ -409,7 +375,7 @@ void FragmentView::syncModelToColor() const
 	{
 		mEditSample->mFragments[mEditFragment].mColor = mColors[ mSelectedColor ];
 		
-		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
+		fragmentDidChange();
 	}
 }
 
@@ -460,7 +426,7 @@ void FragmentView::mouseDrag( ci::app::MouseEvent e )
 		}
 
 		// push
-		syncModelToSlider(s);
+		fragmentDidChange();
 	}
 	// color
 	else if ( pickColor(mouseDownLocal) != -1 )
@@ -578,8 +544,7 @@ FragmentView::calcColorRect( int i ) const
 Sample::Fragment&
 FragmentView::getEditFragment()
 {
-	assert(mEditSample);
-	assert(mEditFragment >= 0 && mEditFragment < mEditSample->mFragments.size());
+	assert( isEditFragmentValid() );
 	
 	return mEditSample->mFragments[mEditFragment];
 }
@@ -587,8 +552,7 @@ FragmentView::getEditFragment()
 const Sample::Fragment&
 FragmentView::getEditFragment() const
 {
-	assert(mEditSample);
-	assert(mEditFragment >= 0 && mEditFragment < mEditSample->mFragments.size());
+	assert( isEditFragmentValid() );
 	
 	return mEditSample->mFragments[mEditFragment];
 }

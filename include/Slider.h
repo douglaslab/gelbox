@@ -57,6 +57,9 @@ public:
 	tGraphGetter	mGraphGetter;
 	bool			mAreGraphValuesReversed = false;
 
+	void pushValueToSetter() const; // implicitly called by setValueWithMouse, setNormalizedValue
+	void pullValueFromGetter();
+	
 	// label generation
 	std::function<std::string(float v)> mMappedValueToStr;
 

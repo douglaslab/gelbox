@@ -19,6 +19,13 @@ const Color kSliderHandleColor = Color::hex(0x4990E2);
 const vec2  kSliderHandleSize  = vec2(16,20);
 const float kSliderNotchRadius = 2.5f;
 
+
+std::vector<float> lmap( std::vector<float> v, float inMin, float inMax, float outMin, float outMax )
+{
+	for( auto &f : v ) f = lmap(f,inMin,inMax,outMin,outMax);
+	return v;
+}
+
 void Slider::draw() const
 {
 	const auto fontRef = GelboxApp::instance()->getUIFont();
@@ -153,6 +160,8 @@ Slider::setValueWithMouse ( ci::vec2 p )
 		fy = constrain( fy, 0.f, 1.f );
 		
 		mGraphValues[x] = fy;
+		
+		pushValueToSetter();
 	}
 	else
 	{
@@ -202,7 +211,10 @@ Slider::setNormalizedValue( float normValue )
 			case Slider::Notch::DrawOnly:
 				break;
 		}
-	}	
+	}
+	
+	// push
+	pushValueToSetter();
 }
 
 ci::Rectf
@@ -228,4 +240,40 @@ Slider::calcPickRect() const
 	}
 	
 	return r;
+}
+
+void Slider::pushValueToSetter() const
+{
+	if (mSetter)
+	{
+		mSetter( getMappedValue() );
+	}
+	
+	if (mGraphSetter)
+	{
+		vector<float> gv = lmap( mGraphValues, 0.f, 1.f, mGraphValueMappedLo, mGraphValueMappedHi );
+		
+		if (mAreGraphValuesReversed) gv = vector<float>( gv.rbegin(), gv.rend() );
+		 
+		mGraphSetter( gv );
+	}
+}
+
+void Slider::pullValueFromGetter()
+{
+	if (mGraphGetter)
+	{
+		mGraphValues = mGraphGetter();
+		
+		if (mAreGraphValuesReversed) mGraphValues = vector<float>( mGraphValues.rbegin(), mGraphValues.rend() );
+		
+		mGraphValues = lmap( mGraphValues, mGraphValueMappedLo, mGraphValueMappedHi, 0.f, 1.f );
+	}
+	
+	if (mGetter)
+	{
+		float value = mGetter();
+
+		mValue = lmap( value, mValueMappedLo, mValueMappedHi, 0.f, 1.f );
+	}
 }

@@ -63,10 +63,8 @@ private:
 	int						pickSliderHandle( glm::vec2 ) const; // local coords
 	int						pickSliderBar( glm::vec2 ) const;
 	
-	int						tryInstantSliderSet( glm::vec2 local ); // returns which slider, if any
-
 	void					syncSlidersToModel(); // just reads it in
-	void					syncModelToSlider( Slider& ) const; // just this slider
+	void					fragmentDidChange() const;
 
 	void					syncModelToColor() const;
 	void					syncColorToModel();
