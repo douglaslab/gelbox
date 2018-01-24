@@ -88,8 +88,10 @@ private:
 		
 		tGraphSetter	mGraphSetter;
 		tGraphGetter	mGraphGetter;
+		bool			mAreGraphValuesReversed = false;
 		
 		float		getMappedValue() const { return ci::lerp( mValueMappedLo, mValueMappedHi, mValue ); }
+		void		flipXAxis();
 		
 		std::function<std::string(float v)> mMappedValueToStr;
 	};

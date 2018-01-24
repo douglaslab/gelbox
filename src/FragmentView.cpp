@@ -221,6 +221,10 @@ FragmentView::FragmentView()
 		loadIcons( aspect, "aspect" );
 		loadIcons( aggregate, "multimer" );
 		loadIcons( degrade, "degrade" );
+
+		// flip individual items (after icons + everything loaded!)
+		size.flipXAxis();
+		aggregate.flipXAxis();
 		
 		// insert
 		mSliders.push_back(size);
@@ -228,6 +232,10 @@ FragmentView::FragmentView()
 		mSliders.push_back(aspect);
 		mSliders.push_back(aggregate);
 		mSliders.push_back(degrade);
+		
+		// flip all?
+		const bool reverseAll = false; 
+		if (reverseAll) for( auto &s : mSliders ) s.flipXAxis();
 	}
 }
 
@@ -402,6 +410,8 @@ void FragmentView::syncSlidersToModel()
 			{
 				s.mGraphValues = s.mGraphGetter( frag );
 				
+				if (s.mAreGraphValuesReversed) s.mGraphValues = vector<float>( s.mGraphValues.rbegin(), s.mGraphValues.rend() );
+				
 				s.mGraphValues = lmap( s.mGraphValues, s.mGraphValueMappedLo, s.mGraphValueMappedHi, 0.f, 1.f );
 			}
 			
@@ -428,7 +438,11 @@ void FragmentView::syncModelToSlider( Slider& s ) const
 		
 		if (s.mGraphSetter)
 		{
-			s.mGraphSetter( frag, lmap( s.mGraphValues, 0.f, 1.f, s.mGraphValueMappedLo, s.mGraphValueMappedHi ) );
+			vector<float> gv = lmap( s.mGraphValues, 0.f, 1.f, s.mGraphValueMappedLo, s.mGraphValueMappedHi );
+			
+			if (s.mAreGraphValuesReversed) gv = vector<float>( gv.rbegin(), gv.rend() );
+			 
+			s.mGraphSetter( frag, gv );
 		}
 		
 		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
@@ -741,4 +755,19 @@ FragmentView::calcColorRect( int i ) const
 	r += mColorsTopLeft;
 	
 	return r;
+}
+
+void FragmentView::Slider::flipXAxis()
+{
+	// typical slider stuff
+	swap( mIconRect[0], mIconRect[1] );
+	swap( mIcon[0], mIcon[1] );
+	swap( mIconSize[0], mIconSize[1] );
+	swap( mEndpoint[0], mEndpoint[1] );
+	swap( mValueMappedLo, mValueMappedHi );
+	mValue = 1.f - mValue;
+	
+	// graph
+	mAreGraphValuesReversed = ! mAreGraphValuesReversed;
+	mGraphValues = vector<float>( mGraphValues.rbegin(), mGraphValues.rend() );
 }
