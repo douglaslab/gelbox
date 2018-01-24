@@ -39,6 +39,9 @@ const float kFadeInStep = .05f;
 const float kFadeOutStep = .05f;
 const float kMaxAge = 30 * 1000;
 
+const float kLoupeRadius = 16.f;
+const bool  kCanPickCalloutWedge = true;
+
 // mitigate dithering artifacts by being lenient / less aggressive with aggregate culling
 const float kAggregateCullChanceScale = (1.f / 30.f) * .5f;
 const int   kAggregateCullPopEps = 0;
@@ -80,6 +83,9 @@ void SampleView::close()
 
 void SampleView::draw()
 {
+	// loupe
+	if ( mHasLoupe ) drawLoupe();
+	
 	// draw callout behind
 	if ( mCallout.size()>0 )
 	{
@@ -100,9 +106,9 @@ void SampleView::draw()
 	// focus
 	if ( getHasKeyboardFocus() )
 	{
-		gl::color( 1,1,.3, mIsLoupe ? .6f : .35f );
+		gl::color( 1,1,.3, mIsLoupeView ? .6f : .35f );
 		
-		float thick = mIsLoupe ? 4.f : 1.f;
+		float thick = mIsLoupeView ? 4.f : 1.f;
 		
 		gl::drawStrokedRect( getBounds().inflated(vec2(thick/2.f)), thick );
 	}
@@ -156,7 +162,11 @@ void SampleView::setBounds( ci::Rectf r )
 
 bool SampleView::pick( glm::vec2 p ) const
 {
-	return View::pick(p) || pickNewBtn(p);
+	return View::pick(p)
+		|| pickNewBtn(p)
+		|| pickLoupe(p)
+		|| pickCalloutWedge(p)
+		;
 }
 
 bool SampleView::pickNewBtn( glm::vec2 p ) const
@@ -166,6 +176,13 @@ bool SampleView::pickNewBtn( glm::vec2 p ) const
 	{
 		return distance( parentToChild(p), mNewBtnLoc ) <= mNewBtnRadius;
 	}
+}
+
+bool SampleView::pickCalloutWedge( ci::vec2 rootLoc ) const
+{
+	vec2 parentLoc = rootToParent(rootLoc);
+	
+	return mHasLoupe && kCanPickCalloutWedge && mCallout.contains(parentLoc) && !getFrame().contains(parentLoc);
 }
 
 void SampleView::updateCallout()
@@ -182,6 +199,26 @@ void SampleView::updateCallout()
 	
 	mCallout = calcConvexHull(p);
 	mCallout.setClosed();
+}
+
+bool SampleView::pickLoupe( ci::vec2 rootLoc ) const
+{
+	return mHasLoupe && distance( rootToParent(rootLoc), mAnchor ) <= kLoupeRadius ;
+}
+
+void SampleView::drawLoupe() const
+{
+	vec2 p = rootToChild(mAnchor);
+	
+	// a bitmap icon might be nice
+	gl::color( ColorA( Color::gray(.0f), .5f ) );
+	gl::drawStrokedCircle( p + vec2(0,2), kLoupeRadius );
+
+	gl::color( ColorA( Color::gray(0.f), 1.f ) );
+	gl::drawStrokedCircle( p, kLoupeRadius );
+
+	gl::color( ColorA( Color::gray(.8f), .5f ) );
+	gl::drawStrokedCircle( p, kLoupeRadius-1.f );
 }
 
 void SampleView::selectFragment( int i )
@@ -280,14 +317,33 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 {
 	// take keyboard focus
 	getCollection()->setKeyboardFocusView( shared_from_this() );
+	
+	// drag?
+	if		( pickLoupe(e.getPos()) )		 mDrag = Drag::Loupe;
+	else if ( pickCalloutWedge(e.getPos()) ) mDrag = Drag::LoupeAndView;
+	else if ( mIsLoupeView )				 mDrag = Drag::View; 
+	else mDrag = Drag::None;
 }
 
 void SampleView::mouseDrag( ci::app::MouseEvent )
 {
-	if ( mIsLoupe )
+	switch ( mDrag )
 	{
-		setFrame( getFrame() + getMouseMoved() );
-		updateCallout();
+		case Drag::Loupe:
+			setCalloutAnchor( getCalloutAnchor() + getMouseMoved() );
+			break;
+			
+		case Drag::View:
+			setFrame( getFrame() + getMouseMoved() );
+			updateCallout();
+			break;
+			
+		case Drag::LoupeAndView:
+			setFrame( getFrame() + getMouseMoved() );
+			setCalloutAnchor( getCalloutAnchor() + getMouseMoved() ); // updates callout
+			break;
+			
+		case Drag::None: break;
 	}
 }
 
@@ -317,7 +373,7 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 	{
 		case KeyEvent::KEY_BACKSPACE:
 		case KeyEvent::KEY_DELETE:
-			if ( mIsLoupe )
+			if ( mIsLoupeView )
 			{
 				// close loupe
 				getCollection()->removeView( shared_from_this() );
@@ -333,7 +389,7 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 		
 		case KeyEvent::KEY_ESCAPE:
 			// close view?
-			if ( mIsLoupe ) getCollection()->removeView( shared_from_this() );
+			if ( mIsLoupeView ) getCollection()->removeView( shared_from_this() );
 			else if ( mGelView ) mGelView->selectMicrotube(-1);
 			break;
 
@@ -385,20 +441,20 @@ void SampleView::tick( float dt )
 	tickSim( (slow ? .1f : 1.f) * mSimTimeScale );
 	
 	// rollover
-	if ( getHasRollover() && ! mIsLoupe )
+	if ( getHasRollover() && ! mIsLoupeView )
 	{
 		setRolloverFragment( pickFragment( rootToChild(getMouseLoc()) ) );
 	}
 	else setRolloverFragment(-1);
 	
 	// deselect?
-	if ( (isFragment(mSelectedFragment) && !getHasKeyboardFocus()) || mIsLoupe )
+	if ( (isFragment(mSelectedFragment) && !getHasKeyboardFocus()) || mIsLoupeView )
 	{
 		selectFragment(-1);
 	}
 
 	// fragment editor on highlight/hover/selection -- can enable/disable this feature on its own
-	if ( ! mIsLoupe )
+	if ( ! mIsLoupeView )
 	{
 		showFragmentEditor( getFocusFragment() );
 	}

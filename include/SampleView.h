@@ -62,11 +62,12 @@ public:
 	void setHighlightFragment( int i );
 	
 	// options so we can make frozen gel callout views 
-	bool getIsNewBtnEnabled() const { return ! mIsLoupe; }
+	bool getIsNewBtnEnabled() const { return ! mIsLoupeView; }
 	void setPopDensityScale( float s ) { mPopDensityScale=s; }
 	void prerollSim();
-	void setSimTimeScale( float s) { mSimTimeScale=s; }
-	void setIsLoupe( bool ro ) { mIsLoupe=ro; } // i.e. gel detail view; a loupe
+	void setSimTimeScale( float s ) { mSimTimeScale=s; }
+	void setIsLoupeView ( bool  l ) { mIsLoupeView=l; } // i.e. gel detail view; a loupe
+	void setHasLoupe	( bool  l ) { mHasLoupe=l; } // does it have a circular widget for callout? 
 	void clearParticles() { mParts.clear(); }
 	void setRand( ci::Rand r ) { mRand = r; }
 	
@@ -82,9 +83,19 @@ private:
 
 	void setRolloverFragment( int i );
 	
-	glm::vec2		mAnchor; // anchor for callout. in frame (parent) space
-	ci::PolyLine2   mCallout;
-	bool			mIsLoupe = false;	
+	glm::vec2		mAnchor; // anchor for callout. in frame (parent) space. center of loupe widget
+	ci::PolyLine2   mCallout; // in frame (parent) space
+	bool			mIsLoupeView = false;
+	bool			mHasLoupe    = false; // little circle thing on persistent loupes
+	
+	enum class Drag
+	{
+		None,
+		Loupe,
+		View,
+		LoupeAndView
+	};
+	Drag			mDrag;
 	
 	SampleRef		mSample; // source data
 	int				mSelectedFragment=-1;
@@ -98,6 +109,12 @@ private:
 	// other views
 	GelViewRef		mGelView;
 	FragmentViewRef mFragEditor;
+	
+	// ui + loupe logic (relevant if mIsLoupeView)
+	bool pickLoupe( ci::vec2 rootLoc ) const;
+	void drawLoupe() const;
+
+	bool pickCalloutWedge( ci::vec2 rootLoc ) const; // respects mHasLoupe and kCanPickCalloutWedge in .cpp file
 	
 	// particle sim
 	class Part;

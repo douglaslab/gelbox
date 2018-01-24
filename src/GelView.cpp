@@ -345,7 +345,12 @@ void GelView::addLoupe( vec2 withSampleAtRootPos )
 {
 	SampleViewRef view = updateGelDetailView( 0, withSampleAtRootPos );
 	
-	
+	if (view)
+	{
+		view->setHasLoupe(true);
+		
+		getCollection()->setKeyboardFocusView(view);
+	}
 }
 
 SampleViewRef GelView::openGelDetailView()
@@ -362,7 +367,7 @@ SampleViewRef GelView::openGelDetailView()
 	// misc
 	view->setPopDensityScale(.25f); // since we are 1/4 area of other one
 	view->setSimTimeScale(0.f); // paused
-	view->setIsLoupe(true);
+	view->setIsLoupeView(true);
 	
 	// add
 	getCollection()->addView(view);
