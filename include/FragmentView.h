@@ -10,6 +10,7 @@
 
 #include "View.h"
 #include "Sample.h"
+#include "Slider.h"
 
 class SampleView;
 typedef std::shared_ptr<SampleView> SampleViewRef;
@@ -41,6 +42,9 @@ public:
 	
 	static const std::vector<ci::Color>& getColorPalette();
 
+	Sample::Fragment& getEditFragment();
+	const Sample::Fragment& getEditFragment() const;
+	
 private:
 	
 	static std::vector<ci::Color> sColorPalette;
@@ -54,64 +58,10 @@ private:
 	int						mDragSlider = -1;
 	float					mDragSliderStartValue;
 	
-	typedef std::function< void ( Sample::Fragment&, float ) > tSetter;
-	typedef std::function< float( const Sample::Fragment& ) > tGetter;
-
-	typedef std::function< void ( Sample::Fragment&, std::vector<float> ) > tGraphSetter;
-	typedef std::function< std::vector<float>( const Sample::Fragment& ) > tGraphGetter;
-	
-	// sliders
-	class Slider
-	{
-	public:
-		
-		std::string mIconName;
-		
-		ci::Rectf	mIconRect[2];
-		ci::gl::TextureRef  mIcon[2];
-		glm::vec2			mIconSize[2]; // in points
-		
-		glm::vec2	mEndpoint[2];
-		
-		int			mNotches=0;
-		
-		enum class Notch
-		{
-			None,
-			DrawOnly, // just draw them
-			Nearest, // will always snap to a notch
-			Snap    // will snap if close to a notch
-		};
-		Notch		mNotchAction = Notch::None;
-		
-		float		mValue=.5f; // 0..1
-		float		mValueMappedLo=0.f, mValueMappedHi=1.f;
-
-		bool		mIsGraph		=	false;
-		float		mGraphHeight	=	32.f;
-		float		mGraphValueMappedLo=0.f, mGraphValueMappedHi=1.f; // per notch graph		
-		std::vector<float> mGraphValues;
-		
-		tSetter		mSetter;
-		tGetter		mGetter;
-		
-		tGraphSetter	mGraphSetter;
-		tGraphGetter	mGraphGetter;
-		bool			mAreGraphValuesReversed = false;
-		
-		float		getMappedValue() const { return ci::lerp( mValueMappedLo, mValueMappedHi, mValue ); }
-		void		flipXAxis();
-		
-		std::function<std::string(float v)> mMappedValueToStr;
-	};
-		
 	std::vector<Slider>		mSliders;
 	
-	ci::Rectf				calcSliderHandleRect( const Slider& ) const;
-	ci::Rectf				calcSliderPickRect( const Slider& ) const;
 	int						pickSliderHandle( glm::vec2 ) const; // local coords
 	int						pickSliderBar( glm::vec2, float* valuePicked=0 ) const;
-	void					setSliderValue( Slider&, float value ); // constrains, updates
 	int						tryInstantSliderSet( glm::vec2 local ); // returns which slider, if any
 
 	int						tryInstantSliderGraphValueSet( int, glm::vec2 local ); // constrains, updates; pass -1 slider to try to pick one
@@ -121,8 +71,6 @@ private:
 
 	void					syncModelToColor() const;
 	void					syncColorToModel();
-	
-	void					drawSlider( const Slider& ) const;
 	
 	// color picker
 	std::vector<ci::Color>	mColors;

@@ -31,6 +31,7 @@
 		26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA611FE86194003AAE8D /* Interaction.cpp */; };
 		26CEEA641FE8631D003AAE8D /* OperationView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA631FE8631D003AAE8D /* OperationView.cpp */; };
 		26CEEA671FE86919003AAE8D /* DropTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA661FE86919003AAE8D /* DropTarget.cpp */; };
+		26FC514320193B3B0004A458 /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FC514220193B3B0004A458 /* Slider.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5BABC631A5484737AB27EE73 /* GelboxApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD8A9D321AC4187846DB4F6 /* GelboxApp.cpp */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -84,6 +85,9 @@
 		26CEEA661FE86919003AAE8D /* DropTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DropTarget.cpp; path = ../src/DropTarget.cpp; sourceTree = "<group>"; };
 		26CEEA681FE86E0B003AAE8D /* DropTargetSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DropTargetSource.h; path = ../include/DropTargetSource.h; sourceTree = "<group>"; };
 		26CEEA691FE873D8003AAE8D /* Interactions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Interactions.h; path = ../include/Interactions.h; sourceTree = "<group>"; };
+		26FC514120193A950004A458 /* Slider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Slider.h; path = ../include/Slider.h; sourceTree = "<group>"; };
+		26FC514220193B3B0004A458 /* Slider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Slider.cpp; path = ../src/Slider.cpp; sourceTree = "<group>"; };
+		26FC514420193F2B0004A458 /* Gelbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Gelbox.h; path = ../include/Gelbox.h; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		3F767EEAAB7446E0BA4CB4C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -131,6 +135,7 @@
 				26247E701FDF2DCC0094711F /* Views */,
 				26CEEA611FE86194003AAE8D /* Interaction.cpp */,
 				26CEEA661FE86919003AAE8D /* DropTarget.cpp */,
+				26FC514220193B3B0004A458 /* Slider.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -233,6 +238,8 @@
 				26CEEA651FE86829003AAE8D /* DropTarget.h */,
 				26CEEA691FE873D8003AAE8D /* Interactions.h */,
 				26A4B745200ED0C300D2119E /* Tuning.h */,
+				26FC514120193A950004A458 /* Slider.h */,
+				26FC514420193F2B0004A458 /* Gelbox.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -333,6 +340,7 @@
 				2642C0FA1FD730F000528061 /* Sample.cpp in Sources */,
 				26CEEA671FE86919003AAE8D /* DropTarget.cpp in Sources */,
 				26CEEA641FE8631D003AAE8D /* OperationView.cpp in Sources */,
+				26FC514320193B3B0004A458 /* Slider.cpp in Sources */,
 				26054E9A1FD8726C007DB5F8 /* View.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

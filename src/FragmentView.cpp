@@ -10,7 +10,6 @@
 #include "Sample.h"
 #include "SampleView.h"
 #include "Tuning.h"
-#include "GelboxApp.h" // for getUIFont()
 
 using namespace std;
 using namespace ci;
@@ -20,13 +19,11 @@ const vec2  kColorSize(35,35);
 const float kSelectedColorStrokeWidth = 4.f;
 const Color kSelectedColorStrokeColor(0,0,0);
 
-const Color kSliderLineColor   = Color::hex(0x979797); 
-const Color kSliderHandleColor = Color::hex(0x4990E2);
-const vec2  kSliderHandleSize  = vec2(16,20);
-const float kSliderNotchRadius = 2.5f;
-const float kSliderLineLength = 133;
+
 const float kSliderIconGutter = 12;
 const vec2  kSliderIconNotionalSize(26,26); // for layout purposes; they can be different sizes
+const float kSliderLineLength = 133;
+
 const float kIntersliderVStep  = 56;
 const float kVStepToFirstSliderLine = 42;
 
@@ -134,11 +131,11 @@ FragmentView::FragmentView()
 		
 		size.mValueMappedLo = kMinBases;
 		size.mValueMappedHi = kMaxBases;
-		size.mSetter = []( Sample::Fragment& f, float v ) {
-			f.mBases = roundf(v);  
+		size.mSetter = [this]( float v ) {
+			getEditFragment().mBases = roundf(v);  
 		};
-		size.mGetter = []( const Sample::Fragment& f ) {
-			return f.mBases; 
+		size.mGetter = [this]() {
+			return getEditFragment().mBases; 
 		};
 		size.mMappedValueToStr = []( float v )
 		{
@@ -149,11 +146,11 @@ FragmentView::FragmentView()
 		
 		concentration.mValueMappedLo = 0.f;
 		concentration.mValueMappedHi = kSampleMassHigh;
-		concentration.mSetter = []( Sample::Fragment& f, float v ) {
-			f.mMass = v;  
+		concentration.mSetter = [this]( float v ) {
+			getEditFragment().mMass = v;
 		};
-		concentration.mGetter = []( const Sample::Fragment& f ) {
-			return f.mMass; 
+		concentration.mGetter = [this]() {
+			return getEditFragment().mMass; 
 		};
 		concentration.mMappedValueToStr = []( float v )
 		{
@@ -164,11 +161,11 @@ FragmentView::FragmentView()
 
 		aspect.mValueMappedLo = 1.f;
 		aspect.mValueMappedHi = kMaxAspectRatio;
-		aspect.mSetter = []( Sample::Fragment& f, float v ) {
-			f.mAspectRatio = v;  
+		aspect.mSetter = [this](float v ) {
+			getEditFragment().mAspectRatio = v;  
 		};
-		aspect.mGetter = []( const Sample::Fragment& f ) {
-			return f.mAspectRatio;
+		aspect.mGetter = [this]() {
+			return getEditFragment().mAspectRatio;
 		};
 		aspect.mMappedValueToStr = []( float v )
 		{
@@ -188,12 +185,12 @@ FragmentView::FragmentView()
 		aggregate.mGraphHeight = kSliderGraphHeight; 
 		for( float &x : aggregate.mGraphValues ) x = randFloat(); // test data		
 		
-		aggregate.mGraphSetter = []( Sample::Fragment& f, std::vector<float> v ) {
-			f.mAggregate = v;  
+		aggregate.mGraphSetter = [this]( std::vector<float> v ) {
+			getEditFragment().mAggregate = v;  
 		};
-		aggregate.mGraphGetter = []( const Sample::Fragment& f )
+		aggregate.mGraphGetter = [this]()
 		{
-			if ( f.mAggregate.empty() )
+			if ( getEditFragment().mAggregate.empty() )
 			{
 				// default value
 				vector<float> v = std::vector<float>(kNumMultimerNotches,0.f);
@@ -202,18 +199,18 @@ FragmentView::FragmentView()
 			}
 			else
 			{
-				return f.mAggregate;
+				return getEditFragment().mAggregate;
 			}
 		};
 		
 		
 		degrade.mValueMappedLo = 0.f;
 		degrade.mValueMappedHi = 2.f;
-		degrade.mSetter = []( Sample::Fragment& f, float v ) {
-			f.mDegrade = v;  
+		degrade.mSetter = [this]( float v ) {
+			getEditFragment().mDegrade = v;  
 		};
-		degrade.mGetter = []( const Sample::Fragment& f ) {
-			return f.mDegrade; 
+		degrade.mGetter = [this]() {
+			return getEditFragment().mDegrade; 
 		};
 		degrade.mNotches = 3;
 		degrade.mNotchAction = Slider::Notch::Snap;
@@ -346,7 +343,8 @@ int FragmentView::tryInstantSliderSet( vec2 local )
 	
 	if ( s != -1 && !mSliders[s].mIsGraph )
 	{
-		setSliderValue( mSliders[s], value );
+		mSliders[s].setNormalizedValue(value);
+		syncModelToSlider( mSliders[s] );
 	}
 	
 	return s;
@@ -407,11 +405,9 @@ void FragmentView::syncSlidersToModel()
 	{
 		for( Slider &s : mSliders )
 		{
-			const auto &frag = mEditSample->mFragments[mEditFragment]; 
-			
 			if (s.mGraphGetter)
 			{
-				s.mGraphValues = s.mGraphGetter( frag );
+				s.mGraphValues = s.mGraphGetter();
 				
 				if (s.mAreGraphValuesReversed) s.mGraphValues = vector<float>( s.mGraphValues.rbegin(), s.mGraphValues.rend() );
 				
@@ -420,7 +416,7 @@ void FragmentView::syncSlidersToModel()
 			
 			if (s.mGetter)
 			{
-				float value = s.mGetter( frag );
+				float value = s.mGetter();
 
 				s.mValue = lmap( value, s.mValueMappedLo, s.mValueMappedHi, 0.f, 1.f );
 			}
@@ -432,11 +428,9 @@ void FragmentView::syncModelToSlider( Slider& s ) const
 {
 	if ( isEditFragmentValid() )
 	{
-		auto &frag = mEditSample->mFragments[mEditFragment]; 
-		
 		if (s.mSetter)
 		{
-			s.mSetter( frag, s.getMappedValue() );			
+			s.mSetter( s.getMappedValue() );			
 		}
 		
 		if (s.mGraphSetter)
@@ -445,7 +439,7 @@ void FragmentView::syncModelToSlider( Slider& s ) const
 			
 			if (s.mAreGraphValuesReversed) gv = vector<float>( gv.rbegin(), gv.rend() );
 			 
-			s.mGraphSetter( frag, gv );
+			s.mGraphSetter( gv );
 		}
 		
 		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
@@ -505,7 +499,8 @@ void FragmentView::mouseDrag( ci::app::MouseEvent e )
 		{		
 			float deltaVal = delta.x / kSliderLineLength; 
 			
-			setSliderValue( s, mDragSliderStartValue + deltaVal );
+			s.setNormalizedValue(mDragSliderStartValue + deltaVal);
+			syncModelToSlider(s);
 		}
 	}
 	// color
@@ -534,110 +529,11 @@ void FragmentView::draw()
 	// sliders
 	for ( const auto &s : mSliders )
 	{
-		drawSlider(s);
+		s.draw();
 	}
 	
 	// colors
 	drawColors();
-}
-
-void FragmentView::drawSlider( const Slider& s ) const
-{
-	const auto fontRef = GelboxApp::instance()->getUIFont();
-	
-	const bool hasHandle = ! s.mIsGraph;
-
-	// graph
-	if ( s.mIsGraph )
-	{
-		const float stepx = 1.f / (float)(s.mGraphValues.size()-1);
-		
-
-		// build poly
-		PolyLine2 p;
-		
-		p.push_back(s.mEndpoint[0]);
-		
-		for( int i=0; i<s.mGraphValues.size(); ++i )
-		{
-			vec2 o = lerp( s.mEndpoint[0], s.mEndpoint[1], stepx * (float)i );
-			
-			o.y -= s.mGraphValues[i] * s.mGraphHeight; 
-			
-			p.push_back(o);
-		}
-		
-		p.push_back(s.mEndpoint[1]);
-		
-		
-		// draw it
-		gl::color( ColorA( Color::gray(.5f), .5f ) );
-		gl::drawStrokedRect( calcSliderPickRect(s) );
-		
-		gl::color( kSliderHandleColor );
-		gl::drawSolid(p);
-		gl::color( kSliderHandleColor * .5f );
-		gl::draw(p);
-	}
-		
-	// line
-	gl::color(kSliderLineColor);
-	gl::drawLine(s.mEndpoint[0], s.mEndpoint[1]);
-	
-	// notches
-	if ( s.mNotches>0 && s.mNotchAction != Slider::Notch::None )
-	{
-		gl::color( kSliderLineColor * .5f );
-		
-		float step = 1.f / (float)(s.mNotches-1);
-		
-		for( int i=0; i<s.mNotches; ++i )
-		{
-			vec2 c = lerp( s.mEndpoint[0], s.mEndpoint[1], step * (float)i );
-			gl::drawSolidCircle( c, kSliderNotchRadius );
-		}
-	}
-	
-	// handle
-	if ( hasHandle )
-	{
-		Rectf sliderHandleRect = calcSliderHandleRect(s);
-		gl::color(kSliderHandleColor);
-		gl::drawSolidRect(sliderHandleRect);
-		gl::color(kSliderHandleColor*.5f);
-		gl::drawStrokedRect(sliderHandleRect);
-	}
-	
-	// icons
-	gl::color(1,1,1);	
-	gl::draw( s.mIcon[0], s.mIconRect[0] );
-	gl::draw( s.mIcon[1], s.mIconRect[1] );
-	
-	// text label
-	if (s.mMappedValueToStr)
-	{
-		string str = s.mMappedValueToStr( s.getMappedValue() );
-		
-		vec2 size = fontRef->measureString(str);
-
-		vec2 baseline;
-		
-		if (hasHandle)
-		{
-			Rectf sliderHandleRect = calcSliderHandleRect(s);
-			
-			baseline.y = sliderHandleRect.y2 + sliderHandleRect.getHeight() * .75;			
-			baseline.x = sliderHandleRect.getCenter().x - size.x/2;
-		}
-		else
-		{
-			baseline = lerp( s.mEndpoint[0], s.mEndpoint[1], .5f );
-			baseline.y += kSliderHandleSize.y * 1.25f;
-		}
-
-		gl::color(0,0,0);		
-		fontRef->drawString( str, snapToPixel(baseline) );
-	}
 }
 
 void FragmentView::drawColors() const
@@ -658,30 +554,6 @@ void FragmentView::drawColors() const
 	}
 }
 
-ci::Rectf
-FragmentView::calcSliderHandleRect( const Slider& s ) const
-{
-	Rectf r( vec2(0,0), kSliderHandleSize );
-	
-	r.offsetCenterTo( lerp(s.mEndpoint[0],s.mEndpoint[1],s.mValue) ); 
-	
-	return r;
-}
-
-ci::Rectf FragmentView::calcSliderPickRect( const Slider& s ) const
-{
-	Rectf r( s.mEndpoint[0], s.mEndpoint[1] );
-
-	if ( s.mIsGraph ) r.y1 -= s.mGraphHeight;
-	else
-	{
-		r = Rectf( s.mEndpoint[0], s.mEndpoint[1] );
-		r.inflate( vec2(0,kSliderHandleSize.y/2) );
-	}
-	
-	return r;
-}
-
 int
 FragmentView::pickSliderHandle( glm::vec2 loc ) const
 {
@@ -689,7 +561,7 @@ FragmentView::pickSliderHandle( glm::vec2 loc ) const
 	{
 		const bool hasHandle = ! mSliders[i].mIsGraph;
 		
-		if ( hasHandle && calcSliderHandleRect(mSliders[i]).contains(loc) ) return i;
+		if ( hasHandle && mSliders[i].calcHandleRect().contains(loc) ) return i;
 	}
 	
 	return -1;
@@ -701,7 +573,7 @@ int	FragmentView::pickSliderBar( glm::vec2 p, float* valuePicked ) const
 	{
 		const Slider& s = mSliders[i];
 		
-		Rectf r = calcSliderPickRect(s);
+		Rectf r = s.calcPickRect();
 		
 		if ( r.contains(p) )
 		{
@@ -712,51 +584,6 @@ int	FragmentView::pickSliderBar( glm::vec2 p, float* valuePicked ) const
 	}
 	
 	return -1;
-}
-
-void FragmentView::setSliderValue( Slider& s, float value )
-{
-	const float kViewSnapDist = 4.f; // in view space
-				
-
-	s.mValue = constrain( value, 0.f, 1.f );
-	
-	// notched?
-	if ( s.mNotches > 0 )
-	{
-		switch( s.mNotchAction )
-		{
-			case Slider::Notch::Nearest:
-				s.mValue = round( s.mValue * (float)(s.mNotches-1) );
-				s.mValue /= (float)(s.mNotches-1);
-				break;
-				
-			case Slider::Notch::Snap:
-			{
-				const float nearestNotchNum = round( s.mValue * (float)(s.mNotches-1) ); // [ 0, 1, ... s.mNotches-1 ]
-				
-				// convert back to local view space
-				const float nearestNorm = nearestNotchNum / (float)(s.mNotches-1);
-				
-				const float nearestViewX = lerp( s.mEndpoint[0].x, s.mEndpoint[1].x, nearestNorm ); 
-				
-				const float viewDist = fabsf( nearestViewX - lerp( s.mEndpoint[0].x, s.mEndpoint[1].x, s.mValue ) );
-				
-				// snap?
-				if ( kViewSnapDist >= viewDist )
-				{
-					s.mValue = nearestNorm;
-				} 
-			}
-			break;
-				
-			case Slider::Notch::None:
-			case Slider::Notch::DrawOnly:
-				break;
-		}
-	}
-	
-	syncModelToSlider(s);
 }
 
 int	
@@ -791,17 +618,20 @@ FragmentView::calcColorRect( int i ) const
 	return r;
 }
 
-void FragmentView::Slider::flipXAxis()
+Sample::Fragment&
+FragmentView::getEditFragment()
 {
-	// typical slider stuff
-	swap( mIconRect[0], mIconRect[1] );
-	swap( mIcon[0], mIcon[1] );
-	swap( mIconSize[0], mIconSize[1] );
-	swap( mEndpoint[0], mEndpoint[1] );
-	swap( mValueMappedLo, mValueMappedHi );
-	mValue = 1.f - mValue;
+	assert(mEditSample);
+	assert(mEditFragment >= 0 && mEditFragment < mEditSample->mFragments.size());
 	
-	// graph
-	mAreGraphValuesReversed = ! mAreGraphValuesReversed;
-	mGraphValues = vector<float>( mGraphValues.rbegin(), mGraphValues.rend() );
+	return mEditSample->mFragments[mEditFragment];
+}
+
+const Sample::Fragment&
+FragmentView::getEditFragment() const
+{
+	assert(mEditSample);
+	assert(mEditFragment >= 0 && mEditFragment < mEditSample->mFragments.size());
+	
+	return mEditSample->mFragments[mEditFragment];
 }
