@@ -133,19 +133,33 @@ void Slider::flipXAxis()
 	mGraphValues = vector<float>( mGraphValues.rbegin(), mGraphValues.rend() );
 }
 
-bool
-Slider::setValueWithMouse ( ci::vec2 pos )
+void
+Slider::setValueWithMouse ( ci::vec2 p )
 {
-//	if ( mIsGraph )
-//	{
-//		tryInstantSliderGraphValueSet( mDragSlider, pos );
-//	}
-//	else
-//	{
-//		tryInstantSliderSet(pos);		
-//	}
-
-	return false;
+	Rectf pickRect = calcPickRect();
+	
+	if ( mIsGraph )
+	{
+		assert( !mGraphValues.empty() );
+		
+		float fx = (p.x - mEndpoint[0].x) / (mEndpoint[1].x - mEndpoint[0].x);
+		
+		int x = roundf( fx * (float)(mGraphValues.size()-1) );
+		
+		x = constrain( x, 0, (int)mGraphValues.size() );
+		
+		float fy = (mEndpoint[0].y - p.y) / mGraphHeight;
+		
+		fy = constrain( fy, 0.f, 1.f );
+		
+		mGraphValues[x] = fy;
+	}
+	else
+	{
+		float v = (p.x - pickRect.getX1()) / pickRect.getWidth();
+		
+		setNormalizedValue(v);
+	}
 } 
 
 void

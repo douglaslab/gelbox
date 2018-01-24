@@ -66,7 +66,7 @@ public:
 	ci::Rectf	calcHandleRect() const;
 	ci::Rectf	calcPickRect() const;
 	
-	bool		setValueWithMouse ( ci::vec2 pos ); // returns false and does nothing if mouse missed control 
+	void		setValueWithMouse ( ci::vec2 pos ); 
 	void		setNormalizedValue( float normValue );
 	
 	float		getMappedValue() const { return ci::lerp( mValueMappedLo, mValueMappedHi, mValue ); }

@@ -301,14 +301,9 @@ void FragmentView::mouseDown( ci::app::MouseEvent e )
 	{
 		mDragSlider = sliderB;
 		
-		if ( mSliders[mDragSlider].mIsGraph )
-		{
-			tryInstantSliderGraphValueSet( mDragSlider, local );
-		}
-		else
-		{
-			tryInstantSliderSet(local);		
-		}
+		mSliders[mDragSlider].setValueWithMouse(local);
+
+		syncModelToSlider(mSliders[mDragSlider]);
 	}
 	else if ( color != -1 )
 	{
@@ -329,57 +324,19 @@ void FragmentView::mouseUp ( ci::app::MouseEvent e )
 	
 	if ( distance( getMouseDownLoc(), getMouseLoc() ) < kSingleClickDist )
 	{
-		tryInstantSliderSet( rootToChild(e.getPos()) );
+		vec2 local = rootToChild( e.getPos() );
+		
+		int s = pickSliderBar( local );
+
+		if ( s != -1 )
+		{
+			mSliders[s].setValueWithMouse(local);
+			syncModelToSlider(mSliders[s]);
+		}
 	}
 	
 	// clear drag
 	mDragSlider=-1;
-}
-
-int FragmentView::tryInstantSliderSet( vec2 local )
-{
-	float value;
-	int s = pickSliderBar( local, &value );
-	
-	if ( s != -1 && !mSliders[s].mIsGraph )
-	{
-		mSliders[s].setNormalizedValue(value);
-		syncModelToSlider( mSliders[s] );
-	}
-	
-	return s;
-}
-
-int FragmentView::tryInstantSliderGraphValueSet( int si, glm::vec2 p )
-{
-	if ( si == -1 )
-	{
-		si = pickSliderBar(p);
-	}
-	
-	if ( si != -1 )
-	{
-		Slider& s = mSliders[si];
-		
-		assert( s.mIsGraph );
-		assert( !s.mGraphValues.empty() );
-		
-		float fx = (p.x - s.mEndpoint[0].x) / (s.mEndpoint[1].x - s.mEndpoint[0].x);
-		
-		int x = roundf( fx * (float)(s.mGraphValues.size()-1) );
-		
-		x = constrain( x, 0, (int)s.mGraphValues.size() );
-		
-		float fy = (s.mEndpoint[0].y - p.y) / s.mGraphHeight;
-		
-		fy = constrain( fy, 0.f, 1.f );
-		
-		s.mGraphValues[x] = fy;
-		
-		syncModelToSlider( mSliders[si] );
-	}
-	
-	return si;
 }
 
 void FragmentView::setFragment( SampleRef s, int f )
@@ -430,7 +387,7 @@ void FragmentView::syncModelToSlider( Slider& s ) const
 	{
 		if (s.mSetter)
 		{
-			s.mSetter( s.getMappedValue() );			
+			s.mSetter( s.getMappedValue() );
 		}
 		
 		if (s.mGraphSetter)
@@ -493,15 +450,17 @@ void FragmentView::mouseDrag( ci::app::MouseEvent e )
 		
 		if ( s.mIsGraph )
 		{
-			tryInstantSliderGraphValueSet( mDragSlider, local );		
+			s.setValueWithMouse(local);
 		}
 		else
 		{		
 			float deltaVal = delta.x / kSliderLineLength; 
 			
 			s.setNormalizedValue(mDragSliderStartValue + deltaVal);
-			syncModelToSlider(s);
 		}
+
+		// push
+		syncModelToSlider(s);
 	}
 	// color
 	else if ( pickColor(mouseDownLocal) != -1 )
@@ -567,7 +526,7 @@ FragmentView::pickSliderHandle( glm::vec2 loc ) const
 	return -1;
 }
 
-int	FragmentView::pickSliderBar( glm::vec2 p, float* valuePicked ) const
+int	FragmentView::pickSliderBar( glm::vec2 p ) const
 {
 	for ( int i=0; i<mSliders.size(); ++i )
 	{
@@ -577,8 +536,6 @@ int	FragmentView::pickSliderBar( glm::vec2 p, float* valuePicked ) const
 		
 		if ( r.contains(p) )
 		{
-			if (valuePicked) *valuePicked = (p.x - r.getX1()) / r.getWidth();
-			
 			return i;
 		}
 	}

@@ -61,10 +61,9 @@ private:
 	std::vector<Slider>		mSliders;
 	
 	int						pickSliderHandle( glm::vec2 ) const; // local coords
-	int						pickSliderBar( glm::vec2, float* valuePicked=0 ) const;
+	int						pickSliderBar( glm::vec2 ) const;
+	
 	int						tryInstantSliderSet( glm::vec2 local ); // returns which slider, if any
-
-	int						tryInstantSliderGraphValueSet( int, glm::vec2 local ); // constrains, updates; pass -1 slider to try to pick one
 
 	void					syncSlidersToModel(); // just reads it in
 	void					syncModelToSlider( Slider& ) const; // just this slider
