@@ -45,6 +45,9 @@ public:
 	void		openSampleView(); 
 	void		closeSampleView();
 
+	void		sampleDidChange( SampleRef );
+	void		updateGelDetailViewContent( SampleViewRef ) const;
+	
 private:
 	GelRef				mGel;
 
@@ -54,6 +57,7 @@ private:
 		
 	SampleViewRef		mSampleView;
 	SampleViewRef		mHoverGelDetailView;
+	std::vector< std::weak_ptr<SampleView> > mLoupeViews;
 	
 	ci::Rectf	calcMicrotubeIconRect( int lane ) const;
 	int			pickMicrotube( ci::vec2 ) const; // local coords
@@ -64,7 +68,7 @@ private:
 	void		updateHoverGelDetailView();
 	
 	void		addLoupe( ci::vec2 withSampleAtRootPos ); // persistent
-	SampleViewRef updateGelDetailView( SampleViewRef view, ci::vec2 withSampleAtRootPos ); // root coords; makes view if null
+	SampleViewRef updateGelDetailView( SampleViewRef view, ci::vec2 withSampleAtRootPos, bool forceUpdate, bool doLayout ); // root coords; makes view if null
 	SampleViewRef openGelDetailView();
 	void		closeHoverGelDetailView();
 	SampleRef	makeSampleFromGelPos( ci::vec2 pos ) const;

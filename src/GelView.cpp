@@ -341,15 +341,39 @@ void GelView::closeSampleView()
 	}
 }
 
+void GelView::sampleDidChange( SampleRef s )
+{
+	// update gel
+	if ( mGel ) mGel->syncBandsToSample(s);
+	
+	// update loupes (and remove ones that are gone)
+	auto lv = mLoupeViews;
+	mLoupeViews.clear();
+	
+	for( auto li : lv )
+	{
+		auto l = li.lock();
+		
+		if (l)
+		{
+			l = updateGelDetailView( l, l->getCalloutAnchor(), true, false );
+			
+			mLoupeViews.push_back(l);
+		}
+	}
+}
+
 void GelView::addLoupe( vec2 withSampleAtRootPos )
 {
-	SampleViewRef view = updateGelDetailView( 0, withSampleAtRootPos );
+	SampleViewRef view = updateGelDetailView( 0, withSampleAtRootPos, true, true );
 	
 	if (view)
 	{
 		view->setHasLoupe(true);
 		
 		getCollection()->setKeyboardFocusView(view);
+		
+		mLoupeViews.push_back(view);
 	}
 }
 
@@ -384,19 +408,28 @@ void GelView::closeHoverGelDetailView()
 	}
 }
 
-SampleViewRef GelView::updateGelDetailView( SampleViewRef view, vec2 withSampleAtRootPos )
+SampleViewRef GelView::updateGelDetailView( SampleViewRef view, vec2 withSampleAtRootPos, bool forceUpdate, bool doLayout )
 {
 	if (!mGel) return view;
 	
 	// open it?
-	if ( !view ) view = openGelDetailView();
+	bool isNewView = false;
 	
-	// layout
-	Rectf frame = view->getFrame();
+	if ( !view )
+	{
+		view = openGelDetailView();
+		isNewView = true;
+	}
 	
-	frame.offsetCenterTo( withSampleAtRootPos + vec2(frame.getWidth(),0) );
-	
-	view->setFrame(frame);
+	if ( doLayout || isNewView )
+	{
+		// layout
+		Rectf frame = view->getFrame();
+		
+		frame.offsetCenterTo( withSampleAtRootPos + vec2(frame.getWidth(),0) );
+		
+		view->setFrame(frame);
+	}
 	
 	vec2 oldSampleAtRootPos = view->getCalloutAnchor();
 	
@@ -404,34 +437,46 @@ SampleViewRef GelView::updateGelDetailView( SampleViewRef view, vec2 withSampleA
 	
 	// content
 	SampleRef s = view->getSample();
+
+	int lane = pickLane( rootToParent(withSampleAtRootPos) );	
 	
-	int lane = pickLane( rootToParent(withSampleAtRootPos) );
-	
-	if ( lane != -1
-	  && (    (!s || s->mID != lane)
-		   || withSampleAtRootPos != oldSampleAtRootPos
-		 )
+	if (   forceUpdate
+		|| (!s || s->mID != lane)
+		|| withSampleAtRootPos != oldSampleAtRootPos
 	   )
 	{
-		vec2 withSampleAtPos = rootToChild(withSampleAtRootPos);
-		
-		// reset view particles
-		view->clearParticles();
-		view->setRand( ci::Rand( withSampleAtPos.x*19 + withSampleAtPos.y*1723 ) );
-
-		// make new sample
-		s = makeSampleFromGelPos( withSampleAtPos );
-		
-		s->mID = lane;				
-		
-		view->setSample(s);
-		
-		// insure fully spawned
-		view->prerollSim();
+		updateGelDetailViewContent(view);
 	}
 	
 	//
 	return view;
+}
+
+void GelView::updateGelDetailViewContent( SampleViewRef view ) const
+{	
+	// move this function to SampleView?
+	
+	assert(view);
+	
+	SampleRef s = view->getSample();
+	
+	vec2 withSampleAtRootPos = view->getCalloutAnchor();
+	
+	vec2 withSampleAtPos = rootToChild(withSampleAtRootPos);
+	
+	// reset view particles
+	view->clearParticles();
+	view->setRand( ci::Rand( withSampleAtPos.x*19 + withSampleAtPos.y*1723 ) );
+
+	// make new sample
+	s = makeSampleFromGelPos( withSampleAtPos );
+	
+	s->mID = pickLane( rootToParent(withSampleAtRootPos) );				
+	
+	view->setSample(s);
+	
+	// insure fully spawned
+	view->prerollSim();
 }
 
 SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
@@ -527,7 +572,7 @@ void GelView::updateHoverGelDetailView()
 	// gel detail rollover
 	if ( getHasRollover() && pickLane(getMouseLoc()) != -1 )
 	{
-		mHoverGelDetailView = updateGelDetailView( mHoverGelDetailView, getMouseLoc() ); // implicitly opens it
+		mHoverGelDetailView = updateGelDetailView( mHoverGelDetailView, getMouseLoc(), false, true ); // implicitly opens it
 	}
 	else
 	{

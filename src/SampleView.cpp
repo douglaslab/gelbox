@@ -327,10 +327,14 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 
 void SampleView::mouseDrag( ci::app::MouseEvent )
 {
+	bool updateContent = false;
+	
+	// drag?
 	switch ( mDrag )
 	{
 		case Drag::Loupe:
 			setCalloutAnchor( getCalloutAnchor() + getMouseMoved() );
+			updateContent = true;
 			break;
 			
 		case Drag::View:
@@ -341,9 +345,16 @@ void SampleView::mouseDrag( ci::app::MouseEvent )
 		case Drag::LoupeAndView:
 			setFrame( getFrame() + getMouseMoved() );
 			setCalloutAnchor( getCalloutAnchor() + getMouseMoved() ); // updates callout
+			updateContent = true;
 			break;
 			
 		case Drag::None: break;
+	}
+	
+	// update content?
+	if ( updateContent && mGelView )
+	{
+		mGelView->updateGelDetailViewContent( shared_from_this() );
 	}
 }
 
@@ -419,10 +430,7 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 
 void SampleView::fragmentDidChange( int fragment )
 {
-	if ( mGelView && mGelView->getGel() )
-	{
-		mGelView->getGel()->syncBandsToSample(mSample);
-	}
+	if ( mGelView ) mGelView->sampleDidChange(mSample);
 }
 
 int SampleView::getFocusFragment() const
