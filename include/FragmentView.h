@@ -75,6 +75,15 @@ private:
 		
 		int			mNotches=0;
 		
+		enum class Notch
+		{
+			None,
+			DrawOnly, // just draw them
+			Nearest, // will always snap to a notch
+			Snap    // will snap if close to a notch
+		};
+		Notch		mNotchAction = Notch::None;
+		
 		float		mValue=.5f; // 0..1
 		float		mValueMappedLo=0.f, mValueMappedHi=1.f;
 

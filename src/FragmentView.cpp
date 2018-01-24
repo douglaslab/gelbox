@@ -179,6 +179,7 @@ FragmentView::FragmentView()
 		
 		
 		aggregate.mNotches = kNumMultimerNotches;
+		aggregate.mNotchAction = Slider::Notch::DrawOnly;
 		aggregate.mValueMappedLo = 1;
 		aggregate.mValueMappedHi = kNumMultimerNotches;
 		
@@ -214,6 +215,8 @@ FragmentView::FragmentView()
 		degrade.mGetter = []( const Sample::Fragment& f ) {
 			return f.mDegrade; 
 		};
+		degrade.mNotches = 3;
+		degrade.mNotchAction = Slider::Notch::Snap;
 		
 		// load icons
 		loadIcons( size, "size" );
@@ -582,7 +585,7 @@ void FragmentView::drawSlider( const Slider& s ) const
 	gl::drawLine(s.mEndpoint[0], s.mEndpoint[1]);
 	
 	// notches
-	if ( s.mNotches>0 )
+	if ( s.mNotches>0 && s.mNotchAction != Slider::Notch::None )
 	{
 		gl::color( kSliderLineColor * .5f );
 		
@@ -713,13 +716,44 @@ int	FragmentView::pickSliderBar( glm::vec2 p, float* valuePicked ) const
 
 void FragmentView::setSliderValue( Slider& s, float value )
 {
+	const float kViewSnapDist = 4.f; // in view space
+				
+
 	s.mValue = constrain( value, 0.f, 1.f );
 	
 	// notched?
 	if ( s.mNotches > 0 )
 	{
-		s.mValue = round( s.mValue * (float)(s.mNotches-1) );
-		s.mValue /= (float)(s.mNotches-1);
+		switch( s.mNotchAction )
+		{
+			case Slider::Notch::Nearest:
+				s.mValue = round( s.mValue * (float)(s.mNotches-1) );
+				s.mValue /= (float)(s.mNotches-1);
+				break;
+				
+			case Slider::Notch::Snap:
+			{
+				const float nearestNotchNum = round( s.mValue * (float)(s.mNotches-1) ); // [ 0, 1, ... s.mNotches-1 ]
+				
+				// convert back to local view space
+				const float nearestNorm = nearestNotchNum / (float)(s.mNotches-1);
+				
+				const float nearestViewX = lerp( s.mEndpoint[0].x, s.mEndpoint[1].x, nearestNorm ); 
+				
+				const float viewDist = fabsf( nearestViewX - lerp( s.mEndpoint[0].x, s.mEndpoint[1].x, s.mValue ) );
+				
+				// snap?
+				if ( kViewSnapDist >= viewDist )
+				{
+					s.mValue = nearestNorm;
+				} 
+			}
+			break;
+				
+			case Slider::Notch::None:
+			case Slider::Notch::DrawOnly:
+				break;
+		}
 	}
 	
 	syncModelToSlider(s);
