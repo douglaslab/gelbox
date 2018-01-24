@@ -192,39 +192,51 @@ void GelView::drawBandFocus() const
 void GelView::mouseDown( ci::app::MouseEvent e )
 {
 	vec2 localPos = rootToChild(e.getPos());
-	Gel::Band band;
 	
-	// pick tube icon	
-	mMouseDownMicrotube = pickMicrotube( localPos );
-	
-	if ( mMouseDownMicrotube != -1 )
-	{	
-		// select (w/ toggle)
-		if (mMouseDownMicrotube==mSelectedMicrotube) selectMicrotube(-1);
-		else selectMicrotube( mMouseDownMicrotube );		
-	}
-	// else pick band
-	else if ( pickBand(localPos,band) )
+	// add loupe?
+	if ( e.isMetaDown() )
 	{
-		mMouseDownMicrotube = band.mLane;
-		selectMicrotube(band.mLane);
-		
-		if (mSampleView)
-		{
-			mSampleView->selectFragment(band.mFragment);
-			getCollection()->setKeyboardFocusView(mSampleView); // for consistency; also, it will auto-deselect otherwise
-		}
+		addLoupe( e.getPos() );
 	}
-	// else pick lane
-	else
+	else // normal mouse down
 	{
-		int lane = pickLane(e.getPos());
+		Gel::Band band;
 		
-		if ( lane != -1 && mGel && mGel->getSamples()[lane] )
-		{
-			mMouseDownMicrotube = lane;
-			selectMicrotube(mMouseDownMicrotube); // select
+		// pick tube icon	
+		mMouseDownMicrotube = pickMicrotube( localPos );
+		
+		if ( mMouseDownMicrotube != -1 )
+		{	
+			// select (w/ toggle)
+			if (mMouseDownMicrotube==mSelectedMicrotube) selectMicrotube(-1);
+			else selectMicrotube( mMouseDownMicrotube );		
 		}
+		// else pick band
+		else if ( pickBand(localPos,band) )
+		{
+			mMouseDownMicrotube = band.mLane;
+			selectMicrotube(band.mLane);
+			
+			if (mSampleView)
+			{
+				mSampleView->selectFragment(band.mFragment);
+				getCollection()->setKeyboardFocusView(mSampleView); // for consistency; also, it will auto-deselect otherwise
+			}
+		}
+		// else pick lane
+		else
+		{
+			int lane = pickLane(e.getPos());
+			
+			if ( lane != -1 && mGel && mGel->getSamples()[lane] )
+			{
+				mMouseDownMicrotube = lane;
+				selectMicrotube(mMouseDownMicrotube); // select
+			}
+		}
+		
+		// give it keyboard focus
+		if (mSampleView) getCollection()->setKeyboardFocusView(mSampleView);
 	}
 }
 
@@ -242,6 +254,12 @@ void GelView::mouseDrag( ci::app::MouseEvent )
 	{
 		setFrame( getFrame() + getCollection()->getMouseMoved() );
 	}
+	else updateHoverGelDetailView();
+}
+
+void GelView::mouseMove( ci::app::MouseEvent )
+{
+	updateHoverGelDetailView();
 }
 
 void GelView::selectMicrotube( int i )
@@ -305,12 +323,13 @@ void GelView::openSampleView()
 			// preroll
 			// -- disabled; i like the fade in!
 			// -- reasons to disable: fade is too distracting with everything else going on
+			// -- reasons to enable: it calls attention to what is now an important, explicit user initiated, selection state change
 //			mSampleView->prerollSim();
 		}
 	}
 	
 	// make sure detail is on top
-	if ( mGelDetailView ) getCollection()->moveViewToTop( mGelDetailView ); 
+	if ( mHoverGelDetailView ) getCollection()->moveViewToTop( mHoverGelDetailView ); 
 }
 
 void GelView::closeSampleView()
@@ -322,80 +341,92 @@ void GelView::closeSampleView()
 	}
 }
 
-void GelView::openGelDetailView()
+void GelView::addLoupe( vec2 withSampleAtRootPos )
 {
-	// make new
-	if ( !mGelDetailView )
+	SampleViewRef view = updateGelDetailView( 0, withSampleAtRootPos );
+	
+	
+}
+
+SampleViewRef GelView::openGelDetailView()
+{
+	// make view
+	SampleViewRef view = make_shared<SampleView>();
+	view->setGelView( shared_from_this() );
+	
+	// set size; updateGelDetailView will position it
+	Rectf frame(0.f,0.f,150.f,150.f);
+	
+	view->setFrameAndBoundsWithSize(frame);
+	
+	// misc
+	view->setPopDensityScale(.25f); // since we are 1/4 area of other one
+	view->setSimTimeScale(0.f); // paused
+	view->setIsLoupe(true);
+	
+	// add
+	getCollection()->addView(view);
+	
+	return view;
+}
+
+void GelView::closeHoverGelDetailView()
+{
+	if ( mHoverGelDetailView )
 	{
-		// make view
-		mGelDetailView = make_shared<SampleView>();
-		mGelDetailView->setGelView( shared_from_this() );
-		
-		// set size; updateGelDetailView will position it
-		Rectf frame(0.f,0.f,150.f,150.f);
-		
-		mGelDetailView->setFrameAndBoundsWithSize(frame);
-		
-		// misc
-		mGelDetailView->setIsNewBtnEnabled(false);
-		mGelDetailView->setPopDensityScale(.25f); // since we are 1/4 area of other one
-		mGelDetailView->setSimTimeScale(0.f); // paused
-		
-		// add
-		getCollection()->addView(mGelDetailView);
+		mHoverGelDetailView->close();
+		mHoverGelDetailView=0;
 	}
 }
 
-void GelView::closeGelDetailView()
+SampleViewRef GelView::updateGelDetailView( SampleViewRef view, vec2 withSampleAtRootPos )
 {
-	if ( mGelDetailView )
-	{
-		mGelDetailView->close();
-		mGelDetailView=0;
-	}
-}
-
-void GelView::updateGelDetailView( vec2 withSampleAtPos )
-{
-	if (!mGel) return;
+	if (!mGel) return view;
 	
 	// open it?
-	if (!mGelDetailView) openGelDetailView();
+	if ( !view ) view = openGelDetailView();
 	
 	// layout
-	vec2 rootSamplePos = childToRoot( withSampleAtPos );
+	Rectf frame = view->getFrame();
 	
-	Rectf frame = mGelDetailView->getFrame();
+	frame.offsetCenterTo( withSampleAtRootPos + vec2(frame.getWidth(),0) );
 	
-	frame.offsetCenterTo( rootSamplePos + vec2(frame.getWidth(),0) );
+	view->setFrame(frame);
 	
-	mGelDetailView->setFrame(frame);
+	vec2 oldSampleAtRootPos = view->getCalloutAnchor();
 	
-	mGelDetailView->setCalloutAnchor( rootSamplePos );
+	view->setCalloutAnchor( withSampleAtRootPos );
 	
 	// content
-	SampleRef s = mGelDetailView->getSample();
+	SampleRef s = view->getSample();
 	
-	int lane = pickLane( childToParent(withSampleAtPos) );
+	int lane = pickLane( rootToParent(withSampleAtRootPos) );
 	
-	if ( ((!s || s->mID != lane) || withSampleAtPos != mGelDetailViewAtPos) && lane != -1 )
+	if ( lane != -1
+	  && (    (!s || s->mID != lane)
+		   || withSampleAtRootPos != oldSampleAtRootPos
+		 )
+	   )
 	{
-		mGelDetailViewAtPos = withSampleAtPos;
+		vec2 withSampleAtPos = rootToChild(withSampleAtRootPos);
 		
 		// reset view particles
-		mGelDetailView->clearParticles();
-		mGelDetailView->setRand( ci::Rand( withSampleAtPos.x*19 + withSampleAtPos.y*1723 ) );
+		view->clearParticles();
+		view->setRand( ci::Rand( withSampleAtPos.x*19 + withSampleAtPos.y*1723 ) );
 
 		// make new sample
 		s = makeSampleFromGelPos( withSampleAtPos );
 		
 		s->mID = lane;				
 		
-		mGelDetailView->setSample(s);
+		view->setSample(s);
 		
 		// insure fully spawned
-		mGelDetailView->prerollSim();
+		view->prerollSim();
 	}
+	
+	//
+	return view;
 }
 
 SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
@@ -484,17 +515,18 @@ void GelView::tick( float dt )
 		}
 		else if (mSampleView) mSampleView->setHighlightFragment(-1);
 	}
-	
+}
+
+void GelView::updateHoverGelDetailView()
+{
 	// gel detail rollover
+	if ( getHasRollover() && pickLane(getMouseLoc()) != -1 )
 	{
-		if ( getHasRollover() && pickLane(getMouseLoc()) != -1 )
-		{
-			updateGelDetailView( localMouseLoc ); // implicitly opens it
-		}
-		else
-		{
-			closeGelDetailView();
-		}
+		mHoverGelDetailView = updateGelDetailView( mHoverGelDetailView, getMouseLoc() ); // implicitly opens it
+	}
+	else
+	{
+		closeHoverGelDetailView();
 	}
 }
 

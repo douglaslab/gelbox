@@ -34,6 +34,7 @@ public:
 	void close(); // removes from view, closes frag editor if any
 	
 	void setCalloutAnchor( glm::vec2 p ) { mAnchor=p; updateCallout(); }
+	glm::vec2 getCalloutAnchor() const { return mAnchor; }
 	void setSample( SampleRef s ) { mSample=s; syncToModel(); }
 	SampleRef getSample() const { return mSample; }
 	
@@ -45,6 +46,7 @@ public:
 	
 	void mouseUp( ci::app::MouseEvent ) override;
 	void mouseDown( ci::app::MouseEvent ) override;
+	void mouseDrag( ci::app::MouseEvent ) override;
 	void keyDown( ci::app::KeyEvent ) override;
 	
 	bool pick( glm::vec2 ) const override;
@@ -60,10 +62,11 @@ public:
 	void setHighlightFragment( int i );
 	
 	// options so we can make frozen gel callout views 
-	void setIsNewBtnEnabled( bool v ) { mNewBtnEnabled=v; }
+	bool getIsNewBtnEnabled() const { return ! mIsLoupe; }
 	void setPopDensityScale( float s ) { mPopDensityScale=s; }
 	void prerollSim();
 	void setSimTimeScale( float s) { mSimTimeScale=s; }
+	void setIsLoupe( bool ro ) { mIsLoupe=ro; } // i.e. gel detail view; a loupe
 	void clearParticles() { mParts.clear(); }
 	void setRand( ci::Rand r ) { mRand = r; }
 	
@@ -81,13 +84,13 @@ private:
 	
 	glm::vec2		mAnchor; // anchor for callout. in frame (parent) space
 	ci::PolyLine2   mCallout;
+	bool			mIsLoupe = false;	
 	
 	SampleRef		mSample; // source data
 	int				mSelectedFragment=-1;
 	int				mRolloverFragment=-1;
 	int				mHighlightFragment=-1;
 	
-	bool			mNewBtnEnabled=true;
 	glm::vec2		mNewBtnLoc;
 	float			mNewBtnRadius;
 	ci::gl::TextureRef mNewBtnImage;

@@ -34,11 +34,16 @@ public:
 	void	mouseDown( ci::app::MouseEvent ) override;
 	void	mouseUp  ( ci::app::MouseEvent ) override;
 	void	mouseDrag( ci::app::MouseEvent ) override;
+	void	mouseMove( ci::app::MouseEvent ) override;
 
 	DropTargetRef getDropTarget( glm::vec2 locInFrame ) override;
 
 	int		pickLane ( ci::vec2 ) const;	// loc in frame space
 	ci::Rectf getLaneRect( int ) const; // in bounds space 
+
+	void		selectMicrotube( int lane );
+	void		openSampleView(); 
+	void		closeSampleView();
 
 private:
 	GelRef				mGel;
@@ -48,22 +53,20 @@ private:
 	ci::gl::TextureRef	mMicrotubeIcon;
 		
 	SampleViewRef		mSampleView;
-	SampleViewRef		mGelDetailView;
-	ci::vec2			mGelDetailViewAtPos;
+	SampleViewRef		mHoverGelDetailView;
 	
 	ci::Rectf	calcMicrotubeIconRect( int lane ) const;
 	int			pickMicrotube( ci::vec2 ) const; // local coords
 
 	std::vector<Gel::Band> pickBands( ci::vec2 ) const; // local coords
 	bool		pickBand( ci::vec2, Gel::Band& picked ) const;
+		
+	void		updateHoverGelDetailView();
 	
-	void		selectMicrotube( int lane );
-	void		openSampleView(); 
-	void		closeSampleView();
-	
-	void		updateGelDetailView( ci::vec2 withSampleAtPos ); // local coords; implicitly opens it
-	void		openGelDetailView();
-	void		closeGelDetailView();
+	void		addLoupe( ci::vec2 withSampleAtRootPos ); // persistent
+	SampleViewRef updateGelDetailView( SampleViewRef view, ci::vec2 withSampleAtRootPos ); // root coords; makes view if null
+	SampleViewRef openGelDetailView();
+	void		closeHoverGelDetailView();
 	SampleRef	makeSampleFromGelPos( ci::vec2 pos ) const;
 
 	void		drawMicrotubes() const;

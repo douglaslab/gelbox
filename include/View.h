@@ -97,6 +97,7 @@ public:
 	
 	glm::vec2 getMouseLoc() const;
 	glm::vec2 getMouseDownLoc() const;
+	glm::vec2 getMouseMoved() const;
 	
 	// TODO: make work 100% properly in local space; AND respect retina
 	ci::vec2  snapToPixel( ci::vec2  p ) const;
@@ -164,9 +165,9 @@ public:
 	ViewRef getKeyboardFocusView() const { return mKeyboardFocusView; }
 	void    setKeyboardFocusView( ViewRef );
 	
+	ci::vec2 getMouseLoc()     const { return mLastMouseLoc; }
 	ci::vec2 getMouseDownLoc() const { return mMouseDownLoc; }
 	ci::vec2 getMouseMoved()   const { return mMouseMoved; }
-	ci::vec2 getMouseLoc()     const { return mLastMouseLoc; }
 	
 private:
 	void updateMouseLoc( glm::vec2 );

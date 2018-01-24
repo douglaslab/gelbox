@@ -100,8 +100,11 @@ void SampleView::draw()
 	// focus
 	if ( getHasKeyboardFocus() )
 	{
-		gl::color(1,1,.3,.35f);
-		gl::drawStrokedRect(getBounds(),2.f);
+		gl::color( 1,1,.3, mIsLoupe ? .6f : .35f );
+		
+		float thick = mIsLoupe ? 4.f : 1.f;
+		
+		gl::drawStrokedRect( getBounds().inflated(vec2(thick/2.f)), thick );
 	}
 	
 	// bkgnd, frame
@@ -114,7 +117,7 @@ void SampleView::draw()
 	drawSim();
 	
 	// new btn
-	if (mNewBtnEnabled)
+	if ( getIsNewBtnEnabled() )
 	{
 		const bool hasMouseDown = getHasMouseDown() && pickNewBtn(getMouseDownLoc()) && pickNewBtn(getMouseLoc()); 
 		
@@ -158,7 +161,7 @@ bool SampleView::pick( glm::vec2 p ) const
 
 bool SampleView::pickNewBtn( glm::vec2 p ) const
 {
-	if (!mNewBtnEnabled) return false;
+	if ( !getIsNewBtnEnabled() ) return false;
 	else
 	{
 		return distance( parentToChild(p), mNewBtnLoc ) <= mNewBtnRadius;
@@ -279,6 +282,15 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 	getCollection()->setKeyboardFocusView( shared_from_this() );
 }
 
+void SampleView::mouseDrag( ci::app::MouseEvent )
+{
+	if ( mIsLoupe )
+	{
+		setFrame( getFrame() + getMouseMoved() );
+		updateCallout();
+	}
+}
+
 void SampleView::mouseUp( ci::app::MouseEvent e )
 {
 	if ( getHasMouseDown() )
@@ -301,14 +313,51 @@ void SampleView::mouseUp( ci::app::MouseEvent e )
 
 void SampleView::keyDown( ci::app::KeyEvent e )
 {
-	if ( e.getCode() == KeyEvent::KEY_BACKSPACE || e.getCode() == KeyEvent::KEY_DELETE )
+	switch( e.getCode() )
 	{
-		if ( isFragment(mSelectedFragment) )
-		{
-			int which = mSelectedFragment;
-			selectFragment(-1);
-			deleteFragment( which );
-		}
+		case KeyEvent::KEY_BACKSPACE:
+		case KeyEvent::KEY_DELETE:
+			if ( mIsLoupe )
+			{
+				// close loupe
+				getCollection()->removeView( shared_from_this() );
+			}
+			else if ( isFragment(mSelectedFragment) )
+			{
+				// delete fragment
+				int which = mSelectedFragment;
+				selectFragment(-1);
+				deleteFragment( which );
+			}
+			break;
+		
+		case KeyEvent::KEY_ESCAPE:
+			// close view?
+			if ( mIsLoupe ) getCollection()->removeView( shared_from_this() );
+			else if ( mGelView ) mGelView->selectMicrotube(-1);
+			break;
+
+		case KeyEvent::KEY_TAB:
+			
+			if ( mSample )
+			{
+				size_t size = mSample->mFragments.size();
+				
+				// select first?
+				if ( mSelectedFragment == -1 )
+				{
+					if ( size>0 ) selectFragment(0);
+				}
+				else
+				{
+					int n = mSelectedFragment + 1;
+					if (n >= size) n=-1;
+					selectFragment(n);
+				}
+			}
+			break;
+			
+		default:break;
 	}
 }
 
@@ -336,20 +385,20 @@ void SampleView::tick( float dt )
 	tickSim( (slow ? .1f : 1.f) * mSimTimeScale );
 	
 	// rollover
-	if ( getHasRollover() )
+	if ( getHasRollover() && ! mIsLoupe )
 	{
 		setRolloverFragment( pickFragment( rootToChild(getMouseLoc()) ) );
 	}
 	else setRolloverFragment(-1);
 	
 	// deselect?
-	if ( isFragment(mSelectedFragment) && !getHasKeyboardFocus() )
+	if ( (isFragment(mSelectedFragment) && !getHasKeyboardFocus()) || mIsLoupe )
 	{
 		selectFragment(-1);
 	}
 
 	// fragment editor on highlight/hover/selection -- can enable/disable this feature on its own
-	if (1)
+	if ( ! mIsLoupe )
 	{
 		showFragmentEditor( getFocusFragment() );
 	}

@@ -100,6 +100,12 @@ vec2 View::getMouseDownLoc() const
 	else return vec2(0,0);
 }
 
+vec2 View::getMouseMoved() const
+{
+	if (mCollection) return mCollection->getMouseMoved();
+	else return vec2(0,0);
+}
+
 vec2 View::snapToPixel ( vec2 p ) const
 {
 	return vec2( roundf(p.x), roundf(p.y) );
@@ -229,7 +235,24 @@ void ViewCollection::mouseMove( MouseEvent event )
 	{
 		mMouseDownView->mouseMove(event);
 	}
-	else updateRollover(event.getPos());
+	else
+	{
+		ViewRef oldRolloverView = mRolloverView;
+		
+		updateRollover(event.getPos());
+		
+		// send to old?
+		if ( oldRolloverView && oldRolloverView != mRolloverView )
+		{
+			oldRolloverView->mouseMove(event);
+		}
+		
+		// send to new?
+		if ( mRolloverView )
+		{
+			mRolloverView->mouseMove(event);
+		}
+	}
 }
 
 void ViewCollection::updateMouseLoc( vec2 pos )
