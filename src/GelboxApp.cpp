@@ -132,10 +132,10 @@ void GelboxApp::makeGel( vec2 center )
 		mViews.addView(gelView);
 	}
 	
-	// new timeline
+	// timeline slider
 	{
 		const float kMaxMinutes = 60 * 3; // 3 hrs 
-		const float kGelGutter  = 24;
+		const float kGelGutter  = 20;
 		const float kIconGutter = 16.f;
 		
 		Slider s;
@@ -164,10 +164,10 @@ void GelboxApp::makeGel( vec2 center )
 			return toString(hrs) + ":" + minstr ;
 		};
 		
-		fs::path iconPathBase = getAssetPath("fragment-icons");
+		fs::path iconPathBase = getAssetPath("slider-icons");
 		s.loadIcons(
-			iconPathBase / "size-lo.png",
-			iconPathBase / "size-hi.png"
+			iconPathBase / "clock-lo.png",
+			iconPathBase / "clock-hi.png"
 			); 
 		
 		s.doLayoutInWidth( gelView->getFrame().getWidth(), kIconGutter );

@@ -47,16 +47,16 @@ void SliderView::mouseDrag( ci::app::MouseEvent e )
 	vec2 local = rootToChild(e.getPos());
 	vec2 delta = local - mouseDownLocal; 
 
-	if ( mSlider.mIsGraph && mSlider.calcPickRect().contains(mouseDownLocal) )
-	{
-		mSlider.setValueWithMouse(local);
-	}
-	else if ( mDragHandleHasMouseDown )
+	if ( mDragHandleHasMouseDown )
 	{		
 		float deltaVal = delta.x / fabsf(mSlider.mEndpoint[0].x - mSlider.mEndpoint[1].x) ; 
 		
 		mSlider.setNormalizedValue(mDragSliderStartValue + deltaVal);
-	}	
+	}
+	else if ( mSlider.calcPickRect().contains(mouseDownLocal) )
+	{
+		mSlider.setValueWithMouse(local);
+	}
 }
 
 void SliderView::setFrameAndBoundsWithSlider()

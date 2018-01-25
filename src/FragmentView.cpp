@@ -89,7 +89,7 @@ FragmentView::FragmentView()
 	
 	{
 		// icon loading helper
-		fs::path iconPathBase = getAssetPath("fragment-icons");
+		fs::path iconPathBase = getAssetPath("slider-icons");
 		
 		auto loadIcons = [iconPathBase]( Slider& s, string name )
 		{
