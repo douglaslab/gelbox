@@ -93,27 +93,12 @@ FragmentView::FragmentView()
 		
 		auto loadIcons = [iconPathBase]( Slider& s, string name )
 		{
-			fs::path paths[2] =
-			{
+			s.mIconSize[0] = s.mIconSize[1] = kSliderIconNotionalSize; // does't really matter unless it fails to load
+			
+			s.loadIcons(
 				iconPathBase / (name + "-lo.png"),
 				iconPathBase / (name + "-hi.png")
-			};
-			
-			for( int i=0; i<2; ++i )
-			{
-				try {
-					s.mIcon[i] = gl::Texture::create( loadImage(paths[i]), gl::Texture2d::Format().mipmap() );
-				} catch (...)
-				{
-					cerr << "ERROR failed to load icon " << paths[i] << endl;
-				}
-				
-				if ( s.mIcon[i] )
-				{
-					s.mIconSize[i] = vec2( s.mIcon[i]->getWidth(), s.mIcon[i]->getHeight() );
-				}
-				else s.mIconSize[i] = kSliderIconNotionalSize;
-			}
+				);
 		};
 		
 		// config sliders

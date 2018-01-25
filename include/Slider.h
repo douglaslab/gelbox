@@ -21,6 +21,16 @@ public:
 	
 	glm::vec2	mEndpoint[2];
 	
+	bool		loadIcons( ci::fs::path lo, ci::fs::path hi );
+	void		doLayoutInWidth( float fitInWidth, float iconGutter );
+	/*
+		[ ] ----- [ ]
+		   ^     ^      iconGutter
+		|-------------| fitInWidth
+	
+		topleft is at origin
+	*/
+	
 	// notches
 	int			mNotches=0;
 	
@@ -67,7 +77,8 @@ public:
 	void		draw() const;
 	
 	ci::Rectf	calcHandleRect() const;
-	ci::Rectf	calcPickRect() const;
+	ci::Rectf	calcPickRect() const; // just of interactive areas
+	ci::Rectf   calcBounds() const; // of everything (line, icons, etc...)
 	
 	void		setValueWithMouse ( ci::vec2 pos ); 
 	void		setNormalizedValue( float normValue );

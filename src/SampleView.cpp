@@ -411,15 +411,33 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 				size_t size = mSample->mFragments.size();
 				
 				// select first?
-				if ( mSelectedFragment == -1 )
+				if ( e.isShiftDown() )
 				{
-					if ( size>0 ) selectFragment(0);
+					// backwards
+					if ( mSelectedFragment == -1 )
+					{
+						if ( size>0 ) selectFragment(size-1);
+					}
+					else
+					{
+						int n = mSelectedFragment - 1;
+						if (n < 0) n=-1;
+						selectFragment(n);
+					}
 				}
 				else
 				{
-					int n = mSelectedFragment + 1;
-					if (n >= size) n=-1;
-					selectFragment(n);
+					// forwards
+					if ( mSelectedFragment == -1 )
+					{
+						if ( size>0 ) selectFragment(0);
+					}
+					else
+					{
+						int n = mSelectedFragment + 1;
+						if (n >= size) n=-1;
+						selectFragment(n);
+					}
 				}
 			}
 			break;

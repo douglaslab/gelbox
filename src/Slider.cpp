@@ -26,6 +26,48 @@ std::vector<float> lmap( std::vector<float> v, float inMin, float inMax, float o
 	return v;
 }
 
+bool Slider::loadIcons( ci::fs::path lo, ci::fs::path hi )
+{
+	ci::fs::path paths[2] = { lo, hi };
+	
+	for( int i=0; i<2; ++i )
+	{
+		try {
+			mIcon[i] = gl::Texture::create( loadImage(paths[i]), gl::Texture2d::Format().mipmap() );
+		}
+		catch (...)
+		{
+			cerr << "ERROR Slider::loadIcons failed to load icon " << paths[i] << endl;
+		}
+		
+		if ( mIcon[i] )
+		{
+			mIconSize[i] = vec2( mIcon[i]->getWidth(), mIcon[i]->getHeight() );
+		}
+	}
+	
+	return mIcon[0] && mIcon[1];
+}
+
+void Slider::doLayoutInWidth ( float fitInWidth, float iconGutter )
+{
+	float h = max( mIconSize[0].y, mIconSize[1].y ); 
+	float cy = h * .5f; // y for center bar we are aligning on
+	
+	mIconRect[0] = Rectf( vec2(0,0), mIconSize[0] ) + snapToPixel( vec2( 0.f, cy - mIconSize[0].y / 2.f ) );
+	mIconRect[1] = Rectf( vec2(0,0), mIconSize[1] ) + snapToPixel( vec2( fitInWidth - mIconSize[1].x, cy - mIconSize[1].y / 2.f ) );
+	
+	mEndpoint[0] = snapToPixel( vec2( mIconRect[0].x2 + iconGutter, cy ) );
+	mEndpoint[1] = snapToPixel( vec2( mIconRect[1].x1 - iconGutter, cy ) );
+	
+	if (mIsGraph)
+	{
+		float d = mGraphHeight * .5f;
+		mEndpoint[0].y += d;
+		mEndpoint[1].y += d;
+	}
+}
+
 void Slider::draw() const
 {
 	const auto fontRef = GelboxApp::instance()->getUIFont();
@@ -239,6 +281,16 @@ Slider::calcPickRect() const
 		r.inflate( vec2(0,kSliderHandleSize.y/2) );
 	}
 	
+	return r;
+}
+
+ci::Rectf
+Slider::calcBounds() const
+{
+	Rectf r( mEndpoint[0], mEndpoint[1] );
+	r.include( calcPickRect() );
+	r.include( mIconRect[0] );
+	r.include( mIconRect[1] );
 	return r;
 }
 

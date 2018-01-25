@@ -7,7 +7,8 @@
 #include "SampleTubeView.h"
 #include "SampleView.h"
 #include "View.h"
-#include "TimelineView.h"
+#include "Slider.h"
+#include "SliderView.h"
 #include "ImageView.h"
 #include "Interaction.h"
 #include "OperationView.h"
@@ -131,30 +132,51 @@ void GelboxApp::makeGel( vec2 center )
 		mViews.addView(gelView);
 	}
 	
-	// timeline
+	// new timeline
 	{
-		// in gelview frame coordinate space
-		const float kTimelineHeight = 20.f;
-		const float kTimelineGutter = 10.f;
+		const float kMaxMinutes = 60 * 3; // 3 hrs 
+		const float kGelGutter  = 24;
+		const float kIconGutter = 16.f;
 		
-		vec2 topleft( 0, gelView->getFrame().getHeight() + kTimelineGutter ); 
-		vec2 size   ( gelView->getFrame().getWidth(), kTimelineHeight );
-		Rectf timelineRect( topleft, topleft + size );
+		Slider s;
+
+		s.mValueMappedLo = 0;
+		s.mValueMappedHi = 1.f;
+		s.mSetter = [gel]( float v ) {
+			gel->setTime(v);
+		};
+		s.mGetter = [gel]() {
+			return gel->getTime();
+		};
+		s.mMappedValueToStr = [kMaxMinutes]( float v )
+		{
+			v *= kMaxMinutes;
+			
+			int m = roundf(v); // we get fractional values, so fix that.
+			
+			int mins = m % 60;
+			int hrs  = m / 60;
+			
+			string minstr = toString(mins);
+			if (minstr.size()==1) minstr = string("0") + minstr;
+			
+			return toString(hrs) + ":" + minstr ;
+		};
 		
-		auto timelineView = make_shared<TimelineView>( timelineRect );
+		fs::path iconPathBase = getAssetPath("fragment-icons");
+		s.loadIcons(
+			iconPathBase / "size-lo.png",
+			iconPathBase / "size-hi.png"
+			); 
 		
-		timelineView->mGetTime		= [gel](){ return gel->getTime(); };
-		timelineView->mSetTime		= [gel]( float t ){ gel->setTime(t); };
-		timelineView->mGetDuration	= [gel](){ return gel->getDuration(); };
-		timelineView->mGetIsPlaying = [gel](){ return ! gel->getIsPaused(); };
-		timelineView->mSetIsPlaying = [gel]( bool v ){ gel->setIsPaused( !v ); };
-		// This is silly. Let's just make a TimelineModelInterface and subclass it;
-		// If we want this level of runtime customization then let's just have a subclass
-		// with a bunch of closures. 
+		s.doLayoutInWidth( gelView->getFrame().getWidth(), kIconGutter );
+		s.pullValueFromGetter();
 		
-		timelineView->setParent(gelView);
+		auto sv = make_shared<SliderView>(s);
 		
-		mViews.addView(timelineView);
+		sv->setFrame( sv->getFrame() + gelView->getFrame().getLowerLeft() + vec2(0,kGelGutter) );
+		
+		mViews.addView(sv);
 	}
 	
 	// add samples

@@ -17,7 +17,6 @@
 		00B9955A1B128DF400A5C623 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995581B128DF400A5C623 /* IOKit.framework */; };
 		00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995591B128DF400A5C623 /* IOSurface.framework */; };
 		26054E9A1FD8726C007DB5F8 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054E991FD8726C007DB5F8 /* View.cpp */; };
-		26054EA51FD876B6007DB5F8 /* TimelineView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054EA41FD876B6007DB5F8 /* TimelineView.cpp */; };
 		26054EA71FD88259007DB5F8 /* ImageView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054EA61FD88259007DB5F8 /* ImageView.cpp */; };
 		26054EAD1FD8ACD3007DB5F8 /* SampleTubeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054EAC1FD8ACD3007DB5F8 /* SampleTubeView.cpp */; };
 		262003BF20126E1B003AEFE8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 262003BE20126E1B003AEFE8 /* Images.xcassets */; };
@@ -32,6 +31,7 @@
 		26CEEA641FE8631D003AAE8D /* OperationView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA631FE8631D003AAE8D /* OperationView.cpp */; };
 		26CEEA671FE86919003AAE8D /* DropTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA661FE86919003AAE8D /* DropTarget.cpp */; };
 		26FC514320193B3B0004A458 /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FC514220193B3B0004A458 /* Slider.cpp */; };
+		26FC514720194F1F0004A458 /* SliderView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FC514620194F1F0004A458 /* SliderView.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5BABC631A5484737AB27EE73 /* GelboxApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD8A9D321AC4187846DB4F6 /* GelboxApp.cpp */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -51,11 +51,9 @@
 		2029F7E3D4854834BD477628 /* Gelbox_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = Gelbox_Prefix.pch; sourceTree = "<group>"; };
 		26054E981FD87264007DB5F8 /* View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = View.h; path = ../include/View.h; sourceTree = "<group>"; };
 		26054E991FD8726C007DB5F8 /* View.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = View.cpp; path = ../src/View.cpp; sourceTree = "<group>"; };
-		26054E9B1FD87455007DB5F8 /* TimelineView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TimelineView.h; path = ../include/TimelineView.h; sourceTree = "<group>"; };
 		26054E9C1FD87473007DB5F8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		26054EA01FD874C2007DB5F8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		26054EA21FD874D1007DB5F8 /* Changes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Changes.md; path = ../Changes.md; sourceTree = "<group>"; };
-		26054EA41FD876B6007DB5F8 /* TimelineView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TimelineView.cpp; path = ../src/TimelineView.cpp; sourceTree = "<group>"; };
 		26054EA61FD88259007DB5F8 /* ImageView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageView.cpp; path = ../src/ImageView.cpp; sourceTree = "<group>"; };
 		26054EA81FD8826A007DB5F8 /* ImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImageView.h; path = ../include/ImageView.h; sourceTree = "<group>"; };
 		26054EAB1FD8ACC5007DB5F8 /* SampleTubeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleTubeView.h; path = ../include/SampleTubeView.h; sourceTree = "<group>"; };
@@ -88,6 +86,8 @@
 		26FC514120193A950004A458 /* Slider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Slider.h; path = ../include/Slider.h; sourceTree = "<group>"; };
 		26FC514220193B3B0004A458 /* Slider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Slider.cpp; path = ../src/Slider.cpp; sourceTree = "<group>"; };
 		26FC514420193F2B0004A458 /* Gelbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Gelbox.h; path = ../include/Gelbox.h; sourceTree = "<group>"; };
+		26FC514520194E550004A458 /* SliderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SliderView.h; path = ../src/SliderView.h; sourceTree = "<group>"; };
+		26FC514620194F1F0004A458 /* SliderView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SliderView.cpp; path = ../src/SliderView.cpp; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		3F767EEAAB7446E0BA4CB4C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -180,7 +180,6 @@
 			children = (
 				26054E981FD87264007DB5F8 /* View.h */,
 				2642C0F51FD72ED700528061 /* GelView.h */,
-				26054E9B1FD87455007DB5F8 /* TimelineView.h */,
 				26054EA81FD8826A007DB5F8 /* ImageView.h */,
 				26054EAB1FD8ACC5007DB5F8 /* SampleTubeView.h */,
 				26CEEA5E1FE860B7003AAE8D /* OperationView.h */,
@@ -188,6 +187,7 @@
 				26CEEA681FE86E0B003AAE8D /* DropTargetSource.h */,
 				2693E3242000407400633564 /* SampleView.h */,
 				2693E3272004018B00633564 /* FragmentView.h */,
+				26FC514520194E550004A458 /* SliderView.h */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -197,12 +197,12 @@
 			children = (
 				26054E991FD8726C007DB5F8 /* View.cpp */,
 				2642C0F61FD72EE600528061 /* GelView.cpp */,
-				26054EA41FD876B6007DB5F8 /* TimelineView.cpp */,
 				26054EA61FD88259007DB5F8 /* ImageView.cpp */,
 				26054EAC1FD8ACD3007DB5F8 /* SampleTubeView.cpp */,
 				26CEEA631FE8631D003AAE8D /* OperationView.cpp */,
 				2693E3252000415300633564 /* SampleView.cpp */,
 				2693E3282004019800633564 /* FragmentView.cpp */,
+				26FC514620194F1F0004A458 /* SliderView.cpp */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -333,13 +333,13 @@
 				2642C0F31FD5FFA300528061 /* Gel.cpp in Sources */,
 				26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */,
 				26054EAD1FD8ACD3007DB5F8 /* SampleTubeView.cpp in Sources */,
-				26054EA51FD876B6007DB5F8 /* TimelineView.cpp in Sources */,
 				2693E3292004019800633564 /* FragmentView.cpp in Sources */,
 				26054EA71FD88259007DB5F8 /* ImageView.cpp in Sources */,
 				5BABC631A5484737AB27EE73 /* GelboxApp.cpp in Sources */,
 				2642C0FA1FD730F000528061 /* Sample.cpp in Sources */,
 				26CEEA671FE86919003AAE8D /* DropTarget.cpp in Sources */,
 				26CEEA641FE8631D003AAE8D /* OperationView.cpp in Sources */,
+				26FC514720194F1F0004A458 /* SliderView.cpp in Sources */,
 				26FC514320193B3B0004A458 /* Slider.cpp in Sources */,
 				26054E9A1FD8726C007DB5F8 /* View.cpp in Sources */,
 			);
