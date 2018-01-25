@@ -39,7 +39,7 @@ const float kFadeInStep = .05f;
 const float kFadeOutStep = .05f;
 const float kMaxAge = 30 * 1000;
 
-const float kLoupeRadius = 16.f;
+const float kLoupeRadius = 16.f * .75f;
 const bool  kCanPickCalloutWedge = true;
 
 // mitigate dithering artifacts by being lenient / less aggressive with aggregate culling
@@ -56,6 +56,17 @@ const float kNewBtnGutter = 16.f;
 const Color kNewBtnDownColor = Color(1.f,1.f,1.f)*.7f;
 
 const float kFragViewGutter = 16.f;
+
+void drawThickStrokedCircle( vec2 p, float r, float thickness )
+{
+	gl::drawStrokedCircle( p, r, thickness );
+	
+	if (thickness > 1.f)
+	{
+		gl::drawStrokedCircle( p, r - thickness/2 ); // use this call, has anti-aliasing
+		gl::drawStrokedCircle( p, r + thickness/2 ); // use this call, has anti-aliasing
+	}
+}
 
 SampleView::SampleView()
 {
@@ -93,34 +104,52 @@ void SampleView::draw()
 		
 		gl::multModelMatrix( getParentToChildMatrix() );
 		
-		gl::color(1,1,1,.35);
+		// fill
+		gl::color( 1, 1, 1, .25f );
 		gl::drawSolid(mCallout);
 
+		// frame
 		if (1)
 		{
-			gl::color(0,0,0,.15);
+//			gl::color(0,0,0,.15); // black!
+			gl::color(1,1,1,.15); // white
 			gl::draw(mCallout);
 		}
 	}	
 
-	// focus
-	if ( getHasKeyboardFocus() )
+	// shadow
 	{
-		gl::color( 1,1,.3, mIsLoupeView ? .6f : .35f );
-		
-		float thick = mIsLoupeView ? 4.f : 1.f;
-		
-		gl::drawStrokedRect( getBounds().inflated(vec2(thick/2.f)), thick );
+		Rectf sr = getBounds();
+		sr += vec2(0,4);
+		sr.inflate( vec2(-2,0) );
+		gl::color( 0, 0, 0, getHasKeyboardFocus() ? .25f : .15f );
+		gl::drawSolidRect(sr);
 	}
 	
-	// bkgnd, frame
+	// bkgnd
 	gl::color(1,1,1);
 	gl::drawSolidRect( getBounds() );
-	gl::color(.5,.5,.5);
-	gl::drawStrokedRect( getBounds() );
 	
 	// parts
 	drawSim();
+
+	// focus
+	if ( getHasKeyboardFocus() )
+	{
+//		gl::color( 1,1,.3, mIsLoupeView ? .6f : .35f );
+//		gl::color( Color::hex(0xECF7F7) - Color::gray(.05f) );
+		gl::color( 0, 0, 1, .1f );
+		
+//		float thick = mIsLoupeView ? 4.f : 1.f;
+		float thick = 2.f;
+		
+//		gl::drawStrokedRect( getBounds().inflated(vec2(thick/2.f)), thick );
+		gl::drawStrokedRect( getBounds().inflated(-vec2(thick/2.f)), thick );
+	}
+	
+	// frame
+	gl::color( Color::gray( (getHasRollover() || getHasKeyboardFocus()) ? .4f : .8f ) );
+	gl::drawStrokedRect( getBounds() );	
 	
 	// new btn
 	if ( getIsNewBtnEnabled() )
@@ -182,7 +211,11 @@ bool SampleView::pickCalloutWedge( ci::vec2 rootLoc ) const
 {
 	vec2 parentLoc = rootToParent(rootLoc);
 	
-	return mHasLoupe && kCanPickCalloutWedge && mCallout.contains(parentLoc) && !getFrame().contains(parentLoc);
+	return mHasLoupe && kCanPickCalloutWedge // wedge is pickable
+		&& mCallout.contains(parentLoc)		 // in wedge
+		&& !getFrame().contains(parentLoc)	 // not in box
+		&& !pickLoupe(rootLoc)				 // not in loupe
+		;
 }
 
 void SampleView::updateCallout()
@@ -209,16 +242,21 @@ bool SampleView::pickLoupe( ci::vec2 rootLoc ) const
 void SampleView::drawLoupe() const
 {
 	vec2 p = rootToChild(mAnchor);
+
+	bool hover = getHasRollover() && pickLoupe(getMouseLoc());
+	bool focus = hover || getHasKeyboardFocus();
+	
+	float thickness = focus ? 1.5f : 1.1f ;
 	
 	// a bitmap icon might be nice
-	gl::color( ColorA( Color::gray(.0f), .5f ) );
-	gl::drawStrokedCircle( p + vec2(0,2), kLoupeRadius );
+	gl::color( ColorA( Color::gray(.0f), focus ? .35f : .05f ) );
+	drawThickStrokedCircle( p + vec2(0,2), kLoupeRadius, thickness );
 
-	gl::color( ColorA( Color::gray(0.f), 1.f ) );
-	gl::drawStrokedCircle( p, kLoupeRadius );
+	gl::color( ColorA( Color::gray(1.f), focus ? 1.f : .5f ) );
+	drawThickStrokedCircle( p, kLoupeRadius, thickness );
 
-	gl::color( ColorA( Color::gray(.8f), .5f ) );
-	gl::drawStrokedCircle( p, kLoupeRadius-1.f );
+//	gl::color( ColorA( Color::gray(.8f), .5f ) );
+//	gl::drawStrokedCircle( p, kLoupeRadius-1.f );
 }
 
 void SampleView::selectFragment( int i )

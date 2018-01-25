@@ -202,8 +202,8 @@ FragmentView::FragmentView()
 		loadIcons( degrade, "degrade" );
 
 		// flip individual items (after icons + everything loaded!)
-		size.flipXAxis();
-		aggregate.flipXAxis();
+//		size.flipXAxis();
+//		aggregate.flipXAxis();
 		
 		// insert
 		mSliders.push_back(size);

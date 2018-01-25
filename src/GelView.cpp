@@ -89,7 +89,8 @@ void GelView::drawMicrotubes() const
 		
 		if (mSelectedMicrotube==i)
 		{
-			gl::color(1,1,.5,1.f);
+//			gl::color(1,1,.5,1.f);
+			gl::color( Color::hex(0xECF7F7) - Color::gray(.05f) );
 			
 			Rectf r2 = r;
 			
