@@ -346,6 +346,12 @@ void GelView::sampleDidChange( SampleRef s )
 	// update gel
 	if ( mGel ) mGel->syncBandsToSample(s);
 	
+	// loupes
+	updateLoupes();
+}
+
+void GelView::updateLoupes()
+{
 	// update loupes (and remove ones that are gone)
 	auto lv = mLoupeViews;
 	mLoupeViews.clear();
@@ -361,6 +367,11 @@ void GelView::sampleDidChange( SampleRef s )
 			mLoupeViews.push_back(l);
 		}
 	}
+}
+
+void GelView::timeDidChange()
+{
+	updateLoupes();
 }
 
 void GelView::addLoupe( vec2 withSampleAtRootPos )
@@ -466,7 +477,11 @@ void GelView::updateGelDetailViewContent( SampleViewRef view ) const
 	
 	// reset view particles
 	view->clearParticles();
-	view->setRand( ci::Rand( withSampleAtPos.x*19 + withSampleAtPos.y*1723 ) );
+	view->setRand( ci::Rand(
+		withSampleAtPos.x*19
+	  + withSampleAtPos.y*1723
+	  + (int)(mGel->getTime()*2393.f)
+	  ) );
 
 	// make new sample
 	s = makeSampleFromGelPos( withSampleAtPos );

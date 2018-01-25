@@ -142,8 +142,9 @@ void GelboxApp::makeGel( vec2 center )
 
 		s.mValueMappedLo = 0;
 		s.mValueMappedHi = 1.f;
-		s.mSetter = [gel]( float v ) {
+		s.mSetter = [gel,gelView]( float v ) {
 			gel->setTime(v);
+			gelView->timeDidChange();
 		};
 		s.mGetter = [gel]() {
 			return gel->getTime();

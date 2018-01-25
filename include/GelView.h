@@ -46,6 +46,7 @@ public:
 	void		closeSampleView();
 
 	void		sampleDidChange( SampleRef );
+	void		timeDidChange();
 	void		updateGelDetailViewContent( SampleViewRef ) const;
 	
 private:
@@ -72,6 +73,8 @@ private:
 	SampleViewRef openGelDetailView();
 	void		closeHoverGelDetailView();
 	SampleRef	makeSampleFromGelPos( ci::vec2 pos ) const;
+
+	void		updateLoupes();
 
 	void		drawMicrotubes() const;
 	void		drawBands() const;
