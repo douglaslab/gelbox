@@ -39,7 +39,7 @@ const float kFadeInStep = .05f;
 const float kFadeOutStep = .05f;
 const float kMaxAge = 30 * 1000;
 
-const float kLoupeRadius = 16.f * .75f;
+const float kLoupeRadius = 16.f * .65f;
 const bool  kCanPickCalloutWedge = true;
 
 // mitigate dithering artifacts by being lenient / less aggressive with aggregate culling
@@ -249,10 +249,10 @@ void SampleView::drawLoupe() const
 	float thickness = focus ? 1.5f : 1.1f ;
 	
 	// a bitmap icon might be nice
-	gl::color( ColorA( Color::gray(.0f), focus ? .35f : .05f ) );
+	gl::color( ColorA( Color::gray(.0f), focus ? .35f : .1f ) );
 	drawThickStrokedCircle( p + vec2(0,2), kLoupeRadius, thickness );
 
-	gl::color( ColorA( Color::gray(1.f), focus ? 1.f : .5f ) );
+	gl::color( ColorA( Color::gray(1.f), focus ? 1.f : .6f ) );
 	drawThickStrokedCircle( p, kLoupeRadius, thickness );
 
 //	gl::color( ColorA( Color::gray(.8f), .5f ) );

@@ -520,6 +520,8 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		
 		// if we are an aggregate smeary band, (num non-zero multimers >1)
 		// then bias aggregation with sample size bias
+		// NOTE: This technique works OK when numNonZeroMultimers <= 2,
+		//		 but gives bad results (because interpolation isn't linear) when > 2
 		if ( ! f.mAggregate.empty() )
 		{
 			int hi, lo;
@@ -527,6 +529,9 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 			
 			if ( numNonZeroMultimers > 1 )
 			{
+				assert( numNonZeroMultimers == 2 && "bands can't have >2 multimers in them; throws off our interpolation logic" );
+				// see NOTE above...
+				
 				for( int m=lo; m<=hi; ++m )
 				{
 					float mf = 1.f - (float)(m - lo) / (float)(hi - lo);

@@ -133,7 +133,9 @@ void Gel::insertSample( const Sample& src, int lane )
 	};
 	
 	const float kMultimerSmearFrac = .2f;
-	// smear is 10% of total, and we scale the rest to 90%
+	// smear is X% of total
+	// and we scale the rest to 1-X% -- NOT doing this; lets keep things looking sharp.
+	//		anyways physical asumptions/math isn't quite right
 	
 	for( int fragi=0; fragi<src.mFragments.size(); ++fragi )
 	{		
@@ -145,7 +147,8 @@ void Gel::insertSample( const Sample& src, int lane )
 		else
 		{
 			int bandhi, bandlo;
-			int numNonZeroMultimers = frag.calcAggregateRange(bandlo,bandhi);
+//			int numNonZeroMultimers =
+			frag.calcAggregateRange(bandlo,bandhi);
 						
 			// add band for each multimer size
 			for( int m=0; m<frag.mAggregate.size(); ++m )
@@ -155,18 +158,30 @@ void Gel::insertSample( const Sample& src, int lane )
 					// add
 					float scale = 1.f;
 					
-					if (numNonZeroMultimers>1) scale = 1.f - kMultimerSmearFrac;
+//					if (numNonZeroMultimers>1) scale = 1.f - kMultimerSmearFrac;
 					
 					addBand( fragi, m+1, m+1, 0.f, (frag.mAggregate[m] / wsum) * scale );
 				}
 			} // m
 			
-			// one smeary band for all multimers...
+			// smeary band between each pair of multimers
 			if ( bandlo != -1 && bandlo != bandhi )
 			{
-				float loratio = frag.mAggregate[bandlo] / frag.mAggregate[bandhi];  
+				int last = bandlo;
 				
-				addBand( fragi, bandhi+1, bandlo+1, loratio, kMultimerSmearFrac );
+				for( int i = last+1; i <= bandhi; ++i )
+				{
+					if ( frag.mAggregate[i] > 0.f )
+					{
+						// multimer smeary interpolation band between last .. i
+						float iratio = frag.mAggregate[last] / frag.mAggregate[i];  
+						
+						addBand( fragi, i+1, last+1, iratio, kMultimerSmearFrac );					
+						
+						// set up for next band
+						last = i;
+					}					
+				}
 			}
 			
 		} // aggregates
