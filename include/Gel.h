@@ -33,8 +33,9 @@ public:
 		
 		ci::Rectf	mStartBounds; // well 
 		
-		int			mBases		= 0;
-		int			mBasesLow	= 0;
+		// for top (higher bp) and bottom (lower bp) of band, how many bases, and what is aggregate/multimer count?
+		int			mBases[2];
+		int			mMultimer[2];
 		
 		float		mMass		= 0.f;
 		float		mDegrade	= 0.f;
@@ -48,7 +49,7 @@ public:
 	
 		ci::Color   mFocusColor;
 		
-		std::vector<float> mAggregate;
+		std::vector<float> mAggregate; // population ratios, as represented elsewhere with mAggregate
 	};
 	
 	// Methods
@@ -78,7 +79,7 @@ public:
 	float		getLaneWidth() const { return mLaneWidth; }
 	int			getNumLanes() const { return mNumLanes; }
 	ci::Rectf	getWellBounds( int lane ) const;
-	
+
 private:
 	
 	std::vector<SampleRef>	mSamples;

@@ -8,7 +8,7 @@
 
 #include "Gel.h"
 #include "Sample.h"
-#include "Tuning.h"
+#include "GelSim.h"
 
 using namespace std;
 using namespace ci;
@@ -88,8 +88,12 @@ void Gel::insertSample( const Sample& src, int lane )
 		
 		b.mFocusColor	= frag.mColor;
 		
-		b.mBases		= frag.mBases * (float)multimer;
-		b.mBasesLow		= frag.mBases * (float)multimerlow;
+		b.mBases[0]		= frag.mBases;
+		b.mBases[1]		= frag.mBases;
+		GelSim::degradeBaseCount( b.mBases[0], b.mBases[1], frag.mDegrade );
+				
+		b.mMultimer[0]  = multimer;
+		b.mMultimer[1]  = multimerlow;
 		
 //		b.mMass			= frag.mMass  * (float)multimer * massFrac;
 		b.mMass			= frag.mMass  * massFrac;
@@ -117,7 +121,7 @@ void Gel::insertSample( const Sample& src, int lane )
 //		float a = constrain( b.mMass / kSampleMassHigh, 0.1f, 1.f );
 
 		float mscale = (float)(multimer + multimerlow) / 2.f;
-		float a = constrain( (b.mMass * (float)mscale) / kSampleMassHigh, 0.1f, 1.f );
+		float a = constrain( (b.mMass * (float)mscale) / GelSim::kSampleMassHigh, 0.1f, 1.f );
 		
 		if (b.mDegrade > 1.f) a *= 1.f - min( b.mDegrade - 1.f, 1.f ); // degrade alpha
 		
@@ -228,15 +232,17 @@ ci::Rectf Gel::calcBandBounds( const Band& b ) const
 	const float bandTime = max(mTime - b.mCreateTime,0.f);
 
 	// what base pair location to use for y1 and y2
-	float y1b = constrain( normalizeBases(b.mBases   ), 0.f, 1.f );
-	float y2b = constrain( normalizeBases(b.mBasesLow), 0.f, 1.f );
+	float y1b = constrain( normalizeBases(b.mBases[0] * b.mMultimer[0]), 0.f, 1.f );
+	float y2b = constrain( normalizeBases(b.mBases[1] * b.mMultimer[1]), 0.f, 1.f );
+//	float y1b = normalizeBases(b.mBases[0]);
+//	float y2b = normalizeBases(b.mBases[1]);
 	
 	y1b -= b.mAspectRatioYNormBonus * bandTime;
 	y2b -= b.mAspectRatioYNormBonus * bandTime;
 	
 	// degrade base pair location
-	y2b -= min( 1.f, b.mDegrade ); // as degrade goes 0..1, y2 moves to end of chart--shorter base pairs
-	if ( b.mDegrade > 1.f ) y1b -= min( 1.f, b.mDegrade - 1.f ); // as degrade goes 1..2, y1 moves to end of chart--shorter bp  
+//	y2b -= min( 1.f, b.mDegrade ); // as degrade goes 0..1, y2 moves to end of chart--shorter base pairs
+//	if ( b.mDegrade > 1.f ) y1b -= min( 1.f, b.mDegrade - 1.f ); // as degrade goes 1..2, y1 moves to end of chart--shorter bp  
 	
 	// get bounds in cm
 	Rectf r = b.mStartBounds;

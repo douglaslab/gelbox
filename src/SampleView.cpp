@@ -12,7 +12,7 @@
 #include "SampleView.h"
 #include "FragmentView.h"
 #include "GelView.h"
-#include "Tuning.h"
+#include "GelSim.h"
 
 using namespace std;
 using namespace ci;
@@ -536,7 +536,7 @@ void SampleView::syncToModel()
 			auto  s = mSample->mFragments[i];
 			
 			f.mColor		= s.mColor;
-			f.mTargetPop	= max( 1.f, (s.mMass/kSampleMassHigh) * kNumPartsPerMassHigh );
+			f.mTargetPop	= max( 1.f, (s.mMass/GelSim::kSampleMassHigh) * kNumPartsPerMassHigh );
 			f.mAggregate	= s.mAggregate;			
 			f.mAggregateWeightSum = s.calcAggregateSum();
 			
@@ -577,7 +577,7 @@ void SampleView::newFragment()
 		
 		f.mColor = colors[ mRand.nextInt() % colors.size() ];
 		f.mBases = lerp((float)kRandFragMinNumBases,(float)kRandFragMaxNumBases,mRand.nextFloat()*mRand.nextFloat());
-		f.mMass  = mRand.nextFloat() * kSampleMassHigh;
+		f.mMass  = mRand.nextFloat() * GelSim::kSampleMassHigh;
 		f.mAspectRatio = 1.f;
 		f.mDegrade = 0.f ; //mRand.nextFloat() * mRand.nextFloat() * mRand.nextFloat() * .25f;
 		

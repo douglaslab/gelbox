@@ -9,7 +9,7 @@
 #include "FragmentView.h"
 #include "Sample.h"
 #include "SampleView.h"
-#include "Tuning.h"
+#include "GelSim.h"
 
 using namespace std;
 using namespace ci;
@@ -124,7 +124,7 @@ FragmentView::FragmentView()
 		};
 		
 		concentration.mValueMappedLo = 0.f;
-		concentration.mValueMappedHi = kSampleMassHigh;
+		concentration.mValueMappedHi = GelSim::kSampleMassHigh;
 		concentration.mSetter = [this]( float v ) {
 			getEditFragment().mMass = v;
 		};
