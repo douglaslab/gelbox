@@ -18,6 +18,7 @@ const bool kEnableDrag = false;
 const bool kBandRolloverOpensSampleView = false;
 
 const bool kShowReverseSolverDebugTest = false;
+const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
 
 GelView::GelView( GelRef gel )
 {
@@ -725,7 +726,14 @@ void GelView::drawReverseSolverTest()
 			
 			tReverseGelSolverCache cache;
 			
-			int bp = solveBasePairForY( mouseLocal.y, aggregate, aspect, time, cache );
+			int bp = solveBasePairForY(
+				mouseLocal.y,
+				aggregate,
+				aspect,
+				time,
+				mGel->getWellBounds(lane).getCenter().y,
+				mGel->getSampleDeltaYSpaceScale(),
+				&cache );
 			
 			Rectf r = mGel->getWellBounds(lane);
 
@@ -750,33 +758,30 @@ void GelView::drawReverseSolverTest()
 	}
 }
 
-int	GelView::solveBasePairForY( int findy, int aggregate, float aspectRatio, float time ) const
+int GelView::solveBasePairForY(
+		int		findy,
+		int		aggregate,
+		float	aspectRatio,
+		float	time,
+		float	ystart,
+		float	yscale,
+		tReverseGelSolverCache* cache ) const
 {
-	tReverseGelSolverCache cache;
-	return solveBasePairForY( findy, aggregate, aspectRatio, time, cache);
-}
-
-int GelView::solveBasePairForY( int findy, int aggregate, float aspectRatio, float time, tReverseGelSolverCache &cache ) const
-{
-	if ( cache.find(findy) != cache.end() ) return cache[findy];
+	if ( cache && cache->find(findy) != cache->end() ) return (*cache)[findy];
 	
 	// bp search location, direction, speed
 	int bp = 1;
 	int stepsize = 1000;
 	int stepdir  = 1;
 	
-	int iterationsLeft = 1000;
+	int iterationsLeft = kSolverMaxIterations; // in case there is no solution
 	
-	const float spaceStart = mGel->getWellBounds(0).getCenter().y; // FIXME obvs
-	const float spaceScale = mGel->getSampleDeltaYSpaceScale(); 
-		// pass these in as params, methinks
-		
 	do
 	{
-		int y = spaceStart + GelSim::calcDeltaY( bp, aggregate, aspectRatio, time ) * spaceScale;
+		int y = ystart + GelSim::calcDeltaY( bp, aggregate, aspectRatio, time ) * yscale;
 			// use cache here for small perf. gain?
 		
-		cache[y] = bp;
+		if (cache) (*cache)[y] = bp;
 		
 		// found it?
 		if ( y == findy ) return bp;
@@ -797,6 +802,6 @@ int GelView::solveBasePairForY( int findy, int aggregate, float aspectRatio, flo
 	}
 	while ( iterationsLeft-- > 0 );
 	
-	
+	// no solution? just return our closest guess
 	return bp;
 }

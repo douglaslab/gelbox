@@ -83,9 +83,15 @@ private:
 
 	// reverse gel sim solver
 	typedef std::map<int,int> tReverseGelSolverCache; // maps y to base pairs, all this is f( aggregate, aspectRatio, time )
-	
-	int			solveBasePairForY( int y, int aggregate, float aspectRatio, float time ) const;
-	int			solveBasePairForY( int y, int aggregate, float aspectRatio, float time, tReverseGelSolverCache& ) const;
+					
+	int			solveBasePairForY(
+					int		findy,
+					int		aggregate,
+					float	aspectRatio,
+					float	time,
+					float	ystart,
+					float	yscale,
+					tReverseGelSolverCache* cache=0 ) const;
 	
 	void		drawReverseSolverTest();
 	
