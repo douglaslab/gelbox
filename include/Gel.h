@@ -40,7 +40,7 @@ public:
 		float		mMass		= 0.f;
 		float		mDegrade	= 0.f;
 		
-		float		mAspectRatioYNormBonus = 0.f;
+		float		mAspectRatio = 1.f;
 		
 		float		mCreateTime;
 		bool		mExists; // in case we are playing with time travel and go to time before creation
@@ -80,15 +80,15 @@ public:
 	int			getNumLanes() const { return mNumLanes; }
 	ci::Rectf	getWellBounds( int lane ) const;
 
+	float		getBandLocalTime( const Band& b ) const { return std::max(mTime - b.mCreateTime,0.f); }
+	float		getSampleDeltaYSpaceScale() const { return mSize.y - mYMargin*2.f; }
+	
 private:
 	
 	std::vector<SampleRef>	mSamples;
 	
 	void updateBandsWithTime( float t );
 	ci::Rectf calcBandBounds( const Band& ) const;
-	
-	float normalizeBases( int bases ) const; // 0...10000 mapped to 0...1
-	float getYForNormalizedBases( float normalizedBases, float t ) const; // t=1.f means when done
 	
 	void insertSample( const Sample&, int lane ); // at current time
 	void clearSamples( int lane );	

@@ -28,7 +28,12 @@ const float kSampleMassHigh = 125.f; // 125ml
 void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade );
 
 
-float calcY( int bases, int aggregation, float aspectRatio, float time );
+/*
+	Calc Delta Y
+	
+	How far on a normalized y axis of gel will this sample move?
+*/
+float calcDeltaY( int bases, int aggregation, float aspectRatio, float time );
 
 
 

@@ -183,7 +183,7 @@ void GelView::drawBandFocus() const
 				if ( b.mExists && b.mLane == lane && b.mFragment == frag )
 				{
 					gl::color( b.mFocusColor );
-					gl::drawStrokedRect( b.mBounds );
+					gl::drawStrokedRect( b.mBounds.inflated(vec2(1)), 2.f );
 				}
 			}			
 		}

@@ -101,8 +101,7 @@ void Gel::insertSample( const Sample& src, int lane )
 		b.mDegrade		= frag.mDegrade;
 		
 		b.mStartBounds	= getWellBounds(lane);
-		
-		b.mAspectRatioYNormBonus = ((frag.mAspectRatio - 1.f) / 16.f) * .25f;
+		b.mAspectRatio  = frag.mAspectRatio;
 		
 		if (multimer != 1)
 		{
@@ -229,62 +228,14 @@ void Gel::updateBandsWithTime( float t )
 
 ci::Rectf Gel::calcBandBounds( const Band& b ) const
 {
-	const float bandTime = max(mTime - b.mCreateTime,0.f);
+	const float ySpaceScale = getSampleDeltaYSpaceScale();
+	
+	const float bandTime = getBandLocalTime(b);
 
-	// what base pair location to use for y1 and y2
-	float y1b = constrain( normalizeBases(b.mBases[0] * b.mMultimer[0]), 0.f, 1.f );
-	float y2b = constrain( normalizeBases(b.mBases[1] * b.mMultimer[1]), 0.f, 1.f );
-//	float y1b = normalizeBases(b.mBases[0]);
-//	float y2b = normalizeBases(b.mBases[1]);
-	
-	y1b -= b.mAspectRatioYNormBonus * bandTime;
-	y2b -= b.mAspectRatioYNormBonus * bandTime;
-	
-	// degrade base pair location
-//	y2b -= min( 1.f, b.mDegrade ); // as degrade goes 0..1, y2 moves to end of chart--shorter base pairs
-//	if ( b.mDegrade > 1.f ) y1b -= min( 1.f, b.mDegrade - 1.f ); // as degrade goes 1..2, y1 moves to end of chart--shorter bp  
-	
-	// get bounds in cm
 	Rectf r = b.mStartBounds;
 	
-	r.y1 += getYForNormalizedBases( y1b, bandTime );
-	r.y2 += getYForNormalizedBases( y2b, bandTime );
+	r.y1 += GelSim::calcDeltaY( b.mBases[0], b.mMultimer[0], b.mAspectRatio, bandTime ) * ySpaceScale;
+	r.y2 += GelSim::calcDeltaY( b.mBases[1], b.mMultimer[1], b.mAspectRatio, bandTime ) * ySpaceScale;
 	
 	return r;
-}
-
-float Gel::normalizeBases( int bases ) const
-{
-	return (float)bases / 10000.f;	
-}
-
-float Gel::getYForNormalizedBases( float normalizedBases, float t ) const
-{
-	float y = normalizedBases;
-	// y=1 means lots of bases, slow, top of gel
-	// y=0 means few bases, fast, bottom of gel
-	
-	// time (doing time here seems to mess things up, causing bands to disappear)
-//	y = 1.f - t * (1.f - y);
-	
-	// output is non-linear
-	if (1)
-	{
-		const float K = 3.7f;
-	//	float K = lerp( 0.f, 2.f, t );
-		
-		y = .05f + powf( 1.f - y, K );
-	}
-	
-	// flip it, so that y=1 puts us at bottom of gel
-//	y = 1.f - y; 
-
-	// time
-	y *= t;
-	
-	// scale
-	y *= mSize.y - mYMargin*2.f;
-	
-	// done
-	return y;
 }
