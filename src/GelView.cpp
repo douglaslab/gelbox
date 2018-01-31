@@ -9,12 +9,15 @@
 #include "GelView.h"
 #include "DropTarget.h" 
 #include "SampleView.h"
+#include "GelSim.h"
 
 using namespace ci;
 using namespace std;
 
 const bool kEnableDrag = false;
 const bool kBandRolloverOpensSampleView = false;
+
+const bool kShowReverseSolverDebugTest = false;
 
 GelView::GelView( GelRef gel )
 {
@@ -76,6 +79,9 @@ void GelView::draw()
 	drawBands();
 	drawWells();
 	drawBandFocus();
+	
+	// test solver
+	if (kShowReverseSolverDebugTest) drawReverseSolverTest();
 }
 
 void GelView::drawMicrotubes() const
@@ -701,4 +707,96 @@ bool GelView::pickBand( vec2 loc, Gel::Band& picked ) const
 	}
 	
 	return true;
+}
+
+void GelView::drawReverseSolverTest()
+{
+	if ( getHasRollover() && mGel )
+	{
+		int lane = pickLane(getMouseLoc());
+		
+		if (lane != -1)
+		{
+			vec2 mouseLocal = rootToChild( getMouseLoc() );
+			
+			int   aggregate = 1;
+			float aspect = 1.f;
+			float time = mGel->getTime();
+			
+			tReverseGelSolverCache cache;
+			
+			int bp = solveBasePairForY( mouseLocal.y, aggregate, aspect, time, cache );
+			
+			Rectf r = mGel->getWellBounds(lane);
+
+			const float ySpaceScale = mGel->getSampleDeltaYSpaceScale();
+			
+			r.y1 += GelSim::calcDeltaY( bp, aggregate, aspect, time ) * ySpaceScale;
+			r.y2 += GelSim::calcDeltaY( bp, aggregate, aspect, time ) * ySpaceScale;
+			
+			gl::color(1, 0, 0);
+			gl::drawSolidRect(r);
+			
+			gl::color(0,0,1);
+			for( auto i : cache )
+			{
+				const float k = 10;
+				
+				int y = i.first;
+				
+				gl::drawLine( vec2(r.x1-k,y), vec2(r.x2+k,y) );
+			}
+		}
+	}
+}
+
+int	GelView::solveBasePairForY( int findy, int aggregate, float aspectRatio, float time ) const
+{
+	tReverseGelSolverCache cache;
+	return solveBasePairForY( findy, aggregate, aspectRatio, time, cache);
+}
+
+int GelView::solveBasePairForY( int findy, int aggregate, float aspectRatio, float time, tReverseGelSolverCache &cache ) const
+{
+	if ( cache.find(findy) != cache.end() ) return cache[findy];
+	
+	// bp search location, direction, speed
+	int bp = 1;
+	int stepsize = 1000;
+	int stepdir  = 1;
+	
+	int iterationsLeft = 1000;
+	
+	const float spaceStart = mGel->getWellBounds(0).getCenter().y; // FIXME obvs
+	const float spaceScale = mGel->getSampleDeltaYSpaceScale(); 
+		// pass these in as params, methinks
+		
+	do
+	{
+		int y = spaceStart + GelSim::calcDeltaY( bp, aggregate, aspectRatio, time ) * spaceScale;
+			// use cache here for small perf. gain?
+		
+		cache[y] = bp;
+		
+		// found it?
+		if ( y == findy ) return bp;
+		
+		// tack?
+		else if ( ( y > findy && stepdir !=  1 )   // if we landed below, make sure bp is growing
+			   || ( y < findy && stepdir != -1 ) ) // if we landed above, make sure bp is shrinking
+		{
+			// reverse direction, cut step size
+			stepdir  *= -1;
+			stepsize /=  4;
+			
+			// FAILED!
+			if (stepsize <= 1) break;  // bp contains best guess
+		}
+		
+		bp += stepsize * stepdir;
+	}
+	while ( iterationsLeft-- > 0 );
+	
+	
+	return bp;
 }

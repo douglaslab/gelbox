@@ -33,8 +33,8 @@ public:
 		
 		ci::Rectf	mStartBounds; // well 
 		
-		// for top (higher bp) and bottom (lower bp) of band, how many bases, and what is aggregate/multimer count?
-		int			mBases[2];
+		// for top (higher bp) and bottom (lower bp) of band, how many bases?
+		int			mBases[2]; // degrade causes these values to drop
 		int			mMultimer[2];
 		
 		float		mMass		= 0.f;
