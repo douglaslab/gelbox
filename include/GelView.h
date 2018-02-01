@@ -41,7 +41,7 @@ public:
 
 	DropTargetRef getDropTarget( glm::vec2 locInFrame ) override;
 
-	int			pickLane ( ci::vec2 ) const;	// loc in frame space
+	int			pickLane ( ci::vec2 ) const; // loc in frame space; -1 if out of bounds
 	ci::Rectf	getLaneRect( int ) const; // in bounds space 
 
 	void		selectMicrotube( int lane );
@@ -56,12 +56,16 @@ public:
 	SampleRef	getSample( int lane ) const { if (mGel) return mGel->getSamples()[lane]; else return 0; }
 	void		setSample( int lane, SampleRef s ) { assert(mGel); mGel->getSamples()[lane]=s; }
 
+	void		selectFragment( int lane, int frag );
+	void		deselectFragment();
+	
 private:
 	GelRef				mGel;
 
 	int					mSelectedMicrotube=-1, mMouseDownMicrotube=-1;
 	
 	Gel::Band			mMouseDownBand;
+	Gel::Band			mMouseDragBand;
 	
 	ci::gl::TextureRef	mMicrotubeIcon;
 		

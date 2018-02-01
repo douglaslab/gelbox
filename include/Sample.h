@@ -98,6 +98,13 @@ public:
 		return mFragments.size()-1;
 	}
 	
+	void removeFragment( int f )
+	{
+		assert( isValidFragment(f) );
+		mFragments[f] = mFragments.back();
+		mFragments.pop_back();
+	}
+	
 	bool isValidFragment( int f ) const { return f >=0 && f < mFragments.size(); }
 	
 	void   loadXml( const ci::XmlTree& ); // clears existing mFragments first

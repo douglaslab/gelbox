@@ -264,15 +264,11 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 			// use biggest band in mouse down fragment for mouse down
 			// (this is better than just mMouseDownBand = band, as it solves some multi-multimer issues)
 			mMouseDownBand = mGel->getSlowestBandInFragment(band);
+			mMouseDragBand = mMouseDownBand;
 			
 			mMouseDownMicrotube = band.mLane;
-			selectMicrotube(band.mLane);
-			
-			if (mSampleView)
-			{
-				mSampleView->selectFragment(band.mFragment);
-				getCollection()->setKeyboardFocusView(mSampleView); // for consistency; also, it will auto-deselect otherwise
-			}
+
+			selectFragment (band.mLane, band.mFragment);
 		}
 		// else pick lane
 		else
@@ -286,7 +282,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 			}
 			
 			// deselect fragment
-			if (mSampleView) mSampleView->deselectFragment();
+			deselectFragment();
 		}
 		
 		// give it keyboard focus
@@ -304,8 +300,8 @@ void GelView::mouseDrag( ci::app::MouseEvent e )
 	if ( mMouseDownBand.mLane != -1 && mMouseDownBand.mFragment != -1 )
 	{
 		// get sample, frag
-		int lane  = mMouseDownBand.mLane; 
-		int fragi = mMouseDownBand.mFragment;
+		int lane  = mMouseDragBand.mLane; 
+		int fragi = mMouseDragBand.mFragment;
 		
 		assert( mGel );
 		assert( lane  >= 0 && lane  < mGel->getSamples().size() );
@@ -340,6 +336,28 @@ void GelView::mouseDrag( ci::app::MouseEvent e )
 			mGel->getTime(),
 			mGel->getWellBounds(lane).y1, //getCenter().y,
 			mGel->getSampleDeltaYSpaceScale() );		
+		
+		// change lanes?
+		int newlane = pickLane( rootToParent(e.getPos()) );
+		
+		if ( newlane != -1 && newlane != lane
+		  && getSample(newlane) ) // only in existing samples for now
+		{
+			// remove, add
+			SampleRef toSample = getSample(newlane); 
+			
+			toSample->mFragments.push_back( frag );
+			sample->removeFragment(fragi); // INVALIDATES frag!!!
+			
+			mMouseDragBand.mLane = newlane;
+			mMouseDragBand.mFragment = toSample->mFragments.size()-1;
+			
+			// update sample
+			sampleDidChange( toSample );
+			
+			// update selection
+			selectFragment( newlane, mMouseDragBand.mFragment );
+		}
 		
 		// update
 		sampleDidChange(sample);
@@ -396,10 +414,24 @@ void GelView::newFragmentAtPos( ci::vec2 pos )
 		sampleDidChange( sample );
 
 		// keyboard focus sample view, select new fragment 
-		mSampleView->selectFragment( sample->mFragments.size()-1 );
+		selectFragment( lane, sample->mFragments.size()-1 );
 		getCollection()->setKeyboardFocusView( mSampleView );
 	}	
 } 
+
+void GelView::selectFragment( int lane, int frag )
+{
+	selectMicrotube(lane);
+	
+	assert(mSampleView);
+	
+	mSampleView->selectFragment(frag);
+}
+
+void GelView::deselectFragment()
+{
+	if (mSampleView) mSampleView->deselectFragment();
+}
 
 void GelView::selectMicrotube( int i )
 {
