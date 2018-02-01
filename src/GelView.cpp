@@ -17,7 +17,7 @@ using namespace std;
 const bool kEnableDrag = false;
 const bool kBandRolloverOpensSampleView = false;
 
-const bool kShowReverseSolverDebugTest = true;
+const bool kShowReverseSolverDebugTest = false;
 const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
 
 GelView::GelView( GelRef gel )
@@ -198,7 +198,7 @@ void GelView::drawBandFocus() const
 					
 					if (s||r)
 					{
-						gl::color( ColorA( b.mFocusColor, s ? sa : ra ) );
+						gl::color( ColorA( b.mFocusColor, (s&&!r) ? sa : ra ) );
 						gl::drawStrokedRect( b.mBounds.inflated(vec2(1)), 2.f );
 					}
 				}
@@ -411,6 +411,9 @@ void GelView::sampleDidChange( SampleRef s )
 	
 	// loupes
 	updateLoupes();
+	
+	// hover
+	updateHoverGelDetailView();
 }
 
 void GelView::updateLoupes()
@@ -655,7 +658,7 @@ void GelView::updateHoverGelDetailView()
 	// gel detail rollover
 	if ( getHasRollover() && pickLane(getMouseLoc()) != -1 )
 	{
-		mHoverGelDetailView = updateGelDetailView( mHoverGelDetailView, getMouseLoc(), false, true ); // implicitly opens it
+		mHoverGelDetailView = updateGelDetailView( mHoverGelDetailView, getMouseLoc(), true, true ); // implicitly opens it
 	}
 	else
 	{
