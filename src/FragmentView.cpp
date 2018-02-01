@@ -428,6 +428,12 @@ void FragmentView::mouseDrag( ci::app::MouseEvent e )
 	}
 }
 
+void FragmentView::tick( float dt )
+{
+	// in case user is editing from gel view
+	syncSlidersToModel();
+}
+
 void FragmentView::draw()
 {
 	// background + frame

@@ -211,6 +211,8 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 {
 	vec2 localPos = rootToChild(e.getPos());
 	
+	mMouseDownBand = Gel::Band(); // clear it
+	
 	// add loupe?
 	if ( e.isMetaDown() )
 	{
@@ -237,6 +239,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 		// else pick band
 		else if ( pickBand(localPos,band) )
 		{
+			mMouseDownBand = band;
 			mMouseDownMicrotube = band.mLane;
 			selectMicrotube(band.mLane);
 			
@@ -270,13 +273,57 @@ void GelView::mouseUp( ci::app::MouseEvent e )
 {
 }
 
-void GelView::mouseDrag( ci::app::MouseEvent )
+void GelView::mouseDrag( ci::app::MouseEvent e )
 {
+	// drag band
+	if ( mMouseDownBand.mLane != -1 && mMouseDownBand.mFragment != -1 )
+	{
+		// get sample, frag
+		int lane  = mMouseDownBand.mLane; 
+		int fragi = mMouseDownBand.mFragment;
+		
+		assert( mGel );
+		assert( lane  >= 0 && lane  < mGel->getSamples().size() );
+		assert( fragi >= 0 && fragi < mGel->getSamples()[lane]->mFragments.size() );
+		
+		SampleRef		sample = mGel->getSamples()[lane];
+		Sample::Fragment &frag = sample->mFragments[fragi];
+		
+		// calculate dragDelta
+		//		since by default we would put top of band at mouse,
+		//		simply compute delta from
+		//		band top to mouse down loc
+		float dragDeltaY = mMouseDownBand.mBounds.y1 - rootToChild(getMouseDownLoc()).y ;
+		
+		// use maximum aggregate in band
+		// (this part behaves pretty weird with multimers)
+		int aggregate=1;
+		for ( int i=0; i<frag.mAggregate.size(); ++i )
+		{
+			if ( frag.mAggregate[i] > 0.f )
+			{
+				aggregate = i+1;
+				// convert from index to aggregate count (e.g. monomer (aggregate=1) is at index=0)
+			}
+		} 
+		
+		// solve
+		frag.mBases = solveBasePairForY(
+			rootToChild(e.getPos()).y + dragDeltaY,
+			aggregate,
+			frag.mAspectRatio,
+			mGel->getTime(),
+			mGel->getWellBounds(lane).y1, //getCenter().y,
+			mGel->getSampleDeltaYSpaceScale() );		
+		
+		// update
+		sampleDidChange(sample);
+	}
+	// drag this view
 	if ( mMouseDownMicrotube == -1 && kEnableDrag )
 	{
 		setFrame( getFrame() + getCollection()->getMouseMoved() );
 	}
-	else updateHoverGelDetailView();
 }
 
 void GelView::mouseMove( ci::app::MouseEvent )

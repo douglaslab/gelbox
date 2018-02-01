@@ -56,6 +56,8 @@ private:
 
 	int					mSelectedMicrotube=-1, mMouseDownMicrotube=-1;
 	
+	Gel::Band			mMouseDownBand;
+	
 	ci::gl::TextureRef	mMicrotubeIcon;
 		
 	SampleViewRef		mSampleView;

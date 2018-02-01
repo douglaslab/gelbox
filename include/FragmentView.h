@@ -27,6 +27,7 @@ public:
 
 	FragmentView();
 	
+	void tick( float dt ) override;
 	void draw() override;
 	
 	void mouseDown( ci::app::MouseEvent ) override;
