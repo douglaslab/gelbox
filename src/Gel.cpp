@@ -116,20 +116,13 @@ void Gel::insertSample( const Sample& src, int lane )
 		}
 		else assert( multimerlow == 1 );
 		
-		// calculate alpha
-//		float a = constrain( b.mMass / kSampleMassHigh, 0.1f, 1.f );
-
-		float mscale = (float)(multimer + multimerlow) / 2.f;
-		float a = constrain( (b.mMass * (float)mscale) / GelSim::kSampleMassHigh, 0.1f, 1.f );
-		
-		if (b.mDegrade > 1.f) a *= 1.f - min( b.mDegrade - 1.f, 1.f ); // degrade alpha
-		
-		
 		b.mCreateTime	= 0.f; // always start it at the start (not mTime); otherwise is kind of silly...
 		b.mExists		= true;
-		b.mColor		= ColorA(1.f,1.f,1.f,a);
+		b.mColor		= ColorA(1.f,1.f,1.f,1.f);
 		
 		b.mBounds		= calcBandBounds(b);
+		b.mAlpha[0]		= calcBandAlpha (b,0);
+		b.mAlpha[1]		= calcBandAlpha (b,1);
 		
 		mBands.push_back(b);	
 		return mBands.back();
@@ -222,7 +215,9 @@ void Gel::updateBandsWithTime( float t )
 	{
 		b.mExists = t >= b.mCreateTime;
 		
-		b.mBounds = calcBandBounds(b);
+		b.mBounds   = calcBandBounds(b);
+		b.mAlpha[0] = calcBandAlpha (b,0);
+		b.mAlpha[1] = calcBandAlpha (b,1);
 	}
 }
 
@@ -240,6 +235,30 @@ ci::Rectf Gel::calcBandBounds( const Band& b ) const
 	return r;
 }
 
+float Gel::calcBandAlpha ( const Band& b, int i ) const
+{
+	float mscale = b.mMultimer[i];
+	
+	float a = constrain( (b.mMass * (float)mscale) / GelSim::kSampleMassHigh, 0.1f, 1.f );
+	
+//	if (b.mDegrade > 1.f) a *= 1.f - min( b.mDegrade - 1.f, 1.f ); // degrade alpha
+	// just replace this with a band height calculation
+	
+	auto area = []( Rectf r ) {
+		return r.getWidth() * r.getHeight();
+	};
+	
+	float diffuseScale = area( getWellBounds(b.mLane) ) / area(b.mBounds);
+	// for diffusion, look at ratio of areas
+	
+	diffuseScale = powf( diffuseScale, .5f ); // tamp it down so we can still see things
+	diffuseScale = max ( diffuseScale, .1f );
+	
+	a *= diffuseScale;
+	
+	return a;
+}
+
 const Gel::Band*
 Gel::getSlowestBandInFragment( int lane, int frag ) const
 {
@@ -249,7 +268,6 @@ Gel::getSlowestBandInFragment( int lane, int frag ) const
 	{
 		if ( band.mLane==lane && band.mFragment==frag )
 		{
-//			if ( !b || band.mBases[0]*band.mMultimer[0] > b->mBases[0]*b->mMultimer[0] )
 			if ( !b || band.mBounds.y1 < b->mBounds.y1 )
 			{
 				b=&band;

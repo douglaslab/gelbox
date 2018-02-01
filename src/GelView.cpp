@@ -132,12 +132,12 @@ void GelView::drawBands() const
 
 	TriMesh mesh( TriMesh::Format().positions(2).colors(4) );
 	
-	auto fillRect = [&mesh]( ColorA c, Rectf r )
+	auto fillRect = [&mesh]( Rectf r, ColorA c[2] )
 	{
-		mesh.appendColorRgba(c);
-		mesh.appendColorRgba(c);
-		mesh.appendColorRgba(c);
-		mesh.appendColorRgba(c);
+		mesh.appendColorRgba(c[0]);
+		mesh.appendColorRgba(c[0]);
+		mesh.appendColorRgba(c[1]);
+		mesh.appendColorRgba(c[1]);
 
 		mesh.appendPosition(r.getUpperLeft());
 		mesh.appendPosition(r.getUpperRight());
@@ -154,7 +154,13 @@ void GelView::drawBands() const
 	{
 		if (b.mExists)
 		{
-			fillRect( b.mColor, b.mBounds );
+			ColorA c[2] =
+			{
+				ColorA( b.mColor, b.mAlpha[0] ),
+				ColorA( b.mColor, b.mAlpha[1] )
+			};
+			
+			fillRect( b.mBounds, c );
 		}
 	}
 
@@ -356,7 +362,7 @@ void GelView::mouseDrag( ci::app::MouseEvent e )
 			sampleDidChange( toSample );
 			
 			// update selection
-			selectFragment( newlane, mMouseDragBand.mFragment );
+			selectFragment( mMouseDragBand.mLane, mMouseDragBand.mFragment );
 		}
 		
 		// update

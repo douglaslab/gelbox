@@ -44,9 +44,11 @@ public:
 		
 		float		mCreateTime;
 		bool		mExists; // in case we are playing with time travel and go to time before creation
-		ci::ColorA	mColor;
+		ci::Color	mColor;
 		ci::Rectf	mBounds;
 	
+		float		mAlpha[2]; // from top (y1) to bottom (y2)
+		
 		ci::Color   mFocusColor;
 		
 		std::vector<float> mAggregate; // population ratios, as represented elsewhere with mAggregate
@@ -91,6 +93,7 @@ private:
 	
 	void updateBandsWithTime( float t );
 	ci::Rectf calcBandBounds( const Band& ) const;
+	float     calcBandAlpha ( const Band&, int i ) const; // uses bounds, so do that first
 	
 	void insertSample( const Sample&, int lane ); // at current time
 	void clearSamples( int lane );	
