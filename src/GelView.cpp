@@ -9,6 +9,7 @@
 #include "GelView.h"
 #include "DropTarget.h" 
 #include "SampleView.h"
+#include "FragmentView.h" // for FragmentView::getColorPalette()
 #include "GelSim.h"
 
 using namespace ci;
@@ -92,7 +93,7 @@ void GelView::drawMicrotubes() const
 	for( int i=0; i<mGel->getNumLanes(); ++i )
 	{
 		const Rectf r = calcMicrotubeIconRect(i);
-		const bool  laneHasSample = mGel->getSamples()[i] != nullptr;
+		const bool  laneHasSample = getSample(i) != nullptr;
 		
 		if (mSelectedMicrotube==i)
 		{
@@ -184,9 +185,6 @@ void GelView::drawBandFocus() const
 		int selected = mSampleView->getSelectedFragment();
 		int rollover = mSampleView->getHighlightFragment();
 		
-		float ra = 1.f;
-		float sa = rollover == -1 ? 1.f : .35f; 
-		
 		if ( lane != -1 )
 		{
 			for( auto &b : mGel->getBands() )
@@ -198,7 +196,12 @@ void GelView::drawBandFocus() const
 					
 					if (s||r)
 					{
-						gl::color( ColorA( b.mFocusColor, (s&&!r) ? sa : ra ) );
+						float a;
+						if (s) a += .65f;
+						if (r) a += .35f;
+						a = min( a, 1.f );
+						
+						gl::color( ColorA( b.mFocusColor, a ) );
 						gl::drawStrokedRect( b.mBounds.inflated(vec2(1)), 2.f );
 					}
 				}
@@ -227,7 +230,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 	{
 		Gel::Band band;
 		
-		// pick tube icon	
+		// pick tube icon
 		mMouseDownMicrotube = pickMicrotube( localPos );
 		
 		if ( mMouseDownMicrotube != -1 )
@@ -239,6 +242,25 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 		// else pick band
 		else if ( pickBand(localPos,band) )
 		{
+			// clone band?
+			if ( e.isAltDown() )
+			{
+				SampleRef sample = getSample(band.mLane); 
+				assert(sample);
+				
+				int newfrag = sample->cloneFragment(band.mFragment);
+				
+				auto colors = FragmentView::getColorPalette();
+				sample->mFragments[newfrag].mColor = colors[ randInt() % colors.size() ];
+				
+				sampleDidChange( sample );
+				
+				// change what we picked (band)
+				const Gel::Band *newpick = mGel->getSlowestBandInFragment( band.mLane, newfrag );
+				assert(newpick); // verify cloneing, and band updating worked as expected
+				band = *newpick;
+			}
+			
 			// use biggest band in mouse down fragment for mouse down
 			// (this is better than just mMouseDownBand = band, as it solves some multi-multimer issues)
 			mMouseDownBand = mGel->getSlowestBandInFragment(band);
@@ -257,7 +279,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 		{
 			int lane = pickLane(e.getPos());
 			
-			if ( lane != -1 && mGel && mGel->getSamples()[lane] )
+			if ( lane != -1 && getSample(lane) )
 			{
 				mMouseDownMicrotube = lane;
 				selectMicrotube(mMouseDownMicrotube); // select
@@ -289,7 +311,7 @@ void GelView::mouseDrag( ci::app::MouseEvent e )
 		assert( lane  >= 0 && lane  < mGel->getSamples().size() );
 		assert( fragi >= 0 && fragi < mGel->getSamples()[lane]->mFragments.size() );
 		
-		SampleRef		sample = mGel->getSamples()[lane];
+		SampleRef		sample = getSample(lane);
 		Sample::Fragment &frag = sample->mFragments[fragi];
 		
 		// calculate dragDelta
@@ -340,17 +362,21 @@ void GelView::newFragmentAtPos( ci::vec2 pos )
 	
 	if ( lane != -1 )
 	{
+		// get sample
 		selectMicrotube(lane);
 			// should auto-create sample if absent
 			// should also open sample view
 
-		assert( mGel->getSamples()[lane] );
-		assert( mSampleView );
+		SampleRef sample = getSample(lane);
 
+		assert( sample );
+		assert( mSampleView );
+		assert( mSampleView->getSample()==sample );
+		
 		// new fragment
 		mSampleView->newFragment(); // let sampleview generate it 
 		
-		auto &frag = mSampleView->getSample()->mFragments.back();
+		auto &frag = sample->mFragments.back();
 		
 		frag.mAspectRatio = 1.f; // lock aspect ratio
 		
@@ -367,10 +393,10 @@ void GelView::newFragmentAtPos( ci::vec2 pos )
 			mGel->getSampleDeltaYSpaceScale() );
 		
 		// update, since we moved it
-		sampleDidChange( mSampleView->getSample() );
+		sampleDidChange( sample );
 
 		// keyboard focus sample view, select new fragment 
-		mSampleView->selectFragment( mSampleView->getSample()->mFragments.size()-1 );
+		mSampleView->selectFragment( sample->mFragments.size()-1 );
 		getCollection()->setKeyboardFocusView( mSampleView );
 	}	
 } 
@@ -393,7 +419,7 @@ void GelView::openSampleView()
 	if ( mSampleView
 	  && mGel
 	  && mSelectedMicrotube != -1 
-	  && mSampleView->getSample() != mGel->getSamples()[mSelectedMicrotube]
+	  && mSampleView->getSample() != getSample(mSelectedMicrotube)
 	  )
 	{
 		closeSampleView();
@@ -427,11 +453,11 @@ void GelView::openSampleView()
 			getCollection()->addView(mSampleView);
 			
 			// make + set sample
-			if ( ! mGel->getSamples()[tube] )
+			if ( ! getSample(tube) )
 			{
-				mGel->getSamples()[tube] = make_shared<Sample>();
+				setSample( tube, make_shared<Sample>() );
 			}
-			mSampleView->setSample( mGel->getSamples()[tube] );
+			mSampleView->setSample( getSample(tube) );
 			
 			// preroll
 			// -- disabled; i like the fade in!
@@ -622,7 +648,7 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 	for( auto b : bands )
 	{
 		// get band's source fragment
-		Sample::Fragment f = mGel->getSamples()[b.mLane]->mFragments[b.mFragment];
+		Sample::Fragment f = getSample(b.mLane)->mFragments[b.mFragment];
 
 		// speed bias
 		f.mSampleSizeBias = (pos.y - b.mBounds.getY1()) / b.mBounds.getHeight() ;

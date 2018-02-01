@@ -12,6 +12,9 @@
 #include "View.h"
 #include "DropTargetSource.h"
 
+class Sample;
+typedef std::shared_ptr<Sample> SampleRef;
+
 class GelView;
 typedef std::shared_ptr<GelView> GelViewRef;
 
@@ -50,7 +53,9 @@ public:
 	void		updateGelDetailViewContent( SampleViewRef ) const;
 	
 	void		newFragmentAtPos( ci::vec2 ); // in root (e.g. mouse) space 
-	
+	SampleRef	getSample( int lane ) const { if (mGel) return mGel->getSamples()[lane]; else return 0; }
+	void		setSample( int lane, SampleRef s ) { assert(mGel); mGel->getSamples()[lane]=s; }
+
 private:
 	GelRef				mGel;
 

@@ -83,13 +83,22 @@ public:
 	float		mIconScale=1.f;
 	
 	
+	
+	Sample() {}
+	Sample( const ci::XmlTree& xml ) { loadXml(xml); }
+
 	void degrade( float d ) {
 		for ( auto& f : mFragments ) f.mDegrade = std::min( 2.f, f.mDegrade + d );
 	}
 	
+	int cloneFragment( int f )
+	{
+		assert( isValidFragment(f) );
+		mFragments.push_back( mFragments[f] );
+		return mFragments.size()-1;
+	}
 	
-	Sample() {}
-	Sample( const ci::XmlTree& xml ) { loadXml(xml); }
+	bool isValidFragment( int f ) const { return f >=0 && f < mFragments.size(); }
 	
 	void   loadXml( const ci::XmlTree& ); // clears existing mFragments first
 	
