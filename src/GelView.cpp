@@ -221,16 +221,28 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 	vec2 localPos = rootToChild(e.getPos());
 	
 	mMouseDownBand = Gel::Band(); // clear it
+	mMouseDownMadeLoupe = 0;
 	
 	// add loupe?
 	if ( e.isMetaDown() )
 	{
-		addLoupe( e.getPos() );
+		closeHoverGelDetailView(); // if we animate, we might want to transform one into the other so transition is less weird
+		
+		// start dragging it
+		mMouseDownMadeLoupe = addLoupe( e.getPos() );
+		if (mMouseDownMadeLoupe) mMouseDownMadeLoupe->mouseDown(e);
 	}
 	// add band?
 	if ( e.isRight() )
 	{
 		newFragmentAtPos(e.getPos());
+		
+		// start dragging it
+		assert(mGel);
+		assert(mSampleView);
+		const Gel::Band* b = mGel->getSlowestBandInFragment( mSelectedMicrotube, mSampleView->getSelectedFragment() );
+		assert(b);
+		mMouseDownBand = mMouseDragBand = *b;
 	}
 	else // normal mouse down
 	{
@@ -302,8 +314,13 @@ void GelView::mouseUp( ci::app::MouseEvent e )
 
 void GelView::mouseDrag( ci::app::MouseEvent e )
 {
+	// drag loupe we made on mouse down
+	if ( mMouseDownMadeLoupe )
+	{
+		mMouseDownMadeLoupe->mouseDrag(e);
+	}
 	// drag band
-	if ( mMouseDownBand.mLane != -1 && mMouseDownBand.mFragment != -1 )
+	else if ( mMouseDownBand.mLane != -1 && mMouseDownBand.mFragment != -1 )
 	{
 		// get sample, frag
 		int lane  = mMouseDragBand.mLane; 
@@ -368,8 +385,9 @@ void GelView::mouseDrag( ci::app::MouseEvent e )
 		// update
 		sampleDidChange(sample);
 	}
+	
 	// drag this view
-	if ( mMouseDownMicrotube == -1 && kEnableDrag )
+	else if ( mMouseDownMicrotube == -1 && kEnableDrag )
 	{
 		setFrame( getFrame() + getCollection()->getMouseMoved() );
 	}
@@ -554,7 +572,7 @@ void GelView::timeDidChange()
 	updateLoupes();
 }
 
-void GelView::addLoupe( vec2 withSampleAtRootPos )
+SampleViewRef GelView::addLoupe( vec2 withSampleAtRootPos )
 {
 	SampleViewRef view = updateGelDetailView( 0, withSampleAtRootPos, true, true );
 	
@@ -566,6 +584,8 @@ void GelView::addLoupe( vec2 withSampleAtRootPos )
 		
 		mLoupeViews.push_back(view);
 	}
+	
+	return view;
 }
 
 SampleViewRef GelView::openGelDetailView()
@@ -764,6 +784,32 @@ void GelView::tick( float dt )
 			}
 		}
 		else if (mSampleView) mSampleView->setHighlightFragment(-1);
+	}
+	
+	// shuffle views
+	// (this doesn't work quite right; for some reason i give it to loupe, but it's lost)
+	if ( ! getCollection()->getKeyboardFocusView() )
+	{
+		bool done=false;
+		
+		while ( ! mLoupeViews.empty() && ! done )
+		{
+			SampleViewRef loupe = mLoupeViews.back().lock();
+			
+			if (loupe)
+			{
+				getCollection()->setKeyboardFocusView(loupe);
+				getCollection()->moveViewToTop(loupe);
+				done=true;
+			}
+			else mLoupeViews.pop_back();
+		}
+		
+		if (!done && mSampleView)
+		{
+			getCollection()->setKeyboardFocusView(mSampleView);
+			done=true;
+		}
 	}
 }
 

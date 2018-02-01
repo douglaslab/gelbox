@@ -189,11 +189,16 @@ bool ViewCollection::removeView( ViewRef v )
 	{
 		if ( *i==v )
 		{
+			if (v==mKeyboardFocusView) setKeyboardFocusView(0);
+			if (v==mMouseDownView)     mMouseDownView=0;
+			if (v==mRolloverView)      mRolloverView=0;			
+
 			mViews.erase(i);
+			
 			return true ;
 		}
 	}
-	
+		
 	return false;
 }
 

@@ -263,6 +263,8 @@ void SampleView::selectFragment( int i )
 {
 	mSelectedFragment = i;
 	showFragmentEditor(mSelectedFragment);
+	
+	if (0) cout << "selected: " << (mSample ? mSample->mName : "(null)") << ", frag: " << i << endl;
 }
 
 void SampleView::setRolloverFragment( int i )
@@ -422,11 +424,7 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 	{
 		case KeyEvent::KEY_BACKSPACE:
 		case KeyEvent::KEY_DELETE:
-			if ( mIsLoupeView )
-			{
-				// close loupe
-				getCollection()->removeView( shared_from_this() );
-			}
+			if ( mIsLoupeView ) close();
 			else if ( isFragment(mSelectedFragment) )
 			{
 				// delete fragment
@@ -438,7 +436,7 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 		
 		case KeyEvent::KEY_ESCAPE:
 			// close view?
-			if ( mIsLoupeView ) getCollection()->removeView( shared_from_this() );
+			if ( mIsLoupeView ) close();
 			else if ( mGelView ) mGelView->selectMicrotube(-1);
 			break;
 
@@ -512,10 +510,10 @@ void SampleView::tick( float dt )
 	else setRolloverFragment(-1);
 	
 	// deselect?
-	if ( (isFragment(mSelectedFragment) && !getHasKeyboardFocus()) || mIsLoupeView )
+	/*if ( (isFragment(mSelectedFragment) && !getHasKeyboardFocus()) || mIsLoupeView )
 	{
 		deselectFragment();
-	}
+	}*/
 
 	// fragment editor on highlight/hover/selection -- can enable/disable this feature on its own
 	if ( ! mIsLoupeView )

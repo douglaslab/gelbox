@@ -71,6 +71,7 @@ private:
 		
 	SampleViewRef		mSampleView;
 	SampleViewRef		mHoverGelDetailView;
+	SampleViewRef		mMouseDownMadeLoupe;
 	std::vector< std::weak_ptr<SampleView> > mLoupeViews;
 	
 	ci::Rectf	calcMicrotubeIconRect( int lane ) const;
@@ -81,7 +82,7 @@ private:
 		
 	void		updateHoverGelDetailView();
 	
-	void		addLoupe( ci::vec2 withSampleAtRootPos ); // persistent
+	SampleViewRef addLoupe( ci::vec2 withSampleAtRootPos ); // persistent; returns it if you want it
 	SampleViewRef updateGelDetailView( SampleViewRef view, ci::vec2 withSampleAtRootPos, bool forceUpdate, bool doLayout ); // root coords; makes view if null
 	SampleViewRef openGelDetailView();
 	void		closeHoverGelDetailView();
