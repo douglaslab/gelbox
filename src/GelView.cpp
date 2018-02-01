@@ -188,8 +188,8 @@ void GelView::drawBandFocus() const
 	if (mSampleView && mGel)
 	{
 		int lane = mSelectedMicrotube;
-		int selected = mSampleView->getSelectedFragment();
-		int rollover = mSampleView->getHighlightFragment();
+		int selected  = mSampleView->getSelectedFragment();
+		int focus	  = mSampleView->getFocusFragment();
 		
 		if ( lane != -1 )
 		{
@@ -198,7 +198,7 @@ void GelView::drawBandFocus() const
 				if ( b.mExists && b.mLane == lane )
 				{
 					bool s = b.mFragment == selected;
-					bool r = b.mFragment == rollover;
+					bool r = b.mFragment == focus;
 					
 					if (s||r)
 					{
