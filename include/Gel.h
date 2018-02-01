@@ -33,7 +33,7 @@ public:
 		
 		ci::Rectf	mStartBounds; // well 
 		
-		// for top (higher bp) and bottom (lower bp) of band, how many bases?
+		// for top (higher bp) and bottom (lower bp) of band, how many bases and aggregates?
 		int			mBases[2]; // degrade causes these values to drop
 		int			mMultimer[2];
 		
@@ -74,6 +74,8 @@ public:
 	bool  isFinishedPlaying() const { return getTime() >= getDuration(); }
 	
 	const std::vector<Band>&	getBands() const { return mBands; }
+	const Band*	getSlowestBandInFragment( int lane, int frag ) const;
+	Band		getSlowestBandInFragment( Band query );
 	
 	glm::vec2	getSize() const { return mSize; }
 	float		getLaneWidth() const { return mLaneWidth; }

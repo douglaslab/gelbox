@@ -239,7 +239,10 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 		// else pick band
 		else if ( pickBand(localPos,band) )
 		{
-			mMouseDownBand = band;
+			// use biggest band in mouse down fragment for mouse down
+			// (this is better than just mMouseDownBand = band, as it solves some multi-multimer issues)
+			mMouseDownBand = mGel->getSlowestBandInFragment(band);
+			
 			mMouseDownMicrotube = band.mLane;
 			selectMicrotube(band.mLane);
 			
@@ -295,7 +298,7 @@ void GelView::mouseDrag( ci::app::MouseEvent e )
 		//		band top to mouse down loc
 		float dragDeltaY = mMouseDownBand.mBounds.y1 - rootToChild(getMouseDownLoc()).y ;
 		
-		// use maximum aggregate in band
+		// use minimum aggregate in band
 		// (this part behaves pretty weird with multimers)
 		int aggregate=1;
 		for ( int i=0; i<frag.mAggregate.size(); ++i )

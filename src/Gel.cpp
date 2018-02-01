@@ -239,3 +239,30 @@ ci::Rectf Gel::calcBandBounds( const Band& b ) const
 	
 	return r;
 }
+
+const Gel::Band*
+Gel::getSlowestBandInFragment( int lane, int frag ) const
+{
+	const Gel::Band* b=0;
+	
+	for( const Band& band : mBands )
+	{
+		if ( band.mLane==lane && band.mFragment==frag )
+		{
+//			if ( !b || band.mBases[0]*band.mMultimer[0] > b->mBases[0]*b->mMultimer[0] )
+			if ( !b || band.mBounds.y1 < b->mBounds.y1 )
+			{
+				b=&band;
+			}
+		}
+	}
+	
+	return b;
+}
+
+Gel::Band Gel::getSlowestBandInFragment( Band query )
+{
+	const Gel::Band* biggestBand = getSlowestBandInFragment(query.mLane, query.mFragment);
+	assert(biggestBand);
+	return *biggestBand;	
+}
