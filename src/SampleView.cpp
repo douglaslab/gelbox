@@ -79,6 +79,51 @@ bool SampleView::SelectionState::isValidIn( SampleRef inSample ) const
 	return mSample && mSample==inSample && mFrag >= 0 && mFrag < mSample->mFragments.size();
 }
 
+bool SampleView::SelectionState::isa( SampleRef s, int frag ) const
+{
+	SelectionState p;
+	p.set(s,frag);
+	
+	do
+	{
+		if ( *this == p ) return true;
+	}
+	while ( p.setToOrigin() );
+	
+	return false;
+} 
+
+bool SampleView::SelectionState::setToOrigin()
+{
+	if ( isValid() )
+	{
+		if ( mSample->mFragments[mFrag].mOriginSample )
+		{
+			SampleRef s = mSample->mFragments[mFrag].mOriginSample;
+			int		  f = mSample->mFragments[mFrag].mOriginSampleFrag;
+			
+			mSample = s;
+			mFrag   = f;
+			
+			return true; 
+		}
+	}
+	
+	return false;
+}
+
+bool SampleView::SelectionState::setToRoot()
+{
+	bool changed=false;
+	
+	while (setToOrigin())
+	{
+		changed=true;
+	};
+	
+	return changed;
+}
+
 SampleView::SampleView()
 {
 	mSelection = make_shared<SelectionState>();
@@ -277,6 +322,7 @@ void SampleView::drawLoupe() const
 void SampleView::selectFragment( int i )
 {
 	mSelection->set( mSample, i );
+	mSelection->setToOrigin();
 
 	if (!mIsLoupeView) showFragmentEditor(i);
 	
@@ -286,6 +332,13 @@ void SampleView::selectFragment( int i )
 void SampleView::setRolloverFragment( int i )
 {
 	mRollover->set(mSample,i);
+	mRollover->setToOrigin();
+}
+
+void SampleView::setHighlightFragment( int i )
+{
+	mHighlight->set( mSample, i );
+	mHighlight->setToOrigin();
 }
 
 void SampleView::showFragmentEditor( int i )
@@ -502,8 +555,8 @@ void SampleView::fragmentDidChange( int fragment )
 int SampleView::getFocusFragment() const
 {
 	if      ( mHighlight->isValidIn(mSample) ) return mHighlight->getFrag();
-	else if	( mSelection->isValidIn(mSample) ) return mSelection->getFrag();
 	else if ( mRollover ->isValidIn(mSample) ) return mRollover ->getFrag();
+	else if	( mSelection->isValidIn(mSample) ) return mSelection->getFrag();
 	else return -1;
 }
 
@@ -513,20 +566,15 @@ int SampleView::getSelectedFragment() const
 	else return -1;
 }
 
-void SampleView::setHighlightFragment( int i )
+int SampleView::getRolloverFragment ()
 {
-	mHighlight->set( mSample, i );
+	if ( mRollover->isValidIn(mSample) ) return mRollover->getFrag();
+	else return -1;
 }
 
 int SampleView::getHighlightFragment()
 {
 	if ( mHighlight->isValidIn(mSample) ) return mHighlight->getFrag();
-	else return -1;
-}
-
-int SampleView::getRolloverFragment ()
-{
-	if ( mRollover->isValidIn(mSample) ) return mRollover->getFrag();
 	else return -1;
 }
 
@@ -543,7 +591,7 @@ void SampleView::tick( float dt )
 	{
 		setRolloverFragment( pickFragment( rootToChild(getMouseLoc()) ) );
 	}
-	else setRolloverFragment(-1);
+//	else setRolloverFragment(-1);
 	
 	// deselect?
 	/*if ( (isFragment(mSelectedFragment) && !getHasKeyboardFocus()) || mIsLoupeView )
@@ -942,10 +990,10 @@ void SampleView::drawSim()
 	{
 		const int nsegs = 32;
 
-		const bool selected = isFragment(p.mFragment) && mSelection->is( mSample, p.mFragment );
+		const bool selected = isFragment(p.mFragment) && mSelection->isa( mSample, p.mFragment );
 		const bool rollover = isFragment(p.mFragment) &&
-							 (mRollover ->is( mSample, p.mFragment ) ||
-							  mHighlight->is( mSample, p.mFragment ) );
+							 (mRollover ->isa( mSample, p.mFragment ) ||
+							  mHighlight->isa( mSample, p.mFragment ) );
 		 
 
 		auto drawPart = [&]( bool outline )

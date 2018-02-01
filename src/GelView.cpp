@@ -36,7 +36,11 @@ GelView::GelView( GelRef gel )
 	catch (...)
 	{
 		cerr << "ERROR loading icon " << iconPath << endl;
-	}	
+	}
+	
+	mSelectedState  = make_shared<SampleView::SelectionState>();
+	mRolloverState  = make_shared<SampleView::SelectionState>();
+	mHighlightState = make_shared<SampleView::SelectionState>();
 }
 
 
@@ -256,7 +260,13 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 		{	
 			// select (w/ toggle)
 			if (mMouseDownMicrotube==mSelectedMicrotube) selectMicrotube(-1);
-			else selectMicrotube( mMouseDownMicrotube );		
+			else selectMicrotube( mMouseDownMicrotube );
+			
+			// adjust selection, so we don't auto-change back
+			if ( mSelectedState->getSample() != getSample(mMouseDownMicrotube) )
+			{
+				mSelectedState->clear();
+			}
 		}
 		// else pick band
 		else if ( pickBand(localPos,band) )
@@ -507,7 +517,12 @@ void GelView::openSampleView()
 			// make view
 			mSampleView = make_shared<SampleView>();
 			mSampleView->setGelView( shared_from_this() );
-			
+
+			// shared state
+			mSampleView->setSelectionStateData(mSelectedState);
+			mSampleView->setRolloverStateData (mRolloverState);
+			mSampleView->setHighlightStateData(mHighlightState);
+						
 			// layout + add
 			vec2 size(400.f,400.f);
 			
@@ -620,6 +635,11 @@ SampleViewRef GelView::openGelDetailView()
 	view->setSimTimeScale(0.f); // paused
 	view->setIsLoupeView(true);
 	
+	// shared state
+	view->setSelectionStateData(mSelectedState);
+	view->setRolloverStateData (mRolloverState);
+	view->setHighlightStateData(mHighlightState);
+	
 	// add
 	getCollection()->addView(view);
 	
@@ -723,7 +743,9 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 	{
 		// get band's source fragment
 		Sample::Fragment f = getSample(b.mLane)->mFragments[b.mFragment];
-
+		f.mOriginSample = getSample(b.mLane);
+		f.mOriginSampleFrag = b.mFragment;
+		
 		// speed bias
 		f.mSampleSizeBias = (pos.y - b.mBounds.getY1()) / b.mBounds.getHeight() ;
 		
@@ -809,7 +831,12 @@ void GelView::tick( float dt )
 		}
 	}
 	
-	// 
+	// adjust selection focus
+	if ( mSelectedState->getSample() && ( !mSampleView || mSampleView->getSample() != mSelectedState->getSample() ) )
+	{
+		assert( mGel );
+		selectMicrotube( mGel->getLaneForSample(mSelectedState->getSample()) );
+	}
 }
 
 void GelView::updateBandRollover( ci::vec2 rootPos )

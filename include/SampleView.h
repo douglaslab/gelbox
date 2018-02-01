@@ -29,20 +29,32 @@ public:
 	class SelectionState
 	{
 	public:
+		void clear() { mSample=0; mFrag=-1; }
+		
 		void set( SampleRef s, int frag ) { mSample=s; mFrag=frag; }
 		bool is ( SampleRef s, int frag ) const { return mSample==s && mFrag==frag; } 
-		
+		bool isa( SampleRef s, int frag ) const; // is identical, or is (s,frag) derived from this 
+			// e.g. x->isa(s,f) means is x equal to or a parent of (s,f)
+			
 		bool isValid() const;
 		bool isValidIn( SampleRef inSample ) const;
 		
 		SampleRef getSample() const { return mSample; }
 		int		  getFrag()   const { return mFrag; }
 		
+		bool setToOrigin(); // returns true if changed
+		bool setToRoot();
+
+		bool operator==(const SelectionState &rhs) const {
+			return mSample == rhs.mSample && mFrag == rhs.mFrag ;
+		}
+			
 	private:
 		SampleRef	mSample;
 		int			mFrag = -1;
 	};
 	typedef std::shared_ptr<SelectionState> SelectionStateRef;
+		
 	
 	
 	SampleView();
@@ -54,8 +66,10 @@ public:
 	// shared select/rollover state
 	void setSelectionStateData( SelectionStateRef s ) { mSelection=s; }
 	void setRolloverStateData ( SelectionStateRef s ) { mRollover =s; }
+	void setHighlightStateData( SelectionStateRef s ) { mHighlight=s; }
 	SelectionStateRef getSelectionStateData() const { return mSelection; }
 	SelectionStateRef getRolloverStateData () const { return mRollover; }
+	SelectionStateRef getHighlightStateData() const { return mHighlight; }
 	
 	// callout
 	void setCalloutAnchor( glm::vec2 p ) { mAnchor=p; updateCallout(); }

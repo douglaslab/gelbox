@@ -40,6 +40,12 @@ public:
 		float mAspectRatio	= 1.f;
 		ci::Color mColor	= ci::Color(.5,.5,.5);
 		
+		// tracking parentage across sample derivatives
+		// -- e.g. for a loupe into a band of another sample
+		//		in that case, loupe peers into a new sample that is derived from
+		//		a larger sample defining an entire lane
+		SampleRef mOriginSample;
+		int		  mOriginSampleFrag=-1;
 		
 		// derived properties
 		float calcAggregateSum() const {

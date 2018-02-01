@@ -11,15 +11,13 @@
 #include "Gel.h"
 #include "View.h"
 #include "DropTargetSource.h"
+#include "SampleView.h"
 
 class Sample;
 typedef std::shared_ptr<Sample> SampleRef;
 
 class GelView;
 typedef std::shared_ptr<GelView> GelViewRef;
-
-class SampleView;
-typedef std::shared_ptr<SampleView> SampleViewRef;
 
 class GelView : public View, public DropTargetSource, public std::enable_shared_from_this<GelView>
 {
@@ -73,6 +71,9 @@ private:
 	SampleViewRef		mHoverGelDetailView;
 	SampleViewRef		mMouseDownMadeLoupe;
 	std::vector< std::weak_ptr<SampleView> > mLoupeViews;
+	
+	SampleView::SelectionStateRef mSelectedState, mRolloverState, mHighlightState; 
+	
 	
 	ci::Rectf	calcMicrotubeIconRect( int lane ) const;
 	int			pickMicrotube( ci::vec2 ) const; // local coords
