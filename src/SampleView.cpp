@@ -41,6 +41,7 @@ const float kMaxAge = 30 * 1000;
 
 const float kLoupeRadius = 16.f * .65f;
 const bool  kCanPickCalloutWedge = true;
+const bool  kLoupePartsSelectable = true;
 
 // mitigate dithering artifacts by being lenient / less aggressive with aggregate culling
 const float kAggregateCullChanceScale = (1.f / 30.f) * .5f;
@@ -262,7 +263,8 @@ void SampleView::drawLoupe() const
 void SampleView::selectFragment( int i )
 {
 	mSelectedFragment = i;
-	showFragmentEditor(mSelectedFragment);
+
+	if (!mIsLoupeView) showFragmentEditor(mSelectedFragment);
 	
 	if (0) cout << "selected: " << (mSample ? mSample->mName : "(null)") << ", frag: " << i << endl;
 }
@@ -358,9 +360,16 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 	// take keyboard focus
 	getCollection()->setKeyboardFocusView( shared_from_this() );
 	
+	// pick fragment
+	if ( !mIsLoupeView || kLoupePartsSelectable )
+	{
+		selectFragment( pickFragment( rootToChild(e.getPos()) ) );
+	}
+	
 	// drag?
 	if		( pickLoupe(e.getPos()) )		 mDrag = Drag::Loupe;
 	else if ( pickCalloutWedge(e.getPos()) ) mDrag = Drag::LoupeAndView;
+//	else if ( mSelectedFragment != -1 )      mDrag = Drag::None; // allow loupe drag to start on a part, too 
 	else if ( mIsLoupeView )				 mDrag = Drag::View; 
 	else mDrag = Drag::None;
 }
@@ -402,19 +411,12 @@ void SampleView::mouseUp( ci::app::MouseEvent e )
 {
 	if ( getHasMouseDown() )
 	{
+		// new btn
 		if ( pickNewBtn(e.getPos()) && pickNewBtn(getMouseDownLoc()) )
 		{
 			newFragment();
 			selectFragment( mFragments.size()-1 );
 		}
-		else
-		{
-			// pick fragment
-			selectFragment( pickFragment( rootToChild(e.getPos()) ) );
-		}
-
-		// take keyboard focus
-		getCollection()->setKeyboardFocusView( shared_from_this() );
 	}
 }
 
@@ -503,7 +505,7 @@ void SampleView::tick( float dt )
 	tickSim( (slow ? .1f : 1.f) * mSimTimeScale );
 	
 	// rollover
-	if ( getHasRollover() && ! mIsLoupeView )
+	if ( getHasRollover() && ( ! mIsLoupeView || kLoupePartsSelectable ) )
 	{
 		setRolloverFragment( pickFragment( rootToChild(getMouseLoc()) ) );
 	}
@@ -571,9 +573,7 @@ void SampleView::newFragment()
 	{
 		Sample::Fragment f;
 		
-		auto colors = FragmentView::getColorPalette();
-		
-		f.mColor = colors[ mRand.nextInt() % colors.size() ];
+		f.mColor = FragmentView::getRandomColorFromPalette( &mRand );
 		f.mBases = lerp((float)kRandFragMinNumBases,(float)kRandFragMaxNumBases,mRand.nextFloat()*mRand.nextFloat());
 		f.mMass  = mRand.nextFloat() * GelSim::kSampleMassHigh;
 		f.mAspectRatio = 1.f;

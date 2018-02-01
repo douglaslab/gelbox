@@ -64,6 +64,18 @@ const vector<Color>& FragmentView::getColorPalette()
 	return sColorPalette;
 }
 
+ci::Color FragmentView::getRandomColorFromPalette( ci::Rand* r )
+{
+	int i;
+	
+	if (r) i = r->nextInt();
+	else i = randInt();
+	
+	auto colors = getColorPalette();
+	
+	return colors[ i % colors.size() ];
+}
+
 static string addCommasToNumericStr( string num )
 {
 	string numc;

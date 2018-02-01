@@ -88,6 +88,8 @@ private:
 	void		closeHoverGelDetailView();
 	SampleRef	makeSampleFromGelPos( ci::vec2 pos ) const;
 
+	void		updateBandRollover( ci::vec2 rootPos );
+	
 	void		updateLoupes();
 
 	void		drawMicrotubes() const;

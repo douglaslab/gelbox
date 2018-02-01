@@ -125,7 +125,7 @@ private:
 	
 	void tickSim( float dt ); // dt=1 for normal speed
 	void drawSim();
-	int  pickPart( ci::vec2 ) const;
+	int  pickPart( ci::vec2 ) const; // local space; -1 for none
 	int  pickFragment( ci::vec2 ) const;
 	Part randomPart( int fragment );
 	int  getRandomWeightedAggregateSize( int fragment );

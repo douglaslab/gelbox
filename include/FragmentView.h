@@ -42,7 +42,8 @@ public:
 	void setBounds( ci::Rectf b ) override { View::setBounds(b); updateLayout(); }
 	
 	static const std::vector<ci::Color>& getColorPalette();
-
+	static ci::Color getRandomColorFromPalette( ci::Rand* r=0 );
+	
 	Sample::Fragment& getEditFragment();
 	const Sample::Fragment& getEditFragment() const;
 	

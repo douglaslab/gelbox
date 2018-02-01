@@ -17,6 +17,7 @@ using namespace std;
 
 const bool kEnableDrag = false;
 const bool kBandRolloverOpensSampleView = false;
+const bool kHoverGelDetailViewOnBandDrag= true;
 
 const bool kShowReverseSolverDebugTest = false;
 const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
@@ -268,8 +269,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 				
 				int newfrag = sample->cloneFragment(band.mFragment);
 				
-				auto colors = FragmentView::getColorPalette();
-				sample->mFragments[newfrag].mColor = colors[ randInt() % colors.size() ];
+				sample->mFragments[newfrag].mColor = FragmentView::getRandomColorFromPalette();
 				
 				sampleDidChange( sample );
 				
@@ -375,6 +375,18 @@ void GelView::mouseDrag( ci::app::MouseEvent e )
 			mMouseDragBand.mLane = newlane;
 			mMouseDragBand.mFragment = toSample->mFragments.size()-1;
 			
+			// color change?
+			if (0)
+			{
+				Color& color = toSample->mFragments.back().mColor;
+				
+				if ( newlane == mMouseDownBand.mLane ) {
+					color = FragmentView::getRandomColorFromPalette(); // random
+				}
+				// original
+				else color = mMouseDownBand.mFocusColor; // should be original color! (unless we change how we do it) 
+			}
+			
 			// update sample
 			sampleDidChange( toSample );
 			
@@ -384,6 +396,9 @@ void GelView::mouseDrag( ci::app::MouseEvent e )
 		
 		// update
 		sampleDidChange(sample);
+		
+		// do 
+		if (kHoverGelDetailViewOnBandDrag) updateHoverGelDetailView();
 	}
 	
 	// drag this view
@@ -393,8 +408,9 @@ void GelView::mouseDrag( ci::app::MouseEvent e )
 	}
 }
 
-void GelView::mouseMove( ci::app::MouseEvent )
+void GelView::mouseMove( ci::app::MouseEvent e )
 {
+	updateBandRollover( e.getPos() );
 	updateHoverGelDetailView();
 }
 
@@ -758,6 +774,7 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 
 void GelView::tick( float dt )
 {
+	// sim
 	if (mGel && !mGel->getIsPaused())
 	{
 		mGel->stepTime(dt);
@@ -765,26 +782,6 @@ void GelView::tick( float dt )
 		if (mGel->isFinishedPlaying()) mGel->setIsPaused(true);
 	}
 	
-	
-	vec2 localMouseLoc  = rootToChild(getMouseLoc()); 
-	vec2 parentMouseLoc = childToParent(localMouseLoc);
-	
-	// band rollover
-	{
-		int pickedLane = pickLane(parentMouseLoc);
-		Gel::Band band;
-		
-		if ( getHasRollover() && pickBand( localMouseLoc, band ) )
-		{
-			if (kBandRolloverOpensSampleView) selectMicrotube(band.mLane);
-			
-			if (mSampleView && mSelectedMicrotube == pickedLane) 
-			{
-				mSampleView->setHighlightFragment(band.mFragment);
-			}
-		}
-		else if (mSampleView) mSampleView->setHighlightFragment(-1);
-	}
 	
 	// shuffle views
 	// (this doesn't work quite right; for some reason i give it to loupe, but it's lost)
@@ -811,12 +808,35 @@ void GelView::tick( float dt )
 			done=true;
 		}
 	}
+	
+	// 
+}
+
+void GelView::updateBandRollover( ci::vec2 rootPos )
+{
+	vec2 localMouseLoc  = rootToChild(getMouseLoc()); 
+	vec2 parentMouseLoc = childToParent(localMouseLoc);
+	
+	// band rollover
+	int pickedLane = pickLane(parentMouseLoc);
+	Gel::Band band;
+	
+	if ( getHasRollover() && pickBand( localMouseLoc, band ) )
+	{
+		if (kBandRolloverOpensSampleView) selectMicrotube(band.mLane);
+		
+		if (mSampleView && mSelectedMicrotube == pickedLane) 
+		{
+			mSampleView->setHighlightFragment(band.mFragment);
+		}
+	}
+	else if (mSampleView) mSampleView->setHighlightFragment(-1);
 }
 
 void GelView::updateHoverGelDetailView()
 {
 	// gel detail rollover
-	if ( getHasRollover() && pickLane(getMouseLoc()) != -1 )
+	if ( (getHasRollover() || (getHasMouseDown() && kHoverGelDetailViewOnBandDrag) ) && pickLane(getMouseLoc()) != -1 )
 	{
 		mHoverGelDetailView = updateGelDetailView( mHoverGelDetailView, getMouseLoc(), true, true ); // implicitly opens it
 	}
@@ -998,7 +1018,8 @@ int GelView::solveBasePairForY(
 	
 	do
 	{
-		int y = ystart + GelSim::calcDeltaY( bp, aggregate, aspectRatio, time ) * yscale;
+		int y = ystart + GelSim::calcDeltaY( bp, aggregate, aspectRatio, time ) * yscale
+					   - GelSim::calcDiffusionInflation( bp, aggregate, aspectRatio, time ) * yscale;
 			// use cache here for small perf. gain?
 		
 		if (cache) (*cache)[y] = bp;
