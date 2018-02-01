@@ -17,7 +17,7 @@ using namespace std;
 const bool kEnableDrag = false;
 const bool kBandRolloverOpensSampleView = false;
 
-const bool kShowReverseSolverDebugTest = false;
+const bool kShowReverseSolverDebugTest = true;
 const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
 
 GelView::GelView( GelRef gel )
@@ -181,16 +181,26 @@ void GelView::drawBandFocus() const
 	if (mSampleView && mGel)
 	{
 		int lane = mSelectedMicrotube;
-		int frag = mSampleView->getFocusFragment();
+		int selected = mSampleView->getSelectedFragment();
+		int rollover = mSampleView->getHighlightFragment();
 		
-		if ( frag != -1 && lane != -1 )
+		float ra = 1.f;
+		float sa = rollover == -1 ? 1.f : .35f; 
+		
+		if ( lane != -1 )
 		{
 			for( auto &b : mGel->getBands() )
 			{
-				if ( b.mExists && b.mLane == lane && b.mFragment == frag )
+				if ( b.mExists && b.mLane == lane )
 				{
-					gl::color( b.mFocusColor );
-					gl::drawStrokedRect( b.mBounds.inflated(vec2(1)), 2.f );
+					bool s = b.mFragment == selected;
+					bool r = b.mFragment == rollover;
+					
+					if (s||r)
+					{
+						gl::color( ColorA( b.mFocusColor, s ? sa : ra ) );
+						gl::drawStrokedRect( b.mBounds.inflated(vec2(1)), 2.f );
+					}
 				}
 			}			
 		}
@@ -205,6 +215,11 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 	if ( e.isMetaDown() )
 	{
 		addLoupe( e.getPos() );
+	}
+	// add band?
+	if ( e.isRight() )
+	{
+		newFragmentAtPos(e.getPos());
 	}
 	else // normal mouse down
 	{
@@ -241,6 +256,9 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 				mMouseDownMicrotube = lane;
 				selectMicrotube(mMouseDownMicrotube); // select
 			}
+			
+			// deselect fragment
+			if (mSampleView) mSampleView->deselectFragment();
 		}
 		
 		// give it keyboard focus
@@ -250,10 +268,6 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 
 void GelView::mouseUp( ci::app::MouseEvent e )
 {
-	if ( mGel && distance( vec2(e.getPos()), getCollection()->getMouseDownLoc() ) < 1.f )
-	{
-		mGel->setIsPaused( ! mGel->getIsPaused() );
-	}
 }
 
 void GelView::mouseDrag( ci::app::MouseEvent )
@@ -269,6 +283,47 @@ void GelView::mouseMove( ci::app::MouseEvent )
 {
 	updateHoverGelDetailView();
 }
+
+void GelView::newFragmentAtPos( ci::vec2 pos )
+{
+	int lane = pickLane( rootToParent(pos) );
+	
+	if ( lane != -1 )
+	{
+		selectMicrotube(lane);
+			// should auto-create sample if absent
+			// should also open sample view
+
+		assert( mGel->getSamples()[lane] );
+		assert( mSampleView );
+
+		// new fragment
+		mSampleView->newFragment(); // let sampleview generate it 
+		
+		auto &frag = mSampleView->getSample()->mFragments.back();
+		
+		frag.mAspectRatio = 1.f; // lock aspect ratio
+		
+		// lock aggregate to 1
+		for( float & v : frag.mAggregate ) v=0.f;
+		frag.mAggregate[0] = 1.f;
+		
+		frag.mBases = solveBasePairForY(
+			rootToChild(pos).y,
+			1, // aggregate
+			frag.mAspectRatio, // aspect
+			mGel->getTime(),
+			mGel->getWellBounds(lane).getCenter().y,
+			mGel->getSampleDeltaYSpaceScale() );
+		
+		// update, since we moved it
+		sampleDidChange( mSampleView->getSample() );
+
+		// keyboard focus sample view, select new fragment 
+		mSampleView->selectFragment( mSampleView->getSample()->mFragments.size()-1 );
+		getCollection()->setKeyboardFocusView( mSampleView );
+	}	
+} 
 
 void GelView::selectMicrotube( int i )
 {
@@ -745,6 +800,8 @@ void GelView::drawReverseSolverTest()
 			gl::color(1, 0, 0);
 			gl::drawSolidRect(r);
 			
+			gl::drawString( toString(bp), r.getLowerRight() + vec2(16,0) );
+			
 			gl::color(0,0,1);
 			for( auto i : cache )
 			{
@@ -803,5 +860,9 @@ int GelView::solveBasePairForY(
 	while ( iterationsLeft-- > 0 );
 	
 	// no solution? just return our closest guess
+	
+	// sanity check
+	bp = constrain( bp, 1, GelSim::kBaseCountHigh );
+	
 	return bp;
 }

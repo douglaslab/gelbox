@@ -38,8 +38,8 @@ public:
 
 	DropTargetRef getDropTarget( glm::vec2 locInFrame ) override;
 
-	int		pickLane ( ci::vec2 ) const;	// loc in frame space
-	ci::Rectf getLaneRect( int ) const; // in bounds space 
+	int			pickLane ( ci::vec2 ) const;	// loc in frame space
+	ci::Rectf	getLaneRect( int ) const; // in bounds space 
 
 	void		selectMicrotube( int lane );
 	void		openSampleView(); 
@@ -48,6 +48,8 @@ public:
 	void		sampleDidChange( SampleRef );
 	void		timeDidChange();
 	void		updateGelDetailViewContent( SampleViewRef ) const;
+	
+	void		newFragmentAtPos( ci::vec2 ); // in root (e.g. mouse) space 
 	
 private:
 	GelRef				mGel;

@@ -56,10 +56,13 @@ public:
 	
 	void fragmentDidChange( int frag ); // -1 for we deleted one; in practice ignores frag 
 	int  getFocusFragment() const; // rollover or selection (for feedback)
-
+	int  getSelectedFragment() const { return mSelectedFragment; }
+	
 	// public so gelview can twiddle what is highlighted
 	void selectFragment( int i );
+	void deselectFragment() { selectFragment(-1); }
 	void setHighlightFragment( int i );
+	int  getHighlightFragment() { return mHighlightFragment; }
 	
 	// options so we can make frozen gel callout views 
 	bool getIsNewBtnEnabled() const { return ! mIsLoupeView; }

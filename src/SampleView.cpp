@@ -431,7 +431,7 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 			{
 				// delete fragment
 				int which = mSelectedFragment;
-				selectFragment(-1);
+				deselectFragment();
 				deleteFragment( which );
 			}
 			break;
@@ -514,7 +514,7 @@ void SampleView::tick( float dt )
 	// deselect?
 	if ( (isFragment(mSelectedFragment) && !getHasKeyboardFocus()) || mIsLoupeView )
 	{
-		selectFragment(-1);
+		deselectFragment();
 	}
 
 	// fragment editor on highlight/hover/selection -- can enable/disable this feature on its own

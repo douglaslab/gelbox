@@ -32,7 +32,7 @@ void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade )
 float calcDeltaY( int bases, int aggregation, float aspectRatio, float time )
 {
 	// Constants
-	const int   kHighBaseCountNorm = 10000;
+	const int   kHighBaseCountNorm = kBaseCountHigh;
 	
 	const float kHighAspectRatio   = 16.f;
 	const float kAspectRatioScale  = .25f;

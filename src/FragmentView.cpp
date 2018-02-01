@@ -32,7 +32,7 @@ const float kSliderGraphHeight = 32.f;
 const float kVStepToColors = 42; 
 
 const float kMinBases = 1;
-const float kMaxBases = 14000;
+const float kMaxBases = GelSim::kBaseCountHigh;
 
 const float kMaxAspectRatio = 16.f;
 

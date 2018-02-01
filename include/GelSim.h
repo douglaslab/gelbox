@@ -16,7 +16,7 @@ namespace GelSim
 	Tuning Values 
 */
 const float kSampleMassHigh = 125.f; // 125ml
-
+const int   kBaseCountHigh  = 14000;
 
 
 /*
