@@ -69,8 +69,22 @@ void drawThickStrokedCircle( vec2 p, float r, float thickness )
 	}
 }
 
+bool SampleView::SelectionState::isValid() const
+{
+	return mSample && mFrag >= 0 && mFrag < mSample->mFragments.size();
+}
+
+bool SampleView::SelectionState::isValidIn( SampleRef inSample ) const
+{
+	return mSample && mSample==inSample && mFrag >= 0 && mFrag < mSample->mFragments.size();
+}
+
 SampleView::SampleView()
 {
+	mSelection = make_shared<SelectionState>();
+	mRollover  = make_shared<SelectionState>();
+	mHighlight = make_shared<SelectionState>();
+	
 	mRand.seed( randInt() ); // random random seed :-)
 	
 	fs::path newBtnPath = "???";
@@ -262,21 +276,16 @@ void SampleView::drawLoupe() const
 
 void SampleView::selectFragment( int i )
 {
-	mSelectedFragment = i;
+	mSelection->set( mSample, i );
 
-	if (!mIsLoupeView) showFragmentEditor(mSelectedFragment);
+	if (!mIsLoupeView) showFragmentEditor(i);
 	
 	if (0) cout << "selected: " << (mSample ? mSample->mName : "(null)") << ", frag: " << i << endl;
 }
 
 void SampleView::setRolloverFragment( int i )
 {
-	mRolloverFragment = i;	
-}
-
-void SampleView::setHighlightFragment( int i )
-{
-	mHighlightFragment = i;	
+	mRollover->set(mSample,i);
 }
 
 void SampleView::showFragmentEditor( int i )
@@ -427,10 +436,10 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 		case KeyEvent::KEY_BACKSPACE:
 		case KeyEvent::KEY_DELETE:
 			if ( mIsLoupeView ) close();
-			else if ( isFragment(mSelectedFragment) )
+			else if ( mSelection->isValidIn(getSample()) )
 			{
 				// delete fragment
-				int which = mSelectedFragment;
+				int which = mSelection->getFrag();
 				deselectFragment();
 				deleteFragment( which );
 			}
@@ -444,21 +453,22 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 
 		case KeyEvent::KEY_TAB:
 			
-			if ( mSample )
+			if ( mSample && mSelection->getSample()==mSample )
 			{
 				size_t size = mSample->mFragments.size();
+				int    frag = mSelection->getFrag();
 				
 				// select first?
 				if ( e.isShiftDown() )
 				{
 					// backwards
-					if ( mSelectedFragment == -1 )
+					if ( frag == -1 )
 					{
 						if ( size>0 ) selectFragment(size-1);
 					}
 					else
 					{
-						int n = mSelectedFragment - 1;
+						int n = frag - 1;
 						if (n < 0) n=-1;
 						selectFragment(n);
 					}
@@ -466,13 +476,13 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 				else
 				{
 					// forwards
-					if ( mSelectedFragment == -1 )
+					if ( frag == -1 )
 					{
 						if ( size>0 ) selectFragment(0);
 					}
 					else
 					{
-						int n = mSelectedFragment + 1;
+						int n = frag + 1;
 						if (n >= size) n=-1;
 						selectFragment(n);
 					}
@@ -491,9 +501,33 @@ void SampleView::fragmentDidChange( int fragment )
 
 int SampleView::getFocusFragment() const
 {
-	if ( isFragment(mHighlightFragment) ) return mHighlightFragment;
-	if ( isFragment(mRolloverFragment ) ) return mRolloverFragment;
-	else return mSelectedFragment;
+	if      ( mHighlight->isValidIn(mSample) ) return mHighlight->getFrag();
+	else if	( mSelection->isValidIn(mSample) ) return mSelection->getFrag();
+	else if ( mRollover ->isValidIn(mSample) ) return mRollover ->getFrag();
+	else return -1;
+}
+
+int SampleView::getSelectedFragment() const
+{
+	if ( mSelection->isValidIn(mSample) ) return mSelection->getFrag();
+	else return -1;
+}
+
+void SampleView::setHighlightFragment( int i )
+{
+	mHighlight->set( mSample, i );
+}
+
+int SampleView::getHighlightFragment()
+{
+	if ( mHighlight->isValidIn(mSample) ) return mHighlight->getFrag();
+	else return -1;
+}
+
+int SampleView::getRolloverFragment ()
+{
+	if ( mRollover->isValidIn(mSample) ) return mRollover->getFrag();
+	else return -1;
 }
 
 void SampleView::tick( float dt )
@@ -908,11 +942,10 @@ void SampleView::drawSim()
 	{
 		const int nsegs = 32;
 
-		const bool selected = isFragment(p.mFragment) && p.mFragment == mSelectedFragment;
-		
+		const bool selected = isFragment(p.mFragment) && mSelection->is( mSample, p.mFragment );
 		const bool rollover = isFragment(p.mFragment) &&
-							 (p.mFragment == mRolloverFragment ||
-							  p.mFragment == mHighlightFragment );
+							 (mRollover ->is( mSample, p.mFragment ) ||
+							  mHighlight->is( mSample, p.mFragment ) );
 		 
 
 		auto drawPart = [&]( bool outline )

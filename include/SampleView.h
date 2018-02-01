@@ -22,17 +22,42 @@ typedef std::shared_ptr<SampleView> SampleViewRef;
 class FragmentView;
 typedef std::shared_ptr<FragmentView> FragmentViewRef;
 
-
 class SampleView : public View, public std::enable_shared_from_this<SampleView>
 {
 public:
 
+	class SelectionState
+	{
+	public:
+		void set( SampleRef s, int frag ) { mSample=s; mFrag=frag; }
+		bool is ( SampleRef s, int frag ) const { return mSample==s && mFrag==frag; } 
+		
+		bool isValid() const;
+		bool isValidIn( SampleRef inSample ) const;
+		
+		SampleRef getSample() const { return mSample; }
+		int		  getFrag()   const { return mFrag; }
+		
+	private:
+		SampleRef	mSample;
+		int			mFrag = -1;
+	};
+	typedef std::shared_ptr<SelectionState> SelectionStateRef;
+	
+	
 	SampleView();
 	
 	void setGelView( GelViewRef v ) { mGelView=v; }
-	
+		
 	void close(); // removes from view, closes frag editor if any
 	
+	// shared select/rollover state
+	void setSelectionStateData( SelectionStateRef s ) { mSelection=s; }
+	void setRolloverStateData ( SelectionStateRef s ) { mRollover =s; }
+	SelectionStateRef getSelectionStateData() const { return mSelection; }
+	SelectionStateRef getRolloverStateData () const { return mRollover; }
+	
+	// callout
 	void setCalloutAnchor( glm::vec2 p ) { mAnchor=p; updateCallout(); }
 	glm::vec2 getCalloutAnchor() const { return mAnchor; }
 	void setSample( SampleRef s ) { mSample=s; syncToModel(); }
@@ -55,15 +80,15 @@ public:
 	void deleteFragment( int i ); // fades out instances
 	
 	void fragmentDidChange( int frag ); // -1 for we deleted one; in practice ignores frag 
-	int  getFocusFragment() const; // rollover or selection or highlight (for feedback)
-	int  getSelectedFragment() const { return mSelectedFragment; }
+	int  getFocusFragment() const; // rollover or selection (for feedback)
+	int  getSelectedFragment() const;
 	
 	// public so gelview can twiddle what is highlighted
 	void selectFragment( int i );
 	void deselectFragment() { selectFragment(-1); }
 	void setHighlightFragment( int i );
-	int  getHighlightFragment() { return mHighlightFragment; }
-	int  getRolloverFragment () { return mRolloverFragment; }
+	int  getHighlightFragment();
+	int  getRolloverFragment ();
 	
 	// options so we can make frozen gel callout views 
 	bool getIsNewBtnEnabled() const { return ! mIsLoupeView; }
@@ -102,9 +127,10 @@ private:
 	Drag			mDrag;
 	
 	SampleRef		mSample; // source data
-	int				mSelectedFragment=-1;
-	int				mRolloverFragment=-1;
-	int				mHighlightFragment=-1;
+
+	SelectionStateRef mSelection;
+	SelectionStateRef mRollover;
+	SelectionStateRef mHighlight;
 	
 	glm::vec2		mNewBtnLoc;
 	float			mNewBtnRadius;
