@@ -35,6 +35,7 @@ void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade );
 */
 float calcDeltaY( int bases, int aggregation, float aspectRatio, float time );
 
+float calcDiffusionInflation( int bases, int aggregation, float aspectRatio, float time ); // returns same units as above
 
 
 } // namespace

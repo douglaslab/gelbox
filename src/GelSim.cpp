@@ -65,5 +65,12 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, float time )
 	return y;
 }
 
+float calcDiffusionInflation( int bases, int aggregation, float aspectRatio, float time )
+{
+	const float kFraction = .02f;
+	
+	return kFraction * calcDeltaY( bases, aggregation, aspectRatio, time );
+}
+
 
 } // namespace

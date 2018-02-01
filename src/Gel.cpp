@@ -232,6 +232,11 @@ ci::Rectf Gel::calcBandBounds( const Band& b ) const
 	r.y1 += GelSim::calcDeltaY( b.mBases[0], b.mMultimer[0], b.mAspectRatio, bandTime ) * ySpaceScale;
 	r.y2 += GelSim::calcDeltaY( b.mBases[1], b.mMultimer[1], b.mAspectRatio, bandTime ) * ySpaceScale;
 	
+	float inflate = GelSim::calcDiffusionInflation( b.mBases[1], b.mMultimer[1], b.mAspectRatio, bandTime ) * ySpaceScale;
+	r.inflate( vec2(inflate) );
+	// use smaller (faster, more inflation) size. we could use a poly, and inflate top vs. bottom differently.
+	// with degradation, to see more diffusion we need to use [1], since that's what moves first
+	
 	return r;
 }
 
@@ -240,9 +245,6 @@ float Gel::calcBandAlpha ( const Band& b, int i ) const
 	float mscale = b.mMultimer[i];
 	
 	float a = constrain( (b.mMass * (float)mscale) / GelSim::kSampleMassHigh, 0.1f, 1.f );
-	
-//	if (b.mDegrade > 1.f) a *= 1.f - min( b.mDegrade - 1.f, 1.f ); // degrade alpha
-	// just replace this with a band height calculation
 	
 	auto area = []( Rectf r ) {
 		return r.getWidth() * r.getHeight();
