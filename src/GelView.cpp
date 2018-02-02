@@ -18,6 +18,7 @@ using namespace std;
 const bool kEnableDrag = false;
 const bool kBandRolloverOpensSampleView = false;
 const bool kHoverGelDetailViewOnBandDrag= true;
+const bool kDragBandMakesNewSamples = true;
 
 const bool kShowReverseSolverDebugTest = false;
 const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
@@ -338,85 +339,8 @@ void GelView::mouseDrag( ci::app::MouseEvent e )
 	// drag band
 	else if ( mMouseDownBand.mLane != -1 && mMouseDownBand.mFragment != -1 )
 	{
-		// get sample, frag
-		int lane  = mMouseDragBand.mLane; 
-		int fragi = mMouseDragBand.mFragment;
-		
-		assert( mGel );
-		assert( lane  >= 0 && lane  < mGel->getSamples().size() );
-		assert( fragi >= 0 && fragi < mGel->getSamples()[lane]->mFragments.size() );
-		
-		SampleRef		sample = getSample(lane);
-		Sample::Fragment &frag = sample->mFragments[fragi];
-		
-		// calculate dragDelta
-		//		since by default we would put top of band at mouse,
-		//		simply compute delta from
-		//		band top to mouse down loc
-		float dragDeltaY = mMouseDownBand.mBounds.y1 - rootToChild(getMouseDownLoc()).y ;
-		
-		// use minimum aggregate in band
-		// (this part behaves pretty weird with multimers)
-		int aggregate=1;
-		for ( int i=0; i<frag.mAggregate.size(); ++i )
-		{
-			if ( frag.mAggregate[i] > 0.f )
-			{
-				aggregate = i+1;
-				// convert from index to aggregate count (e.g. monomer (aggregate=1) is at index=0)
-			}
-		} 
-		
-		// solve
-		frag.mBases = solveBasePairForY(
-			rootToChild(e.getPos()).y + dragDeltaY,
-			aggregate,
-			frag.mAspectRatio,
-			mGel->getTime(),
-			mGel->getWellBounds(lane).y1, //getCenter().y,
-			mGel->getSampleDeltaYSpaceScale() );		
-		
-		// change lanes?
-		int newlane = pickLane( rootToParent(e.getPos()) );
-		
-		if ( newlane != -1 && newlane != lane
-		  && getSample(newlane) ) // only in existing samples for now
-		{
-			// remove, add
-			SampleRef toSample = getSample(newlane); 
-			
-			toSample->mFragments.push_back( frag );
-			sample->removeFragment(fragi); // INVALIDATES frag!!!
-			
-			mMouseDragBand.mLane = newlane;
-			mMouseDragBand.mFragment = toSample->mFragments.size()-1;
-			
-			// color change?
-			if (0)
-			{
-				Color& color = toSample->mFragments.back().mColor;
-				
-				if ( newlane == mMouseDownBand.mLane ) {
-					color = FragmentView::getRandomColorFromPalette(); // random
-				}
-				// original
-				else color = mMouseDownBand.mFocusColor; // should be original color! (unless we change how we do it) 
-			}
-			
-			// update sample
-			sampleDidChange( toSample );
-			
-			// update selection
-			selectFragment( mMouseDragBand.mLane, mMouseDragBand.mFragment );
-		}
-		
-		// update
-		sampleDidChange(sample);
-		
-		// do 
-		if (kHoverGelDetailViewOnBandDrag) updateHoverGelDetailView();
+		mouseDragBand(e);
 	}
-	
 	// drag this view
 	else if ( mMouseDownMicrotube == -1 && kEnableDrag )
 	{
@@ -979,6 +903,95 @@ bool GelView::pickBand( vec2 loc, Gel::Band& picked ) const
 	}
 	
 	return true;
+}
+
+void GelView::mouseDragBand( ci::app::MouseEvent e )
+{
+	// get sample, frag
+	int lane  = mMouseDragBand.mLane; 
+	int fragi = mMouseDragBand.mFragment;
+	
+	assert( mGel );
+	assert( lane  >= 0 && lane  < mGel->getSamples().size() );
+	assert( fragi >= 0 && fragi < mGel->getSamples()[lane]->mFragments.size() );
+	
+	SampleRef		sample = getSample(lane);
+	Sample::Fragment &frag = sample->mFragments[fragi];
+	
+	// calculate dragDelta
+	//		since by default we would put top of band at mouse,
+	//		simply compute delta from
+	//		band top to mouse down loc
+	float dragDeltaY = mMouseDownBand.mBounds.y1 - rootToChild(getMouseDownLoc()).y ;
+	
+	// use minimum aggregate in band
+	// (this part behaves pretty weird with multimers)
+	int aggregate=1;
+	for ( int i=0; i<frag.mAggregate.size(); ++i )
+	{
+		if ( frag.mAggregate[i] > 0.f )
+		{
+			aggregate = i+1;
+			// convert from index to aggregate count (e.g. monomer (aggregate=1) is at index=0)
+		}
+	} 
+	
+	// solve
+	frag.mBases = solveBasePairForY(
+		rootToChild(e.getPos()).y + dragDeltaY,
+		aggregate,
+		frag.mAspectRatio,
+		mGel->getTime(),
+		mGel->getWellBounds(lane).y1, //getCenter().y,
+		mGel->getSampleDeltaYSpaceScale() );		
+	
+	// change lanes?
+	int newlane = pickLane( rootToParent(e.getPos()) );
+	
+	if ( newlane != -1 && newlane != lane
+	  && ( kDragBandMakesNewSamples || getSample(newlane)) )
+	{
+		// where are we going to?
+		SampleRef toSample = getSample(newlane); 
+		
+		if ( ! toSample )
+		{
+			// make it if needed
+			toSample = make_shared<Sample>();
+			mGel->setSample( toSample, newlane );
+		}
+
+		// remove, add		
+		toSample->mFragments.push_back( frag );
+		sample->removeFragment(fragi); // INVALIDATES frag!!!
+		
+		mMouseDragBand.mLane = newlane;
+		mMouseDragBand.mFragment = toSample->mFragments.size()-1;
+		
+		// color change?
+		if (0)
+		{
+			Color& color = toSample->mFragments.back().mColor;
+			
+			if ( newlane == mMouseDownBand.mLane ) {
+				color = FragmentView::getRandomColorFromPalette(); // random
+			}
+			// original
+			else color = mMouseDownBand.mFocusColor; // should be original color! (unless we change how we do it) 
+		}
+		
+		// update sample
+		sampleDidChange( toSample );
+		
+		// update selection
+		selectFragment( mMouseDragBand.mLane, mMouseDragBand.mFragment );
+	}
+	
+	// update
+	sampleDidChange(sample);
+	
+	// do 
+	if (kHoverGelDetailViewOnBandDrag) updateHoverGelDetailView();
 }
 
 void GelView::drawReverseSolverTest()

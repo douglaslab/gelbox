@@ -78,24 +78,27 @@ private:
 	SampleFragRefRef mSelectedState, mRolloverState, mHighlightState; 
 	
 	
+	// microtubes
 	ci::Rectf	calcMicrotubeIconRect( int lane ) const;
 	int			pickMicrotube( ci::vec2 ) const; // local coords
 
+	// bands
 	std::vector<Gel::Band> pickBands( ci::vec2 ) const; // local coords
 	bool		pickBand( ci::vec2, Gel::Band& picked ) const;
-		
-	void		updateHoverGelDetailView();
+	void		updateBandRollover( ci::vec2 rootPos );			
+	void		mouseDragBand( ci::app::MouseEvent );
 	
+	// loupes
+	void		updateHoverGelDetailView();
+	void		closeHoverGelDetailView();
+
 	SampleViewRef addLoupe( ci::vec2 withSampleAtRootPos ); // persistent; returns it if you want it
 	SampleViewRef updateGelDetailView( SampleViewRef view, ci::vec2 withSampleAtRootPos, bool forceUpdate, bool doLayout ); // root coords; makes view if null
 	SampleViewRef openGelDetailView();
-	void		closeHoverGelDetailView();
 	SampleRef	makeSampleFromGelPos( ci::vec2 pos ) const;
-
-	void		updateBandRollover( ci::vec2 rootPos );
-	
 	void		updateLoupes();
 
+	// drawing
 	void		drawMicrotubes() const;
 	void		drawBands() const;
 	void		drawWells() const;
