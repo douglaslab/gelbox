@@ -69,66 +69,11 @@ void drawThickStrokedCircle( vec2 p, float r, float thickness )
 	}
 }
 
-bool SampleView::SelectionState::isValid() const
-{
-	return mSample && mFrag >= 0 && mFrag < mSample->mFragments.size();
-}
-
-bool SampleView::SelectionState::isValidIn( SampleRef inSample ) const
-{
-	return mSample && mSample==inSample && mFrag >= 0 && mFrag < mSample->mFragments.size();
-}
-
-bool SampleView::SelectionState::isa( SampleRef s, int frag ) const
-{
-	SelectionState p;
-	p.set(s,frag);
-	
-	do
-	{
-		if ( *this == p ) return true;
-	}
-	while ( p.setToOrigin() );
-	
-	return false;
-} 
-
-bool SampleView::SelectionState::setToOrigin()
-{
-	if ( isValid() )
-	{
-		if ( mSample->mFragments[mFrag].mOriginSample )
-		{
-			SampleRef s = mSample->mFragments[mFrag].mOriginSample;
-			int		  f = mSample->mFragments[mFrag].mOriginSampleFrag;
-			
-			mSample = s;
-			mFrag   = f;
-			
-			return true; 
-		}
-	}
-	
-	return false;
-}
-
-bool SampleView::SelectionState::setToRoot()
-{
-	bool changed=false;
-	
-	while (setToOrigin())
-	{
-		changed=true;
-	};
-	
-	return changed;
-}
-
 SampleView::SampleView()
 {
-	mSelection = make_shared<SelectionState>();
-	mRollover  = make_shared<SelectionState>();
-	mHighlight = make_shared<SelectionState>();
+	mSelection = make_shared<SampleFragRef>();
+	mRollover  = make_shared<SampleFragRef>();
+	mHighlight = make_shared<SampleFragRef>();
 	
 	mRand.seed( randInt() ); // random random seed :-)
 	

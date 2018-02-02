@@ -15,6 +15,35 @@
 class Sample;
 typedef std::shared_ptr<Sample> SampleRef;
 
+class SampleFragRef
+{
+public:
+	void clear() { mSample=0; mFrag=-1; }
+	
+	void set( SampleRef s, int frag ) { mSample=s; mFrag=frag; }
+	bool is ( SampleRef s, int frag ) const { return mSample==s && mFrag==frag; } 
+	bool isa( SampleRef s, int frag ) const; // is identical, or is (s,frag) derived from this 
+		// e.g. x->isa(s,f) means is x equal to or a parent of (s,f)
+		
+	bool isValid() const;
+	bool isValidIn( SampleRef inSample ) const;
+	
+	SampleRef getSample() const { return mSample; }
+	int		  getFrag()   const { return mFrag; }
+	
+	bool setToOrigin(); // returns true if changed
+	bool setToRoot();
+
+	bool operator==(const SampleFragRef &rhs) const {
+		return mSample == rhs.mSample && mFrag == rhs.mFrag ;
+	}
+		
+private:
+	SampleRef	mSample;
+	int			mFrag = -1;
+};
+typedef std::shared_ptr<SampleFragRef> SampleFragRefRef; // :D it is a pointer-pointer after all
+
 class Sample
 {
 public:

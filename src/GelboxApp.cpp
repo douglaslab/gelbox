@@ -19,6 +19,8 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
+const bool kVerboseMoveDragEvents = false; // to demonstrate libcinder bug, if first mouse down is r-click then we don't get move OR drag events. 
+
 GelboxApp* GelboxApp::mInstance = 0;
 
 GelboxApp::GelboxApp()
@@ -234,12 +236,17 @@ void GelboxApp::mouseUp( MouseEvent event )
 
 void GelboxApp::mouseMove( MouseEvent event )
 {
+	if (kVerboseMoveDragEvents) cout << "move " << getElapsedFrames() << endl;
+	
 	if ( Interaction::get() ) Interaction::get()->mouseMove(event);
+	
 	mViews.mouseMove(event);
 }
 
 void GelboxApp::mouseDrag( MouseEvent event )
 {
+	if (kVerboseMoveDragEvents) cout << "drag " << getElapsedFrames() << endl;
+
 	if ( Interaction::get() ) Interaction::get()->mouseDrag(event);
 	mViews.mouseDrag(event);
 }

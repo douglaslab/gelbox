@@ -38,9 +38,9 @@ GelView::GelView( GelRef gel )
 		cerr << "ERROR loading icon " << iconPath << endl;
 	}
 	
-	mSelectedState  = make_shared<SampleView::SelectionState>();
-	mRolloverState  = make_shared<SampleView::SelectionState>();
-	mHighlightState = make_shared<SampleView::SelectionState>();
+	mSelectedState  = make_shared<SampleFragRef>();
+	mRolloverState  = make_shared<SampleFragRef>();
+	mHighlightState = make_shared<SampleFragRef>();
 }
 
 
@@ -235,10 +235,14 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 		
 		// start dragging it
 		mMouseDownMadeLoupe = addLoupe( e.getPos() );
-		if (mMouseDownMadeLoupe) mMouseDownMadeLoupe->mouseDown(e);
+		if (mMouseDownMadeLoupe)
+		{
+			mMouseDownMadeLoupe->mouseDown(e);
+			mMouseDownMadeLoupe->setDragMode( SampleView::Drag::LoupeAndView );
+		}
 	}
 	// add band?
-	if ( e.isRight() )
+	else if ( e.isRight() )
 	{
 		newFragmentAtPos(e.getPos());
 		

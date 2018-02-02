@@ -14,6 +14,63 @@ using namespace ci;
 
 const std::string Sample::kRootXMLNodeName = "Sample";
 
+
+bool SampleFragRef::isValid() const
+{
+	return mSample && mFrag >= 0 && mFrag < mSample->mFragments.size();
+}
+
+bool SampleFragRef::isValidIn( SampleRef inSample ) const
+{
+	return mSample && mSample==inSample && mFrag >= 0 && mFrag < mSample->mFragments.size();
+}
+
+bool SampleFragRef::isa( SampleRef s, int frag ) const
+{
+	SampleFragRef p;
+	p.set(s,frag);
+	
+	do
+	{
+		if ( *this == p ) return true;
+	}
+	while ( p.setToOrigin() );
+	
+	return false;
+} 
+
+bool SampleFragRef::setToOrigin()
+{
+	if ( isValid() )
+	{
+		if ( mSample->mFragments[mFrag].mOriginSample )
+		{
+			SampleRef s = mSample->mFragments[mFrag].mOriginSample;
+			int		  f = mSample->mFragments[mFrag].mOriginSampleFrag;
+			
+			mSample = s;
+			mFrag   = f;
+			
+			return true; 
+		}
+	}
+	
+	return false;
+}
+
+bool SampleFragRef::setToRoot()
+{
+	bool changed=false;
+	
+	while (setToOrigin())
+	{
+		changed=true;
+	};
+	
+	return changed;
+}
+
+
 void
 Sample::loadXml( const XmlTree& xml )
 {
