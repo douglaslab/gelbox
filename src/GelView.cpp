@@ -237,7 +237,9 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 		mMouseDownMadeLoupe = addLoupe( e.getPos() );
 		if (mMouseDownMadeLoupe)
 		{
-			mMouseDownMadeLoupe->mouseDown(e);
+//			mMouseDownMadeLoupe->mouseDown(e);
+				// logically, yes, but given how we are re-routing events, don't do it, as it deselects the active selection
+				// SO really we just need to do a better job figuring out how to reroute the events... like this.
 			mMouseDownMadeLoupe->setDragMode( SampleView::Drag::LoupeAndView );
 		}
 	}
