@@ -82,8 +82,11 @@ void Slider::draw( int highlightIcon ) const
 	if ( mIsGraph ) drawGraph();
 		
 	// line
-	gl::color(kSliderLineColor);
-	gl::drawLine(mEndpoint[0], mEndpoint[1]);
+	if ( !mIsGraph )
+	{
+		gl::color(kSliderLineColor);
+		gl::drawLine(mEndpoint[0], mEndpoint[1]);
+	}
 	
 	// notches
 	drawNotches();
@@ -112,33 +115,71 @@ void Slider::draw( int highlightIcon ) const
 
 void Slider::drawGraph() const
 {
-	const float stepx = 1.f / (float)(mGraphValues.size()-1);
-
-	// build poly
-	PolyLine2 p;
-	
-	p.push_back(mEndpoint[0]);
-	
-	for( int i=0; i<mGraphValues.size(); ++i )
+	if (mGraphDrawAsColumns)
 	{
-		vec2 o = lerp( mEndpoint[0], mEndpoint[1], stepx * (float)i );
-		
-		o.y -= mGraphValues[i] * mGraphHeight; 
-		
-		p.push_back(o);
+		// discrete columns
+		const float w = (mEndpoint[1].x - mEndpoint[0].x) / (float)(mGraphValues.size());
+
+		for( int i=0; i<mGraphValues.size(); ++i )
+		{
+			vec2 ll = mEndpoint[0] + vec2( w * (float)i, 0.f ); 
+			
+			float h = mGraphValues[i] * mGraphHeight;
+			
+			Rectf r( ll, ll + vec2(w,-h) );
+			gl::color( kSliderHandleColor );
+			gl::drawSolidRect( r.inflated(vec2(-1.f,0)) );
+			
+			gl::color( kSliderLineColor );
+			gl::drawLine( r.getUpperLeft() + vec2(1,0), r.getUpperRight() - vec2(1,0) );
+		}
+
+		// score lines
+		if ( 0 && mGraphValues.size() > 2 )
+		{
+			gl::color( 1,1,1 );
+
+			for( int i=0; i<mGraphValues.size(); ++i )
+			{
+				float xf = (float) i * (1.f / (float)(mGraphValues.size()));
+				
+				vec2 b = lerp( mEndpoint[0], mEndpoint[1], xf );
+				
+				gl::drawLine( b, b - vec2(0,mGraphHeight) );
+			}
+		}
 	}
-	
-	p.push_back(mEndpoint[1]);
-	
-	
-	// draw it
-	gl::color( ColorA( Color::gray(.5f), .5f ) );
-	gl::drawStrokedRect( calcPickRect() );
-	
-	gl::color( kSliderHandleColor );
-	gl::drawSolid(p);
-	gl::color( kSliderHandleColor * .5f );
-	gl::draw(p);
+	else
+	{
+		// single bounding poly
+		const float stepx = 1.f / (float)(mGraphValues.size()-1);
+		
+		// build poly
+		PolyLine2 p;
+		
+		p.push_back(mEndpoint[0]);
+		
+		for( int i=0; i<mGraphValues.size(); ++i )
+		{
+			vec2 o = lerp( mEndpoint[0], mEndpoint[1], stepx * (float)i );
+			
+			o.y -= mGraphValues[i] * mGraphHeight; 
+			
+			p.push_back(o);
+		}
+		
+		p.push_back(mEndpoint[1]);
+		
+		
+		// draw it
+		gl::color( ColorA( Color::gray(.5f), .5f ) );
+		gl::drawStrokedRect( calcPickRect() );
+		
+		gl::color( kSliderHandleColor );
+		gl::drawSolid(p);
+		gl::color( kSliderHandleColor * .5f );
+		gl::draw(p);
+	}
 }
 
 void Slider::drawTextLabel() const

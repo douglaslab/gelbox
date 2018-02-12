@@ -164,9 +164,14 @@ FragmentView::FragmentView()
 			return addCommasToNumericStr( toString(v) ) + " : 1";
 		};
 		
-		
-		aggregate.addFixedNotches( kNumMultimerNotches );
-		aggregate.mNotchAction = Slider::Notch::DrawOnly;
+
+		const bool kDrawGraphAsColumns = true;	
+		aggregate.mGraphDrawAsColumns = kDrawGraphAsColumns;
+		if ( ! kDrawGraphAsColumns )
+		{
+			aggregate.addFixedNotches( kNumMultimerNotches );
+			aggregate.mNotchAction = Slider::Notch::DrawOnly;
+		}
 		aggregate.mValueMappedLo = 1;
 		aggregate.mValueMappedHi = kNumMultimerNotches;
 		

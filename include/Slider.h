@@ -55,8 +55,9 @@ public:
 	// graph
 	bool		mIsGraph		=	false;
 	float		mGraphHeight	=	32.f;
-	float		mGraphValueMappedLo=0.f, mGraphValueMappedHi=1.f; // per notch graph		
+	float		mGraphValueMappedLo=0.f, mGraphValueMappedHi=1.f; // per notch graph
 	std::vector<float> mGraphValues; // each is 0..1
+	bool		mGraphDrawAsColumns = true;
 	
 	// getter-setters
 	typedef std::function< void ( float ) > tSetter;
