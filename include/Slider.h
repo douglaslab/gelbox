@@ -46,6 +46,7 @@ public:
 		Snap    // will snap if close to a notch
 	};
 	Notch		mNotchAction = Notch::None;
+	float		mNotchSnapToDist = 4.f;
 	
 	// value mapping
 	float		mValue=.5f; // 0..1
@@ -94,6 +95,10 @@ public:
 	void		setValueWithMouse ( ci::vec2 pos ); 
 	void		setNormalizedValue( float normValue );
 	void		setLimitValue( int v );  // v is 0 (for low), 1 (for high); works on graphs + normal sliders
+	
+	float		notch   ( float normValue, float v1, float v2 ) const; // for x axis, (v1,v2) are endpoints[0,1].x
+	float		quantize( float value, float quantize ) const; // q<=0 means none 
+	float		quantizeNormalizedValue( float valueNorm, float valueMapLo, float valueMapHi, float quantizeMapStep ) const;
 	
 	int			pickIcon( ci::vec2 ) const; // -1 for none, 0,1 for which
 	

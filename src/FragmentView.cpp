@@ -172,6 +172,13 @@ FragmentView::FragmentView()
 			aggregate.addFixedNotches( kNumMultimerNotches );
 			aggregate.mNotchAction = Slider::Notch::DrawOnly;
 		}
+				
+		aggregate.addNotchAtMappedValue(0.f);
+		aggregate.addNotchAtMappedValue(1.f);
+		aggregate.mNotchSnapToDist = 8.f;
+		aggregate.mNotchAction = Slider::Notch::Snap;
+		aggregate.mValueQuantize = .05f;
+		
 		aggregate.mValueMappedLo = 1;
 		aggregate.mValueMappedHi = kNumMultimerNotches;
 		

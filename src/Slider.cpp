@@ -117,6 +117,10 @@ void Slider::drawGraph() const
 {
 	if (mGraphDrawAsColumns)
 	{
+		// max line
+		gl::color( .9f, .9f, 1.f );
+		gl::drawLine( mEndpoint[0] - vec2(0,mGraphHeight), mEndpoint[1] - vec2(0,mGraphHeight) );
+		
 		// discrete columns
 		const float w = (mEndpoint[1].x - mEndpoint[0].x) / (float)(mGraphValues.size());
 
@@ -148,6 +152,8 @@ void Slider::drawGraph() const
 				gl::drawLine( b, b - vec2(0,mGraphHeight) );
 			}
 		}
+		
+		// 
 	}
 	else
 	{
@@ -214,7 +220,8 @@ void Slider::drawTextLabel() const
 
 void Slider::drawNotches() const
 {
-	if ( !mNotches.empty() && mNotchAction != Slider::Notch::None )
+	if ( !mNotches.empty() && mNotchAction != Slider::Notch::None && !mIsGraph )
+		// we could draw graph notches on y axis if we wanted...
 	{
 		gl::color( kSliderLineColor * .5f );
 		
@@ -240,10 +247,7 @@ float Slider::getMappedValue() const
 	// pushing value back.
 	// might have been better to track mValue in units user cares about, not 0..1,
 	// but it's not worth rewriting this whole thing right now
-	if ( mValueQuantize > 0.f )
-	{
-		v = roundf( v / mValueQuantize ) * mValueQuantize;
-	}
+	v = quantize( v, mValueQuantize );
 	//
 	
 	return v;
@@ -322,6 +326,10 @@ Slider::setValueWithMouse ( ci::vec2 p )
 		
 		fy = constrain( fy, 0.f, 1.f );
 		
+		// quantize, snap to notch
+		fy = quantizeNormalizedValue( fy, mGraphValueMappedLo, mGraphValueMappedHi, mValueQuantize );
+		fy = notch( fy, mEndpoint[0].y, mEndpoint[0].y - mGraphHeight );
+		
 		mGraphValues[x] = fy;
 		
 		pushValueToSetter();
@@ -337,32 +345,42 @@ Slider::setValueWithMouse ( ci::vec2 p )
 void
 Slider::setNormalizedValue( float normValue )
 {
-	const float kViewSnapDist = 4.f; // in view space
-
 	mValue = constrain( normValue, 0.f, 1.f );
 	
 	// notched?
+	mValue = notch( mValue, mEndpoint[0].x, mEndpoint[1].x );
+	
+	// snap to grid?
+	mValue = quantizeNormalizedValue( mValue, mValueMappedLo, mValueMappedHi, mValueQuantize );
+	
+	// push
+	pushValueToSetter();
+}
+
+float
+Slider::notch( float normValue, float v1, float v2 ) const
+{
 	if ( ! mNotches.empty() )
 	{
 		switch( mNotchAction )
 		{
 			case Slider::Notch::Nearest:
-				mValue = getNearestNotch(mValue);
+				normValue = getNearestNotch(normValue);
 				break;
 				
 			case Slider::Notch::Snap:
 			{
 				// convert back to local view space
-				const float nearestNorm = getNearestNotch(mValue);
+				const float nearestNorm = getNearestNotch(normValue);
 				
-				const float nearestViewX = lerp( mEndpoint[0].x, mEndpoint[1].x, nearestNorm ); 
+				const float nearestViewPos = lerp( v1, v2, nearestNorm ); 
 				
-				const float viewDist = fabsf( nearestViewX - lerp( mEndpoint[0].x, mEndpoint[1].x, mValue ) );
+				const float viewDist = fabsf( nearestViewPos - lerp( v1, v2, normValue ) );
 				
 				// snap?
-				if ( kViewSnapDist >= viewDist )
+				if ( mNotchSnapToDist >= viewDist )
 				{
-					mValue = nearestNorm;
+					normValue = nearestNorm;
 				} 
 			}
 			break;
@@ -373,16 +391,32 @@ Slider::setNormalizedValue( float normValue )
 		}
 	}
 	
-	// snap to grid?
-	if ( mValueQuantize > 0.f )
+	return normValue;
+}
+
+float
+Slider::quantize( float value, float quantize ) const
+{
+	if ( quantize > 0.f )
 	{
-		float q = mValueQuantize / (mValueMappedHi - mValueMappedLo); // in normalized units
-		
-		mValue = roundf( mValue / q ) * q;
+		value = roundf( value / quantize ) * quantize;
 	}
 	
-	// push
-	pushValueToSetter();
+	return value;
+} 
+
+float
+Slider::quantizeNormalizedValue( float valueNorm, float valueMapLo, float valueMapHi, float quantizeMapStep ) const
+{
+	if ( quantizeMapStep > 0.f )
+	{
+		float q = quantizeMapStep / (valueMapHi - valueMapLo);
+			// normalize q value
+		
+		valueNorm = quantize( valueNorm, q );
+	}
+	
+	return valueNorm;
 }
 
 void Slider::setLimitValue( int v )
