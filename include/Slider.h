@@ -52,7 +52,7 @@ public:
 	bool		mIsGraph		=	false;
 	float		mGraphHeight	=	32.f;
 	float		mGraphValueMappedLo=0.f, mGraphValueMappedHi=1.f; // per notch graph		
-	std::vector<float> mGraphValues;
+	std::vector<float> mGraphValues; // each is 0..1
 	
 	// getter-setters
 	typedef std::function< void ( float ) > tSetter;
@@ -75,7 +75,7 @@ public:
 	std::function<std::string(float v)> mMappedValueToStr;
 
 	// methods
-	void		draw() const;
+	void		draw( int highlightIcon=-1 ) const;
 	
 	ci::Rectf	calcHandleRect() const;
 	ci::Rectf	calcPickRect() const; // just of interactive areas
@@ -83,7 +83,9 @@ public:
 	
 	void		setValueWithMouse ( ci::vec2 pos ); 
 	void		setNormalizedValue( float normValue );
+	void		setLimitValue( int v );  // v is 0 (for low), 1 (for high); works on graphs + normal sliders
 	
+	int			pickIcon( ci::vec2 ) const; // -1 for none, 0,1 for which
 	
 	float		getMappedValue() const;
 	void		flipXAxis();

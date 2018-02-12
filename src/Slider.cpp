@@ -68,7 +68,7 @@ void Slider::doLayoutInWidth ( float fitInWidth, float iconGutter )
 	}
 }
 
-void Slider::draw() const
+void Slider::draw( int highlightIcon ) const
 {
 	const auto fontRef = GelboxApp::instance()->getUIFont();
 	
@@ -136,9 +136,12 @@ void Slider::draw() const
 	}
 	
 	// icons
-	gl::color(1,1,1);	
-	gl::draw( mIcon[0], mIconRect[0] );
-	gl::draw( mIcon[1], mIconRect[1] );
+	for( int i=0; i<2; ++i )
+	{
+		if (i==highlightIcon) gl::color( Color::gray(.5f) );
+		else gl::color(1,1,1);
+		gl::draw( mIcon[i], mIconRect[i] );
+	}
 	
 	// text label
 	if (mMappedValueToStr)
@@ -285,6 +288,18 @@ Slider::setNormalizedValue( float normValue )
 	pushValueToSetter();
 }
 
+void Slider::setLimitValue( int v )
+{
+	if (mIsGraph)
+	{
+		for( float& i : mGraphValues ) i=0.f;
+		
+		if (v) mGraphValues.back()  = 1.f;
+		else   mGraphValues.front() = 0.f;
+	}
+	else setNormalizedValue(v); // 0 => 0.f, 1 => 1.f
+}
+
 ci::Rectf
 Slider::calcHandleRect() const
 {
@@ -354,4 +369,11 @@ void Slider::pullValueFromGetter()
 
 		mValue = lmap( value, mValueMappedLo, mValueMappedHi, 0.f, 1.f );
 	}
+}
+
+int	Slider::pickIcon( ci::vec2 p ) const
+{
+	if      ( mIconRect[0].contains(p) ) return 0;
+	else if ( mIconRect[1].contains(p) ) return 1;
+	else return -1;
 }

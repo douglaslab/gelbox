@@ -57,6 +57,8 @@ private:
 	int						mEditFragment = -1; // which fragment index are we editing? 
 	bool					isEditFragmentValid() const;
 	
+	int						mMouseDownIcon = -1;
+	
 	int						mDragSlider = -1;
 	float					mDragSliderStartValue;
 	

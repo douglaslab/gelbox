@@ -13,7 +13,11 @@ using namespace ci;
 
 void SliderView::draw()
 {
-	mSlider.draw();
+	int highlightIcon = mIconHasMouseDown;
+	
+	if ( highlightIcon != mSlider.pickIcon(rootToChild(getMouseLoc())) ) highlightIcon=-1;
+	
+	mSlider.draw( highlightIcon );
 }
 
 void SliderView::mouseDown( ci::app::MouseEvent e )
@@ -24,6 +28,8 @@ void SliderView::mouseDown( ci::app::MouseEvent e )
 	
 	mDragSliderStartValue = mSlider.mValue;
 
+	mIconHasMouseDown = mSlider.pickIcon(local); 
+	
 	if ( mSlider.calcPickRect().contains(local) )
 	{
 		mSlider.setValueWithMouse( local );
@@ -34,11 +40,21 @@ void SliderView::mouseUp  ( ci::app::MouseEvent e )
 {
 	const float kSingleClickDist = 2.f; 
 
+	vec2 localPos = rootToChild(e.getPos());
+	
 	if ( distance( getMouseDownLoc(), getMouseLoc() ) < kSingleClickDist
 	  && mSlider.calcPickRect().contains(e.getPos()) )
 	{
-		mSlider.setValueWithMouse( rootToChild(e.getPos()) );
+		mSlider.setValueWithMouse( localPos );
 	}
+	// click end-cap icon
+	else if ( mIconHasMouseDown != -1 && mIconHasMouseDown == mSlider.pickIcon(localPos) )
+	{
+		mSlider.setLimitValue( mIconHasMouseDown );
+	}
+	
+	// clear state
+	mIconHasMouseDown = -1;
 }
 
 void SliderView::mouseDrag( ci::app::MouseEvent e )

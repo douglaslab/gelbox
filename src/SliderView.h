@@ -32,6 +32,8 @@ public:
 private:
 	void setFrameAndBoundsWithSlider();	
 	
+	int    mIconHasMouseDown = -1; // 0, 1 if it has it
+	
 	bool   mDragHandleHasMouseDown = false;
 	float  mDragSliderStartValue;
 	Slider mSlider;
