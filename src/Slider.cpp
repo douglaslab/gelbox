@@ -66,6 +66,14 @@ void Slider::doLayoutInWidth ( float fitInWidth, float iconGutter )
 		mEndpoint[0].y += d;
 		mEndpoint[1].y += d;
 	}
+	
+	// pick rect
+	vec2 ps = glm::max( mIconSize[0], mIconSize[1] );
+	for ( int i=0; i<2; ++i )
+	{
+		vec2 c = mIconRect[i].getCenter();
+		mIconPickRect[i] = Rectf( c - ps/2.f, c + ps/2.f );
+	}
 }
 
 void Slider::draw( int highlightIcon ) const
@@ -415,7 +423,7 @@ void Slider::pullValueFromGetter()
 
 int	Slider::pickIcon( ci::vec2 p ) const
 {
-	if      ( mIconRect[0].contains(p) ) return 0;
-	else if ( mIconRect[1].contains(p) ) return 1;
+	if      ( mIconPickRect[0].contains(p) ) return 0;
+	else if ( mIconPickRect[1].contains(p) ) return 1;
 	else return -1;
 }

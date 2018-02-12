@@ -254,6 +254,13 @@ void FragmentView::updateLayout()
 			s.mIconRect[i].offsetCenterTo( s.mEndpoint[i] + offset * ( i ? 1.f : -1.f ) );
 			s.mIconRect[i] = snapToPixel(s.mIconRect[i]);
 		}
+
+		// pick rect
+		for ( int i=0; i<2; ++i )
+		{
+			vec2 c = s.mIconRect[i].getCenter();
+			s.mIconPickRect[i] = Rectf( c - kSliderIconNotionalSize/2.f, c + kSliderIconNotionalSize/2.f );
+		}
 		
 		// shift graph endpoints -- after we've layed out icons with proper endpoints
 		if (s.mIsGraph)

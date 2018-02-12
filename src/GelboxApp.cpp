@@ -143,6 +143,49 @@ void GelboxApp::decorateGelViewWithSliders( GelViewRef gelView )
 	const float kIconGutter = 16.f;		
 	
 	Rectf  belowRect = gelView->getFrame();
+
+	// voltage slider
+	{
+		Slider s;
+
+		s.mValueMappedLo = GelSim::kVoltageSliderLow;
+		s.mValueMappedHi = GelSim::kVoltageSliderHigh;
+		s.mValueQuantize = 1.f;
+		
+		s.mNotchAction = Slider::Notch::Snap;
+//		s.addFixedNotches(2);
+		s.addNotchAtMappedValue(GelSim::kVoltageSliderDefaultValue);
+		
+		s.mSetter = [gel,gelView]( float v ) {
+			gel->setVoltage(v);
+			gelView->gelDidChange();
+		};
+		s.mGetter = [gel]() {
+			return gel->getVoltage();
+		};
+		s.mMappedValueToStr = []( float v )
+		{
+			return toString(v) + " V";
+		};
+		
+		fs::path iconPathBase = getAssetPath("slider-icons");
+		s.loadIcons(
+			iconPathBase / "voltage-lo.png",
+			iconPathBase / "voltage-hi.png"
+			); 
+		
+		s.doLayoutInWidth( belowRect.getWidth(), kIconGutter );
+		s.pullValueFromGetter();
+		
+		auto sv = make_shared<SliderView>(s);
+		
+		sv->setFrame( sv->getFrame() + belowRect.getLowerLeft() + vec2(0,kGelGutter) );
+		
+		mViews.addView(sv);
+
+		// next
+		belowRect = sv->getFrame();
+	}
 	
 	// timeline slider
 	{
@@ -188,49 +231,6 @@ void GelboxApp::decorateGelViewWithSliders( GelViewRef gelView )
 		
 		mViews.addView(sv);
 		
-		// next
-		belowRect = sv->getFrame();
-	}	
-
-	// voltage slider
-	{
-		Slider s;
-
-		s.mValueMappedLo = GelSim::kVoltageSliderLow;
-		s.mValueMappedHi = GelSim::kVoltageSliderHigh;
-		s.mValueQuantize = 1.f;
-		
-		s.mNotchAction = Slider::Notch::Snap;
-//		s.addFixedNotches(2);
-		s.addNotchAtMappedValue(GelSim::kVoltageSliderDefaultValue);
-		
-		s.mSetter = [gel,gelView]( float v ) {
-			gel->setVoltage(v);
-			gelView->gelDidChange();
-		};
-		s.mGetter = [gel]() {
-			return gel->getVoltage();
-		};
-		s.mMappedValueToStr = []( float v )
-		{
-			return toString(v) + " V";
-		};
-		
-		fs::path iconPathBase = getAssetPath("slider-icons");
-		s.loadIcons(
-			iconPathBase / "voltage-lo.png",
-			iconPathBase / "voltage-hi.png"
-			); 
-		
-		s.doLayoutInWidth( belowRect.getWidth(), kIconGutter );
-		s.pullValueFromGetter();
-		
-		auto sv = make_shared<SliderView>(s);
-		
-		sv->setFrame( sv->getFrame() + belowRect.getLowerLeft() + vec2(0,kGelGutter) );
-		
-		mViews.addView(sv);
-
 		// next
 		belowRect = sv->getFrame();
 	}

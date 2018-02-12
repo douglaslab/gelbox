@@ -13,9 +13,9 @@ class Slider
 public:
 	
 	// icon, layout
-	std::string mIconName;
+	std::string			mIconName;
 	
-	ci::Rectf	mIconRect[2];
+	ci::Rectf			mIconRect[2], mIconPickRect[2];
 	ci::gl::TextureRef  mIcon[2];
 	glm::vec2			mIconSize[2]; // in points
 	
