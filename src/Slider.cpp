@@ -78,61 +78,18 @@ void Slider::doLayoutInWidth ( float fitInWidth, float iconGutter )
 
 void Slider::draw( int highlightIcon ) const
 {
-	const auto fontRef = GelboxApp::instance()->getUIFont();
-	
-	const bool hasHandle = ! mIsGraph;
-
 	// graph
-	if ( mIsGraph )
-	{
-		const float stepx = 1.f / (float)(mGraphValues.size()-1);
-		
-
-		// build poly
-		PolyLine2 p;
-		
-		p.push_back(mEndpoint[0]);
-		
-		for( int i=0; i<mGraphValues.size(); ++i )
-		{
-			vec2 o = lerp( mEndpoint[0], mEndpoint[1], stepx * (float)i );
-			
-			o.y -= mGraphValues[i] * mGraphHeight; 
-			
-			p.push_back(o);
-		}
-		
-		p.push_back(mEndpoint[1]);
-		
-		
-		// draw it
-		gl::color( ColorA( Color::gray(.5f), .5f ) );
-		gl::drawStrokedRect( calcPickRect() );
-		
-		gl::color( kSliderHandleColor );
-		gl::drawSolid(p);
-		gl::color( kSliderHandleColor * .5f );
-		gl::draw(p);
-	}
+	if ( mIsGraph ) drawGraph();
 		
 	// line
 	gl::color(kSliderLineColor);
 	gl::drawLine(mEndpoint[0], mEndpoint[1]);
 	
 	// notches
-	if ( !mNotches.empty() && mNotchAction != Slider::Notch::None )
-	{
-		gl::color( kSliderLineColor * .5f );
-		
-		for( float v : mNotches )
-		{
-			vec2 c = lerp( mEndpoint[0], mEndpoint[1], v );
-			gl::drawSolidCircle( c, kSliderNotchRadius );
-		}
-	}
+	drawNotches();
 	
 	// handle
-	if ( hasHandle )
+	if ( hasHandle() )
 	{
 		Rectf sliderHandleRect = calcHandleRect();
 		gl::color(kSliderHandleColor);
@@ -150,15 +107,53 @@ void Slider::draw( int highlightIcon ) const
 	}
 	
 	// text label
+	drawTextLabel();
+}
+
+void Slider::drawGraph() const
+{
+	const float stepx = 1.f / (float)(mGraphValues.size()-1);
+
+	// build poly
+	PolyLine2 p;
+	
+	p.push_back(mEndpoint[0]);
+	
+	for( int i=0; i<mGraphValues.size(); ++i )
+	{
+		vec2 o = lerp( mEndpoint[0], mEndpoint[1], stepx * (float)i );
+		
+		o.y -= mGraphValues[i] * mGraphHeight; 
+		
+		p.push_back(o);
+	}
+	
+	p.push_back(mEndpoint[1]);
+	
+	
+	// draw it
+	gl::color( ColorA( Color::gray(.5f), .5f ) );
+	gl::drawStrokedRect( calcPickRect() );
+	
+	gl::color( kSliderHandleColor );
+	gl::drawSolid(p);
+	gl::color( kSliderHandleColor * .5f );
+	gl::draw(p);
+}
+
+void Slider::drawTextLabel() const
+{
 	if (mMappedValueToStr)
 	{
+		const auto fontRef = GelboxApp::instance()->getUIFont();
+		
 		string str = mMappedValueToStr( getMappedValue() );
 		
 		vec2 size = fontRef->measureString(str);
 
 		vec2 baseline;
 		
-		if (hasHandle)
+		if (hasHandle())
 		{
 			Rectf sliderHandleRect = calcHandleRect();
 			
@@ -173,6 +168,20 @@ void Slider::draw( int highlightIcon ) const
 
 		gl::color(0,0,0);		
 		fontRef->drawString( str, snapToPixel(baseline) );
+	}
+}
+
+void Slider::drawNotches() const
+{
+	if ( !mNotches.empty() && mNotchAction != Slider::Notch::None )
+	{
+		gl::color( kSliderLineColor * .5f );
+		
+		for( float v : mNotches )
+		{
+			vec2 c = lerp( mEndpoint[0], mEndpoint[1], v );
+			gl::drawSolidCircle( c, kSliderNotchRadius );
+		}
 	}
 }
 

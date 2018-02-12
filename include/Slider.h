@@ -79,7 +79,12 @@ public:
 	std::function<std::string(float v)> mMappedValueToStr;
 
 	// methods
-	void		draw( int highlightIcon=-1 ) const;
+	void		draw( int highlightIcon=-1 ) const; // call this one; others are internal
+	void		drawGraph() const;
+	void		drawTextLabel() const;
+	void		drawNotches() const;
+	
+	bool		hasHandle() const { return !mIsGraph; }
 	
 	ci::Rectf	calcHandleRect() const;
 	ci::Rectf	calcPickRect() const; // just of interactive areas

@@ -340,6 +340,7 @@ void FragmentView::mouseUp ( ci::app::MouseEvent e )
 		if ( s != -1 && mMouseDownSlider==s && icon==mMouseDownIcon )
 		{
 			mSliders[s].setLimitValue( mMouseDownIcon );
+			fragmentDidChange();
 		}
 	}
 	// click into slider bar
