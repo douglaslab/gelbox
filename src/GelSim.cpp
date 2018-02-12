@@ -59,9 +59,8 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, float voltage, 
 	y = kCurveBase + powf( 1.f - y, kCurveExp );
 	
 	// voltage
-	float vn = (voltage - kVoltageSliderDefaultValue) / ((kVoltageSliderHigh - kVoltageSliderLow)/2.f);
+	float vn = (voltage - kVoltageSliderDefaultValue) / kVoltageSliderDefaultValue;
 	y *= (1.f + vn * 1.f);
-		// this formula is pure sillyness for now; just wiring it up
 	
 	// time
 	y *= time;
