@@ -50,6 +50,17 @@ int Gel::getLaneForSample( SampleRef sample ) const
 	return -1;
 }
 
+void Gel::setSample( SampleRef s, int lane )
+{
+	assert( lane >= 0 && lane < mNumLanes );
+
+	mSamples[lane]=s;
+
+	clearSamples(lane);
+
+	if (s) insertSample( *s, lane );
+}
+
 void Gel::syncBandsToSample( SampleRef sample )
 {
 	int lane = getLaneForSample(sample);

@@ -228,6 +228,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 	
 	mMouseDownBand = Gel::Band(); // clear it
 	mMouseDownMadeLoupe = 0;
+	mMouseDragBandMadeSampleInLane = -1;
 	
 	// add loupe?
 	if ( e.isMetaDown() )
@@ -953,19 +954,28 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 	if ( newlane != -1 && newlane != lane
 	  && ( kDragBandMakesNewSamples || getSample(newlane)) )
 	{
+		// clear old temp sample?
+		if ( mMouseDragBandMadeSampleInLane != -1 )
+		{
+			mGel->setSample( 0, mMouseDragBandMadeSampleInLane );
+			mMouseDragBandMadeSampleInLane=-1;
+			sample=0;
+		}
+
 		// where are we going to?
 		SampleRef toSample = getSample(newlane); 
 		
 		if ( ! toSample )
-		{
+		{			
 			// make it if needed
 			toSample = make_shared<Sample>();
 			mGel->setSample( toSample, newlane );
+			mMouseDragBandMadeSampleInLane = newlane;
 		}
 
 		// remove, add		
 		toSample->mFragments.push_back( frag );
-		sample->removeFragment(fragi); // INVALIDATES frag!!!
+		if (sample) sample->removeFragment(fragi); // INVALIDATES frag!!!
 		
 		mMouseDragBand.mLane = newlane;
 		mMouseDragBand.mFragment = toSample->mFragments.size()-1;
@@ -990,7 +1000,7 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 	}
 	
 	// update
-	sampleDidChange(sample);
+	if (sample) sampleDidChange(sample);
 	
 	// do 
 	if (kHoverGelDetailViewOnBandDrag) updateHoverGelDetailView();

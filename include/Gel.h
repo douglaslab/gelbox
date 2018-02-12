@@ -63,7 +63,7 @@ public:
 		int			numLanes,
 		float		ymargin );
 	
-	void  setSample( SampleRef s, int lane ) { mSamples[lane]=s; syncBandsToSample(s); }
+	void  setSample( SampleRef s, int lane );
 	std::vector<SampleRef>&	getSamples() { return mSamples; }
 	void  syncBandsToSample( SampleRef ); // tell us when SampleRef changed...
 	int	  getLaneForSample ( SampleRef ) const;

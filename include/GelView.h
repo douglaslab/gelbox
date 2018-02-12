@@ -67,6 +67,7 @@ private:
 	
 	Gel::Band			mMouseDownBand;
 	Gel::Band			mMouseDragBand;
+	int					mMouseDragBandMadeSampleInLane=-1;
 	
 	ci::gl::TextureRef	mMicrotubeIcon;
 		
