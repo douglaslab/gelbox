@@ -3,6 +3,7 @@
 
 #include "Gel.h"
 #include "GelView.h"
+#include "GelSim.h"
 #include "Sample.h"
 #include "SampleTubeView.h"
 #include "SampleView.h"
@@ -101,23 +102,7 @@ void GelboxApp::makeGel( vec2 center )
 	// this messes up our Timeline view, which is parented to us.
 	// i think there is a bug in View that prevents me from putting it right;
 	// but in any event, doing the timeline layout in cm doesn't feel right (though maybe it is)
-/*
-	// gel
-	auto gel = make_shared<Gel>();
-	gel->setLayout( 12.f, 14.f, 5, 1.f );
-	
-	// gel view
-	auto gelView = make_shared<GelView>( gel );
-	
-	{
-		Rectf frame( vec2(0,0), gel->getSize() );
-		frame.scale( 300.f / frame.getWidth() ); // make gelview 300pts wide (it's only 12cm wide internally) 
-		frame.offsetCenterTo(center);
-		
-		gelView->setFrame( frame );
-		mViews.addView(gelView);
-	}
-*/
+	// -- maybe it should just track it as a sibling attachment?
 
 	// gel
 	auto gel = make_shared<Gel>();
@@ -134,16 +119,38 @@ void GelboxApp::makeGel( vec2 center )
 		mViews.addView(gelView);
 	}
 	
+	decorateGelViewWithSliders(gelView);
+	
+	// add samples
+	try
+	{
+		fs::path ladder = getAssetPath("palette") / "1kbladder.xml";
+		
+		SampleRef sample = loadSample( ladder );
+		
+		gel->setSample( sample, 0 );
+	}
+	catch (...) {
+		cerr << "ERROR loading 1kb ladder" << endl;
+	}
+}
+
+void GelboxApp::decorateGelViewWithSliders( GelViewRef gelView )
+{
+	auto gel = gelView->getGel();
+
+	const float kGelGutter  = 20;
+	const float kIconGutter = 16.f;		
+	
+	Rectf  belowRect = gelView->getFrame();
+	
 	// timeline slider
 	{
-		const float kMaxMinutes = 60 * 3; // 3 hrs 
-		const float kGelGutter  = 20;
-		const float kIconGutter = 16.f;
 		
 		Slider s;
 
 		s.mValueMappedLo = 0;
-		s.mValueMappedHi = 1.f;
+		s.mValueMappedHi = 1.f; // gel sim tracks time from 0..1
 		s.mSetter = [gel,gelView]( float v ) {
 			gel->setTime(v);
 			gelView->timeDidChange();
@@ -151,9 +158,9 @@ void GelboxApp::makeGel( vec2 center )
 		s.mGetter = [gel]() {
 			return gel->getTime();
 		};
-		s.mMappedValueToStr = [kMaxMinutes]( float v )
+		s.mMappedValueToStr = []( float v )
 		{
-			v *= kMaxMinutes;
+			v *= GelSim::kTimelineMaxMinutes;
 			
 			int m = roundf(v); // we get fractional values, so fix that.
 			
@@ -172,27 +179,57 @@ void GelboxApp::makeGel( vec2 center )
 			iconPathBase / "clock-hi.png"
 			); 
 		
-		s.doLayoutInWidth( gelView->getFrame().getWidth(), kIconGutter );
+		s.doLayoutInWidth( belowRect.getWidth(), kIconGutter );
 		s.pullValueFromGetter();
 		
 		auto sv = make_shared<SliderView>(s);
 		
-		sv->setFrame( sv->getFrame() + gelView->getFrame().getLowerLeft() + vec2(0,kGelGutter) );
+		sv->setFrame( sv->getFrame() + belowRect.getLowerLeft() + vec2(0,kGelGutter) );
 		
 		mViews.addView(sv);
-	}
-	
-	// add samples
-	try
+		
+		// next
+		belowRect = sv->getFrame();
+	}	
+
+	// voltage slider
 	{
-		fs::path ladder = getAssetPath("palette") / "1kbladder.xml";
+		Slider s;
+
+		s.mValueMappedLo = GelSim::kVoltageSliderLow;
+		s.mValueMappedHi = GelSim::kVoltageSliderHigh;
+		s.mValueQuantize = 1.f;
 		
-		SampleRef sample = loadSample( ladder );
+		s.mSetter = [gel,gelView]( float v ) {
+//			gel->setTime(v);
+//			gelView->timeDidChange();
+		};
+		s.mGetter = [gel]() {
+			return GelSim::kVoltageSliderNotch;
+//			return gel->getTime();
+		};
+		s.mMappedValueToStr = []( float v )
+		{
+			return toString(v) + " V";
+		};
 		
-		gel->setSample( sample, 0 );
-	}
-	catch (...) {
-		cerr << "ERROR loading 1kb ladder" << endl;
+		fs::path iconPathBase = getAssetPath("slider-icons");
+		s.loadIcons(
+			iconPathBase / "voltage-lo.png",
+			iconPathBase / "voltage-hi.png"
+			); 
+		
+		s.doLayoutInWidth( belowRect.getWidth(), kIconGutter );
+		s.pullValueFromGetter();
+		
+		auto sv = make_shared<SliderView>(s);
+		
+		sv->setFrame( sv->getFrame() + belowRect.getLowerLeft() + vec2(0,kGelGutter) );
+		
+		mViews.addView(sv);
+
+		// next
+		belowRect = sv->getFrame();
 	}
 }
 

@@ -34,7 +34,6 @@ class GelboxApp : public ci::app::App {
 	void update() override;
 	void draw() override;
 	
-	void makeGel( ci::vec2 center );
 	
 	DropTargetRef pickDropTarget( ci::vec2 ) const;
 	
@@ -49,5 +48,8 @@ class GelboxApp : public ci::app::App {
 
 
 	SampleRef loadSample( ci::fs::path ) const;	
+
+	void makeGel( ci::vec2 center );
+	void decorateGelViewWithSliders( GelViewRef );
 	
 };

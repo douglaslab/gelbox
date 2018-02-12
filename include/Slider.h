@@ -46,7 +46,8 @@ public:
 	// value mapping
 	float		mValue=.5f; // 0..1
 	float		mValueMappedLo=0.f, mValueMappedHi=1.f;
-
+	float		mValueQuantize=0.f;
+	
 	// graph
 	bool		mIsGraph		=	false;
 	float		mGraphHeight	=	32.f;
@@ -83,7 +84,8 @@ public:
 	void		setValueWithMouse ( ci::vec2 pos ); 
 	void		setNormalizedValue( float normValue );
 	
-	float		getMappedValue() const { return ci::lerp( mValueMappedLo, mValueMappedHi, mValue ); }
+	
+	float		getMappedValue() const;
 	void		flipXAxis();
 	
 };

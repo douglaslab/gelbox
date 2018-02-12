@@ -18,6 +18,11 @@ namespace GelSim
 const float kSampleMassHigh = 125.f; // 125ml
 const int   kBaseCountHigh  = 14000;
 
+const int   kTimelineMaxMinutes = 60 * 3; // 3 hrs
+
+const int   kVoltageSliderLow   = -300;
+const int   kVoltageSliderHigh  =  300;
+const int   kVoltageSliderNotch =  70;
 
 /*
 	Degrade [0..2]

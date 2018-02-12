@@ -167,6 +167,24 @@ void Slider::draw() const
 	}
 }
 
+float Slider::getMappedValue() const
+{
+	float v = ci::lerp( mValueMappedLo, mValueMappedHi, mValue );
+	
+	// quantization hack...
+	// because of some numerical imprecision, we quantize AGAIN before
+	// pushing value back.
+	// might have been better to track mValue in units user cares about, not 0..1,
+	// but it's not worth rewriting this whole thing right now
+	if ( mValueQuantize > 0.f )
+	{
+		v = roundf( v / mValueQuantize ) * mValueQuantize;
+	}
+	//
+	
+	return v;
+}
+
 void Slider::flipXAxis()
 {
 	// typical slider stuff
@@ -253,6 +271,14 @@ Slider::setNormalizedValue( float normValue )
 			case Slider::Notch::DrawOnly:
 				break;
 		}
+	}
+	
+	// snap to grid?
+	if ( mValueQuantize > 0.f )
+	{
+		float q = mValueQuantize / (mValueMappedHi - mValueMappedLo); // in normalized units
+		
+		mValue = roundf( mValue / q ) * q;
 	}
 	
 	// push

@@ -122,6 +122,7 @@ FragmentView::FragmentView()
 		
 		size.mValueMappedLo = kMinBases;
 		size.mValueMappedHi = kMaxBases;
+		size.mValueQuantize = 100;
 		size.mSetter = [this]( float v ) {
 			getEditFragment().mBases = roundf(v);  
 		};
@@ -130,8 +131,6 @@ FragmentView::FragmentView()
 		};
 		size.mMappedValueToStr = []( float v )
 		{
-			v = roundf(v); // we get fractional values, so fix that.
-			
 			return addCommasToNumericStr( toString(v) ) + " bp";
 		};
 		
