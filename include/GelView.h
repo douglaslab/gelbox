@@ -50,7 +50,7 @@ public:
 	void		closeSampleView();
 
 	void		sampleDidChange( SampleRef );
-	void		timeDidChange();
+	void		gelDidChange();
 	void		updateGelDetailViewContent( SampleViewRef ) const;
 	
 	void		newFragmentAtPos( ci::vec2 ); // in root (e.g. mouse) space 
@@ -111,6 +111,7 @@ private:
 					int		findy,
 					int		aggregate,
 					float	aspectRatio,
+					float	voltage,
 					float	time,
 					float	ystart,
 					float	yscale,

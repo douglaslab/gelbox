@@ -29,7 +29,7 @@ void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade )
 //	if ( b.mDegrade > 1.f ) y1b -= min( 1.f, b.mDegrade - 1.f ); // as degrade goes 1..2, y1 moves to end of chart--shorter bp  
 }
 
-float calcDeltaY( int bases, int aggregation, float aspectRatio, float time )
+float calcDeltaY( int bases, int aggregation, float aspectRatio, float voltage, float time )
 {
 	// Constants
 	const int   kHighBaseCountNorm = kBaseCountHigh;
@@ -58,6 +58,11 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, float time )
 	// curve
 	y = kCurveBase + powf( 1.f - y, kCurveExp );
 	
+	// voltage
+	float vn = (voltage - kVoltageSliderDefaultValue) / ((kVoltageSliderHigh - kVoltageSliderLow)/2.f);
+	y *= (1.f + vn * 1.f);
+		// this formula is pure sillyness for now; just wiring it up
+	
 	// time
 	y *= time;
 	
@@ -65,11 +70,11 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, float time )
 	return y;
 }
 
-float calcDiffusionInflation( int bases, int aggregation, float aspectRatio, float time )
+float calcDiffusionInflation( int bases, int aggregation, float aspectRatio, float voltage, float time )
 {
 	const float kFraction = .02f;
 	
-	return kFraction * calcDeltaY( bases, aggregation, aspectRatio, time );
+	return kFraction * calcDeltaY( bases, aggregation, aspectRatio, voltage, time );
 }
 
 

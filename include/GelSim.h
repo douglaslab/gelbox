@@ -20,9 +20,10 @@ const int   kBaseCountHigh  = 14000;
 
 const int   kTimelineMaxMinutes = 60 * 3; // 3 hrs
 
-const int   kVoltageSliderLow   = -300;
-const int   kVoltageSliderHigh  =  300;
-const int   kVoltageSliderNotch =  70;
+const float kVoltageSliderLow   = -300;
+const float kVoltageSliderHigh  =  300;
+const float kVoltageSliderNotch =  70;
+const float kVoltageSliderDefaultValue = kVoltageSliderNotch;
 
 /*
 	Degrade [0..2]
@@ -38,9 +39,9 @@ void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade );
 	
 	How far on a normalized y axis of gel will this sample move?
 */
-float calcDeltaY( int bases, int aggregation, float aspectRatio, float time );
+float calcDeltaY( int bases, int aggregation, float aspectRatio, float voltage, float time );
 
-float calcDiffusionInflation( int bases, int aggregation, float aspectRatio, float time ); // returns same units as above
+float calcDiffusionInflation( int bases, int aggregation, float aspectRatio, float voltage, float time ); // returns same units as above
 
 
 } // namespace

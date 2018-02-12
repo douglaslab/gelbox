@@ -153,7 +153,7 @@ void GelboxApp::decorateGelViewWithSliders( GelViewRef gelView )
 		s.mValueMappedHi = 1.f; // gel sim tracks time from 0..1
 		s.mSetter = [gel,gelView]( float v ) {
 			gel->setTime(v);
-			gelView->timeDidChange();
+			gelView->gelDidChange();
 		};
 		s.mGetter = [gel]() {
 			return gel->getTime();
@@ -201,12 +201,11 @@ void GelboxApp::decorateGelViewWithSliders( GelViewRef gelView )
 		s.mValueQuantize = 1.f;
 		
 		s.mSetter = [gel,gelView]( float v ) {
-//			gel->setTime(v);
-//			gelView->timeDidChange();
+			gel->setVoltage(v);
+			gelView->gelDidChange();
 		};
 		s.mGetter = [gel]() {
-			return GelSim::kVoltageSliderNotch;
-//			return gel->getTime();
+			return gel->getVoltage();
 		};
 		s.mMappedValueToStr = []( float v )
 		{

@@ -16,6 +16,11 @@ using namespace ci;
 const vec2 kLaneVec(1,0);
 const vec2 kPosVec (0,1);
 
+Gel::Gel()
+{
+	mVoltage = GelSim::kVoltageSliderDefaultValue;
+}
+
 void Gel::setLayout(
 	float		lane_dimension, 
 	float		pos_elec_dimension,
@@ -200,20 +205,26 @@ void Gel::stepTime ( float dt )
 {
 	mTime += dt;
 	mTime = min( mTime, mDuration );
-	updateBandsWithTime(mTime);
+	updateBands();
 }
 
 void Gel::setTime( float t )
 {
 	mTime = t;
-	updateBandsWithTime(mTime);
+	updateBands();
 }
 
-void Gel::updateBandsWithTime( float t )
+void Gel::setVoltage( float v )
+{
+	mVoltage = v;
+	updateBands();
+}
+
+void Gel::updateBands()
 {
 	for( auto &b : mBands )
 	{
-		b.mExists = t >= b.mCreateTime;
+		b.mExists = mTime >= b.mCreateTime;
 		
 		b.mBounds   = calcBandBounds(b);
 		b.mAlpha[0] = calcBandAlpha (b,0);
@@ -229,10 +240,10 @@ ci::Rectf Gel::calcBandBounds( const Band& b ) const
 
 	Rectf r = b.mStartBounds;
 	
-	r.y1 += GelSim::calcDeltaY( b.mBases[0], b.mMultimer[0], b.mAspectRatio, bandTime ) * ySpaceScale;
-	r.y2 += GelSim::calcDeltaY( b.mBases[1], b.mMultimer[1], b.mAspectRatio, bandTime ) * ySpaceScale;
+	r.y1 += GelSim::calcDeltaY( b.mBases[0], b.mMultimer[0], b.mAspectRatio, mVoltage, bandTime ) * ySpaceScale;
+	r.y2 += GelSim::calcDeltaY( b.mBases[1], b.mMultimer[1], b.mAspectRatio, mVoltage, bandTime ) * ySpaceScale;
 	
-	float inflate = GelSim::calcDiffusionInflation( b.mBases[1], b.mMultimer[1], b.mAspectRatio, bandTime ) * ySpaceScale;
+	float inflate = GelSim::calcDiffusionInflation( b.mBases[1], b.mMultimer[1], b.mAspectRatio, mVoltage, bandTime ) * ySpaceScale;
 	r.inflate( vec2(inflate) );
 	// use smaller (faster, more inflation) size. we could use a poly, and inflate top vs. bottom differently.
 	// with degradation, to see more diffusion we need to use [1], since that's what moves first

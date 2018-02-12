@@ -386,6 +386,7 @@ void GelView::newFragmentAtPos( ci::vec2 pos )
 			rootToChild(pos).y,
 			1, // aggregate
 			frag.mAspectRatio, // aspect
+			mGel->getVoltage(),
 			mGel->getTime(),
 			mGel->getWellBounds(lane).getCenter().y,
 			mGel->getSampleDeltaYSpaceScale() );
@@ -528,7 +529,7 @@ void GelView::updateLoupes()
 	}
 }
 
-void GelView::timeDidChange()
+void GelView::gelDidChange()
 {
 	updateLoupes();
 }
@@ -941,6 +942,7 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 		rootToChild(e.getPos()).y + dragDeltaY,
 		aggregate,
 		frag.mAspectRatio,
+		mGel->getVoltage(),
 		mGel->getTime(),
 		mGel->getWellBounds(lane).y1, //getCenter().y,
 		mGel->getSampleDeltaYSpaceScale() );		
@@ -1006,6 +1008,7 @@ void GelView::drawReverseSolverTest()
 			
 			int   aggregate = 1;
 			float aspect = 1.f;
+			float voltage = mGel->getVoltage();
 			float time = mGel->getTime();
 			
 			tReverseGelSolverCache cache;
@@ -1014,6 +1017,7 @@ void GelView::drawReverseSolverTest()
 				mouseLocal.y,
 				aggregate,
 				aspect,
+				voltage,
 				time,
 				mGel->getWellBounds(lane).getCenter().y,
 				mGel->getSampleDeltaYSpaceScale(),
@@ -1023,8 +1027,8 @@ void GelView::drawReverseSolverTest()
 
 			const float ySpaceScale = mGel->getSampleDeltaYSpaceScale();
 			
-			r.y1 += GelSim::calcDeltaY( bp, aggregate, aspect, time ) * ySpaceScale;
-			r.y2 += GelSim::calcDeltaY( bp, aggregate, aspect, time ) * ySpaceScale;
+			r.y1 += GelSim::calcDeltaY( bp, aggregate, aspect, voltage, time ) * ySpaceScale;
+			r.y2 += GelSim::calcDeltaY( bp, aggregate, aspect, voltage, time ) * ySpaceScale;
 			
 			gl::color(1, 0, 0);
 			gl::drawSolidRect(r);
@@ -1048,6 +1052,7 @@ int GelView::solveBasePairForY(
 		int		findy,
 		int		aggregate,
 		float	aspectRatio,
+		float	voltage,
 		float	time,
 		float	ystart,
 		float	yscale,
@@ -1064,9 +1069,10 @@ int GelView::solveBasePairForY(
 	
 	do
 	{
-		int y = ystart + GelSim::calcDeltaY( bp, aggregate, aspectRatio, time ) * yscale
-					   - GelSim::calcDiffusionInflation( bp, aggregate, aspectRatio, time ) * yscale;
+		int y = ystart + GelSim::calcDeltaY( bp, aggregate, aspectRatio, voltage, time ) * yscale
+					   - GelSim::calcDiffusionInflation( bp, aggregate, aspectRatio, voltage, time ) * yscale;
 			// use cache here for small perf. gain?
+			// also, might be better here to track two rects per band, and just use inner non-diffused band for drag and not calc inflation here.  
 		
 		if (cache) (*cache)[y] = bp;
 		

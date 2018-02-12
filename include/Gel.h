@@ -24,6 +24,8 @@ class Gel
 {
 public:
 	
+	Gel();
+	
 	// A single simulated Band of macromolecule/fragment
 	class Band
 	{
@@ -75,6 +77,9 @@ public:
 	void  setIsPaused( bool v ) { mIsPaused=v; }
 	bool  isFinishedPlaying() const { return getTime() >= getDuration(); }
 	
+	void  setVoltage( float );
+	float getVoltage() const { return mVoltage; }
+	
 	const std::vector<Band>&	getBands() const { return mBands; }
 	const Band*	getSlowestBandInFragment( int lane, int frag ) const;
 	Band		getSlowestBandInFragment( Band query );
@@ -91,7 +96,7 @@ private:
 	
 	std::vector<SampleRef>	mSamples;
 	
-	void updateBandsWithTime( float t );
+	void updateBands();
 	ci::Rectf calcBandBounds( const Band& ) const;
 	float     calcBandAlpha ( const Band&, int i ) const; // uses bounds, so do that first
 	
@@ -103,6 +108,8 @@ private:
 	float					mTime	  = 1.f;
 	float					mDuration = 1.f;
 	bool					mIsPaused = true;
+	
+	float					mVoltage;
 	
 	// layout
 	glm::vec2				mSize; // ( lane dimension, pos elec dimension ) cm
