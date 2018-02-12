@@ -281,15 +281,25 @@ void FragmentView::mouseDown( ci::app::MouseEvent e )
 	
 	int sliderB = pickSliderBar(local);
 	int sliderH = pickSliderHandle(local);
+	int sliderI = pickSliderIcon(local,mMouseDownIcon);
 	int color   = pickColor(local);
 	
-	if ( sliderH != -1 )
+	mMouseDownSlider=-1;
+	
+	if ( sliderI != -1 )
+	{
+		// nothing; just capture this case
+		mMouseDownSlider = sliderI;
+	}
+	else if ( sliderH != -1 )
 	{
 		mDragSlider = sliderH;
+		mMouseDownSlider = sliderH;
 	}
 	else if ( sliderB != -1 )
 	{
 		mDragSlider = sliderB;
+		mMouseDownSlider = sliderB;
 		
 		mSliders[mDragSlider].setValueWithMouse(local);
 
@@ -312,10 +322,22 @@ void FragmentView::mouseUp ( ci::app::MouseEvent e )
 {
 	const float kSingleClickDist = 2.f; 
 	
-	if ( distance( getMouseDownLoc(), getMouseLoc() ) < kSingleClickDist )
+	vec2 local = rootToChild( e.getPos() );
+
+	// click end-cap icon
+	if ( mMouseDownIcon != -1 )
 	{
-		vec2 local = rootToChild( e.getPos() );
+		int icon;
+		int s = pickSliderIcon(local,icon);
 		
+		if ( s != -1 && mMouseDownSlider==s && icon==mMouseDownIcon )
+		{
+			mSliders[s].setLimitValue( mMouseDownIcon );
+		}
+	}
+	// click into slider bar
+	else if ( distance( getMouseDownLoc(), getMouseLoc() ) < kSingleClickDist )
+	{
 		int s = pickSliderBar( local );
 
 		if ( s != -1 )
@@ -325,7 +347,8 @@ void FragmentView::mouseUp ( ci::app::MouseEvent e )
 		}
 	}
 	
-	// clear drag
+	// clear
+	mMouseDownIcon=-1;
 	mDragSlider=-1;
 }
 
@@ -454,9 +477,20 @@ void FragmentView::draw()
 	gl::drawStrokedRect(getBounds());
 	
 	// sliders
-	for ( const auto &s : mSliders )
+	for ( int i=0; i<mSliders.size(); ++i )
 	{
-		s.draw();
+		const auto &s = mSliders[i];
+
+		int hicon = -1;
+		
+		if (mMouseDownSlider==i)
+		{
+			hicon = mMouseDownIcon;
+			
+			if ( hicon != s.pickIcon(rootToChild(getMouseLoc())) ) hicon=-1;
+		}
+		
+		s.draw(hicon);
 	}
 	
 	// colors
@@ -508,6 +542,25 @@ int	FragmentView::pickSliderBar( glm::vec2 p ) const
 		}
 	}
 	
+	return -1;
+}
+
+int FragmentView::pickSliderIcon  ( glm::vec2 p, int &icon ) const
+{
+	for ( int i=0; i<mSliders.size(); ++i )
+	{
+		const Slider& s = mSliders[i];
+		
+		int v = s.pickIcon(p);
+		
+		if (v!=-1)
+		{
+			icon = v;
+			return i;
+		}
+	}
+	
+	icon = -1;
 	return -1;
 }
 

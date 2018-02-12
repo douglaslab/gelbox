@@ -57,6 +57,7 @@ private:
 	int						mEditFragment = -1; // which fragment index are we editing? 
 	bool					isEditFragmentValid() const;
 	
+	int						mMouseDownSlider = -1;
 	int						mMouseDownIcon = -1;
 	
 	int						mDragSlider = -1;
@@ -65,7 +66,8 @@ private:
 	std::vector<Slider>		mSliders;
 	
 	int						pickSliderHandle( glm::vec2 ) const; // local coords
-	int						pickSliderBar( glm::vec2 ) const;
+	int						pickSliderBar   ( glm::vec2 ) const;
+	int						pickSliderIcon  ( glm::vec2, int &icon ) const;
 	
 	void					syncSlidersToModel(); // just reads it in
 	void					fragmentDidChange() const;

@@ -334,7 +334,10 @@ void Slider::setLimitValue( int v )
 		for( float& i : mGraphValues ) i=0.f;
 		
 		if (v) mGraphValues.back()  = 1.f;
-		else   mGraphValues.front() = 0.f;
+		else   mGraphValues.front() = 1.f;
+		
+		// push
+		pushValueToSetter();
 	}
 	else setNormalizedValue(v); // 0 => 0.f, 1 => 1.f
 }
