@@ -200,6 +200,10 @@ void GelboxApp::decorateGelViewWithSliders( GelViewRef gelView )
 		s.mValueMappedHi = GelSim::kVoltageSliderHigh;
 		s.mValueQuantize = 1.f;
 		
+		s.mNotchAction = Slider::Notch::Snap;
+//		s.addFixedNotches(2);
+		s.addNotchAtMappedValue(GelSim::kVoltageSliderDefaultValue);
+		
 		s.mSetter = [gel,gelView]( float v ) {
 			gel->setVoltage(v);
 			gelView->gelDidChange();

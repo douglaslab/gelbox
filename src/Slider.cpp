@@ -112,15 +112,13 @@ void Slider::draw( int highlightIcon ) const
 	gl::drawLine(mEndpoint[0], mEndpoint[1]);
 	
 	// notches
-	if ( mNotches>0 && mNotchAction != Slider::Notch::None )
+	if ( !mNotches.empty() && mNotchAction != Slider::Notch::None )
 	{
 		gl::color( kSliderLineColor * .5f );
 		
-		float step = 1.f / (float)(mNotches-1);
-		
-		for( int i=0; i<mNotches; ++i )
+		for( float v : mNotches )
 		{
-			vec2 c = lerp( mEndpoint[0], mEndpoint[1], step * (float)i );
+			vec2 c = lerp( mEndpoint[0], mEndpoint[1], v );
 			gl::drawSolidCircle( c, kSliderNotchRadius );
 		}
 	}
@@ -170,6 +168,11 @@ void Slider::draw( int highlightIcon ) const
 	}
 }
 
+float Slider::calcNormalizedValue( float mappedValue ) const
+{
+	return lmap( mappedValue, mValueMappedLo, mValueMappedHi, 0.f, 1.f );
+}
+
 float Slider::getMappedValue() const
 {
 	float v = ci::lerp( mValueMappedLo, mValueMappedHi, mValue );
@@ -201,6 +204,45 @@ void Slider::flipXAxis()
 	// graph
 	mAreGraphValuesReversed = ! mAreGraphValuesReversed;
 	mGraphValues = vector<float>( mGraphValues.rbegin(), mGraphValues.rend() );
+}
+
+void Slider::addFixedNotches( int numNotches )
+{
+	mNotches.clear();
+	
+	if (numNotches<2) return; // no sense make
+	
+	for( int i=0; i<numNotches; ++i )
+	{
+		float v = (float)i / (float)(numNotches-1);
+		
+		mNotches.push_back(v);
+	}
+}
+
+void Slider::addNotchAtMappedValue( float v )
+{
+	mNotches.push_back( calcNormalizedValue(v) );
+}
+
+float Slider::getNearestNotch( float toNormV ) const
+{
+	// assuming mNotches unsorted
+	
+	float d = MAXFLOAT;
+	float v = toNormV;
+	
+	for( int i=0; i<mNotches.size(); ++i )
+	{
+		float id = fabsf( mNotches[i] - toNormV );
+		
+		if ( id < d ) {
+			d = id;
+			v = mNotches[i];
+		}
+	}
+	
+	return v;
 }
 
 void
@@ -242,21 +284,18 @@ Slider::setNormalizedValue( float normValue )
 	mValue = constrain( normValue, 0.f, 1.f );
 	
 	// notched?
-	if ( mNotches > 0 )
+	if ( ! mNotches.empty() )
 	{
 		switch( mNotchAction )
 		{
 			case Slider::Notch::Nearest:
-				mValue = round( mValue * (float)(mNotches-1) );
-				mValue /= (float)(mNotches-1);
+				mValue = getNearestNotch(mValue);
 				break;
 				
 			case Slider::Notch::Snap:
 			{
-				const float nearestNotchNum = round( mValue * (float)(mNotches-1) ); // [ 0, 1, ... mNotches-1 ]
-				
 				// convert back to local view space
-				const float nearestNorm = nearestNotchNum / (float)(mNotches-1);
+				const float nearestNorm = getNearestNotch(mValue);
 				
 				const float nearestViewX = lerp( mEndpoint[0].x, mEndpoint[1].x, nearestNorm ); 
 				

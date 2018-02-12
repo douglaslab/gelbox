@@ -26,13 +26,17 @@ public:
 	/*
 		[ ] ----- [ ]
 		   ^     ^      iconGutter
-		|-------------| fitInWidth
+		|-----------|   fitInWidth
 	
 		topleft is at origin
 	*/
 	
 	// notches
-	int			mNotches=0;
+//	int			mNotches=0;
+	std::vector<float> mNotches; // at arbitrary points on line; does not need to be sorted. 0..1
+	void  addFixedNotches( int numNotches );
+	void  addNotchAtMappedValue( float v );
+	float getNearestNotch( float toNormV ) const;
 	
 	enum class Notch
 	{
@@ -87,6 +91,7 @@ public:
 	
 	int			pickIcon( ci::vec2 ) const; // -1 for none, 0,1 for which
 	
+	float		calcNormalizedValue( float mappedValue ) const;
 	float		getMappedValue() const;
 	void		flipXAxis();
 	

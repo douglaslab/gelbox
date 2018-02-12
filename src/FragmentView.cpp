@@ -165,13 +165,13 @@ FragmentView::FragmentView()
 		};
 		
 		
-		aggregate.mNotches = kNumMultimerNotches;
+		aggregate.addFixedNotches( kNumMultimerNotches );
 		aggregate.mNotchAction = Slider::Notch::DrawOnly;
 		aggregate.mValueMappedLo = 1;
 		aggregate.mValueMappedHi = kNumMultimerNotches;
 		
 		aggregate.mIsGraph = true;
-		aggregate.mGraphValues.resize( aggregate.mNotches );
+		aggregate.mGraphValues.resize( kNumMultimerNotches );
 		aggregate.mGraphHeight = kSliderGraphHeight; 
 		for( float &x : aggregate.mGraphValues ) x = randFloat(); // test data		
 		
@@ -202,7 +202,7 @@ FragmentView::FragmentView()
 		degrade.mGetter = [this]() {
 			return getEditFragment().mDegrade; 
 		};
-		degrade.mNotches = 3;
+		degrade.addFixedNotches(3);
 		degrade.mNotchAction = Slider::Notch::Snap;
 		
 		// load icons
