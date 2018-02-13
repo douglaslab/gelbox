@@ -5,14 +5,14 @@
 #include "GelView.h"
 #include "GelSim.h"
 #include "Sample.h"
-#include "SampleTubeView.h"
+//#include "SampleTubeView.h"
 #include "SampleView.h"
 #include "View.h"
 #include "Slider.h"
 #include "SliderView.h"
 #include "ImageView.h"
 #include "Interaction.h"
-#include "OperationView.h"
+//#include "OperationView.h"
 
 #include "GelboxApp.h"
 
@@ -74,26 +74,6 @@ void GelboxApp::setup()
 			cout << "Could not find palette" << endl;
 		}
 	}	
-	
-	// deprecated
-	if (0)
-	{
-		auto ov = make_shared<OperationView>("Degrade",
-			[]( const Sample &s )
-			{
-				Sample s2=s;
-				s2.degrade(.1f);
-				return s2;
-			}
-		);
-		
-		Rectf r( 0, 0, 64, 64 );
-		r.offsetCenterTo( vec2(500,64) );
-		
-		ov->setFrameAndBoundsWithSize(r);
-		
-		mViews.addView(ov);
-	}
 }
 
 void GelboxApp::makeGel( vec2 center )
@@ -155,6 +135,7 @@ void GelboxApp::decorateGelViewWithSliders( GelViewRef gelView )
 		s.mNotchAction = Slider::Notch::Snap;
 //		s.addFixedNotches(2);
 		s.addNotchAtMappedValue(GelSim::kVoltageSliderDefaultValue);
+		s.addNotchAtMappedValue(0.f);
 		
 		s.mSetter = [gel,gelView]( float v ) {
 			gel->setVoltage(v);
@@ -235,7 +216,7 @@ void GelboxApp::decorateGelViewWithSliders( GelViewRef gelView )
 		belowRect = sv->getFrame();
 	}
 }
-
+/*
 DropTargetRef GelboxApp::pickDropTarget( ci::vec2 loc ) const
 {
 	DropTargetRef target;
@@ -258,7 +239,7 @@ DropTargetRef GelboxApp::pickDropTarget( ci::vec2 loc ) const
 	});
 	
 	return target;
-}
+}*/
 
 void GelboxApp::mouseDown( MouseEvent event )
 {
@@ -302,7 +283,7 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 		std::string ext = i.extension().string();
 		
 		// xml?
-		if ( ext == ".xml" )
+/*		if ( ext == ".xml" )
 		{
 			try
 			{
@@ -322,7 +303,7 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 			catch (...) {
 				cout << "Failed to load .xml '" << i << "'" << endl;
 			}
-		}
+		}*/
 		
 		// image?
 		if ( find( imgExtensions.begin(), imgExtensions.end(), ext ) != imgExtensions.end() )

@@ -7,7 +7,6 @@
 //
 
 #include "GelView.h"
-#include "DropTarget.h" 
 #include "SampleView.h"
 #include "FragmentView.h" // for FragmentView::getColorPalette()
 #include "GelSim.h"
@@ -448,7 +447,7 @@ void GelView::openSampleView()
 		{
 			// make view
 			mSampleView = make_shared<SampleView>();
-			mSampleView->setGelView( shared_from_this() );
+			mSampleView->setGelView( dynamic_pointer_cast<GelView>(shared_from_this()) );
 
 			// shared state
 			mSampleView->setSelectionStateData(mSelectedState);
@@ -555,7 +554,7 @@ SampleViewRef GelView::openGelDetailView()
 {
 	// make view
 	SampleViewRef view = make_shared<SampleView>();
-	view->setGelView( shared_from_this() );
+	view->setGelView( dynamic_pointer_cast<GelView>(shared_from_this()) );
 	
 	// set size; updateGelDetailView will position it
 	Rectf frame(0.f,0.f,150.f,150.f);
@@ -827,15 +826,17 @@ ci::Rectf GelView::getLaneRect( int lane ) const
 	
 	return r;
 }
-
+/*
 DropTargetRef GelView::getDropTarget( glm::vec2 locInFrame )
 {
 	if ( pick(locInFrame) )
 	{
-		return make_shared<DropTargetGelView>( shared_from_this(), pickLane(locInFrame) );
+		return make_shared<DropTargetGelView>(
+			dynamic_pointer_cast<GelView>( shared_from_this() ),
+			pickLane(locInFrame) );
 	}
 	else return 0;
-}
+}*/
 
 ci::Rectf GelView::calcMicrotubeIconRect( int lane ) const
 {

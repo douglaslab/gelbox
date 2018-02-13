@@ -314,7 +314,7 @@ void SampleView::openFragEditor()
 		
 		mFragEditor->setFrameAndBoundsWithSize( frame );
 		
-		mFragEditor->setSampleView( shared_from_this() );
+		mFragEditor->setSampleView( dynamic_pointer_cast<SampleView>(shared_from_this()) );
 		
 		getCollection()->addView(mFragEditor);
 	}
@@ -324,7 +324,7 @@ void SampleView::closeFragEditor()
 {
 	if ( mFragEditor )
 	{
-		getCollection()->removeView(mFragEditor);
+		mFragEditor->close();
 		mFragEditor = 0;
 	}
 }
@@ -410,7 +410,7 @@ void SampleView::mouseDrag( ci::app::MouseEvent )
 	// update content?
 	if ( updateContent && mGelView )
 	{
-		mGelView->updateGelDetailViewContent( shared_from_this() );
+		mGelView->updateGelDetailViewContent( dynamic_pointer_cast<SampleView>(shared_from_this()) );
 	}
 }
 

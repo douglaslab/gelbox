@@ -13,7 +13,7 @@
 #include "View.h"
 #include "Sample.h"
 #include "GelView.h"
-#include "DropTarget.h"
+//#include "DropTarget.h"
 
 class GelboxApp : public ci::app::App {
   public:
@@ -35,7 +35,7 @@ class GelboxApp : public ci::app::App {
 	void draw() override;
 	
 	
-	DropTargetRef pickDropTarget( ci::vec2 ) const;
+//	DropTargetRef pickDropTarget( ci::vec2 ) const;
 	
 	ci::gl::TextureFontRef getUIFont() const { return mUIFont; }
 	

@@ -18,17 +18,19 @@ class SliderView : public View
 {
 public:
 
-	SliderView( Slider& s ) { setSlider(s); } 
+	SliderView( const Slider& s ) { setSlider(s); } 
 
 	void setSlider( const Slider& s ) { mSlider=s; setFrameAndBoundsWithSlider(); } 
 	const Slider& getSlider() const { return mSlider; } 
-
+	Slider& slider() { return mSlider; } 
+	
+	void tick( float dt ) override;
 	void draw() override;
 	
 	void mouseDown( ci::app::MouseEvent ) override;
 	void mouseUp  ( ci::app::MouseEvent ) override;
 	void mouseDrag( ci::app::MouseEvent ) override;
-		
+	
 private:
 	void setFrameAndBoundsWithSlider();	
 	

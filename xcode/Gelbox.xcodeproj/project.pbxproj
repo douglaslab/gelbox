@@ -18,7 +18,6 @@
 		00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995591B128DF400A5C623 /* IOSurface.framework */; };
 		26054E9A1FD8726C007DB5F8 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054E991FD8726C007DB5F8 /* View.cpp */; };
 		26054EA71FD88259007DB5F8 /* ImageView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054EA61FD88259007DB5F8 /* ImageView.cpp */; };
-		26054EAD1FD8ACD3007DB5F8 /* SampleTubeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054EAC1FD8ACD3007DB5F8 /* SampleTubeView.cpp */; };
 		262003BF20126E1B003AEFE8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 262003BE20126E1B003AEFE8 /* Images.xcassets */; };
 		2642C0F31FD5FFA300528061 /* Gel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F21FD5FFA300528061 /* Gel.cpp */; };
 		2642C0F71FD72EE600528061 /* GelView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F61FD72EE600528061 /* GelView.cpp */; };
@@ -28,9 +27,8 @@
 		2693E3262000415300633564 /* SampleView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2693E3252000415300633564 /* SampleView.cpp */; };
 		2693E3292004019800633564 /* FragmentView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2693E3282004019800633564 /* FragmentView.cpp */; };
 		26A4B747200ED29600D2119E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 26A4B746200ED29600D2119E /* Credits.rtf */; };
+		26C36DCC203246C700229323 /* BufferView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26C36DCB203246C700229323 /* BufferView.cpp */; };
 		26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA611FE86194003AAE8D /* Interaction.cpp */; };
-		26CEEA641FE8631D003AAE8D /* OperationView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA631FE8631D003AAE8D /* OperationView.cpp */; };
-		26CEEA671FE86919003AAE8D /* DropTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA661FE86919003AAE8D /* DropTarget.cpp */; };
 		26FC514320193B3B0004A458 /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FC514220193B3B0004A458 /* Slider.cpp */; };
 		26FC514720194F1F0004A458 /* SliderView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FC514620194F1F0004A458 /* SliderView.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
@@ -57,8 +55,6 @@
 		26054EA21FD874D1007DB5F8 /* Changes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Changes.md; path = ../Changes.md; sourceTree = "<group>"; };
 		26054EA61FD88259007DB5F8 /* ImageView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageView.cpp; path = ../src/ImageView.cpp; sourceTree = "<group>"; };
 		26054EA81FD8826A007DB5F8 /* ImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImageView.h; path = ../include/ImageView.h; sourceTree = "<group>"; };
-		26054EAB1FD8ACC5007DB5F8 /* SampleTubeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleTubeView.h; path = ../include/SampleTubeView.h; sourceTree = "<group>"; };
-		26054EAC1FD8ACD3007DB5F8 /* SampleTubeView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SampleTubeView.cpp; path = ../src/SampleTubeView.cpp; sourceTree = "<group>"; };
 		262003BE20126E1B003AEFE8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Gelbox/Images.xcassets; sourceTree = "<group>"; };
 		26247E6E1FDF0BF00094711F /* GelboxApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelboxApp.h; path = ../include/GelboxApp.h; sourceTree = "<group>"; };
 		26247E711FE1A9890094711F /* TODO.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = TODO.md; path = ../TODO.md; sourceTree = "<group>"; };
@@ -76,14 +72,12 @@
 		2693E3272004018B00633564 /* FragmentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FragmentView.h; path = ../include/FragmentView.h; sourceTree = "<group>"; };
 		2693E3282004019800633564 /* FragmentView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FragmentView.cpp; path = ../src/FragmentView.cpp; sourceTree = "<group>"; };
 		26A4B746200ED29600D2119E /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = Credits.rtf; path = ../assets/Credits.rtf; sourceTree = "<group>"; };
-		26CEEA5E1FE860B7003AAE8D /* OperationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OperationView.h; path = ../include/OperationView.h; sourceTree = "<group>"; };
+		26C36DCA203246AC00229323 /* BufferView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BufferView.h; path = ../include/BufferView.h; sourceTree = "<group>"; };
+		26C36DCB203246C700229323 /* BufferView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BufferView.cpp; path = ../src/BufferView.cpp; sourceTree = "<group>"; };
+		26C36DCD20338EE200229323 /* virtual_shared_ptr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = virtual_shared_ptr.h; path = ../include/virtual_shared_ptr.h; sourceTree = "<group>"; };
 		26CEEA5F1FE860E2003AAE8D /* NodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NodeView.h; path = ../include/NodeView.h; sourceTree = "<group>"; };
 		26CEEA601FE86151003AAE8D /* Interaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Interaction.h; path = ../include/Interaction.h; sourceTree = "<group>"; };
 		26CEEA611FE86194003AAE8D /* Interaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Interaction.cpp; path = ../src/Interaction.cpp; sourceTree = "<group>"; };
-		26CEEA631FE8631D003AAE8D /* OperationView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OperationView.cpp; path = ../src/OperationView.cpp; sourceTree = "<group>"; };
-		26CEEA651FE86829003AAE8D /* DropTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DropTarget.h; path = ../include/DropTarget.h; sourceTree = "<group>"; };
-		26CEEA661FE86919003AAE8D /* DropTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DropTarget.cpp; path = ../src/DropTarget.cpp; sourceTree = "<group>"; };
-		26CEEA681FE86E0B003AAE8D /* DropTargetSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DropTargetSource.h; path = ../include/DropTargetSource.h; sourceTree = "<group>"; };
 		26CEEA691FE873D8003AAE8D /* Interactions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Interactions.h; path = ../include/Interactions.h; sourceTree = "<group>"; };
 		26FC514120193A950004A458 /* Slider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Slider.h; path = ../include/Slider.h; sourceTree = "<group>"; };
 		26FC514220193B3B0004A458 /* Slider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Slider.cpp; path = ../src/Slider.cpp; sourceTree = "<group>"; };
@@ -136,7 +130,6 @@
 				2642C0F91FD730F000528061 /* Sample.cpp */,
 				26247E701FDF2DCC0094711F /* Views */,
 				26CEEA611FE86194003AAE8D /* Interaction.cpp */,
-				26CEEA661FE86919003AAE8D /* DropTarget.cpp */,
 				26FC514220193B3B0004A458 /* Slider.cpp */,
 				268BF8C9202248E100E6553F /* GelSim.cpp */,
 			);
@@ -184,11 +177,9 @@
 				26054E981FD87264007DB5F8 /* View.h */,
 				2642C0F51FD72ED700528061 /* GelView.h */,
 				26054EA81FD8826A007DB5F8 /* ImageView.h */,
-				26054EAB1FD8ACC5007DB5F8 /* SampleTubeView.h */,
-				26CEEA5E1FE860B7003AAE8D /* OperationView.h */,
 				26CEEA5F1FE860E2003AAE8D /* NodeView.h */,
-				26CEEA681FE86E0B003AAE8D /* DropTargetSource.h */,
 				2693E3242000407400633564 /* SampleView.h */,
+				26C36DCA203246AC00229323 /* BufferView.h */,
 				2693E3272004018B00633564 /* FragmentView.h */,
 				26FC514520194E550004A458 /* SliderView.h */,
 			);
@@ -201,9 +192,8 @@
 				26054E991FD8726C007DB5F8 /* View.cpp */,
 				2642C0F61FD72EE600528061 /* GelView.cpp */,
 				26054EA61FD88259007DB5F8 /* ImageView.cpp */,
-				26054EAC1FD8ACD3007DB5F8 /* SampleTubeView.cpp */,
-				26CEEA631FE8631D003AAE8D /* OperationView.cpp */,
 				2693E3252000415300633564 /* SampleView.cpp */,
+				26C36DCB203246C700229323 /* BufferView.cpp */,
 				2693E3282004019800633564 /* FragmentView.cpp */,
 				26FC514620194F1F0004A458 /* SliderView.cpp */,
 			);
@@ -239,10 +229,10 @@
 				26247E6E1FDF0BF00094711F /* GelboxApp.h */,
 				26247E6F1FDF2DAB0094711F /* Views */,
 				26CEEA601FE86151003AAE8D /* Interaction.h */,
-				26CEEA651FE86829003AAE8D /* DropTarget.h */,
 				26CEEA691FE873D8003AAE8D /* Interactions.h */,
 				26FC514120193A950004A458 /* Slider.h */,
 				26FC514420193F2B0004A458 /* Gelbox.h */,
+				26C36DCD20338EE200229323 /* virtual_shared_ptr.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -335,13 +325,11 @@
 				2642C0F71FD72EE600528061 /* GelView.cpp in Sources */,
 				2642C0F31FD5FFA300528061 /* Gel.cpp in Sources */,
 				26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */,
-				26054EAD1FD8ACD3007DB5F8 /* SampleTubeView.cpp in Sources */,
+				26C36DCC203246C700229323 /* BufferView.cpp in Sources */,
 				2693E3292004019800633564 /* FragmentView.cpp in Sources */,
 				26054EA71FD88259007DB5F8 /* ImageView.cpp in Sources */,
 				5BABC631A5484737AB27EE73 /* GelboxApp.cpp in Sources */,
 				2642C0FA1FD730F000528061 /* Sample.cpp in Sources */,
-				26CEEA671FE86919003AAE8D /* DropTarget.cpp in Sources */,
-				26CEEA641FE8631D003AAE8D /* OperationView.cpp in Sources */,
 				268BF8CA202248E100E6553F /* GelSim.cpp in Sources */,
 				26FC514720194F1F0004A458 /* SliderView.cpp in Sources */,
 				26FC514320193B3B0004A458 /* Slider.cpp in Sources */,

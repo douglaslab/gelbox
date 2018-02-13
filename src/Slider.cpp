@@ -484,6 +484,8 @@ void Slider::pushValueToSetter() const
 		 
 		mGraphSetter( gv );
 	}
+	
+	if (mDidPushValue) mDidPushValue();
 }
 
 void Slider::pullValueFromGetter()

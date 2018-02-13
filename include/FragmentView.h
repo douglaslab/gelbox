@@ -18,6 +18,8 @@ typedef std::shared_ptr<SampleView> SampleViewRef;
 class FragmentView;
 typedef std::shared_ptr<FragmentView> FragmentViewRef;
 
+class SliderView;
+typedef std::shared_ptr<SliderView> SliderViewRef;
 
 const glm::vec2 kFragmentViewSize(350,407);
 
@@ -26,6 +28,7 @@ class FragmentView : public View
 public:
 
 	FragmentView();
+	void close();
 	
 	void tick( float dt ) override;
 	void draw() override;
@@ -57,17 +60,8 @@ private:
 	int						mEditFragment = -1; // which fragment index are we editing? 
 	bool					isEditFragmentValid() const;
 	
-	int						mMouseDownSlider = -1;
-	int						mMouseDownIcon = -1;
-	
-	int						mDragSlider = -1;
-	float					mDragSliderStartValue;
-	
-	std::vector<Slider>		mSliders;
-	
-	int						pickSliderHandle( glm::vec2 ) const; // local coords
-	int						pickSliderBar   ( glm::vec2 ) const;
-	int						pickSliderIcon  ( glm::vec2, int &icon ) const;
+	void					makeSliders();
+	std::vector<SliderViewRef> mSliders;
 	
 	void					syncSlidersToModel(); // just reads it in
 	void					fragmentDidChange() const;

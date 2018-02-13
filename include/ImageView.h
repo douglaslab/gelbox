@@ -11,7 +11,7 @@
 #include "View.h"
 #include "cinder/gl/Texture.h"
 
-class ImageView : public View, public std::enable_shared_from_this<ImageView>
+class ImageView : public View//, public std::enable_shared_from_this<ImageView>
 {
 public:
 

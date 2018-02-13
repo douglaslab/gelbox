@@ -50,6 +50,36 @@ mat4 View::getParentToRootMatrix() const
 	else return mat4(); // identity
 }
 
+void View::setParent( ViewRef p )
+{
+	if ( p != mParent )
+	{
+		ViewCollection* oc = mParent ? mParent->getCollection() : 0;
+		ViewCollection* nc = 0;
+		
+		if ( mParent )
+		{
+			auto i = find( mParent->mChildren.begin(), mParent->mChildren.end(), shared_from_this() );
+			assert( i != mParent->mChildren.end() );
+			mParent->mChildren.erase(i);
+		}
+		
+		mParent = p;
+		
+		if (p) {
+			p->mChildren.push_back(shared_from_this());
+			nc = p->getCollection();
+		}
+		
+		// change collection?
+		if (oc != nc)
+		{
+			if (oc) oc->removeView(shared_from_this());
+			if (nc) nc->addView(shared_from_this());
+		}
+	}
+}
+
 /*
 ivec2 View::getScissorLowerLeft( Rectf r ) const
 {
@@ -183,20 +213,41 @@ ViewRef ViewCollection::getViewByName( string name )
 	return nullptr;
 }
 
+void ViewCollection::addView( ViewRef v )
+{
+	mViews.push_back(v);
+	
+	v->mCollection=this;
+	
+	// children
+	for ( auto c : v->getChildren() ) addView(c);
+}
+
 bool ViewCollection::removeView( ViewRef v )
 {
-	for ( auto i = mViews.begin(); i != mViews.end(); ++i )
+	// here?
+	auto i = find( mViews.begin(), mViews.end(), v );
+	
+	if ( i != mViews.end() )
 	{
-		if ( *i==v )
-		{
-			if (v==mKeyboardFocusView) setKeyboardFocusView(0);
-			if (v==mMouseDownView)     mMouseDownView=0;
-			if (v==mRolloverView)      mRolloverView=0;			
+		// state
+		if (v==mKeyboardFocusView) setKeyboardFocusView(0);
+		if (v==mMouseDownView)     mMouseDownView=0;
+		if (v==mRolloverView)      mRolloverView=0;			
 
-			mViews.erase(i);
-			
-			return true ;
-		}
+		// erase
+		mViews.erase(i);
+
+		// remove from hierarchy
+		v->setParent(0);	
+
+		// children?
+		auto children = v->getChildren(); // not recursive!
+		
+		for( auto c : children ) removeView(c); // but this should be.
+		
+		// done
+		return true ;
 	}
 		
 	return false;

@@ -77,6 +77,9 @@ public:
 	void pushValueToSetter() const; // implicitly called by setValueWithMouse, setNormalizedValue
 	void pullValueFromGetter();
 	
+	// notify value changed
+	std::function<void(void)> mDidPushValue;
+	
 	// label generation
 	std::function<std::string(float v)> mMappedValueToStr;
 

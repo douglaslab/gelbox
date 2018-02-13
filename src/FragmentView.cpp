@@ -9,6 +9,7 @@
 #include "FragmentView.h"
 #include "Sample.h"
 #include "SampleView.h"
+#include "SliderView.h"
 #include "GelSim.h"
 
 using namespace std;
@@ -95,6 +96,10 @@ static string addCommasToNumericStr( string num )
 
 FragmentView::FragmentView()
 {
+}
+
+void FragmentView::makeSliders()
+{
 	mColors = getColorPalette();
 	
 	mSelectedColor=0;
@@ -112,6 +117,11 @@ FragmentView::FragmentView()
 				iconPathBase / (name + "-hi.png")
 				);
 		};
+		
+		// this is a little dangerous because we are passing this into all these lambdas.
+		// that was when this was one object, and we have since refactored into a bunch of sub-views. so hopefully we all stay alive together!
+		// one hack if it becomes a bug is to not capture this, but capture a shared_ptr,
+		// which wouldn't solve any underlying problems, but would ensure everyone behaved gracefully under suboptimal conditions. 
 		
 		// config sliders
 		Slider size;
@@ -229,20 +239,45 @@ FragmentView::FragmentView()
 //		aggregate.flipXAxis();
 		
 		// insert
-		mSliders.push_back(size);
-		mSliders.push_back(concentration);
-		mSliders.push_back(aspect);
-		mSliders.push_back(aggregate);
-		mSliders.push_back(degrade);
+		auto add = [this]( Slider s )
+		{
+			s.mDidPushValue = [this]()
+			{
+				this->fragmentDidChange();
+			};
+			
+			SliderViewRef v = make_shared<SliderView>(s);
+			
+			v->setParent( shared_from_this() );
+			
+			mSliders.push_back(v);
+		};
+		
+		add(size);
+		add(concentration);
+		add(aspect);
+		add(aggregate);
+		add(degrade);
 		
 		// flip all?
 		const bool reverseAll = false; 
-		if (reverseAll) for( auto &s : mSliders ) s.flipXAxis();
+		if (reverseAll) for( auto v : mSliders )
+		{
+			v->slider().flipXAxis();
+		}
 	}
 }
 
+void FragmentView::close()
+{
+	getCollection()->removeView( shared_from_this() );
+	// ViewCollection will also remove our children for us
+}
+
 void FragmentView::updateLayout()
-{	
+{
+	if ( mSliders.empty() ) makeSliders(); 
+	
 	// sliders
 	float sliderx[2] = {
 		getBounds().getCenter().x - kSliderLineLength/2,
@@ -251,7 +286,7 @@ void FragmentView::updateLayout()
 	
 	for( int i=0; i<mSliders.size(); ++i )
 	{
-		Slider &s = mSliders[i];
+		Slider  s = mSliders[i]->getSlider();
 
 		float slidery = kVStepToFirstSliderLine + (float)i * kIntersliderVStep;
 		
@@ -281,6 +316,8 @@ void FragmentView::updateLayout()
 			s.mEndpoint[0].y += d;
 			s.mEndpoint[1].y += d;
 		}
+		
+		mSliders[i]->setSlider(s);
 	}
 
 	// colors
@@ -298,78 +335,17 @@ void FragmentView::mouseDown( ci::app::MouseEvent e )
 {
 	vec2 local = rootToChild(e.getPos());
 	
-	int sliderB = pickSliderBar(local);
-	int sliderH = pickSliderHandle(local);
-	int sliderI = pickSliderIcon(local,mMouseDownIcon);
 	int color   = pickColor(local);
 	
-	mMouseDownSlider=-1;
-	
-	if ( sliderI != -1 )
-	{
-		// nothing; just capture this case
-		mMouseDownSlider = sliderI;
-	}
-	else if ( sliderH != -1 )
-	{
-		mDragSlider = sliderH;
-		mMouseDownSlider = sliderH;
-	}
-	else if ( sliderB != -1 )
-	{
-		mDragSlider = sliderB;
-		mMouseDownSlider = sliderB;
-		
-		mSliders[mDragSlider].setValueWithMouse(local);
-
-		fragmentDidChange();
-	}
-	else if ( color != -1 )
+	if ( color != -1 )
 	{
 		mSelectedColor = color;
 		syncModelToColor();
-	}
-
-	// capture start value if dragging slider
-	if (mDragSlider != -1)
-	{
-		mDragSliderStartValue = mSliders[mDragSlider].mValue;
 	}
 }
 
 void FragmentView::mouseUp ( ci::app::MouseEvent e )
 {
-	const float kSingleClickDist = 2.f; 
-	
-	vec2 local = rootToChild( e.getPos() );
-
-	// click end-cap icon
-	if ( mMouseDownIcon != -1 )
-	{
-		int icon;
-		int s = pickSliderIcon(local,icon);
-		
-		if ( s != -1 && mMouseDownSlider==s && icon==mMouseDownIcon )
-		{
-			mSliders[s].setLimitValue( mMouseDownIcon );
-			fragmentDidChange();
-		}
-	}
-	// click into slider bar
-	else if ( distance( getMouseDownLoc(), getMouseLoc() ) < kSingleClickDist )
-	{
-		int s = pickSliderBar( local );
-
-		if ( s != -1 )
-		{
-			mSliders[s].setValueWithMouse(local);
-			fragmentDidChange();
-		}
-	}
-	
-	// clear
-	mMouseDownIcon=-1;
-	mDragSlider=-1;
 }
 
 void FragmentView::setFragment( SampleRef s, int f )
@@ -393,9 +369,9 @@ void FragmentView::syncSlidersToModel()
 {
 	if ( isEditFragmentValid() )
 	{
-		for( Slider &s : mSliders )
+		for( SliderViewRef v : mSliders )
 		{
-			s.pullValueFromGetter();
+			if (v) v->slider().pullValueFromGetter();
 		}
 	}
 }
@@ -446,29 +422,10 @@ void FragmentView::mouseDrag( ci::app::MouseEvent e )
 {
 	vec2 mouseDownLocal = rootToChild(getMouseDownLoc());
 	vec2 local = rootToChild(e.getPos());
-	vec2 delta = local - mouseDownLocal; 
+//	vec2 delta = local - mouseDownLocal; 
 	
-	// slider
-	if ( mDragSlider != -1 )
-	{
-		Slider &s = mSliders[mDragSlider];
-		
-		if ( s.mIsGraph )
-		{
-			s.setValueWithMouse(local);
-		}
-		else
-		{		
-			float deltaVal = delta.x / kSliderLineLength; 
-			
-			s.setNormalizedValue(mDragSliderStartValue + deltaVal);
-		}
-
-		// push
-		fragmentDidChange();
-	}
 	// color
-	else if ( pickColor(mouseDownLocal) != -1 )
+	if ( pickColor(mouseDownLocal) != -1 )
 	{
 		int oldColor = mSelectedColor;
 		int color = pickColor(local);
@@ -495,24 +452,7 @@ void FragmentView::draw()
 	gl::drawSolidRect(getBounds());
 	gl::color(.5,.5,.5);
 	gl::drawStrokedRect(getBounds());
-	
-	// sliders
-	for ( int i=0; i<mSliders.size(); ++i )
-	{
-		const auto &s = mSliders[i];
-
-		int hicon = -1;
 		
-		if (mMouseDownSlider==i)
-		{
-			hicon = mMouseDownIcon;
-			
-			if ( hicon != s.pickIcon(rootToChild(getMouseLoc())) ) hicon=-1;
-		}
-		
-		s.draw(hicon);
-	}
-	
 	// colors
 	drawColors();
 }
@@ -533,55 +473,6 @@ void FragmentView::drawColors() const
 			calcColorRect(mSelectedColor).inflated( vec2(.5f)*kSelectedColorStrokeWidth ),
 			kSelectedColorStrokeWidth );
 	}
-}
-
-int
-FragmentView::pickSliderHandle( glm::vec2 loc ) const
-{
-	for ( int i=0; i<mSliders.size(); ++i )
-	{
-		const bool hasHandle = ! mSliders[i].mIsGraph;
-		
-		if ( hasHandle && mSliders[i].calcHandleRect().contains(loc) ) return i;
-	}
-	
-	return -1;
-}
-
-int	FragmentView::pickSliderBar( glm::vec2 p ) const
-{
-	for ( int i=0; i<mSliders.size(); ++i )
-	{
-		const Slider& s = mSliders[i];
-		
-		Rectf r = s.calcPickRect();
-		
-		if ( r.contains(p) )
-		{
-			return i;
-		}
-	}
-	
-	return -1;
-}
-
-int FragmentView::pickSliderIcon  ( glm::vec2 p, int &icon ) const
-{
-	for ( int i=0; i<mSliders.size(); ++i )
-	{
-		const Slider& s = mSliders[i];
-		
-		int v = s.pickIcon(p);
-		
-		if (v!=-1)
-		{
-			icon = v;
-			return i;
-		}
-	}
-	
-	icon = -1;
-	return -1;
 }
 
 int	

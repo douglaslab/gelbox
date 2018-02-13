@@ -11,6 +11,14 @@
 using namespace std;
 using namespace ci;
 
+void SliderView::tick( float dt )
+{
+//	if ( !getHasMouseDown() )
+	{
+		mSlider.pullValueFromGetter();
+	}
+}
+
 void SliderView::draw()
 {
 	int highlightIcon = mIconHasMouseDown;

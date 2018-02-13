@@ -10,8 +10,8 @@
 #define View_hpp
 
 #include <vector>
-#include <memory>
 #include <string>
+#include "virtual_shared_ptr.h"
 
 #include "cinder/Rect.h"
 #include "cinder/gl/gl.h"
@@ -23,7 +23,7 @@ class ViewCollection;
 
 glm::mat4 getRectMappingAsMatrix( ci::Rectf from, ci::Rectf to );
 
-class View
+class View : public virtual_enable_shared_from_this<View>
 {
 public:
 
@@ -48,7 +48,9 @@ public:
 	glm::vec2 childToParent( glm::vec2 p ) const { return glm::vec2( getChildToParentMatrix() * glm::vec4(p,0,1) ); }
 	
 	// hierarchy
-	void setParent( ViewRef v ) { mParent=v; }
+	void    setParent( ViewRef v ); // automatically adds to collection if need be
+	ViewRef getParent() const { return mParent; }
+	std::vector<ViewRef> getChildren() const { return mChildren; }
 	
 	glm::mat4 getRootToChildMatrix() const;
 	glm::mat4 getChildToRootMatrix() const;
@@ -132,6 +134,7 @@ private:
 		// initing to unit rect so that by default it does a valid no transform (no divide by zero)
 	
 	ViewRef mParent;
+	std::vector<ViewRef> mChildren;
 	ViewCollection* mCollection=0;
 };
 
@@ -149,7 +152,7 @@ public:
 		// - pos is in view's frame space 
 	ViewRef getViewByName( std::string );
 	
-	void addView   ( ViewRef v ) { mViews.push_back(v); v->mCollection=this; }
+	void addView   ( ViewRef v );
 	bool removeView( ViewRef v ); // returns whether found
 	
 	void moveViewToTop( ViewRef v ) { if (removeView(v)) addView(v); }

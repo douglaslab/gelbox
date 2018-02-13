@@ -10,7 +10,6 @@
 
 #include "Gel.h"
 #include "View.h"
-#include "DropTargetSource.h"
 #include "Sample.h"
 
 class Sample;
@@ -22,7 +21,7 @@ typedef std::shared_ptr<GelView> GelViewRef;
 class SampleView;
 typedef std::shared_ptr<SampleView> SampleViewRef;
 
-class GelView : public View, public DropTargetSource, public std::enable_shared_from_this<GelView>
+class GelView : public View
 {
 public:
 
@@ -40,7 +39,7 @@ public:
 	void	mouseDrag( ci::app::MouseEvent ) override;
 	void	mouseMove( ci::app::MouseEvent ) override;
 
-	DropTargetRef getDropTarget( glm::vec2 locInFrame ) override;
+//	DropTargetRef getDropTarget( glm::vec2 locInFrame ) override;
 
 	int			pickLane ( ci::vec2 ) const; // loc in frame space; -1 if out of bounds
 	ci::Rectf	getLaneRect( int ) const; // in bounds space 

@@ -23,7 +23,7 @@ typedef std::shared_ptr<SampleView> SampleViewRef;
 class FragmentView;
 typedef std::shared_ptr<FragmentView> FragmentViewRef;
 
-class SampleView : public View, public std::enable_shared_from_this<SampleView>
+class SampleView : public View//, public std::enable_shared_from_this<SampleView>
 {
 public:
 
