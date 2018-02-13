@@ -28,6 +28,7 @@
 		2693E3292004019800633564 /* FragmentView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2693E3282004019800633564 /* FragmentView.cpp */; };
 		26A4B747200ED29600D2119E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 26A4B746200ED29600D2119E /* Credits.rtf */; };
 		26C36DCC203246C700229323 /* BufferView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26C36DCB203246C700229323 /* BufferView.cpp */; };
+		26C36DD42033961200229323 /* ColorPaletteView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26C36DD32033961200229323 /* ColorPaletteView.cpp */; };
 		26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA611FE86194003AAE8D /* Interaction.cpp */; };
 		26FC514320193B3B0004A458 /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FC514220193B3B0004A458 /* Slider.cpp */; };
 		26FC514720194F1F0004A458 /* SliderView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FC514620194F1F0004A458 /* SliderView.cpp */; };
@@ -75,6 +76,8 @@
 		26C36DCA203246AC00229323 /* BufferView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BufferView.h; path = ../include/BufferView.h; sourceTree = "<group>"; };
 		26C36DCB203246C700229323 /* BufferView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BufferView.cpp; path = ../src/BufferView.cpp; sourceTree = "<group>"; };
 		26C36DCD20338EE200229323 /* virtual_shared_ptr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = virtual_shared_ptr.h; path = ../include/virtual_shared_ptr.h; sourceTree = "<group>"; };
+		26C36DD2203395BA00229323 /* ColorPaletteView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ColorPaletteView.h; path = ../include/ColorPaletteView.h; sourceTree = "<group>"; };
+		26C36DD32033961200229323 /* ColorPaletteView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ColorPaletteView.cpp; path = ../src/ColorPaletteView.cpp; sourceTree = "<group>"; };
 		26CEEA5F1FE860E2003AAE8D /* NodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NodeView.h; path = ../include/NodeView.h; sourceTree = "<group>"; };
 		26CEEA601FE86151003AAE8D /* Interaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Interaction.h; path = ../include/Interaction.h; sourceTree = "<group>"; };
 		26CEEA611FE86194003AAE8D /* Interaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Interaction.cpp; path = ../src/Interaction.cpp; sourceTree = "<group>"; };
@@ -126,12 +129,8 @@
 			isa = PBXGroup;
 			children = (
 				ABD8A9D321AC4187846DB4F6 /* GelboxApp.cpp */,
-				2642C0F21FD5FFA300528061 /* Gel.cpp */,
-				2642C0F91FD730F000528061 /* Sample.cpp */,
-				26247E701FDF2DCC0094711F /* Views */,
-				26CEEA611FE86194003AAE8D /* Interaction.cpp */,
-				26FC514220193B3B0004A458 /* Slider.cpp */,
-				268BF8C9202248E100E6553F /* GelSim.cpp */,
+				26C36DCF2033952F00229323 /* Sim */,
+				26C36DCE2033951600229323 /* UI */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -182,6 +181,7 @@
 				26C36DCA203246AC00229323 /* BufferView.h */,
 				2693E3272004018B00633564 /* FragmentView.h */,
 				26FC514520194E550004A458 /* SliderView.h */,
+				26C36DD2203395BA00229323 /* ColorPaletteView.h */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -196,8 +196,50 @@
 				26C36DCB203246C700229323 /* BufferView.cpp */,
 				2693E3282004019800633564 /* FragmentView.cpp */,
 				26FC514620194F1F0004A458 /* SliderView.cpp */,
+				26C36DD32033961200229323 /* ColorPaletteView.cpp */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		26C36DCE2033951600229323 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				26CEEA611FE86194003AAE8D /* Interaction.cpp */,
+				26FC514220193B3B0004A458 /* Slider.cpp */,
+				26247E701FDF2DCC0094711F /* Views */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		26C36DCF2033952F00229323 /* Sim */ = {
+			isa = PBXGroup;
+			children = (
+				2642C0F21FD5FFA300528061 /* Gel.cpp */,
+				2642C0F91FD730F000528061 /* Sample.cpp */,
+				268BF8C9202248E100E6553F /* GelSim.cpp */,
+			);
+			name = Sim;
+			sourceTree = "<group>";
+		};
+		26C36DD02033954300229323 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				26CEEA601FE86151003AAE8D /* Interaction.h */,
+				26CEEA691FE873D8003AAE8D /* Interactions.h */,
+				26FC514120193A950004A458 /* Slider.h */,
+				26247E6F1FDF2DAB0094711F /* Views */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		26C36DD12033954800229323 /* Sim */ = {
+			isa = PBXGroup;
+			children = (
+				2642C0F41FD5FFB000528061 /* Gel.h */,
+				268BF8C8202248C400E6553F /* GelSim.h */,
+				2642C0F81FD7300D00528061 /* Sample.h */,
+			);
+			name = Sim;
 			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* Gelbox */ = {
@@ -221,17 +263,12 @@
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				26247E6E1FDF0BF00094711F /* GelboxApp.h */,
+				26C36DD12033954800229323 /* Sim */,
+				26C36DD02033954300229323 /* UI */,
+				26FC514420193F2B0004A458 /* Gelbox.h */,
 				7DB7066D3F64466AB6A78935 /* Resources.h */,
 				2029F7E3D4854834BD477628 /* Gelbox_Prefix.pch */,
-				2642C0F41FD5FFB000528061 /* Gel.h */,
-				268BF8C8202248C400E6553F /* GelSim.h */,
-				2642C0F81FD7300D00528061 /* Sample.h */,
-				26247E6E1FDF0BF00094711F /* GelboxApp.h */,
-				26247E6F1FDF2DAB0094711F /* Views */,
-				26CEEA601FE86151003AAE8D /* Interaction.h */,
-				26CEEA691FE873D8003AAE8D /* Interactions.h */,
-				26FC514120193A950004A458 /* Slider.h */,
-				26FC514420193F2B0004A458 /* Gelbox.h */,
 				26C36DCD20338EE200229323 /* virtual_shared_ptr.h */,
 			);
 			name = Headers;
@@ -334,6 +371,7 @@
 				26FC514720194F1F0004A458 /* SliderView.cpp in Sources */,
 				26FC514320193B3B0004A458 /* Slider.cpp in Sources */,
 				26054E9A1FD8726C007DB5F8 /* View.cpp in Sources */,
+				26C36DD42033961200229323 /* ColorPaletteView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

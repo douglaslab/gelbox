@@ -10,7 +10,6 @@
 
 #include "View.h"
 #include "Sample.h"
-#include "Slider.h"
 
 class SampleView;
 typedef std::shared_ptr<SampleView> SampleViewRef;
@@ -21,6 +20,9 @@ typedef std::shared_ptr<FragmentView> FragmentViewRef;
 class SliderView;
 typedef std::shared_ptr<SliderView> SliderViewRef;
 
+class ColorPaletteView;
+typedef std::shared_ptr<ColorPaletteView> ColorPaletteViewRef;
+
 const glm::vec2 kFragmentViewSize(350,407);
 
 class FragmentView : public View
@@ -28,14 +30,9 @@ class FragmentView : public View
 public:
 
 	FragmentView();
-	void close();
 	
-	void tick( float dt ) override;
+	void close();	
 	void draw() override;
-	
-	void mouseDown( ci::app::MouseEvent ) override;
-	void mouseUp  ( ci::app::MouseEvent ) override;
-	void mouseDrag( ci::app::MouseEvent ) override;
 	
 	void setFragment( SampleRef, int );
 	
@@ -63,26 +60,13 @@ private:
 	void					makeSliders();
 	std::vector<SliderViewRef> mSliders;
 	
-	void					syncSlidersToModel(); // just reads it in
+	void					syncWidgetsToModel(); // just reads it in
 	void					fragmentDidChange() const;
 
-	void					syncModelToColor() const;
-	void					syncColorToModel();
 	
-	// color picker
-	std::vector<ci::Color>	mColors;
-	int						mColorCols=6;
-	int						mSelectedColor=-1;
-	
-	glm::vec2				mColorsTopLeft, mColorSize;
-	ci::Rectf				mColorsRect;
-	
-	ci::Rectf				calcColorRect( int i ) const;
-	int						pickColor( glm::vec2 ) const; // local coords
-	void					drawColors() const;
+	ColorPaletteViewRef		mColorsView;
 	
 	// sample
 	SampleViewRef mSampleView;
-	
 	
 };

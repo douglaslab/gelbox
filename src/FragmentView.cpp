@@ -10,6 +10,7 @@
 #include "Sample.h"
 #include "SampleView.h"
 #include "SliderView.h"
+#include "ColorPaletteView.h"
 #include "GelSim.h"
 
 using namespace std;
@@ -17,9 +18,6 @@ using namespace ci;
 using namespace ci::app;
 
 const vec2  kColorSize(35,35);
-const float kSelectedColorStrokeWidth = 4.f;
-const Color kSelectedColorStrokeColor(0,0,0);
-
 
 const float kSliderIconGutter = 12;
 const vec2  kSliderIconNotionalSize(26,26); // for layout purposes; they can be different sizes
@@ -67,14 +65,7 @@ const vector<Color>& FragmentView::getColorPalette()
 
 ci::Color FragmentView::getRandomColorFromPalette( ci::Rand* r )
 {
-	int i;
-	
-	if (r) i = r->nextInt();
-	else i = randInt();
-	
-	auto colors = getColorPalette();
-	
-	return colors[ i % colors.size() ];
+	return ColorPaletteView::Palette( getColorPalette() ).getRandomColor(r);
 }
 
 static string addCommasToNumericStr( string num )
@@ -100,10 +91,19 @@ FragmentView::FragmentView()
 
 void FragmentView::makeSliders()
 {
-	mColors = getColorPalette();
+	// colors
+	mColorsView = make_shared<ColorPaletteView>();
+	mColorsView->setPalette( getColorPalette() );
+	mColorsView->setParent( shared_from_this() );
+	mColorsView->mDidPushValue = [this](){ fragmentDidChange(); }; 
+	mColorsView->mSetter = [this]( Color c ){
+		getEditFragment().mColor = c;
+	};
+	mColorsView->mGetter = [this](){
+		return getEditFragment().mColor;
+	};
 	
-	mSelectedColor=0;
-	
+	// sliders
 	{
 		// icon loading helper
 		fs::path iconPathBase = getAssetPath("slider-icons");
@@ -321,31 +321,19 @@ void FragmentView::updateLayout()
 	}
 
 	// colors
-	mColorSize = kColorSize;
-	
-	vec2 colorsSize = mColorSize * vec2( mColorCols, mColors.size()/mColorCols );
-
-	mColorsTopLeft.y = kVStepToFirstSliderLine + (float)(mSliders.size()-1) * kIntersliderVStep + kVStepToColors;
-	mColorsTopLeft.x = getBounds().getWidth()/2 - colorsSize.x/2;
-	
-	mColorsRect = Rectf( mColorsTopLeft, mColorsTopLeft + colorsSize );
-}
-
-void FragmentView::mouseDown( ci::app::MouseEvent e )
-{
-	vec2 local = rootToChild(e.getPos());
-	
-	int color   = pickColor(local);
-	
-	if ( color != -1 )
+	if (mColorsView)
 	{
-		mSelectedColor = color;
-		syncModelToColor();
+		vec2 colorsSize = kColorSize * vec2( mColorsView->mColorCols, mColorsView->mColors.size()/mColorsView->mColorCols );
+		vec2 tl;
+		
+		tl.y = kVStepToFirstSliderLine + (float)(mSliders.size()-1) * kIntersliderVStep + kVStepToColors;
+		tl.x = getBounds().getWidth()/2 - colorsSize.x/2;
+		
+		Rectf r( tl, tl + colorsSize );
+		
+//		mColorsView->setFrameAndBoundsWithSize(r);
+		mColorsView->layout(r);
 	}
-}
-
-void FragmentView::mouseUp ( ci::app::MouseEvent e )
-{
 }
 
 void FragmentView::setFragment( SampleRef s, int f )
@@ -355,8 +343,7 @@ void FragmentView::setFragment( SampleRef s, int f )
 		mEditSample   = s;
 		mEditFragment = f;
 		
-		syncSlidersToModel();
-		syncColorToModel();
+		syncWidgetsToModel();
 	}
 }
 
@@ -365,14 +352,18 @@ bool FragmentView::isEditFragmentValid() const
 	return mEditSample && mEditFragment >= 0 && mEditFragment < mEditSample->mFragments.size();
 }
 
-void FragmentView::syncSlidersToModel()
+void FragmentView::syncWidgetsToModel()
 {
+	// kind of unnecessary, but we do it so that immediately can respond to selection
+	// change and not for next tick in sliders/colors :P
 	if ( isEditFragmentValid() )
 	{
 		for( SliderViewRef v : mSliders )
 		{
 			if (v) v->slider().pullValueFromGetter();
 		}
+		
+		if (mColorsView) mColorsView->pullValueFromGetter();
 	}
 }
 
@@ -384,67 +375,6 @@ void FragmentView::fragmentDidChange() const
 	}
 }
 
-void FragmentView::syncModelToColor() const
-{
-	if ( isEditFragmentValid() && mSelectedColor >= 0 && mSelectedColor < mColors.size() )
-	{
-		mEditSample->mFragments[mEditFragment].mColor = mColors[ mSelectedColor ];
-		
-		fragmentDidChange();
-	}
-}
-
-void FragmentView::syncColorToModel()
-{
-	if ( isEditFragmentValid() )
-	{
-		Color c = mEditSample->mFragments[mEditFragment].mColor;
-		
-		int closest = 0;
-		float bestdist = MAXFLOAT;
-		
-		for( int i=0; i<mColors.size(); ++i )
-		{
-			float d = distance( mColors[i], c );
-			
-			if ( d < bestdist )
-			{
-				closest  = i;
-				bestdist = d;
-			}
-		}
-		
-		mSelectedColor = closest;
-	}
-}
-
-void FragmentView::mouseDrag( ci::app::MouseEvent e )
-{
-	vec2 mouseDownLocal = rootToChild(getMouseDownLoc());
-	vec2 local = rootToChild(e.getPos());
-//	vec2 delta = local - mouseDownLocal; 
-	
-	// color
-	if ( pickColor(mouseDownLocal) != -1 )
-	{
-		int oldColor = mSelectedColor;
-		int color = pickColor(local);
-		mSelectedColor = color;
-		
-		// revert?
-//		if (mSelectedColor==-1) mSelectedColor = pickColor(mouseDownLocal);
-		if (mSelectedColor==-1) mSelectedColor = oldColor;
-
-		syncModelToColor();
-	}
-}
-
-void FragmentView::tick( float dt )
-{
-	// in case user is editing from gel view
-	syncSlidersToModel();
-}
-
 void FragmentView::draw()
 {
 	// background + frame
@@ -452,59 +382,6 @@ void FragmentView::draw()
 	gl::drawSolidRect(getBounds());
 	gl::color(.5,.5,.5);
 	gl::drawStrokedRect(getBounds());
-		
-	// colors
-	drawColors();
-}
-
-void FragmentView::drawColors() const
-{
-	// colors
-	for( int i=0; i<mColors.size(); ++i )
-	{
-		gl::color( mColors[i] );
-		gl::drawSolidRect( calcColorRect(i) );
-	}
-	
-	if ( mSelectedColor >= 0 )
-	{
-		gl::color(kSelectedColorStrokeColor);
-		gl::drawStrokedRect(
-			calcColorRect(mSelectedColor).inflated( vec2(.5f)*kSelectedColorStrokeWidth ),
-			kSelectedColorStrokeWidth );
-	}
-}
-
-int	
-FragmentView::pickColor( glm::vec2 loc ) const
-{
-	if ( mColorsRect.contains(loc) )
-	{
-		loc -= mColorsRect.getUpperLeft();
-		
-		int x = loc.x / mColorSize.x;
-		int y = loc.y / mColorSize.y;
-		
-		int i = x + y * mColorCols;
-		
-		if ( i >= mColors.size() ) i = -1;
-		
-		return i;
-	}
-	else return -1;
-}
-
-Rectf
-FragmentView::calcColorRect( int i ) const
-{
-	int x = i % mColorCols;
-	int y = i / mColorCols;
-	
-	Rectf r( vec2(0,0), mColorSize );
-	r += mColorSize * vec2(x,y);
-	r += mColorsTopLeft;
-	
-	return r;
 }
 
 Sample::Fragment&
