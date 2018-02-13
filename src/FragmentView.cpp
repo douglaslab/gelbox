@@ -30,13 +30,6 @@ const float kSliderGraphHeight = 32.f;
 
 const float kVStepToColors = 42; 
 
-const float kMinBases = 1;
-const float kMaxBases = GelSim::kBaseCountHigh;
-
-const float kMaxAspectRatio = 16.f;
-
-const int kNumMultimerNotches = 7;
-
 vector<ci::Color> FragmentView::sColorPalette;
 
 const vector<Color>& FragmentView::getColorPalette()
@@ -130,8 +123,8 @@ void FragmentView::makeSliders()
 		Slider aggregate;
 		Slider degrade;
 		
-		size.mValueMappedLo = kMinBases;
-		size.mValueMappedHi = kMaxBases;
+		size.mValueMappedLo = 1;
+		size.mValueMappedHi = GelSim::kSliderBaseCountMax;
 		size.mValueQuantize = 100;
 		size.mSetter = [this]( float v ) {
 			getEditFragment().mBases = roundf(v);  
@@ -145,7 +138,7 @@ void FragmentView::makeSliders()
 		};
 		
 		concentration.mValueMappedLo = 0.f;
-		concentration.mValueMappedHi = GelSim::kSampleMassHigh;
+		concentration.mValueMappedHi = GelSim::kSliderMassMax;
 		concentration.mSetter = [this]( float v ) {
 			getEditFragment().mMass = v;
 		};
@@ -160,7 +153,7 @@ void FragmentView::makeSliders()
 		};
 
 		aspect.mValueMappedLo = 1.f;
-		aspect.mValueMappedHi = kMaxAspectRatio;
+		aspect.mValueMappedHi = GelSim::kSliderAspectRatioMax;
 		aspect.mSetter = [this](float v ) {
 			getEditFragment().mAspectRatio = v;  
 		};
@@ -179,7 +172,7 @@ void FragmentView::makeSliders()
 		aggregate.mGraphDrawAsColumns = kDrawGraphAsColumns;
 		if ( ! kDrawGraphAsColumns )
 		{
-			aggregate.addFixedNotches( kNumMultimerNotches );
+			aggregate.addFixedNotches( GelSim::kSliderAggregateMaxMultimer );
 			aggregate.mNotchAction = Slider::Notch::DrawOnly;
 		}
 				
@@ -190,10 +183,10 @@ void FragmentView::makeSliders()
 		aggregate.mValueQuantize = .05f;
 		
 		aggregate.mValueMappedLo = 1;
-		aggregate.mValueMappedHi = kNumMultimerNotches;
+		aggregate.mValueMappedHi = GelSim::kSliderAggregateMaxMultimer;
 		
 		aggregate.mIsGraph = true;
-		aggregate.mGraphValues.resize( kNumMultimerNotches );
+		aggregate.mGraphValues.resize( GelSim::kSliderAggregateMaxMultimer );
 		aggregate.mGraphHeight = kSliderGraphHeight; 
 		for( float &x : aggregate.mGraphValues ) x = randFloat(); // test data		
 		
@@ -205,7 +198,7 @@ void FragmentView::makeSliders()
 			if ( getEditFragment().mAggregate.empty() )
 			{
 				// default value
-				vector<float> v = std::vector<float>(kNumMultimerNotches,0.f);
+				vector<float> v = std::vector<float>(GelSim::kSliderAggregateMaxMultimer,0.f);
 				v[0] = 1;
 				return v;
 			}

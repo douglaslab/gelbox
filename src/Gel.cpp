@@ -18,7 +18,7 @@ const vec2 kPosVec (0,1);
 
 Gel::Gel()
 {
-	mVoltage = GelSim::kVoltageSliderDefaultValue;
+	mVoltage = GelSim::kSliderVoltageDefaultValue;
 }
 
 void Gel::setLayout(

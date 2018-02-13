@@ -18,12 +18,26 @@ namespace GelSim
 const float kSampleMassHigh = 125.f; // 125ml
 const int   kBaseCountHigh  = 14000;
 
-const int   kTimelineMaxMinutes = 60 * 3; // 3 hrs
 
-const float kVoltageSliderLow   = -300;
-const float kVoltageSliderHigh  =  300;
-const float kVoltageSliderNotch =  70;
-const float kVoltageSliderDefaultValue = kVoltageSliderNotch;
+/*
+ * Slider Tuning Values
+ */
+
+const int   kSliderTimelineMaxMinutes = 60 * 3; // 3 hrs
+
+const float kSliderMassMax = kSampleMassHigh;
+
+const float kSliderVoltageLow   = -300;
+const float kSliderVoltageHigh  =  300;
+const float kSliderVoltageNotch =  70;
+const float kSliderVoltageDefaultValue = kSliderVoltageNotch;
+
+const float kSliderAspectRatioMax = 16.f;
+const int   kSliderAggregateMaxMultimer = 7;
+
+const int   kSliderBaseCountMax = kBaseCountHigh;
+
+
 
 /*
 	Degrade [0..2]

@@ -128,13 +128,13 @@ void GelboxApp::decorateGelViewWithSliders( GelViewRef gelView )
 	{
 		Slider s;
 
-		s.mValueMappedLo = GelSim::kVoltageSliderLow;
-		s.mValueMappedHi = GelSim::kVoltageSliderHigh;
+		s.mValueMappedLo = GelSim::kSliderVoltageLow;
+		s.mValueMappedHi = GelSim::kSliderVoltageHigh;
 		s.mValueQuantize = 1.f;
 		
 		s.mNotchAction = Slider::Notch::Snap;
 //		s.addFixedNotches(2);
-		s.addNotchAtMappedValue(GelSim::kVoltageSliderDefaultValue);
+		s.addNotchAtMappedValue(GelSim::kSliderVoltageDefaultValue);
 		s.addNotchAtMappedValue(0.f);
 		
 		s.mSetter = [gel,gelView]( float v ) {
@@ -184,7 +184,7 @@ void GelboxApp::decorateGelViewWithSliders( GelViewRef gelView )
 		};
 		s.mMappedValueToStr = []( float v )
 		{
-			v *= GelSim::kTimelineMaxMinutes;
+			v *= GelSim::kSliderTimelineMaxMinutes;
 			
 			int m = roundf(v); // we get fractional values, so fix that.
 			
