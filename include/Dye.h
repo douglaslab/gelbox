@@ -19,9 +19,9 @@ namespace Dye
 	const int kXyleneCyanol	  = 0;
 	const int kCresolRed	  = 1;
 	const int kBromphenolBlue = 2;
-//	const int kOrangeG		  = 3;
+	const int kOrangeG		  = 3;
 	
-	const int kCount		  = 3;
+	const int kCount		  = 4;
 	
 	
 	// names
@@ -29,8 +29,8 @@ namespace Dye
 	{
 		"Xylene cyanol",
 		"Cresol red",
-		"Bromphenol blue"
-//		"Orange G"
+		"Bromphenol blue",
+		"Orange G"
 	};
 	
 	
@@ -39,8 +39,8 @@ namespace Dye
 	{
 		Color::hex(0x00AFE2),
 		Color::hex(0x985D93),
-		Color::hex(0xB3A7D3)
-//		Color::hex(0xFACB01)
+		Color::hex(0xB3A7D3),
+		Color::hex(0xFACB01)
 	};
 	
 	
@@ -49,16 +49,16 @@ namespace Dye
 	{
 		6000,
 		700,
-		300
-//		50
+		300,
+		50
 	};
 
 	const int kBPHi[kCount] =
 	{
 		7000,
 		900,
-		500
-//		100
+		500,
+		100
 	};
 
 	
@@ -67,8 +67,8 @@ namespace Dye
 	{
 		"xylene-cyanol",
 		"cresol-red",
-		"bromphenol-blue"
-//		"orange-g"
+		"bromphenol-blue",
+		"orange-g"
 	};
 	
 	gl::TextureRef getSliderIcon( int );

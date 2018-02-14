@@ -30,6 +30,7 @@
 		26C36DCC203246C700229323 /* BufferView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26C36DCB203246C700229323 /* BufferView.cpp */; };
 		26C36DD42033961200229323 /* ColorPaletteView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26C36DD32033961200229323 /* ColorPaletteView.cpp */; };
 		26C36DD72033B84F00229323 /* Dye.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26C36DD62033B84F00229323 /* Dye.cpp */; };
+		26C36DDA2034B1D900229323 /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26C36DD92034B1D900229323 /* Buffer.cpp */; };
 		26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA611FE86194003AAE8D /* Interaction.cpp */; };
 		26FC514320193B3B0004A458 /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FC514220193B3B0004A458 /* Slider.cpp */; };
 		26FC514720194F1F0004A458 /* SliderView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FC514620194F1F0004A458 /* SliderView.cpp */; };
@@ -81,6 +82,8 @@
 		26C36DD32033961200229323 /* ColorPaletteView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ColorPaletteView.cpp; path = ../src/ColorPaletteView.cpp; sourceTree = "<group>"; };
 		26C36DD52033B28B00229323 /* Dye.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Dye.h; path = ../include/Dye.h; sourceTree = "<group>"; };
 		26C36DD62033B84F00229323 /* Dye.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dye.cpp; path = ../src/Dye.cpp; sourceTree = "<group>"; };
+		26C36DD82034AA0D00229323 /* Buffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Buffer.h; path = ../include/Buffer.h; sourceTree = "<group>"; };
+		26C36DD92034B1D900229323 /* Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Buffer.cpp; path = ../src/Buffer.cpp; sourceTree = "<group>"; };
 		26CEEA5F1FE860E2003AAE8D /* NodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NodeView.h; path = ../include/NodeView.h; sourceTree = "<group>"; };
 		26CEEA601FE86151003AAE8D /* Interaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Interaction.h; path = ../include/Interaction.h; sourceTree = "<group>"; };
 		26CEEA611FE86194003AAE8D /* Interaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Interaction.cpp; path = ../src/Interaction.cpp; sourceTree = "<group>"; };
@@ -221,6 +224,7 @@
 				2642C0F91FD730F000528061 /* Sample.cpp */,
 				268BF8C9202248E100E6553F /* GelSim.cpp */,
 				26C36DD62033B84F00229323 /* Dye.cpp */,
+				26C36DD92034B1D900229323 /* Buffer.cpp */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
@@ -243,6 +247,7 @@
 				268BF8C8202248C400E6553F /* GelSim.h */,
 				2642C0F81FD7300D00528061 /* Sample.h */,
 				26C36DD52033B28B00229323 /* Dye.h */,
+				26C36DD82034AA0D00229323 /* Buffer.h */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
@@ -368,6 +373,7 @@
 				2642C0F71FD72EE600528061 /* GelView.cpp in Sources */,
 				2642C0F31FD5FFA300528061 /* Gel.cpp in Sources */,
 				26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */,
+				26C36DDA2034B1D900229323 /* Buffer.cpp in Sources */,
 				26C36DCC203246C700229323 /* BufferView.cpp in Sources */,
 				2693E3292004019800633564 /* FragmentView.cpp in Sources */,
 				26054EA71FD88259007DB5F8 /* ImageView.cpp in Sources */,

@@ -14,6 +14,7 @@ using namespace std;
 using namespace ci;
 using namespace ci::app;
 
+#include "Buffer.h"
 
 ///////
 //const float kSliderIconGutter = 12;
