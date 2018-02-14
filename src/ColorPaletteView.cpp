@@ -120,8 +120,6 @@ void ColorPaletteView::pushValueToSetter() const
 	{
 		mSetter( mColors[mSelectedColor] );
 	}
-	
-	if (mDidPushValue) mDidPushValue();
 }
 
 void ColorPaletteView::pullValueFromGetter()

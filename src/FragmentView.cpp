@@ -19,16 +19,15 @@ using namespace ci::app;
 
 const vec2  kColorSize(35,35);
 
-const float kSliderIconGutter = 12;
-const vec2  kSliderIconNotionalSize(26,26); // for layout purposes; they can be different sizes
-const float kSliderLineLength = 133;
-
-const float kIntersliderVStep  = 56;
-const float kVStepToFirstSliderLine = 42;
-
+const float kSliderIconGutter = 16;
+const float kSliderLength	  = 133 + 26.f*2.f + 24.f;
+const float kSliderVGutter    = 56;
+const float kSliderFirstGutter = 24;
 const float kSliderGraphHeight = 32.f;
+const float kSliderColorsGutter = 24; 
 
-const float kVStepToColors = 42; 
+const vec2  kSliderIconNotionalSize(26,26); // for layout purposes; they can be different sizes
+
 
 vector<ci::Color> FragmentView::sColorPalette;
 
@@ -88,9 +87,9 @@ void FragmentView::makeSliders()
 	mColorsView = make_shared<ColorPaletteView>();
 	mColorsView->setPalette( getColorPalette() );
 	mColorsView->setParent( shared_from_this() );
-	mColorsView->mDidPushValue = [this](){ fragmentDidChange(); }; 
 	mColorsView->mSetter = [this]( Color c ){
 		getEditFragment().mColor = c;
+		fragmentDidChange();
 	};
 	mColorsView->mGetter = [this](){
 		return getEditFragment().mColor;
@@ -98,19 +97,6 @@ void FragmentView::makeSliders()
 	
 	// sliders
 	{
-		// icon loading helper
-		fs::path iconPathBase = getAssetPath("slider-icons");
-		
-		auto loadIcons = [iconPathBase]( Slider& s, string name )
-		{
-			s.mIconSize[0] = s.mIconSize[1] = kSliderIconNotionalSize; // does't really matter unless it fails to load
-			
-			s.loadIcons(
-				iconPathBase / (name + "-lo.png"),
-				iconPathBase / (name + "-hi.png")
-				);
-		};
-		
 		// this is a little dangerous because we are passing this into all these lambdas.
 		// that was when this was one object, and we have since refactored into a bunch of sub-views. so hopefully we all stay alive together!
 		// one hack if it becomes a bug is to not capture this, but capture a shared_ptr,
@@ -127,7 +113,8 @@ void FragmentView::makeSliders()
 		size.mValueMappedHi = GelSim::kSliderBaseCountMax;
 		size.mValueQuantize = 100;
 		size.mSetter = [this]( float v ) {
-			getEditFragment().mBases = roundf(v);  
+			getEditFragment().mBases = roundf(v);
+			fragmentDidChange();
 		};
 		size.mGetter = [this]() {
 			return getEditFragment().mBases; 
@@ -141,6 +128,7 @@ void FragmentView::makeSliders()
 		concentration.mValueMappedHi = GelSim::kSliderMassMax;
 		concentration.mSetter = [this]( float v ) {
 			getEditFragment().mMass = v;
+			fragmentDidChange();
 		};
 		concentration.mGetter = [this]() {
 			return getEditFragment().mMass; 
@@ -155,7 +143,8 @@ void FragmentView::makeSliders()
 		aspect.mValueMappedLo = 1.f;
 		aspect.mValueMappedHi = GelSim::kSliderAspectRatioMax;
 		aspect.mSetter = [this](float v ) {
-			getEditFragment().mAspectRatio = v;  
+			getEditFragment().mAspectRatio = v; 
+			fragmentDidChange();
 		};
 		aspect.mGetter = [this]() {
 			return getEditFragment().mAspectRatio;
@@ -192,6 +181,7 @@ void FragmentView::makeSliders()
 		
 		aggregate.mGraphSetter = [this]( std::vector<float> v ) {
 			getEditFragment().mAggregate = v;  
+			fragmentDidChange();
 		};
 		aggregate.mGraphGetter = [this]()
 		{
@@ -213,6 +203,7 @@ void FragmentView::makeSliders()
 		degrade.mValueMappedHi = 2.f;
 		degrade.mSetter = [this]( float v ) {
 			getEditFragment().mDegrade = v;  
+			fragmentDidChange();
 		};
 		degrade.mGetter = [this]() {
 			return getEditFragment().mDegrade; 
@@ -220,25 +211,22 @@ void FragmentView::makeSliders()
 		degrade.addFixedNotches(3);
 		degrade.mNotchAction = Slider::Notch::Snap;
 		
-		// load icons
-		loadIcons( size, "size" );
-		loadIcons( concentration, "concentration" );
-		loadIcons( aspect, "aspect" );
-		loadIcons( aggregate, "multimer" );
-		loadIcons( degrade, "degrade" );
-
 		// flip individual items (after icons + everything loaded!)
 //		size.flipXAxis();
 //		aggregate.flipXAxis();
 		
-		// insert
-		auto add = [this]( Slider s )
+		// insert, load icons
+		fs::path iconPathBase = getAssetPath("slider-icons");
+
+		auto add = [this,iconPathBase]( Slider s, string name )
 		{
-			s.mDidPushValue = [this]()
-			{
-				this->fragmentDidChange();
-			};
+			// load icon
+			s.loadIcons(
+				iconPathBase / (name + "-lo.png"),
+				iconPathBase / (name + "-hi.png")
+				);
 			
+			// insert
 			SliderViewRef v = make_shared<SliderView>(s);
 			
 			v->setParent( shared_from_this() );
@@ -246,11 +234,11 @@ void FragmentView::makeSliders()
 			mSliders.push_back(v);
 		};
 		
-		add(size);
-		add(concentration);
-		add(aspect);
-		add(aggregate);
-		add(degrade);
+		add( size,			"size" );
+		add( concentration, "concentration" );
+		add( aspect,		"aspect" );
+		add( aggregate,		"multimer" );
+		add( degrade,		"degrade" );
 		
 		// flip all?
 		const bool reverseAll = false; 
@@ -270,47 +258,19 @@ void FragmentView::close()
 void FragmentView::updateLayout()
 {
 	if ( mSliders.empty() ) makeSliders(); 
-	
-	// sliders
-	float sliderx[2] = {
-		getBounds().getCenter().x - kSliderLineLength/2,
-		getBounds().getCenter().x + kSliderLineLength/2
-	};
-	
+
+	// position sliders	
+	const vec2 topleft = snapToPixel( vec2( getBounds().getCenter().x - kSliderLength/2.f, kSliderFirstGutter ) ); 
+		// topleft of first slider
+		
 	for( int i=0; i<mSliders.size(); ++i )
 	{
 		Slider  s = mSliders[i]->getSlider();
+		
+		s.doLayoutInWidth( kSliderLength, kSliderIconGutter, kSliderIconNotionalSize ); 
 
-		float slidery = kVStepToFirstSliderLine + (float)i * kIntersliderVStep;
-		
-		s.mEndpoint[0] = vec2( sliderx[0], slidery );
-		s.mEndpoint[1] = vec2( sliderx[1], slidery );
-		
-		vec2 offset = vec2(kSliderIconNotionalSize.x/2+kSliderIconGutter,0);
-		
-		for( int i=0; i<2; ++i )
-		{
-			s.mIconRect[i] = Rectf( vec2(0,0), s.mIconSize[i] );
-			s.mIconRect[i].offsetCenterTo( s.mEndpoint[i] + offset * ( i ? 1.f : -1.f ) );
-			s.mIconRect[i] = snapToPixel(s.mIconRect[i]);
-		}
-
-		// pick rect
-		for ( int i=0; i<2; ++i )
-		{
-			vec2 c = s.mIconRect[i].getCenter();
-			s.mIconPickRect[i] = Rectf( c - kSliderIconNotionalSize/2.f, c + kSliderIconNotionalSize/2.f );
-		}
-		
-		// shift graph endpoints -- after we've layed out icons with proper endpoints
-		if (s.mIsGraph)
-		{
-			float d = s.mGraphHeight * .5f;
-			s.mEndpoint[0].y += d;
-			s.mEndpoint[1].y += d;
-		}
-		
 		mSliders[i]->setSlider(s);
+		mSliders[i]->setFrame( mSliders[i]->getFrame() + topleft + vec2(0.f,(float)i * kSliderVGutter) );
 	}
 
 	// colors
@@ -319,12 +279,11 @@ void FragmentView::updateLayout()
 		vec2 colorsSize = kColorSize * vec2( mColorsView->mColorCols, mColorsView->mColors.size()/mColorsView->mColorCols );
 		vec2 tl;
 		
-		tl.y = kVStepToFirstSliderLine + (float)(mSliders.size()-1) * kIntersliderVStep + kVStepToColors;
+		tl.y = mSliders.back()->getFrame().y2 + kSliderColorsGutter;
 		tl.x = getBounds().getWidth()/2 - colorsSize.x/2;
 		
 		Rectf r( tl, tl + colorsSize );
 		
-//		mColorsView->setFrameAndBoundsWithSize(r);
 		mColorsView->layout(r);
 	}
 }

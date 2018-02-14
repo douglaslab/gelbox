@@ -49,17 +49,30 @@ bool Slider::loadIcons( ci::fs::path lo, ci::fs::path hi )
 	return mIcon[0] && mIcon[1];
 }
 
-void Slider::doLayoutInWidth ( float fitInWidth, float iconGutter )
+void Slider::doLayoutInWidth ( float fitInWidth, float iconGutter, vec2 notionalIconSize )
 {
-	float h = max( mIconSize[0].y, mIconSize[1].y ); 
-	float cy = h * .5f; // y for center bar we are aligning on
+	// calculate notional icon sizes (it's an optional parameter, could be <=0)
+	vec2 nsize[2];
 	
-	mIconRect[0] = Rectf( vec2(0,0), mIconSize[0] ) + snapToPixel( vec2( 0.f, cy - mIconSize[0].y / 2.f ) );
-	mIconRect[1] = Rectf( vec2(0,0), mIconSize[1] ) + snapToPixel( vec2( fitInWidth - mIconSize[1].x, cy - mIconSize[1].y / 2.f ) );
+	for( int i=0; i<2; ++i )
+	for( int j=0; j<2; ++j )
+	{
+		if (notionalIconSize[j]>0.f) nsize[i][j] = notionalIconSize[j];
+		else nsize[i][j] = mIconSize[i][j];
+	}
+
+	// figure out cy -- y for center bar we are aligning on
+	float cy = max( nsize[0].y, nsize[1].y ) * .5f;	
 	
-	mEndpoint[0] = snapToPixel( vec2( mIconRect[0].x2 + iconGutter, cy ) );
-	mEndpoint[1] = snapToPixel( vec2( mIconRect[1].x1 - iconGutter, cy ) );
+	// make pick icon rect at notional position
+	mIconPickRect[0] = Rectf( vec2(0,0), nsize[0] ) + snapToPixel( vec2( 0.f, cy - nsize[0].y / 2.f ) );
+	mIconPickRect[1] = Rectf( vec2(0,0), nsize[1] ) + snapToPixel( vec2( fitInWidth - nsize[1].x, cy - nsize[1].y / 2.f ) );
 	
+	// use that notional/pick rect for endpoint position 
+	mEndpoint[0] = snapToPixel( vec2( mIconPickRect[0].x2 + iconGutter, cy ) );
+	mEndpoint[1] = snapToPixel( vec2( mIconPickRect[1].x1 - iconGutter, cy ) );
+	
+	// adjust endpoints for graph layout
 	if (mIsGraph)
 	{
 		float d = mGraphHeight * .5f;
@@ -67,12 +80,14 @@ void Slider::doLayoutInWidth ( float fitInWidth, float iconGutter )
 		mEndpoint[1].y += d;
 	}
 	
-	// pick rect
-	vec2 ps = glm::max( mIconSize[0], mIconSize[1] );
+	// now, make mIconRect[] properly fit the icon we have
 	for ( int i=0; i<2; ++i )
 	{
+		mIconRect[i] = mIconPickRect[i];
 		vec2 c = mIconRect[i].getCenter();
-		mIconPickRect[i] = Rectf( c - ps/2.f, c + ps/2.f );
+		vec2 e = mIconSize[i] / 2.f;
+		mIconRect[i] = Rectf( c - e, c + e );
+		mIconRect[i] = snapToPixel(mIconRect[i]);
 	}
 }
 
@@ -262,6 +277,9 @@ void Slider::flipXAxis()
 	swap( mEndpoint[0], mEndpoint[1] );
 	swap( mValueMappedLo, mValueMappedHi );
 	mValue = 1.f - mValue;
+	
+	// BUG if icons are different sizes I think we're hosed and need to redo layout
+	// we need to swap icon rects, but recenter them or something?
 	
 	// graph
 	mAreGraphValuesReversed = ! mAreGraphValuesReversed;
@@ -484,8 +502,6 @@ void Slider::pushValueToSetter() const
 		 
 		mGraphSetter( gv );
 	}
-	
-	if (mDidPushValue) mDidPushValue();
 }
 
 void Slider::pullValueFromGetter()

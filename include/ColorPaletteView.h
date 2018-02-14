@@ -58,8 +58,5 @@ public:
 	
 	tSetter		mSetter;
 	tGetter		mGetter;
-
-	// notify value changed
-	std::function<void(void)> mDidPushValue;
 		
 };

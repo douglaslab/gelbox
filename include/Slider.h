@@ -22,13 +22,14 @@ public:
 	glm::vec2	mEndpoint[2];
 	
 	bool		loadIcons( ci::fs::path lo, ci::fs::path hi );
-	void		doLayoutInWidth( float fitInWidth, float iconGutter );
+	void		doLayoutInWidth( float fitInWidth, float iconGutter, glm::vec2 notionalIconSize=glm::vec2(0.f) );
 	/*
 		[ ] ----- [ ]
 		   ^     ^      iconGutter
 		|-----------|   fitInWidth
 	
 		topleft is at origin
+		notionalIconSize fits whatever icons are present within a box of that size, for consistent layouts regardless of icon sizes
 	*/
 	
 	// notches
@@ -76,9 +77,6 @@ public:
 
 	void pushValueToSetter() const; // implicitly called by setValueWithMouse, setNormalizedValue
 	void pullValueFromGetter();
-	
-	// notify value changed
-	std::function<void(void)> mDidPushValue;
 	
 	// label generation
 	std::function<std::string(float v)> mMappedValueToStr;

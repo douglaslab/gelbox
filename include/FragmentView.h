@@ -23,7 +23,7 @@ typedef std::shared_ptr<SliderView> SliderViewRef;
 class ColorPaletteView;
 typedef std::shared_ptr<ColorPaletteView> ColorPaletteViewRef;
 
-const glm::vec2 kFragmentViewSize(350,407);
+const glm::vec2 kFragmentViewSize(300,400);
 
 class FragmentView : public View
 {
