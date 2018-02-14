@@ -16,12 +16,13 @@ using namespace ci::app;
 
 
 ///////
-const float kSliderIconGutter = 12;
-const vec2  kSliderIconNotionalSize(26,26); // for layout purposes; they can be different sizes
-const float kSliderLineLength = 133;
-
-const float kIntersliderVStep  = 56;
-const float kVStepToFirstSliderLine = 42;
+//const float kSliderIconGutter = 12;
+//const vec2  kSliderIconNotionalSize(26,26); // for layout purposes; they can be different sizes
+//const float kSliderLineLength = 133;
+//
+//const float kIntersliderVStep  = 56;
+//const float kVStepToFirstSliderLine = 42;
+// -- for layout consistency, move these values into something else... a Layout.h file?
 /////
 
 BufferView::BufferView()

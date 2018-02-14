@@ -11,9 +11,12 @@
 #include <vector>
 #include "cinder/Rand.h"
 #include "cinder/Xml.h"
+#include "Dye.h"
 
 class Sample;
 typedef std::shared_ptr<Sample> SampleRef;
+
+
 
 class SampleFragRef
 {
@@ -43,6 +46,8 @@ private:
 	int			mFrag = -1;
 };
 typedef std::shared_ptr<SampleFragRef> SampleFragRefRef; // :D it is a pointer-pointer after all
+
+
 
 class Sample
 {
@@ -109,17 +114,18 @@ public:
 		} 
 	};
 
-	std::vector<Fragment> mFragments;
+	std::vector<Fragment>	mFragments;
+	float					mDyes[Dye::kCount];
 	
-	std::string mName;
-	int			mID = -1;
+	std::string				mName;
+	int						mID = -1;
 	
-	std::string mIconFileName;
-	float		mIconScale=1.f;
+	std::string				mIconFileName;
+	float					mIconScale=1.f;
 	
 	
 	
-	Sample() {}
+	Sample() { for(int i=0; i<Dye::kCount; ++i ) mDyes[i]=0.f; }
 	Sample( const ci::XmlTree& xml ) { loadXml(xml); }
 
 	void degrade( float d ) {
