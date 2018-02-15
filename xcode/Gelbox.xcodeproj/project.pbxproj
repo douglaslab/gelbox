@@ -184,8 +184,8 @@
 				26054EA81FD8826A007DB5F8 /* ImageView.h */,
 				26CEEA5F1FE860E2003AAE8D /* NodeView.h */,
 				2693E3242000407400633564 /* SampleView.h */,
-				26C36DCA203246AC00229323 /* BufferView.h */,
 				2693E3272004018B00633564 /* FragmentView.h */,
+				26C36DCA203246AC00229323 /* BufferView.h */,
 				26FC514520194E550004A458 /* SliderView.h */,
 				26C36DD2203395BA00229323 /* ColorPaletteView.h */,
 			);
@@ -199,8 +199,8 @@
 				2642C0F61FD72EE600528061 /* GelView.cpp */,
 				26054EA61FD88259007DB5F8 /* ImageView.cpp */,
 				2693E3252000415300633564 /* SampleView.cpp */,
-				26C36DCB203246C700229323 /* BufferView.cpp */,
 				2693E3282004019800633564 /* FragmentView.cpp */,
+				26C36DCB203246C700229323 /* BufferView.cpp */,
 				26FC514620194F1F0004A458 /* SliderView.cpp */,
 				26C36DD32033961200229323 /* ColorPaletteView.cpp */,
 			);

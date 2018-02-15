@@ -9,6 +9,7 @@
 #include "GelView.h"
 #include "SampleView.h"
 #include "FragmentView.h" // for FragmentView::getColorPalette()
+#include "BufferView.h"
 #include "GelSim.h"
 
 using namespace ci;
@@ -18,6 +19,7 @@ const bool kEnableDrag = false;
 const bool kBandRolloverOpensSampleView = false;
 const bool kHoverGelDetailViewOnBandDrag= true;
 const bool kDragBandMakesNewSamples = true;
+const bool kClickBackgroundOpensBufferView = true;
 
 const bool kShowReverseSolverDebugTest = false;
 const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
@@ -305,6 +307,16 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 
 			selectFragment (band.mLane, band.mFragment);
 		}
+		// else pick buffer
+		else if (kClickBackgroundOpensBufferView)
+		{
+			// deselect, close other stuff
+			deselectFragment();
+			selectMicrotube(-1);
+			
+			// toggle it open/closed
+			openBufferView( mBufferView==0 );
+		}
 		// else pick lane
 		else
 		{
@@ -402,6 +414,8 @@ void GelView::newFragmentAtPos( ci::vec2 pos )
 
 void GelView::selectFragment( int lane, int frag )
 {
+	assert( lane != -1 && frag != -1 ); // use deselect!
+	
 	selectMicrotube(lane);
 	
 	assert(mSampleView);
@@ -411,7 +425,7 @@ void GelView::selectFragment( int lane, int frag )
 
 void GelView::deselectFragment()
 {
-	if (mSampleView) mSampleView->deselectFragment();
+	mSelectedState->clear();
 }
 
 void GelView::selectMicrotube( int i )
@@ -428,6 +442,9 @@ void GelView::selectMicrotube( int i )
 
 void GelView::openSampleView()
 {
+	// no buffer view!
+	openBufferView(false);
+	
 	// close old?
 	if ( mSampleView
 	  && mGel
@@ -485,8 +502,8 @@ void GelView::openSampleView()
 		}
 	}
 	
-	// make sure detail is on top
-	if ( mHoverGelDetailView ) getCollection()->moveViewToTop( mHoverGelDetailView ); 
+	// make sure detail views stay on top
+	getCollection()->moveViewAbove( mSampleView, shared_from_this() ); // put sample view right after GelView 
 }
 
 void GelView::closeSampleView()
@@ -495,6 +512,27 @@ void GelView::closeSampleView()
 	{
 		mSampleView->close();
 		mSampleView=0;
+	}
+}
+
+void GelView::openBufferView( bool v )
+{				
+	// toggle
+	if ( !v && mBufferView )
+	{
+		mBufferView->close();
+		mBufferView=0;
+	}
+	else if ( v && !mBufferView )
+	{
+		deselectFragment();
+		selectMicrotube(-1);
+
+		mBufferView = BufferView::openToTheRightOfView( shared_from_this(), mGel->getBuffer() );
+		getCollection()->addView(mBufferView);
+
+		// put sample view right after GelView
+		getCollection()->moveViewAbove( mBufferView, shared_from_this() ); 
 	}
 }
 
@@ -797,6 +835,7 @@ void GelView::updateHoverGelDetailView()
 	if ( (getHasRollover() || (getHasMouseDown() && kHoverGelDetailViewOnBandDrag) ) && pickLane(getMouseLoc()) != -1 )
 	{
 		mHoverGelDetailView = updateGelDetailView( mHoverGelDetailView, getMouseLoc(), true, true ); // implicitly opens it
+		getCollection()->moveViewToTop(mHoverGelDetailView); // ensure it's on top
 	}
 	else
 	{

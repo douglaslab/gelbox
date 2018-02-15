@@ -21,6 +21,10 @@ typedef std::shared_ptr<GelView> GelViewRef;
 class SampleView;
 typedef std::shared_ptr<SampleView> SampleViewRef;
 
+class BufferView;
+typedef std::shared_ptr<BufferView> BufferViewRef;
+
+
 class GelView : public View
 {
 public:
@@ -74,6 +78,7 @@ private:
 	SampleViewRef		mHoverGelDetailView;
 	SampleViewRef		mMouseDownMadeLoupe;
 	std::vector< std::weak_ptr<SampleView> > mLoupeViews;
+	BufferViewRef		mBufferView;
 	
 	SampleFragRefRef mSelectedState, mRolloverState, mHighlightState; 
 	
@@ -98,6 +103,9 @@ private:
 	SampleRef	makeSampleFromGelPos( ci::vec2 pos ) const;
 	void		updateLoupes();
 
+	// buffer view
+	void		openBufferView( bool v=true );
+	
 	// drawing
 	void		drawMicrotubes() const;
 	void		drawBands() const;

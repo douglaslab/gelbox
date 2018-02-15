@@ -4,250 +4,150 @@
 //
 //  Created by Chaim Gingold on 2/12/18.
 //
-//
 
 #include "BufferView.h"
-#include "Sample.h"
+#include "SliderView.h"
 #include "GelSim.h"
 
 using namespace std;
 using namespace ci;
 using namespace ci::app;
 
-#include "Buffer.h"
+const float kSliderIconGutter = 16;
+const float kSliderLength	  = 133 + 26.f*2.f + 24.f;
+const float kSliderVGutter    = 56;
+const float kSliderFirstGutter = 24;
 
-///////
-//const float kSliderIconGutter = 12;
-//const vec2  kSliderIconNotionalSize(26,26); // for layout purposes; they can be different sizes
-//const float kSliderLineLength = 133;
-//
-//const float kIntersliderVStep  = 56;
-//const float kVStepToFirstSliderLine = 42;
-// -- for layout consistency, move these values into something else... a Layout.h file?
-/////
+const vec2  kSliderIconNotionalSize(26,26); // for layout purposes; they can be different sizes
+	// all of these duplicate what is in FragmentView.cpp
+	// if we reuse, then lets move to a Layout.h file and namespace
+
+const float kParentToBufferViewGutter = 16.f;
 
 BufferView::BufferView()
 {
 }
 
-void BufferView::updateLayout()
-{	
-#if 0
-	mColors = getColorPalette();
-	
-	mSelectedColor=0;
-	
+void BufferView::makeSliders()
+{
+	BufferViewRef sthis = dynamic_pointer_cast<BufferView>( shared_from_this() );
+
+	const fs::path iconPathBase = getAssetPath("slider-icons");
+
+	for( int param=0; param<Gelbox::Buffer::kNumParams; ++param )
 	{
-		// icon loading helper
-		fs::path iconPathBase = getAssetPath("slider-icons");
+		Slider s;
 		
-		auto loadIcons = [iconPathBase]( Slider& s, string name )
+		s.mValueMappedLo = 0.f;
+		s.mValueMappedHi = Gelbox::kBufferParamMax[param];
+		
+		s.mSetter = [sthis,param]( float v )
 		{
-			s.mIconSize[0] = s.mIconSize[1] = kSliderIconNotionalSize; // does't really matter unless it fails to load
-			
-			s.loadIcons(
-				iconPathBase / (name + "-lo.png"),
-				iconPathBase / (name + "-hi.png")
-				);
-		};
-		
-		// config sliders
-		Slider size;
-		Slider concentration;
-		Slider aspect;
-		Slider aggregate;
-		Slider degrade;
-		
-		size.mValueMappedLo = kMinBases;
-		size.mValueMappedHi = kMaxBases;
-		size.mValueQuantize = 100;
-		size.mSetter = [this]( float v ) {
-			getEditFragment().mBases = roundf(v);  
-		};
-		size.mGetter = [this]() {
-			return getEditFragment().mBases; 
-		};
-		size.mMappedValueToStr = []( float v )
-		{
-			return addCommasToNumericStr( toString(v) ) + " bp";
-		};
-		
-		concentration.mValueMappedLo = 0.f;
-		concentration.mValueMappedHi = GelSim::kSampleMassHigh;
-		concentration.mSetter = [this]( float v ) {
-			getEditFragment().mMass = v;
-		};
-		concentration.mGetter = [this]() {
-			return getEditFragment().mMass; 
-		};
-		concentration.mMappedValueToStr = []( float v )
-		{
-			v = roundf(v); // show as whole numbers
-			
-			return addCommasToNumericStr( toString(v) ) + " ng";
-		};
-
-		aspect.mValueMappedLo = 1.f;
-		aspect.mValueMappedHi = kMaxAspectRatio;
-		aspect.mSetter = [this](float v ) {
-			getEditFragment().mAspectRatio = v;  
-		};
-		aspect.mGetter = [this]() {
-			return getEditFragment().mAspectRatio;
-		};
-		aspect.mMappedValueToStr = []( float v )
-		{
-			v = roundf(v); // show as whole numbers
-			
-			return addCommasToNumericStr( toString(v) ) + " : 1";
-		};
-		
-
-		const bool kDrawGraphAsColumns = true;	
-		aggregate.mGraphDrawAsColumns = kDrawGraphAsColumns;
-		if ( ! kDrawGraphAsColumns )
-		{
-			aggregate.addFixedNotches( kNumMultimerNotches );
-			aggregate.mNotchAction = Slider::Notch::DrawOnly;
-		}
-				
-		aggregate.addNotchAtMappedValue(0.f);
-		aggregate.addNotchAtMappedValue(1.f);
-		aggregate.mNotchSnapToDist = 8.f;
-		aggregate.mNotchAction = Slider::Notch::Snap;
-		aggregate.mValueQuantize = .05f;
-		
-		aggregate.mValueMappedLo = 1;
-		aggregate.mValueMappedHi = kNumMultimerNotches;
-		
-		aggregate.mIsGraph = true;
-		aggregate.mGraphValues.resize( kNumMultimerNotches );
-		aggregate.mGraphHeight = kSliderGraphHeight; 
-		for( float &x : aggregate.mGraphValues ) x = randFloat(); // test data		
-		
-		aggregate.mGraphSetter = [this]( std::vector<float> v ) {
-			getEditFragment().mAggregate = v;  
-		};
-		aggregate.mGraphGetter = [this]()
-		{
-			if ( getEditFragment().mAggregate.empty() )
-			{
-				// default value
-				vector<float> v = std::vector<float>(kNumMultimerNotches,0.f);
-				v[0] = 1;
-				return v;
-			}
-			else
-			{
-				return getEditFragment().mAggregate;
+			if (sthis->getBuffer()) {
+				sthis->getBuffer()->mValue[param] = v; // set
+				sthis->bufferDidChange(); // notify
 			}
 		};
 		
-		
-		degrade.mValueMappedLo = 0.f;
-		degrade.mValueMappedHi = 2.f;
-		degrade.mSetter = [this]( float v ) {
-			getEditFragment().mDegrade = v;  
+		s.mGetter = [sthis,param]()
+		{
+			if (sthis->getBuffer()) return sthis->getBuffer()->mValue[param];
+			else return 0.f;
 		};
-		degrade.mGetter = [this]() {
-			return getEditFragment().mDegrade; 
-		};
-		degrade.addFixedNotches(3);
-		degrade.mNotchAction = Slider::Notch::Snap;
 		
-		// load icons
-		loadIcons( size, "size" );
-		loadIcons( concentration, "concentration" );
-		loadIcons( aspect, "aspect" );
-		loadIcons( aggregate, "multimer" );
-		loadIcons( degrade, "degrade" );
-
-		// flip individual items (after icons + everything loaded!)
-//		size.flipXAxis();
-//		aggregate.flipXAxis();
+		s.mMappedValueToStr = [param]( float v )
+		{
+			return toString( roundf(v) ) + " mM " + Gelbox::kBufferParamName[param];
+		};
+		
+		s.pullValueFromGetter();
+		
+		// load icon
+//		string iconName = Gelbox::kBufferParamIconName[param];
+//		
+//		s.loadIcons(
+//			iconPathBase / (iconName + "-lo.png"),
+//			iconPathBase / (iconName + "-hi.png")
+//			);
 		
 		// insert
-		mSliders.push_back(size);
-		mSliders.push_back(concentration);
-		mSliders.push_back(aspect);
-		mSliders.push_back(aggregate);
-		mSliders.push_back(degrade);
+		SliderViewRef v = make_shared<SliderView>(s);
 		
-		// flip all?
-		const bool reverseAll = false; 
-		if (reverseAll) for( auto &s : mSliders ) s.flipXAxis();
+		v->setParent( shared_from_this() );
+		
+		mSliders.push_back(v);
 	}
+}
 
-	// sliders
-	float sliderx[2] = {
-		getBounds().getCenter().x - kSliderLineLength/2,
-		getBounds().getCenter().x + kSliderLineLength/2
-	};
+BufferViewRef BufferView::openToTheRightOfView( ViewRef parent, Gelbox::BufferRef b )
+{
+	BufferViewRef v = make_shared<BufferView>();
 	
+	v->setBuffer(b);
+	
+	assert(parent);
+	
+	vec2 tl = parent->getFrame().getUpperRight() + vec2(kParentToBufferViewGutter,0.f);
+	tl = parent->snapToPixel(tl);
+	
+	Rectf f( tl, tl + kBufferViewSize );
+	
+	v->setFrameAndBoundsWithSize(f);
+	
+	return v;
+}
+
+void BufferView::close()
+{
+	getCollection()->removeView( shared_from_this() );
+	// ViewCollection will also remove our children for us
+}
+
+void BufferView::updateLayout()
+{
+	if (mSliders.empty()) makeSliders();
+	
+	// position sliders	
+	const vec2 topleft = snapToPixel( vec2( getBounds().getCenter().x - kSliderLength/2.f, kSliderFirstGutter ) ); 
+		// topleft of first slider
+		
 	for( int i=0; i<mSliders.size(); ++i )
 	{
-		Slider &s = mSliders[i];
+		Slider  s = mSliders[i]->getSlider();
+		
+		s.doLayoutInWidth( kSliderLength, kSliderIconGutter, kSliderIconNotionalSize ); 
 
-		float slidery = kVStepToFirstSliderLine + (float)i * kIntersliderVStep;
-		
-		s.mEndpoint[0] = vec2( sliderx[0], slidery );
-		s.mEndpoint[1] = vec2( sliderx[1], slidery );
-		
-		vec2 offset = vec2(kSliderIconNotionalSize.x/2+kSliderIconGutter,0);
-		
-		for( int i=0; i<2; ++i )
-		{
-			s.mIconRect[i] = Rectf( vec2(0,0), s.mIconSize[i] );
-			s.mIconRect[i].offsetCenterTo( s.mEndpoint[i] + offset * ( i ? 1.f : -1.f ) );
-			s.mIconRect[i] = snapToPixel(s.mIconRect[i]);
-		}
-
-		// pick rect
-		for ( int i=0; i<2; ++i )
-		{
-			vec2 c = s.mIconRect[i].getCenter();
-			s.mIconPickRect[i] = Rectf( c - kSliderIconNotionalSize/2.f, c + kSliderIconNotionalSize/2.f );
-		}
-		
-		// shift graph endpoints -- after we've layed out icons with proper endpoints
-		if (s.mIsGraph)
-		{
-			float d = s.mGraphHeight * .5f;
-			s.mEndpoint[0].y += d;
-			s.mEndpoint[1].y += d;
-		}
+		mSliders[i]->setSlider(s);
+		mSliders[i]->setFrame( mSliders[i]->getFrame() + topleft + vec2(0.f,(float)i * kSliderVGutter) );
 	}
-#endif
 }
 
-void BufferView::mouseDown( ci::app::MouseEvent e )
+void BufferView::setBuffer( Gelbox::BufferRef b )
 {
-
-}
-
-void BufferView::mouseUp ( ci::app::MouseEvent e )
-{
-
-}
-
-/*
-void BufferView::fragmentDidChange() const
-{
-	if ( isEditFragmentValid() )
+	if ( b != mBuffer )
 	{
-		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
+		mBuffer=b;
+		
+		syncWidgetsToModel();
 	}
-}*/
-
-void BufferView::mouseDrag( ci::app::MouseEvent e )
-{
-
 }
 
-void BufferView::tick( float dt )
+void BufferView::syncWidgetsToModel()
 {
-	// in case user is editing from elsewhere (?)
-//	syncSlidersToModel();
+	// kind of unnecessary, but we do it so that immediately can respond to selection
+	// change and not for next tick in sliders/colors :P
+	for( SliderViewRef v : mSliders )
+	{
+		if (v) v->slider().pullValueFromGetter();
+	}
+}
+
+void BufferView::bufferDidChange()
+{
+//	if ( isEditFragmentValid() )
+	{
+//		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
+	}
 }
 
 void BufferView::draw()
@@ -257,6 +157,4 @@ void BufferView::draw()
 	gl::drawSolidRect(getBounds());
 	gl::color(.5,.5,.5);
 	gl::drawStrokedRect(getBounds());
-	
-
 }

@@ -253,6 +253,41 @@ bool ViewCollection::removeView( ViewRef v )
 	return false;
 }
 
+void ViewCollection::moveViewToTop( ViewRef v )
+{
+	auto i = find( mViews.begin(), mViews.end(), v );
+	
+	assert( i != mViews.end() );
+	
+	mViews.erase(i);
+	
+	mViews.push_back(v);
+	
+	// recurse
+	for ( auto c : v->getChildren() ) moveViewToTop(c);
+}
+
+void ViewCollection::moveViewAbove( ViewRef move, ViewRef above )
+{
+	assert( move != above );
+	
+	auto m = find( mViews.begin(), mViews.end(), move  );
+	auto a = find( mViews.begin(), mViews.end(), above );
+	
+	assert( m != mViews.end() && a != mViews.end() );
+	
+	mViews.erase(m);
+	
+	// !!! no insert_after on list;
+	// insert inserts BEFORE, so lets go beyond 
+	a++;
+	if (a==mViews.end()) mViews.push_back(move); // last one?
+	else mViews.insert(a,move);
+
+	// recurse
+	for ( auto c : move->getChildren() ) moveViewAbove(c,move); // move each child above 'move'
+}
+
 void ViewCollection::mouseDown( MouseEvent event )
 {
 	mMouseDownLoc = event.getPos();

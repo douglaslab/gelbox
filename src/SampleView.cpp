@@ -366,6 +366,7 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 {
 	// take keyboard focus
 	getCollection()->setKeyboardFocusView( shared_from_this() );
+	if ( mIsLoupeView ) getCollection()->moveViewToTop( shared_from_this() );
 	
 	// pick fragment
 	if ( !mIsLoupeView || kLoupePartsSelectable )

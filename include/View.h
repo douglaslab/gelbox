@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <string>
+#include <list>
 #include "virtual_shared_ptr.h"
 
 #include "cinder/Rect.h"
@@ -155,7 +156,8 @@ public:
 	void addView   ( ViewRef v );
 	bool removeView( ViewRef v ); // returns whether found
 	
-	void moveViewToTop( ViewRef v ) { if (removeView(v)) addView(v); }
+	void moveViewToTop( ViewRef v );
+	void moveViewAbove( ViewRef move, ViewRef above );
 	
 	void mouseDown( ci::app::MouseEvent );
 	void mouseUp  ( ci::app::MouseEvent );

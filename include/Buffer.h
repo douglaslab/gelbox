@@ -87,8 +87,25 @@ inline Buffer operator* ( Buffer b, float s )
 	return b;
 }
 
-// icon names
-const string kBufferParamIconName[Buffer::kNumParams]
+// min/max
+const float kBufferParamMax[Buffer::kNumParams] =
+{
+	200,
+	200,
+	200,
+	10
+};
+
+// names
+const string kBufferParamName[Buffer::kNumParams] =
+{
+	"Tris",
+	"Borate",
+	"Acetate",
+	"EDTA"
+};
+
+const string kBufferParamIconName[Buffer::kNumParams] =
 {
 	"tris",
 	"borate",

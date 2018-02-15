@@ -11,6 +11,7 @@
 #include "View.h"
 #include "Sample.h"
 #include "Slider.h"
+#include "Buffer.h"
 
 //class SampleView;
 //typedef std::shared_ptr<SampleView> SampleViewRef;
@@ -21,7 +22,7 @@ typedef std::shared_ptr<BufferView> BufferViewRef;
 class SliderView;
 typedef std::shared_ptr<SliderView> SliderViewRef;
 
-const glm::vec2 kBufferViewSize(350,407);
+const glm::vec2 kBufferViewSize(300,400);
 
 class BufferView : public View
 {
@@ -29,33 +30,28 @@ public:
 
 	BufferView();
 	
-	void tick( float dt ) override;
+	static BufferViewRef openToTheRightOfView( ViewRef, Gelbox::BufferRef );
+	void close();
+		
 	void draw() override;
 	
-	void mouseDown( ci::app::MouseEvent ) override;
-	void mouseUp  ( ci::app::MouseEvent ) override;
-	void mouseDrag( ci::app::MouseEvent ) override;
-	
-	void setModel( SampleRef /*, BufferRef*/ );
-	
-	ViewRef getParentView() const { return mParentView; }
-	void setParentView( ViewRef s ) { mParentView=s; }
+	void setBuffer( Gelbox::BufferRef );
+	Gelbox::BufferRef getBuffer() const { return mBuffer; }
 	
 	void setBounds( ci::Rectf b ) override { View::setBounds(b); updateLayout(); }
+
+	void bufferDidChange() const;
 	
 private:
 	
+	void makeSliders();
 	void updateLayout();
-	
-//	void					syncSlidersToModel(); // just reads it in
-//	void					bufferDidChange() const;
+	void syncWidgetsToModel();
 	
 	std::vector<SliderViewRef> mSliders;
 	
-	SampleRef mSample;
-//	BufferRef mBuffer;
+	Gelbox::BufferRef mBuffer;
 	
-	// buffer
-	ViewRef mParentView;	
+	void bufferDidChange();
 	
 };

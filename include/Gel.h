@@ -13,6 +13,7 @@
 #include "glm/vec2.hpp"
 #include "cinder/Rand.h"
 #include "cinder/Color.h"
+#include "Buffer.h"
 
 class Sample;
 typedef std::shared_ptr<Sample> SampleRef;
@@ -20,11 +21,13 @@ typedef std::shared_ptr<Sample> SampleRef;
 class Gel;
 typedef std::shared_ptr<Gel> GelRef;
 
+
 class Gel
 {
 public:
 	
 	Gel();
+	Gel( const Gel& ) = delete; // sorry, this is broken right now because of Gelbox::BufferRef
 	
 	// A single simulated Band of macromolecule/fragment
 	class Band
@@ -68,6 +71,8 @@ public:
 	void  syncBandsToSample( SampleRef ); // tell us when SampleRef changed...
 	int	  getLaneForSample ( SampleRef ) const;
 	
+	Gelbox::BufferRef getBuffer() { return mBuffer; }
+	
 	void  stepTime( float dt );
 	
 	void  setTime( float t );
@@ -95,6 +100,7 @@ public:
 private:
 	
 	std::vector<SampleRef>	mSamples;
+	Gelbox::BufferRef		mBuffer;
 	
 	void updateBands();
 	ci::Rectf calcBandBounds( const Band& ) const;
