@@ -9,6 +9,7 @@
 #pragma once
 
 #include "Gel.h"
+#include "GelSim.h"
 #include "View.h"
 #include "Sample.h"
 
@@ -116,13 +117,10 @@ private:
 	typedef std::map<int,int> tReverseGelSolverCache; // maps y to base pairs, all this is f( aggregate, aspectRatio, time )
 					
 	int			solveBasePairForY(
-					int		findy,
-					int		aggregate,
-					float	aspectRatio,
-					float	voltage,
-					float	time,
-					float	ystart,
-					float	yscale,
+					int			  findy,
+					GelSim::Input params, // ignores mBases, which we are solving for.
+					float		  ystart,
+					float		  yscale,
 					tReverseGelSolverCache* cache=0 ) const;
 	
 	void		drawReverseSolverTest();

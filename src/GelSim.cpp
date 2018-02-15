@@ -29,7 +29,7 @@ void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade )
 //	if ( b.mDegrade > 1.f ) y1b -= min( 1.f, b.mDegrade - 1.f ); // as degrade goes 1..2, y1 moves to end of chart--shorter bp  
 }
 
-float calcDeltaY( int bases, int aggregation, float aspectRatio, float voltage, float time )
+float calcDeltaY( Input i )
 {
 	// Constants
 	const int   kHighBaseCountNorm = kBaseCountHigh;
@@ -44,36 +44,36 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, float voltage, 
 	float y;
 	
 	// size
-	y  = bases * aggregation;
+	y  = i.mBases * i.mAggregation;
 	
 	// normalize
 	y /= (float)kHighBaseCountNorm;
 	y  = constrain( y, 0.f, 1.f );
 	
 	// aspect ratio
-	float aspectDelta = ((aspectRatio - 1.f) / kHighAspectRatio) * kAspectRatioScale;
-	y -= aspectDelta * time ;
+	float aspectDelta = ((i.mAspectRatio - 1.f) / kHighAspectRatio) * kAspectRatioScale;
+	y -= aspectDelta * i.mTime ;
 		// longer aspect ratio makes it behave 
 	
 	// curve
 	y = kCurveBase + powf( 1.f - y, kCurveExp );
 	
 	// voltage
-	float vn = (voltage - kSliderVoltageDefaultValue) / kSliderVoltageDefaultValue; // using UI value since I hacked this param in and want it to behave the same as it did before!
+	float vn = (i.mVoltage - kSliderVoltageDefaultValue) / kSliderVoltageDefaultValue; // using UI value since I hacked this param in and want it to behave the same as it did before!
 	y *= (1.f + vn * 1.f);
 	
 	// time
-	y *= time;
+	y *= i.mTime;
 	
 	// return
 	return y;
 }
 
-float calcDiffusionInflation( int bases, int aggregation, float aspectRatio, float voltage, float time )
+float calcDiffusionInflation( Input i )
 {
 	const float kFraction = .02f;
 	
-	return kFraction * calcDeltaY( bases, aggregation, aspectRatio, voltage, time );
+	return kFraction * calcDeltaY(i);
 }
 
 

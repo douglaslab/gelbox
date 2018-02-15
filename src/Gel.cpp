@@ -251,10 +251,21 @@ ci::Rectf Gel::calcBandBounds( const Band& b ) const
 
 	Rectf r = b.mStartBounds;
 	
-	r.y1 += GelSim::calcDeltaY( b.mBases[0], b.mMultimer[0], b.mAspectRatio, mVoltage, bandTime ) * ySpaceScale;
-	r.y2 += GelSim::calcDeltaY( b.mBases[1], b.mMultimer[1], b.mAspectRatio, mVoltage, bandTime ) * ySpaceScale;
+	auto gelSimInput = [=]( const Band& b, int i ) -> GelSim::Input
+	{
+		GelSim::Input gsi;
+		gsi.mBases			= b.mBases[i];
+		gsi.mAggregation	= b.mMultimer[i];
+		gsi.mAspectRatio	= b.mAspectRatio;
+		gsi.mVoltage		= mVoltage;
+		gsi.mTime			= bandTime;
+		return gsi;
+	};
 	
-	float inflate = GelSim::calcDiffusionInflation( b.mBases[1], b.mMultimer[1], b.mAspectRatio, mVoltage, bandTime ) * ySpaceScale;
+	r.y1 += GelSim::calcDeltaY( gelSimInput(b,0) ) * ySpaceScale;
+	r.y2 += GelSim::calcDeltaY( gelSimInput(b,1) ) * ySpaceScale;
+	
+	float inflate = GelSim::calcDiffusionInflation( gelSimInput(b,1) ) * ySpaceScale;
 	r.inflate( vec2(inflate) );
 	// use smaller (faster, more inflation) size. we could use a poly, and inflate top vs. bottom differently.
 	// with degradation, to see more diffusion we need to use [1], since that's what moves first

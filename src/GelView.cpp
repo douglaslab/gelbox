@@ -395,12 +395,15 @@ void GelView::newFragmentAtPos( ci::vec2 pos )
 		for( float & v : frag.mAggregate ) v=0.f;
 		frag.mAggregate[0] = 1.f;
 		
+		GelSim::Input gsi;
+		gsi.mAggregation = 1;
+		gsi.mAspectRatio = frag.mAspectRatio;
+		gsi.mVoltage	 = mGel->getVoltage();
+		gsi.mTime		 = mGel->getTime();
+		
 		frag.mBases = solveBasePairForY(
 			rootToChild(pos).y,
-			1, // aggregate
-			frag.mAspectRatio, // aspect
-			mGel->getVoltage(),
-			mGel->getTime(),
+			gsi,
 			mGel->getWellBounds(lane).getCenter().y,
 			mGel->getSampleDeltaYSpaceScale() );
 		
@@ -981,12 +984,15 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 	} 
 	
 	// solve
+	GelSim::Input gsi;
+	gsi.mAggregation = aggregate;
+	gsi.mAspectRatio = frag.mAspectRatio;
+	gsi.mVoltage	 = mGel->getVoltage(); 
+	gsi.mTime		 = mGel->getTime();
+	
 	frag.mBases = solveBasePairForY(
 		rootToChild(e.getPos()).y + dragDeltaY,
-		aggregate,
-		frag.mAspectRatio,
-		mGel->getVoltage(),
-		mGel->getTime(),
+		gsi,
 		mGel->getWellBounds(lane).y1, //getCenter().y,
 		mGel->getSampleDeltaYSpaceScale() );		
 	
@@ -1058,19 +1064,17 @@ void GelView::drawReverseSolverTest()
 		{
 			vec2 mouseLocal = rootToChild( getMouseLoc() );
 			
-			int   aggregate = 1;
-			float aspect = 1.f;
-			float voltage = mGel->getVoltage();
-			float time = mGel->getTime();
+			GelSim::Input gsi;
+			gsi.mAggregation = 1;
+			gsi.mAspectRatio = 1.f;
+			gsi.mVoltage	 = mGel->getVoltage();
+			gsi.mTime		 = mGel->getTime();
 			
 			tReverseGelSolverCache cache;
 			
 			int bp = solveBasePairForY(
 				mouseLocal.y,
-				aggregate,
-				aspect,
-				voltage,
-				time,
+				gsi,
 				mGel->getWellBounds(lane).getCenter().y,
 				mGel->getSampleDeltaYSpaceScale(),
 				&cache );
@@ -1079,8 +1083,10 @@ void GelView::drawReverseSolverTest()
 
 			const float ySpaceScale = mGel->getSampleDeltaYSpaceScale();
 			
-			r.y1 += GelSim::calcDeltaY( bp, aggregate, aspect, voltage, time ) * ySpaceScale;
-			r.y2 += GelSim::calcDeltaY( bp, aggregate, aspect, voltage, time ) * ySpaceScale;
+			gsi.mBases = bp; 
+			
+			r.y1 += GelSim::calcDeltaY( gsi ) * ySpaceScale;
+			r.y2 += GelSim::calcDeltaY( gsi ) * ySpaceScale;
 			
 			gl::color(1, 0, 0);
 			gl::drawSolidRect(r);
@@ -1101,13 +1107,10 @@ void GelView::drawReverseSolverTest()
 }
 
 int GelView::solveBasePairForY(
-		int		findy,
-		int		aggregate,
-		float	aspectRatio,
-		float	voltage,
-		float	time,
-		float	ystart,
-		float	yscale,
+		int			  findy,
+		GelSim::Input params,
+		float		  ystart,
+		float		  yscale,
 		tReverseGelSolverCache* cache ) const
 {
 	if ( cache && cache->find(findy) != cache->end() ) return (*cache)[findy];
@@ -1121,8 +1124,10 @@ int GelView::solveBasePairForY(
 	
 	do
 	{
-		int y = ystart + GelSim::calcDeltaY( bp, aggregate, aspectRatio, voltage, time ) * yscale
-					   - GelSim::calcDiffusionInflation( bp, aggregate, aspectRatio, voltage, time ) * yscale;
+		params.mBases = bp;
+		
+		int y = ystart + GelSim::calcDeltaY( params ) * yscale
+					   - GelSim::calcDiffusionInflation( params ) * yscale;
 			// use cache here for small perf. gain?
 			// also, might be better here to track two rects per band, and just use inner non-diffused band for drag and not calc inflation here.  
 		

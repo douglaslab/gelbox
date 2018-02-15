@@ -53,9 +53,17 @@ void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade );
 	
 	How far on a normalized y axis of gel will this sample move?
 */
-float calcDeltaY( int bases, int aggregation, float aspectRatio, float voltage, float time );
+struct Input
+{
+	int		mBases			= 0;
+	int		mAggregation	= 1;
+	float	mAspectRatio	= 1.f;
+	float	mVoltage		= kSliderVoltageDefaultValue;
+	float	mTime			= 1.f;
+};
 
-float calcDiffusionInflation( int bases, int aggregation, float aspectRatio, float voltage, float time ); // returns same units as above
+float calcDeltaY( Input );
+float calcDiffusionInflation( Input ); // returns same units as above
 
 
 } // namespace
