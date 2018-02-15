@@ -8,7 +8,9 @@
 
 #pragma once
 
-namespace GelSim
+#include "Buffer.h"
+
+namespace GelSim // unify namespace with Gelbox? (rename both Gelbox?)
 {
 
 
@@ -60,6 +62,9 @@ struct Input
 	float	mAspectRatio	= 1.f;
 	float	mVoltage		= kSliderVoltageDefaultValue;
 	float	mTime			= 1.f;
+	
+	Gelbox::Buffer mGelBuffer;
+	Gelbox::Buffer mSampleBuffer;
 };
 
 float calcDeltaY( Input );

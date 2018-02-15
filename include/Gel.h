@@ -71,7 +71,7 @@ public:
 	void  syncBandsToSample( SampleRef ); // tell us when SampleRef changed...
 	int	  getLaneForSample ( SampleRef ) const;
 	
-	void  setBuffer( const Gelbox::Buffer& b ) { mBuffer=b; }
+	void  setBuffer( const Gelbox::Buffer& b );
 	const Gelbox::Buffer& getBuffer() { return mBuffer; }
 	
 	void  stepTime( float dt );

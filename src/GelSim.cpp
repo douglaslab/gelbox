@@ -54,6 +54,17 @@ float calcDeltaY( Input i )
 	float aspectDelta = ((i.mAspectRatio - 1.f) / kHighAspectRatio) * kAspectRatioScale;
 	y -= aspectDelta * i.mTime ;
 		// longer aspect ratio makes it behave 
+
+	// -------------------
+	// TEST buffers
+	if (1)
+	{
+		for( int p=0; p<Gelbox::Buffer::kNumParams; ++p )
+		{
+			y += (.01f * (float)(p+1)) * (i.mSampleBuffer.mValue[p] - i.mGelBuffer.mValue[p]);
+		}
+	}	
+	// -------------------
 	
 	// curve
 	y = kCurveBase + powf( 1.f - y, kCurveExp );

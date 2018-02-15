@@ -10,6 +10,7 @@
 #include "GelSim.h"
 #include "Sample.h"
 #include "Gel.h"
+#include "GelView.h"
 
 using namespace std;
 using namespace ci;
@@ -249,7 +250,11 @@ void BufferView::modelDidChange()
 	syncWidgetsToModel();
 	
 	// notify other views...
-//		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);	
+	if (mGelView)
+	{
+		if (mSample) mGelView->sampleDidChange(mSample);
+		if (mGel)    mGelView->gelDidChange();
+	}
 }
 
 void BufferView::syncWidgetsToModel()

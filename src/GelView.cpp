@@ -400,6 +400,8 @@ void GelView::newFragmentAtPos( ci::vec2 pos )
 		gsi.mAspectRatio = frag.mAspectRatio;
 		gsi.mVoltage	 = mGel->getVoltage();
 		gsi.mTime		 = mGel->getTime();
+		gsi.mGelBuffer	 = mGel->getBuffer();
+		gsi.mSampleBuffer= getSample(lane)->mBuffer;
 		
 		frag.mBases = solveBasePairForY(
 			rootToChild(pos).y,
@@ -534,6 +536,7 @@ void GelView::openBufferView( bool v )
 
 		mBufferView = BufferView::openToTheRightOfView( shared_from_this() );
 		mBufferView->setGel( mGel );
+		mBufferView->setGelView( dynamic_pointer_cast<GelView>(shared_from_this()) );
 		getCollection()->addView(mBufferView);
 
 		// put sample view right after GelView
@@ -574,6 +577,7 @@ void GelView::updateLoupes()
 
 void GelView::gelDidChange()
 {
+	// tell our sample views... (this doesn't update hover, but isn't an issue yet)
 	updateLoupes();
 }
 
@@ -989,6 +993,8 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 	gsi.mAspectRatio = frag.mAspectRatio;
 	gsi.mVoltage	 = mGel->getVoltage(); 
 	gsi.mTime		 = mGel->getTime();
+	gsi.mGelBuffer   = mGel->getBuffer();
+	gsi.mSampleBuffer= sample->mBuffer;
 	
 	frag.mBases = solveBasePairForY(
 		rootToChild(e.getPos()).y + dragDeltaY,
@@ -1069,6 +1075,8 @@ void GelView::drawReverseSolverTest()
 			gsi.mAspectRatio = 1.f;
 			gsi.mVoltage	 = mGel->getVoltage();
 			gsi.mTime		 = mGel->getTime();
+			gsi.mGelBuffer   = mGel->getBuffer();
+			gsi.mSampleBuffer= getSample(lane)->mBuffer;
 			
 			tReverseGelSolverCache cache;
 			

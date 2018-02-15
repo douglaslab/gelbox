@@ -77,6 +77,13 @@ void Gel::syncBandsToSample( SampleRef sample )
 	}
 }
 
+void Gel::setBuffer( const Gelbox::Buffer& b )
+{
+	mBuffer = b;
+	
+	updateBands();
+}
+
 ci::Rectf Gel::getWellBounds( int lane ) const
 {
 	vec2 laneLoc = vec2(0.f,mYMargin) + kLaneVec * ((float)lane*mLaneWidth + mLaneWidth/2.f);
@@ -259,6 +266,8 @@ ci::Rectf Gel::calcBandBounds( const Band& b ) const
 		gsi.mAspectRatio	= b.mAspectRatio;
 		gsi.mVoltage		= mVoltage;
 		gsi.mTime			= bandTime;
+		gsi.mGelBuffer		= mBuffer;
+		gsi.mSampleBuffer	= mSamples[b.mLane]->mBuffer;
 		return gsi;
 	};
 	

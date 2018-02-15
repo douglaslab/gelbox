@@ -74,6 +74,7 @@ bool SampleFragRef::setToRoot()
 void
 Sample::loadXml( const XmlTree& xml )
 {
+	clearDyes();
 	mFragments.clear();
 	
 	if ( !xml.hasChild(kRootXMLNodeName) )

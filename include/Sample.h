@@ -127,9 +127,13 @@ public:
 	
 	
 	
-	Sample() { for(int i=0; i<Dye::kCount; ++i ) mDyes[i]=0.f; }
+	Sample() { clearDyes(); }
 	Sample( const ci::XmlTree& xml ) { loadXml(xml); }
 
+	void clearDyes() {
+		for(int i=0; i<Dye::kCount; ++i ) mDyes[i]=0.f;
+	}
+	
 	void degrade( float d ) {
 		for ( auto& f : mFragments ) f.mDegrade = std::min( 2.f, f.mDegrade + d );
 	}
@@ -150,7 +154,8 @@ public:
 	
 	bool isValidFragment( int f ) const { return f >=0 && f < mFragments.size(); }
 	
-	void   loadXml( const ci::XmlTree& ); // clears existing mFragments first
+	void   loadXml( const ci::XmlTree& ); // clears existing mFragments, mDyes first
+	// TODO: Load/Save mDyes!!!
 	
 	static const std::string kRootXMLNodeName;
 	

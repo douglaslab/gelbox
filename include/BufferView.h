@@ -17,6 +17,9 @@ typedef std::shared_ptr<Sample> SampleRef;
 class Gel;
 typedef std::shared_ptr<Gel> GelRef;
 
+class GelView;
+typedef std::shared_ptr<GelView> GelViewRef;
+
 class BufferView;
 typedef std::shared_ptr<BufferView> BufferViewRef;
 
@@ -35,6 +38,9 @@ public:
 	void close();
 		
 	void draw() override;
+
+	void setBounds( ci::Rectf b ) override { View::setBounds(b); updateLayout(); }
+
 	
 	// what data are we operating upon?
 	// 1) a sample?
@@ -46,8 +52,10 @@ public:
 	GelRef getGel() { return mGel; }
 
 	
-	void setBounds( ci::Rectf b ) override { View::setBounds(b); updateLayout(); }
-
+	// notify GelView of changes
+	// (would be nice to just have a generic event listening system on mSample!)
+	void setGelView( GelViewRef g ) { mGelView=g; }
+	
 protected:
 
 	// buffer
@@ -67,7 +75,8 @@ private:
 	void modelDidChange();
 	
 	std::vector<SliderViewRef>	mSliders;
-	std::vector<SliderViewRef>	mDyeViews;
+	std::vector<SliderViewRef>	mDyeViews;	
+	GelViewRef					mGelView;
 	
 	tGetBufferFunc		mGetBufferFunc;
 	tSetBufferFunc		mSetBufferFunc;

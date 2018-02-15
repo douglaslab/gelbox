@@ -240,6 +240,7 @@ void SampleView::openBufferView( bool v )
 
 		mBufferView = BufferView::openToTheRightOfView( shared_from_this() );
 		mBufferView->setSample( getSample() );
+		mBufferView->setGelView( mGelView );
 		getCollection()->addView(mBufferView);
 
 		// put sample view right after GelView
@@ -578,7 +579,7 @@ void SampleView::tick( float dt )
 	}*/
 
 	// fragment editor on highlight/hover/selection -- can enable/disable this feature on its own
-	if ( ! mIsLoupeView )
+	if ( ! mIsLoupeView && !mBufferView )
 	{
 		showFragmentEditor( getFocusFragment() );
 	}
