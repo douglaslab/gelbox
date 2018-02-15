@@ -19,7 +19,7 @@ const bool kEnableDrag = false;
 const bool kBandRolloverOpensSampleView = false;
 const bool kHoverGelDetailViewOnBandDrag= true;
 const bool kDragBandMakesNewSamples = true;
-const bool kClickBackgroundOpensBufferView = true;
+const bool kClickBackgroundOpensBufferView = false;
 
 const bool kShowReverseSolverDebugTest = false;
 const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
@@ -246,6 +246,11 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 			mMouseDownMadeLoupe->setDragMode( SampleView::Drag::LoupeAndView );
 		}
 	}
+	// edit buffer
+	else if ( e.isControlDown() )
+	{
+		openBufferView( mBufferView==0 );
+	}
 	// add band?
 	else if ( e.isRight() )
 	{
@@ -310,10 +315,6 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 		// else pick buffer
 		else if (kClickBackgroundOpensBufferView)
 		{
-			// deselect, close other stuff
-			deselectFragment();
-			selectMicrotube(-1);
-			
 			// toggle it open/closed
 			openBufferView( mBufferView==0 );
 		}
@@ -528,7 +529,8 @@ void GelView::openBufferView( bool v )
 		deselectFragment();
 		selectMicrotube(-1);
 
-		mBufferView = BufferView::openToTheRightOfView( shared_from_this(), mGel->getBuffer() );
+		mBufferView = BufferView::openToTheRightOfView( shared_from_this() );
+		mBufferView->setGel( mGel );
 		getCollection()->addView(mBufferView);
 
 		// put sample view right after GelView

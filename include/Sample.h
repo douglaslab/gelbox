@@ -12,6 +12,7 @@
 #include "cinder/Rand.h"
 #include "cinder/Xml.h"
 #include "Dye.h"
+#include "Buffer.h"
 
 class Sample;
 typedef std::shared_ptr<Sample> SampleRef;
@@ -116,6 +117,7 @@ public:
 
 	std::vector<Fragment>	mFragments;
 	float					mDyes[Dye::kCount];
+	Gelbox::Buffer			mBuffer;
 	
 	std::string				mName;
 	int						mID = -1;

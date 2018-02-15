@@ -80,6 +80,11 @@ void View::setParent( ViewRef p )
 	}
 }
 
+void View::orphanChildren()
+{
+	for ( auto v : mChildren ) v->setParent(0);
+}
+
 /*
 ivec2 View::getScissorLowerLeft( Rectf r ) const
 {
@@ -173,14 +178,17 @@ void ViewCollection::draw()
 {
 	for( const auto &v : mViews )
 	{
-		gl::pushViewMatrix();
-		gl::multViewMatrix( v->getChildToRootMatrix() );
-		
-		v->draw();
-		
-		gl::popViewMatrix();
-		
-		v->drawFrame();
+		if ( v->isVisible() )
+		{
+			gl::pushViewMatrix();
+			gl::multViewMatrix( v->getChildToRootMatrix() );
+			
+			v->draw();
+			
+			gl::popViewMatrix();
+			
+			v->drawFrame();
+		}
 	}
 }
 
@@ -189,15 +197,20 @@ ViewRef	ViewCollection::pickView( vec2 p, std::function<bool(ViewRef,glm::vec2)>
 	// pick order is reverse of draw order
 	for( auto i = mViews.rbegin(); i != mViews.rend(); ++i )
 	{
-		// a little sledgehammer like, but it works
-		vec2 pInFrame = i->get()->rootToChild(p);
-		pInFrame = i->get()->childToParent(pInFrame);
+		const View &v = *i->get();
 		
-		if ( customPickFunc )
+		if ( v.isVisible() )
 		{
-			if ( customPickFunc(*i,pInFrame) ) return *i;
+			// a little sledgehammer like, but it works
+			vec2 pInFrame = v.rootToChild(p);
+			pInFrame = v.childToParent(pInFrame);
+			
+			if ( customPickFunc )
+			{
+				if ( customPickFunc(*i,pInFrame) ) return *i;
+			}
+			else if ( v.pick(pInFrame) ) return *i;
 		}
-		else if ( i->get()->pick(pInFrame) ) return *i;
 	}
 	
 	return nullptr;

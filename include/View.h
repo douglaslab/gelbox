@@ -52,6 +52,7 @@ public:
 	void    setParent( ViewRef v ); // automatically adds to collection if need be
 	ViewRef getParent() const { return mParent; }
 	std::vector<ViewRef> getChildren() const { return mChildren; }
+	void    orphanChildren();
 	
 	glm::mat4 getRootToChildMatrix() const;
 	glm::mat4 getChildToRootMatrix() const;
@@ -64,6 +65,10 @@ public:
 	
 	glm::vec2 rootToParent( glm::vec2 p ) const { return glm::vec2( getRootToParentMatrix() * glm::vec4(p,0,1) ); }
 	glm::vec2 parentToRoot( glm::vec2 p ) const { return glm::vec2( getParentToRootMatrix() * glm::vec4(p,0,1) ); }
+
+	// visible
+	void setIsVisible( bool v ) { mIsVisible=v; }
+	bool isVisible() const { return mIsVisible; }
 	
 	// drawing
 	virtual void draw()
@@ -128,6 +133,8 @@ private:
 	bool	mHasRollover=false;
 	bool	mHasMouseDown=false;
 	bool	mHasKeyboardFocus=false;
+
+	bool	mIsVisible=true;
 	
 	std::string	mName;
 	ci::Rectf	mFrame = ci::Rectf(0,0,1,1); // where it is in parent coordinate space

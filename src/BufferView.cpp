@@ -8,6 +8,8 @@
 #include "BufferView.h"
 #include "SliderView.h"
 #include "GelSim.h"
+#include "Sample.h"
+#include "Gel.h"
 
 using namespace std;
 using namespace ci;
@@ -34,6 +36,7 @@ void BufferView::makeSliders()
 
 	const fs::path iconPathBase = getAssetPath("slider-icons");
 
+	// buffer params
 	for( int param=0; param<Gelbox::Buffer::kNumParams; ++param )
 	{
 		Slider s;
@@ -43,16 +46,14 @@ void BufferView::makeSliders()
 		
 		s.mSetter = [sthis,param]( float v )
 		{
-			if (sthis->getBuffer()) {
-				sthis->getBuffer()->mValue[param] = v; // set
-				sthis->bufferDidChange(); // notify
-			}
+			Gelbox::Buffer b = sthis->getBuffer();
+			b.mValue[param] = v; // set
+			sthis->setBuffer(b); // notify
 		};
 		
 		s.mGetter = [sthis,param]()
 		{
-			if (sthis->getBuffer()) return sthis->getBuffer()->mValue[param];
-			else return 0.f;
+			return sthis->getBuffer().mValue[param];
 		};
 		
 		s.mMappedValueToStr = [param]( float v )
@@ -77,13 +78,14 @@ void BufferView::makeSliders()
 		
 		mSliders.push_back(v);
 	}
+	
+	// dye params
+	
 }
 
-BufferViewRef BufferView::openToTheRightOfView( ViewRef parent, Gelbox::BufferRef b )
+BufferViewRef BufferView::openToTheRightOfView( ViewRef parent )
 {
 	BufferViewRef v = make_shared<BufferView>();
-	
-	v->setBuffer(b);
 	
 	assert(parent);
 	
@@ -101,6 +103,7 @@ void BufferView::close()
 {
 	getCollection()->removeView( shared_from_this() );
 	// ViewCollection will also remove our children for us
+	orphanChildren(); // so we don't have circular shared_ptr happening causing a memory leak
 }
 
 void BufferView::updateLayout()
@@ -122,11 +125,77 @@ void BufferView::updateLayout()
 	}
 }
 
-void BufferView::setBuffer( Gelbox::BufferRef b )
+void BufferView::setBufferDataFuncs( tGetBufferFunc getf, tSetBufferFunc setf )
 {
-	if ( b != mBuffer )
+	mGetBufferFunc=getf;
+	mSetBufferFunc=setf;
+}
+
+Gelbox::Buffer BufferView::getBuffer() const
+{
+	if (mGetBufferFunc) return mGetBufferFunc();
+	else return Gelbox::Buffer();
+}
+
+void BufferView::setBuffer( Gelbox::Buffer b )
+{
+	if (mSetBufferFunc)
 	{
-		mBuffer=b;
+		mSetBufferFunc(b);
+		syncWidgetsToModel();
+		
+		// notify other views...
+//		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
+	}
+}
+
+void BufferView::setSample( SampleRef s )
+{
+	if ( s != mSample )
+	{
+		mSample=s;
+		mGel=0;
+		
+		if (mSample)
+		{
+			mGetBufferFunc = [this]()
+			{
+				assert(mSample);
+				return mSample->mBuffer;
+			};
+			
+			mSetBufferFunc = [this]( Gelbox::Buffer b )
+			{
+				assert(mSample);
+				mSample->mBuffer=b;
+			};
+		}
+		
+		syncWidgetsToModel();
+	}
+}
+
+void BufferView::setGel( GelRef g )
+{
+	if ( g != mGel )
+	{
+		mSample=0;
+		mGel=g;
+
+		if (mGel)
+		{
+			mGetBufferFunc = [this]()
+			{
+				assert(mGel);
+				return mGel->getBuffer();
+			};
+			
+			mSetBufferFunc = [this]( Gelbox::Buffer b )
+			{
+				assert(mGel);
+				mGel->setBuffer(b);
+			};
+		}
 		
 		syncWidgetsToModel();
 	}
@@ -134,19 +203,17 @@ void BufferView::setBuffer( Gelbox::BufferRef b )
 
 void BufferView::syncWidgetsToModel()
 {
+	// show/hide needed widgets (basically hide/show dye widgets if there is a sample)
+	for( auto v : mDyeViews )
+	{
+		v->setIsVisible( mSample != 0 );
+	}
+	
 	// kind of unnecessary, but we do it so that immediately can respond to selection
 	// change and not for next tick in sliders/colors :P
 	for( SliderViewRef v : mSliders )
 	{
 		if (v) v->slider().pullValueFromGetter();
-	}
-}
-
-void BufferView::bufferDidChange()
-{
-//	if ( isEditFragmentValid() )
-	{
-//		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
 	}
 }
 

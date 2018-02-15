@@ -71,7 +71,8 @@ public:
 	void  syncBandsToSample( SampleRef ); // tell us when SampleRef changed...
 	int	  getLaneForSample ( SampleRef ) const;
 	
-	Gelbox::BufferRef getBuffer() { return mBuffer; }
+	void  setBuffer( const Gelbox::Buffer& b ) { mBuffer=b; }
+	const Gelbox::Buffer& getBuffer() { return mBuffer; }
 	
 	void  stepTime( float dt );
 	
@@ -100,7 +101,7 @@ public:
 private:
 	
 	std::vector<SampleRef>	mSamples;
-	Gelbox::BufferRef		mBuffer;
+	Gelbox::Buffer			mBuffer;
 	
 	void updateBands();
 	ci::Rectf calcBandBounds( const Band& ) const;

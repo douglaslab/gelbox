@@ -95,6 +95,7 @@ void SampleView::close()
 {
 	closeFragEditor();
 	getCollection()->removeView( shared_from_this() );
+	orphanChildren(); // so we don't have circular shared_ptr happening causing a memory leak
 }
 
 void SampleView::draw()
