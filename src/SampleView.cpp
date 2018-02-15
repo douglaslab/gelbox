@@ -134,11 +134,8 @@ void SampleView::draw()
 		gl::drawSolidRect(sr);
 	}
 	
-	// bkgnd
-	gl::color(1,1,1);
-	gl::drawSolidRect( getBounds() );
-	
-	// parts
+	// content
+	drawSimBackground();
 	drawSim();
 
 	// focus
@@ -957,6 +954,30 @@ void SampleView::tickSim( float dt )
 	{
 		return !p.mAlive && p.mFade == 0.f;
 	}), mParts.end() );
+}
+
+void SampleView::drawSimBackground()
+{
+	Color c(1,1,1); // base color
+	
+	// dyes
+	if (mSample)
+	{		
+		float w = 1.f;
+		
+		for( int i=0; i<Dye::kCount; ++i )
+		{
+			float s = mSample->mDyes[i];
+			c += Dye::kColors[i] * s;
+			w += s;
+		}
+		
+		c /= w;
+	}
+	
+	// fill
+	gl::color(c);
+	gl::drawSolidRect( getBounds() );
 }
 
 void SampleView::drawSim()
