@@ -47,8 +47,8 @@ void BufferView::makeSliders()
 		s.mSetter = [sthis,param]( float v )
 		{
 			Gelbox::Buffer b = sthis->getBuffer();
-			b.mValue[param] = v; // set
-			sthis->setBuffer(b); // notify
+			b.mValue[param] = v;
+			sthis->setBuffer(b);
 		};
 		
 		s.mGetter = [sthis,param]()
@@ -79,8 +79,54 @@ void BufferView::makeSliders()
 		mSliders.push_back(v);
 	}
 	
-	// dye params
-	
+	// dye dyes
+	for( int dye=0; dye<Dye::kCount; ++dye )
+	{
+		Slider s;
+		
+		s.mValueMappedLo = 0.f;
+		s.mValueMappedHi = 1.f;
+		
+		s.mSetter = [sthis,dye]( float v )
+		{
+			if (sthis->mSample)
+			{
+				sthis->mSample->mDyes[dye] = v;
+				sthis->modelDidChange();
+			}
+		};
+		
+		s.mGetter = [sthis,dye]()
+		{
+			if (sthis->mSample) {
+				return sthis->mSample->mDyes[dye];
+			}
+			else return 0.f;
+		};
+		
+		s.mMappedValueToStr = [dye]( float v )
+		{
+			return toString(v) + " " + Dye::kNames[dye];
+		};
+		
+		s.pullValueFromGetter();
+		
+		// load icon
+//		string iconName = Gelbox::kBufferParamIconName[dye];
+//		
+//		s.loadIcons(
+//			iconPathBase / (iconName + "-lo.png"),
+//			iconPathBase / (iconName + "-hi.png")
+//			);
+		
+		// insert
+		SliderViewRef v = make_shared<SliderView>(s);
+		
+		v->setParent( shared_from_this() );
+		
+		mSliders.push_back(v);
+		mDyeViews.push_back(v);
+	}	
 }
 
 BufferViewRef BufferView::openToTheRightOfView( ViewRef parent )
@@ -142,10 +188,7 @@ void BufferView::setBuffer( Gelbox::Buffer b )
 	if (mSetBufferFunc)
 	{
 		mSetBufferFunc(b);
-		syncWidgetsToModel();
-		
-		// notify other views...
-//		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);
+		modelDidChange();
 	}
 }
 
@@ -199,6 +242,14 @@ void BufferView::setGel( GelRef g )
 		
 		syncWidgetsToModel();
 	}
+}
+
+void BufferView::modelDidChange()
+{
+	syncWidgetsToModel();
+	
+	// notify other views...
+//		if (mSampleView) mSampleView->fragmentDidChange(mEditFragment);	
 }
 
 void BufferView::syncWidgetsToModel()

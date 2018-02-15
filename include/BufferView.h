@@ -64,6 +64,7 @@ private:
 	void makeSliders();
 	void updateLayout();
 	void syncWidgetsToModel();
+	void modelDidChange();
 	
 	std::vector<SliderViewRef>	mSliders;
 	std::vector<SliderViewRef>	mDyeViews;
