@@ -23,6 +23,10 @@ typedef std::shared_ptr<SampleView> SampleViewRef;
 class FragmentView;
 typedef std::shared_ptr<FragmentView> FragmentViewRef;
 
+class BufferView;
+typedef std::shared_ptr<BufferView> BufferViewRef;
+
+
 class SampleView : public View//, public std::enable_shared_from_this<SampleView>
 {
 public:
@@ -126,12 +130,15 @@ private:
 	// other views
 	GelViewRef		mGelView;
 	FragmentViewRef mFragEditor;
+	BufferViewRef	mBufferView;
 	
 	// ui + loupe logic (relevant if mIsLoupeView)
 	bool pickLoupe( ci::vec2 rootLoc ) const;
 	void drawLoupe() const;
 
 	bool pickCalloutWedge( ci::vec2 rootLoc ) const; // respects mHasLoupe and kCanPickCalloutWedge in .cpp file
+	
+	void openBufferView( bool v=true );
 	
 	// particle sim
 	class Part;

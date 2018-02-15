@@ -11,6 +11,7 @@
 
 #include "SampleView.h"
 #include "FragmentView.h"
+#include "BufferView.h"
 #include "GelView.h"
 #include "GelSim.h"
 
@@ -224,6 +225,27 @@ bool SampleView::pickCalloutWedge( ci::vec2 rootLoc ) const
 		;
 }
 
+void SampleView::openBufferView( bool v )
+{				
+	// toggle
+	if ( !v && mBufferView )
+	{
+		mBufferView->close();
+		mBufferView=0;
+	}
+	else if ( v && !mBufferView )
+	{
+		closeFragEditor();
+
+		mBufferView = BufferView::openToTheRightOfView( shared_from_this() );
+		mBufferView->setSample( getSample() );
+		getCollection()->addView(mBufferView);
+
+		// put sample view right after GelView
+		getCollection()->moveViewAbove( mBufferView, shared_from_this() ); 
+	}
+}
+
 void SampleView::updateCallout()
 {
 	PolyLine2 p;
@@ -267,6 +289,8 @@ void SampleView::drawLoupe() const
 
 void SampleView::selectFragment( int i )
 {
+	openBufferView(false);
+	
 	mSelection->set( mSample, i );
 	mSelection->setToOrigin();
 
@@ -373,6 +397,12 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 	if ( !mIsLoupeView || kLoupePartsSelectable )
 	{
 		selectFragment( pickFragment( rootToChild(e.getPos()) ) );
+	}
+	
+	// buffer view
+	if ( e.isControlDown() )
+	{
+		openBufferView( mBufferView==0 );
 	}
 	
 	// drag?
@@ -534,7 +564,7 @@ void SampleView::tick( float dt )
 	tickSim( (slow ? .1f : 1.f) * mSimTimeScale );
 	
 	// rollover
-	if ( getHasRollover() && ( ! mIsLoupeView || kLoupePartsSelectable ) )
+	if ( getHasRollover() && ( ! mIsLoupeView || kLoupePartsSelectable ) && !mBufferView )
 	{
 		setRolloverFragment( pickFragment( rootToChild(getMouseLoc()) ) );
 	}
