@@ -92,7 +92,7 @@ void BufferView::makeSliders()
 		{
 			if (sthis->mSample)
 			{
-				sthis->mSample->mDyes[dye] = v;
+				sthis->mSample->setDye( dye, v );
 				sthis->modelDidChange();
 			}
 		};
@@ -100,7 +100,7 @@ void BufferView::makeSliders()
 		s.mGetter = [sthis,dye]()
 		{
 			if (sthis->mSample) {
-				return sthis->mSample->mDyes[dye];
+				return sthis->mSample->getDye(dye);
 			}
 			else return 0.f;
 		};

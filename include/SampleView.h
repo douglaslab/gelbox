@@ -158,7 +158,8 @@ private:
 		Frag() : mColor(0,0,0), mRadiusHi(1.f), mRadiusLo(1.f) {}
 		
 		int			mTargetPop=20;
-
+		bool		mIsDye=false;
+		
 		glm::vec2	mRadiusHi;
 		glm::vec2	mRadiusLo;
 		

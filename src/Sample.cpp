@@ -70,6 +70,112 @@ bool SampleFragRef::setToRoot()
 	return changed;
 }
 
+void Sample::clearDyes()
+{
+	for(int i=0; i<mFragments.size(); ++i )
+	{
+		if ( mFragments[i].mDye >= 0 ) mFragments[i].mMass = 0.f; 
+	}
+}
+
+void Sample::removeDyes()
+{
+	for( int i=0; i<mFragments.size(); )
+	{
+		if ( mFragments[i].mDye >= 0 )
+		{
+			mFragments[i] = mFragments.back();
+			mFragments.pop_back();
+		}
+		else ++i;
+	}
+}
+
+void Sample::mergeDuplicateDyes()
+{
+	auto d = getDyes(); // sums any duplicates
+	
+	removeDyes();
+	
+	for ( int i=0; i<Dye::kCount; ++i )
+	{
+		d[i] = min( d[i], Dye::kMaxMass );
+		
+		setDye(i,d[i]);
+	}
+}
+
+int Sample::findDye( int dye ) const
+{
+	assert( Dye::isValidDye(dye) );
+	
+	for(int i=0; i<mFragments.size(); ++i )
+	{
+		if ( mFragments[i].mDye==dye ) return i;
+	}
+	return -1;
+}
+
+void Sample::setDye( int dye, float val )
+{
+	assert( Dye::isValidDye(dye) );
+
+	int i = findDye(dye);
+	
+	if (i==-1)
+	{
+		Fragment f;
+		f.mDye  = dye;
+		f.mMass = val;
+		mFragments.push_back(f);
+	}
+	else mFragments[i].mMass = val;
+}
+
+float Sample::getDye( int dye ) const
+{
+	assert( Dye::isValidDye(dye) );
+
+	int i = findDye(dye);
+	if (i==-1) return 0.f;
+	else return mFragments[i].mMass;
+}
+
+std::vector<float> Sample::getDyes() const
+{
+	vector<float> d(Dye::kCount,0.f);
+	
+	for(int i=0; i<mFragments.size(); ++i )
+	{
+		if ( mFragments[i].mDye>=0 )
+		{
+			assert( Dye::isValidDye(mFragments[i].mDye) );
+			
+			d[mFragments[i].mDye] += mFragments[i].mMass;
+		}
+	}
+	
+	return d;
+}
+
+void Sample::degrade( float d ) {
+	for ( auto& f : mFragments ) f.mDegrade = std::min( 2.f, f.mDegrade + d );
+}
+
+int Sample::cloneFragment( int f )
+{
+	assert( isValidFragment(f) );
+	mFragments.push_back( mFragments[f] );
+	return mFragments.size()-1;
+}
+
+void Sample::removeFragment( int f )
+{
+	assert( isValidFragment(f) );
+	mFragments[f] = mFragments.back();
+	mFragments.pop_back();
+}
+
 
 void
 Sample::loadXml( const XmlTree& xml )

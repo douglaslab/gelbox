@@ -621,6 +621,11 @@ void SampleView::syncToModel()
 			const vec2 kMinRadius(1,1);
 			f.mRadiusLo = glm::max( f.mRadiusLo, kMinRadius );
 //			f.mRadius		  = glm::max( f.mRadius,		 kMinRadius );
+
+			// dye? no problem; population will get culled in tickSim()
+			// we just let there be a 1:1 correspondence between
+			// fragments here and in sample, and just don't make any particles for dyes
+			f.mIsDye = s.mDye >= 0;
 		}
 	}
 }
@@ -859,6 +864,9 @@ void SampleView::tickSim( float dt )
 	{
 		int targetPop = (float)max( 1, mFragments[f].mTargetPop ) * (float)mPopDensityScale ;
 		
+		// dye? pop=0
+		if (mFragments[f].mIsDye) targetPop=0;
+		
 		// make (1 this frame)
 		if ( alivepop[f] < targetPop  )
 		{
@@ -962,14 +970,15 @@ void SampleView::drawSimBackground()
 	
 	// dyes
 	if (mSample)
-	{		
+	{	
 		float w = 1.f;
+		
+		auto dyes = mSample->getDyes();
 		
 		for( int i=0; i<Dye::kCount; ++i )
 		{
-			float s = mSample->mDyes[i];
-			c += Dye::kColors[i] * s;
-			w += s;
+			c += Dye::kColors[i] * dyes[i];
+			w += dyes[i];
 		}
 		
 		c /= w;

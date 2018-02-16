@@ -151,60 +151,115 @@ void Gel::insertSample( const Sample& src, int lane )
 		return mBands.back();
 	};
 	
+	auto addDye = [=]( int fragi )
+	{
+		const Sample::Fragment& frag = src.mFragments[fragi];
+		
+		assert( Dye::isValidDye(frag.mDye) );
+		
+		if ( frag.mMass > 0.f ) // make sure it's not empty!
+		{	
+			Band b;
+
+			b.mLane			= lane;
+			b.mFragment		= fragi;
+			b.mDye			= frag.mDye;
+
+			b.mColor		= Dye::kColors[frag.mDye]; 
+			b.mFocusColor	= lerp( b.mColor, Color(0,0,0), .5f );
+			
+			b.mBases[0]		= lerp( Dye::kBPLo[frag.mDye], Dye::kBPHi[frag.mDye], .5f );
+			b.mBases[1]		= b.mBases[0];
+					
+			b.mMultimer[0]  = 1;
+			b.mMultimer[1]  = 1;
+			
+			b.mMass			= frag.mMass;
+			
+			b.mDegrade		= 0.f;
+			
+			b.mStartBounds	= getWellBounds(lane);
+			b.mAspectRatio  = 1.f;
+			
+			b.mCreateTime	= 0.f;
+			b.mExists		= true;
+			
+			b.mBounds		= calcBandBounds(b);
+			b.mAlpha[0]		= frag.mMass; //calcBandAlpha (b,0);
+			b.mAlpha[1]		= frag.mMass; //calcBandAlpha (b,1);
+			
+			mBands.push_back(b);			
+		}
+	};
+	
+	auto addMonomer = [=]( int fragi )
+	{
+		addBand( fragi, 1, 1, 0.f, 1.f );
+	};
+
+	
 	const float kMultimerSmearFrac = .2f;
 	// smear is X% of total
 	// and we scale the rest to 1-X% -- NOT doing this; lets keep things looking sharp.
 	//		anyways physical asumptions/math isn't quite right
 	
+		
+	auto addMultimer = [=]( int fragi, float wsum )
+	{
+		const Sample::Fragment& frag = src.mFragments[fragi];
+
+
+		int bandhi, bandlo;
+//			int numNonZeroMultimers =
+		frag.calcAggregateRange(bandlo,bandhi);
+					
+		// add band for each multimer size
+		for( int m=0; m<frag.mAggregate.size(); ++m )
+		{
+			if ( frag.mAggregate[m] > 0.f )
+			{
+				// add
+				float scale = 1.f;
+				
+//					if (numNonZeroMultimers>1) scale = 1.f - kMultimerSmearFrac;
+				
+				addBand( fragi, m+1, m+1, 0.f, (frag.mAggregate[m] / wsum) * scale );
+			}
+		} // m
+		
+		// smeary band between each pair of multimers
+		if ( bandlo != -1 && bandlo != bandhi )
+		{
+			int last = bandlo;
+			
+			for( int i = last+1; i <= bandhi; ++i )
+			{
+				if ( frag.mAggregate[i] > 0.f )
+				{
+					// multimer smeary interpolation band between last .. i
+					float iratio = frag.mAggregate[last] / frag.mAggregate[i];  
+					
+					addBand( fragi, i+1, last+1, iratio, kMultimerSmearFrac );					
+					
+					// set up for next band
+					last = i;
+				}					
+			}
+		}
+	};
+	
+
+	// fragments
 	for( int fragi=0; fragi<src.mFragments.size(); ++fragi )
 	{		
 		const auto& frag = src.mFragments[fragi]; 
 
 		const float wsum = frag.calcAggregateWeightedSum();
-		
-		if ( frag.mAggregate.empty() || wsum==0.f ) addBand( fragi, 1, 1, 0.f, 1.f );
-		else
-		{
-			int bandhi, bandlo;
-//			int numNonZeroMultimers =
-			frag.calcAggregateRange(bandlo,bandhi);
-						
-			// add band for each multimer size
-			for( int m=0; m<frag.mAggregate.size(); ++m )
-			{
-				if ( frag.mAggregate[m] > 0.f )
-				{
-					// add
-					float scale = 1.f;
-					
-//					if (numNonZeroMultimers>1) scale = 1.f - kMultimerSmearFrac;
-					
-					addBand( fragi, m+1, m+1, 0.f, (frag.mAggregate[m] / wsum) * scale );
-				}
-			} // m
-			
-			// smeary band between each pair of multimers
-			if ( bandlo != -1 && bandlo != bandhi )
-			{
-				int last = bandlo;
-				
-				for( int i = last+1; i <= bandhi; ++i )
-				{
-					if ( frag.mAggregate[i] > 0.f )
-					{
-						// multimer smeary interpolation band between last .. i
-						float iratio = frag.mAggregate[last] / frag.mAggregate[i];  
-						
-						addBand( fragi, i+1, last+1, iratio, kMultimerSmearFrac );					
-						
-						// set up for next band
-						last = i;
-					}					
-				}
-			}
-			
-		} // aggregates
-	} // fragi
+
+		if      ( frag.mDye >= 0 )						 addDye(fragi);
+		else if ( frag.mAggregate.empty() || wsum==0.f ) addMonomer(fragi);
+		else											 addMultimer(fragi,wsum);
+	}
 }
 
 void Gel::clearSamples( int lane )

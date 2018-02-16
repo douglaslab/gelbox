@@ -35,6 +35,7 @@ public:
 	public:
 		int			mLane		= -1;
 		int			mFragment	= -1;
+		int			mDye		= -1;
 		
 		ci::Rectf	mStartBounds; // well 
 		

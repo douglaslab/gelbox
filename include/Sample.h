@@ -64,6 +64,8 @@ public:
 		float mDegrade		= 0.f; // 0..2
 		float mSampleSizeBias = -1.f; // -1 for none, 0 to skew towards big + slow, 1 for small + fast 
 		
+		int   mDye			= -1; // if >=0, then this fragment is a dye, and this is which dye. mMass will indicate how much of the dye there is.
+		
 		std::vector<float> mAggregate;
 		/* - empty means default (monomer)
 		   - dimer is {0,1} (0 for size 1, 1 for size 2)
@@ -116,7 +118,6 @@ public:
 	};
 
 	std::vector<Fragment>	mFragments;
-	float					mDyes[Dye::kCount];
 	Gelbox::Buffer			mBuffer;
 	
 	std::string				mName;
@@ -127,34 +128,26 @@ public:
 	
 	
 	
+	
 	Sample() { clearDyes(); }
 	Sample( const ci::XmlTree& xml ) { loadXml(xml); }
 
-	void clearDyes() {
-		for(int i=0; i<Dye::kCount; ++i ) mDyes[i]=0.f;
-	}
+	int		findDye( int dye ) const;
+	void	setDye ( int dye, float val );	
+	float	getDye ( int dye ) const;
+	std::vector<float> getDyes() const;
+	void	clearDyes(); // set all to zero
+	void	removeDyes(); // remove all dyes
+	void	mergeDuplicateDyes();
 	
-	void degrade( float d ) {
-		for ( auto& f : mFragments ) f.mDegrade = std::min( 2.f, f.mDegrade + d );
-	}
+	void	degrade( float d );
 	
-	int cloneFragment( int f )
-	{
-		assert( isValidFragment(f) );
-		mFragments.push_back( mFragments[f] );
-		return mFragments.size()-1;
-	}
+	int		cloneFragment( int f );	
+	void	removeFragment( int f );
 	
-	void removeFragment( int f )
-	{
-		assert( isValidFragment(f) );
-		mFragments[f] = mFragments.back();
-		mFragments.pop_back();
-	}
+	bool	isValidFragment( int f ) const { return f >=0 && f < mFragments.size(); }
 	
-	bool isValidFragment( int f ) const { return f >=0 && f < mFragments.size(); }
-	
-	void   loadXml( const ci::XmlTree& ); // clears existing mFragments, mDyes first
+	void	loadXml( const ci::XmlTree& ); // clears existing mFragments, mDyes first
 	// TODO: Load/Save mDyes!!!
 	
 	static const std::string kRootXMLNodeName;

@@ -23,6 +23,13 @@ namespace Dye
 	
 	const int kCount		  = 4;
 	
+	inline bool isValidDye( int dye )
+	{
+		return dye >= 0 && dye < kCount;
+	}
+	
+	// misc
+	const float kMaxMass = 1.f;
 	
 	// names
 	const string kNames[kCount] =
