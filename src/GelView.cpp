@@ -341,12 +341,11 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 void GelView::mouseUp( ci::app::MouseEvent e )
 {
 	// reconcile duplicate dyes moved into the same lane...
-/*	if ( mMouseDragBand.mLane != -1 )
+	if ( mMouseDragBand.mLane != -1 )
 	{
 		auto s = getSample(mMouseDragBand.mLane);
 		if (s) s->mergeDuplicateDyes();
-	}*/
-	// i think this is hosing everything
+	}
 	
 	mMouseDownMadeLoupe = 0;
 }

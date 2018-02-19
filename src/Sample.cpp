@@ -93,6 +93,49 @@ void Sample::removeDyes()
 
 void Sample::mergeDuplicateDyes()
 {
+	return;
+	
+	// solution: prioritize keeping indexing stable, so only remove
+	// (flatten down) newer (higher index) entries.
+	
+	// scan
+	vector<float> sum  (Dye::kCount,0.f);
+	vector<int>   count(Dye::kCount,0);
+//	vector<int>   dyes [Dye::kCount]; // which fragments contain the dyes?
+	vector<bool>  cull( mFragments.size(), false );
+	
+	for( int i=0; i<mFragments.size(); ++i )
+	{
+		int dye = mFragments[i].mDye;
+		
+		if (dye != -1)
+		{
+//			if ( !dyes[dye].empty() ) cull[i] = true;
+			if ( count[dye] > 0 ) cull[i] = true;
+			
+			sum  [ dye ] += mFragments[i].mMass;
+			count[ dye ]++;
+//			dyes [ dye ].push_back(i);
+		}
+	}
+	
+	// flatten
+	auto f = mFragments; 
+	
+	mFragments.clear();
+	
+	for( int i=0; i<mFragments.size(); ++i )
+	{
+		if ( !cull[i] ) mFragments.push_back(f[i]); // could set here, not setDyes()
+	}
+	
+	setDyes(sum);
+	
+	// 
+
+	// problem with below is that we reindex everything
+	// which confuses everybody.
+	/*
 	auto d = getDyes(); // sums any duplicates
 	
 	removeDyes();
@@ -102,7 +145,7 @@ void Sample::mergeDuplicateDyes()
 		d[i] = min( d[i], Dye::kMaxMass );
 		
 		setDye(i,d[i]);
-	}
+	}*/
 }
 
 int Sample::findDye( int dye ) const
@@ -156,6 +199,16 @@ std::vector<float> Sample::getDyes() const
 	}
 	
 	return d;
+}
+
+void Sample::setDyes( const std::vector<float> &dyes )
+{
+	assert( dyes.size() <= Dye::kCount );
+	
+	for( int i=0; i<dyes.size(); ++i )
+	{
+		setDye( i, dyes[i] );
+	}
 }
 
 void Sample::degrade( float d ) {

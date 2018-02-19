@@ -136,6 +136,7 @@ public:
 	void	setDye ( int dye, float val );	
 	float	getDye ( int dye ) const;
 	std::vector<float> getDyes() const;
+	void	setDyes( const std::vector<float>& );
 	void	clearDyes(); // set all to zero
 	void	removeDyes(); // remove all dyes
 	void	mergeDuplicateDyes();
