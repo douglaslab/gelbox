@@ -27,7 +27,7 @@ class BufferView;
 typedef std::shared_ptr<BufferView> BufferViewRef;
 
 
-class SampleView : public View//, public std::enable_shared_from_this<SampleView>
+class SampleView : public View
 {
 public:
 

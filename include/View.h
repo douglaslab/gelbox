@@ -50,7 +50,7 @@ public:
 	
 	// hierarchy
 	void    setParent( ViewRef v ); // automatically adds to collection if need be
-	ViewRef getParent() const { return mParent; }
+	ViewRef getParent() const { return mParent.lock(); }
 	std::vector<ViewRef> getChildren() const { return mChildren; }
 	void    orphanChildren();
 	
@@ -141,7 +141,7 @@ private:
 	ci::Rectf	mBounds= ci::Rectf(0,0,1,1); // what that coordinate space is mapped to (eg 0,0 .. 640,480)
 		// initing to unit rect so that by default it does a valid no transform (no divide by zero)
 	
-	ViewRef mParent;
+	std::weak_ptr<View>  mParent;
 	std::vector<ViewRef> mChildren;
 	ViewCollection* mCollection=0;
 };

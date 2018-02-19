@@ -28,40 +28,50 @@ mat4 getRectMappingAsMatrix( Rectf from, Rectf to )
 
 mat4 View::getRootToChildMatrix() const
 {
-	if (mParent) return mParent->getRootToChildMatrix() * getParentToChildMatrix();
+	ViewRef parent = getParent();
+	
+	if (parent) return parent->getRootToChildMatrix() * getParentToChildMatrix();
 	else return getParentToChildMatrix();
 }
 
 mat4 View::getChildToRootMatrix() const
 {
-	if (mParent) return getChildToParentMatrix() * mParent->getChildToRootMatrix();
+	ViewRef parent = getParent();
+
+	if (parent) return getChildToParentMatrix() * parent->getChildToRootMatrix();
 	else return getChildToParentMatrix();
 }
 
 mat4 View::getRootToParentMatrix() const
 {
-	if (mParent) return mParent->getRootToChildMatrix();
+	ViewRef parent = getParent();
+
+	if (parent) return parent->getRootToChildMatrix();
 	else return mat4(); // identity
 }
 
 mat4 View::getParentToRootMatrix() const
 {
-	if (mParent) return mParent->getChildToRootMatrix();
+	ViewRef parent = getParent();
+
+	if (parent) return parent->getChildToRootMatrix();
 	else return mat4(); // identity
 }
 
 void View::setParent( ViewRef p )
 {
-	if ( p != mParent )
+	ViewRef parent = getParent();
+
+	if ( p != parent )
 	{
-		ViewCollection* oc = mParent ? mParent->getCollection() : 0;
+		ViewCollection* oc = parent ? parent->getCollection() : 0;
 		ViewCollection* nc = 0;
 		
-		if ( mParent )
+		if ( parent )
 		{
-			auto i = find( mParent->mChildren.begin(), mParent->mChildren.end(), shared_from_this() );
-			assert( i != mParent->mChildren.end() );
-			mParent->mChildren.erase(i);
+			auto i = find( parent->mChildren.begin(), parent->mChildren.end(), shared_from_this() );
+			assert( i != parent->mChildren.end() );
+			parent->mChildren.erase(i);
 		}
 		
 		mParent = p;
@@ -270,7 +280,7 @@ void ViewCollection::moveViewToTop( ViewRef v )
 {
 	auto i = find( mViews.begin(), mViews.end(), v );
 	
-	assert( i != mViews.end() );
+	assert( i != mViews.end() && "Can't find view in collection; perhaps you are holding onto a shared_ptr after removing the view?" );
 	
 	mViews.erase(i);
 	

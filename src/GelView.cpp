@@ -228,7 +228,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 	vec2 localPos = rootToChild(e.getPos());
 	
 	mMouseDownBand = Gel::Band(); // clear it
-	mMouseDownMadeLoupe = 0;
+	mMouseDownMadeLoupe.reset();
 	mMouseDragBandMadeSampleInLane = -1;
 	
 	// add loupe?
@@ -347,6 +347,8 @@ void GelView::mouseUp( ci::app::MouseEvent e )
 		if (s) s->mergeDuplicateDyes();
 	}*/
 	// i think this is hosing everything
+	
+	mMouseDownMadeLoupe = 0;
 }
 
 void GelView::mouseDrag( ci::app::MouseEvent e )

@@ -150,7 +150,6 @@ void BufferView::close()
 {
 	getCollection()->removeView( shared_from_this() );
 	// ViewCollection will also remove our children for us
-	orphanChildren(); // so we don't have circular shared_ptr happening causing a memory leak
 }
 
 void BufferView::updateLayout()
