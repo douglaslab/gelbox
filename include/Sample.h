@@ -17,8 +17,6 @@
 class Sample;
 typedef std::shared_ptr<Sample> SampleRef;
 
-
-
 class SampleFragRef
 {
 public:
@@ -85,6 +83,8 @@ public:
 		int		  mOriginSampleFrag=-1;
 		
 		// derived properties
+		bool isDye() const { return mDye != -1; }
+		
 		float calcAggregateSum() const {
 			float sum = 0.f;
 			for( auto w : mAggregate ) sum += w;
@@ -149,7 +149,7 @@ public:
 	bool	isValidFragment( int f ) const { return f >=0 && f < mFragments.size(); }
 	
 	void	loadXml( const ci::XmlTree& ); // clears existing mFragments, mDyes first
-	// TODO: Load/Save mDyes!!!
+	ci::XmlTree toXml() const;
 	
 	static const std::string kRootXMLNodeName;
 	

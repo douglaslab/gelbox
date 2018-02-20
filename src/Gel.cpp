@@ -168,7 +168,7 @@ void Gel::insertSample( const Sample& src, int lane )
 			b.mColor		= Dye::kColors[frag.mDye]; 
 			b.mFocusColor	= lerp( b.mColor, Color(0,0,0), .5f );
 			
-			b.mBases[0]		= lerp( Dye::kBPLo[frag.mDye], Dye::kBPHi[frag.mDye], .5f );
+			b.mBases[0]		= ( Dye::kBPLo[frag.mDye] + Dye::kBPHi[frag.mDye] ) / 2;
 			b.mBases[1]		= b.mBases[0];
 					
 			b.mMultimer[0]  = 1;

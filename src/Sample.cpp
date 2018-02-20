@@ -93,15 +93,14 @@ void Sample::removeDyes()
 
 void Sample::mergeDuplicateDyes()
 {
-	return;
+	if (0) cout << "mergeDuplicateDyes pre " << endl << toXml() << endl;
 	
-	// solution: prioritize keeping indexing stable, so only remove
+	// prioritize keeping indexing stable, so only remove
 	// (flatten down) newer (higher index) entries.
 	
 	// scan
 	vector<float> sum  (Dye::kCount,0.f);
 	vector<int>   count(Dye::kCount,0);
-//	vector<int>   dyes [Dye::kCount]; // which fragments contain the dyes?
 	vector<bool>  cull( mFragments.size(), false );
 	
 	for( int i=0; i<mFragments.size(); ++i )
@@ -110,26 +109,34 @@ void Sample::mergeDuplicateDyes()
 		
 		if (dye != -1)
 		{
-//			if ( !dyes[dye].empty() ) cull[i] = true;
 			if ( count[dye] > 0 ) cull[i] = true;
 			
 			sum  [ dye ] += mFragments[i].mMass;
 			count[ dye ]++;
-//			dyes [ dye ].push_back(i);
 		}
 	}
 	
 	// flatten
-	auto f = mFragments; 
+	const auto oldf = mFragments; 
 	
 	mFragments.clear();
 	
-	for( int i=0; i<mFragments.size(); ++i )
+	for( int i=0; i<oldf.size(); ++i )
 	{
-		if ( !cull[i] ) mFragments.push_back(f[i]); // could set here, not setDyes()
+		if ( !cull[i] )
+		{
+			Fragment f = oldf[i];
+			
+			if (f.mDye != -1) {
+				f.mMass = sum[f.mDye];
+				f.mMass = min( Dye::kMaxMass, f.mMass );
+			}
+			
+			mFragments.push_back(f);
+		}
 	}
 	
-	setDyes(sum);
+	if (0) cout << "mergeDuplicateDyes post " << endl << toXml() << endl;
 	
 	// 
 
@@ -305,4 +312,60 @@ Sample::loadXml( const XmlTree& xml )
 			}		
 		}
 	}
+}
+
+ci::XmlTree
+Sample::toXml() const
+{
+	ci::XmlTree xml(Sample::kRootXMLNodeName,"");
+
+	xml.setAttribute("name",		mName);
+	xml.setAttribute("icon",		mIconFileName);
+	xml.setAttribute("iconScale",	mIconScale);
+	xml.setAttribute("id",			mID);
+	
+	auto addChildAttrValue = []( XmlTree& x, string child, string value )
+	{
+		XmlTree c(child,"");
+		c.setAttribute("value",value);
+		x.push_back(c);
+	};
+	
+	for( auto f : mFragments )
+	{
+		XmlTree fx ("Fragment","");
+		
+		addChildAttrValue( fx, "Bases",		toString(f.mBases) );
+		addChildAttrValue( fx, "Mass",		toString(f.mMass) );
+		addChildAttrValue( fx, "Degrade",	toString(f.mDegrade) );
+		
+		addChildAttrValue( fx, "SampleSizeBias", toString(f.mSampleSizeBias) );
+		addChildAttrValue( fx, "Dye",		toString(f.mDye) );
+		addChildAttrValue( fx, "AspectRatio",	 toString(f.mAspectRatio) );
+		addChildAttrValue( fx, "Color",		toString(f.mColor) );
+
+		addChildAttrValue( fx, "OriginSample",	 toString(f.mOriginSample.get()) );
+		addChildAttrValue( fx, "OriginSampleFrag",	 toString(f.mOriginSampleFrag) );
+		
+		if ( !f.mAggregate.empty() )
+		{
+			XmlTree ax("Aggregate");
+			
+			for( int i=0; i<f.mAggregate.size(); ++i )
+			{
+				XmlTree mx("a","");
+				mx.setAttribute("size",i);
+				mx.setAttribute("mass",f.mAggregate[i]);
+				ax.push_back(mx);
+			}
+			
+			fx.push_back(ax);
+		}
+		
+		xml.push_back(fx);
+	}
+
+	xml.push_back( mBuffer.toXml() );	
+	
+	return xml;
 }

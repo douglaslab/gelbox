@@ -10,6 +10,7 @@
 
 #include <memory>
 #include "cinder/gl/Texture.h"
+#include "cinder/Xml.h"
 
 namespace Gelbox
 {
@@ -69,6 +70,9 @@ public:
 		return b;
 	}
 	
+	
+	// xml
+	ci::XmlTree toXml() const;
 
 	// icons
 	ci::gl::TextureRef getParamSliderIcon( int );

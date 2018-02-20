@@ -292,7 +292,7 @@ void SampleView::selectFragment( int i )
 	mSelection->set( mSample, i );
 	mSelection->setToOrigin();
 
-	if (!mIsLoupeView) showFragmentEditor(i);
+	if ( !mIsLoupeView ) showFragmentEditor(i);
 	
 	if (0) cout << "selected: " << (mSample ? mSample->mName : "(null)") << ", frag: " << i << endl;
 }
@@ -311,7 +311,7 @@ void SampleView::setHighlightFragment( int i )
 
 void SampleView::showFragmentEditor( int i )
 {
-	if ( isFragment(i) )
+	if ( isFragment(i) && !mSample->mFragments[i].isDye() )
 	{
 		openFragEditor();
 		mFragEditor->setFragment( mSample, i );

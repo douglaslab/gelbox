@@ -344,7 +344,10 @@ void GelView::mouseUp( ci::app::MouseEvent e )
 	if ( mMouseDragBand.mLane != -1 )
 	{
 		auto s = getSample(mMouseDragBand.mLane);
-		if (s) s->mergeDuplicateDyes();
+		if (s) {
+			s->mergeDuplicateDyes();
+			mGel->syncBandsToSample(s);
+		}
 	}
 	
 	mMouseDownMadeLoupe = 0;
@@ -775,7 +778,8 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		// push
 		s->mFragments.push_back(f);
 	}
-		
+	
+	if (0) cout << "makeSampleFromGelPos " << endl << s->toXml() << endl; 
 	
 	return s;
 }
@@ -995,20 +999,23 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 		}
 	} 
 	
-	// solve
-	GelSim::Input gsi;
-	gsi.mAggregation = aggregate;
-	gsi.mAspectRatio = frag.mAspectRatio;
-	gsi.mVoltage	 = mGel->getVoltage(); 
-	gsi.mTime		 = mGel->getTime();
-	gsi.mGelBuffer   = mGel->getBuffer();
-	gsi.mSampleBuffer= sample->mBuffer;
-	
-	frag.mBases = solveBasePairForY(
-		rootToChild(e.getPos()).y + dragDeltaY,
-		gsi,
-		mGel->getWellBounds(lane).y1, //getCenter().y,
-		mGel->getSampleDeltaYSpaceScale() );		
+	// solve for bp (respond to y)
+	if ( ! frag.isDye() )
+	{
+		GelSim::Input gsi;
+		gsi.mAggregation = aggregate;
+		gsi.mAspectRatio = frag.mAspectRatio;
+		gsi.mVoltage	 = mGel->getVoltage(); 
+		gsi.mTime		 = mGel->getTime();
+		gsi.mGelBuffer   = mGel->getBuffer();
+		gsi.mSampleBuffer= sample->mBuffer;
+		
+		frag.mBases = solveBasePairForY(
+			rootToChild(e.getPos()).y + dragDeltaY,
+			gsi,
+			mGel->getWellBounds(lane).y1, //getCenter().y,
+			mGel->getSampleDeltaYSpaceScale() );		
+	}
 	
 	// change lanes?
 	int newlane = pickLane( rootToParent(e.getPos()) );

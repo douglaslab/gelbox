@@ -38,5 +38,18 @@ gl::TextureRef Buffer::getParamSliderIcon( int i )
 	return sSliderIcons[i];
 }
 
+ci::XmlTree Buffer::toXml() const
+{
+	XmlTree xml("Buffer","");
+	
+	for( int i=0; i<kNumParams; ++i )
+	{
+		XmlTree b("b","");
+		b.setAttribute("name", kBufferParamName[i]);
+		b.setAttribute("mass", mValue[i]);
+	}
+	
+	return xml;
+}
 
 } // namespace Buffer
