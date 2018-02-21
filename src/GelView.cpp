@@ -17,7 +17,7 @@ using namespace std;
 
 const bool kEnableDrag = false;
 const bool kBandRolloverOpensSampleView = false;
-const bool kHoverGelDetailViewOnBandDrag= true;
+const bool kHoverGelDetailViewOnBandDrag= false;
 const bool kDragBandMakesNewSamples = true;
 const bool kClickBackgroundOpensBufferView = false;
 
