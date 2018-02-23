@@ -18,22 +18,15 @@ void GelRender::setup( glm::ivec2 gelsize, int pixelsPerUnit )
 	mOutputSize		= mGelSize * mPixelsPerUnit;
 	
 	mCompositeFBO = gl::Fbo::create( mOutputSize.x, mOutputSize.y );
-	mBandFBO	  = gl::Fbo::create( mOutputSize.x, mOutputSize.y, gl::Fbo::Format()
-		.colorTexture( gl::Texture::Format()
-						.internalFormat(GL_RGB32F) // 32-bit floats!
-					 )
-		);
 
-	/* NOTE: to be able to use R32F properly,
-		we need to swizzle:
-		GLint swizzleMask[] = {GL_RED,GL_RED,GL_RED,GL_RED};
-		glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, swizzleMask);
-		
-		see https://www.khronos.org/opengl/wiki/Texture#Swizzle_mask
-		and https://stackoverflow.com/questions/16950490/process-single-channel-image-by-glsl-texture
-		
-		in practice, this is probably just a performance issue, so we aren't pushing further on it for now.
-	*/
+	gl::Texture::Format f;
+	f.setInternalFormat(GL_R32F);
+	f.setSwizzleMask(GL_RED,GL_RED,GL_RED,GL_RED);
+
+	mBandFBO	  = gl::Fbo::create(
+		mOutputSize.x, mOutputSize.y,
+		gl::Fbo::Format().colorTexture(f)
+		);
 }
 
 void GelRender::render( const std::vector<Band>& bands )
