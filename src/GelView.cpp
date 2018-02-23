@@ -11,6 +11,7 @@
 #include "FragmentView.h" // for FragmentView::getColorPalette()
 #include "BufferView.h"
 #include "GelSim.h"
+#include "GelRender.h"
 
 using namespace ci;
 using namespace std;
@@ -24,10 +25,12 @@ const bool kClickBackgroundOpensBufferView = false;
 const bool kShowReverseSolverDebugTest = false;
 const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
 
+const bool kEnableGelRender = true;
+
 GelView::GelView( GelRef gel )
 {
-	setGel(gel);
-	
+	if (kEnableGelRender) mGelRender = make_shared<GelRender>();
+
 	//
 	fs::path iconPath = "microtube1500ul.png";
 	
@@ -43,6 +46,8 @@ GelView::GelView( GelRef gel )
 	mSelectedState  = make_shared<SampleFragRef>();
 	mRolloverState  = make_shared<SampleFragRef>();
 	mHighlightState = make_shared<SampleFragRef>();
+
+	setGel(gel);		
 }
 
 
@@ -62,12 +67,38 @@ void GelView::setGel( GelRef gel )
 		Rectf frame = bounds;
 		if (oldGel) frame.offsetCenterTo( getFrame().getCenter() ); // center on old
 		setFrame(frame);
+
+		if (mGelRender) mGelRender->setup( mGel->getSize(), 1.f );
+		gelDidChange();
 	}
 }
 
 bool GelView::pick( vec2 p ) const
 {
 	return View::pick(p) || -1 != pickMicrotube( rootToChild(p) );
+}
+
+void GelView::updateGelRender()
+{
+	assert(mGel);
+	
+	if ( !mGelRender ) return;
+	
+	vector<GelRender::Band> bands;
+	
+	for( const Gel::Band& i : mGel->getBands() )
+	{
+		GelRender::Band o;
+		
+		o.mColor    = i.mColor;
+		o.mColor.a  = i.mAlpha[0];
+		
+		o.mWellRect = i.mBounds; // just pass in output rect for now
+		
+		bands.push_back(o);
+	}
+	
+	mGelRender->render(bands);
 }
 
 void GelView::draw()
@@ -85,7 +116,18 @@ void GelView::draw()
 	gl::ScopedScissor scissor( getScissorLowerLeftForBounds(), getScissorSizeForBounds() );	
 
 	// interior content
-	drawBands();
+	if (mGelRender)
+	{
+		if (mGelRender->getOutput()) {
+			gl::color(1,1,1,1);
+			gl::draw( mGelRender->getOutput() );
+		}
+	}
+	else
+	{
+		drawBands();
+	}
+
 	drawWells();
 	drawBandFocus();
 	
@@ -209,7 +251,7 @@ void GelView::drawBandFocus() const
 					
 					if (s||r)
 					{
-						float a;
+						float a=0.f;
 						if (s) a += .65f;
 						if (r) a += .35f;
 						a = min( a, 1.f );
@@ -560,11 +602,8 @@ void GelView::sampleDidChange( SampleRef s )
 	// update gel
 	if ( mGel ) mGel->syncBandsToSample(s);
 	
-	// loupes
-	updateLoupes();
-	
-	// hover
-	updateHoverGelDetailView();
+	// update views
+	gelDidChange();
 }
 
 void GelView::updateLoupes()
@@ -589,7 +628,10 @@ void GelView::updateLoupes()
 void GelView::gelDidChange()
 {
 	// tell our sample views... (this doesn't update hover, but isn't an issue yet)
-	updateLoupes();
+	updateLoupes();	
+	updateHoverGelDetailView();
+
+	updateGelRender();
 }
 
 SampleViewRef GelView::addLoupe( vec2 withSampleAtRootPos )

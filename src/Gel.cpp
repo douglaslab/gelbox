@@ -141,7 +141,7 @@ void Gel::insertSample( const Sample& src, int lane )
 		
 		b.mCreateTime	= 0.f; // always start it at the start (not mTime); otherwise is kind of silly...
 		b.mExists		= true;
-		b.mColor		= ColorA(1.f,1.f,1.f,1.f);
+		b.mColor		= Color(1.f,1.f,1.f);
 		
 		b.mBounds		= calcBandBounds(b);
 		b.mAlpha[0]		= calcBandAlpha (b,0);

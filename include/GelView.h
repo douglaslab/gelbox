@@ -25,6 +25,9 @@ typedef std::shared_ptr<SampleView> SampleViewRef;
 class BufferView;
 typedef std::shared_ptr<BufferView> BufferViewRef;
 
+class GelRender;
+typedef std::shared_ptr<GelRender> GelRenderRef;
+
 
 class GelView : public View
 {
@@ -83,6 +86,10 @@ private:
 	
 	SampleFragRefRef mSelectedState, mRolloverState, mHighlightState; 
 	
+	// gel renderer
+	GelRenderRef		mGelRender;
+	
+	void		updateGelRender();
 	
 	// microtubes
 	ci::Rectf	calcMicrotubeIconRect( int lane ) const;

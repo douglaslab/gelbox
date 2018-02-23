@@ -109,6 +109,7 @@ void GelboxApp::makeGel( vec2 center )
 		SampleRef sample = loadSample( ladder );
 		
 		gel->setSample( sample, 0 );
+		gelView->gelDidChange();
 	}
 	catch (...) {
 		cerr << "ERROR loading 1kb ladder" << endl;
