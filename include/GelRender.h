@@ -16,6 +16,7 @@
 */
 
 #include "cinder/gl/Fbo.h"
+#include "cinder/gl/Shader.h"
 
 #pragma once
 
@@ -35,7 +36,7 @@ public:
 //		float		mFlames		= 0.f;
 //		float		mWellDamage	= 0.f;
 //		ci::vec2	mBandSmile	= ci::vec2(0.f);
-//		float		mBlur		= 0.f;
+		float		mBlur		= 0.f;
 		ci::ColorA	mColor		= ci::ColorA(1,1,1,1);
 	};
 	
@@ -44,14 +45,17 @@ public:
 	ci::gl::TextureRef getOutput() { return mCompositeFBO->getColorTexture(); }
 	
 private:
-	
+
 	// output size
 	glm::ivec2 mGelSize;    // so we can talk in terms of gel world space coordinates 
 	int		   mPixelsPerUnit;
 	glm::ivec2 mOutputSize; // = mGelSize * mPixelsPerUnit
 
 	// final compositing
-	ci::gl::FboRef mBandFBO;
+	ci::gl::FboRef mBandFBO[2]; // so we can ping-pong
 	ci::gl::FboRef mCompositeFBO;
 
+	// shaders
+	ci::gl::GlslProgRef	mBlurGlsl;
+	
 };
