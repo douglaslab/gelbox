@@ -95,6 +95,8 @@ void GelView::updateGelRender()
 		
 		o.mWellRect = i.mBounds; // just pass in output rect for now
 		o.mBlur		= roundf( i.mDiffuseBlur ) + 1;
+		o.mFlames	= 0.f; //o.mWellRect.getHeight() * 2.f;
+		o.mRandSeed = (int)( (long int)&i );
 		
 		bands.push_back(o);
 	}
@@ -119,6 +121,11 @@ void GelView::draw()
 	// interior content
 	if (mGelRender)
 	{
+		if (mGelRenderIsDirty) {
+//			updateGelRender();
+			mGelRenderIsDirty=false;
+		}
+		
 		if (mGelRender->getOutput()) {
 			gl::color(1,1,1,1);
 			gl::draw( mGelRender->getOutput() );
@@ -398,20 +405,23 @@ void GelView::mouseUp( ci::app::MouseEvent e )
 
 void GelView::mouseDrag( ci::app::MouseEvent e )
 {
-	// drag loupe we made on mouse down
-	if ( mMouseDownMadeLoupe )
+	if ( length(getMouseMoved()) > 0.f )
 	{
-		mMouseDownMadeLoupe->mouseDrag(e);
-	}
-	// drag band
-	else if ( mMouseDownBand.mLane != -1 && mMouseDownBand.mFragment != -1 )
-	{
-		mouseDragBand(e);
-	}
-	// drag this view
-	else if ( mMouseDownMicrotube == -1 && kEnableDrag )
-	{
-		setFrame( getFrame() + getCollection()->getMouseMoved() );
+		// drag loupe we made on mouse down
+		if ( mMouseDownMadeLoupe )
+		{
+			mMouseDownMadeLoupe->mouseDrag(e);
+		}
+		// drag band
+		else if ( mMouseDownBand.mLane != -1 && mMouseDownBand.mFragment != -1 )
+		{
+			mouseDragBand(e);
+		}
+		// drag this view
+		else if ( mMouseDownMicrotube == -1 && kEnableDrag )
+		{
+			setFrame( getFrame() + getCollection()->getMouseMoved() );
+		}
 	}
 }
 
@@ -632,6 +642,8 @@ void GelView::gelDidChange()
 	updateLoupes();	
 	updateHoverGelDetailView();
 
+	// some state problem w deferring until draw()
+//	mGelRenderIsDirty=true;
 	updateGelRender();
 }
 

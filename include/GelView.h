@@ -87,6 +87,7 @@ private:
 	SampleFragRefRef mSelectedState, mRolloverState, mHighlightState; 
 	
 	// gel renderer
+	bool				mGelRenderIsDirty = false;
 	GelRenderRef		mGelRender;
 	
 	void		updateGelRender();

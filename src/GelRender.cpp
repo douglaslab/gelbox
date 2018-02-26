@@ -94,13 +94,20 @@ void GelRender::render( const std::vector<Band>& bands )
 	// each
 	for( auto band : bands )
 	{
+		 ci::Rand randGen(band.mRandSeed);
+		 
 		// draw band to fbo
 		{
 			gl::ScopedFramebuffer bandFboScope( mBandFBO );
 			gl::clear( Color(0,0,0) );
 
-			gl::color(1,1,1,1); // rendering to 32-bit float, so color doesn't really matter
+			gl::color(1,1,1,1); // could be rendering to mono-channel, so color doesn't really matter
 			gl::drawSolidRect(band.mWellRect);
+			
+			if ( band.mFlames > 0.f )
+			{
+				drawFlames( band.mWellRect, band.mFlames, randGen );
+			}
 		}
 		
 		// blur
@@ -114,6 +121,140 @@ void GelRender::render( const std::vector<Band>& bands )
 			
 			gl::color(band.mColor);
 			gl::draw( mBandFBO->getColorTexture(), Rectf( vec2(0.f), mGelSize ) );
+		}
+	}
+}
+
+template<class T>
+void mapx( T* d, size_t len, function<T(float,float)> f )
+{
+	const float denom = 1.f / (float)(len-1);
+
+	for( int i=0; i<len; ++i )
+	{
+		d[i] = f( d[i], (float)i * denom );  
+	}
+}
+
+template<class T>
+void displace( T* d, int a, int b, float ad, float bd )
+{
+	mapx<float>( d + a, b-a, [=]( float oldx, float x ) -> float
+	{
+		return oldx + lerp(ad,bd,x);
+	});
+};
+
+void recursiveFlameMidpointDisplacement (
+	vector<float> &d,
+	int lo, int hi,
+	float dy, float dyk,
+	ci::Rand& randGen )
+{
+	int l = hi-lo;
+	int m = lo + l/2;
+	
+	if (l>2)
+	{
+		float delta = (randGen.nextFloat()-.5f) * dy;
+		
+		displace<float>(
+			d.data(),
+			0, m,
+			0.f, delta );
+
+		displace<float>(
+			d.data(),
+			m, d.size(),
+			delta, 0.f );
+			
+		recursiveFlameMidpointDisplacement( d, 0, m , dy*dyk, dyk, randGen );
+		recursiveFlameMidpointDisplacement( d, m, hi, dy*dyk, dyk, randGen );
+	}
+}
+
+void GelRender::drawFlames( Rectf r, float height, ci::Rand& randGen ) const
+{
+	if (0)
+	{
+		int n = r.getWidth() / 4.f;
+		
+		for( int i=0; i<n; ++i )
+		{
+			float y1 = r.y1 - height;
+			float y2 = r.y1;
+			
+			float yr = randGen.nextFloat();
+			yr = 1.f - yr * randGen.nextFloat();
+			
+			vec2 c( randGen.nextFloat(r.x1,r.x2), lerp(y1,y2,yr) );
+			float cr = r.getHeight() * .5f;
+			
+			gl::drawSolidCircle(c,cr);
+		}
+	}
+	else
+	{
+		////
+		int   steps = max( 5, (int)(r.getWidth() / 2.f) );
+	//	int   steps = r.getWidth() / 4.f;
+		float step  = r.getWidth() / (float)steps;
+		
+		vector<float> d(steps,.0f);
+
+		/*
+		// curve up to edges
+		if (1)
+		{
+			mapx<float>( d.data(), d.size(), []( float oldx, float x ) -> float
+			{
+				x = min( x, 1.f - x ); 
+				x = 1.f - x;
+				x = powf(x,2.f);
+				return oldx + x * .25f;
+			});
+		}
+		
+		recursiveFlameMidpointDisplacement(d, 0,d.size(), 1.f, .5f, randGen);
+		*/
+		
+		if (1)
+		{
+			mapx<float>( d.data(), d.size(), [&randGen]( float oldx, float x ) -> float
+			{
+				x = min( x, 1.f - x ); 
+				x = 1.f - x;
+				x = powf(x,2.f);
+				return x * .25f + randGen.nextFloat() * randGen.nextFloat();
+			});			
+		}
+		
+		for( int i=0; i<steps; ++i )
+		{
+			float h = d[i];
+			h = max( 0.f, h );
+			
+			Rectf fr;
+			fr.x1 = r.x1  + (float)i * step;
+			fr.x2 = fr.x1 + step;
+			fr.y1 = r.y1 - height * h;
+			fr.y2 = r.y1;
+			
+			gl::drawSolidRect(fr);
+		}
+
+			
+		// curved cheeks around left and right side
+		// should be more of a stretched ellipse that reaches to tips of d[0] and d[n-1]
+		if (1)
+		{
+			float cr = r.getHeight()/2.f;
+			float y  = r.getCenter().y;
+			
+			float k = cr * .5f;
+			
+			gl::drawSolidCircle( vec2(r.x1+k,y), cr );
+			gl::drawSolidCircle( vec2(r.x2-k,y), cr );
 		}
 	}
 }
@@ -151,6 +292,8 @@ void GelRender::blur( ci::gl::FboRef& fbo, ci::gl::FboRef& fboTemp, int distance
 
 void GelRender::shadeRect( gl::TextureRef texture, gl::GlslProgRef glsl, Rectf dstRect ) const
 {
+	// TODO: replace with my own VBO w a unit square and just use model transform, not this other sillyness.
+	
 	Rectf texRect( vec2(0.f,1.f), vec2(1.f,0.f) );
 	
 	gl::ScopedTextureBind texScope( texture, 0 );
@@ -160,7 +303,8 @@ void GelRender::shadeRect( gl::TextureRef texture, gl::GlslProgRef glsl, Rectf d
 	glsl->uniform( "uPositionScale", dstRect.getSize() );
 	glsl->uniform( "uTexCoordOffset", texRect.getUpperLeft() );
 	glsl->uniform( "uTexCoordScale", texRect.getSize() );
-	
+		// most of these uniforms are redundant, but whatever.
+		
 	auto ctx = gl::context();
 
 	gl::ScopedVao vaoScp( ctx->getDrawTextureVao() );

@@ -17,6 +17,7 @@
 
 #include "cinder/gl/Fbo.h"
 #include "cinder/gl/Shader.h"
+#include "cinder/Rand.h"
 
 #pragma once
 
@@ -33,11 +34,13 @@ public:
 	public:
 		ci::Rectf	mWellRect;
 //		float		mYMovement	= 0.f;
-//		float		mFlames		= 0.f;
+		float		mFlames		= 0.f; // in same units as mWellRect
 //		float		mWellDamage	= 0.f;
 //		ci::vec2	mBandSmile	= ci::vec2(0.f);
 		int			mBlur		= 0;
 		ci::ColorA	mColor		= ci::ColorA(1,1,1,1);
+		
+		int			mRandSeed	= 0;
 	};
 	
 	void render( const std::vector<Band>& );
@@ -59,6 +62,7 @@ private:
 	ci::gl::GlslProgRef	mBlur5Glsl;
 
 	//
+	void drawFlames( ci::Rectf r, float height, ci::Rand& ) const;
 	void blur( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, int distance );
 	void shadeRect( ci::gl::TextureRef texture, ci::gl::GlslProgRef glsl, ci::Rectf dstRect ) const;
 		// you bind glsl before calling, so you can set your own params
