@@ -13,11 +13,11 @@ using namespace ci::app; // loadAsset
 using namespace std;
 
 // RGB
-//const GLint kChannelFormat = GL_RGB;
+const GLint kChannelFormat = GL_RGB;
 
 // R
 // (One channel is harder to debug since we draw other colors to signal errors)
-const GLint kChannelFormat = GL_R8;
+//const GLint kChannelFormat = GL_R8;
 
 // > R8
 // (Not clear any quality improvements happen) 
@@ -71,7 +71,8 @@ void GelRender::setup( glm::ivec2 gelsize, int pixelsPerUnit )
 		}
 	};
 
-	loadShader( mBlur5Glsl, "passthrough.vert", "blur5.frag" );	
+	loadShader( mBlur5Glsl,    "passthrough.vert", "blur5.frag" );	
+	loadShader( mDisplaceGlsl, "passthrough.vert", "displace.frag" );	
 }
 
 void GelRender::render( const std::vector<Band>& bands )
@@ -112,6 +113,9 @@ void GelRender::render( const std::vector<Band>& bands )
 		
 		// blur
 		blur( mBandFBO, mBandFBOTemp, band.mBlur );
+		
+		// smile
+		smileBand( mBandFBO, mBandFBOTemp, band.mSmile );
 		
 		// composite
 		{
@@ -256,6 +260,65 @@ void GelRender::drawFlames( Rectf r, float height, ci::Rand& randGen ) const
 			gl::drawSolidCircle( vec2(r.x1+k,y), cr );
 			gl::drawSolidCircle( vec2(r.x2-k,y), cr );
 		}
+	}
+}
+
+void GelRender::smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, vec2 amount ) const
+{
+//	ci::Surface8u sd( buf->getWidth(), buf->getHeight(), false);
+	ci::Surface8u sd( buf->getWidth(), 1, false);
+	
+	const float scale = 50.f;
+	
+	Surface::Iter iter = sd.getIter();
+	while( iter.line() ) {
+		while( iter.pixel() )
+		{
+			vec2 d;
+			
+			d.x = 0.f;
+			d.y = -(float)iter.getPos().x / (float)sd.getWidth();
+			
+			iter.r() = (uint8_t)lmap( d.x, -1.f, 1.f, 0.f, 255.f );
+			iter.g() = (uint8_t)lmap( d.y, -1.f, 1.f, 0.f, 255.f );
+			iter.b() = 0; // no z displacement; ignored
+		}
+	}	
+	
+	ci::gl::TextureRef td = gl::Texture::create(sd);
+	
+	displace( buf, tmp, td, scale );
+}
+
+void GelRender::displace(
+	ci::gl::FboRef& buf,
+	ci::gl::FboRef& tmp,
+	ci::gl::TextureRef displace,
+	float			   displaceScale ) const
+{
+	if (mDisplaceGlsl)
+	{
+		gl::ScopedFramebuffer bandFboScope( tmp ); // draw to tmp
+		gl::ScopedGlslProg glslScope( mDisplaceGlsl );
+		
+		
+		vec2 displaceScaleUV = vec2(displaceScale) / vec2(mGelSize); // with uv 
+		
+		mDisplaceGlsl->uniform("uDisplaceScale",displaceScaleUV);
+		mDisplaceGlsl->uniform("uTexDisplace", 1 );
+		
+		gl::ScopedTextureBind texScope( displace, 1 );
+		
+		shadeRect( buf->getColorTexture(), mDisplaceGlsl, Rectf( vec2(0), mGelSize ) );
+
+		swap( buf, tmp ); 
+	}
+	else
+	{
+		// show we failed to load shader!
+		swap( buf, tmp );
+		gl::ScopedFramebuffer bandFboScope( buf );
+		gl::clear( Color(0,1,1) );		
 	}
 }
 

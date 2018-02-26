@@ -8,6 +8,14 @@ in vec2	TexCoord;
 
 out vec4 			oColor;
 
+
+
+//uniform sampler2D uTexDisplace;
+//
+//uniform vec2	  uDisplaceScale;
+
+
+
 void main( void )
 {
 	vec4 c = texture( uTex0, TexCoord );

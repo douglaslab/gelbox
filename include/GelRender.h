@@ -36,7 +36,7 @@ public:
 //		float		mYMovement	= 0.f;
 		float		mFlames		= 0.f; // in same units as mWellRect
 //		float		mWellDamage	= 0.f;
-//		ci::vec2	mBandSmile	= ci::vec2(0.f);
+		ci::vec2	mSmile		= ci::vec2(0.f);
 		int			mBlur		= 0;
 		ci::ColorA	mColor		= ci::ColorA(1,1,1,1);
 		
@@ -60,10 +60,19 @@ private:
 
 	// shaders
 	ci::gl::GlslProgRef	mBlur5Glsl;
+	ci::gl::GlslProgRef	mDisplaceGlsl;
 
 	//
 	void drawFlames( ci::Rectf r, float height, ci::Rand& ) const;
+	void smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, ci::vec2 amount ) const;
+	
+	void displace(	ci::gl::FboRef& buf,
+					ci::gl::FboRef& tmp,
+					ci::gl::TextureRef displace,
+					float			   displaceScale ) const;
+		
 	void blur( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, int distance );
+	
 	void shadeRect( ci::gl::TextureRef texture, ci::gl::GlslProgRef glsl, ci::Rectf dstRect ) const;
 		// you bind glsl before calling, so you can set your own params
 	
