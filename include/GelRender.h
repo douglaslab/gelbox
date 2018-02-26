@@ -36,7 +36,7 @@ public:
 //		float		mFlames		= 0.f;
 //		float		mWellDamage	= 0.f;
 //		ci::vec2	mBandSmile	= ci::vec2(0.f);
-		float		mBlur		= 0.f;
+		int			mBlur		= 0;
 		ci::ColorA	mColor		= ci::ColorA(1,1,1,1);
 	};
 	
@@ -52,10 +52,15 @@ private:
 	glm::ivec2 mOutputSize; // = mGelSize * mPixelsPerUnit
 
 	// final compositing
-	ci::gl::FboRef mBandFBO[2]; // so we can ping-pong
+	ci::gl::FboRef mBandFBO, mBandFBOTemp; // so we can ping-pong; always render TO mBandFBO
 	ci::gl::FboRef mCompositeFBO;
 
 	// shaders
-	ci::gl::GlslProgRef	mBlurGlsl;
+	ci::gl::GlslProgRef	mBlur5Glsl;
+
+	//
+	void blur( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, int distance );
+	void shadeRect( ci::gl::TextureRef texture, ci::gl::GlslProgRef glsl, ci::Rectf dstRect ) const;
+		// you bind glsl before calling, so you can set your own params
 	
 };

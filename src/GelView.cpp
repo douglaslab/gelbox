@@ -94,6 +94,7 @@ void GelView::updateGelRender()
 		o.mColor.a  = i.mAlpha[0];
 		
 		o.mWellRect = i.mBounds; // just pass in output rect for now
+		o.mBlur		= roundf( i.mDiffuseBlur ) + 1;
 		
 		bands.push_back(o);
 	}

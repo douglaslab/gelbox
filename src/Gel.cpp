@@ -143,9 +143,10 @@ void Gel::insertSample( const Sample& src, int lane )
 		b.mExists		= true;
 		b.mColor		= Color(1.f,1.f,1.f);
 		
-		b.mBounds		= calcBandBounds(b);
-		b.mAlpha[0]		= calcBandAlpha (b,0);
-		b.mAlpha[1]		= calcBandAlpha (b,1);
+//		b.mBounds		= calcBandBounds(b);
+//		b.mAlpha[0]		= calcBandAlpha (b,0);
+//		b.mAlpha[1]		= calcBandAlpha (b,1);
+		updateBandState(b);
 		
 		mBands.push_back(b);	
 		return mBands.back();
@@ -184,9 +185,10 @@ void Gel::insertSample( const Sample& src, int lane )
 			b.mCreateTime	= 0.f;
 			b.mExists		= true;
 			
-			b.mBounds		= calcBandBounds(b);
-			b.mAlpha[0]		= frag.mMass; //calcBandAlpha (b,0);
-			b.mAlpha[1]		= frag.mMass; //calcBandAlpha (b,1);
+//			b.mBounds		= calcBandBounds(b);
+//			b.mAlpha[0]		= frag.mMass; //calcBandAlpha (b,0);
+//			b.mAlpha[1]		= frag.mMass; //calcBandAlpha (b,1);
+			updateBandState(b);
 			
 			mBands.push_back(b);			
 		}
@@ -297,16 +299,15 @@ void Gel::updateBands()
 {
 	for( auto &b : mBands )
 	{
-		b.mExists = mTime >= b.mCreateTime;
-		
-		b.mBounds   = calcBandBounds(b);
-		b.mAlpha[0] = calcBandAlpha (b,0);
-		b.mAlpha[1] = calcBandAlpha (b,1);
+		updateBandState(b);
 	}
 }
 
-ci::Rectf Gel::calcBandBounds( const Band& b ) const
+void Gel::updateBandState( Band& b ) const
 {
+	b.mExists = mTime >= b.mCreateTime;
+	
+	// shape
 	const float ySpaceScale = getSampleDeltaYSpaceScale();
 	
 	const float bandTime = getBandLocalTime(b);
@@ -329,33 +330,45 @@ ci::Rectf Gel::calcBandBounds( const Band& b ) const
 	r.y1 += GelSim::calcDeltaY( gelSimInput(b,0) ) * ySpaceScale;
 	r.y2 += GelSim::calcDeltaY( gelSimInput(b,1) ) * ySpaceScale;
 	
-	float inflate = GelSim::calcDiffusionInflation( gelSimInput(b,1) ) * ySpaceScale;
-	r.inflate( vec2(inflate) );
+	b.mDiffuseBlur = GelSim::calcDiffusionInflation( gelSimInput(b,1) ) * ySpaceScale;
+	r.inflate( vec2(b.mDiffuseBlur) );
 	// use smaller (faster, more inflation) size. we could use a poly, and inflate top vs. bottom differently.
 	// with degradation, to see more diffusion we need to use [1], since that's what moves first
 	
-	return r;
+	b.mBounds = r;
+	
+	// alpha -- can depend on shape
+//		b.mBounds   = calcBandBounds(b);
+	b.mAlpha[0] = calcBandAlpha (b,0);
+	b.mAlpha[1] = calcBandAlpha (b,1);
 }
 
 float Gel::calcBandAlpha ( const Band& b, int i ) const
 {
-	float mscale = b.mMultimer[i];
-	
-	float a = constrain( (b.mMass * (float)mscale) / GelSim::kSampleMassHigh, 0.1f, 1.f );
-	
-	auto area = []( Rectf r ) {
-		return r.getWidth() * r.getHeight();
-	};
-	
-	float diffuseScale = area( getWellBounds(b.mLane) ) / area(b.mBounds);
-	// for diffusion, look at ratio of areas
-	
-	diffuseScale = powf( diffuseScale, .5f ); // tamp it down so we can still see things
-	diffuseScale = max ( diffuseScale, .1f );
-	
-	a *= diffuseScale;
-	
-	return a;
+	if ( b.mDye != -1 ) return b.mMass;
+	else
+	{
+		float mscale = b.mMultimer[i];
+		
+		float a = constrain( (b.mMass * (float)mscale) / GelSim::kSampleMassHigh, 0.1f, 1.f );
+		
+		auto area = []( Rectf r ) {
+			return r.getWidth() * r.getHeight();
+		};
+		
+		if (1)
+		{
+			float diffuseScale = area( getWellBounds(b.mLane) ) / area(b.mBounds);
+			// for diffusion, look at ratio of areas
+			
+			diffuseScale = powf( diffuseScale, .15f ); // tamp it down so we can still see things
+			diffuseScale = max ( diffuseScale, .1f  );
+			
+			a *= diffuseScale;
+		}
+		
+		return a;
+	}
 }
 
 const Gel::Band*

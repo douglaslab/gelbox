@@ -54,6 +54,7 @@ public:
 		ci::Rectf	mBounds;
 	
 		float		mAlpha[2]; // from top (y1) to bottom (y2)
+		float		mDiffuseBlur = 0.f;
 		
 		ci::Color   mFocusColor;
 		
@@ -105,7 +106,8 @@ private:
 	Gelbox::Buffer			mBuffer;
 	
 	void updateBands();
-	ci::Rectf calcBandBounds( const Band& ) const;
+	void	  updateBandState( Band& ) const;
+//	ci::Rectf calcBandBounds( const Band& ) const;
 	float     calcBandAlpha ( const Band&, int i ) const; // uses bounds, so do that first
 	
 	void insertSample( const Sample&, int lane ); // at current time
