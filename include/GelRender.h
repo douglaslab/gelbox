@@ -34,9 +34,12 @@ public:
 	public:
 		ci::Rectf	mWellRect;
 //		float		mYMovement	= 0.f;
-		float		mFlames		= 0.f; // in same units as mWellRect
+		float		mFlames		= 0.f; // in unit space, how high to make the flames?
 //		float		mWellDamage	= 0.f;
-		ci::vec2	mSmile		= ci::vec2(0.f);
+		
+		float		mSmileHeight = 0.f; // how high in unit space will max smile peel back?
+		float		mSmileExp	 = 0.f; // what exponent to apply to smile curve?
+		
 		int			mBlur		= 0;
 		ci::ColorA	mColor		= ci::ColorA(1,1,1,1);
 		
@@ -64,7 +67,7 @@ private:
 
 	//
 	void drawFlames( ci::Rectf r, float height, ci::Rand& ) const;
-	void smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, ci::vec2 amount ) const;
+	void smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float x1, float x2, float height, float exp ) const;
 	
 	void warp(	ci::gl::FboRef& buf,
 				ci::gl::FboRef& tmp,

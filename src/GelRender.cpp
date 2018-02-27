@@ -13,11 +13,11 @@ using namespace ci::app; // loadAsset
 using namespace std;
 
 // RGB
-const GLint kChannelFormat = GL_RGB;
+//const GLint kChannelFormat = GL_RGB;
 
 // R
 // (One channel is harder to debug since we draw other colors to signal errors)
-//const GLint kChannelFormat = GL_R8;
+const GLint kChannelFormat = GL_R8;
 
 // > R8
 // (Not clear any quality improvements happen) 
@@ -111,11 +111,11 @@ void GelRender::render( const std::vector<Band>& bands )
 			}
 		}
 		
-		// blur
-		blur( mBandFBO, mBandFBOTemp, band.mBlur );
-		
 		// smile
-		smileBand( mBandFBO, mBandFBOTemp, band.mSmile );
+		smileBand( mBandFBO, mBandFBOTemp, band.mWellRect.x1, band.mWellRect.x2, band.mSmileHeight, band.mSmileExp );
+
+		// blur
+		blur( mBandFBO, mBandFBOTemp, band.mBlur );		
 		
 		// composite
 		{
@@ -179,6 +179,11 @@ void recursiveFlameMidpointDisplacement (
 
 void GelRender::drawFlames( Rectf r, float height, ci::Rand& randGen ) const
 {
+	// other ideas:
+	// just draw random # of vertical strands at random x-positions
+	// with random thicknesses, perhaps varying from top and bottom.
+	// can skew aspects probabilities with closeness to edge 
+	
 	if (0)
 	{
 		int n = r.getWidth() / 4.f;
@@ -250,7 +255,7 @@ void GelRender::drawFlames( Rectf r, float height, ci::Rand& randGen ) const
 			
 		// curved cheeks around left and right side
 		// should be more of a stretched ellipse that reaches to tips of d[0] and d[n-1]
-		if (1)
+		if (0)
 		{
 			float cr = r.getHeight()/2.f;
 			float y  = r.getCenter().y;
@@ -289,20 +294,45 @@ ci::Surface8uRef makeWarpByFracPos( ivec2 warpSize, function<vec2(vec2)> f )
 	return s;
 }
 
-void GelRender::smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, vec2 amount ) const
+void GelRender::smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float x1, float x2, float height, float exp ) const
 {
+	/*	Note: A higher quality version of this would use a 2d control texture,
+		and dampen the smile effect as we move towards the top of the band.
+		We could do this most easily with some kind of gradient params in the warp shader.
+		(e.g. distance to point, or just a linear gradient)
+	*/
+	
+	if ( height == 0.f ) return;
+	
+	// normalize x1,x2
+	x1 /= mOutputSize.x;
+	x2 /= mOutputSize.x;
+	
+	// make warp texture
 	ci::Surface8uRef s = makeWarpByFracPos(
-		mOutputSize,
-		[]( vec2 p )
+		ivec2( mOutputSize.x, 1 ), // only need 1px tall
+		[x1,x2,exp]( vec2 p )
 		{
+			// test functions
+//			return vec2( 0, -p.x );
+//			return vec2( 0, sin(p.x*100.f) );
+			
+			// smile
 			vec2 d;
-			d.x =  0.f;
-//			d.y = -p.x;
-			d.y = sin(p.x*100.f);
+			
+			float bx;
+			bx = (p.x - x1) / (x2-x1); // band x 0..1 across band  ( 0   ...     1 ) across band
+			bx = 2.f * fabs( .5f - bx ); // how far from center x? ( 1 ... 0 ... 1 ) across band
+			
+			bx = powf( bx, exp ); // curve it
+			
+			d.x = 0.f;
+			d.y = -bx;
+			
 			return d;
 		});
 	
-	warp( buf, tmp, gl::Texture::create(*s), 20.f );
+	warp( buf, tmp, gl::Texture::create(*s), height );
 }
 
 void GelRender::warp(
