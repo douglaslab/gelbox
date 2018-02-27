@@ -71,8 +71,8 @@ void GelRender::setup( glm::ivec2 gelsize, int pixelsPerUnit )
 		}
 	};
 
-	loadShader( mBlur5Glsl,    "passthrough.vert", "blur5.frag" );	
-	loadShader( mDisplaceGlsl, "passthrough.vert", "displace.frag" );	
+	loadShader( mBlur5Glsl,"passthrough.vert", "blur5.frag" );	
+	loadShader( mWarpGlsl, "passthrough.vert", "warp.frag" );	
 }
 
 void GelRender::render( const std::vector<Band>& bands )
@@ -263,53 +263,68 @@ void GelRender::drawFlames( Rectf r, float height, ci::Rand& randGen ) const
 	}
 }
 
-void GelRender::smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, vec2 amount ) const
+ci::Surface8uRef makeWarpByFracPos( ivec2 warpSize, function<vec2(vec2)> f )
 {
-//	ci::Surface8u sd( buf->getWidth(), buf->getHeight(), false);
-	ci::Surface8u sd( buf->getWidth(), 1, false);
+	Surface8uRef s = Surface8u::create( warpSize.x, warpSize.y, false );
 	
-	const float scale = 50.f;
+	if (s)
+	{
+		vec2 denom = vec2(1.f) / vec2(warpSize);
+		
+		Surface::Iter iter = s->getIter();
+		while( iter.line() ) {
+			while( iter.pixel() )
+			{
+				vec2 pos = vec2(iter.getPos()) * denom ;
+				
+				vec2 d = f(pos);
+				
+				iter.r() = (uint8_t)lmap( d.x, -1.f, 1.f, 0.f, 255.f );
+				iter.g() = (uint8_t)lmap( d.y, -1.f, 1.f, 0.f, 255.f );
+				iter.b() = 0; // no z displacement; ignored
+			}
+		}	
+	}
 	
-	Surface::Iter iter = sd.getIter();
-	while( iter.line() ) {
-		while( iter.pixel() )
-		{
-			vec2 d;
-			
-			d.x = 0.f;
-			d.y = -(float)iter.getPos().x / (float)sd.getWidth();
-			
-			iter.r() = (uint8_t)lmap( d.x, -1.f, 1.f, 0.f, 255.f );
-			iter.g() = (uint8_t)lmap( d.y, -1.f, 1.f, 0.f, 255.f );
-			iter.b() = 0; // no z displacement; ignored
-		}
-	}	
-	
-	ci::gl::TextureRef td = gl::Texture::create(sd);
-	
-	displace( buf, tmp, td, scale );
+	return s;
 }
 
-void GelRender::displace(
+void GelRender::smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, vec2 amount ) const
+{
+	ci::Surface8uRef s = makeWarpByFracPos(
+		mOutputSize,
+		[]( vec2 p )
+		{
+			vec2 d;
+			d.x =  0.f;
+//			d.y = -p.x;
+			d.y = sin(p.x*100.f);
+			return d;
+		});
+	
+	warp( buf, tmp, gl::Texture::create(*s), 20.f );
+}
+
+void GelRender::warp(
 	ci::gl::FboRef& buf,
 	ci::gl::FboRef& tmp,
-	ci::gl::TextureRef displace,
-	float			   displaceScale ) const
+	ci::gl::TextureRef warp,
+	float			   warpScale ) const
 {
-	if (mDisplaceGlsl)
+	if (mWarpGlsl)
 	{
 		gl::ScopedFramebuffer bandFboScope( tmp ); // draw to tmp
-		gl::ScopedGlslProg glslScope( mDisplaceGlsl );
+		gl::ScopedGlslProg glslScope( mWarpGlsl );
 		
 		
-		vec2 displaceScaleUV = vec2(displaceScale) / vec2(mGelSize); // with uv 
+		vec2 warpScaleUV = vec2(warpScale) / vec2(mGelSize); // with uv 
 		
-		mDisplaceGlsl->uniform("uDisplaceScale",displaceScaleUV);
-		mDisplaceGlsl->uniform("uTexDisplace", 1 );
+		mWarpGlsl->uniform("uWarpScale",warpScaleUV);
+		mWarpGlsl->uniform("uTexWarp", 1 );
 		
-		gl::ScopedTextureBind texScope( displace, 1 );
+		gl::ScopedTextureBind texScope( warp, 1 );
 		
-		shadeRect( buf->getColorTexture(), mDisplaceGlsl, Rectf( vec2(0), mGelSize ) );
+		shadeRect( buf->getColorTexture(), mWarpGlsl, Rectf( vec2(0), mGelSize ) );
 
 		swap( buf, tmp ); 
 	}

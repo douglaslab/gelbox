@@ -60,16 +60,16 @@ private:
 
 	// shaders
 	ci::gl::GlslProgRef	mBlur5Glsl;
-	ci::gl::GlslProgRef	mDisplaceGlsl;
+	ci::gl::GlslProgRef	mWarpGlsl;
 
 	//
 	void drawFlames( ci::Rectf r, float height, ci::Rand& ) const;
 	void smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, ci::vec2 amount ) const;
 	
-	void displace(	ci::gl::FboRef& buf,
-					ci::gl::FboRef& tmp,
-					ci::gl::TextureRef displace,
-					float			   displaceScale ) const;
+	void warp(	ci::gl::FboRef& buf,
+				ci::gl::FboRef& tmp,
+				ci::gl::TextureRef warp,
+				float			   warpScale ) const;
 		
 	void blur( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, int distance );
 	
