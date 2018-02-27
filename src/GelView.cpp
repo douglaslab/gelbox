@@ -108,13 +108,16 @@ void GelView::updateGelRender()
 		o.mSmileHeight = o.mWellRect.getHeight() * .35f; 
 		o.mSmileExp = 4.f;
 		
+		o.mSmearBelow = o.mWellRect.getHeight() * 3.f;
+		o.mSmearAbove = o.mWellRect.getHeight() * 3.f;
+		
 		o.mRandSeed =
 			i.mLane * 17
 //		  + i.mFragment * 13 // this means insertions, etc... will shuffle coherency
 //		  + i.mBases[0] * 1080
 //		  + i.mDye * 2050
 		  + (int)(i.mBounds.y1)
-		  + (int)(mGel->getTime() * 100.f)
+//		  + (int)(mGel->getTime() * 100.f)
 		  + (int)(mGel->getVoltage() * 200.f)
 		  + (int)(i.mMass * 10.f)
 		  ; 
@@ -267,10 +270,12 @@ void GelView::drawBandFocus() const
 	{
 		for( auto &b : mGel->getBands() )
 		{
+			SampleFragRef fr( getSample(b.mLane), b.mFragment );
+			
 			if ( b.mExists )
 			{
-				bool s = mSelectedState->is( getSample(b.mLane), b.mFragment );
-				bool r = mRolloverState->is( getSample(b.mLane), b.mFragment );
+				bool s = (*mSelectedState == fr);
+				bool r = (*mRolloverState == fr);
 				
 				if (s||r)
 				{

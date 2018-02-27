@@ -34,8 +34,15 @@ public:
 	public:
 		ci::Rectf	mWellRect;
 //		float		mYMovement	= 0.f;
+
+		// smearing
+		// in world space units
+		// corresponds to aggregation/degrading gradient above/below
+		float		mSmearAbove = 0.f;
+		float		mSmearBelow = 0.f;
+		float		mSmearBrightness[2] = {1,0}; // near, far (e.g. 1,0)
+		
 		float		mFlames		= 0.f; // in unit space, how high to make the flames?
-//		float		mWellDamage	= 0.f;
 		
 		float		mSmileHeight = 0.f; // how high in unit space will max smile peel back?
 		float		mSmileExp	 = 0.f; // what exponent to apply to smile curve?
@@ -66,7 +73,13 @@ private:
 	ci::gl::GlslProgRef	mWarpGlsl;
 
 	//
+	void drawSmear ( ci::Rectf r,
+					 float direction, // direction >0 means below, <0 means above
+					 float thickness,
+					 ci::ColorA cclose, ci::ColorA cfar ) const;  
+	
 	void drawFlames( ci::Rectf r, float height, ci::Rand& ) const;
+	
 	void smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float x1, float x2, float height, float exp ) const;
 	
 	void warp(	ci::gl::FboRef& buf,

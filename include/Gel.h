@@ -51,8 +51,13 @@ public:
 		float		mCreateTime;
 		bool		mExists; // in case we are playing with time travel and go to time before creation
 		ci::Color	mColor;
-		ci::Rectf	mBounds;
-	
+		
+		ci::Rectf	mBounds; // of everything
+		
+//		ci::Rectf	mBandBounds; // just the band
+//		ci::Rectf	mBandDegradedBounds;
+//		ci::Rectf	mBandBoundsDiffuse; // band inflated with diffuse effect
+		
 		float		mAlpha[2]; // from top (y1) to bottom (y2)
 		float		mDiffuseBlur = 0.f;
 		

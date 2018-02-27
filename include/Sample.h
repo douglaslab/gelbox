@@ -20,6 +20,9 @@ typedef std::shared_ptr<Sample> SampleRef;
 class SampleFragRef
 {
 public:
+	SampleFragRef() {}
+	SampleFragRef( SampleRef s, int frag ) { set(s,frag); }
+	
 	void clear() { mSample=0; mFrag=-1; }
 	
 	void set( SampleRef s, int frag ) { mSample=s; mFrag=frag; }

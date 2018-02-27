@@ -13,11 +13,11 @@ using namespace ci::app; // loadAsset
 using namespace std;
 
 // RGB
-//const GLint kChannelFormat = GL_RGB;
+// (One channel is harder to debug since we draw other colors to signal errors)
+const GLint kChannelFormat = GL_RGB;
 
 // R
-// (One channel is harder to debug since we draw other colors to signal errors)
-const GLint kChannelFormat = GL_R8;
+//const GLint kChannelFormat = GL_R8;
 
 // > R8
 // (Not clear any quality improvements happen) 
@@ -99,16 +99,27 @@ void GelRender::render( const std::vector<Band>& bands )
 		 
 		// draw band to fbo
 		{
+			// clear
 			gl::ScopedFramebuffer bandFboScope( mBandFBO );
 			gl::clear( Color(0,0,0) );
 
+			// body
 			gl::color(1,1,1,1); // could be rendering to mono-channel, so color doesn't really matter
 			gl::drawSolidRect(band.mWellRect);
 			
+			// flames
 			if ( band.mFlames > 0.f )
 			{
 				drawFlames( band.mWellRect, band.mFlames, randGen );
 			}
+
+			// smears
+			ColorA smearColorClose(band.mSmearBrightness[0],band.mSmearBrightness[0],band.mSmearBrightness[0],1.f);
+			ColorA smearColorFar  (band.mSmearBrightness[1],band.mSmearBrightness[1],band.mSmearBrightness[1],1.f);
+			drawSmear( band.mWellRect, -1, band.mSmearAbove, smearColorClose, smearColorFar );
+			drawSmear( band.mWellRect, +1, band.mSmearBelow, smearColorClose, smearColorFar );
+				// would be nice to have flame in its own texture, so we can
+				// just stretch it up, too...
 		}
 		
 		// smile
@@ -128,6 +139,58 @@ void GelRender::render( const std::vector<Band>& bands )
 		}
 	}
 }
+
+void GelRender::drawSmear ( ci::Rectf ir, float direction, float thickness, ColorA cclose, ColorA cfar ) const
+{
+	// would be nice to have a 1d smear texture we are using
+	// that texture should be brighter where we have tall flames (e.g.)
+	// just like in our reference material
+	
+	Rectf r  = ir;
+	float hh = ir.getHeight() / 2.f; 
+	
+	if ( direction > 0.f )
+	{
+		r.y1 = ir.y2 - hh;
+		r.y2 = ir.y2 + thickness;
+	}
+	else
+	{
+		r.y2 = ir.y1 + hh;
+		r.y1 = ir.y2 - thickness;
+	}
+	
+	vec2 v[4] =
+	{
+		r.getUpperLeft(),
+		r.getUpperRight(),
+		r.getLowerRight(),
+		r.getLowerLeft()
+	};
+
+	TriMesh m( TriMesh::Format().colors(4).positions(2) );
+	m.appendPositions(v,4);
+	const int i = 0;
+	m.appendTriangle( i+2, i+1, i+0 );
+	m.appendTriangle( i+0, i+3, i+2 );
+
+	if (direction>0.f)
+	{
+		m.appendColorRgba(cclose);
+		m.appendColorRgba(cclose);
+		m.appendColorRgba(cfar);
+		m.appendColorRgba(cfar);
+	}
+	else
+	{
+		m.appendColorRgba(cfar);
+		m.appendColorRgba(cfar);
+		m.appendColorRgba(cclose);
+		m.appendColorRgba(cclose);
+	}
+	
+	gl::draw(m);
+} 
 
 template<class T>
 void mapx( T* d, size_t len, function<T(float,float)> f )
