@@ -74,7 +74,6 @@ SampleView::SampleView()
 {
 	mSelection = make_shared<SampleFragRef>();
 	mRollover  = make_shared<SampleFragRef>();
-	mHighlight = make_shared<SampleFragRef>();
 	
 	mRand.seed( randInt() ); // random random seed :-)
 	
@@ -303,12 +302,6 @@ void SampleView::setRolloverFragment( int i )
 	mRollover->setToOrigin();
 }
 
-void SampleView::setHighlightFragment( int i )
-{
-	mHighlight->set( mSample, i );
-	mHighlight->setToOrigin();
-}
-
 void SampleView::showFragmentEditor( int i )
 {
 	if ( isFragment(i) && !mSample->mFragments[i].isDye() )
@@ -529,8 +522,7 @@ void SampleView::fragmentDidChange( int fragment )
 
 int SampleView::getFocusFragment() const
 {
-	if      ( mHighlight->isValidIn(mSample) ) return mHighlight->getFrag();
-	else if ( mRollover ->isValidIn(mSample) ) return mRollover ->getFrag();
+	if		( mRollover ->isValidIn(mSample) ) return mRollover ->getFrag();
 	else if	( mSelection->isValidIn(mSample) ) return mSelection->getFrag();
 	else return -1;
 }
@@ -547,12 +539,6 @@ int SampleView::getRolloverFragment ()
 	else return -1;
 }
 
-int SampleView::getHighlightFragment()
-{
-	if ( mHighlight->isValidIn(mSample) ) return mHighlight->getFrag();
-	else return -1;
-}
-
 void SampleView::tick( float dt )
 {
 	syncToModel();
@@ -566,7 +552,6 @@ void SampleView::tick( float dt )
 	{
 		setRolloverFragment( pickFragment( rootToChild(getMouseLoc()) ) );
 	}
-//	else setRolloverFragment(-1);
 	
 	// deselect?
 	/*if ( (isFragment(mSelectedFragment) && !getHasKeyboardFocus()) || mIsLoupeView )
@@ -999,10 +984,7 @@ void SampleView::drawSim()
 		const int nsegs = 32;
 
 		const bool selected = isFragment(p.mFragment) && mSelection->isa( mSample, p.mFragment );
-		const bool rollover = isFragment(p.mFragment) &&
-							 (mRollover ->isa( mSample, p.mFragment ) ||
-							  mHighlight->isa( mSample, p.mFragment ) );
-		 
+		const bool rollover = isFragment(p.mFragment) && mRollover ->isa( mSample, p.mFragment );		 
 
 		auto drawPart = [&]( bool outline )
 		{

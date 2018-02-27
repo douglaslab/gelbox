@@ -40,10 +40,8 @@ public:
 	// shared select/rollover state
 	void setSelectionStateData( SampleFragRefRef s ) { mSelection=s; }
 	void setRolloverStateData ( SampleFragRefRef s ) { mRollover =s; }
-	void setHighlightStateData( SampleFragRefRef s ) { mHighlight=s; }
 	SampleFragRefRef getSelectionStateData() const { return mSelection; }
 	SampleFragRefRef getRolloverStateData () const { return mRollover; }
-	SampleFragRefRef getHighlightStateData() const { return mHighlight; }
 	
 	// callout
 	void setCalloutAnchor( glm::vec2 p ) { mAnchor=p; updateCallout(); }
@@ -74,8 +72,6 @@ public:
 	// public so gelview can twiddle what is highlighted
 	void selectFragment( int i );
 	void deselectFragment() { selectFragment(-1); }
-	void setHighlightFragment( int i );
-	int  getHighlightFragment();
 	int  getRolloverFragment ();
 	
 	// options so we can make frozen gel callout views 
@@ -121,7 +117,6 @@ private:
 
 	SampleFragRefRef mSelection;
 	SampleFragRefRef mRollover;
-	SampleFragRefRef mHighlight;
 	
 	glm::vec2		mNewBtnLoc;
 	float			mNewBtnRadius;

@@ -84,7 +84,7 @@ private:
 	std::vector< std::weak_ptr<SampleView> > mLoupeViews;
 	BufferViewRef		mBufferView;
 	
-	SampleFragRefRef mSelectedState, mRolloverState, mHighlightState; 
+	SampleFragRefRef mSelectedState, mRolloverState; 
 	
 	// gel renderer
 	bool				mGelRenderIsDirty = false;

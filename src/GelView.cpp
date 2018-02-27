@@ -45,7 +45,7 @@ GelView::GelView( GelRef gel )
 	
 	mSelectedState  = make_shared<SampleFragRef>();
 	mRolloverState  = make_shared<SampleFragRef>();
-	mHighlightState = make_shared<SampleFragRef>();
+//	mHighlightState = make_shared<SampleFragRef>();
 
 	setGel(gel);		
 }
@@ -263,34 +263,27 @@ void GelView::drawWells() const
 
 void GelView::drawBandFocus() const
 {
-	if (mSampleView && mGel)
+	if (mGel)
 	{
-		int lane = mSelectedMicrotube;
-		int selected  = mSampleView->getSelectedFragment();
-		int focus	  = mSampleView->getFocusFragment();
-		
-		if ( lane != -1 )
+		for( auto &b : mGel->getBands() )
 		{
-			for( auto &b : mGel->getBands() )
+			if ( b.mExists )
 			{
-				if ( b.mExists && b.mLane == lane )
+				bool s = mSelectedState->is( getSample(b.mLane), b.mFragment );
+				bool r = mRolloverState->is( getSample(b.mLane), b.mFragment );
+				
+				if (s||r)
 				{
-					bool s = b.mFragment == selected;
-					bool r = b.mFragment == focus;
+					float a=0.f;
+					if (s) a += .65f;
+					if (r) a += .35f;
+					a = min( a, 1.f );
 					
-					if (s||r)
-					{
-						float a=0.f;
-						if (s) a += .65f;
-						if (r) a += .35f;
-						a = min( a, 1.f );
-						
-						gl::color( ColorA( b.mFocusColor, a ) );
-						gl::drawStrokedRect( b.mBounds.inflated(vec2(1)), 2.f );
-					}
+					gl::color( ColorA( b.mFocusColor, a ) );
+					gl::drawStrokedRect( b.mBounds.inflated(vec2(1)), 2.f );
 				}
-			}			
-		}
+			}
+		}			
 	}	
 }
 
@@ -560,7 +553,6 @@ void GelView::openSampleView()
 			// shared state
 			mSampleView->setSelectionStateData(mSelectedState);
 			mSampleView->setRolloverStateData (mRolloverState);
-			mSampleView->setHighlightStateData(mHighlightState);
 						
 			// layout + add
 			vec2 size(400.f,400.f);
@@ -703,7 +695,7 @@ SampleViewRef GelView::openGelDetailView()
 	// shared state
 	view->setSelectionStateData(mSelectedState);
 	view->setRolloverStateData (mRolloverState);
-	view->setHighlightStateData(mHighlightState);
+//	view->setHighlightStateData(mHighlightState);
 	
 	// add
 	getCollection()->addView(view);
@@ -903,27 +895,28 @@ void GelView::tick( float dt )
 		assert( mGel );
 		selectMicrotube( mGel->getLaneForSample(mSelectedState->getSample()) );
 	}
+	
+	// clear shared rollover state
+	if ( ! getCollection()->getRolloverView() )
+	{
+		mRolloverState->clear();
+	}
 }
 
 void GelView::updateBandRollover( ci::vec2 rootPos )
 {
 	vec2 localMouseLoc  = rootToChild(getMouseLoc()); 
-	vec2 parentMouseLoc = childToParent(localMouseLoc);
 	
 	// band rollover
-	int pickedLane = pickLane(parentMouseLoc);
 	Gel::Band band;
 	
 	if ( getHasRollover() && pickBand( localMouseLoc, band ) )
 	{
 		if (kBandRolloverOpensSampleView) selectMicrotube(band.mLane);
-		
-		if (mSampleView && mSelectedMicrotube == pickedLane) 
-		{
-			mSampleView->setHighlightFragment(band.mFragment);
-		}
+
+		mRolloverState->set( getSample(band.mLane), band.mFragment );
 	}
-	else if (mSampleView) mSampleView->setHighlightFragment(-1);
+	else mRolloverState->clear();
 }
 
 void GelView::updateHoverGelDetailView()
