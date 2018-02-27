@@ -96,23 +96,24 @@ void GelView::updateGelRender()
 		o.mWellRect = i.mBounds; // just pass in output rect for now
 		o.mBlur		= roundf( i.mDiffuseBlur ) + 1;
 		
-		o.mFlames	= 0.f; //o.mWellRect.getHeight() * 2.f;
-		float overloadThresh = GelSim::kSampleMassHigh * .8f;
+		o.mFlames	= 0.f;
+		const float kOverloadThresh = GelSim::kSampleMassHigh * .8f;
 		
-		if ( i.mMass > overloadThresh )
+		if ( i.mMass > kOverloadThresh )
 		{
-			o.mFlames = (i.mMass - overloadThresh) / (GelSim::kSampleMassHigh - overloadThresh);
+			o.mFlames = (i.mMass - kOverloadThresh) / (GelSim::kSampleMassHigh - kOverloadThresh);
 			o.mFlames *= o.mWellRect.getHeight() * 2.f;
 		}
 		
-		o.mSmileHeight = o.mWellRect.getHeight() * .5f; 
+		o.mSmileHeight = o.mWellRect.getHeight() * .35f; 
 		o.mSmileExp = 4.f;
 		
 		o.mRandSeed =
 			i.mLane * 17
 //		  + i.mFragment * 13 // this means insertions, etc... will shuffle coherency
-		  + i.mBases[0] * 1080
-		  + i.mDye * 2050
+//		  + i.mBases[0] * 1080
+//		  + i.mDye * 2050
+		  + (int)(i.mBounds.y1)
 		  + (int)(mGel->getTime() * 100.f)
 		  + (int)(mGel->getVoltage() * 200.f)
 		  + (int)(i.mMass * 10.f)
