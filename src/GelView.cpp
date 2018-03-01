@@ -91,19 +91,17 @@ void GelView::updateGelRender()
 		GelRender::Band o;
 		
 		o.mColor    = i.mColor;
-		o.mColor.a  = i.mAlpha[0];
-		
-		o.mWellRect = i.mBounds; // just pass in output rect for now
+//		o.mColor.a  = i.mAlpha[0];
+		o.mColor.a  = lerp( GelSim::calcBrightness( mGel->gelSimInput(i,0) ),
+							GelSim::calcBrightness( mGel->gelSimInput(i,1) ),
+							.5f );
+			// don't use i.mAlpha; that is old logic that looks at rectangle inflation
+			// and dims it out, including blur. we might want that again, but let's be explicit. 
+					
+		o.mWellRect = i.mBandBounds; // just pass in output rect for now (not mBands, since that is already inflated with blur)
 		o.mBlur		= roundf( i.mDiffuseBlur ) + 1;
 		
-		o.mFlames	= 0.f;
-		const float kOverloadThresh = GelSim::kSampleMassHigh * .8f;
-		
-		if ( i.mMass > kOverloadThresh )
-		{
-			o.mFlames = (i.mMass - kOverloadThresh) / (GelSim::kSampleMassHigh - kOverloadThresh);
-			o.mFlames *= o.mWellRect.getHeight() * 2.f;
-		}
+		o.mFlameHeight = o.mWellRect.getHeight() * GelSim::calcFlames(i.mDye!=-1,i.mMass);
 		
 		o.mSmileHeight = o.mWellRect.getHeight() * .35f; 
 		o.mSmileExp = 4.f;
@@ -415,7 +413,7 @@ void GelView::mouseUp( ci::app::MouseEvent e )
 		auto s = getSample(mMouseDragBand.mLane);
 		if (s) {
 			s->mergeDuplicateDyes();
-			mGel->syncBandsToSample(s);
+			sampleDidChange(s);
 		}
 	}
 	

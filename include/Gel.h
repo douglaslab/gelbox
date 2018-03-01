@@ -14,6 +14,7 @@
 #include "cinder/Rand.h"
 #include "cinder/Color.h"
 #include "Buffer.h"
+#include "GelSim.h"
 
 class Sample;
 typedef std::shared_ptr<Sample> SampleRef;
@@ -54,12 +55,14 @@ public:
 		
 		ci::Rectf	mBounds; // of everything
 		
-//		ci::Rectf	mBandBounds; // just the band
+		ci::Rectf	mBandBounds; // just the band (might be degraded)
 //		ci::Rectf	mBandDegradedBounds;
 //		ci::Rectf	mBandBoundsDiffuse; // band inflated with diffuse effect
 		
 		float		mAlpha[2]; // from top (y1) to bottom (y2)
+
 		float		mDiffuseBlur = 0.f;
+//		GelSim::Output mGelSimOutput;
 		
 		ci::Color   mFocusColor;
 		
@@ -105,6 +108,8 @@ public:
 	float		getBandLocalTime( const Band& b ) const { return std::max(mTime - b.mCreateTime,0.f); }
 	float		getSampleDeltaYSpaceScale() const { return mSize.y - mYMargin*2.f; }
 	
+	GelSim::Input gelSimInput ( const Gel::Band& b, int i ) const;
+		
 private:
 	
 	std::vector<SampleRef>	mSamples;

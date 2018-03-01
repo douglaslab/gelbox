@@ -86,7 +86,7 @@ void BufferView::makeSliders()
 		Slider s;
 		
 		s.mValueMappedLo = 0.f;
-		s.mValueMappedHi = 1.f;
+		s.mValueMappedHi = GelSim::kSliderDyeMassMax;
 		
 		s.mSetter = [sthis,dye]( float v )
 		{

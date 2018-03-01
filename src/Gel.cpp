@@ -303,54 +303,57 @@ void Gel::updateBands()
 	}
 }
 
+GelSim::Input Gel::gelSimInput ( const Gel::Band& b, int i ) const 
+{
+	GelSim::Input gsi;
+	gsi.mBases			= b.mBases[i];
+	gsi.mMass			= b.mMass;
+	gsi.mIsDye			= b.mDye != -1;
+	
+	gsi.mAggregation	= b.mMultimer[i];
+	gsi.mAspectRatio	= b.mAspectRatio;
+	
+	gsi.mVoltage		= mVoltage;
+	gsi.mTime			= getBandLocalTime(b);
+	
+	gsi.mGelBuffer		= mBuffer;
+	gsi.mSampleBuffer	= mSamples[b.mLane]->mBuffer;
+	return gsi;
+};
+
 void Gel::updateBandState( Band& b ) const
 {
+	// exists?
 	b.mExists = mTime >= b.mCreateTime;
 	
-	// shape
-	const float ySpaceScale = getSampleDeltaYSpaceScale();
+	// band bounds
+	const float ySpaceScale = getSampleDeltaYSpaceScale();	
+//	const float thicknessNorm = GelSim::calcThickness(<#GelSim::Input#>) ;
 	
-	const float bandTime = getBandLocalTime(b);
-
-	Rectf r = b.mStartBounds;
+	b.mBandBounds = b.mStartBounds;
+//	b.mBandBounds.y1 = b.mBandBounds.y2 - thicknessNorm * b.mStartBounds.getHeight(); 
 	
-	auto gelSimInput = [=]( const Band& b, int i ) -> GelSim::Input
-	{
-		GelSim::Input gsi;
-		gsi.mBases			= b.mBases[i];
-		gsi.mAggregation	= b.mMultimer[i];
-		gsi.mAspectRatio	= b.mAspectRatio;
-		gsi.mVoltage		= mVoltage;
-		gsi.mTime			= bandTime;
-		gsi.mGelBuffer		= mBuffer;
-		gsi.mSampleBuffer	= mSamples[b.mLane]->mBuffer;
-		return gsi;
-	};
+	b.mBandBounds.y1 += GelSim::calcDeltaY( gelSimInput(b,0) ) * ySpaceScale;
+	b.mBandBounds.y2 += GelSim::calcDeltaY( gelSimInput(b,1) ) * ySpaceScale;
 	
-	r.y1 += GelSim::calcDeltaY( gelSimInput(b,0) ) * ySpaceScale;
-	r.y2 += GelSim::calcDeltaY( gelSimInput(b,1) ) * ySpaceScale;
-	
+	// blur, bounds
 	b.mDiffuseBlur = GelSim::calcDiffusionInflation( gelSimInput(b,1) ) * ySpaceScale;
-	r.inflate( vec2(b.mDiffuseBlur) );
+	b.mBounds = b.mBandBounds.inflated( vec2(b.mDiffuseBlur) );
 	// use smaller (faster, more inflation) size. we could use a poly, and inflate top vs. bottom differently.
 	// with degradation, to see more diffusion we need to use [1], since that's what moves first
 	
-	b.mBounds = r;
-	
-	// alpha -- can depend on shape
-//		b.mBounds   = calcBandBounds(b);
+	// alpha
+	// -- can depend on shape
 	b.mAlpha[0] = calcBandAlpha (b,0);
 	b.mAlpha[1] = calcBandAlpha (b,1);
 }
 
 float Gel::calcBandAlpha ( const Band& b, int i ) const
 {
-	if ( b.mDye != -1 ) return b.mMass;
-	else
+//	if ( b.mDye != -1 ) return b.mMass;
+//	else
 	{
-		float mscale = b.mMultimer[i];
-		
-		float a = constrain( (b.mMass * (float)mscale) / GelSim::kSampleMassHigh, 0.1f, 1.f );
+		float a = GelSim::calcBrightness( gelSimInput(b,i) );
 		
 		auto area = []( Rectf r ) {
 			return r.getWidth() * r.getHeight();

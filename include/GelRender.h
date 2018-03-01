@@ -42,7 +42,7 @@ public:
 		float		mSmearBelow = 0.f;
 		float		mSmearBrightness[2] = {1,0}; // near, far (e.g. 1,0)
 		
-		float		mFlames		= 0.f; // in unit space, how high to make the flames?
+		float		mFlameHeight = 0.f; // in unit space, how high to make the flames?
 		
 		float		mSmileHeight = 0.f; // how high in unit space will max smile peel back?
 		float		mSmileExp	 = 0.f; // what exponent to apply to smile curve?

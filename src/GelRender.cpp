@@ -108,9 +108,9 @@ void GelRender::render( const std::vector<Band>& bands )
 			gl::drawSolidRect(band.mWellRect);
 			
 			// flames
-			if ( band.mFlames > 0.f )
+			if ( band.mFlameHeight > 0.f )
 			{
-				drawFlames( band.mWellRect, band.mFlames, randGen );
+				drawFlames( band.mWellRect, band.mFlameHeight, randGen );
 			}
 
 			// smears

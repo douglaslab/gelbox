@@ -29,6 +29,20 @@ void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade )
 //	if ( b.mDegrade > 1.f ) y1b -= min( 1.f, b.mDegrade - 1.f ); // as degrade goes 1..2, y1 moves to end of chart--shorter bp  
 }
 
+Output calc( Input i )
+{
+	Output o;
+	o.mThickness	= calcThickness(i);
+	o.mBrightness	= calcBrightness(i);
+
+	o.mDeltaY		= calcDeltaY(i);
+	o.mDiffusion	= calcDiffusionInflation(i);
+	o.mFlames		= calcFlames(i.mIsDye,i.mMass);
+	// smile
+	// smile xp
+	return o;
+}
+
 float calcDeltaY( Input i )
 {
 	// Constants
@@ -82,10 +96,43 @@ float calcDeltaY( Input i )
 
 float calcDiffusionInflation( Input i )
 {
-	const float kFraction = .02f;
+	const float kFraction = .01f;
 	
 	return kFraction * calcDeltaY(i);
 }
 
+float calcFlames( bool isDye, float mass )
+{
+	if (isDye) return 0.f;
+	else
+	{
+		const float kOverloadThresh = GelSim::kSampleMassHigh * .8f;
+		
+		float fh = 0.f;
+		
+		if ( mass > kOverloadThresh )
+		{
+			fh  = (mass - kOverloadThresh) / (GelSim::kSampleMassHigh - kOverloadThresh);
+	//		fh *= o.mWellRect.getHeight() * 2.f;
+			fh *= 2.f;
+		}
+		
+		return fh;
+	}
+}
+
+float calcBrightness( Input i )
+{
+	float a = constrain( (i.mMass * (float)i.mAggregation) / GelSim::kSampleMassHigh, 0.1f, 1.f );
+
+	a = powf( a, .5f ); // make it brighter
+	
+	return a;
+}
+
+float calcThickness ( Input i )
+{
+	return 1.f;
+}
 
 } // namespace
