@@ -108,8 +108,8 @@ void GelView::updateGelRender()
 		o.mSmileHeight = o.mWellRect.getHeight() * .35f; 
 		o.mSmileExp = 4.f;
 		
-		o.mSmearBelow = o.mWellRect.getHeight() * 3.f;
-		o.mSmearAbove = o.mWellRect.getHeight() * 3.f;
+//		o.mSmearBelow = o.mWellRect.getHeight() * 3.f;
+//		o.mSmearAbove = o.mWellRect.getHeight() * 3.f;
 		
 		o.mRandSeed =
 			i.mLane * 17
