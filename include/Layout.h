@@ -12,7 +12,8 @@ class Layout
 {
 public:
 	
-	ci::vec2 mWindowSize			= ci::vec2(1365,768);
+	ci::vec2	mWindowSize			= ci::vec2(1365,768);
+	
 	
 	// main view layout
 	ci::vec2	mGelSize			= ci::vec2(390,520);
@@ -23,14 +24,13 @@ public:
 	ci::vec2	mLoupeSize			= ci::vec2(171,171);
 	ci::vec2	mSampleSize			= ci::vec2(362,520);
 	
-	// buttons
-	ci::vec2	mSettingsBtnSize	= ci::vec2(32,32);
 	
-	ci::vec2	mNewBtnSize			= ci::vec2(32,32);
-
+	// buttons
+	ci::vec2	mBtnSize			= ci::vec2(32,32);
 	ci::Color	mBtnHoverColor		= ci::Color::gray(.9f);
 	ci::Color	mBtnDownColor		= ci::Color::gray(.7f);
 	float		mBtnGutter			= 16.f;
+
 
 	// misc.
 	ci::vec2	mBraceSize			= ci::vec2(44,465);

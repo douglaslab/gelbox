@@ -15,6 +15,7 @@
 #include "GelView.h"
 #include "GelSim.h"
 #include "Layout.h"
+#include "ButtonView.h"
 
 using namespace std;
 using namespace ci;
@@ -54,9 +55,6 @@ const float kJitter = .75f;
 
 const float kPartMinPickRadius = 8.f;	
 
-const float kNewBtnRadius = 53.f / 2.f;
-const float kNewBtnGutter = 16.f;
-
 const float kFragViewGutter = 16.f;
 
 void drawThickStrokedCircle( vec2 p, float r, float thickness )
@@ -70,20 +68,34 @@ void drawThickStrokedCircle( vec2 p, float r, float thickness )
 	}
 }
 
-SampleView::SampleView()
+void SampleView::setup()
 {
 	mSelection = make_shared<SampleFragRef>();
 	mRollover  = make_shared<SampleFragRef>();
 	
 	mRand.seed( randInt() ); // random random seed :-)
 	
-	fs::path newBtnPath = "???";
 	
+	fs::path newBtnPath = "???";
+		
 	try
 	{
 		newBtnPath = getAssetPath("new-btn.png");
 		
-		mNewBtnImage = gl::Texture::create( loadImage(newBtnPath), gl::Texture2d::Format().mipmap() );
+		auto newBtnImg = gl::Texture::create( loadImage(newBtnPath), gl::Texture2d::Format().mipmap() );
+		
+		// new btn
+		mNewBtn = make_shared<ButtonView>();
+		
+		mNewBtn->setup(newBtnImg,1);
+		
+		mNewBtn->mClickFunction = [this]()
+		{
+			newFragment();
+			selectFragment( mFragments.size()-1 );
+		};
+
+		mNewBtn->setParent( shared_from_this() );
 	}
 	catch (...)
 	{
@@ -153,30 +165,6 @@ void SampleView::draw()
 	// frame
 	gl::color( Color::gray( (getHasRollover() || getHasKeyboardFocus()) ? .4f : .8f ) );
 	gl::drawStrokedRect( getBounds() );	
-	
-	// new btn
-	if ( getIsNewBtnEnabled() )
-	{
-		const bool hasHover     = getHasRollover () && pickNewBtn(getMouseLoc());
-		const bool hasMouseDown = getHasMouseDown() && pickNewBtn(getMouseDownLoc()) && pickNewBtn(getMouseLoc()); 
-		
-		if (mNewBtnImage)
-		{
-			if ( hasMouseDown ) gl::color(kLayout.mBtnDownColor);
-			else if ( hasHover ) gl::color(kLayout.mBtnHoverColor);
-			else gl::color(1,1,1);
-					
-			gl::draw(mNewBtnImage,mNewBtnRect);
-		}
-		else
-		{
-			if ( hasMouseDown ) gl::color(kLayout.mBtnDownColor);
-			else if ( hasHover ) gl::color(kLayout.mBtnHoverColor);
-			else gl::color(.5,.5,.5);
-			
-			gl::drawSolidRect(mNewBtnRect);
-		}
-	}
 }
 
 void SampleView::drawFrame()
@@ -186,27 +174,21 @@ void SampleView::drawFrame()
 void SampleView::setBounds( ci::Rectf r )
 {
 	View::setBounds(r);
-	
-	mNewBtnRect = Rectf( vec2(0,0), kLayout.mNewBtnSize );
-	mNewBtnRect += (r.getLowerRight() + vec2(0,kLayout.mBtnGutter)) - mNewBtnRect.getUpperRight(); 
+
+	if (mNewBtn)
+	{
+		Rectf r( vec2(0.f), mNewBtn->getFrame().getSize() );
+		r += ( getBounds().getLowerRight() + vec2(0,kLayout.mBtnGutter)) - r.getUpperRight(); 
+		mNewBtn->setFrame(r);
+	}
 }
 
 bool SampleView::pick( glm::vec2 p ) const
 {
 	return View::pick(p)
-		|| pickNewBtn(p)
 		|| pickLoupe(p)
 		|| pickCalloutWedge(p)
 		;
-}
-
-bool SampleView::pickNewBtn( glm::vec2 p ) const
-{
-	if ( !getIsNewBtnEnabled() ) return false;
-	else
-	{
-		return mNewBtnRect.contains( parentToChild(p) );
-	}
 }
 
 bool SampleView::pickCalloutWedge( ci::vec2 rootLoc ) const
@@ -438,15 +420,6 @@ void SampleView::mouseDrag( ci::app::MouseEvent )
 
 void SampleView::mouseUp( ci::app::MouseEvent e )
 {
-	if ( getHasMouseDown() )
-	{
-		// new btn
-		if ( pickNewBtn(e.getPos()) && pickNewBtn(getMouseDownLoc()) )
-		{
-			newFragment();
-			selectFragment( mFragments.size()-1 );
-		}
-	}
 }
 
 void SampleView::keyDown( ci::app::KeyEvent e )
@@ -538,11 +511,18 @@ int SampleView::getRolloverFragment ()
 	else return -1;
 }
 
+void SampleView::setIsLoupeView ( bool l )
+{
+	mIsLoupeView=l;
+	
+	if (mNewBtn) mNewBtn->setIsVisible( !mIsLoupeView );
+}
+
 void SampleView::tick( float dt )
 {
 	syncToModel();
 
-	bool slow = ( getHasRollover() || getHasMouseDown() ) && !pickNewBtn(getMouseLoc());
+	bool slow = getHasRollover() || getHasMouseDown();
 	
 	tickSim( (slow ? .1f : 1.f) * mSimTimeScale );
 	

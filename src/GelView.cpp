@@ -551,6 +551,7 @@ void GelView::openSampleView()
 		{
 			// make view
 			mSampleView = make_shared<SampleView>();
+			mSampleView->setup();
 			mSampleView->setGelView( dynamic_pointer_cast<GelView>(shared_from_this()) );
 
 			// shared state
@@ -683,6 +684,7 @@ SampleViewRef GelView::openGelDetailView()
 {
 	// make view
 	SampleViewRef view = make_shared<SampleView>();
+	view->setup();
 	view->setGelView( dynamic_pointer_cast<GelView>(shared_from_this()) );
 	
 	// set size; updateGelDetailView will position it

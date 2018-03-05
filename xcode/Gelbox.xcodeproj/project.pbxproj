@@ -34,6 +34,7 @@
 		26C36DDA2034B1D900229323 /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26C36DD92034B1D900229323 /* Buffer.cpp */; };
 		26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26CEEA611FE86194003AAE8D /* Interaction.cpp */; };
 		26D11235204DD83900315F87 /* Layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26D11234204DD83900315F87 /* Layout.cpp */; };
+		26D11238204DF58A00315F87 /* ButtonView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26D11237204DF58A00315F87 /* ButtonView.cpp */; };
 		26FC514320193B3B0004A458 /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FC514220193B3B0004A458 /* Slider.cpp */; };
 		26FC514720194F1F0004A458 /* SliderView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FC514620194F1F0004A458 /* SliderView.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
@@ -94,7 +95,8 @@
 		26CEEA691FE873D8003AAE8D /* Interactions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Interactions.h; path = ../include/Interactions.h; sourceTree = "<group>"; };
 		26D11233204DD80000315F87 /* Layout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Layout.h; path = ../include/Layout.h; sourceTree = "<group>"; };
 		26D11234204DD83900315F87 /* Layout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Layout.cpp; path = ../src/Layout.cpp; sourceTree = "<group>"; };
-		26D11236204DF4D700315F87 /* Button.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Button.h; path = ../include/Button.h; sourceTree = "<group>"; };
+		26D11236204DF4D700315F87 /* ButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ButtonView.h; path = ../include/ButtonView.h; sourceTree = "<group>"; };
+		26D11237204DF58A00315F87 /* ButtonView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ButtonView.cpp; path = ../src/ButtonView.cpp; sourceTree = "<group>"; };
 		26FC514120193A950004A458 /* Slider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Slider.h; path = ../include/Slider.h; sourceTree = "<group>"; };
 		26FC514220193B3B0004A458 /* Slider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Slider.cpp; path = ../src/Slider.cpp; sourceTree = "<group>"; };
 		26FC514420193F2B0004A458 /* Gelbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Gelbox.h; path = ../include/Gelbox.h; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				2693E3272004018B00633564 /* FragmentView.h */,
 				26C36DCA203246AC00229323 /* BufferView.h */,
 				26FC514520194E550004A458 /* SliderView.h */,
+				26D11236204DF4D700315F87 /* ButtonView.h */,
 				26C36DD2203395BA00229323 /* ColorPaletteView.h */,
 			);
 			name = Views;
@@ -209,6 +212,7 @@
 				2693E3282004019800633564 /* FragmentView.cpp */,
 				26C36DCB203246C700229323 /* BufferView.cpp */,
 				26FC514620194F1F0004A458 /* SliderView.cpp */,
+				26D11237204DF58A00315F87 /* ButtonView.cpp */,
 				26C36DD32033961200229323 /* ColorPaletteView.cpp */,
 			);
 			name = Views;
@@ -246,7 +250,6 @@
 				26FC514120193A950004A458 /* Slider.h */,
 				26D11233204DD80000315F87 /* Layout.h */,
 				26247E6F1FDF2DAB0094711F /* Views */,
-				26D11236204DF4D700315F87 /* Button.h */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				268BF8CA202248E100E6553F /* GelSim.cpp in Sources */,
 				26FC514720194F1F0004A458 /* SliderView.cpp in Sources */,
 				26FC514320193B3B0004A458 /* Slider.cpp in Sources */,
+				26D11238204DF58A00315F87 /* ButtonView.cpp in Sources */,
 				26054E9A1FD8726C007DB5F8 /* View.cpp in Sources */,
 				26C36DD42033961200229323 /* ColorPaletteView.cpp in Sources */,
 			);

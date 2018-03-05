@@ -26,12 +26,15 @@ typedef std::shared_ptr<FragmentView> FragmentViewRef;
 class BufferView;
 typedef std::shared_ptr<BufferView> BufferViewRef;
 
+class ButtonView;
+typedef std::shared_ptr<ButtonView> ButtonViewRef;
+
 
 class SampleView : public View
 {
 public:
 
-	SampleView();
+	void setup();
 	
 	void setGelView( GelViewRef v ) { mGelView=v; }
 		
@@ -75,11 +78,11 @@ public:
 	int  getRolloverFragment ();
 	
 	// options so we can make frozen gel callout views 
-	bool getIsNewBtnEnabled() const { return ! mIsLoupeView; }
+//	bool getIsNewBtnEnabled() const { return ! mIsLoupeView; }
 	void setPopDensityScale( float s ) { mPopDensityScale=s; }
 	void prerollSim();
 	void setSimTimeScale( float s ) { mSimTimeScale=s; }
-	void setIsLoupeView ( bool  l ) { mIsLoupeView=l; } // i.e. gel detail view; a loupe
+	void setIsLoupeView ( bool  l );  // i.e. gel detail view; a loupe
 	void setHasLoupe	( bool  l ) { mHasLoupe=l; } // does it have a circular widget for callout? 
 	void clearParticles() { mParts.clear(); }
 	void setRand( ci::Rand r ) { mRand = r; }
@@ -98,7 +101,6 @@ private:
 
 	bool isFragment( int i ) const { return i >=0 && i < mFragments.size() ; }
 	void showFragmentEditor( int i );
-	bool pickNewBtn( glm::vec2 ) const;
 	void updateCallout();
 	void closeFragEditor();
 	void openFragEditor();
@@ -118,8 +120,7 @@ private:
 	SampleFragRefRef mSelection;
 	SampleFragRefRef mRollover;
 	
-	ci::Rectf		   mNewBtnRect;
-	ci::gl::TextureRef mNewBtnImage;
+	ButtonViewRef	 mNewBtn;
 	
 	// other views
 	GelViewRef		mGelView;
