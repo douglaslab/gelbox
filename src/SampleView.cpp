@@ -14,6 +14,7 @@
 #include "BufferView.h"
 #include "GelView.h"
 #include "GelSim.h"
+#include "Layout.h"
 
 using namespace std;
 using namespace ci;
@@ -55,7 +56,6 @@ const float kPartMinPickRadius = 8.f;
 
 const float kNewBtnRadius = 53.f / 2.f;
 const float kNewBtnGutter = 16.f;
-const Color kNewBtnDownColor = Color(1.f,1.f,1.f)*.7f;
 
 const float kFragViewGutter = 16.f;
 
@@ -157,25 +157,24 @@ void SampleView::draw()
 	// new btn
 	if ( getIsNewBtnEnabled() )
 	{
+		const bool hasHover     = getHasRollover () && pickNewBtn(getMouseLoc());
 		const bool hasMouseDown = getHasMouseDown() && pickNewBtn(getMouseDownLoc()) && pickNewBtn(getMouseLoc()); 
 		
 		if (mNewBtnImage)
 		{
-			if ( hasMouseDown ) gl::color(kNewBtnDownColor);
+			if ( hasMouseDown ) gl::color(kLayout.mBtnDownColor);
+			else if ( hasHover ) gl::color(kLayout.mBtnHoverColor);
 			else gl::color(1,1,1);
 					
-			gl::ScopedModelMatrix model;
-
-			gl::translate( mNewBtnLoc - vec2(kNewBtnRadius) );
-			
-			gl::draw(mNewBtnImage);
+			gl::draw(mNewBtnImage,mNewBtnRect);
 		}
 		else
 		{
-			if ( hasMouseDown ) gl::color(kNewBtnDownColor);
+			if ( hasMouseDown ) gl::color(kLayout.mBtnDownColor);
+			else if ( hasHover ) gl::color(kLayout.mBtnHoverColor);
 			else gl::color(.5,.5,.5);
 			
-			gl::drawSolidCircle(mNewBtnLoc, mNewBtnRadius);
+			gl::drawSolidRect(mNewBtnRect);
 		}
 	}
 }
@@ -188,8 +187,8 @@ void SampleView::setBounds( ci::Rectf r )
 {
 	View::setBounds(r);
 	
-	mNewBtnRadius = kNewBtnRadius;
-	mNewBtnLoc = getBounds().getLowerRight() + vec2(-mNewBtnRadius,mNewBtnRadius+kNewBtnGutter);
+	mNewBtnRect = Rectf( vec2(0,0), kLayout.mNewBtnSize );
+	mNewBtnRect += (r.getLowerRight() + vec2(0,kLayout.mBtnGutter)) - mNewBtnRect.getUpperRight(); 
 }
 
 bool SampleView::pick( glm::vec2 p ) const
@@ -206,7 +205,7 @@ bool SampleView::pickNewBtn( glm::vec2 p ) const
 	if ( !getIsNewBtnEnabled() ) return false;
 	else
 	{
-		return distance( parentToChild(p), mNewBtnLoc ) <= mNewBtnRadius;
+		return mNewBtnRect.contains( parentToChild(p) );
 	}
 }
 

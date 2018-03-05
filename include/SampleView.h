@@ -118,8 +118,7 @@ private:
 	SampleFragRefRef mSelection;
 	SampleFragRefRef mRollover;
 	
-	glm::vec2		mNewBtnLoc;
-	float			mNewBtnRadius;
+	ci::Rectf		   mNewBtnRect;
 	ci::gl::TextureRef mNewBtnImage;
 	
 	// other views

@@ -49,7 +49,7 @@ class GelboxApp : public ci::app::App {
 
 	SampleRef loadSample( ci::fs::path ) const;	
 
-	void makeGel( ci::vec2 center );
+	void makeGel();
 	void decorateGelViewWithSliders( GelViewRef );
 	
 };

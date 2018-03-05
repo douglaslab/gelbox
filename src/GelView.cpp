@@ -25,7 +25,7 @@ const bool kClickBackgroundOpensBufferView = false;
 const bool kShowReverseSolverDebugTest = false;
 const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
 
-const bool kEnableGelRender = true;
+const bool kEnableGelRender = false; // enable new fancy gel rendering with FBO
 
 GelView::GelView( GelRef gel )
 {

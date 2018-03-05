@@ -12,6 +12,7 @@
 #include "SliderView.h"
 #include "ImageView.h"
 #include "Interaction.h"
+#include "Layout.h"
 //#include "OperationView.h"
 
 #include "GelboxApp.h"
@@ -38,14 +39,14 @@ GelboxApp::~GelboxApp()
 
 void GelboxApp::setup()
 {
-	setWindowSize( 1324, 768 );
+	setWindowSize( kLayout.mWindowSize );
 	
 //	glEnable( GL_MULTISAMPLE_ARB );
 	glEnable( GL_LINE_SMOOTH );
 //	glEnable( GL_POLYGON_SMOOTH );
 	
 	// make gel
-	makeGel( ivec2( getWindowWidth()/4 - 64, getWindowHeight()/2 ) );
+	makeGel();
 	
 	// ui assets
 	mUIFont = gl::TextureFont::create( Font("Avenir",12) );
@@ -76,7 +77,7 @@ void GelboxApp::setup()
 	}	
 }
 
-void GelboxApp::makeGel( vec2 center )
+void GelboxApp::makeGel()
 {	
 	// layout in cm;
 	// this messes up our Timeline view, which is parented to us.
@@ -86,14 +87,18 @@ void GelboxApp::makeGel( vec2 center )
 
 	// gel
 	auto gel = make_shared<Gel>();
-	gel->setLayout( 300.f, 400.f, 7, 20.f ); // layout in points
+	gel->setLayout(
+		kLayout.mGelSize.x, 
+		kLayout.mGelSize.y,
+		kLayout.mGelDefaultLanes,
+		kLayout.mGelWellGutter ); // layout in points
 	
 	// gel view
 	auto gelView = make_shared<GelView>( gel );
 	
 	{
 		Rectf frame = gelView->getFrame();
-		frame += center - frame.getCenter();
+		frame += kLayout.mGelTopLeft - frame.getUpperLeft();
 		
 		gelView->setFrame( frame );
 		mViews.addView(gelView);
