@@ -72,6 +72,8 @@ public:
 	int  getFocusFragment() const; // rollover or selection (for feedback)
 	int  getSelectedFragment() const;
 	
+	void drawRepresentativeOfFrag( int frag, ci::vec2 pos ) const;
+	
 	// public so gelview can twiddle what is highlighted
 	void selectFragment( int i );
 	void deselectFragment() { selectFragment(-1); }

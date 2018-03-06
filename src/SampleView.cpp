@@ -46,6 +46,10 @@ const float kLoupeRadius = 16.f * .65f;
 const bool  kCanPickCalloutWedge = true;
 const bool  kLoupePartsSelectable = true;
 
+// draw sim
+const int kNumCirclePartVertices = 32;
+
+
 // mitigate dithering artifacts by being lenient / less aggressive with aggregate culling
 const float kAggregateCullChanceScale = (1.f / 30.f) * .5f;
 const int   kAggregateCullPopEps = 0;
@@ -934,6 +938,46 @@ void SampleView::drawSimBackground()
 	gl::drawSolidRect( getBounds() );
 }
 
+void SampleView::drawRepresentativeOfFrag( int frag, ci::vec2 pos ) const
+{
+	// 1st, find a part
+	int   pick = -1;
+	float pickfade = 0.f;
+	
+	for( int i=0; i<mParts.size(); ++i )
+	{
+		if ( mParts[i].mFragment == frag && mParts[i].mFade > pickfade )
+		{
+			pick = i;
+			pickfade = mParts[i].mFade; 
+		}
+	}
+	
+	// draw it!
+	if ( pick != -1 )
+	{
+		const auto &p = mParts[pick];
+		
+		for( int i=0; i<p.mMulti.size(); ++i )
+		{
+			// duplicating code below...
+			gl::ScopedModelMatrix modelMatrix;
+			gl::multModelMatrix(
+				glm::translate( vec3(pos-p.mLoc,0.f) ) // put it where we want
+			  * p.getTransform(i) );
+			
+			gl::color( ColorA( p.mColor, p.mFade ) );
+			
+			gl::drawSolidCircle( vec2(0,0), 1.f, kNumCirclePartVertices ); // fill
+			if (p.mFade==1.f)
+			{
+				gl::drawStrokedCircle( vec2(0,0), 1.f, kNumCirclePartVertices );
+				// outline for anti-aliasing... assumes GL_LINE_SMOOTH
+			}
+		}
+	}
+}
+
 void SampleView::drawSim()
 {
 	// clip
@@ -942,8 +986,6 @@ void SampleView::drawSim()
 	// draw parts
 	for ( const auto &p : mParts )
 	{
-		const int nsegs = 32;
-
 		const bool selected = isFragment(p.mFragment) && mSelection->isa( mSample, p.mFragment );
 		const bool rollover = isFragment(p.mFragment) && mRollover ->isa( mSample, p.mFragment );		 
 
@@ -960,10 +1002,10 @@ void SampleView::drawSim()
 				{
 					gl::color( ColorA( p.mColor, p.mFade ) );
 					
-					gl::drawSolidCircle( vec2(0,0), 1.f, nsegs ); // fill
+					gl::drawSolidCircle( vec2(0,0), 1.f, kNumCirclePartVertices ); // fill
 					if (p.mFade==1.f)
 					{
-						gl::drawStrokedCircle( vec2(0,0), 1.f, nsegs ); // outline for anti-aliasing... assumes GL_LINE_SMOOTH
+						gl::drawStrokedCircle( vec2(0,0), 1.f, kNumCirclePartVertices ); // outline for anti-aliasing... assumes GL_LINE_SMOOTH
 					}
 				}
 				
@@ -976,7 +1018,7 @@ void SampleView::drawSim()
 					
 					gl::color( color );
 					float lineWidth = kOutlineWidth / p.mRadius.x;
-					gl::drawStrokedCircle( vec2(0,0), 1.f + lineWidth/2.f, lineWidth, nsegs );
+					gl::drawStrokedCircle( vec2(0,0), 1.f + lineWidth/2.f, lineWidth, kNumCirclePartVertices );
 					// i guess to get proportional line scaling we could draw a second circle and deform it appropriately...
 					// not sure that would actually work though. easiest to just generate our own line shapes...
 				}

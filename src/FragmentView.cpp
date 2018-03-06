@@ -18,20 +18,6 @@ using namespace std;
 using namespace ci;
 using namespace ci::app;
 
-const bool kDrawLayoutGuides = true;
-
-const vec2  kColorSize(35,35);
-
-const float kSliderIconGutter = 16;
-const float kSliderLength	  = 133 + 26.f*2.f + 24.f;
-const float kSliderVGutter    = 56;
-const float kSliderFirstGutter = 24;
-const float kSliderGraphHeight = 32.f;
-const float kSliderColorsGutter = 24; 
-
-const vec2  kSliderIconNotionalSize(26,26); // for layout purposes; they can be different sizes
-
-
 vector<ci::Color> FragmentView::sColorPalette;
 
 const vector<Color>& FragmentView::getColorPalette()
@@ -91,6 +77,7 @@ void FragmentView::makeSliders()
 	mColorsView = make_shared<ColorPaletteView>();
 	mColorsView->setPalette( getColorPalette() );
 	mColorsView->setParent( shared_from_this() );
+	mColorsView->setCols(4);
 	mColorsView->mSetter = [this]( Color c ){
 		getEditFragment().mColor = c;
 		fragmentDidChange();
@@ -180,7 +167,7 @@ void FragmentView::makeSliders()
 		
 		aggregate.mIsGraph = true;
 		aggregate.mGraphValues.resize( GelSim::kSliderAggregateMaxMultimer );
-		aggregate.mGraphHeight = kSliderGraphHeight; 
+		aggregate.mGraphHeight = kLayout.mFragViewSlidersGraphHeight; 
 		for( float &x : aggregate.mGraphValues ) x = randFloat(); // test data		
 		
 		aggregate.mGraphSetter = [this]( std::vector<float> v ) {
@@ -263,39 +250,40 @@ void FragmentView::updateLayout()
 {
 	if ( mSliders.empty() ) makeSliders(); 
 
-	// position sliders	
-	const vec2 topleft = snapToPixel( vec2( getBounds().getCenter().x - kSliderLength/2.f, kSliderFirstGutter ) ); 
-		// topleft of first slider
-		
+	// position sliders
 	for( int i=0; i<mSliders.size(); ++i )
 	{
 		Slider  s = mSliders[i]->getSlider();
 		
-		s.doLayoutInWidth( kSliderLength, kSliderIconGutter, kSliderIconNotionalSize ); 
+		s.doLayoutInWidth(
+			kLayout.mFragViewSlidersWidth,
+			kLayout.mFragViewSlidersIconGutter,
+			kLayout.mFragViewSliderIconNotionalSize ); 
 
 		mSliders[i]->setSlider(s);
-		mSliders[i]->setFrame( mSliders[i]->getFrame() + topleft + vec2(0.f,(float)i * kSliderVGutter) );
+		
+		mSliders[i]->setFrame(
+			  mSliders[i]->getFrame()
+			+ kLayout.mFragViewSlidersTopLeft
+			+ vec2(0.f,(float)i*kLayout.mFragViewSlidersVOffset) );
 	}
 
 	// colors
 	if (mColorsView)
 	{
-		vec2 colorsSize = kColorSize * vec2( mColorsView->mColorCols, mColorsView->mColors.size()/mColorsView->mColorCols );
-		vec2 tl;
+		const vec2 colorsSize = kLayout.mFragViewColorSize * vec2( mColorsView->mColorCols, mColorsView->calcRows() );
 		
-		tl.y = mSliders.back()->getFrame().y2 + kSliderColorsGutter;
-		tl.x = getBounds().getWidth()/2 - colorsSize.x/2;
-		
-		Rectf r( tl, tl + colorsSize );
+		const Rectf r( kLayout.mFragViewColorsTopLeft, kLayout.mFragViewColorsTopLeft + colorsSize );
 		
 		mColorsView->layout(r);
 	}
 	
-	//
+	// brace
 	mBraceRect = Rectf( vec2(0.f), kLayout.mBraceSize );
 	mBraceRect += vec2( vec2(0.f,getBounds().getCenter().y) - vec2(0.f,mBraceRect.getCenter().y) );
 	mBraceRect = snapToPixel(mBraceRect);
 	
+	// well
 	mWellRect = Rectf( vec2(0.f), kLayout.mFragViewWellSize );
 	mWellRect += kLayout.mFragViewWellTopLeft;
 }
@@ -347,17 +335,25 @@ void FragmentView::draw()
 		gl::draw(mBraceTex,mBraceRect);
 	}
 
-	gl::color( kLayout.mFragViewWellShadow );
-	gl::drawSolidRoundedRect( mWellRect + kLayout.mFragViewWellShadowOffset, kLayout.mFragViewWellCornerRadius );
-	gl::color( kLayout.mFragViewWellFill );
-	gl::drawSolidRoundedRect( mWellRect, kLayout.mFragViewWellCornerRadius );
-	gl::color( kLayout.mFragViewWellStroke );
-	gl::drawStrokedRoundedRect( mWellRect, kLayout.mFragViewWellCornerRadius );
+	// well
+	{
+		gl::color( kLayout.mFragViewWellShadow );
+		gl::drawSolidRoundedRect(
+			mWellRect + kLayout.mFragViewWellShadowOffset,
+			kLayout.mFragViewWellCornerRadius );
+			
+		gl::color( kLayout.mFragViewWellFill );
+		gl::drawSolidRoundedRect( mWellRect, kLayout.mFragViewWellCornerRadius );
+		gl::color( kLayout.mFragViewWellStroke );
+		gl::drawStrokedRoundedRect( mWellRect, kLayout.mFragViewWellCornerRadius );
+		
+		if (mSampleView) mSampleView->drawRepresentativeOfFrag( mEditFragment, mWellRect.getCenter() );
+	}
 	
 	// background + frame
-	if (kDrawLayoutGuides)
+	if (kLayout.mDebugDrawLayoutGuides)
 	{
-		gl::color( Color::hex(0x18BFFF) );
+		gl::color( kLayout.mDebugDrawLayoutGuideColor );
 		gl::drawStrokedRect(getBounds());
 	}
 }

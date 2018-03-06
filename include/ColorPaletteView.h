@@ -25,10 +25,13 @@ public:
 	};
 	
 	void setPalette( Palette p ) { mColors=p; layout(mColorsRect); }
+	void setCols( int c ) { mColorCols=c; layout(mColorsRect); }
 	void layout( ci::Rectf );
 		// rough in where colors should go
 		// this is a little unclear in part b/c of how i refactored it.
 		// so it would be smart to clarify layout logic
+
+	int calcRows() const { return mColors.size()/mColorCols; }	
 	
 	void tick( float dt ) override;
 	void draw() override;
@@ -36,7 +39,6 @@ public:
 	void mouseDown( ci::app::MouseEvent ) override;
 	void mouseUp  ( ci::app::MouseEvent ) override;
 	void mouseDrag( ci::app::MouseEvent ) override;
-
 
 	std::vector<ci::Color>	mColors;
 	int						mColorCols=6;

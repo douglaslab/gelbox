@@ -12,10 +12,9 @@ class Layout
 {
 public:
 	
-	ci::vec2	mWindowSize			= ci::vec2(1365,768);
-	
-	
 	// main view layout
+	ci::vec2	mWindowSize			= ci::vec2(1365,768);
+
 	ci::vec2	mGelSize			= ci::vec2(390,520);
 	ci::vec2	mGelTopLeft			= ci::vec2(208,124);
 	int			mGelDefaultLanes	= 7;
@@ -27,9 +26,17 @@ public:
 	float		mGelToSampleGutter	= 30.f;
 	float		mSampleToBraceGutter= 31.f;
 	
+	// frag view
 	ci::vec2	mFragViewSize			= ci::vec2(303,520);	
 	ci::vec2	mFragViewSlidersTopLeft	= ci::vec2(63,190);
-	float		mFragViewSlidersWidth	= 217.f;
+	float		mFragViewSlidersWidth		= 217.f;
+	float		mFragViewSlidersIconGutter  = 16.f;
+	float		mFragViewSlidersGraphHeight = 32.f;
+	float		mFragViewSlidersVOffset		= 56.f;
+	ci::vec2	mFragViewSliderIconNotionalSize = ci::vec2(26.f);
+	ci::vec2	mFragViewColorsTopLeft		= ci::vec2(173,74);
+	ci::vec2	mFragViewColorSize			= ci::vec2(25.f);
+	int			mFragViewColorsNumCols		= 4;
 	
 	ci::vec2	mFragViewWellTopLeft	= ci::vec2(77,71); 
 	ci::vec2	mFragViewWellSize		= ci::vec2(80,80);
@@ -44,10 +51,21 @@ public:
 	ci::Color	mBtnHoverColor		= ci::Color::gray(.9f);
 	ci::Color	mBtnDownColor		= ci::Color::gray(.7f);
 	float		mBtnGutter			= 16.f;
+	
+	// sliders
+	ci::Color	mSliderLineColor   = ci::Color::hex(0x979797); 
+	ci::Color	mSliderHandleColor = ci::Color::hex(0x4990E2);
+	ci::vec2	mSliderHandleSize  = ci::vec2(16,20);
+	float		mSliderNotchRadius = 2.5f;
 
 
 	// misc.
 	ci::vec2	mBraceSize			= ci::vec2(44,465);
+	
+	// debug
+	bool		mDebugDrawLayoutGuides		= false;
+	ci::Color	mDebugDrawLayoutGuideColor	= ci::Color::hex(0x18BFFF);
+		
 	
 	// assets
 	ci::gl::TextureRef brace() const;

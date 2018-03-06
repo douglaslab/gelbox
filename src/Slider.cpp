@@ -10,14 +10,11 @@
 #include "Gelbox.h"
 
 #include "Slider.h"
+#include "Layout.h"
 
 using namespace std;
 using namespace ci;
 
-const Color kSliderLineColor   = Color::hex(0x979797); 
-const Color kSliderHandleColor = Color::hex(0x4990E2);
-const vec2  kSliderHandleSize  = vec2(16,20);
-const float kSliderNotchRadius = 2.5f;
 
 
 std::vector<float> lmap( std::vector<float> v, float inMin, float inMax, float outMin, float outMax )
@@ -88,6 +85,9 @@ void Slider::doLayoutInWidth ( float fitInWidth, float iconGutter, vec2 notional
 		vec2 e = mIconSize[i] / 2.f;
 		mIconRect[i] = Rectf( c - e, c + e );
 		mIconRect[i] = snapToPixel(mIconRect[i]);
+		
+		// expand pick rect if needed
+		mIconPickRect[i].include(mIconRect[i]);
 	}
 }
 
@@ -99,7 +99,7 @@ void Slider::draw( int highlightIcon ) const
 	// line
 	if ( !mIsGraph )
 	{
-		gl::color(kSliderLineColor);
+		gl::color(kLayout.mSliderLineColor);
 		gl::drawLine(mEndpoint[0], mEndpoint[1]);
 	}
 	
@@ -110,9 +110,9 @@ void Slider::draw( int highlightIcon ) const
 	if ( hasHandle() )
 	{
 		Rectf sliderHandleRect = calcHandleRect();
-		gl::color(kSliderHandleColor);
+		gl::color(kLayout.mSliderHandleColor);
 		gl::drawSolidRect(sliderHandleRect);
-		gl::color(kSliderHandleColor*.5f);
+		gl::color(kLayout.mSliderHandleColor*.5f);
 		gl::drawStrokedRect(sliderHandleRect);
 	}
 	
@@ -122,6 +122,12 @@ void Slider::draw( int highlightIcon ) const
 		if (i==highlightIcon) gl::color( Color::gray(.5f) );
 		else gl::color(1,1,1);
 		gl::draw( mIcon[i], mIconRect[i] );
+		
+		if (kLayout.mDebugDrawLayoutGuides)
+		{
+			gl::color( kLayout.mDebugDrawLayoutGuideColor );
+			gl::drawStrokedRect( mIconPickRect[i] );
+		}		
 	}
 	
 	// text label
@@ -146,10 +152,10 @@ void Slider::drawGraph() const
 			float h = mGraphValues[i] * mGraphHeight;
 			
 			Rectf r( ll, ll + vec2(w,-h) );
-			gl::color( kSliderHandleColor );
+			gl::color( kLayout.mSliderHandleColor );
 			gl::drawSolidRect( r.inflated(vec2(-1.f,0)) );
 			
-			gl::color( kSliderLineColor );
+			gl::color( kLayout.mSliderLineColor );
 			gl::drawLine( r.getUpperLeft() + vec2(1,0), r.getUpperRight() - vec2(1,0) );
 		}
 
@@ -196,9 +202,9 @@ void Slider::drawGraph() const
 		gl::color( ColorA( Color::gray(.5f), .5f ) );
 		gl::drawStrokedRect( calcPickRect() );
 		
-		gl::color( kSliderHandleColor );
+		gl::color( kLayout.mSliderHandleColor );
 		gl::drawSolid(p);
-		gl::color( kSliderHandleColor * .5f );
+		gl::color( kLayout.mSliderHandleColor * .5f );
 		gl::draw(p);
 	}
 }
@@ -225,7 +231,7 @@ void Slider::drawTextLabel() const
 		else
 		{
 			baseline = lerp( mEndpoint[0], mEndpoint[1], .5f );
-			baseline.y += kSliderHandleSize.y * 1.25f;
+			baseline.y += kLayout.mSliderHandleSize.y * 1.25f;
 		}
 
 		gl::color(0,0,0);		
@@ -238,12 +244,12 @@ void Slider::drawNotches() const
 	if ( !mNotches.empty() && mNotchAction != Slider::Notch::None && !mIsGraph )
 		// we could draw graph notches on y axis if we wanted...
 	{
-		gl::color( kSliderLineColor * .5f );
+		gl::color( kLayout.mSliderLineColor * .5f );
 		
 		for( float v : mNotches )
 		{
 			vec2 c = lerp( mEndpoint[0], mEndpoint[1], v );
-			gl::drawSolidCircle( c, kSliderNotchRadius );
+			gl::drawSolidCircle( c, kLayout.mSliderNotchRadius );
 		}
 	}
 }
@@ -455,7 +461,7 @@ void Slider::setLimitValue( int v )
 ci::Rectf
 Slider::calcHandleRect() const
 {
-	Rectf r( vec2(0,0), kSliderHandleSize );
+	Rectf r( vec2(0,0), kLayout.mSliderHandleSize );
 	
 	r.offsetCenterTo( lerp(mEndpoint[0],mEndpoint[1],mValue) ); 
 	
@@ -471,7 +477,7 @@ Slider::calcPickRect() const
 	else
 	{
 		r = Rectf( mEndpoint[0], mEndpoint[1] );
-		r.inflate( vec2(0,kSliderHandleSize.y/2) );
+		r.inflate( vec2(0,kLayout.mSliderHandleSize.y/2) );
 	}
 	
 	return r;
