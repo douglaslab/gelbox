@@ -48,6 +48,7 @@ public:
 	
 	// callout
 	void setCalloutAnchor( glm::vec2 p ) { mAnchor=p; updateCallout(); }
+	void setShowCalloutAnchor( bool v ) { mShowCalloutAnchor=v; }
 	glm::vec2 getCalloutAnchor() const { return mAnchor; }
 	void setSample( SampleRef s ) { mSample=s; syncToModel(); }
 	SampleRef getSample() const { return mSample; }
@@ -113,6 +114,7 @@ private:
 	ci::PolyLine2   mCallout; // in frame (parent) space
 	bool			mIsLoupeView = false;
 	bool			mHasLoupe    = false; // little circle thing on persistent loupes
+	bool			mShowCalloutAnchor = true;
 	
 	Drag			mDrag;
 	

@@ -68,7 +68,7 @@ static string addCommasToNumericStr( string num )
 
 FragmentView::FragmentView()
 {
-	mBraceTex = kLayout.brace();
+	mBraceTex = kLayout.uiImage("brace.png");
 	
 	if (!mBraceTex)
 	{

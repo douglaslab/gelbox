@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <map>
+
 class Layout
 {
 public:
@@ -68,16 +70,12 @@ public:
 		
 	
 	// assets
-	ci::gl::TextureRef brace() const;
-	ci::gl::TextureRef settings() const;
+	ci::gl::TextureRef uiImage( std::string name ) const;
+	ci::gl::TextureRef uiImage( ci::fs::path stem, std::string name ) const;
+	ci::gl::TextureRef uiImageWithPath( ci::fs::path assetPath ) const;
 
-	static ci::gl::TextureRef loadImage( std::string name, ci::gl::TextureRef* r=0 );
-	static ci::gl::TextureRef loadImage( ci::fs::path path, std::string name, ci::gl::TextureRef* r=0 );
-		// returns r if exists, returns tries to load it, updates r, and returns it
-	
 private:
-	mutable ci::gl::TextureRef mBrace;
-	mutable ci::gl::TextureRef mSettings;
+	mutable std::map<ci::fs::path,ci::gl::TextureRef> mUIImages;
 
 };
 extern	     Layout  gLayout;

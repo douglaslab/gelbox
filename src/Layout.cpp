@@ -14,54 +14,32 @@ using namespace ci;
 	  Layout  gLayout;
 const Layout &kLayout = gLayout;
 
-ci::gl::TextureRef Layout::loadImage( ci::fs::path path, std::string name, ci::gl::TextureRef* r )
+ci::gl::TextureRef Layout::uiImage( string name ) const
 {
-	ci::gl::TextureRef tr = r ? *r : 0;
-
-	if ( !tr )
-	{
-		path = app::getAssetPath(path);
-		
-		try
-		{
-			tr = gl::Texture::create( ::loadImage( path / name ), gl::Texture2d::Format().mipmap() );
-		}
-		catch (...)
-		{
-			cerr << "ERROR loading '" << (path / name) << "'" << endl;
-		}
-	}
-	
-	if (r) *r=tr;	
-	return tr;
+	return uiImageWithPath( app::getAssetPath(name) );
 }
 
-ci::gl::TextureRef Layout::loadImage( string name, ci::gl::TextureRef* r )
+ci::gl::TextureRef Layout::uiImage( fs::path stem, string name ) const
 {
-	ci::gl::TextureRef tr = r ? *r : 0;
+	return uiImageWithPath( app::getAssetPath(stem) / name );
+}
 
-	if ( !tr )
+ci::gl::TextureRef Layout::uiImageWithPath( fs::path assetPath ) const
+{
+	auto i = mUIImages.find(assetPath);
+	
+	if (i==mUIImages.end())
 	{
 		try
 		{
-			tr = gl::Texture::create( ::loadImage( app::getAssetPath(name) ), gl::Texture2d::Format().mipmap() );
+			mUIImages[assetPath] = gl::Texture::create( ::loadImage( assetPath ), gl::Texture2d::Format().mipmap() );
+			return mUIImages[assetPath];
 		}
 		catch (...)
 		{
-			cerr << "ERROR loading '" << name << "'" << endl;
+			cerr << "ERROR loading '" << assetPath << "'" << endl;
+			return 0;
 		}
 	}
-	
-	if (r) *r=tr;	
-	return tr;
-}
-
-ci::gl::TextureRef Layout::brace() const
-{
-	return loadImage("brace.png",&mBrace);
-}
-
-ci::gl::TextureRef Layout::settings() const
-{
-	return loadImage("settings.png",&mSettings);
+	else return i->second;
 }

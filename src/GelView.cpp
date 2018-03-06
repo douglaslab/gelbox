@@ -553,7 +553,8 @@ void GelView::openSampleView()
 			mSampleView = make_shared<SampleView>();
 			mSampleView->setup();
 			mSampleView->setGelView( dynamic_pointer_cast<GelView>(shared_from_this()) );
-
+			mSampleView->setShowCalloutAnchor(false);
+		
 			// shared state
 			mSampleView->setSelectionStateData(mSelectedState);
 			mSampleView->setRolloverStateData (mRolloverState);

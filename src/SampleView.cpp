@@ -81,7 +81,7 @@ void SampleView::setup()
 	// new btn
 	mNewBtn = make_shared<ButtonView>();
 	
-	mNewBtn->setup( Layout::loadImage("new-btn.png"), 1 );
+	mNewBtn->setup( kLayout.uiImage("new-btn.png"), 1 );
 	
 	mNewBtn->mClickFunction = [this]()
 	{
@@ -105,7 +105,7 @@ void SampleView::draw()
 	if ( mHasLoupe ) drawLoupe();
 	
 	// draw callout behind
-	if ( mCallout.size()>0 )
+	if ( mCallout.size()>0 && mShowCalloutAnchor )
 	{
 		gl::ScopedModelMatrix m;
 		
