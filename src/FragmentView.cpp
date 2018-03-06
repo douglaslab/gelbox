@@ -69,6 +69,11 @@ static string addCommasToNumericStr( string num )
 FragmentView::FragmentView()
 {
 	mBraceTex = kLayout.brace();
+	
+	if (!mBraceTex)
+	{
+		cerr << "! brace" << endl;
+	}
 }
 
 void FragmentView::makeSliders()

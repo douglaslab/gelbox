@@ -16,9 +16,9 @@ const Layout &kLayout = gLayout;
 
 ci::gl::TextureRef Layout::loadImage( ci::fs::path path, std::string name, ci::gl::TextureRef* r )
 {
-	ci::gl::TextureRef tr;
-	
-	if ( !r || !*r )
+	ci::gl::TextureRef tr = r ? *r : 0;
+
+	if ( !tr )
 	{
 		path = app::getAssetPath(path);
 		
@@ -39,9 +39,9 @@ ci::gl::TextureRef Layout::loadImage( ci::fs::path path, std::string name, ci::g
 
 ci::gl::TextureRef Layout::loadImage( string name, ci::gl::TextureRef* r )
 {
-	ci::gl::TextureRef tr;
+	ci::gl::TextureRef tr = r ? *r : 0;
 
-	if ( !r || !*r )
+	if ( !tr )
 	{
 		try
 		{
@@ -64,5 +64,5 @@ ci::gl::TextureRef Layout::brace() const
 
 ci::gl::TextureRef Layout::settings() const
 {
-	return loadImage("settings.png",&mBrace);
+	return loadImage("settings.png",&mSettings);
 }
