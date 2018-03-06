@@ -9,10 +9,11 @@
 #include "GelView.h"
 #include "SampleView.h"
 #include "FragmentView.h" // for FragmentView::getColorPalette()
-#include "BufferView.h"
 #include "GelSim.h"
 #include "GelRender.h"
 #include "Layout.h"
+#include "ButtonView.h"
+#include "GelViewSettingsView.h"
 
 using namespace ci;
 using namespace std;
@@ -21,35 +22,57 @@ const bool kEnableDrag = false;
 const bool kBandRolloverOpensSampleView = false;
 const bool kHoverGelDetailViewOnBandDrag= false;
 const bool kDragBandMakesNewSamples = true;
-const bool kClickBackgroundOpensBufferView = false;
 
 const bool kShowReverseSolverDebugTest = false;
 const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
 
 const bool kEnableGelRender = false; // enable new fancy gel rendering with FBO
 
-GelView::GelView( GelRef gel )
+GelView::GelView()
 {
 	if (kEnableGelRender) mGelRender = make_shared<GelRender>();
 
-	//
-	fs::path iconPath = "microtube1500ul.png";
+	mMicrotubeIcon = kLayout.uiImage("microtube1500ul.png");
 	
-	try
-	{
-		mMicrotubeIcon = gl::Texture::create( loadImage( app::getAssetPath(iconPath) ), gl::Texture2d::Format().mipmap() );
-	}
-	catch (...)
-	{
-		cerr << "ERROR loading icon " << iconPath << endl;
-	}
-	
-	mSelectedState  = make_shared<SampleFragRef>();
-	mRolloverState  = make_shared<SampleFragRef>();
-
-	setGel(gel);		
+	mSelectedState = make_shared<SampleFragRef>();
+	mRolloverState = make_shared<SampleFragRef>();
 }
 
+void GelView::setup( GelRef gel )
+{
+	setGel(gel);
+	
+	mSettingsBtn = make_shared<ButtonView>();
+	
+	mSettingsBtn->setup( kLayout.uiImage("settings.png"), 1 );
+	
+	mSettingsBtn->mClickFunction = [this]()
+	{
+		if (mSettingsView)
+		{
+			mSettingsView->close();
+			mSettingsView = 0;
+		}
+		else
+		{
+			deselectFragment();
+			selectMicrotube(-1);
+			
+			mSettingsView = make_shared<GelViewSettingsView>();
+			mSettingsView->setup( dynamic_pointer_cast<GelView>(shared_from_this()) );
+			if (getCollection()) getCollection()->addView( mSettingsView );
+			
+			layout();
+
+			// put view right after GelView
+			getCollection()->moveViewAbove( mSettingsView, shared_from_this() ); 
+		}
+	};
+
+	mSettingsBtn->setParent( shared_from_this() );
+	
+	layout();		
+}
 
 void GelView::setGel( GelRef gel )
 {
@@ -70,6 +93,37 @@ void GelView::setGel( GelRef gel )
 
 		if (mGelRender) mGelRender->setup( mGel->getSize(), 1.f );
 		gelDidChange();
+	}
+}
+
+void GelView::setBounds( ci::Rectf r )
+{
+	View::setBounds(r);
+	layout();
+}
+
+void GelView::setFrame( ci::Rectf r )
+{
+	View::setFrame(r);
+	layout();
+	
+	// a little silly; would be simpler to make us the parent for mSettingsView
+}
+
+void GelView::layout()
+{
+	if (mSettingsBtn)
+	{
+		Rectf r( vec2(0.f), mSettingsBtn->getFrame().getSize() );
+		r += ( getBounds().getLowerRight() + vec2(0,kLayout.mBtnGutter)) - r.getUpperRight(); 
+		mSettingsBtn->setFrame(r);
+	}
+	
+	if (mSettingsView)
+	{
+		Rectf frame( vec2(0.f), kLayout.mGelViewSettingsSize );  		
+		frame += getFrame().getUpperRight() + vec2(kLayout.mGelToBraceGutter,0.f);
+		mSettingsView->setFrameAndBoundsWithSize( frame );
 	}
 }
 
@@ -313,11 +367,6 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 			mMouseDownMadeLoupe->setDragMode( SampleView::Drag::LoupeAndView );
 		}
 	}
-	// edit buffer
-	else if ( e.isControlDown() )
-	{
-		openBufferView( mBufferView==0 );
-	}
 	// add band?
 	else if ( e.isRight() )
 	{
@@ -378,12 +427,6 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 			mMouseDownMicrotube = band.mLane;
 
 			selectFragment (band.mLane, band.mFragment);
-		}
-		// else pick buffer
-		else if (kClickBackgroundOpensBufferView)
-		{
-			// toggle it open/closed
-			openBufferView( mBufferView==0 );
 		}
 		// else pick lane
 		else
@@ -529,8 +572,12 @@ void GelView::selectMicrotube( int i )
 
 void GelView::openSampleView()
 {
-	// no buffer view!
-	openBufferView(false);
+	// no settings view!
+	if (mSettingsView)
+	{
+		mSettingsView->close();
+		mSettingsView=0;
+	}
 	
 	// close old?
 	if ( mSampleView
@@ -598,29 +645,6 @@ void GelView::closeSampleView()
 	{
 		mSampleView->close();
 		mSampleView=0;
-	}
-}
-
-void GelView::openBufferView( bool v )
-{				
-	// toggle
-	if ( !v && mBufferView )
-	{
-		mBufferView->close();
-		mBufferView=0;
-	}
-	else if ( v && !mBufferView )
-	{
-		deselectFragment();
-		selectMicrotube(-1);
-
-		mBufferView = BufferView::openToTheRightOfView( shared_from_this() );
-		mBufferView->setGel( mGel );
-		mBufferView->setGelView( dynamic_pointer_cast<GelView>(shared_from_this()) );
-		getCollection()->addView(mBufferView);
-
-		// put sample view right after GelView
-		getCollection()->moveViewAbove( mBufferView, shared_from_this() ); 
 	}
 }
 

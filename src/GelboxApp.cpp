@@ -94,17 +94,17 @@ void GelboxApp::makeGel()
 		kLayout.mGelWellGutter ); // layout in points
 	
 	// gel view
-	auto gelView = make_shared<GelView>( gel );
+	auto gelView = make_shared<GelView>();
 	
 	{
+		gelView->setup(gel);
+		
 		Rectf frame = gelView->getFrame();
 		frame += kLayout.mGelTopLeft - frame.getUpperLeft();
 		
 		gelView->setFrame( frame );
 		mViews.addView(gelView);
 	}
-	
-	decorateGelViewWithSliders(gelView);
 	
 	// add samples
 	try
@@ -121,107 +121,6 @@ void GelboxApp::makeGel()
 	}
 }
 
-void GelboxApp::decorateGelViewWithSliders( GelViewRef gelView )
-{
-	auto gel = gelView->getGel();
-
-	const float kGelGutter  = 20;
-	const float kIconGutter = 16.f;		
-	
-	Rectf  belowRect = gelView->getFrame();
-
-	// voltage slider
-	{
-		Slider s;
-
-		s.mValueMappedLo = GelSim::kSliderVoltageLow;
-		s.mValueMappedHi = GelSim::kSliderVoltageHigh;
-		s.mValueQuantize = 1.f;
-		
-		s.mNotchAction = Slider::Notch::Snap;
-//		s.addFixedNotches(2);
-		s.addNotchAtMappedValue(GelSim::kSliderVoltageDefaultValue);
-		s.addNotchAtMappedValue(0.f);
-		
-		s.mSetter = [gel,gelView]( float v ) {
-			gel->setVoltage(v);
-			gelView->gelDidChange();
-		};
-		s.mGetter = [gel]() {
-			return gel->getVoltage();
-		};
-		s.mMappedValueToStr = []( float v )
-		{
-			return toString(v) + " V";
-		};
-		
-		fs::path iconPathBase = getAssetPath("slider-icons");
-		s.loadIcons(
-			iconPathBase / "voltage-lo.png",
-			iconPathBase / "voltage-hi.png"
-			); 
-		
-		s.doLayoutInWidth( belowRect.getWidth(), kIconGutter );
-		s.pullValueFromGetter();
-		
-		auto sv = make_shared<SliderView>(s);
-		
-		sv->setFrame( sv->getFrame() + belowRect.getLowerLeft() + vec2(0,kGelGutter) );
-		
-		mViews.addView(sv);
-
-		// next
-		belowRect = sv->getFrame();
-	}
-	
-	// timeline slider
-	{
-		
-		Slider s;
-
-		s.mValueMappedLo = 0;
-		s.mValueMappedHi = 1.f; // gel sim tracks time from 0..1
-		s.mSetter = [gel,gelView]( float v ) {
-			gel->setTime(v);
-			gelView->gelDidChange();
-		};
-		s.mGetter = [gel]() {
-			return gel->getTime();
-		};
-		s.mMappedValueToStr = []( float v )
-		{
-			v *= GelSim::kSliderTimelineMaxMinutes;
-			
-			int m = roundf(v); // we get fractional values, so fix that.
-			
-			int mins = m % 60;
-			int hrs  = m / 60;
-			
-			string minstr = toString(mins);
-			if (minstr.size()==1) minstr = string("0") + minstr;
-			
-			return toString(hrs) + ":" + minstr ;
-		};
-		
-		fs::path iconPathBase = getAssetPath("slider-icons");
-		s.loadIcons(
-			iconPathBase / "clock-lo.png",
-			iconPathBase / "clock-hi.png"
-			); 
-		
-		s.doLayoutInWidth( belowRect.getWidth(), kIconGutter );
-		s.pullValueFromGetter();
-		
-		auto sv = make_shared<SliderView>(s);
-		
-		sv->setFrame( sv->getFrame() + belowRect.getLowerLeft() + vec2(0,kGelGutter) );
-		
-		mViews.addView(sv);
-		
-		// next
-		belowRect = sv->getFrame();
-	}
-}
 /*
 DropTargetRef GelboxApp::pickDropTarget( ci::vec2 loc ) const
 {

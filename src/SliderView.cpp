@@ -89,5 +89,31 @@ void SliderView::setFrameAndBoundsWithSlider()
 	
 	setFrame ( r );
 	setBounds( r );
-//	setBounds( Rectf( vec2(0,0), r.getSize() ) );
 }	
+
+void SliderView::layoutSliders(
+	std::vector<SliderViewRef>	sliders,
+	ci::vec2					topLeft,
+	float						yOffset, // total distance from one slider topleft to the next topleft
+	float						totalWidth,
+	float						iconSliderGutter,
+	ci::vec2					notionalIconSize
+	)
+{
+	for( int i=0; i<sliders.size(); ++i )
+	{
+		Slider  s = sliders[i]->getSlider();
+		
+		s.doLayoutInWidth(
+			totalWidth,
+			iconSliderGutter,
+			notionalIconSize ); 
+
+		sliders[i]->setSlider(s);
+		
+		sliders[i]->setFrame(
+			  sliders[i]->getFrame()
+			+ topLeft
+			+ vec2(0.f,(float)i*yOffset) );
+	}	
+}

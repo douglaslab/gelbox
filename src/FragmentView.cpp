@@ -256,22 +256,14 @@ void FragmentView::updateLayout()
 	if ( mSliders.empty() ) makeSliders(); 
 
 	// position sliders
-	for( int i=0; i<mSliders.size(); ++i )
-	{
-		Slider  s = mSliders[i]->getSlider();
-		
-		s.doLayoutInWidth(
-			kLayout.mFragViewSlidersWidth,
-			kLayout.mFragViewSlidersIconGutter,
-			kLayout.mFragViewSliderIconNotionalSize ); 
-
-		mSliders[i]->setSlider(s);
-		
-		mSliders[i]->setFrame(
-			  mSliders[i]->getFrame()
-			+ kLayout.mFragViewSlidersTopLeft
-			+ vec2(0.f,(float)i*kLayout.mFragViewSlidersVOffset) );
-	}
+	SliderView::layoutSliders(
+		mSliders,
+		kLayout.mFragViewSlidersTopLeft,
+		kLayout.mFragViewSlidersVOffset,
+		kLayout.mFragViewSlidersWidth,
+		kLayout.mFragViewSlidersIconGutter,
+		kLayout.mFragViewSliderIconNotionalSize
+		);
 
 	// colors
 	if (mColorsView)
@@ -284,9 +276,7 @@ void FragmentView::updateLayout()
 	}
 	
 	// brace
-	mBraceRect = Rectf( vec2(0.f), kLayout.mBraceSize );
-	mBraceRect += vec2( vec2(0.f,getBounds().getCenter().y) - vec2(0.f,mBraceRect.getCenter().y) );
-	mBraceRect = snapToPixel(mBraceRect);
+	mBraceRect = kLayout.layoutBrace( getBounds() );
 	
 	// well
 	mWellRect = Rectf( vec2(0.f), kLayout.mFragViewWellSize );

@@ -28,12 +28,20 @@ typedef std::shared_ptr<BufferView> BufferViewRef;
 class GelRender;
 typedef std::shared_ptr<GelRender> GelRenderRef;
 
+class ButtonView;
+typedef std::shared_ptr<ButtonView> ButtonViewRef;
+
+class GelViewSettingsView;
+typedef std::shared_ptr<GelViewSettingsView> GelViewSettingsViewRef;
+
 
 class GelView : public View
 {
 public:
 
-	GelView( GelRef gel );
+	GelView();
+	
+	void	setup( GelRef gel );
 	
 	void	setGel( GelRef );
 	GelRef	getGel() { return mGel; }
@@ -41,6 +49,8 @@ public:
 	void	draw() override;
 	void	tick( float dt ) override;
 	bool	pick( ci::vec2 ) const override;
+	void	setBounds( ci::Rectf ) override;
+	void	setFrame( ci::Rectf ) override;
 	
 	void	mouseDown( ci::app::MouseEvent ) override;
 	void	mouseUp  ( ci::app::MouseEvent ) override;
@@ -82,15 +92,19 @@ private:
 	SampleViewRef		mHoverGelDetailView;
 	SampleViewRef		mMouseDownMadeLoupe;
 	std::vector< std::weak_ptr<SampleView> > mLoupeViews;
-	BufferViewRef		mBufferView;
 	
-	SampleFragRefRef mSelectedState, mRolloverState; 
+	SampleFragRefRef	mSelectedState, mRolloverState; 
+
+	ButtonViewRef	 	mSettingsBtn;
+	GelViewSettingsViewRef mSettingsView;
 	
 	// gel renderer
 	bool				mGelRenderIsDirty = false;
 	GelRenderRef		mGelRender;
 	
 	void		updateGelRender();
+	
+	void		layout(); // called once by setup, then by setBounds 
 	
 	// microtubes
 	ci::Rectf	calcMicrotubeIconRect( int lane ) const;

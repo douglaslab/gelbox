@@ -26,7 +26,12 @@ public:
 	ci::vec2	mSampleSize			= ci::vec2(362,520);
 	
 	float		mGelToSampleGutter	= 30.f;
+	float		mGelToBraceGutter	= 30.f;
 	float		mSampleToBraceGutter= 31.f;
+	
+	// gel view settings view
+	ci::vec2	mGelViewSettingsSize	= ci::vec2(303,520);
+	
 	
 	// frag view
 	ci::vec2	mFragViewSize			= ci::vec2(303,520);	
@@ -74,6 +79,12 @@ public:
 	ci::gl::TextureRef uiImage( ci::fs::path stem, std::string name ) const;
 	ci::gl::TextureRef uiImageWithPath( ci::fs::path assetPath ) const;
 
+	// helpers
+	ci::vec2  snapToPixel( ci::vec2  p ) const;
+	ci::Rectf snapToPixel( ci::Rectf r ) const;
+
+	ci::Rectf layoutBrace( ci::Rectf inRect ) const;
+	
 private:
 	mutable std::map<ci::fs::path,ci::gl::TextureRef> mUIImages;
 

@@ -43,3 +43,32 @@ ci::gl::TextureRef Layout::uiImageWithPath( fs::path assetPath ) const
 	}
 	else return i->second;
 }
+
+ci::Rectf Layout::layoutBrace( ci::Rectf inRect ) const
+{
+	Rectf r;
+	
+	r = Rectf( vec2(0.f), mBraceSize );
+	r += vec2( vec2(0.f,inRect.getCenter().y) - vec2(0.f,r.getCenter().y) );
+	r = snapToPixel(r);
+	
+	return r;	
+}
+
+vec2 Layout::snapToPixel ( vec2 p ) const
+{
+	return vec2( roundf(p.x), roundf(p.y) );
+}
+
+Rectf Layout::snapToPixel( Rectf r ) const
+{
+	// from upper left
+	
+	vec2 s = r.getSize();
+	vec2 ul = snapToPixel(r.getUpperLeft());
+	
+	ul = snapToPixel(ul);
+//	s = snapToPixel(s);
+	
+	return Rectf( ul, ul + s );
+};
