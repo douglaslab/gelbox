@@ -93,7 +93,7 @@ void Sample::removeDyes()
 
 void Sample::mergeDuplicateDyes()
 {
-	if (0) cout << "mergeDuplicateDyes pre " << endl << toXml() << endl;
+	if ((0)) cout << "mergeDuplicateDyes pre " << endl << toXml() << endl;
 	
 	// prioritize keeping indexing stable, so only remove
 	// (flatten down) newer (higher index) entries.
@@ -136,7 +136,7 @@ void Sample::mergeDuplicateDyes()
 		}
 	}
 	
-	if (0) cout << "mergeDuplicateDyes post " << endl << toXml() << endl;
+	if ((0)) cout << "mergeDuplicateDyes post " << endl << toXml() << endl;
 	
 	// 
 
@@ -226,7 +226,7 @@ int Sample::cloneFragment( int f )
 {
 	assert( isValidFragment(f) );
 	mFragments.push_back( mFragments[f] );
-	return mFragments.size()-1;
+	return (int)mFragments.size()-1;
 }
 
 void Sample::removeFragment( int f )
@@ -273,7 +273,7 @@ Sample::loadXml( const XmlTree& xml )
 				auto j = xml.getChild(child);
 				string s = j.getAttributeValue("value",string("000000"));
 				
-				def = Color::hex( strtoul( s.data(), 0, 16 ) );
+				def = Color::hex( (int)strtoul( s.data(), 0, 16 ) );
 			}
 			
 			return def;
@@ -306,7 +306,7 @@ Sample::loadXml( const XmlTree& xml )
 			
 			mFragments.push_back(k);
 			
-			if (0)
+			if ((0))
 			{
 				cout << "Fragment bases=" << k.mBases << " mass=" << k.mMass << " degrade=" << k.mDegrade << endl;
 			}		

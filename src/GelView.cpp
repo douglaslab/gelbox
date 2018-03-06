@@ -223,7 +223,7 @@ void GelView::drawBands() const
 		mesh.appendPosition(r.getLowerRight());
 		mesh.appendPosition(r.getLowerLeft());
 		
-		const int i = mesh.getNumVertices() - 4; 
+		const int i = (int)mesh.getNumVertices() - 4; 
 		
 		mesh.appendTriangle( i+0, i+1, i+2 );
 		mesh.appendTriangle( i+2, i+3, i+0 );
@@ -494,7 +494,7 @@ void GelView::newFragmentAtPos( ci::vec2 pos )
 		sampleDidChange( sample );
 
 		// keyboard focus sample view, select new fragment 
-		selectFragment( lane, sample->mFragments.size()-1 );
+		selectFragment( lane, (int)sample->mFragments.size()-1 );
 		getCollection()->setKeyboardFocusView( mSampleView );
 	}	
 } 
@@ -848,7 +848,7 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		s->mFragments.push_back(f);
 	}
 	
-	if (0) cout << "makeSampleFromGelPos " << endl << s->toXml() << endl; 
+	if ((0)) cout << "makeSampleFromGelPos " << endl << s->toXml() << endl; 
 	
 	return s;
 }
@@ -1117,10 +1117,10 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 		if (sample) sample->removeFragment(fragi); // INVALIDATES frag!!!
 		
 		mMouseDragBand.mLane = newlane;
-		mMouseDragBand.mFragment = toSample->mFragments.size()-1;
+		mMouseDragBand.mFragment = (int)toSample->mFragments.size()-1;
 		
 		// color change?
-		if (0)
+		if ((0))
 		{
 			Color& color = toSample->mFragments.back().mColor;
 			

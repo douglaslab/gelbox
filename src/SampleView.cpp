@@ -86,7 +86,7 @@ void SampleView::setup()
 	mNewBtn->mClickFunction = [this]()
 	{
 		newFragment();
-		selectFragment( mFragments.size()-1 );
+		selectFragment( (int)mFragments.size()-1 );
 	};
 
 	mNewBtn->setParent( shared_from_this() );
@@ -266,7 +266,7 @@ void SampleView::selectFragment( int i )
 
 	if ( !mIsLoupeView ) showFragmentEditor(i);
 	
-	if (0) cout << "selected: " << (mSample ? mSample->mName : "(null)") << ", frag: " << i << endl;
+	if ((0)) cout << "selected: " << (mSample ? mSample->mName : "(null)") << ", frag: " << i << endl;
 }
 
 void SampleView::setRolloverFragment( int i )
@@ -313,7 +313,7 @@ void SampleView::closeFragEditor()
 int  SampleView::pickPart( vec2 loc ) const
 {
 	// in reverse, so pick order matches draw order 
-	for( int i=mParts.size()-1; i>=0; --i )
+	for( int i = (int)mParts.size()-1; i>=0; --i )
 	{
 		Part p = mParts[i]; // copy so we can inflate
 		
@@ -432,8 +432,8 @@ void SampleView::keyDown( ci::app::KeyEvent e )
 			
 			if ( mSample && mSelection->getSample()==mSample )
 			{
-				size_t size = mSample->mFragments.size();
-				int    frag = mSelection->getFrag();
+				int size = (int)mSample->mFragments.size();
+				int frag = mSelection->getFrag();
 				
 				// select first?
 				if ( e.isShiftDown() )
@@ -600,7 +600,7 @@ void SampleView::newFragment()
 			
 			if ( mRand.nextInt(5)==0 )
 			{
-				int r = mRand.nextInt( f.mAggregate.size() );
+				int r = mRand.nextInt( (int)f.mAggregate.size() );
 				for( int i=0; i<r; ++i )
 				{
 					f.mAggregate[i] = mRand.nextFloat();
@@ -613,7 +613,7 @@ void SampleView::newFragment()
 		}
 		
 		mSample->mFragments.push_back(f);
-		fragmentDidChange(mSample->mFragments.size()-1);
+		fragmentDidChange((int)mSample->mFragments.size()-1);
 		
 		syncToModel();
 	}
@@ -642,7 +642,7 @@ void SampleView::deleteFragment( int i )
 		// remove from our list
 		int from, to;
 		
-		from = mFragments.size()-1;
+		from = (int)mFragments.size()-1;
 		to   = i;
 		
 		mFragments[to] = mFragments[from];
@@ -880,7 +880,7 @@ void SampleView::tickSim( float dt )
 		p.mAngle += p.mAngleVel * dt;
 		
 		// wrap?
-		if (0)
+		if ((0))
 		{
 			if ( p.mLoc.x > bounds.x2 ) p.mLoc.x = bounds.x1 + (p.mLoc.x - bounds.x2); 
 			if ( p.mLoc.x < bounds.x1 ) p.mLoc.x = bounds.x2 - (bounds.x1 - p.mLoc.x); 

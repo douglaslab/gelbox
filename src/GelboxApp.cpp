@@ -362,7 +362,7 @@ void GelboxApp::draw()
 	mViews.draw();
 
 	// anti-aliasing/smoothing test
-	if (0)
+	if ((0))
 	{
 		Rectf r(0,0,10,10);	
 		gl::color( 0,0,0 );

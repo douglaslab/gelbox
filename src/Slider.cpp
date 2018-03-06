@@ -160,7 +160,7 @@ void Slider::drawGraph() const
 		}
 
 		// score lines
-		if ( 0 && mGraphValues.size() > 2 )
+		if ( (0) && mGraphValues.size() > 2 )
 		{
 			gl::color( 1,1,1 );
 

@@ -56,7 +56,7 @@ static string addCommasToNumericStr( string num )
 	// commas
 	for( int i=0; i < num.size(); ++i )
 	{
-		int j = num.size()-i-1;
+		int j = (int)num.size()-i-1;
 		
 		if ( i && (i%3==0) ) numc = "," + numc;
 		

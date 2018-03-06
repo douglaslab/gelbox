@@ -232,7 +232,7 @@ void recursiveFlameMidpointDisplacement (
 
 		displace<float>(
 			d.data(),
-			m, d.size(),
+			m, (int)d.size(),
 			delta, 0.f );
 			
 		recursiveFlameMidpointDisplacement( d, 0, m , dy*dyk, dyk, randGen );
@@ -247,7 +247,7 @@ void GelRender::drawFlames( Rectf r, float height, ci::Rand& randGen ) const
 	// with random thicknesses, perhaps varying from top and bottom.
 	// can skew aspects probabilities with closeness to edge 
 	
-	if (0)
+	if ((0))
 	{
 		int n = r.getWidth() / 4.f;
 		
@@ -318,7 +318,7 @@ void GelRender::drawFlames( Rectf r, float height, ci::Rand& randGen ) const
 			
 		// curved cheeks around left and right side
 		// should be more of a stretched ellipse that reaches to tips of d[0] and d[n-1]
-		if (0)
+		if ((0))
 		{
 			float cr = r.getHeight()/2.f;
 			float y  = r.getCenter().y;

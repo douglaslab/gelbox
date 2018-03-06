@@ -24,7 +24,6 @@ ci::gl::TextureRef Layout::loadImage( ci::fs::path path, std::string name, ci::g
 		
 		try
 		{
-			
 			tr = gl::Texture::create( ::loadImage( path / name ), gl::Texture2d::Format().mipmap() );
 		}
 		catch (...)

@@ -31,7 +31,7 @@ public:
 		// this is a little unclear in part b/c of how i refactored it.
 		// so it would be smart to clarify layout logic
 
-	int calcRows() const { return mColors.size()/mColorCols; }	
+	int calcRows() const { return (int)mColors.size()/mColorCols; }	
 	
 	void tick( float dt ) override;
 	void draw() override;

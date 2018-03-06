@@ -70,7 +70,7 @@ namespace Dye
 
 	
 	// icons
-	const char* kIconName[kCount] =
+	const string kIconName[kCount] =
 	{
 		"xylene-cyanol",
 		"cresol-red",
