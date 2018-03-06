@@ -23,8 +23,6 @@ typedef std::shared_ptr<SliderView> SliderViewRef;
 class ColorPaletteView;
 typedef std::shared_ptr<ColorPaletteView> ColorPaletteViewRef;
 
-const glm::vec2 kFragmentViewSize(300,400);
-
 class FragmentView : public View
 {
 public:
@@ -64,7 +62,12 @@ private:
 	void					fragmentDidChange() const;
 
 	
+	ci::Rectf				mBraceRect;
+	ci::Rectf				mWellRect;
+	
 	ColorPaletteViewRef		mColorsView;
+
+	ci::gl::TextureRef		mBraceTex;
 	
 	// sample
 	SampleViewRef mSampleView;

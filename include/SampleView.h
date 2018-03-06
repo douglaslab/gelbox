@@ -78,7 +78,6 @@ public:
 	int  getRolloverFragment ();
 	
 	// options so we can make frozen gel callout views 
-//	bool getIsNewBtnEnabled() const { return ! mIsLoupeView; }
 	void setPopDensityScale( float s ) { mPopDensityScale=s; }
 	void prerollSim();
 	void setSimTimeScale( float s ) { mSimTimeScale=s; }
@@ -200,7 +199,8 @@ private:
 	std::vector<Frag> mFragments;	
 	std::vector<Part> mParts;
 
-	float mPopDensityScale=1.f;
+	float mSizeDensityScale=1.f; // implicitly set by bounds
+	float mPopDensityScale=1.f; // set by user
 	float mSimTimeScale   =1.f;
 	
 };

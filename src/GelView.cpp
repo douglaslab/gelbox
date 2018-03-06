@@ -12,6 +12,7 @@
 #include "BufferView.h"
 #include "GelSim.h"
 #include "GelRender.h"
+#include "Layout.h"
 
 using namespace ci;
 using namespace std;
@@ -45,7 +46,6 @@ GelView::GelView( GelRef gel )
 	
 	mSelectedState  = make_shared<SampleFragRef>();
 	mRolloverState  = make_shared<SampleFragRef>();
-//	mHighlightState = make_shared<SampleFragRef>();
 
 	setGel(gel);		
 }
@@ -559,14 +559,12 @@ void GelView::openSampleView()
 			mSampleView->setRolloverStateData (mRolloverState);
 						
 			// layout + add
-			vec2 size(400.f,400.f);
-			
-			mSampleView->setBounds( Rectf( vec2(0,0), size ) );
+			mSampleView->setBounds( Rectf( vec2(0,0), kLayout.mSampleSize ) );
 			
 			Rectf frame = mSampleView->getBounds();
-			frame.offsetCenterTo(
-				vec2( getFrame().getX2(),getFrame().getCenter().y )
-				+ vec2(size.x/2 + 32.f,0.f) );
+			
+			frame += getFrame().getUpperRight() + vec2(kLayout.mGelToSampleGutter,0.f)
+				     - frame.getUpperLeft();
 			
 			mSampleView->setFrame( frame );
 			
@@ -688,19 +686,17 @@ SampleViewRef GelView::openGelDetailView()
 	view->setGelView( dynamic_pointer_cast<GelView>(shared_from_this()) );
 	
 	// set size; updateGelDetailView will position it
-	Rectf frame(0.f,0.f,150.f,150.f);
+	Rectf frame( vec2(0.f), kLayout.mLoupeSize );
 	
 	view->setFrameAndBoundsWithSize(frame);
 	
 	// misc
-	view->setPopDensityScale(.25f); // since we are 1/4 area of other one
 	view->setSimTimeScale(0.f); // paused
 	view->setIsLoupeView(true);
 	
 	// shared state
 	view->setSelectionStateData(mSelectedState);
 	view->setRolloverStateData (mRolloverState);
-//	view->setHighlightStateData(mHighlightState);
 	
 	// add
 	getCollection()->addView(view);

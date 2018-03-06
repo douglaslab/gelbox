@@ -12,10 +12,13 @@
 #include "SliderView.h"
 #include "ColorPaletteView.h"
 #include "GelSim.h"
+#include "Layout.h"
 
 using namespace std;
 using namespace ci;
 using namespace ci::app;
+
+const bool kDrawLayoutGuides = true;
 
 const vec2  kColorSize(35,35);
 
@@ -79,6 +82,7 @@ static string addCommasToNumericStr( string num )
 
 FragmentView::FragmentView()
 {
+	mBraceTex = kLayout.brace();
 }
 
 void FragmentView::makeSliders()
@@ -286,6 +290,14 @@ void FragmentView::updateLayout()
 		
 		mColorsView->layout(r);
 	}
+	
+	//
+	mBraceRect = Rectf( vec2(0.f), kLayout.mBraceSize );
+	mBraceRect += vec2( vec2(0.f,getBounds().getCenter().y) - vec2(0.f,mBraceRect.getCenter().y) );
+	mBraceRect = snapToPixel(mBraceRect);
+	
+	mWellRect = Rectf( vec2(0.f), kLayout.mFragViewWellSize );
+	mWellRect += kLayout.mFragViewWellTopLeft;
 }
 
 void FragmentView::setFragment( SampleRef s, int f )
@@ -329,11 +341,25 @@ void FragmentView::fragmentDidChange() const
 
 void FragmentView::draw()
 {
+	if (mBraceTex)
+	{
+		gl::color(1,1,1,1);
+		gl::draw(mBraceTex,mBraceRect);
+	}
+
+	gl::color( kLayout.mFragViewWellShadow );
+	gl::drawSolidRoundedRect( mWellRect + kLayout.mFragViewWellShadowOffset, kLayout.mFragViewWellCornerRadius );
+	gl::color( kLayout.mFragViewWellFill );
+	gl::drawSolidRoundedRect( mWellRect, kLayout.mFragViewWellCornerRadius );
+	gl::color( kLayout.mFragViewWellStroke );
+	gl::drawStrokedRoundedRect( mWellRect, kLayout.mFragViewWellCornerRadius );
+	
 	// background + frame
-	gl::color(1,1,1);
-	gl::drawSolidRect(getBounds());
-	gl::color(.5,.5,.5);
-	gl::drawStrokedRect(getBounds());
+	if (kDrawLayoutGuides)
+	{
+		gl::color( Color::hex(0x18BFFF) );
+		gl::drawStrokedRect(getBounds());
+	}
 }
 
 Sample::Fragment&

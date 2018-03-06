@@ -55,8 +55,6 @@ const float kJitter = .75f;
 
 const float kPartMinPickRadius = 8.f;	
 
-const float kFragViewGutter = 16.f;
-
 void drawThickStrokedCircle( vec2 p, float r, float thickness )
 {
 	gl::drawStrokedCircle( p, r, thickness );
@@ -76,31 +74,18 @@ void SampleView::setup()
 	mRand.seed( randInt() ); // random random seed :-)
 	
 	
-	fs::path newBtnPath = "???";
-		
-	try
+	// new btn
+	mNewBtn = make_shared<ButtonView>();
+	
+	mNewBtn->setup( Layout::loadImage("new-btn.png"), 1 );
+	
+	mNewBtn->mClickFunction = [this]()
 	{
-		newBtnPath = getAssetPath("new-btn.png");
-		
-		auto newBtnImg = gl::Texture::create( loadImage(newBtnPath), gl::Texture2d::Format().mipmap() );
-		
-		// new btn
-		mNewBtn = make_shared<ButtonView>();
-		
-		mNewBtn->setup(newBtnImg,1);
-		
-		mNewBtn->mClickFunction = [this]()
-		{
-			newFragment();
-			selectFragment( mFragments.size()-1 );
-		};
+		newFragment();
+		selectFragment( mFragments.size()-1 );
+	};
 
-		mNewBtn->setParent( shared_from_this() );
-	}
-	catch (...)
-	{
-		cerr <<  "ERROR loading new btn image "  << newBtnPath << endl;
-	}
+	mNewBtn->setParent( shared_from_this() );
 }
 
 void SampleView::close()
@@ -181,6 +166,9 @@ void SampleView::setBounds( ci::Rectf r )
 		r += ( getBounds().getLowerRight() + vec2(0,kLayout.mBtnGutter)) - r.getUpperRight(); 
 		mNewBtn->setFrame(r);
 	}
+
+	// normalize pop den scale to old default size/density
+	mSizeDensityScale = (getBounds().getWidth() * getBounds().getHeight()) / (400.f*400.f);
 }
 
 bool SampleView::pick( glm::vec2 p ) const
@@ -299,16 +287,8 @@ void SampleView::openFragEditor()
 	{
 		mFragEditor = make_shared<FragmentView>();
 		
-		vec2 center;
-		Rectf frame(-.5,-.5,.5,.5);
-		frame.scaleCentered(kFragmentViewSize);
-		frame.offsetCenterTo(
-			vec2( getFrame().getX2(), getFrame().getCenter().y )
-			+ vec2( frame.getWidth()/2.f + kFragViewGutter, 0 )
-			);
-		
-		frame = snapToPixel(frame); // this is done in our local space; but whatever 
-		
+		Rectf frame( vec2(0.f), kLayout.mFragViewSize );  		
+		frame += getFrame().getUpperRight() + vec2(kLayout.mSampleToBraceGutter,0.f);
 		mFragEditor->setFrameAndBoundsWithSize( frame );
 		
 		mFragEditor->setSampleView( dynamic_pointer_cast<SampleView>(shared_from_this()) );
@@ -823,9 +803,11 @@ void SampleView::tickSim( float dt )
 	}
 	
 	// update population counts
+	const float popDensityScale = mSizeDensityScale * mPopDensityScale; 
+	
 	for( int f = 0; f<mFragments.size(); ++f )
 	{
-		int targetPop = (float)max( 1, mFragments[f].mTargetPop ) * (float)mPopDensityScale ;
+		int targetPop = (float)max( 1, mFragments[f].mTargetPop ) * popDensityScale ;
 		
 		// dye? pop=0
 		if (mFragments[f].mIsDye) targetPop=0;
