@@ -29,9 +29,13 @@ public:
 	float		mGelToBraceGutter	= 30.f;
 	float		mSampleToBraceGutter= 31.f;
 	
+	ci::Color	mRuleColor			= ci::Color::hex(0xC4C4C4);
+	
 	// gel view settings view
 	ci::vec2	mGelViewSettingsSize	= ci::vec2(303,520);
-	
+	ci::vec2	mGelViewSettingsSlidersTopLeft = ci::vec2(84,246);
+	ci::vec2	mGelViewSettingsRuleTopLeft = ci::vec2(66,216);
+	float		mGelViewSettingsRuleLength  = 237;
 	
 	// frag view
 	ci::vec2	mFragViewSize			= ci::vec2(303,520);	

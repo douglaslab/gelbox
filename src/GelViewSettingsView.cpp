@@ -102,6 +102,11 @@ void GelViewSettingsView::makeSliders()
 		
 		add(s,"clock");
 	}
+	
+	// unwired placeholder sliders...
+	add( Slider(), "well-damage" );
+	add( Slider(), "gel-rotate" );
+	add( Slider(), "gel-lanes" );
 }
 
 void GelViewSettingsView::close()
@@ -122,7 +127,7 @@ void GelViewSettingsView::layout()
 	// position sliders
 	SliderView::layoutSliders(
 		mSliders,
-		kLayout.mFragViewSlidersTopLeft,
+		kLayout.mGelViewSettingsSlidersTopLeft,
 		kLayout.mFragViewSlidersVOffset,
 		kLayout.mFragViewSlidersWidth,
 		kLayout.mFragViewSlidersIconGutter,
@@ -137,4 +142,9 @@ void GelViewSettingsView::draw()
 		gl::color(1,1,1,1);
 		gl::draw(mBraceTex,mBraceRect);
 	}
+	
+	gl::color( kLayout.mRuleColor );
+	gl::drawLine(
+		kLayout.mGelViewSettingsRuleTopLeft,
+		kLayout.mGelViewSettingsRuleTopLeft + vec2(kLayout.mGelViewSettingsRuleLength,0.f) );
 }
