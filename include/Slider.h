@@ -55,6 +55,7 @@ public:
 	// notches
 //	int			mNotches=0;
 	std::vector<float> mNotches; // at arbitrary points on line; does not need to be sorted. 0..1
+	void  clearNotches() { mNotches.clear(); }
 	void  addFixedNotches( int numNotches );
 	void  addNotchAtMappedValue( float v );
 	float getNearestNotch( float toNormV ) const;
@@ -114,6 +115,7 @@ public:
 	
 	void		setValueWithMouse ( ci::vec2 pos ); 
 	void		setNormalizedValue( float normValue );
+	void		setMappedValue( float value );
 	void		setLimitValue( int v );  // v is 0 (for low), 1 (for high); works on graphs + normal sliders
 	
 	float		notch   ( float normValue, float v1, float v2 ) const; // for x axis, (v1,v2) are endpoints[0,1].x

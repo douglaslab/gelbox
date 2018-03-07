@@ -170,11 +170,14 @@ void Slider::draw( int highlightIcon ) const
 	// handle (in practice, only on Style::Slider)
 	if ( hasHandle() )
 	{
+		const float ck = 4.f;
 		Rectf sliderHandleRect = calcHandleRect();
+		gl::color(0,0,0,.15f);
+		gl::drawSolidRoundedRect(sliderHandleRect+vec2(0.f,3.f),ck);
 		gl::color(kLayout.mSliderHandleColor);
-		gl::drawSolidRect(sliderHandleRect);
+		gl::drawSolidRoundedRect(sliderHandleRect,ck);
 		gl::color(kLayout.mSliderHandleColor*.5f);
-		gl::drawStrokedRect(sliderHandleRect);
+		gl::drawStrokedRoundedRect(sliderHandleRect,ck);
 	}
 	
 	// icons
@@ -327,13 +330,30 @@ void Slider::drawNotches() const
 {
 	if ( !mNotches.empty() && mNotchAction != Slider::Notch::None && mStyle!=Style::Graph )
 		// we could draw graph notches on y axis if we wanted...
-	{
-		gl::color( kLayout.mSliderLineColor * .5f );
-		
+	{		
 		for( float v : mNotches )
 		{
 			vec2 c = lerp( mEndpoint[0], mEndpoint[1], v );
-			gl::drawSolidCircle( c, kLayout.mSliderNotchRadius );
+			c = snapToPixel(c);
+
+			if ( mStyle==Style::Bar )
+			{
+				// line
+				gl::color( mBarFillColor * .8f );
+//				const float k = mBar.getHeight()/2.f - mBarCornerRadius;
+//				const float k = -mBarCornerRadius;
+				const float k = 0.f;
+				gl::drawLine( vec2(c.x+.5f,mBar.y1+k), vec2(c.x+.5f,mBar.y2-k) );
+//				gl::drawLine( vec2(c.x+.5f,mBar.y1), vec2(c.x+.5f,mBar.y2) );
+//				gl::drawSolidCircle( vec2(c.x,mBar.y1), kLayout.mSliderNotchRadius );
+//				gl::drawSolidCircle( vec2(c.x,mBar.y2), kLayout.mSliderNotchRadius );
+			}
+			else
+			{
+				// ball
+				gl::color( kLayout.mSliderLineColor * .5f );
+				gl::drawSolidCircle( c, kLayout.mSliderNotchRadius );
+			}
 		}
 	}
 }
@@ -463,6 +483,11 @@ Slider::setNormalizedValue( float normValue )
 	
 	// push
 	pushValueToSetter();
+}
+
+void Slider::setMappedValue( float value )
+{
+	setNormalizedValue( calcNormalizedValue(value) );
 }
 
 float

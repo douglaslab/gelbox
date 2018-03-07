@@ -77,6 +77,15 @@ public:
 	// icons
 	ci::gl::TextureRef getParamSliderIcon( int );
 
+	// misc
+	bool operator==(const Buffer &rhs) const {
+		for( int i=0; i<kNumParams; ++i )
+		{
+			if ( rhs.mValue[i] != mValue[i] ) return false;
+		}
+		return true;
+	}
+
 };
 
 inline Buffer operator* ( float s, Buffer b )
@@ -118,19 +127,19 @@ const string kBufferParamIconName[Buffer::kNumParams] =
 };
 
 // presets
-const int kBufferNumPresets = 3;
+const int kBufferNumPresets = 2;
 
 const string kBufferPresetNames[kBufferNumPresets] =
 {
 	".5x TBE",
-	"1x TBE",
+//	"1x TBE",
 	"1x TAE" 
 };
 
 const Buffer kBufferPresets[kBufferNumPresets] =
 {
 	Buffer::TBE() * .5f,
-	Buffer::TBE(),
+//	Buffer::TBE(),
 	Buffer::TAE()
 };
 

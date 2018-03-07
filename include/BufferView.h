@@ -33,10 +33,13 @@ public:
 
 	void setup();
 	
+	void tick( float dt ) override;
 	void draw() override;
-
+	void mouseDown( ci::app::MouseEvent ) override;
+	
 	void setBounds( ci::Rectf b ) override { View::setBounds(b); updateLayout(); }
 
+	void setToPreset( int preset );
 	
 	// what data are we operating upon?
 	// 1) a sample?
@@ -67,8 +70,9 @@ private:
 	
 	void makeSliders();
 	void updateLayout();
-	void syncWidgetsToModel();
+	void syncPresetToModel();
 	void modelDidChange();
+	int  pickPreset( ci::vec2 ); // in local space
 	
 	std::vector<SliderViewRef>	mSliders;
 	GelViewRef					mGelView;
@@ -79,4 +83,8 @@ private:
 	SampleRef			mSample;
 	GelRef				mGel;
 	
+	int								mPresetSelection=-1;
+	ci::Rectf						mPresetsRect;
+	std::vector<ci::gl::TextureRef> mPresetLabel;
+	std::vector<ci::Rectf>			mPresetLabelRect;
 };
