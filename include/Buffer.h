@@ -111,9 +111,9 @@ const string kBufferParamName[Buffer::kNumParams] =
 
 const string kBufferParamIconName[Buffer::kNumParams] =
 {
-	"tris",
-	"borate",
-	"acetate",
+	"Tris",
+	"Borate",
+	"Acetate",
 	"EDTA"
 };
 

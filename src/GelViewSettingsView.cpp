@@ -11,6 +11,7 @@
 #include "SliderView.h"
 #include "GelSim.h"
 #include "Layout.h"
+#include "BufferView.h"
 
 using namespace std;
 using namespace ci;
@@ -22,6 +23,13 @@ void GelViewSettingsView::setup( GelViewRef gelView )
 	mBraceTex = kLayout.uiImage("brace.png");
 	
 	makeSliders();
+	
+	mBufferView = make_shared<BufferView>();
+	mBufferView->setup();
+	mBufferView->setParent( shared_from_this() );
+	mBufferView->setGel( gelView->getGel() );
+	mBufferView->setGelView( gelView );
+	mBufferView->setFrameAndBoundsWithSize( Rectf( vec2(0.f), kLayout.mBufferViewSize ) );
 
 	layout();
 }
@@ -104,7 +112,10 @@ void GelViewSettingsView::makeSliders()
 	}
 	
 	// unwired placeholder sliders...
-	add( Slider(), "well-damage" );
+	Slider damage;
+	damage.mValue = 0.f;
+	add( damage, "well-damage" );
+	
 	add( Slider(), "gel-rotate" );
 	add( Slider(), "gel-lanes" );
 }
@@ -125,7 +136,7 @@ void GelViewSettingsView::layout()
 	mBraceRect = kLayout.layoutBrace( getBounds() );	
 
 	// position sliders
-	SliderView::layoutSliders(
+	SliderView::layoutSlidersInWidth(
 		mSliders,
 		kLayout.mGelViewSettingsSlidersTopLeft,
 		kLayout.mFragViewSlidersVOffset,

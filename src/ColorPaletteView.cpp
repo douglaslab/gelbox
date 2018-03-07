@@ -52,20 +52,38 @@ void ColorPaletteView::tick( float dt )
 void ColorPaletteView::draw()
 {
 	// test
-	if (1)
+	if ((0))
 	{
 		gl::color( ColorA( Color::gray(.5f), .2f ) );
 		gl::drawSolidRect( getBounds() );
+	}
+
+	if ( (1) && mSelectedColor >= 0 && mColorInset>0.f )
+	{
+		gl::color(kSelectedColorStrokeColor);
+		
+		Rectf r = calcColorRect(mSelectedColor);
+		
+		r.inflate( vec2(kSelectedColorStrokeWidth-1.f) );
+		
+		if (mCornerRadius>0.f) gl::drawSolidRoundedRect( r, mCornerRadius );
+		else gl::drawSolidRect(r);
 	}
 	
 	// colors
 	for( int i=0; i<mColors.size(); ++i )
 	{
 		gl::color( mColors[i] );
-		gl::drawSolidRect( calcColorRect(i) );
+
+		Rectf r = calcColorRect(i);
+		
+//		if (i==mSelectedColor) r.inflate( vec2(mColorInset-1.f) );
+		
+		if (mCornerRadius>0.f) gl::drawSolidRoundedRect( r, mCornerRadius );
+		else gl::drawSolidRect(r);
 	}
 	
-	if ( mSelectedColor >= 0 )
+	if ( (1) && mSelectedColor >= 0 && mColorInset==0.f )
 	{
 		gl::color(kSelectedColorStrokeColor);
 		gl::drawStrokedRect(
@@ -173,6 +191,8 @@ ColorPaletteView::calcColorRect( int i ) const
 	Rectf r( vec2(0,0), mColorSize );
 	r += mColorSize * vec2(x,y);
 	r += mColorsRect.getUpperLeft();
+	
+	r.inflate( vec2(-mColorInset) );
 	
 	return r;
 }

@@ -31,7 +31,7 @@ public:
 	void mouseUp  ( ci::app::MouseEvent ) override;
 	void mouseDrag( ci::app::MouseEvent ) override;
 	
-	static void layoutSliders(
+	static void layoutSlidersInWidth(
 		std::vector<SliderViewRef>	sliders,
 		ci::vec2					topLeft,
 		float						yOffset, // total distance from one slider topleft to the next topleft
@@ -40,6 +40,15 @@ public:
 		ci::vec2					notionalIconSize
 		);
 		// sugar-wrapper for Slider::doLayoutInWidth, but for a list of sliders
+
+	static void layoutSlidersFromBar(
+		std::vector<SliderViewRef>	sliders,
+		ci::vec2					barTopLeft,
+		float						yOffset, // total distance from one slider topleft to the next topleft
+		ci::vec2					barSize,
+		float						iconSliderGutter
+		);
+		// sugar-wrapper for Slider::doLayoutFromBar, but for a list of sliders
 		
 private:
 	void setFrameAndBoundsWithSlider();	

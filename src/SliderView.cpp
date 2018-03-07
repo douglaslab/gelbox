@@ -91,7 +91,7 @@ void SliderView::setFrameAndBoundsWithSlider()
 	setBounds( r );
 }	
 
-void SliderView::layoutSliders(
+void SliderView::layoutSlidersInWidth(
 	std::vector<SliderViewRef>	sliders,
 	ci::vec2					topLeft,
 	float						yOffset, // total distance from one slider topleft to the next topleft
@@ -114,6 +114,29 @@ void SliderView::layoutSliders(
 		sliders[i]->setFrame(
 			  sliders[i]->getFrame()
 			+ topLeft
+			+ vec2(0.f,(float)i*yOffset) );
+	}	
+}
+
+void SliderView::layoutSlidersFromBar(
+	std::vector<SliderViewRef>	sliders,
+	ci::vec2					barTopLeft,
+	float						yOffset,
+	ci::vec2					barSize,
+	float						iconSliderGutter
+	)
+{
+	for( int i=0; i<sliders.size(); ++i )
+	{
+		Slider  s = sliders[i]->getSlider();
+		
+		s.doLayoutFromBar( barSize, iconSliderGutter ); 
+
+		sliders[i]->setSlider(s);
+		
+		sliders[i]->setFrame(
+			  sliders[i]->getFrame()
+			+ barTopLeft
 			+ vec2(0.f,(float)i*yOffset) );
 	}	
 }

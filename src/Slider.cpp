@@ -30,20 +30,28 @@ bool Slider::loadIcons( ci::fs::path lo, ci::fs::path hi )
 	for( int i=0; i<2; ++i )
 	{
 		try {
-			mIcon[i] = gl::Texture::create( loadImage(paths[i]), gl::Texture2d::Format().mipmap() );
+			setIcon( i, gl::Texture::create( loadImage(paths[i]), gl::Texture2d::Format().mipmap() ) );
 		}
 		catch (...)
 		{
 			cerr << "ERROR Slider::loadIcons failed to load icon " << paths[i] << endl;
 		}
-		
-		if ( mIcon[i] )
-		{
-			mIconSize[i] = vec2( mIcon[i]->getWidth(), mIcon[i]->getHeight() );
-		}
 	}
 	
 	return mIcon[0] && mIcon[1];
+}
+
+void Slider::setIcon( int i, ci::gl::TextureRef tex, int pixelsPerPoint )
+{
+	assert( i==0 || i==1 );
+	
+	mIcon[i] = tex;
+	
+	if (tex)
+	{
+		mIconSize[i] = tex->getSize() * pixelsPerPoint;
+	}
+	else mIconSize[i] = vec2(0.f);
 }
 
 void Slider::doLayoutInWidth ( float fitInWidth, float iconGutter, vec2 notionalIconSize )
@@ -70,7 +78,7 @@ void Slider::doLayoutInWidth ( float fitInWidth, float iconGutter, vec2 notional
 	mEndpoint[1] = snapToPixel( vec2( mIconPickRect[1].x1 - iconGutter, cy ) );
 	
 	// adjust endpoints for graph layout
-	if (mIsGraph)
+	if (mStyle==Style::Graph)
 	{
 		float d = mGraphHeight * .5f;
 		mEndpoint[0].y += d;
@@ -89,24 +97,77 @@ void Slider::doLayoutInWidth ( float fitInWidth, float iconGutter, vec2 notional
 		// expand pick rect if needed
 		mIconPickRect[i].include(mIconRect[i]);
 	}
+	
+	// make up a bar rect...
+	mBar = Rectf( mEndpoint[0], mEndpoint[1] );
+}
+
+void Slider::doLayoutFromBar( ci::vec2 barSize, float iconGutter )
+{
+	mBar = Rectf( vec2(0.f), barSize );
+	
+	mEndpoint[0] = vec2(0.f,barSize.y/2.f);
+	mEndpoint[1] = vec2(barSize.x,barSize.y/2.f);
+	
+	float cy = mBar.getCenter().y;
+	
+	mIconRect[0] = Rectf( vec2(0.f), mIconSize[0] );
+	mIconRect[1] = Rectf( vec2(0.f), mIconSize[1] );
+	
+	mIconRect[0] += vec2(mBar.x1,cy) + vec2(-iconGutter,0.f) - vec2(mIconRect[0].x2,mIconRect[0].getCenter().y);
+	mIconRect[1] += vec2(mBar.x2,cy) + vec2( iconGutter,0.f) - vec2(mIconRect[1].x1,mIconRect[1].getCenter().y);
+	
+	for( int i=0; i<2; ++i )
+	{
+		mIconRect[i] = snapToPixel(mIconRect[i]);
+		mIconPickRect[i] = mIconRect[i];
+	}
 }
 
 void Slider::draw( int highlightIcon ) const
 {
 	// graph
-	if ( mIsGraph ) drawGraph();
-		
-	// line
-	if ( !mIsGraph )
+	switch ( mStyle )
 	{
-		gl::color(kLayout.mSliderLineColor);
-		gl::drawLine(mEndpoint[0], mEndpoint[1]);
+		case Style::Graph:
+			drawGraph();
+			break;
+			
+		case Style::Slider:
+			gl::color(kLayout.mSliderLineColor);
+			gl::drawLine(mEndpoint[0], mEndpoint[1]);
+			break;
+			
+		case Style::Bar:
+		{
+			auto fill = [this]( Rectf r )
+			{
+				float c = mBarCornerRadius;
+				
+				if (c<=0.f) gl::drawSolidRect(r);
+				else
+				{
+					c = min( c, min(r.getWidth(),r.getHeight())/2.f );
+					gl::drawSolidRoundedRect(r,c);
+				}
+			};			
+
+			gl::color( mBarEmptyColor );
+			fill(mBar);
+			
+			// draw fill
+			Rectf f = mBar;
+			f.x2 = lerp( f.x1, f.x2, mValue );
+			gl::color( mBarFillColor );
+			fill(f);
+		}
+		break;
 	}
 	
 	// notches
 	drawNotches();
 	
-	// handle
+	// handle (in practice, only on Style::Slider)
 	if ( hasHandle() )
 	{
 		Rectf sliderHandleRect = calcHandleRect();
@@ -221,27 +282,50 @@ void Slider::drawTextLabel() const
 
 		vec2 baseline;
 		
-		if (hasHandle())
+		switch( mStyle )
 		{
-			Rectf sliderHandleRect = calcHandleRect();
+			case Style::Slider:
+			{
+				Rectf sliderHandleRect = calcHandleRect();
+				
+				baseline.y = sliderHandleRect.y2 + sliderHandleRect.getHeight() * .75;			
+				baseline.x = sliderHandleRect.getCenter().x - size.x/2;
+			}
+			break;
+				
+			case Style::Bar:
+			{
+				const vec2 kGutter(8.f,8.f); // hard-coded constant :P
+				
+				baseline.y = mBar.y2 - kGutter.y;
+				baseline.x = lerp(mEndpoint[0],mEndpoint[1],mValue).x;
+				
+				if ( mValue > .5f )
+				{
+					baseline.x -= kGutter.x;
+					baseline.x -= fontRef->measureString(str).x;
+				}
+				else baseline.x += kGutter.x;
+			}
+			break;
 			
-			baseline.y = sliderHandleRect.y2 + sliderHandleRect.getHeight() * .75;			
-			baseline.x = sliderHandleRect.getCenter().x - size.x/2;
-		}
-		else
-		{
-			baseline = lerp( mEndpoint[0], mEndpoint[1], .5f );
-			baseline.y += kLayout.mSliderHandleSize.y * 1.25f;
+			case Style::Graph:
+			{
+				// ??? not logical, but draw it as requested
+				baseline = lerp( mEndpoint[0], mEndpoint[1], .5f );
+				baseline.y += kLayout.mSliderHandleSize.y * 1.25f;
+			}
+			break;
 		}
 
-		gl::color(0,0,0);		
+		gl::color(mTextLabelColor);		
 		fontRef->drawString( str, snapToPixel(baseline) );
 	}
 }
 
 void Slider::drawNotches() const
 {
-	if ( !mNotches.empty() && mNotchAction != Slider::Notch::None && !mIsGraph )
+	if ( !mNotches.empty() && mNotchAction != Slider::Notch::None && mStyle!=Style::Graph )
 		// we could draw graph notches on y axis if we wanted...
 	{
 		gl::color( kLayout.mSliderLineColor * .5f );
@@ -336,7 +420,7 @@ Slider::setValueWithMouse ( ci::vec2 p )
 {
 	Rectf pickRect = calcPickRect();
 	
-	if ( mIsGraph )
+	if ( mStyle==Style::Graph )
 	{
 		assert( !mGraphValues.empty() );
 		
@@ -445,7 +529,7 @@ Slider::quantizeNormalizedValue( float valueNorm, float valueMapLo, float valueM
 
 void Slider::setLimitValue( int v )
 {
-	if (mIsGraph)
+	if (mStyle==Style::Graph)
 	{
 		for( float& i : mGraphValues ) i=0.f;
 		
@@ -473,7 +557,7 @@ Slider::calcPickRect() const
 {
 	Rectf r( mEndpoint[0], mEndpoint[1] );
 
-	if ( mIsGraph ) r.y1 -= mGraphHeight;
+	if ( mStyle==Style::Graph ) r.y1 -= mGraphHeight;
 	else
 	{
 		r = Rectf( mEndpoint[0], mEndpoint[1] );

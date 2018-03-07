@@ -44,6 +44,9 @@ public:
 	int						mColorCols=6;
 	int						mSelectedColor=-1;
 	
+	float					mCornerRadius=0.f;
+	float					mColorInset=0.f;
+	
 	glm::vec2				mColorSize;
 	ci::Rectf				mColorsRect;
 	

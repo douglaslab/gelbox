@@ -91,6 +91,9 @@ void FragmentView::makeSliders()
 		return getEditFragment().mColor;
 	};
 	
+	mColorsView->mColorInset = 2.f;
+	mColorsView->mCornerRadius = 4.f;
+	
 	// sliders
 	{
 		// this is a little dangerous because we are passing this into all these lambdas.
@@ -170,7 +173,7 @@ void FragmentView::makeSliders()
 		aggregate.mValueMappedLo = 1;
 		aggregate.mValueMappedHi = GelSim::kSliderAggregateMaxMultimer;
 		
-		aggregate.mIsGraph = true;
+		aggregate.mStyle = Slider::Style::Graph;
 		aggregate.mGraphValues.resize( GelSim::kSliderAggregateMaxMultimer );
 		aggregate.mGraphHeight = kLayout.mFragViewSlidersGraphHeight; 
 		for( float &x : aggregate.mGraphValues ) x = randFloat(); // test data		
@@ -256,7 +259,7 @@ void FragmentView::updateLayout()
 	if ( mSliders.empty() ) makeSliders(); 
 
 	// position sliders
-	SliderView::layoutSliders(
+	SliderView::layoutSlidersInWidth(
 		mSliders,
 		kLayout.mFragViewSlidersTopLeft,
 		kLayout.mFragViewSlidersVOffset,

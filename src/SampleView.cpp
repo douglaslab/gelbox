@@ -195,23 +195,25 @@ bool SampleView::pickCalloutWedge( ci::vec2 rootLoc ) const
 }
 
 void SampleView::openBufferView( bool v )
-{				
+{
 	// toggle
 	if ( !v && mBufferView )
 	{
-		mBufferView->close();
+//		mBufferView->close();
+		mBufferView->setParent(0);
+		getCollection()->removeView(mBufferView);
 		mBufferView=0;
 	}
 	else if ( v && !mBufferView )
 	{
 		closeFragEditor();
 
-		mBufferView = BufferView::openToTheRightOfView( shared_from_this() );
-		mBufferView->setSample( getSample() );
-		mBufferView->setGelView( mGelView );
-		getCollection()->addView(mBufferView);
+//		mBufferView = BufferView::openToTheRightOfView( shared_from_this() );
+//		mBufferView->setSample( getSample() );
+//		mBufferView->setGelView( mGelView );
+//		getCollection()->addView(mBufferView);
 
-		// put sample view right after GelView
+		// put view right after us
 		getCollection()->moveViewAbove( mBufferView, shared_from_this() ); 
 	}
 }

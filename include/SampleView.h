@@ -128,7 +128,7 @@ private:
 	// other views
 	GelViewRef		mGelView;
 	FragmentViewRef mFragEditor;
-	BufferViewRef	mBufferView;
+	BufferViewRef	mBufferView; // TODO: replace with a new view
 	
 	// ui + loupe logic (relevant if mIsLoupeView)
 	bool pickLoupe( ci::vec2 rootLoc ) const;

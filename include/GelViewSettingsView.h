@@ -18,6 +18,9 @@ typedef std::shared_ptr<GelViewSettingsView> GelViewSettingsViewRef;
 class SliderView;
 typedef std::shared_ptr<SliderView> SliderViewRef;
 
+class BufferView;
+typedef std::shared_ptr<BufferView> BufferViewRef;
+
 
 class GelViewSettingsView : public View
 {
@@ -30,8 +33,9 @@ public:
 	void draw() override;
 		
 private:
-	GelViewRef mGelView;
-		
+	GelViewRef				mGelView;
+	BufferViewRef			mBufferView;
+	
 	ci::Rectf				mBraceRect;
 	ci::gl::TextureRef		mBraceTex;
 

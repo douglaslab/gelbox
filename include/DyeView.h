@@ -1,5 +1,5 @@
 //
-//  BufferView.h
+//  DyeView.h
 //  Gelbox
 //
 //  Created by Chaim Gingold on 2/12/18.
@@ -20,19 +20,23 @@ typedef std::shared_ptr<Gel> GelRef;
 class GelView;
 typedef std::shared_ptr<GelView> GelViewRef;
 
-class BufferView;
-typedef std::shared_ptr<BufferView> BufferViewRef;
+class DyeView;
+typedef std::shared_ptr<DyeView> DyeViewRef;
 
 class SliderView;
 typedef std::shared_ptr<SliderView> SliderViewRef;
 
+const glm::vec2 kDyeViewSize(300,400);
 
-class BufferView : public View
+class DyeView : public View
 {
 public:
 
-	void setup();
+	DyeView();
 	
+	static DyeViewRef openToTheRightOfView( ViewRef );
+	void close();
+		
 	void draw() override;
 
 	void setBounds( ci::Rectf b ) override { View::setBounds(b); updateLayout(); }
@@ -71,6 +75,7 @@ private:
 	void modelDidChange();
 	
 	std::vector<SliderViewRef>	mSliders;
+	std::vector<SliderViewRef>	mDyeViews;	
 	GelViewRef					mGelView;
 	
 	tGetBufferFunc		mGetBufferFunc;

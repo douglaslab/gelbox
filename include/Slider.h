@@ -19,9 +19,17 @@ public:
 	ci::gl::TextureRef  mIcon[2];
 	glm::vec2			mIconSize[2]; // in points
 	
-	glm::vec2	mEndpoint[2];
+	glm::vec2			mEndpoint[2];
+	ci::Rectf			mBar;
+	float				mBarCornerRadius=0.f;
+	
+	ci::ColorA			mTextLabelColor = ci::ColorA(0,0,0,1);
+	ci::ColorA			mBarFillColor   = ci::Color::gray(.8f);
+	ci::ColorA			mBarEmptyColor  = ci::Color::gray(.2f);
 	
 	bool		loadIcons( ci::fs::path lo, ci::fs::path hi );
+	void		setIcon( int icon, ci::gl::TextureRef tex, int pixelsPerPoint=1 ); // sets mIcon, mIconSize; handles tex==0
+	
 	void		doLayoutInWidth( float fitInWidth, float iconGutter, glm::vec2 notionalIconSize=glm::vec2(0.f) );
 	/*
 		[ ] ----- [ ]
@@ -31,6 +39,18 @@ public:
 		topleft is at origin
 		notionalIconSize fits whatever icons are present within a box of that size, for consistent layouts regardless of icon sizes
 	*/
+	
+	void		doLayoutFromBar( ci::vec2 barSize, float iconGutter );
+	// origin will be at topleft of slider bar; so texture/icon at left will be in negative space 
+	
+	//
+	enum class Style
+	{
+		Slider,
+		Graph,
+		Bar
+	};
+	Style mStyle = Style::Slider;
 	
 	// notches
 //	int			mNotches=0;
@@ -55,7 +75,6 @@ public:
 	float		mValueQuantize=0.f;
 	
 	// graph
-	bool		mIsGraph		=	false;
 	float		mGraphHeight	=	32.f;
 	float		mGraphValueMappedLo=0.f, mGraphValueMappedHi=1.f; // per notch graph
 	std::vector<float> mGraphValues; // each is 0..1
@@ -87,7 +106,7 @@ public:
 	void		drawTextLabel() const;
 	void		drawNotches() const;
 	
-	bool		hasHandle() const { return !mIsGraph; }
+	bool		hasHandle() const { return mStyle==Style::Slider; }
 	
 	ci::Rectf	calcHandleRect() const;
 	ci::Rectf	calcPickRect() const; // just of interactive areas
