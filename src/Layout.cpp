@@ -72,3 +72,14 @@ Rectf Layout::snapToPixel( Rectf r ) const
 	
 	return Rectf( ul, ul + s );
 };
+
+ci::gl::TextureRef Layout::renderSubhead( string str ) const
+{
+	Font subheadFont( mSubheadFont, mSubheadFontSize );
+	TextLayout label;
+	label.clear( ColorA(1,1,1,0) );
+	label.setColor( mSubheadFontColor );
+	label.setFont( subheadFont );
+	label.addRightLine(str);
+	return gl::Texture::create(label.render(true));	
+}

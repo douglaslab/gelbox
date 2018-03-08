@@ -34,32 +34,42 @@ public:
 	// gel view settings view
 	ci::vec2	mGelViewSettingsSize			= ci::vec2(303,520);
 	ci::vec2	mGelViewSettingsSlidersTopLeft	= ci::vec2(84,246);
-	ci::vec2	mGelViewSettingsRuleTopLeft		= ci::vec2(66,216);
+	ci::vec2	mGelViewSettingsRuleTopLeft		= ci::vec2(66,216.5);
 	float		mGelViewSettingsRuleLength		= 237;
+	ci::vec2	mGelViewBufferViewTopLeft		= ci::vec2(61,15);
 	
 	// sample settings view
-	ci::vec2	mSampleSettingsSize				= ci::vec2(303,520);
-	ci::vec2	mSampleSettingsSlidersTopLeft	= ci::vec2(84,246);
-	ci::vec2	mSampleSettingsRuleTopLeft		= ci::vec2(66,216);
-	float		mSampleSettingsRuleLength		= 237;
+	ci::vec2	mSampleSettingsContentOffset	= ci::vec2(8,0);
+		/* as designed should be 0, BUT we haven't gotten the text
+		   line spacing as tight as we wanted, so we are spacing out here to compensate. */
 	
+	ci::vec2	mSampleSettingsSize				= ci::vec2(303,520);
+	ci::vec2	mSampleSettingsSlidersTopLeft	= ci::vec2(131,336)  + mSampleSettingsContentOffset;
+	ci::vec2	mSampleSettingsRuleTopLeft		= ci::vec2(59,269.5) + mSampleSettingsContentOffset;
+	float		mSampleSettingsRuleLength		= 237;
+	ci::vec2	mSampleBufferViewTopLeft		= ci::vec2(65,65)	 + mSampleSettingsContentOffset;
+	float		mSampleSettingsSlidersToDyeLabel= 16.f;
+	float		mSampleSettingsSliderVOffset	= 31.f;
+	
+	// sample view
+	ci::Color	mSampleViewBkgndColor			= ci::Color::hex( 0xF1F1F2 );
 	
 	// buffer view
-	ci::vec2	mBufferViewSize			 = ci::vec2(303,180);
+	ci::vec2	mBufferViewSize			 		= ci::vec2(303,180);
 	
-	ci::vec2	mBufferViewSlidersTopLeft= ci::vec2(127,56); // of bar itself
-	float		mBufferViewSliderVOffset = 31.f;
-	ci::vec2	mBufferViewSliderBarSize = ci::vec2(125,23);
-	float		mBufferViewSlidersIconGutter = 13.f;
-	ci::Color	mBufferViewSliderEmptyColor	= ci::Color::hex(0xE8EBF1);
-	ci::Color	mBufferViewSliderFillColor	= ci::Color::hex(0xAEB6C3);
+	ci::vec2	mBufferViewSlidersTopLeft		= ci::vec2(66,41); // of bar itself
+	float		mBufferViewSliderVOffset		= 31.f;
+	ci::vec2	mBufferViewSliderBarSize		= ci::vec2(125,23);
+	float		mBufferViewSlidersIconGutter	= 13.f;
+	ci::Color	mBufferViewSliderEmptyColor		= ci::Color::hex(0xE8EBF1);
+	ci::Color	mBufferViewSliderFillColor		= ci::Color::hex(0xAEB6C3);
 	ci::Color	mBufferViewSliderTextLabelColor	= ci::Color::hex(0x777777);
 	ci::Color	mBufferViewSliderTextValueColor	= ci::Color::gray(.2f);
 	float		mBufferViewSliderCornerRadius   = 4.f;
 	std::string	mBufferViewSliderLabelFont		= "Avenir-Medium";
 	int			mBufferViewSliderLabelFontSize	= 12;
 	
-	ci::vec2	mBufferViewPresetsTopLeft		= ci::vec2(127,15);
+	ci::vec2	mBufferViewPresetsTopLeft		= ci::vec2(68,0);
 	ci::vec2	mBufferViewPresetsSize			= ci::vec2(125,23);
 	float		mBufferViewPresetsCornerRadius	= 5.f;
 	ci::Color	mBufferViewPresetsColor			= ci::Color::hex(0x979797);
@@ -125,6 +135,8 @@ public:
 	ci::Rectf snapToPixel( ci::Rectf r ) const;
 
 	ci::Rectf layoutBrace( ci::Rectf inRect ) const;
+	
+	ci::gl::TextureRef renderSubhead( std::string ) const;
 	
 private:
 	mutable std::map<ci::fs::path,ci::gl::TextureRef> mUIImages;

@@ -29,7 +29,10 @@ void GelViewSettingsView::setup( GelViewRef gelView )
 	mBufferView->setParent( shared_from_this() );
 	mBufferView->setGel( gelView->getGel() );
 	mBufferView->setGelView( gelView );
-	mBufferView->setFrameAndBoundsWithSize( Rectf( vec2(0.f), kLayout.mBufferViewSize ) );
+	mBufferView->setFrameAndBoundsWithSize(
+		Rectf( vec2(0.f), kLayout.mBufferViewSize )
+		+ kLayout.mGelViewBufferViewTopLeft
+		);
 
 	layout();
 }

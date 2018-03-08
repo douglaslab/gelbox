@@ -23,9 +23,9 @@ public:
 	ci::Rectf			mBar;
 	float				mBarCornerRadius=0.f;
 	
-	ci::ColorA			mTextLabelColor = ci::ColorA(0,0,0,1);
-	ci::ColorA			mBarFillColor   = ci::Color::gray(.8f);
-	ci::ColorA			mBarEmptyColor  = ci::Color::gray(.2f);
+	ci::ColorA			mTextLabelColor = ci::Color::gray(.0f);
+	ci::ColorA			mBarFillColor   = ci::Color::gray(.3f);
+	ci::ColorA			mBarEmptyColor  = ci::Color::gray(.8f);
 	
 	bool		loadIcons( ci::fs::path lo, ci::fs::path hi );
 	void		setIcon( int icon, ci::gl::TextureRef tex, int pixelsPerPoint=1 ); // sets mIcon, mIconSize; handles tex==0

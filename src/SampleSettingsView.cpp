@@ -30,39 +30,34 @@ void SampleSettingsView::setup( SampleViewRef sampleView )
 	mBufferView->setParent( shared_from_this() );
 	mBufferView->setSample( mSampleView->getSample() );
 	mBufferView->setGelView( mSampleView->getGelView() ); // so it can update w changes
-	mBufferView->setFrameAndBoundsWithSize( Rectf( vec2(0.f), kLayout.mBufferViewSize ) );
+	mBufferView->setFrameAndBoundsWithSize(
+		Rectf( vec2(0.f), kLayout.mBufferViewSize )
+		+ kLayout.mSampleBufferViewTopLeft
+		);
+
+	mHeadingTex = kLayout.renderSubhead("Dyes");
 
 	layout();
 }
 
 void SampleSettingsView::makeSliders()
 {
-	auto add = [this]( Slider s, string iconprefix )
-	{
-		fs::path iconPathBase = app::getAssetPath("slider-icons");
-		s.loadIcons(
-			iconPathBase / (iconprefix + "-lo.png"),
-			iconPathBase / (iconprefix + "-hi.png")
-			); 
-		
-		s.pullValueFromGetter();
-		
-		auto sv = make_shared<SliderView>(s);
-		sv->setParent( shared_from_this() );
-		
-		mSliders.push_back(sv);		
-	};
-	
-	// dye dyes
+	Font labelFont( kLayout.mBufferViewSliderLabelFont, kLayout.mBufferViewSliderLabelFontSize );
+
 	for( int dye=0; dye<Dye::kCount; ++dye )
 	{
 		Slider s;
 		
-//		s.mStyle = Slider::Style::Bar;
+		s.mStyle = Slider::Style::Bar;
+		s.mBarCornerRadius	= kLayout.mBufferViewSliderCornerRadius;
+		s.mBarFillColor		= Dye::kColors[dye];
+		s.mBarEmptyColor	= lerp( s.mBarFillColor, ColorA(1,1,1,1), .8f );
+		
 		
 		s.mValueMappedLo = 0.f;
 		s.mValueMappedHi = GelSim::kSliderDyeMassMax;
-
+		s.mValueQuantize = 1.f;
+	
 		SampleSettingsViewRef sthis = dynamic_pointer_cast<SampleSettingsView>( shared_from_this() );
 		
 		s.mSetter = [sthis,dye]( float v )
@@ -85,12 +80,44 @@ void SampleSettingsView::makeSliders()
 		
 		s.mMappedValueToStr = [dye]( float v )
 		{
-			return toString(v) + " " + Dye::kNames[dye];
+			return toString(v) + " mM";
 		};
 		
 		s.pullValueFromGetter();
 		
-		add(s,Dye::kIconName[dye]);
+		// labels
+		s.setIcon( 1, kLayout.uiImage( fs::path("molecules"), Dye::kIconName[dye] + ".png" ) );
+		
+		TextLayout label;
+		label.clear( ColorA(1,1,1,1) );
+		label.setFont( labelFont ); // should be medium, but maybe that's default
+		label.setColor( kLayout.mBufferViewSliderTextLabelColor );
+		
+		// https://stackoverflow.com/questions/236129/the-most-elegant-way-to-iterate-the-words-of-a-string
+		
+		if ((1))
+		{
+			label.addRightLine(Dye::kNames[dye]);
+		}
+		else
+		{
+			// multi-line
+			istringstream iss(Dye::kNames[dye]);
+			vector<string> dyeNameLines{
+					istream_iterator<string>{iss},
+					istream_iterator<string>{}};
+			
+			for( auto l : dyeNameLines ) {
+				label.addRightLine(l);
+			}
+		}
+		
+		s.setIcon( 0, gl::Texture::create(label.render()) );		
+		
+		// insert		
+		auto sv = make_shared<SliderView>(s);
+		sv->setParent( shared_from_this() );
+		mSliders.push_back(sv);
 	}
 }
 
@@ -115,17 +142,28 @@ void SampleSettingsView::setBounds( ci::Rectf r )
 
 void SampleSettingsView::layout()
 {
+	const int pixelsPerPt = 1;
+
 	mBraceRect = kLayout.layoutBrace( getBounds() );	
 
-	// position sliders
-	SliderView::layoutSlidersInWidth(
+	SliderView::layoutSlidersFromBar(
 		mSliders,
 		kLayout.mSampleSettingsSlidersTopLeft,
-		kLayout.mFragViewSlidersVOffset,
-		kLayout.mFragViewSlidersWidth,
-		kLayout.mFragViewSlidersIconGutter,
-		kLayout.mFragViewSliderIconNotionalSize
+		kLayout.mSampleSettingsSliderVOffset,
+		kLayout.mBufferViewSliderBarSize,
+		kLayout.mBufferViewSlidersIconGutter
 		);
+
+	if (mHeadingTex)
+	{
+		mHeadingRect = Rectf( vec2(0.f), mHeadingTex->getSize() * pixelsPerPt );
+		
+		vec2 ll = kLayout.mSampleSettingsSlidersTopLeft;
+		ll.y -= kLayout.mSampleSettingsSlidersToDyeLabel;
+		
+		mHeadingRect += ll - mHeadingRect.getLowerLeft();
+		mHeadingRect = snapToPixel( mHeadingRect );
+	}
 }
 
 void SampleSettingsView::draw()
@@ -140,4 +178,10 @@ void SampleSettingsView::draw()
 	gl::drawLine(
 		kLayout.mSampleSettingsRuleTopLeft,
 		kLayout.mSampleSettingsRuleTopLeft + vec2(kLayout.mSampleSettingsRuleLength,0.f) );
+		
+	if (mHeadingTex)
+	{
+		gl::color(1,1,1);
+		gl::draw(mHeadingTex,mHeadingRect);
+	}
 }

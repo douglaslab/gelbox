@@ -72,12 +72,10 @@ namespace Dye
 	// icons
 	const string kIconName[kCount] =
 	{
-		"xylene-cyanol",
-		"cresol-red",
-		"bromphenol-blue",
-		"orange-g"
+		"Xylene",
+		"Cresol",
+		"Bromphenol",
+		"Orange G"
 	};
-	
-	gl::TextureRef getSliderIcon( int );
 	
 };

@@ -278,7 +278,7 @@ void SampleView::drawLoupe() const
 
 void SampleView::selectFragment( int i )
 {
-	openSettingsView(false);
+	if (i!=-1) openSettingsView(false);
 	
 	mSelection->set( mSample, i );
 	mSelection->setToOrigin();
@@ -296,10 +296,18 @@ void SampleView::setRolloverFragment( int i )
 
 void SampleView::showFragmentEditor( int i )
 {
-	if ( isFragment(i) && !mSample->mFragments[i].isDye() )
+	if ( isFragment(i) )
 	{
-		openFragEditor();
-		mFragEditor->setFragment( mSample, i );
+		if ( mSample->mFragments[i].isDye() )
+		{
+			closeFragEditor();
+			openSettingsView();
+		}
+		else
+		{
+			openFragEditor();
+			mFragEditor->setFragment( mSample, i );
+		}
 	}
 	else closeFragEditor();
 }
@@ -378,8 +386,9 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 		// hit background?
 		if ( frag==-1 && !mIsLoupeView )
 		{
-			// open settings (e.g. buffer)
-			openSettingsView();
+			// open/toggle settings (e.g. buffer)
+			mBackgroundHasSelection = ! mBackgroundHasSelection;
+			openSettingsView( mBackgroundHasSelection );
 		}
 	}
 	
@@ -554,7 +563,12 @@ void SampleView::tick( float dt )
 		// we want them to both be able to be active (hovering a particle shouldn't
 		// change choice to select background), but we don't want to draw them both
 		// at the same time.
-		if ( mSettingsView ) mSettingsView->setIsVisible( getFocusFragment()==-1 );
+		if ( mSettingsView ) 
+		{
+			bool isDye = isFragmentADye(getFocusFragment());
+			bool isNil = getFocusFragment()==-1;
+			mSettingsView->setIsVisible( isNil || isDye );
+		}
 	}
 }
 
@@ -948,9 +962,9 @@ void SampleView::drawSimBackground( int highlight )
 	
 	Color hc[3] =
 	{
-		Color(1,1,1),     // nothing
-		Color::gray(.97f), // hover
-		Color::gray(.9f) // mouse down
+		kLayout.mSampleViewBkgndColor,  	 // nothing
+		kLayout.mSampleViewBkgndColor * .97, // hover
+		kLayout.mSampleViewBkgndColor * .9f	 // mouse down
 	};
 	
 	Color c = hc[highlight];

@@ -23,14 +23,8 @@ void BufferView::setup()
 {
 	makeSliders();
 
-	// subhed label
-	Font subheadFont( kLayout.mSubheadFont, kLayout.mSubheadFontSize );
-	TextLayout label;
-	label.clear( ColorA(1,1,1,0) );
-	label.setColor( kLayout.mSubheadFontColor );
-	label.setFont( subheadFont );
-	label.addRightLine("Buffer");
-	mHeadingTex = gl::Texture::create(label.render(true));	
+	// subhead label
+	mHeadingTex = kLayout.renderSubhead("Buffer");
 	
 	// preset labels	
 	Font presetFont( kLayout.mBufferViewPresetsFont, kLayout.mBufferViewPresetsFontSize );

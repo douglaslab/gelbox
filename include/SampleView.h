@@ -103,6 +103,7 @@ public:
 private:
 
 	bool isFragment( int i ) const { return i >=0 && i < mFragments.size() ; }
+	bool isFragmentADye( int i ) const { return isFragment(i) && mSample->mFragments[i].isDye(); } 
 	void showFragmentEditor( int i );
 	void updateCallout();
 	void closeFragEditor();
@@ -117,6 +118,7 @@ private:
 	bool			mIsLoupeView = false;
 	bool			mHasLoupe    = false; // little circle thing on persistent loupes
 	bool			mShowCalloutAnchor = true;
+	bool			mBackgroundHasSelection = false;
 	
 	Drag			mDrag;
 	

@@ -42,6 +42,9 @@ private:
 	ci::Rectf				mBraceRect;
 	ci::gl::TextureRef		mBraceTex;
 
+	ci::gl::TextureRef		mHeadingTex;
+	ci::Rectf				mHeadingRect;
+
 	std::vector<SliderViewRef> mSliders;
 
 	void modelDidChange(); // updates Gel and GelView
