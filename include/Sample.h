@@ -121,7 +121,7 @@ public:
 	};
 
 	std::vector<Fragment>	mFragments;
-	Gelbox::Buffer			mBuffer;
+	Gelbox::Buffer			mBuffer = Gelbox::kBufferPresets[Gelbox::kBufferDefaultPreset];
 	
 	std::string				mName;
 	int						mID = -1;

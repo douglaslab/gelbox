@@ -44,6 +44,7 @@ private:
 
 	std::vector<SliderViewRef> mSliders;
 
+	void modelDidChange(); // updates Gel and GelView
 	void makeSliders();
 	void layout();
 

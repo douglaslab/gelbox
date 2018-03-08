@@ -7,6 +7,7 @@
 
 #include "SampleSettingsView.h"
 #include "Gel.h"
+#include "GelView.h"
 #include "SliderView.h"
 #include "GelSim.h"
 #include "Layout.h"
@@ -52,73 +53,53 @@ void SampleSettingsView::makeSliders()
 		mSliders.push_back(sv);		
 	};
 	
-	/*
-	// voltage slider
+	// dye dyes
+	for( int dye=0; dye<Dye::kCount; ++dye )
 	{
 		Slider s;
+		
+//		s.mStyle = Slider::Style::Bar;
+		
+		s.mValueMappedLo = 0.f;
+		s.mValueMappedHi = GelSim::kSliderDyeMassMax;
 
-		s.mValueMappedLo = GelSim::kSliderVoltageLow;
-		s.mValueMappedHi = GelSim::kSliderVoltageHigh;
-		s.mValueQuantize = 1.f;
+		SampleSettingsViewRef sthis = dynamic_pointer_cast<SampleSettingsView>( shared_from_this() );
 		
-		s.mNotchAction = Slider::Notch::Snap;
-//		s.addFixedNotches(2);
-		s.addNotchAtMappedValue(GelSim::kSliderVoltageDefaultValue);
-		s.addNotchAtMappedValue(0.f);
-		
-		s.mSetter = [this]( float v ) {
-			mGelView->getGel()->setVoltage(v);
-			mGelView->gelDidChange();
-		};
-		s.mGetter = [this]() {
-			return mGelView->getGel()->getVoltage();
-		};
-		s.mMappedValueToStr = []( float v )
+		s.mSetter = [sthis,dye]( float v )
 		{
-			return toString(v) + " V";
+			if (sthis->mSampleView && sthis->mSampleView->getSample())
+			{
+				sthis->mSampleView->getSample()->setDye( dye, v );
+				sthis->modelDidChange();
+			}
 		};
-	
-		add(s,"voltage");	
+		
+		s.mGetter = [sthis,dye]()
+		{
+			if (sthis->mSampleView && sthis->mSampleView->getSample())
+			{
+				return sthis->mSampleView->getSample()->getDye(dye);
+			}
+			else return 0.f;
+		};
+		
+		s.mMappedValueToStr = [dye]( float v )
+		{
+			return toString(v) + " " + Dye::kNames[dye];
+		};
+		
+		s.pullValueFromGetter();
+		
+		add(s,Dye::kIconName[dye]);
 	}
-	
-	// timeline slider
-	{
-		Slider s;
+}
 
-		s.mValueMappedLo = 0;
-		s.mValueMappedHi = 1.f; // gel sim tracks time from 0..1
-		s.mSetter = [this]( float v ) {
-			mGelView->getGel()->setTime(v);
-			mGelView->gelDidChange();
-		};
-		s.mGetter = [this]() {
-			return mGelView->getGel()->getTime();
-		};
-		s.mMappedValueToStr = []( float v )
-		{
-			v *= GelSim::kSliderTimelineMaxMinutes;
-			
-			int m = roundf(v); // we get fractional values, so fix that.
-			
-			int mins = m % 60;
-			int hrs  = m / 60;
-			
-			string minstr = toString(mins);
-			if (minstr.size()==1) minstr = string("0") + minstr;
-			
-			return toString(hrs) + ":" + minstr ;
-		};
-		
-		add(s,"clock");
-	}*/
-	
-	// unwired placeholder sliders...
-	Slider damage;
-	damage.mValue = 0.f;
-	add( damage, "well-damage" );
-	
-	add( Slider(), "gel-rotate" );
-	add( Slider(), "gel-lanes" );
+void SampleSettingsView::modelDidChange()
+{
+	// semantics aren't 100% clear, but this updates the gel and the gel view
+	if (mSampleView->getGelView()) {
+		mSampleView->getGelView()->sampleDidChange(mSampleView->getSample());
+	}
 }
 
 void SampleSettingsView::close()

@@ -245,7 +245,7 @@ void BufferView::modelDidChange()
 
 void BufferView::syncPresetToModel()
 {
-	// parse Buffer value...
+	// choose preset
 	auto b = getBuffer();
 	
 	mPresetSelection = -1;
@@ -260,6 +260,20 @@ void BufferView::syncPresetToModel()
 			mPresetSelection = i;
 			// DO NOT call setPreset since that will cause us to recurse forever, as it
 			// sets model properties, which triggers us to be called.
+		}
+	}
+	
+	// set notches for preset
+	if ( mPresetSelection != -1 )
+	{
+		auto b = Gelbox::kBufferPresets[mPresetSelection];
+		
+		// notch it
+		assert( mSliders.size() == Gelbox::Buffer::kNumParams );
+		for( int i=0; i<Gelbox::Buffer::kNumParams; ++i )
+		{
+			mSliders[i]->slider().clearNotches();
+			mSliders[i]->slider().addNotchAtMappedValue( b.mValue[i] );
 		}
 	}
 }
@@ -334,18 +348,7 @@ void BufferView::setToPreset( int p )
 	else
 	{
 		mPresetSelection = p;
-
-		// set it		
-		auto b = Gelbox::kBufferPresets[mPresetSelection];
-		setBuffer(b);
-		
-		// notch it
-		assert( mSliders.size() == Gelbox::Buffer::kNumParams );
-		for( int i=0; i<Gelbox::Buffer::kNumParams; ++i )
-		{
-			mSliders[i]->slider().clearNotches();
-			mSliders[i]->slider().addNotchAtMappedValue( b.mValue[i] );
-		}
+		setBuffer( Gelbox::kBufferPresets[mPresetSelection] );
 	}
 }
 

@@ -964,8 +964,10 @@ void SampleView::drawSimBackground( int highlight )
 		
 		for( int i=0; i<Dye::kCount; ++i )
 		{
-			c += Dye::kColors[i] * dyes[i];
-			w += dyes[i];
+			float norm = dyes[i] / GelSim::kSliderDyeMassMax; 
+			
+			c += Dye::kColors[i] * norm;
+			w += norm;
 		}
 		
 		c /= w;

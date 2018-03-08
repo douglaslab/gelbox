@@ -70,7 +70,6 @@ public:
 		return b;
 	}
 	
-	
 	// xml
 	ci::XmlTree toXml() const;
 
@@ -128,6 +127,7 @@ const string kBufferParamIconName[Buffer::kNumParams] =
 
 // presets
 const int kBufferNumPresets = 2;
+const int kBufferDefaultPreset = 0;
 
 const string kBufferPresetNames[kBufferNumPresets] =
 {

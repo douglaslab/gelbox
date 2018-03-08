@@ -113,7 +113,7 @@ public:
 private:
 	
 	std::vector<SampleRef>	mSamples;
-	Gelbox::Buffer			mBuffer;
+	Gelbox::Buffer			mBuffer = Gelbox::kBufferPresets[Gelbox::kBufferDefaultPreset];
 	
 	void updateBands();
 	void	  updateBandState( Band& ) const;
