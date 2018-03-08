@@ -5,6 +5,8 @@
 //  Created by Chaim Gingold on 2/12/18.
 //
 
+#include <sstream>
+
 #include "BufferView.h"
 #include "SliderView.h"
 #include "GelSim.h"
@@ -76,21 +78,14 @@ void BufferView::makeSliders()
 		
 		s.mMappedValueToStr = [param]( float v )
 		{
-			const float quantize = .5f;
-			return toString( roundf( v / quantize ) * quantize ) + " mM ";
-//			return toString(v) + " mM ";
+			std::stringstream ss;
+			ss << fixed << setprecision(1) << v << " mM";
+			return ss.str();
 		};
 		
 		s.mStyle = Slider::Style::Bar;
-//		s.mNotchAction = Slider::Notch::Snap;
-		// It seems that when we turn on snapping we get a bug where
-		// when we select the preset, it takes 2 clicks sometimes to properly set all the values.
-		// so turning off for now.
-		
-//		s.mValueQuantize = .5f; // not 1, because some of interesting values are not @ 1 (eg .5)
-		// this is surfacing some weird subtle bug we are going to ignore for now and move on
-		// and just roundf in toString()
-		// 
+		s.mNotchAction = Slider::Notch::Snap;
+		s.mValueQuantize = .5f; // not 1, because some of interesting values are not @ 1 (eg .5)
 		
 		s.pullValueFromGetter();
 		
@@ -339,15 +334,15 @@ void BufferView::setToPreset( int p )
 	else
 	{
 		mPresetSelection = p;
-		auto b = Gelbox::kBufferPresets[mPresetSelection]; // copy it, because syncPresetToModel could clear us
+
+		// set it		
+		auto b = Gelbox::kBufferPresets[mPresetSelection];
+		setBuffer(b);
 		
+		// notch it
 		assert( mSliders.size() == Gelbox::Buffer::kNumParams );
 		for( int i=0; i<Gelbox::Buffer::kNumParams; ++i )
 		{
-			mSliders[i]->slider().setMappedValue( b.mValue[i] );
-			// NOTE: this triggers modelDidChange() -> syncPresetToModel() to be called
-			// when we do each set. That is why we copy b beforehand in case mPresetSelection gets changed
-
 			mSliders[i]->slider().clearNotches();
 			mSliders[i]->slider().addNotchAtMappedValue( b.mValue[i] );
 		}
