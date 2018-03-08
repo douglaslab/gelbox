@@ -554,11 +554,20 @@ void SampleView::tick( float dt )
 		deselectFragment();
 	}*/
 
-	// fragment editor on highlight/hover/selection -- can enable/disable this feature on its own
+	// fragment/dye editor on highlight/hover/selection
 	if ( ! mIsLoupeView )
 	{
 		showFragmentEditor( getFocusFragment() );
-		
+
+		// deselect background
+		// -- if we have a valid seletion, and it isn't a (our) dye
+		if (    mSelection->isValid()
+		  && !( mSelection->getSample() == getSample() && isFragmentADye(mSelection->getFrag()) )
+		   )
+		{
+			mBackgroundHasSelection=false;
+		}
+
 		// fade in/out settings view with hover fragment detail
 		// we want them to both be able to be active (hovering a particle shouldn't
 		// change choice to select background), but we don't want to draw them both
@@ -567,6 +576,7 @@ void SampleView::tick( float dt )
 		{
 			bool isDye = isFragmentADye(getFocusFragment());
 			bool isNil = getFocusFragment()==-1;
+
 			mSettingsView->setIsVisible( isNil || isDye );
 		}
 	}
