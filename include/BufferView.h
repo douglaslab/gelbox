@@ -83,6 +83,9 @@ private:
 	SampleRef			mSample;
 	GelRef				mGel;
 	
+	ci::gl::TextureRef	mHeadingTex;
+	ci::Rectf			mHeadingRect;
+	
 	int								mPresetSelection=-1;
 	ci::Rectf						mPresetsRect;
 	std::vector<ci::gl::TextureRef> mPresetLabel;

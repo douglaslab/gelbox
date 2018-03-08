@@ -49,17 +49,23 @@ public:
 	ci::Color	mBufferViewSliderTextLabelColor	= ci::Color::hex(0x777777);
 	ci::Color	mBufferViewSliderTextValueColor	= ci::Color::gray(.2f);
 	float		mBufferViewSliderCornerRadius   = 4.f;
-	std::string	mBufferViewSliderLabelFont		= "Avenir";
+	std::string	mBufferViewSliderLabelFont		= "Avenir-Medium";
 	int			mBufferViewSliderLabelFontSize	= 12;
 	
 	ci::vec2	mBufferViewPresetsTopLeft		= ci::vec2(129,15);
 	ci::vec2	mBufferViewPresetsSize			= ci::vec2(125,23);
 	float		mBufferViewPresetsCornerRadius	= 5.f;
 	ci::Color	mBufferViewPresetsColor			= ci::Color::hex(0x979797);
-	std::string	mBufferViewPresetsFont			= "Avenir";
+	std::string	mBufferViewPresetsFont			= "Avenir-Medium";
 	int			mBufferViewPresetsFontSize		= 12;
 	ci::Color	mBufferViewPresetsFontColor		= ci::Color::hex(0x2B2B2B);
 	ci::Color	mBufferViewPresetsSelectColor	= ci::Color::hex(0xFFDC73);
+	
+	// view shared
+	std::string	mSubheadFont			= "Avenir-Heavy";
+	int			mSubheadFontSize		= 12;
+	ci::Color	mSubheadFontColor		= ci::Color::hex(0x000000);
+	
 	
 	// frag view
 	ci::vec2	mFragViewSize			= ci::vec2(303,520);	

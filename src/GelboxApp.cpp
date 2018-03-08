@@ -22,6 +22,7 @@ using namespace ci::app;
 using namespace std;
 
 const bool kVerboseMoveDragEvents = false; // to demonstrate libcinder bug, if first mouse down is r-click then we don't get move OR drag events. 
+const bool kPrintFontNames = false;
 
 GelboxApp* GelboxApp::mInstance = 0;
 
@@ -29,6 +30,17 @@ GelboxApp::GelboxApp()
 {
 	assert( !mInstance );
 	mInstance = this;
+	
+	// test fonts
+	if (kPrintFontNames)
+	{
+		cout << "Fonts:" << endl;
+		auto fnames = Font::getNames();
+		for ( auto n : fnames )
+		{
+			cout << "\t" << n << endl;
+		}
+	}
 }
 
 GelboxApp::~GelboxApp()

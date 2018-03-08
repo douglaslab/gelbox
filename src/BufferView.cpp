@@ -20,7 +20,17 @@ using namespace ci::app;
 void BufferView::setup()
 {
 	makeSliders();
+
+	// subhed label
+	Font subheadFont( kLayout.mSubheadFont, kLayout.mSubheadFontSize );
+	TextLayout label;
+	label.clear( ColorA(1,1,1,0) );
+	label.setColor( kLayout.mSubheadFontColor );
+	label.setFont( subheadFont );
+	label.addRightLine("Buffer");
+	mHeadingTex = gl::Texture::create(label.render(true));	
 	
+	// preset labels	
 	Font presetFont( kLayout.mBufferViewPresetsFont, kLayout.mBufferViewPresetsFontSize );
 	mPresetLabel.resize(Gelbox::kBufferNumPresets,0);
 	for( int i=0; i<Gelbox::kBufferNumPresets; ++i )
@@ -28,8 +38,8 @@ void BufferView::setup()
 		TextLayout label;
 		label.clear( ColorA(1,1,1,0) );
 		label.setColor( kLayout.mBufferViewPresetsFontColor );
-		label.addRightLine(Gelbox::kBufferPresetNames[i]);
 		label.setFont( presetFont );
+		label.addRightLine(Gelbox::kBufferPresetNames[i]);
 		mPresetLabel[i] = gl::Texture::create(label.render(true));		
 	}
 
@@ -94,9 +104,9 @@ void BufferView::makeSliders()
 		
 		TextLayout label;
 		label.clear( ColorA(1,1,1,1) );
+		label.setFont( labelFont ); // should be medium, but maybe that's default
 		label.setColor( kLayout.mBufferViewSliderTextLabelColor );
 		label.addRightLine(Gelbox::kBufferParamName[param]);
-		label.setFont( labelFont ); // should be medium, but maybe that's default
 		s.setIcon( 0, gl::Texture::create(label.render()) );
 		
 		// insert
@@ -137,7 +147,19 @@ void BufferView::updateLayout()
 			mPresetLabelRect[i] += c - mPresetLabelRect[i].getCenter();
 			mPresetLabelRect[i] = snapToPixel(mPresetLabelRect[i]); 
 		}
-	}	
+	}
+	
+	if (mHeadingTex)
+	{
+		mHeadingRect = Rectf( vec2(0.f), mHeadingTex->getSize() * pixelsPerPt );
+		
+		vec2 xp = vec2( mSliders[0]->getSlider().mIconRect[0].x2, 0.f );
+		xp = mSliders[0]->childToParent(xp);
+		
+		mHeadingRect += vec2( xp.x, mPresetLabelRect[0].y2 )
+					    - mHeadingRect.getLowerRight();
+		mHeadingRect = snapToPixel( mHeadingRect );
+	}
 }
 
 void BufferView::setBufferDataFuncs( tGetBufferFunc getf, tSetBufferFunc setf )
@@ -259,6 +281,13 @@ void BufferView::draw()
 	}
 
 	// == presets ==
+	
+	// heading
+	if (mHeadingTex)
+	{
+		gl::color(1,1,1);
+		gl::draw(mHeadingTex,mHeadingRect);
+	}
 	
 	// labels
 	for( int i=0; i<Gelbox::kBufferNumPresets; ++i )
