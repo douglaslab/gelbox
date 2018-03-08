@@ -67,7 +67,7 @@ public:
 	glm::vec2 parentToRoot( glm::vec2 p ) const { return glm::vec2( getParentToRootMatrix() * glm::vec4(p,0,1) ); }
 
 	// visible
-	void setIsVisible( bool v ) { mIsVisible=v; }
+	void setIsVisible( bool v ); // recurses to children, too
 	bool isVisible() const { return mIsVisible; }
 	
 	// drawing

@@ -23,8 +23,8 @@ typedef std::shared_ptr<SampleView> SampleViewRef;
 class FragmentView;
 typedef std::shared_ptr<FragmentView> FragmentViewRef;
 
-class BufferView;
-typedef std::shared_ptr<BufferView> BufferViewRef;
+class SampleSettingsView;
+typedef std::shared_ptr<SampleSettingsView> SampleSettingsViewRef;
 
 class ButtonView;
 typedef std::shared_ptr<ButtonView> ButtonViewRef;
@@ -37,7 +37,8 @@ public:
 	void setup();
 	
 	void setGelView( GelViewRef v ) { mGelView=v; }
-		
+	GelViewRef getGelView() const { return mGelView; }
+	
 	void close(); // removes from view, closes frag editor if any
 	
 	// shared select/rollover state
@@ -107,7 +108,8 @@ private:
 	void closeFragEditor();
 	void openFragEditor();
 	void syncToModel(); // updates mFragments to match mSample
-
+	void layout();
+	
 	void setRolloverFragment( int i );
 	
 	glm::vec2		mAnchor; // anchor for callout. in frame (parent) space. center of loupe widget
@@ -126,9 +128,9 @@ private:
 	ButtonViewRef	 mNewBtn;
 	
 	// other views
-	GelViewRef		mGelView;
-	FragmentViewRef mFragEditor;
-	BufferViewRef	mBufferView; // TODO: replace with a new view
+	GelViewRef				mGelView;
+	FragmentViewRef			mFragEditor;
+	SampleSettingsViewRef	mSettingsView;
 	
 	// ui + loupe logic (relevant if mIsLoupeView)
 	bool pickLoupe( ci::vec2 rootLoc ) const;
@@ -136,13 +138,13 @@ private:
 
 	bool pickCalloutWedge( ci::vec2 rootLoc ) const; // respects mHasLoupe and kCanPickCalloutWedge in .cpp file
 	
-	void openBufferView( bool v=true );
+	void openSettingsView( bool v=true );
 	
 	// particle sim
 	class Part;
 	
 	void tickSim( float dt ); // dt=1 for normal speed
-	void drawSimBackground();
+	void drawSimBackground( int highlight ); // 0: none, 1: hover, 2: mouse down
 	void drawSim();
 	int  pickPart( ci::vec2 ) const; // local space; -1 for none
 	int  pickFragment( ci::vec2 ) const;

@@ -32,10 +32,17 @@ public:
 	ci::Color	mRuleColor			= ci::Color::hex(0xC4C4C4);
 	
 	// gel view settings view
-	ci::vec2	mGelViewSettingsSize	= ci::vec2(303,520);
-	ci::vec2	mGelViewSettingsSlidersTopLeft = ci::vec2(84,246);
-	ci::vec2	mGelViewSettingsRuleTopLeft = ci::vec2(66,216);
-	float		mGelViewSettingsRuleLength  = 237;
+	ci::vec2	mGelViewSettingsSize			= ci::vec2(303,520);
+	ci::vec2	mGelViewSettingsSlidersTopLeft	= ci::vec2(84,246);
+	ci::vec2	mGelViewSettingsRuleTopLeft		= ci::vec2(66,216);
+	float		mGelViewSettingsRuleLength		= 237;
+	
+	// sample settings view
+	ci::vec2	mSampleSettingsSize				= ci::vec2(303,520);
+	ci::vec2	mSampleSettingsSlidersTopLeft	= ci::vec2(84,246);
+	ci::vec2	mSampleSettingsRuleTopLeft		= ci::vec2(66,216);
+	float		mSampleSettingsRuleLength		= 237;
+	
 	
 	// buffer view
 	ci::vec2	mBufferViewSize			 = ci::vec2(303,180);

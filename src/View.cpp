@@ -58,6 +58,13 @@ mat4 View::getParentToRootMatrix() const
 	else return mat4(); // identity
 }
 
+void View::setIsVisible( bool v )
+{
+	mIsVisible = v;
+	
+	for( auto c : mChildren ) c->setIsVisible(v);
+}
+
 void View::setParent( ViewRef p )
 {
 	ViewRef parent = getParent();

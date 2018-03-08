@@ -343,7 +343,7 @@ void Slider::drawNotches() const
 //				const float k = mBar.getHeight()/2.f - mBarCornerRadius;
 //				const float k = -mBarCornerRadius;
 				const float k = 0.f;
-				gl::drawLine( vec2(c.x+.5f,mBar.y1+k), vec2(c.x+.5f,mBar.y2-k) );
+				gl::drawLine( vec2(c.x-.5f,mBar.y1+k), vec2(c.x-.5f,mBar.y2-k) );
 //				gl::drawLine( vec2(c.x+.5f,mBar.y1), vec2(c.x+.5f,mBar.y2) );
 //				gl::drawSolidCircle( vec2(c.x,mBar.y1), kLayout.mSliderNotchRadius );
 //				gl::drawSolidCircle( vec2(c.x,mBar.y2), kLayout.mSliderNotchRadius );

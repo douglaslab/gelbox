@@ -16,6 +16,7 @@
 #include "GelSim.h"
 #include "Layout.h"
 #include "ButtonView.h"
+#include "SampleSettingsView.h"
 
 using namespace std;
 using namespace ci;
@@ -95,7 +96,7 @@ void SampleView::setup()
 void SampleView::close()
 {
 	closeFragEditor();
-	openBufferView(false);
+	openSettingsView(false);
 	getCollection()->removeView( shared_from_this() );
 }
 
@@ -134,7 +135,13 @@ void SampleView::draw()
 	}
 	
 	// content
-	drawSimBackground();
+	int bkgndHoverState=0;
+	if ( -1 == pickFragment( rootToChild(getMouseLoc()) ) )
+	{
+		if ( getHasMouseDown() ) bkgndHoverState=2;
+		else if ( getHasRollover() ) bkgndHoverState=1;
+	}
+	drawSimBackground(bkgndHoverState);
 	drawSim();
 
 	// focus
@@ -163,7 +170,18 @@ void SampleView::drawFrame()
 void SampleView::setBounds( ci::Rectf r )
 {
 	View::setBounds(r);
+	layout();
+}
 
+void SampleView::layout()
+{
+	if (mSettingsView)
+	{
+		Rectf frame( vec2(0.f), kLayout.mSampleSettingsSize );  		
+		frame += getFrame().getUpperRight() + vec2(kLayout.mSampleToBraceGutter,0.f);
+		mSettingsView->setFrameAndBoundsWithSize( frame );
+	}	
+	
 	if (mNewBtn)
 	{
 		Rectf r( vec2(0.f), mNewBtn->getFrame().getSize() );
@@ -194,27 +212,26 @@ bool SampleView::pickCalloutWedge( ci::vec2 rootLoc ) const
 		;
 }
 
-void SampleView::openBufferView( bool v )
+void SampleView::openSettingsView( bool v )
 {
 	// toggle
-	if ( !v && mBufferView )
+	if ( !v && mSettingsView )
 	{
-//		mBufferView->close();
-		mBufferView->setParent(0);
-		getCollection()->removeView(mBufferView);
-		mBufferView=0;
+		mSettingsView->close();
+		mSettingsView=0;
 	}
-	else if ( v && !mBufferView )
+	else if ( v && !mSettingsView )
 	{
 		closeFragEditor();
 
-//		mBufferView = BufferView::openToTheRightOfView( shared_from_this() );
-//		mBufferView->setSample( getSample() );
-//		mBufferView->setGelView( mGelView );
-//		getCollection()->addView(mBufferView);
+		mSettingsView = make_shared<SampleSettingsView>();
+		mSettingsView->setup( dynamic_pointer_cast<SampleView>(shared_from_this()) );
+		if (getCollection()) getCollection()->addView( mSettingsView );
+		
+		layout();
 
-		// put view right after us
-//		getCollection()->moveViewAbove( mBufferView, shared_from_this() ); 
+		// put view right after GelView
+		getCollection()->moveViewAbove( mSettingsView, shared_from_this() ); 
 	}
 }
 
@@ -261,7 +278,7 @@ void SampleView::drawLoupe() const
 
 void SampleView::selectFragment( int i )
 {
-	openBufferView(false);
+	openSettingsView(false);
 	
 	mSelection->set( mSample, i );
 	mSelection->setToOrigin();
@@ -351,17 +368,21 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 	getCollection()->setKeyboardFocusView( shared_from_this() );
 	if ( mIsLoupeView ) getCollection()->moveViewToTop( shared_from_this() );
 	
-	// pick fragment
+	// pick inside
 	if ( !mIsLoupeView || kLoupePartsSelectable )
 	{
-		selectFragment( pickFragment( rootToChild(e.getPos()) ) );
+		// try fragment
+		int frag = pickFragment( rootToChild(e.getPos()) );
+		selectFragment(frag);
+		
+		// hit background?
+		if ( frag==-1 && !mIsLoupeView )
+		{
+			// open settings (e.g. buffer)
+			openSettingsView();
+		}
 	}
 	
-	// buffer view
-	if ( e.isControlDown() )
-	{
-		openBufferView( mBufferView==0 );
-	}
 	
 	// drag?
 	if		( pickLoupe(e.getPos()) )		 mDrag = Drag::Loupe;
@@ -513,7 +534,7 @@ void SampleView::tick( float dt )
 	tickSim( (slow ? .1f : 1.f) * mSimTimeScale );
 	
 	// rollover
-	if ( getHasRollover() && ( ! mIsLoupeView || kLoupePartsSelectable ) && !mBufferView )
+	if ( getHasRollover() && ( ! mIsLoupeView || kLoupePartsSelectable ) )
 	{
 		setRolloverFragment( pickFragment( rootToChild(getMouseLoc()) ) );
 	}
@@ -525,9 +546,15 @@ void SampleView::tick( float dt )
 	}*/
 
 	// fragment editor on highlight/hover/selection -- can enable/disable this feature on its own
-	if ( ! mIsLoupeView && !mBufferView )
+	if ( ! mIsLoupeView )
 	{
 		showFragmentEditor( getFocusFragment() );
+		
+		// fade in/out settings view with hover fragment detail
+		// we want them to both be able to be active (hovering a particle shouldn't
+		// change choice to select background), but we don't want to draw them both
+		// at the same time.
+		if ( mSettingsView ) mSettingsView->setIsVisible( getFocusFragment()==-1 );
 	}
 }
 
@@ -915,14 +942,23 @@ void SampleView::tickSim( float dt )
 	}), mParts.end() );
 }
 
-void SampleView::drawSimBackground()
+void SampleView::drawSimBackground( int highlight )
 {
-	Color c(1,1,1); // base color
+	assert( highlight >=0 && highlight < 3 );
+	
+	Color hc[3] =
+	{
+		Color(1,1,1),     // nothing
+		Color::gray(.97f), // hover
+		Color::gray(.9f) // mouse down
+	};
+	
+	Color c = hc[highlight];
 	
 	// dyes
 	if (mSample)
 	{	
-		float w = 1.f;
+		float w = 1.f; // base color weight
 		
 		auto dyes = mSample->getDyes();
 		
