@@ -52,7 +52,7 @@ public:
 	std::string	mBufferViewSliderLabelFont		= "Avenir-Medium";
 	int			mBufferViewSliderLabelFontSize	= 12;
 	
-	ci::vec2	mBufferViewPresetsTopLeft		= ci::vec2(129,15);
+	ci::vec2	mBufferViewPresetsTopLeft		= ci::vec2(127,15);
 	ci::vec2	mBufferViewPresetsSize			= ci::vec2(125,23);
 	float		mBufferViewPresetsCornerRadius	= 5.f;
 	ci::Color	mBufferViewPresetsColor			= ci::Color::hex(0x979797);

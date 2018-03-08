@@ -214,7 +214,7 @@ void SampleView::openBufferView( bool v )
 //		getCollection()->addView(mBufferView);
 
 		// put view right after us
-		getCollection()->moveViewAbove( mBufferView, shared_from_this() ); 
+//		getCollection()->moveViewAbove( mBufferView, shared_from_this() ); 
 	}
 }
 

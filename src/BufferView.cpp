@@ -142,6 +142,7 @@ void BufferView::updateLayout()
 			x = lerp( mPresetsRect.x1, mPresetsRect.x2, x );
 			
 			vec2 c( x, mPresetsRect.getCenter().y );
+			c += vec2( 0.f, 1.f );
 			
 			mPresetLabelRect[i] = Rectf( vec2(0.f), mPresetLabel[i]->getSize() * pixelsPerPt );
 			mPresetLabelRect[i] += c - mPresetLabelRect[i].getCenter();
