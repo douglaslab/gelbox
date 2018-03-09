@@ -55,7 +55,7 @@ public:
 	
 	void render( const std::vector<Band>& );
 	
-	ci::gl::TextureRef getOutput() { return mCompositeFBO->getColorTexture(); }
+	ci::gl::TextureRef getOutput() { return mCompositeFBO ? mCompositeFBO->getColorTexture() : 0; }
 	
 private:
 

@@ -107,6 +107,7 @@ void GelboxApp::makeGel()
 	
 	// gel view
 	auto gelView = make_shared<GelView>();
+	mGelView = gelView;
 	
 	{
 		gelView->setup(gel);
@@ -252,6 +253,18 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 
 void GelboxApp::keyDown  ( ci::app::KeyEvent event )
 {
+	if ( event.isMetaDown() )
+	{
+		switch(event.getCode())
+		{
+			case KeyEvent::KEY_r:
+				if (mGelView) mGelView->enableGelRender( !mGelView->isGelRenderEnabled()  );
+				break;
+				
+			default:break;
+		}
+	}
+	
 	if ( mViews.getKeyboardFocusView() ) mViews.getKeyboardFocusView()->keyDown(event);
 }
 

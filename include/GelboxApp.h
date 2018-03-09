@@ -43,7 +43,8 @@ class GelboxApp : public ci::app::App {
 	ci::gl::TextureFontRef	mUIFont;
 
 	ViewCollection		mViews;
-
+	GelViewRef			mGelView;
+	
 	static GelboxApp*	mInstance;
 
 

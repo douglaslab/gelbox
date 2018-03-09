@@ -52,6 +52,9 @@ public:
 	void	setBounds( ci::Rectf ) override;
 	void	setFrame( ci::Rectf ) override;
 	
+	void	enableGelRender( bool v);
+	bool	isGelRenderEnabled() const { return mGelRender != 0; }
+	
 	void	mouseDown( ci::app::MouseEvent ) override;
 	void	mouseUp  ( ci::app::MouseEvent ) override;
 	void	mouseDrag( ci::app::MouseEvent ) override;

@@ -26,11 +26,11 @@ const bool kDragBandMakesNewSamples = true;
 const bool kShowReverseSolverDebugTest = false;
 const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
 
-const bool kEnableGelRender = false; // enable new fancy gel rendering with FBO
+const bool kEnableGelRenderByDefault = false; // enable new fancy gel rendering with FBO
 
 GelView::GelView()
 {
-	if (kEnableGelRender) mGelRender = make_shared<GelRender>();
+	if (kEnableGelRenderByDefault) mGelRender = make_shared<GelRender>();
 
 	mMicrotubeIcon = kLayout.uiImage("microtube1500ul.png");
 	
@@ -132,6 +132,18 @@ bool GelView::pick( vec2 p ) const
 	return View::pick(p) || -1 != pickMicrotube( rootToChild(p) );
 }
 
+void GelView::enableGelRender( bool v )
+{
+	if ( v == isGelRenderEnabled() ) return;
+	
+	if (v) {
+		mGelRender = make_shared<GelRender>();
+		if (mGel) mGelRender->setup( mGel->getSize(), 1.f );
+		updateGelRender();
+	}
+	else mGelRender=0;
+}
+
 void GelView::updateGelRender()
 {
 	assert(mGel);
@@ -188,7 +200,7 @@ void GelView::draw()
 	drawMicrotubes();
 	
 	// gel background
-	gl::color(.5,.5,.5);
+	gl::color(0,0,0);
 	gl::drawSolidRect( Rectf( vec2(0,0), mGel->getSize() ) );
 	
 	// clip
@@ -309,6 +321,7 @@ void GelView::drawBands() const
 
 
 	// draw mesh
+	gl::ScopedBlend blendScp( GL_SRC_ALPHA, GL_ONE );
 	gl::draw(mesh);
 }
 
