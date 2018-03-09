@@ -128,6 +128,9 @@ private:
 	SampleFragRefRef mRollover;
 	
 	ButtonViewRef	 mNewBtn;
+
+	ci::gl::TextureRef	mMicrotubeIcon;
+	ci::Rectf			mMicrotubeIconRect;
 	
 	// other views
 	GelViewRef				mGelView;

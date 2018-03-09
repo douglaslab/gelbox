@@ -107,7 +107,7 @@ private:
 	void		layout(); // called once by setup, then by setBounds 
 	
 	// microtubes
-	ci::Rectf	calcMicrotubeIconRect( int lane ) const;
+	ci::Rectf	calcMicrotubeWellRect( int lane ) const; // not icon rect; a notional rectangle that contains the icon
 	int			pickMicrotube( ci::vec2 ) const; // local coords
 
 	// bands

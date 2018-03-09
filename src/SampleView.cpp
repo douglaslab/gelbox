@@ -35,9 +35,9 @@ const int kNewFragNumAggregateBands = 7;
 	// !! TODO: pull out into a const !!
 
 // ui
-const Color kSelectColor(0,0,0);
-const Color kRolloverColor(1,1,0);
-const float kOutlineWidth = 4.f;
+const Color& kSelectColor   = kLayout.mSampleViewFragSelectColor;
+const Color& kRolloverColor = kLayout.mSampleViewFragHoverColor;
+const float& kOutlineWidth  = kLayout.mSampleViewFragOutlineWidth;
 
 const float kFadeInStep = .05f; 
 const float kFadeOutStep = .05f;
@@ -78,7 +78,8 @@ void SampleView::setup()
 	
 	mRand.seed( randInt() ); // random random seed :-)
 	
-	
+	mMicrotubeIcon = kLayout.uiImage("microtube1500ul.png");
+
 	// new btn
 	mNewBtn = make_shared<ButtonView>();
 	
@@ -104,6 +105,27 @@ void SampleView::draw()
 {
 	// loupe
 	if ( mHasLoupe ) drawLoupe();
+	
+	// microtube icon
+	if ( !mIsLoupeView )
+	{
+		// circle
+		{
+			const float r = kLayout.mSampleViewMicrotubeBkgndRadius;
+			const vec2  c = getBounds().getUpperLeft() + vec2( r, -r -kLayout.mSampleViewMicrotubeBkgndGutter );
+			
+			gl::color( kLayout.mGelMicrotubeBkgndColorSelected );
+			gl::drawSolidCircle(c,r);
+			gl::drawStrokedCircle(c,r); // anti-alias it!
+		}
+		
+		// icon
+		if (mMicrotubeIcon)
+		{						
+			gl::color(1,1,1);
+			gl::draw(mMicrotubeIcon,mMicrotubeIconRect);
+		}
+	}
 	
 	// draw callout behind
 	if ( mCallout.size()>0 && mShowCalloutAnchor )
@@ -189,6 +211,18 @@ void SampleView::layout()
 		mNewBtn->setFrame(r);
 	}
 
+	if (mMicrotubeIcon)
+	{
+		float s = (float)kLayout.mSampleViewMicrotubeWidth / mMicrotubeIcon->getSize().x;
+		
+		mMicrotubeIconRect = Rectf( vec2(0.f), vec2(mMicrotubeIcon->getSize()) * s );
+		
+		mMicrotubeIconRect += vec2( 0.f, -mMicrotubeIconRect.getSize().y );
+		mMicrotubeIconRect +=
+			vec2(	 kLayout.mSampleViewMicrotubeBkgndRadius - mMicrotubeIconRect.getWidth()/2.f,
+					-kLayout.mSampleViewMicrotubeGutter );
+	}
+	
 	// normalize pop den scale to old default size/density
 	mSizeDensityScale = (getBounds().getWidth() * getBounds().getHeight()) / (400.f*400.f);
 }

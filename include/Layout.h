@@ -21,7 +21,14 @@ public:
 	ci::vec2	mGelTopLeft			= ci::vec2(208,124);
 	int			mGelDefaultLanes	= 7;
 	float		mGelWellGutter		= 20.f;
-
+	float		mGelMicrotubeBkgndCornerRadius	= 20.f;
+	float		mGelMicrotubeBkgndTopInsetFromIcon = 16.f;		
+	ci::Color	mGelMicrotubeBkgndColor			= ci::Color::hex(0xE8F2F3);
+	ci::Color	mGelMicrotubeBkgndColorSelected = ci::Color::hex(0xA1D6FF);
+	float		mGelMicrotubeIconToGelGutter	= 6.f;
+	float		mGelMicrotubeWellPadding		= 4.f;
+	float		mGelMicrotubeIconPadding		= 10.f;
+	
 	ci::vec2	mLoupeSize			= ci::vec2(171,171);
 	ci::vec2	mSampleSize			= ci::vec2(362,520);
 	
@@ -53,7 +60,14 @@ public:
 	
 	// sample view
 	ci::Color	mSampleViewBkgndColor			= ci::Color::hex( 0xF1F1F2 );
-	
+	float		mSampleViewMicrotubeBkgndGutter	= 11.f;
+	float		mSampleViewMicrotubeBkgndRadius	= 20.f;
+	float		mSampleViewMicrotubeWidth		= 19.f;
+	float		mSampleViewMicrotubeGutter		= 25.f; 
+	ci::Color	mSampleViewFragSelectColor		= ci::Color(0,0,0);
+	ci::Color	mSampleViewFragHoverColor		= ci::Color(1,1,0);
+	float		mSampleViewFragOutlineWidth		= 4.f;
+
 	// buffer view
 	ci::vec2	mBufferViewSize			 		= ci::vec2(303,180);
 	

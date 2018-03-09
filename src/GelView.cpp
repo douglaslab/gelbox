@@ -225,33 +225,43 @@ void GelView::drawMicrotubes() const
 
 	for( int i=0; i<mGel->getNumLanes(); ++i )
 	{
-		const Rectf r = calcMicrotubeIconRect(i);
 		const bool  laneHasSample = getSample(i) != nullptr;
+		const Rectf wellRect = calcMicrotubeWellRect(i);
 		
-		if (mSelectedMicrotube==i)
-		{
-//			gl::color(1,1,.5,1.f);
-			gl::color( Color::hex(0xECF7F7) - Color::gray(.05f) );
-			
-			Rectf r2 = r;
-			
-			r2.y2 = getBounds().y2 + ( getBounds().y1 - r2.y2 )/2.f ;
-			
-			gl::drawSolidRect(r2);
-		}
-		else if ( ! laneHasSample )
-		{
-			gl::color(.5,.5,.5,.25f);
-			gl::drawStrokedRect(r);
-		}
+		// r will be round rect that is tube background
+		Rectf r = wellRect;
+		float cx = r.getCenter().x;
+		r.x1 = cx - kLayout.mGelMicrotubeBkgndCornerRadius;
+		r.x2 = cx + kLayout.mGelMicrotubeBkgndCornerRadius;
+		r.y1 += kLayout.mGelMicrotubeBkgndTopInsetFromIcon;
+		r.y2 = getBounds().y2;
+		
+		gl::color( mSelectedMicrotube==i
+			? kLayout.mGelMicrotubeBkgndColorSelected
+			: kLayout.mGelMicrotubeBkgndColor );
+		
+		gl::drawSolidRoundedRect( r, kLayout.mGelMicrotubeBkgndCornerRadius );
+		gl::drawStrokedRoundedRect( r, kLayout.mGelMicrotubeBkgndCornerRadius ); // anti-alias
+		
+		Rectf iconRect(0,0,mMicrotubeIcon->getWidth(),mMicrotubeIcon->getHeight());
+		Rectf iconFitIntoRect = wellRect;
+		float insetx = kLayout.mGelMicrotubeIconPadding;
+		iconFitIntoRect.x1 = r.x1 + insetx;
+		iconFitIntoRect.x2 = r.x2 - insetx;
+		iconRect = iconRect.getCenteredFit(iconFitIntoRect,true);			
+		iconRect = snapToPixel(iconRect);
 		
 		if ( mMicrotubeIcon && laneHasSample )
 		{
-			Rectf fit(0,0,mMicrotubeIcon->getWidth(),mMicrotubeIcon->getHeight());
-			fit = fit.getCenteredFit(r,true);
-			
 			gl::color(1,1,1);
-			gl::draw( mMicrotubeIcon, fit );
+			gl::draw( mMicrotubeIcon, iconRect );
+		}
+		
+		if ( kLayout.mDebugDrawLayoutGuides )
+		{
+			gl::color(kLayout.mDebugDrawLayoutGuideColor);
+			gl::drawStrokedRect(wellRect);
+			gl::drawStrokedRect(iconRect);
 		}
 	}	
 }
@@ -616,7 +626,7 @@ void GelView::openSampleView()
 			
 			mSampleView->setFrame( frame );
 			
-			mSampleView->setCalloutAnchor( childToRoot( calcMicrotubeIconRect(tube).getCenter() ) );
+			mSampleView->setCalloutAnchor( childToRoot( calcMicrotubeWellRect(tube).getCenter() ) );
 
 			getCollection()->addView(mSampleView);
 			
@@ -993,12 +1003,9 @@ DropTargetRef GelView::getDropTarget( glm::vec2 locInFrame )
 	else return 0;
 }*/
 
-ci::Rectf GelView::calcMicrotubeIconRect( int lane ) const
+ci::Rectf GelView::calcMicrotubeWellRect( int lane ) const
 {
 	assert( mGel->getNumLanes() >=0 );
-	
-	const float kVGutter = 12.f;
-	const float kPad = 4.f;
 	
 	const float w = getBounds().getWidth() / mGel->getNumLanes();
 	const float h = w;
@@ -1006,10 +1013,10 @@ ci::Rectf GelView::calcMicrotubeIconRect( int lane ) const
 	vec2 c = getBounds().getUpperLeft() + vec2(w/2,-h/2);
 	c.x += (float)lane * w; 
 	
-	vec2 size = vec2(w,h) - vec2(kPad);
+	vec2 size = vec2(w,h) - vec2(kLayout.mGelMicrotubeWellPadding);
 	Rectf r( c - size/2.f, c + size/2.f );
 	
-	r += vec2( 0, -kVGutter );
+	r += vec2( 0, -kLayout.mGelMicrotubeIconToGelGutter );
 	
 	return r;
 }
@@ -1018,7 +1025,8 @@ int GelView::pickMicrotube( vec2 p ) const
 {
 	for( int i=0; i<mGel->getNumLanes(); ++i )
 	{
-		Rectf r = calcMicrotubeIconRect(i);
+		Rectf r = calcMicrotubeWellRect(i);
+		r.y2 = getBounds().y1; // extend pick area to extend all the way down to gel
 		
 		if ( r.contains(p) ) return i;
 	}
