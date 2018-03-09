@@ -1,5 +1,5 @@
 //
-//  GelViewSettingsView.h
+//  GelSettingsView.h
 //  Gelbox
 //
 //  Created by Chaim Gingold on 3/6/18.
@@ -12,8 +12,8 @@
 class GelView;
 typedef std::shared_ptr<GelView> GelViewRef;
 
-class GelViewSettingsView;
-typedef std::shared_ptr<GelViewSettingsView> GelViewSettingsViewRef;
+class GelSettingsView;
+typedef std::shared_ptr<GelSettingsView> GelSettingsViewRef;
 
 class SliderView;
 typedef std::shared_ptr<SliderView> SliderViewRef;
@@ -22,7 +22,7 @@ class BufferView;
 typedef std::shared_ptr<BufferView> BufferViewRef;
 
 
-class GelViewSettingsView : public View
+class GelSettingsView : public View
 {
 public:
 	void setup( GelViewRef );
@@ -38,6 +38,9 @@ private:
 	
 	ci::Rectf				mBraceRect;
 	ci::gl::TextureRef		mBraceTex;
+
+	ci::gl::TextureRef		mHeadingTex;
+	ci::Rectf				mHeadingRect;
 
 	std::vector<SliderViewRef> mSliders;
 

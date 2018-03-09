@@ -69,6 +69,8 @@ static string addCommasToNumericStr( string num )
 FragmentView::FragmentView()
 {
 	mBraceTex = kLayout.uiImage("brace.png");
+
+	mHeadingTex = kLayout.renderHead(kLayout.mFragViewHeaderStr);
 }
 
 void FragmentView::makeSliders()
@@ -279,6 +281,10 @@ void FragmentView::updateLayout()
 	// well
 	mWellRect = Rectf( vec2(0.f), kLayout.mFragViewWellSize );
 	mWellRect += kLayout.mFragViewWellTopLeft;
+
+	if (mHeadingTex) {
+		mHeadingRect = kLayout.layoutHeadingText( mHeadingTex, kLayout.mFragViewHeaderBaselinePos );
+	}
 }
 
 void FragmentView::setFragment( SampleRef s, int f )
@@ -348,6 +354,12 @@ void FragmentView::draw()
 	{
 		gl::color( kLayout.mDebugDrawLayoutGuideColor );
 		gl::drawStrokedRect(getBounds());
+	}
+
+	if (mHeadingTex)
+	{
+		gl::color(1,1,1);
+		gl::draw(mHeadingTex,mHeadingRect);
 	}
 }
 

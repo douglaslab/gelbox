@@ -80,6 +80,8 @@ void SampleView::setup()
 	
 	mMicrotubeIcon = kLayout.uiImage("microtube1500ul.png");
 
+	mHeadingTex = kLayout.renderHead(kLayout.mSampleViewHeaderStr);
+
 	// new btn
 	mNewBtn = make_shared<ButtonView>();
 	
@@ -106,26 +108,8 @@ void SampleView::draw()
 	// loupe
 	if ( mHasLoupe ) drawLoupe();
 	
-	// microtube icon
-	if ( !mIsLoupeView )
-	{
-		// circle
-		{
-			const float r = kLayout.mSampleViewMicrotubeBkgndRadius;
-			const vec2  c = getBounds().getUpperLeft() + vec2( r, -r -kLayout.mSampleViewMicrotubeBkgndGutter );
-			
-			gl::color( kLayout.mGelMicrotubeBkgndColorSelected );
-			gl::drawSolidCircle(c,r);
-			gl::drawStrokedCircle(c,r); // anti-alias it!
-		}
-		
-		// icon
-		if (mMicrotubeIcon)
-		{						
-			gl::color(1,1,1);
-			gl::draw(mMicrotubeIcon,mMicrotubeIconRect);
-		}
-	}
+	// header
+	if ( !mIsLoupeView ) drawHeader();
 	
 	// draw callout behind
 	if ( mCallout.size()>0 && mShowCalloutAnchor )
@@ -185,8 +169,31 @@ void SampleView::draw()
 	gl::drawStrokedRect( getBounds() );	
 }
 
-void SampleView::drawFrame()
+void SampleView::drawHeader()
 {
+	// circle
+	{
+		const float r = kLayout.mSampleViewMicrotubeBkgndRadius;
+		const vec2  c = getBounds().getUpperLeft() + vec2( r, -r -kLayout.mSampleViewMicrotubeBkgndGutter );
+		
+		gl::color( kLayout.mGelMicrotubeBkgndColorSelected );
+		gl::drawSolidCircle(c,r);
+		gl::drawStrokedCircle(c,r); // anti-alias it!
+	}
+	
+	// icon
+	if (mMicrotubeIcon)
+	{						
+		gl::color(1,1,1);
+		gl::draw(mMicrotubeIcon,mMicrotubeIconRect);
+	}
+
+	// text	
+	if (mHeadingTex)
+	{
+		gl::color(1,1,1);
+		gl::draw(mHeadingTex,mHeadingRect);
+	}
 }
 
 void SampleView::setBounds( ci::Rectf r )
@@ -222,7 +229,11 @@ void SampleView::layout()
 			vec2(	 kLayout.mSampleViewMicrotubeBkgndRadius - mMicrotubeIconRect.getWidth()/2.f,
 					-kLayout.mSampleViewMicrotubeGutter );
 	}
-	
+
+	if (mHeadingTex) {
+		mHeadingRect = kLayout.layoutHeadingText( mHeadingTex, kLayout.mSampleViewHeaderBaselinePos );
+	}
+		
 	// normalize pop den scale to old default size/density
 	mSizeDensityScale = (getBounds().getWidth() * getBounds().getHeight()) / (400.f*400.f);
 }

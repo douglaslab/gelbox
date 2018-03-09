@@ -42,6 +42,9 @@ private:
 	ci::Rectf				mBraceRect;
 	ci::gl::TextureRef		mBraceTex;
 
+	ci::gl::TextureRef		mSubheadTex;
+	ci::Rectf				mSubheadRect;
+
 	ci::gl::TextureRef		mHeadingTex;
 	ci::Rectf				mHeadingRect;
 

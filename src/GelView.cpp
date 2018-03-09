@@ -13,7 +13,7 @@
 #include "GelRender.h"
 #include "Layout.h"
 #include "ButtonView.h"
-#include "GelViewSettingsView.h"
+#include "GelSettingsView.h"
 
 using namespace ci;
 using namespace std;
@@ -58,7 +58,7 @@ void GelView::setup( GelRef gel )
 			deselectFragment();
 			selectMicrotube(-1);
 			
-			mSettingsView = make_shared<GelViewSettingsView>();
+			mSettingsView = make_shared<GelSettingsView>();
 			mSettingsView->setup( dynamic_pointer_cast<GelView>(shared_from_this()) );
 			if (getCollection()) getCollection()->addView( mSettingsView );
 			
@@ -121,7 +121,7 @@ void GelView::layout()
 	
 	if (mSettingsView)
 	{
-		Rectf frame( vec2(0.f), kLayout.mGelViewSettingsSize );  		
+		Rectf frame( vec2(0.f), kLayout.mGelSettingsSize );  		
 		frame += getFrame().getUpperRight() + vec2(kLayout.mGelToBraceGutter,0.f);
 		mSettingsView->setFrameAndBoundsWithSize( frame );
 	}

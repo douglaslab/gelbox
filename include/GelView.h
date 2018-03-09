@@ -31,8 +31,8 @@ typedef std::shared_ptr<GelRender> GelRenderRef;
 class ButtonView;
 typedef std::shared_ptr<ButtonView> ButtonViewRef;
 
-class GelViewSettingsView;
-typedef std::shared_ptr<GelViewSettingsView> GelViewSettingsViewRef;
+class GelSettingsView;
+typedef std::shared_ptr<GelSettingsView> GelSettingsViewRef;
 
 
 class GelView : public View
@@ -96,7 +96,7 @@ private:
 	SampleFragRefRef	mSelectedState, mRolloverState; 
 
 	ButtonViewRef	 	mSettingsBtn;
-	GelViewSettingsViewRef mSettingsView;
+	GelSettingsViewRef mSettingsView;
 	
 	// gel renderer
 	bool				mGelRenderIsDirty = false;

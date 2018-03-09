@@ -1,11 +1,11 @@
 //
-//  GelViewSettingsView.cpp
+//  GelSettingsView.cpp
 //  Gelbox
 //
 //  Created by Chaim Gingold on 3/6/18.
 //
 
-#include "GelViewSettingsView.h"
+#include "GelSettingsView.h"
 #include "GelView.h"
 #include "Gel.h"
 #include "SliderView.h"
@@ -16,7 +16,7 @@
 using namespace std;
 using namespace ci;
 
-void GelViewSettingsView::setup( GelViewRef gelView )
+void GelSettingsView::setup( GelViewRef gelView )
 {
 	mGelView = gelView;
 
@@ -34,10 +34,12 @@ void GelViewSettingsView::setup( GelViewRef gelView )
 		+ kLayout.mGelViewBufferViewTopLeft
 		);
 
+	mHeadingTex = kLayout.renderHead(kLayout.mGelSettingsHeaderStr);
+
 	layout();
 }
 
-void GelViewSettingsView::makeSliders()
+void GelSettingsView::makeSliders()
 {
 	auto add = [this]( Slider s, string iconprefix )
 	{
@@ -123,33 +125,36 @@ void GelViewSettingsView::makeSliders()
 	add( Slider(), "gel-lanes" );
 }
 
-void GelViewSettingsView::close()
+void GelSettingsView::close()
 {
 	if (getCollection()) getCollection()->removeView(shared_from_this());
 }
 
-void GelViewSettingsView::setBounds( ci::Rectf r )
+void GelSettingsView::setBounds( ci::Rectf r )
 {
 	View::setBounds(r);
 	layout();
 }
 
-void GelViewSettingsView::layout()
+void GelSettingsView::layout()
 {
 	mBraceRect = kLayout.layoutBrace( getBounds() );	
 
-	// position sliders
 	SliderView::layoutSlidersInWidth(
 		mSliders,
-		kLayout.mGelViewSettingsSlidersTopLeft,
+		kLayout.mGelSettingsSlidersTopLeft,
 		kLayout.mFragViewSlidersVOffset,
 		kLayout.mFragViewSlidersWidth,
 		kLayout.mFragViewSlidersIconGutter,
 		kLayout.mFragViewSliderIconNotionalSize
 		);
+
+	if (mHeadingTex) {
+		mHeadingRect = kLayout.layoutHeadingText( mHeadingTex, kLayout.mGelSettingsHeaderBaselinePos );
+	}
 }
 
-void GelViewSettingsView::draw()
+void GelSettingsView::draw()
 {
 	if (mBraceTex)
 	{
@@ -159,6 +164,12 @@ void GelViewSettingsView::draw()
 	
 	gl::color( kLayout.mRuleColor );
 	gl::drawLine(
-		kLayout.mGelViewSettingsRuleTopLeft,
-		kLayout.mGelViewSettingsRuleTopLeft + vec2(kLayout.mGelViewSettingsRuleLength,0.f) );
+		kLayout.mGelSettingsRuleTopLeft,
+		kLayout.mGelSettingsRuleTopLeft + vec2(kLayout.mGelSettingsRuleLength,0.f) );
+
+	if (mHeadingTex)
+	{
+		gl::color(1,1,1);
+		gl::draw(mHeadingTex,mHeadingRect);
+	}
 }

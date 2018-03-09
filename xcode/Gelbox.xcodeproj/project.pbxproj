@@ -20,7 +20,7 @@
 		26054EA71FD88259007DB5F8 /* ImageView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26054EA61FD88259007DB5F8 /* ImageView.cpp */; };
 		261BE5C920408D0E000027EC /* GelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 261BE5C820408D0E000027EC /* GelRender.cpp */; };
 		262003BF20126E1B003AEFE8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 262003BE20126E1B003AEFE8 /* Images.xcassets */; };
-		263D9F52204F2C3F0012B4C0 /* GelViewSettingsView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 263D9F51204F2C3F0012B4C0 /* GelViewSettingsView.cpp */; };
+		263D9F52204F2C3F0012B4C0 /* GelSettingsView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 263D9F51204F2C3F0012B4C0 /* GelSettingsView.cpp */; };
 		263D9F55204F46AA0012B4C0 /* DyeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 263D9F54204F46AA0012B4C0 /* DyeView.cpp */; };
 		263D9F582051B59B0012B4C0 /* SampleSettingsView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 263D9F572051B59B0012B4C0 /* SampleSettingsView.cpp */; };
 		2642C0F31FD5FFA300528061 /* Gel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F21FD5FFA300528061 /* Gel.cpp */; };
@@ -69,8 +69,8 @@
 		262003BE20126E1B003AEFE8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Gelbox/Images.xcassets; sourceTree = "<group>"; };
 		26247E6E1FDF0BF00094711F /* GelboxApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelboxApp.h; path = ../include/GelboxApp.h; sourceTree = "<group>"; };
 		26247E711FE1A9890094711F /* TODO.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = TODO.md; path = ../TODO.md; sourceTree = "<group>"; };
-		263D9F50204F2C1A0012B4C0 /* GelViewSettingsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelViewSettingsView.h; path = ../include/GelViewSettingsView.h; sourceTree = "<group>"; };
-		263D9F51204F2C3F0012B4C0 /* GelViewSettingsView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GelViewSettingsView.cpp; path = ../src/GelViewSettingsView.cpp; sourceTree = "<group>"; };
+		263D9F50204F2C1A0012B4C0 /* GelSettingsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelSettingsView.h; path = ../include/GelSettingsView.h; sourceTree = "<group>"; };
+		263D9F51204F2C3F0012B4C0 /* GelSettingsView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GelSettingsView.cpp; path = ../src/GelSettingsView.cpp; sourceTree = "<group>"; };
 		263D9F53204F46990012B4C0 /* DyeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DyeView.h; path = ../include/DyeView.h; sourceTree = "<group>"; };
 		263D9F54204F46AA0012B4C0 /* DyeView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DyeView.cpp; path = ../src/DyeView.cpp; sourceTree = "<group>"; };
 		263D9F562051B58A0012B4C0 /* SampleSettingsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleSettingsView.h; path = ../include/SampleSettingsView.h; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 				26FC514520194E550004A458 /* SliderView.h */,
 				26D11236204DF4D700315F87 /* ButtonView.h */,
 				26C36DD2203395BA00229323 /* ColorPaletteView.h */,
-				263D9F50204F2C1A0012B4C0 /* GelViewSettingsView.h */,
+				263D9F50204F2C1A0012B4C0 /* GelSettingsView.h */,
 				263D9F562051B58A0012B4C0 /* SampleSettingsView.h */,
 			);
 			name = Views;
@@ -227,7 +227,7 @@
 				26FC514620194F1F0004A458 /* SliderView.cpp */,
 				26D11237204DF58A00315F87 /* ButtonView.cpp */,
 				26C36DD32033961200229323 /* ColorPaletteView.cpp */,
-				263D9F51204F2C3F0012B4C0 /* GelViewSettingsView.cpp */,
+				263D9F51204F2C3F0012B4C0 /* GelSettingsView.cpp */,
 				263D9F572051B59B0012B4C0 /* SampleSettingsView.cpp */,
 			);
 			name = Views;
@@ -406,7 +406,7 @@
 				26CEEA621FE86194003AAE8D /* Interaction.cpp in Sources */,
 				26C36DDA2034B1D900229323 /* Buffer.cpp in Sources */,
 				26C36DCC203246C700229323 /* BufferView.cpp in Sources */,
-				263D9F52204F2C3F0012B4C0 /* GelViewSettingsView.cpp in Sources */,
+				263D9F52204F2C3F0012B4C0 /* GelSettingsView.cpp in Sources */,
 				261BE5C920408D0E000027EC /* GelRender.cpp in Sources */,
 				263D9F55204F46AA0012B4C0 /* DyeView.cpp in Sources */,
 				2693E3292004019800633564 /* FragmentView.cpp in Sources */,

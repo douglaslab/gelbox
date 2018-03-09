@@ -56,7 +56,6 @@ public:
 	
 	void tick( float dt ) override;
 	void draw() override;
-	void drawFrame() override; 
 
 	void setBounds( ci::Rectf b ) override;
 	
@@ -110,6 +109,7 @@ private:
 	void openFragEditor();
 	void syncToModel(); // updates mFragments to match mSample
 	void layout();
+	void drawHeader();
 	
 	void setRolloverFragment( int i );
 	
@@ -131,6 +131,9 @@ private:
 
 	ci::gl::TextureRef	mMicrotubeIcon;
 	ci::Rectf			mMicrotubeIconRect;
+
+	ci::gl::TextureRef	mHeadingTex;
+	ci::Rectf			mHeadingRect;
 	
 	// other views
 	GelViewRef				mGelView;

@@ -75,11 +75,37 @@ Rectf Layout::snapToPixel( Rectf r ) const
 
 ci::gl::TextureRef Layout::renderSubhead( string str ) const
 {
-	Font subheadFont( mSubheadFont, mSubheadFontSize );
+	return renderText( str, Font(mSubheadFont,mSubheadFontSize), mSubheadFontColor );
+}
+
+ci::gl::TextureRef Layout::renderHead( string str ) const
+{
+	return renderText( str, Font(mHeadFont,mHeadFontSize), mHeadFontColor );
+}
+
+ci::gl::TextureRef Layout::renderText ( std::string str, const ci::Font& font, ci::ColorA color ) const
+{
 	TextLayout label;
 	label.clear( ColorA(1,1,1,0) );
-	label.setColor( mSubheadFontColor );
-	label.setFont( subheadFont );
-	label.addRightLine(str);
+	label.setColor( color );
+	label.setFont( font );
+	label.addLine(str);
 	return gl::Texture::create(label.render(true));	
+}
+
+ci::Rectf Layout::layoutHeadingText( ci::gl::TextureRef tex, ci::vec2 offsetFromViewTopLeft ) const
+{
+	const int pixelsPerPt = 1;
+	
+	Rectf r;
+	
+	r = Rectf( vec2(0.f), tex->getSize() * pixelsPerPt );
+	
+	r += vec2( 0.f, -r.getSize().y );
+	r += offsetFromViewTopLeft;
+	r += vec2( 0.f, Font(kLayout.mHeadFont,kLayout.mHeadFontSize).getDescent() );
+	
+	r = snapToPixel( r );
+	
+	return r;
 }

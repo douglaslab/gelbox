@@ -35,7 +35,8 @@ void SampleSettingsView::setup( SampleViewRef sampleView )
 		+ kLayout.mSampleBufferViewTopLeft
 		);
 
-	mHeadingTex = kLayout.renderSubhead("Dyes");
+	mSubheadTex = kLayout.renderSubhead("Dyes");
+	mHeadingTex = kLayout.renderHead(kLayout.mSampleSettingsHeaderStr);
 
 	layout();
 }
@@ -154,15 +155,19 @@ void SampleSettingsView::layout()
 		kLayout.mBufferViewSlidersIconGutter
 		);
 
-	if (mHeadingTex)
+	if (mSubheadTex)
 	{
-		mHeadingRect = Rectf( vec2(0.f), mHeadingTex->getSize() * pixelsPerPt );
+		mSubheadRect = Rectf( vec2(0.f), mSubheadTex->getSize() * pixelsPerPt );
 		
 		vec2 ll = kLayout.mSampleSettingsSlidersTopLeft;
 		ll.y -= kLayout.mSampleSettingsSlidersToDyeLabel;
 		
-		mHeadingRect += ll - mHeadingRect.getLowerLeft();
-		mHeadingRect = snapToPixel( mHeadingRect );
+		mSubheadRect += ll - mSubheadRect.getLowerLeft();
+		mSubheadRect = snapToPixel( mSubheadRect );
+	}
+
+	if (mHeadingTex) {
+		mHeadingRect = kLayout.layoutHeadingText( mHeadingTex, kLayout.mSampleSettingsHeaderBaselinePos );
 	}
 }
 
@@ -179,6 +184,12 @@ void SampleSettingsView::draw()
 		kLayout.mSampleSettingsRuleTopLeft,
 		kLayout.mSampleSettingsRuleTopLeft + vec2(kLayout.mSampleSettingsRuleLength,0.f) );
 		
+	if (mSubheadTex)
+	{
+		gl::color(1,1,1);
+		gl::draw(mSubheadTex,mSubheadRect);
+	}
+
 	if (mHeadingTex)
 	{
 		gl::color(1,1,1);

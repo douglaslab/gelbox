@@ -38,17 +38,22 @@ public:
 	
 	ci::Color	mRuleColor			= ci::Color::hex(0xC4C4C4);
 	
-	// gel view settings view
-	ci::vec2	mGelViewSettingsSize			= ci::vec2(303,520);
-	ci::vec2	mGelViewSettingsSlidersTopLeft	= ci::vec2(84,246);
-	ci::vec2	mGelViewSettingsRuleTopLeft		= ci::vec2(66,216.5);
-	float		mGelViewSettingsRuleLength		= 237;
+	float		mHeadingGutter					= 25.f;
+	
+	// gel settings view
+	ci::vec2	mGelSettingsSize				= ci::vec2(303,520);
+	ci::vec2	mGelSettingsSlidersTopLeft		= ci::vec2(84,246);
+	ci::vec2	mGelSettingsRuleTopLeft			= ci::vec2(66,216.5);
+	float		mGelSettingsRuleLength			= 237;
+	ci::vec2	mGelSettingsHeaderBaselinePos	= ci::vec2( 76.f, -mHeadingGutter );	
+	std::string	mGelSettingsHeaderStr			= "Gel";	
 	ci::vec2	mGelViewBufferViewTopLeft		= ci::vec2(61,15);
 	
 	// sample settings view
 	ci::vec2	mSampleSettingsContentOffset	= ci::vec2(8,0);
 		/* as designed should be 0, BUT we haven't gotten the text
-		   line spacing as tight as we wanted, so we are spacing out here to compensate. */
+		   line spacing as tight as we wanted, so we are spacing out here to compensate
+		   so there is room for the loooong dye name lines */
 	
 	ci::vec2	mSampleSettingsSize				= ci::vec2(303,520);
 	ci::vec2	mSampleSettingsSlidersTopLeft	= ci::vec2(131,336)  + mSampleSettingsContentOffset;
@@ -57,13 +62,17 @@ public:
 	ci::vec2	mSampleBufferViewTopLeft		= ci::vec2(65,65)	 + mSampleSettingsContentOffset;
 	float		mSampleSettingsSlidersToDyeLabel= 16.f;
 	float		mSampleSettingsSliderVOffset	= 31.f;
+	ci::vec2	mSampleSettingsHeaderBaselinePos= ci::vec2( 84.f, -mHeadingGutter ) + mSampleSettingsContentOffset;
+	std::string mSampleSettingsHeaderStr		= "Buffer + Dyes";
 	
 	// sample view
 	ci::Color	mSampleViewBkgndColor			= ci::Color::hex( 0xF1F1F2 );
 	float		mSampleViewMicrotubeBkgndGutter	= 11.f;
 	float		mSampleViewMicrotubeBkgndRadius	= 20.f;
 	float		mSampleViewMicrotubeWidth		= 19.f;
-	float		mSampleViewMicrotubeGutter		= 25.f; 
+	float		mSampleViewMicrotubeGutter		= mHeadingGutter;
+	ci::vec2	mSampleViewHeaderBaselinePos	= ci::vec2( 51.f, -mHeadingGutter );
+	std::string mSampleViewHeaderStr			= "Sample";
 	ci::Color	mSampleViewFragSelectColor		= ci::Color(0,0,0);
 	ci::Color	mSampleViewFragHoverColor		= ci::Color(1,1,0);
 	float		mSampleViewFragOutlineWidth		= 4.f;
@@ -96,6 +105,10 @@ public:
 	std::string	mSubheadFont			= "Avenir-Heavy";
 	int			mSubheadFontSize		= 12;
 	ci::Color	mSubheadFontColor		= ci::Color::hex(0x000000);
+
+	std::string	mHeadFont				= "Avenir-Heavy";
+	int			mHeadFontSize			= 24;
+	ci::Color	mHeadFontColor			= ci::Color::hex(0x7F94AC);
 	
 	
 	// frag view
@@ -109,6 +122,8 @@ public:
 	ci::vec2	mFragViewColorsTopLeft		= ci::vec2(173,74);
 	ci::vec2	mFragViewColorSize			= ci::vec2(25.f);
 	int			mFragViewColorsNumCols		= 4;
+	ci::vec2	mFragViewHeaderBaselinePos	= ci::vec2( 77.f, -mHeadingGutter );
+	std::string mFragViewHeaderStr			= "Species";
 	
 	ci::vec2	mFragViewWellTopLeft	= ci::vec2(77,71); 
 	ci::vec2	mFragViewWellSize		= ci::vec2(80,80);
@@ -151,8 +166,12 @@ public:
 	ci::Rectf layoutBrace( ci::Rectf inRect ) const;
 	
 	ci::gl::TextureRef renderSubhead( std::string ) const;
+	ci::gl::TextureRef renderHead   ( std::string ) const;
+	ci::Rectf		   layoutHeadingText( ci::gl::TextureRef tex, ci::vec2 offsetFromViewTopLeft ) const;
 	
 private:
+	ci::gl::TextureRef renderText   ( std::string, const ci::Font&, ci::ColorA ) const;
+	
 	mutable std::map<ci::fs::path,ci::gl::TextureRef> mUIImages;
 
 };

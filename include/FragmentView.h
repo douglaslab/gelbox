@@ -68,6 +68,9 @@ private:
 	ColorPaletteViewRef		mColorsView;
 
 	ci::gl::TextureRef		mBraceTex;
+
+	ci::gl::TextureRef		mHeadingTex;
+	ci::Rectf				mHeadingRect;
 	
 	// sample
 	SampleViewRef mSampleView;
