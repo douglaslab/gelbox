@@ -52,13 +52,18 @@ public:
 	void	setBounds( ci::Rectf ) override;
 	void	setFrame( ci::Rectf ) override;
 	
-	void	enableGelRender( bool v);
+	void	enableGelRender( bool v );
 	bool	isGelRenderEnabled() const { return mGelRender != 0; }
+	
+	void	enableLoupeOnHover( bool v );
+	bool	isLoupeOnHoverEnabled() const { return mIsLoupeOnHoverEnabled; }
 	
 	void	mouseDown( ci::app::MouseEvent ) override;
 	void	mouseUp  ( ci::app::MouseEvent ) override;
 	void	mouseDrag( ci::app::MouseEvent ) override;
 	void	mouseMove( ci::app::MouseEvent ) override;
+	void	keyDown  ( ci::app::KeyEvent ) override { updateHoverGelDetailView(); }
+	void	keyUp    ( ci::app::KeyEvent ) override { updateHoverGelDetailView(); }
 
 //	DropTargetRef getDropTarget( glm::vec2 locInFrame ) override;
 
@@ -99,7 +104,9 @@ private:
 	SampleFragRefRef	mSelectedState, mRolloverState; 
 
 	ButtonViewRef	 	mSettingsBtn;
-	GelSettingsViewRef mSettingsView;
+	GelSettingsViewRef	mSettingsView;
+	
+	bool				mIsLoupeOnHoverEnabled = true;
 	
 	// gel renderer
 	bool				mGelRenderIsDirty = false;

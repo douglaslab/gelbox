@@ -251,8 +251,22 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 	}
 }
 
+int	GelboxApp::getModifierKeys( ci::app::KeyEvent e ) const
+{
+	int m=0;
+	
+	if (e.isShiftDown())	m |= app::KeyEvent::SHIFT_DOWN;
+	if (e.isAltDown())		m |= app::KeyEvent::ALT_DOWN;
+	if (e.isControlDown())	m |= app::KeyEvent::CTRL_DOWN;
+	if (e.isMetaDown())		m |= app::KeyEvent::META_DOWN;
+	
+	return m;
+}
+
 void GelboxApp::keyDown  ( ci::app::KeyEvent event )
 {
+	mModifierKeys = getModifierKeys(event);
+	
 	if ( event.isMetaDown() )
 	{
 		switch(event.getCode())
@@ -261,16 +275,28 @@ void GelboxApp::keyDown  ( ci::app::KeyEvent event )
 				if (mGelView) mGelView->enableGelRender( !mGelView->isGelRenderEnabled()  );
 				break;
 				
+			case KeyEvent::KEY_l:
+				if (mGelView) mGelView->enableLoupeOnHover( !mGelView->isLoupeOnHoverEnabled() );
+				break;
+			
 			default:break;
 		}
 	}
 	
 	if ( mViews.getKeyboardFocusView() ) mViews.getKeyboardFocusView()->keyDown(event);
+	
+	// HACK to let it pickup any changes to meta key for hover
+	if (mGelView) mGelView->keyDown(event);
 }
 
 void GelboxApp::keyUp    ( ci::app::KeyEvent event )
 {
+	mModifierKeys = getModifierKeys(event);
+
 	if ( mViews.getKeyboardFocusView() ) mViews.getKeyboardFocusView()->keyUp(event);
+
+	// HACK to let it pickup any changes to meta key for hover
+	if (mGelView) mGelView->keyUp(event);
 }
 
 void GelboxApp::update()

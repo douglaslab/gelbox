@@ -6,6 +6,7 @@
 //
 //
 
+#include "GelboxApp.h" // for modifier key
 #include "GelView.h"
 #include "SampleView.h"
 #include "FragmentView.h" // for FragmentView::getColorPalette()
@@ -27,11 +28,13 @@ const bool kShowReverseSolverDebugTest = false;
 const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
 
 const bool kEnableGelRenderByDefault = false; // enable new fancy gel rendering with FBO
+const bool kEnableLoupeOnHoverByDefault = false; 
 
 GelView::GelView()
 {
 	if (kEnableGelRenderByDefault) mGelRender = make_shared<GelRender>();
-
+	mIsLoupeOnHoverEnabled = kEnableLoupeOnHoverByDefault;
+	
 	mMicrotubeIcon = kLayout.uiImage("microtube1500ul.png");
 	
 	mSelectedState = make_shared<SampleFragRef>();
@@ -968,10 +971,19 @@ void GelView::updateBandRollover( ci::vec2 rootPos )
 	else mRolloverState->clear();
 }
 
+void GelView::enableLoupeOnHover( bool v )
+{
+	mIsLoupeOnHoverEnabled = v;
+	updateHoverGelDetailView();
+}
+
 void GelView::updateHoverGelDetailView()
 {
-	// gel detail rollover
-	if ( (getHasRollover() || (getHasMouseDown() && kHoverGelDetailViewOnBandDrag) ) && pickLane(getMouseLoc()) != -1 )
+	if ( (    getHasRollover()
+		  || (getHasMouseDown() && kHoverGelDetailViewOnBandDrag) )
+	    && (mIsLoupeOnHoverEnabled || GelboxApp::instance()->getModifierKeys() & app::KeyEvent::META_DOWN )
+	    && pickLane(getMouseLoc()) != -1
+	   )
 	{
 		mHoverGelDetailView = updateGelDetailView( mHoverGelDetailView, getMouseLoc(), true, true ); // implicitly opens it
 		getCollection()->moveViewToTop(mHoverGelDetailView); // ensure it's on top

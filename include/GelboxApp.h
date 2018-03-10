@@ -39,15 +39,20 @@ class GelboxApp : public ci::app::App {
 	
 	ci::gl::TextureFontRef getUIFont() const { return mUIFont; }
 	
+	int getModifierKeys() const { return mModifierKeys; }
+	
   public:
+  	
+  	int						mModifierKeys=0; // e.g. ci::app::KeyEvent::SHIFT_DOWN
+  	
 	ci::gl::TextureFontRef	mUIFont;
 
-	ViewCollection		mViews;
-	GelViewRef			mGelView;
+	ViewCollection			mViews;
+	GelViewRef				mGelView;
 	
-	static GelboxApp*	mInstance;
+	static GelboxApp*		mInstance;
 
-
+  	int	getModifierKeys( ci::app::KeyEvent ) const;
 	SampleRef loadSample( ci::fs::path ) const;	
 
 	void makeGel();
