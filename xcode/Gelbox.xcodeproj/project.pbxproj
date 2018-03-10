@@ -23,6 +23,7 @@
 		263D9F52204F2C3F0012B4C0 /* GelSettingsView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 263D9F51204F2C3F0012B4C0 /* GelSettingsView.cpp */; };
 		263D9F55204F46AA0012B4C0 /* DyeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 263D9F54204F46AA0012B4C0 /* DyeView.cpp */; };
 		263D9F582051B59B0012B4C0 /* SampleSettingsView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 263D9F572051B59B0012B4C0 /* SampleSettingsView.cpp */; };
+		2640C993205367650030923A /* CheckboxView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2640C992205367650030923A /* CheckboxView.cpp */; };
 		2642C0F31FD5FFA300528061 /* Gel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F21FD5FFA300528061 /* Gel.cpp */; };
 		2642C0F71FD72EE600528061 /* GelView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F61FD72EE600528061 /* GelView.cpp */; };
 		2642C0FA1FD730F000528061 /* Sample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2642C0F91FD730F000528061 /* Sample.cpp */; };
@@ -75,6 +76,8 @@
 		263D9F54204F46AA0012B4C0 /* DyeView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DyeView.cpp; path = ../src/DyeView.cpp; sourceTree = "<group>"; };
 		263D9F562051B58A0012B4C0 /* SampleSettingsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleSettingsView.h; path = ../include/SampleSettingsView.h; sourceTree = "<group>"; };
 		263D9F572051B59B0012B4C0 /* SampleSettingsView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SampleSettingsView.cpp; path = ../src/SampleSettingsView.cpp; sourceTree = "<group>"; };
+		2640C992205367650030923A /* CheckboxView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CheckboxView.cpp; path = ../src/CheckboxView.cpp; sourceTree = "<group>"; };
+		2640C994205367730030923A /* CheckboxView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CheckboxView.h; path = ../include/CheckboxView.h; sourceTree = "<group>"; };
 		2642C0F21FD5FFA300528061 /* Gel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gel.cpp; path = ../src/Gel.cpp; sourceTree = "<group>"; };
 		2642C0F41FD5FFB000528061 /* Gel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Gel.h; path = ../include/Gel.h; sourceTree = "<group>"; };
 		2642C0F51FD72ED700528061 /* GelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelView.h; path = ../include/GelView.h; sourceTree = "<group>"; };
@@ -207,6 +210,7 @@
 				26C36DCA203246AC00229323 /* BufferView.h */,
 				26FC514520194E550004A458 /* SliderView.h */,
 				26D11236204DF4D700315F87 /* ButtonView.h */,
+				2640C994205367730030923A /* CheckboxView.h */,
 				26C36DD2203395BA00229323 /* ColorPaletteView.h */,
 				263D9F50204F2C1A0012B4C0 /* GelSettingsView.h */,
 				263D9F562051B58A0012B4C0 /* SampleSettingsView.h */,
@@ -226,6 +230,7 @@
 				26C36DCB203246C700229323 /* BufferView.cpp */,
 				26FC514620194F1F0004A458 /* SliderView.cpp */,
 				26D11237204DF58A00315F87 /* ButtonView.cpp */,
+				2640C992205367650030923A /* CheckboxView.cpp */,
 				26C36DD32033961200229323 /* ColorPaletteView.cpp */,
 				263D9F51204F2C3F0012B4C0 /* GelSettingsView.cpp */,
 				263D9F572051B59B0012B4C0 /* SampleSettingsView.cpp */,
@@ -420,6 +425,7 @@
 				26FC514320193B3B0004A458 /* Slider.cpp in Sources */,
 				26D11238204DF58A00315F87 /* ButtonView.cpp in Sources */,
 				26054E9A1FD8726C007DB5F8 /* View.cpp in Sources */,
+				2640C993205367650030923A /* CheckboxView.cpp in Sources */,
 				26C36DD42033961200229323 /* ColorPaletteView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

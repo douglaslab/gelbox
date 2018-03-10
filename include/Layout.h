@@ -39,6 +39,10 @@ public:
 	ci::Color	mRuleColor			= ci::Color::hex(0xC4C4C4);
 	
 	float		mHeadingGutter					= 25.f;
+	ci::vec2	mCheckboxSize					= ci::vec2(16.f);
+	float		mCheckboxToLabelGutter			= 5.f;
+	ci::Color	mCheckboxColor					= ci::Color::hex(0x979797);
+	float		mAppSettingsToFirstCheckboxGuter = 32.f;
 	
 	// gel settings view
 	ci::vec2	mGelSettingsSize				= ci::vec2(303,520);

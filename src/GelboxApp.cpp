@@ -5,6 +5,8 @@
 #include "GelView.h"
 #include "GelSim.h"
 #include "Sample.h"
+#include "ButtonView.h"
+#include "CheckboxView.h"
 //#include "SampleTubeView.h"
 #include "SampleView.h"
 #include "View.h"
@@ -57,10 +59,11 @@ void GelboxApp::setup()
 	glEnable( GL_LINE_SMOOTH );
 //	glEnable( GL_POLYGON_SMOOTH );
 	
-	// make gel
 	makeGel();
+	setupSettingsBtn();
 	
 	// ui assets
+	// (should move this to kLayout)
 	mUIFont = gl::TextureFont::create( Font("Avenir",12) );
 	
 	// gel source palette
@@ -132,6 +135,46 @@ void GelboxApp::makeGel()
 	catch (...) {
 		cerr << "ERROR loading 1kb ladder" << endl;
 	}
+}
+
+void GelboxApp::setupSettingsBtn()
+{
+	mSettingsBtn = make_shared<ButtonView>();
+	
+	mSettingsBtn->setup( kLayout.uiImage("settings.png"), 1 );
+	
+	mSettingsBtn->mClickFunction = [this]()
+	{
+		if (mSettingsBtn->getChildren().empty())
+		{
+			// make it
+			CheckboxViewRef cv = make_shared<CheckboxView>();
+			cv->setup("Realistic Gel Render");
+			cv->mSetter = [this]( bool v ) {
+				mGelView->enableGelRender(v);
+			};
+			cv->mGetter = [this]() {
+				return mGelView->isGelRenderEnabled();
+			};
+			cv->setParent(mSettingsBtn);
+			cv->setFrame( cv->getFrame()
+				+ mSettingsBtn->getBounds().getUpperLeft() + vec2(0.f,-kLayout.mAppSettingsToFirstCheckboxGuter)
+				- cv->getFrame().getLowerLeft()
+				);
+		}
+		else
+		{
+			// remove children
+			for ( auto c : mSettingsBtn->getChildren() ) mViews.removeView(c);
+			mSettingsBtn->orphanChildren();
+		}
+	};
+
+	mViews.addView(mSettingsBtn);
+
+	Rectf r( vec2(0.f), mSettingsBtn->getFrame().getSize() );
+	r += vec2(0.f,getWindowSize().y) + vec2(kLayout.mBtnGutter,-kLayout.mBtnGutter) - r.getLowerLeft(); 
+	mSettingsBtn->setFrame(r);
 }
 
 /*

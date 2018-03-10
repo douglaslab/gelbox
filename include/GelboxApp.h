@@ -49,11 +49,14 @@ class GelboxApp : public ci::app::App {
 
 	ViewCollection			mViews;
 	GelViewRef				mGelView;
+	ButtonViewRef	 		mSettingsBtn;
+//	GelSettingsViewRef		mSettingsView;
 	
 	static GelboxApp*		mInstance;
 
-  	int	getModifierKeys( ci::app::KeyEvent ) const;
-	SampleRef loadSample( ci::fs::path ) const;	
+	void		setupSettingsBtn();
+  	int			getModifierKeys( ci::app::KeyEvent ) const;
+	SampleRef	loadSample( ci::fs::path ) const;	
 
 	void makeGel();
 	
