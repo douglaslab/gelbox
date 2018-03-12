@@ -134,9 +134,12 @@ void Slider::draw( int highlightIcon ) const
 			break;
 			
 		case Style::Slider:
+		{
 			gl::color(kLayout.mSliderLineColor);
-			gl::drawLine(mEndpoint[0], mEndpoint[1]);
-			break;
+			vec2 o(0.f,0.5f); // this is to get us pixel-aligned so we don't stroke between pixels
+			gl::drawLine(mEndpoint[0]+o, mEndpoint[1]+o);
+		}
+		break;
 			
 		case Style::Bar:
 		{
@@ -172,6 +175,8 @@ void Slider::draw( int highlightIcon ) const
 	{
 		const float ck = 4.f;
 		Rectf sliderHandleRect = calcHandleRect();
+		sliderHandleRect = snapToPixel(sliderHandleRect);
+		sliderHandleRect.inflate( vec2(-.5f) ); // pixel align for stroke
 		gl::color(0,0,0,.15f);
 		gl::drawSolidRoundedRect(sliderHandleRect+vec2(0.f,3.f),ck);
 		gl::color(kLayout.mSliderHandleColor);

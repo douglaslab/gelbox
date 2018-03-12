@@ -119,6 +119,7 @@ void BufferView::updateLayout()
 		
 	mPresetsRect = Rectf( vec2(0.f), kLayout.mBufferViewPresetsSize );
 	mPresetsRect += kLayout.mBufferViewPresetsTopLeft;
+	mPresetsRect.inflate(-vec2(.5f)); // pixel align for stroke
 	
 	const int pixelsPerPt = 1;
 	

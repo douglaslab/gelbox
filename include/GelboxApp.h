@@ -15,6 +15,9 @@
 #include "GelView.h"
 //#include "DropTarget.h"
 
+class AppSettingsView;
+typedef std::shared_ptr<AppSettingsView> AppSettingsViewRef;
+
 class GelboxApp : public ci::app::App {
   public:
 	static GelboxApp* instance() { return mInstance; }
@@ -34,6 +37,8 @@ class GelboxApp : public ci::app::App {
 	void update() override;
 	void draw() override;
 	
+	static void prepareSettings( Settings *settings );
+
 	
 //	DropTargetRef pickDropTarget( ci::vec2 ) const;
 	
@@ -50,7 +55,7 @@ class GelboxApp : public ci::app::App {
 	ViewCollection			mViews;
 	GelViewRef				mGelView;
 	ButtonViewRef	 		mSettingsBtn;
-//	GelSettingsViewRef		mSettingsView;
+	AppSettingsViewRef		mSettingsView;
 	
 	static GelboxApp*		mInstance;
 

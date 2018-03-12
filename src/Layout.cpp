@@ -83,6 +83,11 @@ ci::gl::TextureRef Layout::renderHead( string str ) const
 	return renderText( str, Font(mHeadFont,mHeadFontSize), mHeadFontColor );
 }
 
+ci::gl::TextureRef Layout::renderUI( string str ) const
+{
+	return renderText( str, Font(mUIFont,mUIFontSize), mUIFontColor );
+}
+
 ci::gl::TextureRef Layout::renderText ( std::string str, const ci::Font& font, ci::ColorA color ) const
 {
 	TextLayout label;

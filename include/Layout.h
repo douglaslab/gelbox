@@ -43,6 +43,8 @@ public:
 	float		mCheckboxToLabelGutter			= 5.f;
 	ci::Color	mCheckboxColor					= ci::Color::hex(0x979797);
 	float		mAppSettingsToFirstCheckboxGuter = 32.f;
+	ci::vec2	mAppSettingsToDivLine			= ci::vec2(4,10); 
+	float		mAppSettingsItemVOffset			= 28.f;
 	
 	// gel settings view
 	ci::vec2	mGelSettingsSize				= ci::vec2(303,520);
@@ -114,6 +116,9 @@ public:
 	int			mHeadFontSize			= 24;
 	ci::Color	mHeadFontColor			= ci::Color::hex(0x7F94AC);
 	
+	std::string	mUIFont					= "Avenir-Medium";
+	int			mUIFontSize				= 12;
+	ci::Color	mUIFontColor			= ci::Color::hex(0x777777);
 	
 	// frag view
 	ci::vec2	mFragViewSize			= ci::vec2(303,520);	
@@ -171,6 +176,7 @@ public:
 	
 	ci::gl::TextureRef renderSubhead( std::string ) const;
 	ci::gl::TextureRef renderHead   ( std::string ) const;
+	ci::gl::TextureRef renderUI     ( std::string ) const;
 	ci::Rectf		   layoutHeadingText( ci::gl::TextureRef tex, ci::vec2 offsetFromViewTopLeft ) const;
 	
 private:

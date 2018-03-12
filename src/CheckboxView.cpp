@@ -18,9 +18,10 @@ void CheckboxView::setup( string name )
 
 	mBoxRect = Rectf( vec2(0.f), kLayout.mCheckboxSize );
 
-	mLabel = kLayout.renderSubhead(name); // get proper font for this!
+	mLabel = kLayout.renderUI(name); // get proper font for this!
 	mLabelRect = Rectf( vec2(0.f), mLabel->getSize() * pixelsPerPt );
 	mLabelRect += mBoxRect.getLowerRight() + vec2(kLayout.mCheckboxToLabelGutter,0.f) - mLabelRect.getLowerLeft();
+	mLabelRect += vec2(0.f,2.f); // tweak! (could be programmatically done as center in y dimension)
 	
 	Rectf frame = mBoxRect;
 	frame.include(mLabelRect);
@@ -37,7 +38,7 @@ void CheckboxView::draw()
 	}
 	
 	gl::color( kLayout.mCheckboxColor );
-	gl::drawStrokedRect(mBoxRect);
+	gl::drawStrokedRect( mBoxRect.inflated(vec2(-.5f)) );
 
 	// draw indicator	
 	bool v = getValue();

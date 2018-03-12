@@ -53,6 +53,7 @@ public:
 	ViewRef getParent() const { return mParent.lock(); }
 	std::vector<ViewRef> getChildren() const { return mChildren; }
 	void    orphanChildren();
+	bool	hasAncestor( ViewRef v ) const;
 	
 	glm::mat4 getRootToChildMatrix() const;
 	glm::mat4 getChildToRootMatrix() const;

@@ -6,7 +6,7 @@
 #include "GelSim.h"
 #include "Sample.h"
 #include "ButtonView.h"
-#include "CheckboxView.h"
+#include "AppSettingsView.h"
 //#include "SampleTubeView.h"
 #include "SampleView.h"
 #include "View.h"
@@ -55,6 +55,7 @@ void GelboxApp::setup()
 {
 	setWindowSize( kLayout.mWindowSize );
 	
+		
 //	glEnable( GL_MULTISAMPLE_ARB );
 	glEnable( GL_LINE_SMOOTH );
 //	glEnable( GL_POLYGON_SMOOTH );
@@ -63,8 +64,7 @@ void GelboxApp::setup()
 	setupSettingsBtn();
 	
 	// ui assets
-	// (should move this to kLayout)
-	mUIFont = gl::TextureFont::create( Font("Avenir",12) );
+	mUIFont = gl::TextureFont::create( Font(kLayout.mUIFont,kLayout.mUIFontSize) );
 	
 	// gel source palette
 	bool verbosePalette = true;
@@ -145,28 +145,16 @@ void GelboxApp::setupSettingsBtn()
 	
 	mSettingsBtn->mClickFunction = [this]()
 	{
-		if (mSettingsBtn->getChildren().empty())
+		if (mSettingsView)
 		{
-			// make it
-			CheckboxViewRef cv = make_shared<CheckboxView>();
-			cv->setup("Realistic Gel Render");
-			cv->mSetter = [this]( bool v ) {
-				mGelView->enableGelRender(v);
-			};
-			cv->mGetter = [this]() {
-				return mGelView->isGelRenderEnabled();
-			};
-			cv->setParent(mSettingsBtn);
-			cv->setFrame( cv->getFrame()
-				+ mSettingsBtn->getBounds().getUpperLeft() + vec2(0.f,-kLayout.mAppSettingsToFirstCheckboxGuter)
-				- cv->getFrame().getLowerLeft()
-				);
+			mSettingsView->close();
+			mSettingsView=0;
 		}
 		else
 		{
-			// remove children
-			for ( auto c : mSettingsBtn->getChildren() ) mViews.removeView(c);
-			mSettingsBtn->orphanChildren();
+			mSettingsView = make_shared<AppSettingsView>();
+			mSettingsView->setup( mGelView );
+			mSettingsView->setParent(mSettingsBtn);
 		}
 	};
 
@@ -207,7 +195,19 @@ void GelboxApp::mouseDown( MouseEvent event )
 	if ( Interaction::get() ) Interaction::get()->mouseDown(event);
 	mViews.mouseDown(event);
 	
-	if ( !mViews.getMouseDownView() ) mViews.setKeyboardFocusView(0);
+	if ( !mViews.getMouseDownView() ) {
+		mViews.setKeyboardFocusView(0);
+	}
+
+	// implicitly close things...
+	bool hitSettings =    mViews.getMouseDownView() == mSettingsBtn
+					  || (mViews.getMouseDownView() && mViews.getMouseDownView()->hasAncestor(mSettingsBtn)); 
+	
+	if ( mSettingsView && !hitSettings )
+	{
+		mSettingsView->close();
+		mSettingsView=0;
+	}
 }
 
 void GelboxApp::mouseUp( MouseEvent event )
@@ -405,10 +405,15 @@ SampleRef GelboxApp::loadSample( ci::fs::path path ) const
 	return source;
 }	
 
+void GelboxApp::prepareSettings( Settings *settings )
+{
+	settings->setResizable(false);
+}
+
 #if defined( CINDER_MSW ) && ! defined( CINDER_GL_ANGLE )
 auto options = RendererGl::Options().version( 3, 3 ); // instancing functions are technically only in GL 3.3
 #else
 auto options = RendererGl::Options().msaa(4); // implemented as extensions in Mac OS 10.7+
 #endif
 
-CINDER_APP( GelboxApp, RendererGl )
+CINDER_APP( GelboxApp, RendererGl, GelboxApp::prepareSettings )

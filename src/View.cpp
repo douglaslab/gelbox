@@ -102,6 +102,18 @@ void View::orphanChildren()
 	for ( auto v : mChildren ) v->setParent(0);
 }
 
+bool View::hasAncestor( ViewRef v ) const
+{
+	if (!v) return false;
+	
+	auto p = mParent.lock();
+	
+	if (v == p) return true;
+	
+	if (p) return p->hasAncestor(v);
+	else return false;
+}
+
 /*
 ivec2 View::getScissorLowerLeft( Rectf r ) const
 {
