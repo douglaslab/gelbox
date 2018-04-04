@@ -1156,9 +1156,20 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 			mGel->getSampleDeltaYSpaceScale() );		
 	}
 	
-	// change lanes?
+	// pick new lane?
 	int newlane = pickLane( rootToParent(e.getPos()) );
 	
+	Rectf tightPickLaneRect = getLaneRect(newlane);
+	float inset = (mGel->getLaneWidth() - mGel->getWellSize().x)/2.f;
+	tightPickLaneRect.inflate( vec2( -inset, 0.f ) );
+	
+	if ( ! tightPickLaneRect.contains(rootToChild(e.getPos())) )
+	{
+		// put a gutter between lanes to prevent spurious switching
+		newlane = lane;
+	}
+	
+	// change lanes?
 	if ( newlane != -1 && newlane != lane
 	  && ( kDragBandMakesNewSamples || getSample(newlane)) )
 	{

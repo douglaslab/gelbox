@@ -84,14 +84,19 @@ void Gel::setBuffer( const Gelbox::Buffer& b )
 	updateBands();
 }
 
+ci::vec2 Gel::getWellSize() const
+{
+	return vec2(
+		mLaneWidth * .5f,
+		mLaneWidth * .1f
+		);
+}
+
 ci::Rectf Gel::getWellBounds( int lane ) const
 {
 	vec2 laneLoc = vec2(0.f,mYMargin) + kLaneVec * ((float)lane*mLaneWidth + mLaneWidth/2.f);
 	
-	float w = mLaneWidth * .5f ;
-	float h = mLaneWidth * .1f ;
-	
-	Rectf r(0,0,w,h);
+	Rectf r( vec2(0.f), getWellSize() );
 	
 	r.offsetCenterTo(laneLoc); // yay aliasing. dumbest function ever
 	

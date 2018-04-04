@@ -103,6 +103,7 @@ public:
 	glm::vec2	getSize() const { return mSize; }
 	float		getLaneWidth() const { return mLaneWidth; }
 	int			getNumLanes() const { return mNumLanes; }
+	ci::vec2	getWellSize() const;
 	ci::Rectf	getWellBounds( int lane ) const;
 
 	float		getBandLocalTime( const Band& b ) const { return std::max(mTime - b.mCreateTime,0.f); }
