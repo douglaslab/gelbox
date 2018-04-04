@@ -46,7 +46,7 @@ void AppSettingsView::setup( GelViewRef gelView )
 	
 	// this appear in an inverted order...
 	addCheckbox(
-		"Photoreal",
+		"Render",
 		[this]() {
 			return mGelView->isGelRenderEnabled();
 		},

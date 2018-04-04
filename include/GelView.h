@@ -78,7 +78,7 @@ public:
 	void		gelDidChange();
 	void		updateGelDetailViewContent( SampleViewRef ) const;
 	
-	void		newFragmentAtPos( ci::vec2 ); // in root (e.g. mouse) space 
+	bool		newFragmentAtPos( ci::vec2 ); // in root (e.g. mouse) space (can fail to work, returns false) 
 	SampleRef	getSample( int lane ) const { if (mGel) return mGel->getSamples()[lane]; else return 0; }
 	void		setSample( int lane, SampleRef s ) { assert(mGel); mGel->getSamples()[lane]=s; }
 

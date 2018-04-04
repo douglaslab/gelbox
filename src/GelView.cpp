@@ -396,14 +396,23 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 	// add band?
 	else if ( e.isRight() )
 	{
-		newFragmentAtPos(e.getPos());
-		
-		// start dragging it
-		assert(mGel);
-		assert(mSampleView);
-		const Gel::Band* b = mGel->getSlowestBandInFragment( mSelectedMicrotube, mSampleView->getSelectedFragment() );
-		assert(b);
-		mMouseDownBand = mMouseDragBand = *b;
+		if ( newFragmentAtPos(e.getPos()) ) // can fail if user misses the lane
+		{
+			assert( mGel );
+			assert( mSampleView );
+		  	assert( mSampleView->getSelectedFragment() != -1 );
+		  	
+			// start dragging it
+			const Gel::Band* b = mGel->getSlowestBandInFragment( mSelectedMicrotube, mSampleView->getSelectedFragment() );
+			assert(b);
+			mMouseDownBand = mMouseDragBand = *b;
+			
+			// did we just make the sample?
+			if ( getSample(mSelectedMicrotube)->mFragments.size() == 1 )
+			{
+				mMouseDragBandMadeSampleInLane = mSelectedMicrotube;
+			}
+		}
 	}
 	else // normal mouse down
 	{
@@ -517,9 +526,9 @@ void GelView::mouseMove( ci::app::MouseEvent e )
 	updateHoverGelDetailView();
 }
 
-void GelView::newFragmentAtPos( ci::vec2 pos )
+bool GelView::newFragmentAtPos( ci::vec2 pos )
 {
-	int lane = pickLane( rootToParent(pos) );
+	const int lane = pickLane( rootToParent(pos) );
 	
 	if ( lane != -1 )
 	{
@@ -565,7 +574,9 @@ void GelView::newFragmentAtPos( ci::vec2 pos )
 		// keyboard focus sample view, select new fragment 
 		selectFragment( lane, (int)sample->mFragments.size()-1 );
 		getCollection()->setKeyboardFocusView( mSampleView );
-	}	
+	}
+	
+	return lane != -1;
 } 
 
 void GelView::selectFragment( int lane, int frag )
