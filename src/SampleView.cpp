@@ -865,6 +865,10 @@ void SampleView::prerollSim()
 
 void SampleView::tickSim( float dt )
 {
+	const float dt_fadein  = 1.f;
+	const float dt_fadeout = 1.f;
+	// lock fade dt at 1; no bullet-time here.
+	
 	const Rectf bounds = getBounds();
 	
 	// census
@@ -954,7 +958,7 @@ void SampleView::tickSim( float dt )
 		
 		if ( p.mAlive )
 		{
-			p.mFade = min( 1.f, p.mFade + kFadeInStep * dt );
+			p.mFade = min( 1.f, p.mFade + kFadeInStep * dt_fadein );
 			
 			// maybe cull?
 			if (   !frag
@@ -968,7 +972,7 @@ void SampleView::tickSim( float dt )
 		}
 		else
 		{
-			p.mFade = max( 0.f, p.mFade - kFadeOutStep * dt );
+			p.mFade = max( 0.f, p.mFade - kFadeOutStep * dt_fadeout );
 		}
 		
 		// move
