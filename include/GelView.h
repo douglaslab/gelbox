@@ -12,6 +12,7 @@
 #include "GelSim.h"
 #include "View.h"
 #include "Sample.h"
+#include "Band.h"
 
 class Sample;
 typedef std::shared_ptr<Sample> SampleRef;
@@ -101,8 +102,8 @@ private:
 	int					mSelectedMicrotube=-1, mMouseDownMicrotube=-1, mMouseDownSelectedMicrotube=-1;
 	SampleRef			mMouseDownSample;
 	
-	Gel::Band			mMouseDownBand;
-	Gel::Band			mMouseDragBand;
+	Band				mMouseDownBand;
+	Band				mMouseDragBand;
 	int					mMouseDragMadeSampleInLane=-1;
 	
 	ci::gl::TextureRef	mMicrotubeIcon;
@@ -134,8 +135,8 @@ private:
 	void		mouseDragSample( ci::app::MouseEvent );
 
 	// bands
-	std::vector<Gel::Band> pickBands( ci::vec2 ) const; // local coords
-	bool		pickBand( ci::vec2, Gel::Band& picked ) const;
+	std::vector<Band> pickBands( ci::vec2 ) const; // local coords
+	bool		pickBand( ci::vec2, Band& picked ) const;
 	void		updateBandRollover( ci::vec2 rootPos );			
 	void		mouseDragBand( ci::app::MouseEvent );
 	

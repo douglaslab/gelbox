@@ -18,6 +18,7 @@
 #include "cinder/gl/Fbo.h"
 #include "cinder/gl/Shader.h"
 #include "cinder/Rand.h"
+#include "Band.h"
 
 #pragma once
 
@@ -29,36 +30,15 @@ class GelRender
 public:
 	void setup( glm::ivec2 gelsize, int pixelsPerUnit );
 	
-	class Band
-	{
-	public:
-		ci::Rectf	mWellRect;
-//		float		mYMovement	= 0.f;
-
-		// smearing
-		// in world space units
-		// corresponds to aggregation/degrading gradient above/below
-		float		mSmearAbove = 0.f;
-		float		mSmearBelow = 0.f;
-		float		mSmearBrightness[2] = {1,0}; // near, far (e.g. 1,0)
-		
-		float		mFlameHeight = 0.f; // in unit space, how high to make the flames?
-		
-		float		mSmileHeight = 0.f; // how high in unit space will max smile peel back?
-		float		mSmileExp	 = 0.f; // what exponent to apply to smile curve?
-		
-		int			mBlur		= 0;
-		ci::ColorA	mColor		= ci::ColorA(1,1,1,1);
-		
-		int			mRandSeed	= 0;
-	};
-	
-	void render( const std::vector<Band>& );
+	void setBands( const std::vector<Band>& b ) { mBands = b; } 
+	void render();
 	
 	ci::gl::TextureRef getOutput() { return mCompositeFBO ? mCompositeFBO->getColorTexture() : 0; }
 	
 private:
 
+	std::vector<Band> mBands;
+	
 	// output size
 	glm::ivec2 mGelSize;    // so we can talk in terms of gel world space coordinates 
 	int		   mPixelsPerUnit;

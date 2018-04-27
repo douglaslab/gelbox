@@ -103,12 +103,15 @@ ci::Rectf Gel::getWellBounds( int lane ) const
 	return r;
 }
 
-void Gel::insertSample( const Sample& src, int lane )
+vector<Band>
+Gel::fragToBands( const Sample& sample, int fragi, int lane ) const
 {
-	auto addBand = [=]( int fragi, int multimer, int multimerlow, float multilowfrac, float massFrac ) -> Band&
-	{
-		const auto& frag = src.mFragments[fragi]; 
+	const Sample::Fragment& frag = sample.mFragments[fragi];
 
+	vector<Band> result;
+	
+	auto addBand = [=,&result]( int multimer, int multimerlow, float multilowfrac, float massFrac )
+	{
 		Band b;
 
 		b.mLane			= lane;
@@ -128,7 +131,7 @@ void Gel::insertSample( const Sample& src, int lane )
 		
 		b.mDegrade		= frag.mDegrade;
 		
-		b.mStartBounds	= getWellBounds(lane);
+		b.mWellRect	= getWellBounds(lane);
 		b.mAspectRatio  = frag.mAspectRatio;
 		
 		if (multimer != 1)
@@ -144,8 +147,6 @@ void Gel::insertSample( const Sample& src, int lane )
 		}
 		else assert( multimerlow == 1 );
 		
-		b.mCreateTime	= 0.f; // always start it at the start (not mTime); otherwise is kind of silly...
-		b.mExists		= true;
 		b.mColor		= Color(1.f,1.f,1.f);
 		
 //		b.mBounds		= calcBandBounds(b);
@@ -153,14 +154,13 @@ void Gel::insertSample( const Sample& src, int lane )
 //		b.mAlpha[1]		= calcBandAlpha (b,1);
 		updateBandState(b);
 		
-		mBands.push_back(b);	
-		return mBands.back();
+		b.mColor.a = calcBandAlpha(b,0);
+		
+		result.push_back(b);
 	};
 	
-	auto addDye = [=]( int fragi )
+	auto addDye = [=,&result]()
 	{
-		const Sample::Fragment& frag = src.mFragments[fragi];
-		
 		assert( Dye::isValidDye(frag.mDye) );
 		
 		if ( frag.mMass > 0.f ) // make sure it's not empty!
@@ -172,7 +172,7 @@ void Gel::insertSample( const Sample& src, int lane )
 			b.mDye			= frag.mDye;
 
 			b.mColor		= Dye::kColors[frag.mDye]; 
-			b.mFocusColor	= lerp( b.mColor, Color(0,0,0), .5f );
+			b.mFocusColor	= lerp( Color(b.mColor), Color(0,0,0), .5f );
 			
 			b.mBases[0]		= ( Dye::kBPLo[frag.mDye] + Dye::kBPHi[frag.mDye] ) / 2;
 			b.mBases[1]		= b.mBases[0];
@@ -184,24 +184,21 @@ void Gel::insertSample( const Sample& src, int lane )
 			
 			b.mDegrade		= 0.f;
 			
-			b.mStartBounds	= getWellBounds(lane);
+			b.mWellRect	= getWellBounds(lane);
 			b.mAspectRatio  = 1.f;
-			
-			b.mCreateTime	= 0.f;
-			b.mExists		= true;
 			
 //			b.mBounds		= calcBandBounds(b);
 //			b.mAlpha[0]		= frag.mMass; //calcBandAlpha (b,0);
 //			b.mAlpha[1]		= frag.mMass; //calcBandAlpha (b,1);
 			updateBandState(b);
 			
-			mBands.push_back(b);			
+			result.push_back(b);			
 		}
 	};
 	
 	auto addMonomer = [=]( int fragi )
 	{
-		addBand( fragi, 1, 1, 0.f, 1.f );
+		addBand( 1, 1, 0.f, 1.f );
 	};
 
 	
@@ -211,11 +208,8 @@ void Gel::insertSample( const Sample& src, int lane )
 	//		anyways physical asumptions/math isn't quite right
 	
 		
-	auto addMultimer = [=]( int fragi, float wsum )
+	auto addMultimer = [=]( float wsum )
 	{
-		const Sample::Fragment& frag = src.mFragments[fragi];
-
-
 		int bandhi, bandlo;
 //			int numNonZeroMultimers =
 		frag.calcAggregateRange(bandlo,bandhi);
@@ -230,7 +224,7 @@ void Gel::insertSample( const Sample& src, int lane )
 				
 //					if (numNonZeroMultimers>1) scale = 1.f - kMultimerSmearFrac;
 				
-				addBand( fragi, m+1, m+1, 0.f, (frag.mAggregate[m] / wsum) * scale );
+				addBand( m+1, m+1, 0.f, (frag.mAggregate[m] / wsum) * scale );
 			}
 		} // m
 		
@@ -246,26 +240,35 @@ void Gel::insertSample( const Sample& src, int lane )
 					// multimer smeary interpolation band between last .. i
 					float iratio = frag.mAggregate[last] / frag.mAggregate[i];  
 					
-					addBand( fragi, i+1, last+1, iratio, kMultimerSmearFrac );					
+					addBand( i+1, last+1, iratio, kMultimerSmearFrac );					
 					
 					// set up for next band
 					last = i;
 				}					
 			}
 		}
-	};
-	
+	};	
 
+	// do it
+	const float wsum = frag.calcAggregateWeightedSum();
+
+	if      ( frag.mDye >= 0 )						 addDye();
+	else if ( frag.mAggregate.empty() || wsum==0.f ) addMonomer(wsum);
+	else											 addMultimer(wsum);
+	
+	return result;
+};
+
+void Gel::insertSample( const Sample& src, int lane )
+{
 	// fragments
 	for( int fragi=0; fragi<src.mFragments.size(); ++fragi )
 	{		
-		const auto& frag = src.mFragments[fragi]; 
-
-		const float wsum = frag.calcAggregateWeightedSum();
-
-		if      ( frag.mDye >= 0 )						 addDye(fragi);
-		else if ( frag.mAggregate.empty() || wsum==0.f ) addMonomer(fragi);
-		else											 addMultimer(fragi,wsum);
+		vector<Band> bands;
+		
+		bands = fragToBands( src, fragi, lane );
+		
+		mBands.insert( mBands.end(), bands.begin(), bands.end() );
 	}
 }
 
@@ -308,7 +311,7 @@ void Gel::updateBands()
 	}
 }
 
-GelSim::Input Gel::gelSimInput ( const Gel::Band& b, int i ) const 
+GelSim::Input Gel::gelSimInput ( const Band& b, int i ) const 
 {
 	GelSim::Input gsi;
 	gsi.mBases			= b.mBases[i];
@@ -319,7 +322,7 @@ GelSim::Input Gel::gelSimInput ( const Gel::Band& b, int i ) const
 	gsi.mAspectRatio	= b.mAspectRatio;
 	
 	gsi.mVoltage		= mVoltage;
-	gsi.mTime			= getBandLocalTime(b);
+	gsi.mTime			= mTime;
 	
 	gsi.mGelBuffer		= mBuffer;
 	gsi.mSampleBuffer	= mSamples[b.mLane]->mBuffer;
@@ -328,29 +331,27 @@ GelSim::Input Gel::gelSimInput ( const Gel::Band& b, int i ) const
 
 void Gel::updateBandState( Band& b ) const
 {
-	// exists?
-	b.mExists = mTime >= b.mCreateTime;
-	
 	// band bounds
 	const float ySpaceScale = getSampleDeltaYSpaceScale();	
 //	const float thicknessNorm = GelSim::calcThickness(<#GelSim::Input#>) ;
 	
-	b.mBandBounds = b.mStartBounds;
-//	b.mBandBounds.y1 = b.mBandBounds.y2 - thicknessNorm * b.mStartBounds.getHeight(); 
+	b.mRect = b.mWellRect;
+//	b.mRect.y1 = b.mRect.y2 - thicknessNorm * b.mWellRect.getHeight(); 
 	
-	b.mBandBounds.y1 += GelSim::calcDeltaY( gelSimInput(b,0) ) * ySpaceScale;
-	b.mBandBounds.y2 += GelSim::calcDeltaY( gelSimInput(b,1) ) * ySpaceScale;
+	b.mRect.y1 += GelSim::calcDeltaY( gelSimInput(b,0) ) * ySpaceScale;
+	b.mRect.y2 += GelSim::calcDeltaY( gelSimInput(b,1) ) * ySpaceScale;
 	
 	// blur, bounds
-	b.mDiffuseBlur = GelSim::calcDiffusionInflation( gelSimInput(b,1) ) * ySpaceScale;
-	b.mBounds = b.mBandBounds.inflated( vec2(b.mDiffuseBlur) );
+	b.mBlur = GelSim::calcDiffusionInflation( gelSimInput(b,1) ) * ySpaceScale;
+	b.mRect = b.mRect.inflated( vec2(b.mBlur) );
+	b.mUIRect = b.mRect;
 	// use smaller (faster, more inflation) size. we could use a poly, and inflate top vs. bottom differently.
 	// with degradation, to see more diffusion we need to use [1], since that's what moves first
 	
 	// alpha
 	// -- can depend on shape
-	b.mAlpha[0] = calcBandAlpha (b,0);
-	b.mAlpha[1] = calcBandAlpha (b,1);
+//	b.mAlpha[0] = calcBandAlpha (b,0);
+//	b.mAlpha[1] = calcBandAlpha (b,1);
 }
 
 float Gel::calcBandAlpha ( const Band& b, int i ) const
@@ -366,7 +367,7 @@ float Gel::calcBandAlpha ( const Band& b, int i ) const
 		
 		if (1)
 		{
-			float diffuseScale = area( getWellBounds(b.mLane) ) / area(b.mBounds);
+			float diffuseScale = area( getWellBounds(b.mLane) ) / area(b.mRect);
 			// for diffusion, look at ratio of areas
 			
 			diffuseScale = powf( diffuseScale, .15f ); // tamp it down so we can still see things
@@ -379,16 +380,16 @@ float Gel::calcBandAlpha ( const Band& b, int i ) const
 	}
 }
 
-const Gel::Band*
+const Band*
 Gel::getSlowestBandInFragment( int lane, int frag ) const
 {
-	const Gel::Band* b=0;
+	const Band* b=0;
 	
 	for( const Band& band : mBands )
 	{
 		if ( band.mLane==lane && band.mFragment==frag )
 		{
-			if ( !b || band.mBounds.y1 < b->mBounds.y1 )
+			if ( !b || band.mRect.y1 < b->mRect.y1 )
 			{
 				b=&band;
 			}
@@ -398,9 +399,9 @@ Gel::getSlowestBandInFragment( int lane, int frag ) const
 	return b;
 }
 
-Gel::Band Gel::getSlowestBandInFragment( Band query )
+Band Gel::getSlowestBandInFragment( Band query )
 {
-	const Gel::Band* biggestBand = getSlowestBandInFragment(query.mLane, query.mFragment);
+	const Band* biggestBand = getSlowestBandInFragment(query.mLane, query.mFragment);
 	assert(biggestBand);
 	return *biggestBand;	
 }

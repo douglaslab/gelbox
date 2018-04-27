@@ -153,11 +153,14 @@ void GelView::updateGelRender()
 	
 	if ( !mGelRender ) return;
 	
-	vector<GelRender::Band> bands;
+	// why do we copy and update this data?
+	// because this is old code that we will refactor
+	// probably in band = GelSim::calcRenderParams(band)
+	vector<Band> bands;
 	
-	for( const Gel::Band& i : mGel->getBands() )
+	for( const Band& i : mGel->getBands() )
 	{
-		GelRender::Band o;
+		Band o;
 		
 		o.mColor    = i.mColor;
 //		o.mColor.a  = i.mAlpha[0];
@@ -167,12 +170,12 @@ void GelView::updateGelRender()
 			// don't use i.mAlpha; that is old logic that looks at rectangle inflation
 			// and dims it out, including blur. we might want that again, but let's be explicit. 
 					
-		o.mWellRect = i.mBandBounds; // just pass in output rect for now (not mBands, since that is already inflated with blur)
-		o.mBlur		= roundf( i.mDiffuseBlur ) + 1;
+		o.mRect = i.mRect; // just pass in output rect for now (not mBands, since that is already inflated with blur)
+		o.mBlur	= i.mBlur + 1;
 		
-		o.mFlameHeight = o.mWellRect.getHeight() * GelSim::calcFlames(i.mDye!=-1,i.mMass);
+		o.mFlameHeight = o.mRect.getHeight() * GelSim::calcFlames(i.mDye!=-1,i.mMass);
 		
-		o.mSmileHeight = o.mWellRect.getHeight() * .35f; 
+		o.mSmileHeight = o.mRect.getHeight() * .35f; 
 		o.mSmileExp = 4.f;
 		
 //		o.mSmearBelow = o.mWellRect.getHeight() * 3.f;
@@ -183,7 +186,7 @@ void GelView::updateGelRender()
 //		  + i.mFragment * 13 // this means insertions, etc... will shuffle coherency
 //		  + i.mBases[0] * 1080
 //		  + i.mDye * 2050
-		  + (int)(i.mBounds.y1)
+		  + (int)(i.mRect.y1)
 //		  + (int)(mGel->getTime() * 100.f)
 		  + (int)(mGel->getVoltage() * 200.f)
 		  + (int)(i.mMass * 10.f)
@@ -192,7 +195,8 @@ void GelView::updateGelRender()
 		bands.push_back(o);
 	}
 	
-	mGelRender->render(bands);
+	mGelRender->setBands(bands);
+	mGelRender->render();
 }
 
 void GelView::draw()
@@ -326,16 +330,15 @@ void GelView::drawBands() const
 	
 	for( auto &b : bands )
 	{
-		if (b.mExists)
+		ColorA c[2] =
 		{
-			ColorA c[2] =
-			{
-				ColorA( b.mColor, b.mAlpha[0] ),
-				ColorA( b.mColor, b.mAlpha[1] )
-			};
-			
-			fillRect( b.mBounds, c );
-		}
+//				ColorA( b.mColor, b.mAlpha[0] ),
+//				ColorA( b.mColor, b.mAlpha[1] )
+			b.mColor,
+			b.mColor
+		};
+		
+		fillRect( b.mRect, c );
 	}
 
 
@@ -366,21 +369,18 @@ void GelView::drawBandFocus() const
 		{
 			SampleFragRef fr( getSample(b.mLane), b.mFragment );
 			
-			if ( b.mExists )
+			bool s = (*mSelectedState == fr);
+			bool r = (*mRolloverState == fr);
+			
+			if (s||r)
 			{
-				bool s = (*mSelectedState == fr);
-				bool r = (*mRolloverState == fr);
+				float a=0.f;
+				if (s) a += .65f;
+				if (r) a += .35f;
+				a = min( a, 1.f );
 				
-				if (s||r)
-				{
-					float a=0.f;
-					if (s) a += .65f;
-					if (r) a += .35f;
-					a = min( a, 1.f );
-					
-					gl::color( ColorA( b.mFocusColor, a ) );
-					gl::drawStrokedRect( b.mBounds.inflated(vec2(1)), 2.f );
-				}
+				gl::color( ColorA( b.mFocusColor, a ) );
+				gl::drawStrokedRect( b.mUIRect.inflated(vec2(1)), 2.f );
 			}
 		}			
 	}	
@@ -390,7 +390,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 {
 	vec2 localPos = rootToChild(e.getPos());
 	
-	mMouseDownBand = Gel::Band(); // clear it
+	mMouseDownBand = Band(); // clear it
 	mMouseDownMadeLoupe.reset();
 	mMouseDragMadeSampleInLane = -1;
 	mMouseDownSelectedMicrotube = mSelectedMicrotube;
@@ -421,7 +421,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 		  	assert( mSampleView->getSelectedFragment() != -1 );
 		  	
 			// start dragging it
-			const Gel::Band* b = mGel->getSlowestBandInFragment( mSelectedMicrotube, mSampleView->getSelectedFragment() );
+			const Band* b = mGel->getSlowestBandInFragment( mSelectedMicrotube, mSampleView->getSelectedFragment() );
 			assert(b);
 			mMouseDownBand = mMouseDragBand = *b;
 			
@@ -436,7 +436,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 	}
 	else // normal mouse down
 	{
-		Gel::Band band;
+		Band band;
 		
 		// pick tube icon
 		mMouseDownMicrotube = pickMicrotube( localPos );
@@ -479,7 +479,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 				sampleDidChange( sample );
 				
 				// change what we picked (band)
-				const Gel::Band *newpick = mGel->getSlowestBandInFragment( band.mLane, newfrag );
+				const Band *newpick = mGel->getSlowestBandInFragment( band.mLane, newfrag );
 				assert(newpick); // verify cloneing, and band updating worked as expected
 				band = *newpick;
 			}
@@ -947,7 +947,7 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		f.mOriginSampleFrag = b.mFragment;
 		
 		// speed bias
-		f.mSampleSizeBias = (pos.y - b.mBounds.getY1()) / b.mBounds.getHeight() ;
+		f.mSampleSizeBias = (pos.y - b.mRect.getY1()) / b.mRect.getHeight() ;
 		
 		//
 		f.mMass = b.mMass;
@@ -1051,7 +1051,7 @@ void GelView::updateBandRollover( ci::vec2 rootPos )
 	vec2 localMouseLoc  = rootToChild(getMouseLoc()); 
 	
 	// band rollover
-	Gel::Band band;
+	Band band;
 	
 	if ( getHasRollover() && pickBand( localMouseLoc, band ) )
 	{
@@ -1167,22 +1167,22 @@ int GelView::pickMicrotube( vec2 p ) const
 	return -1;
 }
 
-std::vector<Gel::Band> GelView::pickBands( vec2 loc ) const
+std::vector<Band> GelView::pickBands( vec2 loc ) const
 {
-	std::vector<Gel::Band> r;
+	std::vector<Band> r;
 	
 	if (mGel)
 	{
 		for( auto b : mGel->getBands() )
 		{
-			if (b.mBounds.contains(loc)) r.push_back(b);
+			if (b.mUIRect.contains(loc)) r.push_back(b);
 		}
 	}
 	
 	return r;
 }
 
-bool GelView::pickBand( vec2 loc, Gel::Band& picked ) const
+bool GelView::pickBand( vec2 loc, Band& picked ) const
 {
 	auto b = pickBands(loc);
 	
@@ -1193,7 +1193,7 @@ bool GelView::pickBand( vec2 loc, Gel::Band& picked ) const
 	
 	for( auto x : b )
 	{
-		float h = x.mBounds.getHeight();
+		float h = x.mUIRect.getHeight();
 		
 		if ( h < smallest )
 		{
@@ -1222,7 +1222,7 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 	//		since by default we would put top of band at mouse,
 	//		simply compute delta from
 	//		band top to mouse down loc
-	float dragDeltaY = mMouseDownBand.mBounds.y1 - rootToChild(getMouseDownLoc()).y ;
+	float dragDeltaY = mMouseDownBand.mUIRect.y1 - rootToChild(getMouseDownLoc()).y ;
 	
 	// use minimum aggregate in band
 	// (this part behaves pretty weird with multimers)
@@ -1247,6 +1247,7 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 		gsi.mGelBuffer   = mGel->getBuffer();
 		gsi.mSampleBuffer= sample->mBuffer;
 		
+		// TODO: ensure we are resolving via mUIRect; (solve for mUIRect inside)
 		frag.mBases = solveBasePairForY(
 			rootToChild(e.getPos()).y + dragDeltaY,
 			gsi,

@@ -71,6 +71,7 @@
 		262003BE20126E1B003AEFE8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Gelbox/Images.xcassets; sourceTree = "<group>"; };
 		26247E6E1FDF0BF00094711F /* GelboxApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelboxApp.h; path = ../include/GelboxApp.h; sourceTree = "<group>"; };
 		26247E711FE1A9890094711F /* TODO.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = TODO.md; path = ../TODO.md; sourceTree = "<group>"; };
+		263B13FC2093AE8000AC33A5 /* Band.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Band.h; path = ../include/Band.h; sourceTree = "<group>"; };
 		263D9F50204F2C1A0012B4C0 /* GelSettingsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelSettingsView.h; path = ../include/GelSettingsView.h; sourceTree = "<group>"; };
 		263D9F51204F2C3F0012B4C0 /* GelSettingsView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GelSettingsView.cpp; path = ../src/GelSettingsView.cpp; sourceTree = "<group>"; };
 		263D9F53204F46990012B4C0 /* DyeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DyeView.h; path = ../include/DyeView.h; sourceTree = "<group>"; };
@@ -288,6 +289,7 @@
 				26C36DD52033B28B00229323 /* Dye.h */,
 				26C36DD82034AA0D00229323 /* Buffer.h */,
 				261BE5C720408CFD000027EC /* GelRender.h */,
+				263B13FC2093AE8000AC33A5 /* Band.h */,
 			);
 			name = Sim;
 			sourceTree = "<group>";

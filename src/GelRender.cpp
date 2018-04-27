@@ -75,7 +75,7 @@ void GelRender::setup( glm::ivec2 gelsize, int pixelsPerUnit )
 	loadShader( mWarpGlsl, "passthrough.vert", "warp.frag" );	
 }
 
-void GelRender::render( const std::vector<Band>& bands )
+void GelRender::render()
 {
 	/* Notes:
 		- Would be clearer + faster to not use gl::ScopedFramebuffer and just manually switch them. But whatever.
@@ -93,7 +93,7 @@ void GelRender::render( const std::vector<Band>& bands )
 	gl::setMatrices(ortho);
 	
 	// each
-	for( auto band : bands )
+	for( auto band : mBands )
 	{
 		 ci::Rand randGen(band.mRandSeed);
 		 
@@ -105,25 +105,25 @@ void GelRender::render( const std::vector<Band>& bands )
 
 			// body
 			gl::color(1,1,1,1); // could be rendering to mono-channel, so color doesn't really matter
-			gl::drawSolidRect(band.mWellRect);
+			gl::drawSolidRect(band.mRect);
 			
 			// flames
 			if ( band.mFlameHeight > 0.f )
 			{
-				drawFlames( band.mWellRect, band.mFlameHeight, randGen );
+				drawFlames( band.mRect, band.mFlameHeight, randGen );
 			}
 
 			// smears
 			ColorA smearColorClose(band.mSmearBrightness[0],band.mSmearBrightness[0],band.mSmearBrightness[0],1.f);
 			ColorA smearColorFar  (band.mSmearBrightness[1],band.mSmearBrightness[1],band.mSmearBrightness[1],1.f);
-			drawSmear( band.mWellRect, -1, band.mSmearAbove, smearColorClose, smearColorFar );
-			drawSmear( band.mWellRect, +1, band.mSmearBelow, smearColorClose, smearColorFar );
+			drawSmear( band.mRect, -1, band.mSmearAbove, smearColorClose, smearColorFar );
+			drawSmear( band.mRect, +1, band.mSmearBelow, smearColorClose, smearColorFar );
 				// would be nice to have flame in its own texture, so we can
 				// just stretch it up, too...
 		}
 		
 		// smile
-		smileBand( mBandFBO, mBandFBOTemp, band.mWellRect.x1, band.mWellRect.x2, band.mSmileHeight, band.mSmileExp );
+		smileBand( mBandFBO, mBandFBOTemp, band.mRect.x1, band.mRect.x2, band.mSmileHeight, band.mSmileExp );
 
 		// blur
 		blur( mBandFBO, mBandFBOTemp, band.mBlur );		
