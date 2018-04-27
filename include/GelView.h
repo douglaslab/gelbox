@@ -79,8 +79,8 @@ public:
 	void		updateGelDetailViewContent( SampleViewRef ) const;
 	
 	bool		newFragmentAtPos( ci::vec2 ); // in root (e.g. mouse) space (can fail to work, returns false) 
-	SampleRef	getSample( int lane ) const { if (mGel) return mGel->getSamples()[lane]; else return 0; }
-	void		setSample( int lane, SampleRef s ) { assert(mGel); mGel->getSamples()[lane]=s; }
+	SampleRef	getSample( int lane ) const; // returns null if invalid lane
+	void		setSample( int lane, SampleRef s ); // asserts if invalid lane
 
 	void		selectFragment( int lane, int frag );
 	void		deselectFragment();
@@ -88,11 +88,22 @@ public:
 private:
 	GelRef				mGel;
 
-	int					mSelectedMicrotube=-1, mMouseDownMicrotube=-1;
+	enum class Drag
+	{
+		None,
+		Band,
+		Loupe,
+		Sample,
+		View
+	};
+	Drag				mDrag = Drag::None;
+	
+	int					mSelectedMicrotube=-1, mMouseDownMicrotube=-1, mMouseDownSelectedMicrotube=-1;
+	SampleRef			mMouseDownSample;
 	
 	Gel::Band			mMouseDownBand;
 	Gel::Band			mMouseDragBand;
-	int					mMouseDragBandMadeSampleInLane=-1;
+	int					mMouseDragMadeSampleInLane=-1;
 	
 	ci::gl::TextureRef	mMicrotubeIcon;
 		
@@ -118,7 +129,9 @@ private:
 	
 	// microtubes
 	ci::Rectf	calcMicrotubeWellRect( int lane ) const; // not icon rect; a notional rectangle that contains the icon
+	ci::Rectf	calcMicrotubeIconRect( ci::Rectf wellRect ) const;
 	int			pickMicrotube( ci::vec2 ) const; // local coords
+	void		mouseDragSample( ci::app::MouseEvent );
 
 	// bands
 	std::vector<Gel::Band> pickBands( ci::vec2 ) const; // local coords
@@ -141,6 +154,7 @@ private:
 	
 	// drawing
 	void		drawMicrotubes() const;
+	void		drawDragMicrotube() const;
 	void		drawBands() const;
 	void		drawWells() const;
 	void		drawBandFocus() const;

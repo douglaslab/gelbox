@@ -207,29 +207,33 @@ void GelView::draw()
 	gl::drawSolidRect( Rectf( vec2(0,0), mGel->getSize() ) );
 	
 	// clip
-	gl::ScopedScissor scissor( getScissorLowerLeftForBounds(), getScissorSizeForBounds() );	
-
-	// interior content
-	if (mGelRender)
 	{
-		if (mGelRenderIsDirty) {
-//			updateGelRender();
-			mGelRenderIsDirty=false;
-		}
-		
-		if (mGelRender->getOutput()) {
-			gl::color(1,1,1,1);
-			gl::draw( mGelRender->getOutput() );
-		}
-	}
-	else
-	{
-		drawBands();
-	}
+		gl::ScopedScissor scissor( getScissorLowerLeftForBounds(), getScissorSizeForBounds() );	
 
-	drawWells();
-	drawBandFocus();
+		// interior content
+		if (mGelRender)
+		{
+			if (mGelRenderIsDirty) {
+	//			updateGelRender();
+				mGelRenderIsDirty=false;
+			}
+			
+			if (mGelRender->getOutput()) {
+				gl::color(1,1,1,1);
+				gl::draw( mGelRender->getOutput() );
+			}
+		}
+		else
+		{
+			drawBands();
+		}
+
+		drawWells();
+		drawBandFocus();
+	}
 	
+	drawDragMicrotube();
+		
 	// test solver
 	if (kShowReverseSolverDebugTest) drawReverseSolverTest();
 }
@@ -245,9 +249,6 @@ void GelView::drawMicrotubes() const
 		
 		// r will be round rect that is tube background
 		Rectf r = wellRect;
-		float cx = r.getCenter().x;
-		r.x1 = cx - kLayout.mGelMicrotubeBkgndCornerRadius;
-		r.x2 = cx + kLayout.mGelMicrotubeBkgndCornerRadius;
 		r.y1 += kLayout.mGelMicrotubeBkgndTopInsetFromIcon;
 		r.y2 = getBounds().y2;
 		
@@ -258,13 +259,7 @@ void GelView::drawMicrotubes() const
 		gl::drawSolidRoundedRect( r, kLayout.mGelMicrotubeBkgndCornerRadius );
 		gl::drawStrokedRoundedRect( r, kLayout.mGelMicrotubeBkgndCornerRadius ); // anti-alias
 		
-		Rectf iconRect(0,0,mMicrotubeIcon->getWidth(),mMicrotubeIcon->getHeight());
-		Rectf iconFitIntoRect = wellRect;
-		float insetx = kLayout.mGelMicrotubeIconPadding;
-		iconFitIntoRect.x1 = r.x1 + insetx;
-		iconFitIntoRect.x2 = r.x2 - insetx;
-		iconRect = iconRect.getCenteredFit(iconFitIntoRect,true);			
-		iconRect = snapToPixel(iconRect);
+		Rectf iconRect = calcMicrotubeIconRect(wellRect); 
 		
 		if ( mMicrotubeIcon && laneHasSample )
 		{
@@ -279,6 +274,27 @@ void GelView::drawMicrotubes() const
 			gl::drawStrokedRect(iconRect);
 		}
 	}	
+}
+
+void GelView::drawDragMicrotube() const
+{
+	// in it?
+	if (mDrag != Drag::Sample) return;
+	
+	// draw it
+//	mMouseDownMicrotube
+
+	if ( pickMicrotube( rootToChild(getMouseLoc()) ) == -1 )
+	{
+		Rectf iconRect = calcMicrotubeIconRect( calcMicrotubeWellRect(mMouseDownMicrotube) );
+		iconRect += getMouseLoc() - getMouseDownLoc();
+		
+		if ( mMicrotubeIcon )
+		{
+			gl::color(1,1,1);
+			gl::draw( mMicrotubeIcon, iconRect );
+		}	
+	}
 }
 
 void GelView::drawBands() const
@@ -376,7 +392,8 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 	
 	mMouseDownBand = Gel::Band(); // clear it
 	mMouseDownMadeLoupe.reset();
-	mMouseDragBandMadeSampleInLane = -1;
+	mMouseDragMadeSampleInLane = -1;
+	mMouseDownSelectedMicrotube = mSelectedMicrotube;
 	
 	// add loupe?
 	if ( e.isMetaDown() )
@@ -391,6 +408,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 				// logically, yes, but given how we are re-routing events, don't do it, as it deselects the active selection
 				// SO really we just need to do a better job figuring out how to reroute the events... like this.
 			mMouseDownMadeLoupe->setDragMode( SampleView::Drag::LoupeAndView );
+			mDrag = Drag::Loupe;
 		}
 	}
 	// add band?
@@ -410,8 +428,10 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 			// did we just make the sample?
 			if ( getSample(mSelectedMicrotube)->mFragments.size() == 1 )
 			{
-				mMouseDragBandMadeSampleInLane = mSelectedMicrotube;
+				mMouseDragMadeSampleInLane = mSelectedMicrotube;
 			}
+			
+			mDrag = Drag::Band;
 		}
 	}
 	else // normal mouse down
@@ -420,17 +440,27 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 		
 		// pick tube icon
 		mMouseDownMicrotube = pickMicrotube( localPos );
+		mMouseDownSample = getSample(mMouseDownMicrotube);
 		
 		if ( mMouseDownMicrotube != -1 )
 		{	
-			// select (w/ toggle)
-			if (mMouseDownMicrotube==mSelectedMicrotube) selectMicrotube(-1);
-			else selectMicrotube( mMouseDownMicrotube );
+			// select
+			selectMicrotube( mMouseDownMicrotube );
 			
 			// adjust selection, so we don't auto-change back
 			if ( mSelectedState->getSample() != getSample(mMouseDownMicrotube) )
 			{
 				mSelectedState->clear();
+			}
+			
+			mMouseDragMadeSampleInLane = mMouseDownMicrotube;
+			mDrag = Drag::Sample;
+			
+			// clone sample drag?
+			if ( e.isAltDown() && mMouseDownSample )
+			{
+				mMouseDragMadeSampleInLane = -1; // don't let drag clear it
+				mMouseDownSample = make_shared<Sample>(*mMouseDownSample);
 			}
 		}
 		// else pick band
@@ -458,6 +488,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 			// (this is better than just mMouseDownBand = band, as it solves some multi-multimer issues)
 			mMouseDownBand = mGel->getSlowestBandInFragment(band);
 			mMouseDragBand = mMouseDownBand;
+			mDrag = Drag::Band;
 			
 			mMouseDownMicrotube = band.mLane;
 
@@ -473,6 +504,10 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 				mMouseDownMicrotube = lane;
 				selectMicrotube(mMouseDownMicrotube); // select
 			}
+			else if ( kEnableDrag )
+			{
+				mDrag = Drag::View;
+			}
 			
 			// deselect fragment
 			deselectFragment();
@@ -485,37 +520,62 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 
 void GelView::mouseUp( ci::app::MouseEvent e )
 {
-	// reconcile duplicate dyes moved into the same lane...
-	if ( mMouseDragBand.mLane != -1 )
+	switch( mDrag )
 	{
-		auto s = getSample(mMouseDragBand.mLane);
-		if (s) {
-			s->mergeDuplicateDyes();
-			sampleDidChange(s);
-		}
+		case Drag::Sample:
+			// toggle tube selection off
+			if ( mMouseDownSelectedMicrotube == mSelectedMicrotube
+			  && mMouseDownMicrotube		 == mSelectedMicrotube
+			  && distance( getMouseDownLoc(), getMouseLoc() ) < 3.f )
+			{
+				selectMicrotube(-1);
+			}
+			break;
+	
+		case Drag::Band:
+			// reconcile duplicate dyes moved into the same lane...
+			if ( mMouseDragBand.mLane != -1 )
+			{
+				auto s = getSample(mMouseDragBand.mLane);
+				if (s) {
+					s->mergeDuplicateDyes();
+					sampleDidChange(s);
+				}
+			}
+			break;
+			
+		default:break;
 	}
 	
 	mMouseDownMadeLoupe = 0;
+	mDrag = Drag::None;
 }
 
 void GelView::mouseDrag( ci::app::MouseEvent e )
 {
 	if ( length(getMouseMoved()) > 0.f )
 	{
-		// drag loupe we made on mouse down
-		if ( mMouseDownMadeLoupe )
+		switch(mDrag)
 		{
-			mMouseDownMadeLoupe->mouseDrag(e);
-		}
-		// drag band
-		else if ( mMouseDownBand.mLane != -1 && mMouseDownBand.mFragment != -1 )
-		{
-			mouseDragBand(e);
-		}
-		// drag this view
-		else if ( mMouseDownMicrotube == -1 && kEnableDrag )
-		{
-			setFrame( getFrame() + getCollection()->getMouseMoved() );
+			case Drag::Loupe:
+				// drag loupe we made on mouse down
+				mMouseDownMadeLoupe->mouseDrag(e);
+				break;
+				
+			case Drag::Band:
+				mouseDragBand(e);
+				break;
+			
+			case Drag::Sample:
+				mouseDragSample(e);
+				break;
+			
+			case Drag::View:
+				// drag this view
+				setFrame( getFrame() + getCollection()->getMouseMoved() );
+				break;
+				
+			default:break;
 		}
 	}
 }
@@ -578,6 +638,26 @@ bool GelView::newFragmentAtPos( ci::vec2 pos )
 	
 	return lane != -1;
 } 
+
+SampleRef GelView::getSample( int lane ) const
+{
+	if (mGel && lane >= 0 && lane < mGel->getSamples().size() )
+	{
+		return mGel->getSamples()[lane];
+	}
+	else return 0;
+}
+
+void GelView::setSample( int lane, SampleRef s )
+{
+	assert(mGel);
+
+	if (mGel && lane >= 0 && lane < mGel->getSamples().size() )
+	{
+		mGel->setSample( s, lane );
+	}
+	else assert(0&&"invalid lane");
+}
 
 void GelView::selectFragment( int lane, int frag )
 {
@@ -1054,7 +1134,25 @@ ci::Rectf GelView::calcMicrotubeWellRect( int lane ) const
 	
 	r += vec2( 0, -kLayout.mGelMicrotubeIconToGelGutter );
 	
+	r.x1 = c.x - kLayout.mGelMicrotubeBkgndCornerRadius;
+	r.x2 = c.x + kLayout.mGelMicrotubeBkgndCornerRadius;
+	
 	return r;
+}
+
+ci::Rectf GelView::calcMicrotubeIconRect( ci::Rectf wellRect ) const
+{
+	vec2 iconSize = mMicrotubeIcon ? vec2(mMicrotubeIcon->getSize()) : vec2(32.f);
+	
+	Rectf iconRect( vec2(0.f), iconSize );
+	Rectf iconFitIntoRect = wellRect;
+	float insetx = kLayout.mGelMicrotubeIconPadding;
+	iconFitIntoRect.x1 = wellRect.x1 + insetx;
+	iconFitIntoRect.x2 = wellRect.x2 - insetx;
+	iconRect = iconRect.getCenteredFit(iconFitIntoRect,true);			
+	iconRect = snapToPixel(iconRect);
+		
+	return iconRect;
 }
 
 int GelView::pickMicrotube( vec2 p ) const
@@ -1174,10 +1272,10 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 	  && ( kDragBandMakesNewSamples || getSample(newlane)) )
 	{
 		// clear old temp sample?
-		if ( mMouseDragBandMadeSampleInLane != -1 )
+		if ( mMouseDragMadeSampleInLane != -1 )
 		{
-			mGel->setSample( 0, mMouseDragBandMadeSampleInLane );
-			mMouseDragBandMadeSampleInLane=-1;
+			mGel->setSample( 0, mMouseDragMadeSampleInLane );
+			mMouseDragMadeSampleInLane=-1;
 			sample=0;
 		}
 
@@ -1189,7 +1287,7 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 			// make it if needed
 			toSample = make_shared<Sample>();
 			mGel->setSample( toSample, newlane );
-			mMouseDragBandMadeSampleInLane = newlane;
+			mMouseDragMadeSampleInLane = newlane;
 		}
 
 		// remove, add		
@@ -1223,6 +1321,49 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 	
 	// do 
 	if (kHoverGelDetailViewOnBandDrag) updateHoverGelDetailView();
+}
+
+void GelView::mouseDragSample( ci::app::MouseEvent event )
+{
+	const bool kVerbose = false;
+	
+	int newlane = pickMicrotube( rootToChild(getMouseLoc()) );
+	int &_lane  = mMouseDragMadeSampleInLane;
+		
+	if ( newlane != _lane )
+	{
+		if (kVerbose) cout << _lane << " -> " << newlane << endl;
+
+		// remove from old place
+		if (_lane != -1) {
+			setSample(_lane,0);
+			if (kVerbose) cout << "clear " << _lane << endl;
+			_lane = -1;
+		}
+	
+		// put in new place?
+		if ( newlane != -1 )
+		{
+			// if moving to full slot, move to nothing
+			if ( getSample(newlane)!=0 ) {
+				newlane = -1;
+			}
+			
+			// move
+			if (newlane!=-1)
+			{
+				setSample(newlane,mMouseDownSample);
+				if (kVerbose) cout << "set " << newlane << endl;
+				_lane = newlane;
+			}
+		}
+
+		// select
+		selectMicrotube(newlane);
+
+		// update
+		gelDidChange();		
+	}
 }
 
 void GelView::drawReverseSolverTest()

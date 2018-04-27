@@ -77,7 +77,7 @@ public:
 		float		ymargin );
 	
 	void  setSample( SampleRef s, int lane );
-	std::vector<SampleRef>&	getSamples() { return mSamples; }
+	const std::vector<SampleRef>&	getSamples() { return mSamples; }
 	void  syncBandsToSample( SampleRef ); // tell us when SampleRef changed...
 	int	  getLaneForSample ( SampleRef ) const;
 	
@@ -116,7 +116,7 @@ private:
 	std::vector<SampleRef>	mSamples;
 	Gelbox::Buffer			mBuffer = Gelbox::kBufferPresets[Gelbox::kBufferDefaultPreset];
 	
-	void updateBands();
+	void	  updateBands();
 	void	  updateBandState( Band& ) const;
 //	ci::Rectf calcBandBounds( const Band& ) const;
 	float     calcBandAlpha ( const Band&, int i ) const; // uses bounds, so do that first
