@@ -34,8 +34,8 @@ public:
 	ci::Rectf	mWellRect;	// start bounds 
 	
 	// render params (for GelRender class)
-	float		mSmearAbove = 0.f;
-	float		mSmearBelow = 0.f;
+	float		mSmearAbove = 0.f; // same units as mRect
+	float		mSmearBelow = 0.f; // same units as mRect
 	float		mSmearBrightness[2] = {1,0}; // near, far (e.g. 1,0)
 	
 	float		mFlameHeight = 0.f; // in unit space, how high to make the flames?

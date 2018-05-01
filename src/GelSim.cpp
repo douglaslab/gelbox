@@ -99,6 +99,7 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 	return y;
 }
 
+#if 0
 float calcDiffusionInflation( Input i )
 {
 	const float kFraction = .01f;
@@ -228,6 +229,73 @@ float calcBandAlpha ( const Band& b, int i )
 		return a;
 	}
 }
+#endif
+
+Band calcBandGeometry( Context ctx, Band b, Rectf wellRect )
+{
+	float deltaY = calcDeltaY( b.mBases, b.mAggregate, b.mAspectRatio, ctx );
+	
+	deltaY *= ctx.mYSpaceScale;
+	
+	b.mWellRect = wellRect;
+	b.mRect		= wellRect;
+	b.mRect	   += vec2( 0.f, deltaY );
+	b.mUIRect	= b.mRect;
+	
+	return b;
+}
+
+Band dyeToBand( int lane, int fragment, int dye, float mass )
+{
+	assert( Dye::isValidDye(dye) );
+	
+	Band b;
+	
+	b.mLane			= lane;
+	b.mFragment 	= fragment;
+	b.mDye			= dye;
+
+	b.mBases		= Dye::kBPLo[dye];
+	b.mMass			= mass;
+	
+	b.mColor		= Dye::kColors[dye]; 
+	b.mFocusColor	= lerp( Color(b.mColor), Color(0,0,0), .5f );
+	
+	// not done:
+	// - geometry
+	// - render params (except mColor.rgb)
+	// - mColor.a
+	
+	return b;
+}
+
+Band fragAggregateToBand( int lane, int fragi, const Sample::Fragment& frag, int aggregate, float massScale )
+{
+	Band b;
+
+	b.mLane			= lane;
+	b.mFragment		= fragi;
+	
+	b.mBases		= frag.mBases;
+	b.mAggregate	= aggregate;
+	
+	// not done: (TODO)
+//	b.mDegradeLo;
+//	b.mDegradeHi;
+	
+	b.mMass			= frag.mMass * massScale;
+	b.mAspectRatio	= frag.mAspectRatio;
+	
+	b.mFocusColor	= frag.mColor;
+	b.mColor		= ColorA(1.f,1.f,1.f,1.f);
+
+	// not done:
+	// - geometry
+	// - render params (except mColor.rgb)
+	// - mColor.a
+
+	return b;	
+}
 
 std::vector<Band> fragToBands(
 	const Sample&	sample,
@@ -240,133 +308,26 @@ std::vector<Band> fragToBands(
 
 	vector<Band> result;
 	
-	auto addBand = [=,&result]( int multimer, int multimerlow, float multilowfrac, float massFrac )
-	{
-		Band b;
-
-		b.mLane			= lane;
-		b.mFragment		= fragi;
-		
-		b.mFocusColor	= frag.mColor;
-		
-		b.mBases[0]		= frag.mBases;
-		b.mBases[1]		= frag.mBases;
-		GelSim::degradeBaseCount( b.mBases[0], b.mBases[1], frag.mDegrade );
-				
-		b.mMultimer[0]  = multimer;
-		b.mMultimer[1]  = multimerlow;
-		
-//		b.mMass			= frag.mMass  * (float)multimer * massFrac;
-		b.mMass			= frag.mMass  * massFrac;
-		
-		b.mDegrade		= frag.mDegrade;
-		
-		b.mWellRect		= wellRect;
-		b.mAspectRatio  = frag.mAspectRatio;
-		
-		if (multimer != 1)
-		{
-			int n  = multimer-1;
-			int n2 = multimerlow-1;
-
-			b.mAggregate.resize( max( frag.mAggregate.size(), (size_t)max(n,n2) ), 0.f );
-				// ensure we have an appropriate aggregate array
-			
-			b.mAggregate[n ] = 1.f;
-			if (n2 != n) b.mAggregate[n2] = multilowfrac;
-		}
-		else assert( multimerlow == 1 );
-		
-		b.mColor		= Color(1.f,1.f,1.f);
-		
-		b = calcBandState(b);
-		
-		result.push_back(b);
-	};
-	
 	auto addDye = [=,&result]()
 	{
-		assert( Dye::isValidDye(frag.mDye) );
-		
-		if ( frag.mMass > 0.f ) // make sure it's not empty!
-		{	
-			Band b;
-
-			b.mLane			= lane;
-			b.mFragment		= fragi;
-			b.mDye			= frag.mDye;
-
-			b.mColor		= Dye::kColors[frag.mDye]; 
-			b.mFocusColor	= lerp( Color(b.mColor), Color(0,0,0), .5f );
-			
-			b.mBases[0]		= ( Dye::kBPLo[frag.mDye] + Dye::kBPHi[frag.mDye] ) / 2;
-			b.mBases[1]		= b.mBases[0];
-					
-			b.mMultimer[0]  = 1;
-			b.mMultimer[1]  = 1;
-			
-			b.mMass			= frag.mMass;
-			
-			b.mDegrade		= 0.f;
-			
-			b.mWellRect		= wellRect;
-			b.mAspectRatio  = 1.f;
-			
-			b = calcBandState(b);
-			
-			result.push_back(b);			
-		}
+		result.push_back( dyeToBand( lane, fragi, frag.mDye, frag.mMass) );
 	};
 	
-	auto addMonomer = [=]( int fragi )
+	auto addMonomer = [=,&result]( int fragi )
 	{
-		addBand( 1, 1, 0.f, 1.f );
+		result.push_back( fragAggregateToBand( lane, fragi, frag, 1, 1.f ) );
 	};
 
-	
-	const float kMultimerSmearFrac = .2f;
-	// smear is X% of total
-	// and we scale the rest to 1-X% -- NOT doing this; lets keep things looking sharp.
-	//		anyways physical asumptions/math isn't quite right
-	
-		
-	auto addMultimer = [=]( float wsum )
+	auto addMultimer = [=,&result]( float wsum )
 	{
-		int bandhi, bandlo;
-//			int numNonZeroMultimers =
-		frag.calcAggregateRange(bandlo,bandhi);
-					
 		// add band for each multimer size
 		for( int m=0; m<frag.mAggregate.size(); ++m )
 		{
 			if ( frag.mAggregate[m] > 0.f )
 			{
-				// add
-				float scale = 1.f;
+				float massScale = (frag.mAggregate[m] / wsum);
 				
-//					if (numNonZeroMultimers>1) scale = 1.f - kMultimerSmearFrac;
-				
-				addBand( m+1, m+1, 0.f, (frag.mAggregate[m] / wsum) * scale );
-			}
-		} // m
-		
-		// smeary band between each pair of multimers
-		if ( bandlo != -1 && bandlo != bandhi )
-		{
-			int last = bandlo;
-			
-			for( int i = last+1; i <= bandhi; ++i )
-			{
-				if ( frag.mAggregate[i] > 0.f )
-				{
-					// multimer smeary interpolation band between last .. i
-					float iratio = frag.mAggregate[last] / frag.mAggregate[i];  
-					
-					addBand( i+1, last+1, iratio, kMultimerSmearFrac );					
-					
-					// set up for next band
-					last = i;
-				}					
+				result.push_back( fragAggregateToBand( lane, fragi, frag, m, massScale ) );
 			}
 		}
 	};	
@@ -374,10 +335,17 @@ std::vector<Band> fragToBands(
 	// do it
 	const float wsum = frag.calcAggregateWeightedSum();
 
-	if      ( frag.mDye >= 0 )						 addDye();
+	if      ( frag.mDye >= 0 && frag.mMass > 0.f )	 addDye();
 	else if ( frag.mAggregate.empty() || wsum==0.f ) addMonomer(wsum);
 	else											 addMultimer(wsum);
 	
+	// finish them
+	for( auto &b : result )
+	{
+		b = calcBandGeometry( context, b, wellRect );
+	}
+	
+	//
 	return result;
 }
 

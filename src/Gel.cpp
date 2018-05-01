@@ -195,9 +195,10 @@ Band Gel::getSlowestBandInFragment( Band query )
 GelSim::Context Gel::getSimContext( const Sample& sample ) const
 {
 	GelSim::Context context;
-	context.mTime			= getTime();
 	context.mVoltage		= getVoltage();
+	context.mTime			= getTime();
+	context.mYSpaceScale	= getSampleDeltaYSpaceScale();
 	context.mGelBuffer		= mBuffer;
 	context.mSampleBuffer	= sample.mBuffer;
-	return context; 	
+	return context;
 }

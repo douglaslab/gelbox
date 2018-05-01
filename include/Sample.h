@@ -61,6 +61,11 @@ public:
 		   etc...
 		*/
 
+	Aggregate( std::vector<float>& v )
+	{
+		*this = v;
+	}
+	
 	Aggregate()
 	{
 		set(0,1.f); // start off as a monomer: one element set to 1
@@ -76,8 +81,8 @@ public:
 	
 	void set( size_t a, float w )
 	{
-		if ( size() < a ) {
-			resize(a,0.f);
+		if ( size() <= a ) {
+			resize(a+1,0.f);
 		}
 		(*this)[a] = w;
 	}
@@ -87,6 +92,10 @@ public:
 		if ( a >= size() ) return 0.f;
 		else return (*this)[a];
 	}
+	
+	const std::vector<float>& get() const {
+		return *this;
+	} 
 };
 
 class Sample

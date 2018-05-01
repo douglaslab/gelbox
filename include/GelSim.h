@@ -115,6 +115,7 @@ struct Context
 {
 	float	mVoltage		= kSliderVoltageDefaultValue;
 	float	mTime			= 1.f;
+	float	mYSpaceScale	= 1.f;
 	
 	Gelbox::Buffer mGelBuffer;
 	Gelbox::Buffer mSampleBuffer;	

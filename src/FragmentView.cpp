@@ -190,7 +190,7 @@ void FragmentView::makeSliders()
 			}
 			else
 			{
-				return getEditFragment().mAggregate;
+				return getEditFragment().mAggregate.get();
 			}
 		};
 		
