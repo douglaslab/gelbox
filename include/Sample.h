@@ -63,7 +63,13 @@ public:
 
 	Aggregate( std::vector<float>& v )
 	{
-		*this = v;
+		clear();
+		resize(v.size(),0.f);
+		
+		for( int i=0; i<v.size(); ++i )
+		{
+			(*this)[i] = v[i];
+		}
 	}
 	
 	Aggregate()
