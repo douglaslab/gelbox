@@ -50,6 +50,44 @@ private:
 typedef std::shared_ptr<SampleFragRef> SampleFragRefRef; // :D it is a pointer-pointer after all
 
 
+class Aggregate : public std::vector<float>
+{
+public:
+	// a set of weights that represented weighted distribution of multimers
+		/* - empty means default (monomer) -- should never happen!!!
+		   - dimer is {0,1} (0 for size 1, 1 for size 2)
+		   - 50/50 dimers and trimers is {0,1,1}
+		   - can no non-uniform distributions, e.g.: {.5,1,2}
+		   etc...
+		*/
+
+	Aggregate()
+	{
+		set(0,1.f); // start off as a monomer: one element set to 1
+	}
+	
+	void zeroAll()
+	{
+		for( size_t i=0; i<size(); ++i )
+		{
+			(*this)[i] = 0.f;
+		}
+	}
+	
+	void set( size_t a, float w )
+	{
+		if ( size() < a ) {
+			resize(a,0.f);
+		}
+		(*this)[a] = w;
+	}
+	
+	float get( size_t a ) const
+	{
+		if ( a >= size() ) return 0.f;
+		else return (*this)[a];
+	}
+};
 
 class Sample
 {
@@ -67,13 +105,7 @@ public:
 		
 		int   mDye			= -1; // if >=0, then this fragment is a dye, and this is which dye. mMass will indicate how much of the dye there is.
 		
-		std::vector<float> mAggregate;
-		/* - empty means default (monomer)
-		   - dimer is {0,1} (0 for size 1, 1 for size 2)
-		   - 50/50 dimers and trimers is {0,1,1}
-		   - can no non-uniform distributions, e.g.: {.5,1,2}
-		   etc...
-		*/
+		Aggregate mAggregate;
 		
 		float mAspectRatio	= 1.f;
 		ci::Color mColor	= ci::Color(.5,.5,.5);

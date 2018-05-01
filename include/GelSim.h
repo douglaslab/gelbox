@@ -9,6 +9,9 @@
 #pragma once
 
 #include "Buffer.h"
+#include "Band.h"
+
+class Sample;
 
 namespace GelSim // unify namespace with Gelbox? (rename both Gelbox?)
 {
@@ -48,7 +51,7 @@ const int   kSliderBaseCountMax = kBaseCountHigh;
 	- as degrade goes 0..1, y2, baseCountLow,  lower end of band, moves to end of chart--shorter base pairs
 	- as degrade goes 1..2, y1, baseCountHigh, upper end of band, moves to end of chart--shorter bp
 */
-void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade );
+//void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade );
 
 
 /*
@@ -56,7 +59,7 @@ void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade );
 	
 	How far on a normalized y axis of gel will this sample move?
 */
-struct Input
+/*struct Input
 {
 	int		mBases			= 0;
 	float	mMass			= 0.f; // not used for all calculations
@@ -74,8 +77,6 @@ struct Input
 
 struct Output
 {
-	
-	
 	// in world units (normalized y axis)
 	float mDeltaY		= 0.f;
 	float mDiffusion	= 0.f;
@@ -95,14 +96,37 @@ struct Output
 		mDiffusion		*= s;
 //		mFlames			*= s;
 	}
+};*/
+
+//Output calc( Input );
+
+//float calcDiffusionInflation( Input ); // returns same units as above
+//float calcFlames( bool isDye, float mass ); // normalized to height of band
+//float calcBrightness( Input ); // 0..1
+//float calcThickness ( Input ); // 0..1, proportional to well
+
+//Band calcBandState( const Band& );
+//Band calcRenderParams( Input input, Band );
+
+
+/// NEW ////
+
+struct Context
+{
+	float	mVoltage		= kSliderVoltageDefaultValue;
+	float	mTime			= 1.f;
+	
+	Gelbox::Buffer mGelBuffer;
+	Gelbox::Buffer mSampleBuffer;	
 };
 
-Output calc( Input );
+std::vector<Band> fragToBands(
+	const Sample&	sample,
+	int				fragi,
+	ci::Rectf		wellRect,
+	int				lane,
+	Context			context );
 
-float calcDeltaY( Input );
-float calcDiffusionInflation( Input ); // returns same units as above
-float calcFlames( bool isDye, float mass ); // normalized to height of band
-float calcBrightness( Input ); // 0..1
-float calcThickness ( Input ); // 0..1, proportional to well
+float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx );
 
 } // namespace

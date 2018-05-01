@@ -162,10 +162,12 @@ private:
 
 	// reverse gel sim solver
 	typedef std::map<int,int> tReverseGelSolverCache; // maps y to base pairs, all this is f( aggregate, aspectRatio, time )
-					
+			
 	int			solveBasePairForY(
 					int			  findy,
-					GelSim::Input params, // ignores mBases, which we are solving for.
+					int			  aggregation,
+					float		  aspectRatio,
+					GelSim::Context context,
 					float		  ystart,
 					float		  yscale,
 					tReverseGelSolverCache* cache=0 ) const;

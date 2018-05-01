@@ -6,6 +6,11 @@
 //
 //
 
+#ifndef __DYE_H__ // for some reason #pragma once doesn't work here :P
+#define __DYE_H__
+
+#pragma once
+
 #include "cinder/gl/Texture.h"
 #include "cinder/Color.h"
 
@@ -79,3 +84,5 @@ namespace Dye
 	};
 	
 };
+
+#endif

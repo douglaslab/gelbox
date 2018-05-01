@@ -153,49 +153,7 @@ void GelView::updateGelRender()
 	
 	if ( !mGelRender ) return;
 	
-	// why do we copy and update this data?
-	// because this is old code that we will refactor
-	// probably in band = GelSim::calcRenderParams(band)
-	vector<Band> bands;
-	
-	for( const Band& i : mGel->getBands() )
-	{
-		Band o;
-		
-		o.mColor    = i.mColor;
-//		o.mColor.a  = i.mAlpha[0];
-		o.mColor.a  = lerp( GelSim::calcBrightness( mGel->gelSimInput(i,0) ),
-							GelSim::calcBrightness( mGel->gelSimInput(i,1) ),
-							.5f );
-			// don't use i.mAlpha; that is old logic that looks at rectangle inflation
-			// and dims it out, including blur. we might want that again, but let's be explicit. 
-					
-		o.mRect = i.mRect; // just pass in output rect for now (not mBands, since that is already inflated with blur)
-		o.mBlur	= i.mBlur + 1;
-		
-		o.mFlameHeight = o.mRect.getHeight() * GelSim::calcFlames(i.mDye!=-1,i.mMass);
-		
-		o.mSmileHeight = o.mRect.getHeight() * .35f; 
-		o.mSmileExp = 4.f;
-		
-//		o.mSmearBelow = o.mWellRect.getHeight() * 3.f;
-//		o.mSmearAbove = o.mWellRect.getHeight() * 3.f;
-		
-		o.mRandSeed =
-			i.mLane * 17
-//		  + i.mFragment * 13 // this means insertions, etc... will shuffle coherency
-//		  + i.mBases[0] * 1080
-//		  + i.mDye * 2050
-		  + (int)(i.mRect.y1)
-//		  + (int)(mGel->getTime() * 100.f)
-		  + (int)(mGel->getVoltage() * 200.f)
-		  + (int)(i.mMass * 10.f)
-		  ; 
-		
-		bands.push_back(o);
-	}
-	
-	mGelRender->setBands(bands);
+	mGelRender->setBands( mGel->getBands() );
 	mGelRender->render();
 }
 
@@ -614,17 +572,11 @@ bool GelView::newFragmentAtPos( ci::vec2 pos )
 		for( float & v : frag.mAggregate ) v=0.f;
 		frag.mAggregate[0] = 1.f;
 		
-		GelSim::Input gsi;
-		gsi.mAggregation = 1;
-		gsi.mAspectRatio = frag.mAspectRatio;
-		gsi.mVoltage	 = mGel->getVoltage();
-		gsi.mTime		 = mGel->getTime();
-		gsi.mGelBuffer	 = mGel->getBuffer();
-		gsi.mSampleBuffer= getSample(lane)->mBuffer;
-		
 		frag.mBases = solveBasePairForY(
 			rootToChild(pos).y,
-			gsi,
+			1,
+			frag.mAspectRatio,
+			mGel->getSimContext(*getSample(lane)),
 			mGel->getWellBounds(lane).getCenter().y,
 			mGel->getSampleDeltaYSpaceScale() );
 		
@@ -953,7 +905,11 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		f.mMass = b.mMass;
 		
 		// aggregates
-		f.mAggregate = b.mAggregate;
+//		f.mAggregate = b.mAggregate;
+		f.mAggregate.zeroAll();
+		f.mAggregate.set(
+			f.mAggregate.get(b.mAggregate),
+			1.f );
 		
 		// if we are an aggregate smeary band, (num non-zero multimers >1)
 		// then bias aggregation with sample size bias
@@ -1239,18 +1195,12 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 	// solve for bp (respond to y)
 	if ( ! frag.isDye() )
 	{
-		GelSim::Input gsi;
-		gsi.mAggregation = aggregate;
-		gsi.mAspectRatio = frag.mAspectRatio;
-		gsi.mVoltage	 = mGel->getVoltage(); 
-		gsi.mTime		 = mGel->getTime();
-		gsi.mGelBuffer   = mGel->getBuffer();
-		gsi.mSampleBuffer= sample->mBuffer;
-		
 		// TODO: ensure we are resolving via mUIRect; (solve for mUIRect inside)
 		frag.mBases = solveBasePairForY(
 			rootToChild(e.getPos()).y + dragDeltaY,
-			gsi,
+			aggregate,
+			frag.mAspectRatio,
+			mGel->getSimContext(*sample),
 			mGel->getWellBounds(lane).y1, //getCenter().y,
 			mGel->getSampleDeltaYSpaceScale() );		
 	}
@@ -1377,19 +1327,19 @@ void GelView::drawReverseSolverTest()
 		{
 			vec2 mouseLocal = rootToChild( getMouseLoc() );
 			
-			GelSim::Input gsi;
-			gsi.mAggregation = 1;
-			gsi.mAspectRatio = 1.f;
-			gsi.mVoltage	 = mGel->getVoltage();
-			gsi.mTime		 = mGel->getTime();
-			gsi.mGelBuffer   = mGel->getBuffer();
-			gsi.mSampleBuffer= getSample(lane)->mBuffer;
-			
 			tReverseGelSolverCache cache;
+			
+			int aggregate = 1;
+			float aspectRatio = 1.f;
+			GelSim::Context simContext = mGel->getSimContext(*getSample(lane));
 			
 			int bp = solveBasePairForY(
 				mouseLocal.y,
-				gsi,
+
+				aggregate,
+				aspectRatio,
+				simContext,
+				
 				mGel->getWellBounds(lane).getCenter().y,
 				mGel->getSampleDeltaYSpaceScale(),
 				&cache );
@@ -1398,10 +1348,8 @@ void GelView::drawReverseSolverTest()
 
 			const float ySpaceScale = mGel->getSampleDeltaYSpaceScale();
 			
-			gsi.mBases = bp; 
-			
-			r.y1 += GelSim::calcDeltaY( gsi ) * ySpaceScale;
-			r.y2 += GelSim::calcDeltaY( gsi ) * ySpaceScale;
+			float d = GelSim::calcDeltaY( bp, aggregate, aspectRatio, simContext ) * ySpaceScale; 			
+			r += vec2( 0.f, d );
 			
 			gl::color(1, 0, 0);
 			gl::drawSolidRect(r);
@@ -1423,7 +1371,9 @@ void GelView::drawReverseSolverTest()
 
 int GelView::solveBasePairForY(
 		int			  findy,
-		GelSim::Input params,
+		int			  aggregation,
+		float		  aspectRatio,
+		GelSim::Context context,
 		float		  ystart,
 		float		  yscale,
 		tReverseGelSolverCache* cache ) const
@@ -1439,10 +1389,8 @@ int GelView::solveBasePairForY(
 	
 	do
 	{
-		params.mBases = bp;
-		
-		int y = ystart + GelSim::calcDeltaY( params ) * yscale
-					   - GelSim::calcDiffusionInflation( params ) * yscale;
+		int y = ystart + GelSim::calcDeltaY( bp, aggregation, aspectRatio, context ) * yscale;
+//					   - GelSim::calcDiffusionInflation( params ) * yscale;
 			// use cache here for small perf. gain?
 			// also, might be better here to track two rects per band, and just use inner non-diffused band for drag and not calc inflation here.  
 		

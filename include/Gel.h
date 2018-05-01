@@ -41,6 +41,7 @@ public:
 	void  setSample( SampleRef s, int lane );
 	const std::vector<SampleRef>&	getSamples() { return mSamples; }
 	void  syncBandsToSample( SampleRef ); // tell us when SampleRef changed...
+	void  syncBandsToSample( int lane  ); // tell us when SampleRef changed...
 	int	  getLaneForSample ( SampleRef ) const;
 	
 	void  setBuffer( const Gelbox::Buffer& b );
@@ -70,18 +71,14 @@ public:
 
 	float		getSampleDeltaYSpaceScale() const { return mSize.y - mYMargin*2.f; }
 	
-	GelSim::Input gelSimInput ( const Band& b, int i ) const;
-		
+	GelSim::Context getSimContext( const Sample& ) const;
+	
 private:
 	
 	std::vector<SampleRef>	mSamples;
 	Gelbox::Buffer			mBuffer = Gelbox::kBufferPresets[Gelbox::kBufferDefaultPreset];
 	
-	std::vector<Band> fragToBands( const Sample& sample, int fragi, int lane ) const;
 	void	  updateBands();
-	void	  updateBandState( Band& ) const;
-//	ci::Rectf calcBandBounds( const Band& ) const;
-	float     calcBandAlpha ( const Band&, int i ) const; // uses bounds, so do that first
 	
 	void insertSample( const Sample&, int lane ); // at current time
 	void clearSamples( int lane );	

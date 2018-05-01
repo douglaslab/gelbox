@@ -14,12 +14,15 @@ public:
 	
 	// meta-data
 	int			mLane		= -1; // what lane are we in?
-	int			mFragment	= -1;
-	int			mDye		= -1;
+	int			mFragment	= -1; // what fragment from sample are we from?
+	int			mDye		= -1; // if -1 not a dye; otherwise, what dye is it?
 
 	// fragment data (inputs)
+	int			mBases		 = 0;	// base count
+	int			mAggregate	 = 1;   // monomer by default (so, mBases * mAggregate is effective molecule size)
+	int			mDegradeLo	 = 0;	// by how many base pairs are we degraded at the low  end (bottom of band shifted down)?  
+	int			mDegradeHi	 = 0;	// by how many base pairs are we degraded at the high end (top of band shifted down)?
 	float		mMass		 = 0.f; // needed?
-	float		mDegrade	 = 0.f; // needed? re-parameterize as 2 variables?
 	float		mAspectRatio = 1.f; // needed?
 	
 	// ui
@@ -45,11 +48,4 @@ public:
 	
 	int			mRandSeed	= 0;	
 
-
-	// TO REFACTOR (from Gel::Band)
-	// for top (higher bp) and bottom (lower bp) of band, how many bases and aggregates?
-	int			mBases[2]; // degrade causes these values to drop
-	int			mMultimer[2];
-	
-	std::vector<float> mAggregate; // population ratios, as represented elsewhere with mAggregate
 };
