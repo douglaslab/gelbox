@@ -111,15 +111,6 @@ float calcFlames( bool isDye, float mass )
 	}
 }
 
-float calcBrightness( Input i )
-{
-	float a = constrain( (i.mMass * (float)i.mAggregation) / GelSim::kSampleMassHigh, 0.1f, 1.f );
-
-	a = powf( a, .5f ); // make it brighter
-	
-	return a;
-}
-
 float calcThickness ( Input i )
 {
 	return 1.f;
@@ -187,33 +178,38 @@ Band calcBandState( const Band& i )
 	//
 	return b;
 }
-
-float calcBandAlpha ( const Band& b, int i )
-{
-//	if ( b.mDye != -1 ) return b.mMass;
-//	else
-	{
-		float a = GelSim::calcBrightness( gelSimInput(b,i) );
-		
-		auto area = []( Rectf r ) {
-			return r.getWidth() * r.getHeight();
-		};
-		
-		if (1)
-		{
-			float diffuseScale = area( b.mWellRect ) / area(b.mRect);
-			// for diffusion, look at ratio of areas
-			
-			diffuseScale = powf( diffuseScale, .15f ); // tamp it down so we can still see things
-			diffuseScale = max ( diffuseScale, .1f  );
-			
-			a *= diffuseScale;
-		}
-		
-		return a;
-	}
-}
 #endif
+
+float calcBandAlpha ( const Band& b )
+{
+	float a = constrain( (b.mMass * (float)b.mAggregate) / GelSim::kSampleMassHigh, 0.1f, 1.f );
+
+	a = powf( a, .5f ); // make it brighter
+	
+	return a;
+
+	// Below--old code that dims with diffusion/spread of rectangle
+	
+	/*
+	float a = GelSim::calcBrightness( gelSimInput(b,i) );
+	
+	auto area = []( Rectf r ) {
+		return r.getWidth() * r.getHeight();
+	};
+	
+	if (1)
+	{
+		float diffuseScale = area( b.mWellRect ) / area(b.mRect);
+		// for diffusion, look at ratio of areas
+		
+		diffuseScale = powf( diffuseScale, .15f ); // tamp it down so we can still see things
+		diffuseScale = max ( diffuseScale, .1f  );
+		
+		a *= diffuseScale;
+	}
+	
+	return a;*/
+}
 
 Band calcBandGeometry( Context ctx, Band b, Rectf wellRect )
 {
@@ -242,13 +238,13 @@ Band dyeToBand( int lane, int fragment, int dye, float mass )
 	b.mBases		= Dye::kBPLo[dye];
 	b.mMass			= mass;
 	
-	b.mColor		= Dye::kColors[dye]; 
+	b.mColor		= Dye::kColors[dye];
+	b.mColor.a		= calcBandAlpha(b);
 	b.mFocusColor	= lerp( Color(b.mColor), Color(0,0,0), .5f );
 	
 	// not done:
 	// - geometry
 	// - render params (except mColor.rgb)
-	// - mColor.a
 	
 	return b;
 }
@@ -271,12 +267,11 @@ Band fragAggregateToBand( int lane, int fragi, const Sample::Fragment& frag, int
 	b.mAspectRatio	= frag.mAspectRatio;
 	
 	b.mFocusColor	= frag.mColor;
-	b.mColor		= ColorA(1.f,1.f,1.f,1.f);
+	b.mColor		= ColorA( 1.f, 1.f, 1.f, calcBandAlpha(b) );
 
 	// not done:
 	// - geometry
 	// - render params (except mColor.rgb)
-	// - mColor.a
 
 	return b;	
 }
