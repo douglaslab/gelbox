@@ -32,22 +32,6 @@ void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade )
 }
 */
 
-/*
-Output calc( Input i )
-{
-	Output o;
-	o.mThickness	= calcThickness(i);
-	o.mBrightness	= calcBrightness(i);
-
-	o.mDeltaY		= calcDeltaY(i);
-	o.mDiffusion	= calcDiffusionInflation(i);
-	o.mFlames		= calcFlames(i.mIsDye,i.mMass);
-	// smile
-	// smile xp
-	return o;
-}
-*/
-
 float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 {
 	// Constants
@@ -313,7 +297,7 @@ std::vector<Band> fragToBands(
 		result.push_back( dyeToBand( lane, fragi, frag.mDye, frag.mMass) );
 	};
 	
-	auto addMonomer = [=,&result]( int fragi )
+	auto addMonomer = [=,&result]()
 	{
 		result.push_back( fragAggregateToBand( lane, fragi, frag, 1, 1.f ) );
 	};
@@ -336,7 +320,7 @@ std::vector<Band> fragToBands(
 	const float wsum = frag.calcAggregateWeightedSum();
 
 	if      ( frag.mDye >= 0 && frag.mMass > 0.f )	 addDye();
-	else if ( frag.mAggregate.empty() || wsum==0.f ) addMonomer(wsum);
+	else if ( frag.mAggregate.empty() || wsum==0.f ) addMonomer();
 	else											 addMultimer(wsum);
 	
 	// finish them
@@ -348,26 +332,5 @@ std::vector<Band> fragToBands(
 	//
 	return result;
 }
-
-/*
-
-GelSim::Input Gel::gelSimInput ( const Band& b ) const 
-{
-	GelSim::Input gsi;
-	gsi.mBases			= b.mBases;
-	gsi.mMass			= b.mMass;
-	gsi.mIsDye			= b.mDye != -1;
-	
-	gsi.mAggregation	= b.mAggregate;
-	gsi.mAspectRatio	= b.mAspectRatio;
-	
-	gsi.mVoltage		= mVoltage;
-	gsi.mTime			= mTime;
-	
-	gsi.mGelBuffer		= mBuffer;
-	gsi.mSampleBuffer	= mSamples[b.mLane]->mBuffer;
-	return gsi;
-};
-*/
 
 } // namespace
