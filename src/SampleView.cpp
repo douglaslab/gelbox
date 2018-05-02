@@ -640,8 +640,8 @@ void SampleView::syncToModel()
 			
 			f.mColor		= s.mColor;
 			f.mTargetPop	= max( 1.f, (s.mMass/GelSim::kSampleMassHigh) * kNumPartsPerMassHigh );
-			f.mAggregate	= s.mAggregate;			
-			f.mAggregateWeightSum = s.calcAggregateSum();
+			f.mAggregate	= s.mAggregate;
+			f.mAggregateWeightSum = s.mAggregate.calcSum();
 			
 			f.mSampleSizeBias = s.mSampleSizeBias;
 			

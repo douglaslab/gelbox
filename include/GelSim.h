@@ -54,59 +54,10 @@ const int   kSliderBaseCountMax = kBaseCountHigh;
 //void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade );
 
 
-/*
-	Calc Delta Y
-	
-	How far on a normalized y axis of gel will this sample move?
-*/
-/*struct Input
-{
-	int		mBases			= 0;
-	float	mMass			= 0.f; // not used for all calculations
-	bool	mIsDye			= false;
-	
-	int		mAggregation	= 1;
-	float	mAspectRatio	= 1.f;
-
-	float	mVoltage		= kSliderVoltageDefaultValue;
-	float	mTime			= 1.f;
-	
-	Gelbox::Buffer mGelBuffer;
-	Gelbox::Buffer mSampleBuffer;
-};
-
-struct Output
-{
-	// in world units (normalized y axis)
-	float mDeltaY		= 0.f;
-	float mDiffusion	= 0.f;
-
-	//
-	float mThickness	= 1.f; // proportional to height of well
-	float mBrightness	= 1.f;
-	
-	float mFlames		= 0.f; // normalized; multiply by mThickness to get world units 
-	float mSmile		= 0.f; // normalized; multiply by mThickness to get world units
-	float mSmileExp		= 4.f;
-	
-	// 
-	void scaleSpace( float s )
-	{
-		mDeltaY			*= s;
-		mDiffusion		*= s;
-//		mFlames			*= s;
-	}
-};*/
-
-//Output calc( Input );
-
 //float calcDiffusionInflation( Input ); // returns same units as above
 //float calcFlames( bool isDye, float mass ); // normalized to height of band
 //float calcBrightness( Input ); // 0..1
 //float calcThickness ( Input ); // 0..1, proportional to well
-
-//Band calcBandState( const Band& );
-//Band calcRenderParams( Input input, Band );
 
 
 /// NEW ////
@@ -129,5 +80,6 @@ std::vector<Band> fragToBands(
 	Context			context );
 
 float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx );
+	// 	How far on a normalized y axis of gel will this sample move?
 
 } // namespace

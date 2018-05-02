@@ -95,6 +95,7 @@
 		2693E3252000415300633564 /* SampleView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SampleView.cpp; path = ../src/SampleView.cpp; sourceTree = "<group>"; };
 		2693E3272004018B00633564 /* FragmentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FragmentView.h; path = ../include/FragmentView.h; sourceTree = "<group>"; };
 		2693E3282004019800633564 /* FragmentView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FragmentView.cpp; path = ../src/FragmentView.cpp; sourceTree = "<group>"; };
+		269F51DC209A3CB600D43B8F /* Aggregate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Aggregate.h; path = ../include/Aggregate.h; sourceTree = "<group>"; };
 		26A4B746200ED29600D2119E /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = Credits.rtf; path = ../assets/Credits.rtf; sourceTree = "<group>"; };
 		26C36DCA203246AC00229323 /* BufferView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BufferView.h; path = ../include/BufferView.h; sourceTree = "<group>"; };
 		26C36DCB203246C700229323 /* BufferView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BufferView.cpp; path = ../src/BufferView.cpp; sourceTree = "<group>"; };
@@ -290,6 +291,7 @@
 				26C36DD82034AA0D00229323 /* Buffer.h */,
 				261BE5C720408CFD000027EC /* GelRender.h */,
 				263B13FC2093AE8000AC33A5 /* Band.h */,
+				269F51DC209A3CB600D43B8F /* Aggregate.h */,
 			);
 			name = Sim;
 			sourceTree = "<group>";

@@ -442,10 +442,8 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 				band = *newpick;
 			}
 			
-			// use biggest band in mouse down fragment for mouse down
-			// (this is better than just mMouseDownBand = band, as it solves some multi-multimer issues)
-			mMouseDownBand = mGel->getSlowestBandInFragment(band);
-			mMouseDragBand = mMouseDownBand;
+			mMouseDownBand = band;
+			mMouseDragBand = band;
 			mDrag = Drag::Band;
 			
 			mMouseDownMicrotube = band.mLane;
@@ -918,7 +916,7 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		if ( ! f.mAggregate.empty() )
 		{
 			int hi, lo;
-			int numNonZeroMultimers = f.calcAggregateRange(lo,hi);
+			int numNonZeroMultimers = f.mAggregate.calcRange(lo,hi);
 			
 			if ( numNonZeroMultimers > 1 )
 			{
@@ -1174,31 +1172,19 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 	SampleRef		sample = getSample(lane);
 	Sample::Fragment &frag = sample->mFragments[fragi];
 	
-	// calculate dragDelta
-	//		since by default we would put top of band at mouse,
-	//		simply compute delta from
-	//		band top to mouse down loc
-	float dragDeltaY = mMouseDownBand.mUIRect.y1 - rootToChild(getMouseDownLoc()).y ;
-	
-	// use minimum aggregate in band
-	// (this part behaves pretty weird with multimers)
-	int aggregate=1;
-	for ( int i=0; i<frag.mAggregate.size(); ++i )
-	{
-		if ( frag.mAggregate[i] > 0.f )
-		{
-			aggregate = i+1;
-			// convert from index to aggregate count (e.g. monomer (aggregate=1) is at index=0)
-		}
-	} 
-	
 	// solve for bp (respond to y)
 	if ( ! frag.isDye() )
 	{
+		// calculate dragDelta
+		//		since by default we would put top of band at mouse,
+		//		simply compute delta from
+		//		band top to mouse down loc
+		float dragDeltaY = mMouseDownBand.mUIRect.y1 - rootToChild(getMouseDownLoc()).y ;
+		
 		// TODO: ensure we are resolving via mUIRect; (solve for mUIRect inside)
 		frag.mBases = solveBasePairForY(
 			rootToChild(e.getPos()).y + dragDeltaY,
-			aggregate,
+			mMouseDownBand.mAggregate,
 			frag.mAspectRatio,
 			mGel->getSimContext(*sample),
 			mGel->getWellBounds(lane).y1, //getCenter().y,

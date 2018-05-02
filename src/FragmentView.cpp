@@ -181,17 +181,19 @@ void FragmentView::makeSliders()
 		};
 		aggregate.mGraphGetter = [this]()
 		{
-			if ( getEditFragment().mAggregate.empty() )
-			{
-				// default value
-				vector<float> v = std::vector<float>(GelSim::kSliderAggregateMaxMultimer,0.f);
-				v[0] = 1;
-				return v;
+			// get
+			Aggregate a = getEditFragment().mAggregate;
+			
+			// empty? -> default value, monomer
+			if ( a.empty() ) a = Aggregate(); 
+
+			// ensure # slider notches we want
+			if ( a.size() < GelSim::kSliderAggregateMaxMultimer ) {
+				 a.resize(GelSim::kSliderAggregateMaxMultimer,0.f);
 			}
-			else
-			{
-				return getEditFragment().mAggregate.get();
-			}
+
+			// return			
+			return a.get();
 		};
 		
 		

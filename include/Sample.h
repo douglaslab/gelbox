@@ -13,6 +13,7 @@
 #include "cinder/Xml.h"
 #include "Dye.h"
 #include "Buffer.h"
+#include "Aggregate.h"
 
 class Sample;
 typedef std::shared_ptr<Sample> SampleRef;
@@ -49,61 +50,6 @@ private:
 };
 typedef std::shared_ptr<SampleFragRef> SampleFragRefRef; // :D it is a pointer-pointer after all
 
-
-class Aggregate : public std::vector<float>
-{
-public:
-	// a set of weights that represented weighted distribution of multimers
-		/* - empty means default (monomer) -- should never happen!!!
-		   - dimer is {0,1} (0 for size 1, 1 for size 2)
-		   - 50/50 dimers and trimers is {0,1,1}
-		   - can no non-uniform distributions, e.g.: {.5,1,2}
-		   etc...
-		*/
-
-	Aggregate( std::vector<float>& v )
-	{
-		clear();
-		resize(v.size(),0.f);
-		
-		for( int i=0; i<v.size(); ++i )
-		{
-			(*this)[i] = v[i];
-		}
-	}
-	
-	Aggregate()
-	{
-		set(0,1.f); // start off as a monomer: one element set to 1
-	}
-	
-	void zeroAll()
-	{
-		for( size_t i=0; i<size(); ++i )
-		{
-			(*this)[i] = 0.f;
-		}
-	}
-	
-	void set( size_t a, float w )
-	{
-		if ( size() <= a ) {
-			resize(a+1,0.f);
-		}
-		(*this)[a] = w;
-	}
-	
-	float get( size_t a ) const
-	{
-		if ( a >= size() ) return 0.f;
-		else return (*this)[a];
-	}
-	
-	const std::vector<float>& get() const {
-		return *this;
-	} 
-};
-
 class Sample
 {
 public:
@@ -133,38 +79,7 @@ public:
 		int		  mOriginSampleFrag=-1;
 		
 		// derived properties
-		bool isDye() const { return mDye != -1; }
-		
-		float calcAggregateSum() const {
-			float sum = 0.f;
-			for( auto w : mAggregate ) sum += w;
-			return sum; 
-		}
-
-		float calcAggregateWeightedSum() const {
-			float sum = 0.f;
-			for( int i=0; i<mAggregate.size(); ++i ) sum += mAggregate[i] * (float)i;
-			return sum; 
-		}
-		
-		int calcAggregateRange( int& lo, int& hi ) const
-		{
-			lo = hi = -1;
-			
-			int numNonZeroMultimers = 0;
-			
-			for( int m=0; m<mAggregate.size(); ++m )
-			{
-				if ( mAggregate[m] > 0.f )
-				{
-					numNonZeroMultimers++;
-					if ( lo == -1 ) lo = m;
-					hi = m;					
-				}
-			}
-			
-			return numNonZeroMultimers;			
-		} 
+		bool isDye() const { return mDye != -1; }		
 	};
 
 	std::vector<Fragment>	mFragments;

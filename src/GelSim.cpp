@@ -225,14 +225,14 @@ Band calcBandGeometry( Context ctx, Band b, Rectf wellRect )
 	return b;
 }
 
-Band dyeToBand( int lane, int fragment, int dye, float mass )
+Band dyeToBand( int lane, int fragi, int dye, float mass )
 {
 	assert( Dye::isValidDye(dye) );
 	
 	Band b;
 	
 	b.mLane			= lane;
-	b.mFragment 	= fragment;
+	b.mFragment 	= fragi;
 	b.mDye			= dye;
 
 	b.mBases		= Dye::kBPLo[dye];
@@ -251,6 +251,8 @@ Band dyeToBand( int lane, int fragment, int dye, float mass )
 
 Band fragAggregateToBand( int lane, int fragi, const Sample::Fragment& frag, int aggregate, float massScale )
 {
+	assert( aggregate > 0 );
+	
 	Band b;
 
 	b.mLane			= lane;
@@ -297,26 +299,26 @@ std::vector<Band> fragToBands(
 		result.push_back( fragAggregateToBand( lane, fragi, frag, 1, 1.f ) );
 	};
 
-	auto addMultimer = [=,&result]( float wsum )
+	auto addMultimer = [=,&result]( float asum )
 	{
 		// add band for each multimer size
 		for( int m=0; m<frag.mAggregate.size(); ++m )
 		{
 			if ( frag.mAggregate[m] > 0.f )
 			{
-				float massScale = (frag.mAggregate[m] / wsum);
+				float massScale = (frag.mAggregate[m] / asum);
 				
-				result.push_back( fragAggregateToBand( lane, fragi, frag, m, massScale ) );
+				result.push_back( fragAggregateToBand( lane, fragi, frag, m+1, massScale ) );
 			}
 		}
 	};	
 
 	// do it
-	const float wsum = frag.calcAggregateWeightedSum();
+	const float asum = frag.mAggregate.calcSum();
 
 	if      ( frag.mDye >= 0 && frag.mMass > 0.f )	 addDye();
-	else if ( frag.mAggregate.empty() || wsum==0.f ) addMonomer();
-	else											 addMultimer(wsum);
+	else if ( frag.mAggregate.empty() || asum==0.f ) addMonomer();
+	else											 addMultimer(asum);
 	
 	// finish them
 	for( auto &b : result )
