@@ -903,16 +903,16 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		f.mMass = b.mMass;
 		
 		// aggregates
-//		f.mAggregate = b.mAggregate;
 		f.mAggregate.zeroAll();
 		f.mAggregate.set(
-			f.mAggregate.get(b.mAggregate),
+			b.mAggregate-1,
 			1.f );
 		
 		// if we are an aggregate smeary band, (num non-zero multimers >1)
 		// then bias aggregation with sample size bias
 		// NOTE: This technique works OK when numNonZeroMultimers <= 2,
 		//		 but gives bad results (because interpolation isn't linear) when > 2
+		/*
 		if ( ! f.mAggregate.empty() )
 		{
 			int hi, lo;
@@ -938,7 +938,7 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 					f.mAggregate[m] *= scale;
 				}
 			}
-		}
+		}*/
 		
 		// push
 		s->mFragments.push_back(f);
