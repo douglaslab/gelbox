@@ -268,12 +268,13 @@ void GelView::drawBands() const
 
 	TriMesh mesh( TriMesh::Format().positions(2).colors(4) );
 	
-	auto fillRect = [&mesh]( Rectf r, ColorA c[2] )
+	auto fillRect = [&mesh]( Rectf r, ColorA c )
 	{
-		mesh.appendColorRgba(c[0]);
-		mesh.appendColorRgba(c[0]);
-		mesh.appendColorRgba(c[1]);
-		mesh.appendColorRgba(c[1]);
+//		mesh.appendColorRgba(c[0]);
+//		mesh.appendColorRgba(c[0]);
+//		mesh.appendColorRgba(c[1]);
+//		mesh.appendColorRgba(c[1]);
+		for( int i=0; i<4; ++i ) mesh.appendColorRgba(c);
 
 		mesh.appendPosition(r.getUpperLeft());
 		mesh.appendPosition(r.getUpperRight());
@@ -288,15 +289,14 @@ void GelView::drawBands() const
 	
 	for( auto &b : bands )
 	{
-		ColorA c[2] =
+		if ( b.mBlur )
 		{
-//				ColorA( b.mColor, b.mAlpha[0] ),
-//				ColorA( b.mColor, b.mAlpha[1] )
-			b.mColor,
-			b.mColor
-		};
+			ColorA bc = b.mColor;
+			bc.a *= .2f;
+			fillRect( b.mRect.inflated(vec2(b.mBlur)), bc );
+		}
 		
-		fillRect( b.mRect, c );
+		fillRect( b.mRect, b.mColor );
 	}
 
 
@@ -1179,15 +1179,14 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 		//		since by default we would put top of band at mouse,
 		//		simply compute delta from
 		//		band top to mouse down loc
-		float dragDeltaY = mMouseDownBand.mUIRect.y1 - rootToChild(getMouseDownLoc()).y ;
+		float dragDeltaY = mMouseDownBand.mRect.y1 - rootToChild(getMouseDownLoc()).y ;
 		
-		// TODO: ensure we are resolving via mUIRect; (solve for mUIRect inside)
 		frag.mBases = solveBasePairForY(
 			rootToChild(e.getPos()).y + dragDeltaY,
 			mMouseDownBand.mAggregate,
 			frag.mAspectRatio,
 			mGel->getSimContext(*sample),
-			mGel->getWellBounds(lane).y1, //getCenter().y,
+			mGel->getWellBounds(lane).y1,
 			mGel->getSampleDeltaYSpaceScale() );		
 	}
 	

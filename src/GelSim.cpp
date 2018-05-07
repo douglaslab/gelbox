@@ -84,13 +84,6 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 }
 
 #if 0
-float calcDiffusionInflation( Input i )
-{
-	const float kFraction = .01f;
-	
-	return kFraction * calcDeltaY(i);
-}
-
 float calcFlames( bool isDye, float mass )
 {
 	if (isDye) return 0.f;
@@ -211,6 +204,37 @@ float calcBandAlpha ( const Band& b )
 	return a;*/
 }
 
+float calcBandDiffusion( int bases, int aggregation, float aspectRatio, Context ctx )
+{
+	// TODO: consider ctx.mYSpaceScale?
+	
+	const int kThresh = 1500;
+	const int kUpperThresh = 10000;
+	const float kThreshAmount = 2.f; 
+	const float kTinyScale = 16.f;
+	const float kBaseline = 1.f;
+	
+	if ( bases > kThresh )
+	{
+		float v = lmap( (float)bases, (float)kThresh, (float)kUpperThresh, (float)kThreshAmount, (float)0.f );
+		
+		v = max( 0.f, v ); // in case bases is out of bounds
+		
+		v += kBaseline;
+		
+		return v;
+	}
+	else
+	{
+		float v = (float)(kThresh - bases) / (float)kThresh;
+		// v 0..1
+		
+		v = kBaseline + kThreshAmount + (v * kTinyScale);
+		
+		return v;
+	}
+}
+
 Band calcBandGeometry( Context ctx, Band b, Rectf wellRect )
 {
 	float deltaY = calcDeltaY( b.mBases, b.mAggregate, b.mAspectRatio, ctx );
@@ -220,12 +244,14 @@ Band calcBandGeometry( Context ctx, Band b, Rectf wellRect )
 	b.mWellRect = wellRect;
 	b.mRect		= wellRect;
 	b.mRect	   += vec2( 0.f, deltaY );
+
 	b.mUIRect	= b.mRect;
+	b.mUIRect.inflate(vec2(b.mBlur));
 	
 	return b;
 }
 
-Band dyeToBand( int lane, int fragi, int dye, float mass )
+Band dyeToBand( int lane, int fragi, int dye, float mass, Context context )
 {
 	assert( Dye::isValidDye(dye) );
 	
@@ -246,10 +272,18 @@ Band dyeToBand( int lane, int fragi, int dye, float mass )
 	// - geometry
 	// - render params (except mColor.rgb)
 	
+	b.mBlur			= calcBandDiffusion( b.mBases, b.mAggregate, b.mAspectRatio, context );
+	
 	return b;
 }
 
-Band fragAggregateToBand( int lane, int fragi, const Sample::Fragment& frag, int aggregate, float massScale )
+Band fragAggregateToBand(
+	int		lane,
+	int		fragi,
+	const Sample::Fragment& frag,
+	int		aggregate,
+	float	massScale,
+	Context context )
 {
 	assert( aggregate > 0 );
 	
@@ -275,6 +309,8 @@ Band fragAggregateToBand( int lane, int fragi, const Sample::Fragment& frag, int
 	// - geometry
 	// - render params (except mColor.rgb)
 
+	b.mBlur			= calcBandDiffusion( b.mBases, b.mAggregate, b.mAspectRatio, context );
+
 	return b;	
 }
 
@@ -291,12 +327,12 @@ std::vector<Band> fragToBands(
 	
 	auto addDye = [=,&result]()
 	{
-		result.push_back( dyeToBand( lane, fragi, frag.mDye, frag.mMass) );
+		result.push_back( dyeToBand( lane, fragi, frag.mDye, frag.mMass, context ) );
 	};
 	
 	auto addMonomer = [=,&result]()
 	{
-		result.push_back( fragAggregateToBand( lane, fragi, frag, 1, 1.f ) );
+		result.push_back( fragAggregateToBand( lane, fragi, frag, 1, 1.f, context ) );
 	};
 
 	auto addMultimer = [=,&result]( float asum )
@@ -308,7 +344,7 @@ std::vector<Band> fragToBands(
 			{
 				float massScale = (frag.mAggregate[m] / asum);
 				
-				result.push_back( fragAggregateToBand( lane, fragi, frag, m+1, massScale ) );
+				result.push_back( fragAggregateToBand( lane, fragi, frag, m+1, massScale, context ) );
 			}
 		}
 	};	

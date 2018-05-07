@@ -29,7 +29,7 @@ public:
 	ci::Color   mFocusColor;
 	
 	// basic geometric information
-	ci::Rectf	mRect;		// visual. does not include smearing above/below
+	ci::Rectf	mRect;		// visual. does not include smearing above/below or blurring.
 	ci::Rectf	mUIRect;	// ui. should encompass all visual phenomena.
 	ci::Rectf	mWellRect;	// start bounds 
 	
