@@ -112,7 +112,10 @@ Band calcRenderParams( Input input, Band i )
 				
 	o.mRect = i.mRect; // just pass in output rect for now (not mBands, since that is already inflated with blur)
 	o.mBlur	= i.mBlur + 1;
-	
+
+	// !!!!
+	// TODO REINCORPORATE....
+	// !!!!	
 	o.mFlameHeight = o.mRect.getHeight() * GelSim::calcFlames(i.mDye!=-1,i.mMass);
 	
 	o.mSmileHeight = o.mRect.getHeight() * .35f; 
@@ -210,9 +213,12 @@ Band calcBandGeometry( Context ctx, Band b, Rectf wellRect )
 	b.mWellRect = wellRect;
 	b.mRect		= wellRect;
 	b.mRect.y1 += deltaY1;
-	b.mRect.y2 += deltaY2;
-
+	b.mRect.y2 += deltaY1;
+	
+	b.mSmearBelow = (b.mWellRect.y2 + deltaY2) - b.mRect.y2;
+	
 	b.mUIRect	= b.mRect;
+	b.mUIRect.y2 += b.mSmearBelow;
 	b.mUIRect.inflate(vec2(b.mBlur));
 	
 	return b;

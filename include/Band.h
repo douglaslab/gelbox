@@ -33,7 +33,7 @@ public:
 	ci::Rectf	mUIRect;	// ui. should encompass all visual phenomena.
 	ci::Rectf	mWellRect;	// start bounds 
 	
-	// render params (for GelRender class)
+	// render params (some just for GelRender class)
 	float		mSmearAbove = 0.f; // same units as mRect
 	float		mSmearBelow = 0.f; // same units as mRect
 	float		mSmearBrightness[2] = {1,0}; // near, far (e.g. 1,0)

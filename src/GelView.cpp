@@ -267,14 +267,13 @@ void GelView::drawBands() const
 	auto bands = mGel->getBands();
 
 	TriMesh mesh( TriMesh::Format().positions(2).colors(4) );
-	
-	auto fillRect = [&mesh]( Rectf r, ColorA c )
+
+	auto fillRect2 = [&mesh]( Rectf r, ColorA c1, ColorA c2 )
 	{
-//		mesh.appendColorRgba(c[0]);
-//		mesh.appendColorRgba(c[0]);
-//		mesh.appendColorRgba(c[1]);
-//		mesh.appendColorRgba(c[1]);
-		for( int i=0; i<4; ++i ) mesh.appendColorRgba(c);
+		mesh.appendColorRgba(c1);
+		mesh.appendColorRgba(c1);
+		mesh.appendColorRgba(c2);
+		mesh.appendColorRgba(c2);
 
 		mesh.appendPosition(r.getUpperLeft());
 		mesh.appendPosition(r.getUpperRight());
@@ -285,6 +284,11 @@ void GelView::drawBands() const
 		
 		mesh.appendTriangle( i+0, i+1, i+2 );
 		mesh.appendTriangle( i+2, i+3, i+0 );
+	};
+		
+	auto fillRect = [&mesh,fillRect2]( Rectf r, ColorA c )
+	{
+		fillRect2( r, c, c );
 	};
 	
 	for( auto &b : bands )
@@ -297,6 +301,18 @@ void GelView::drawBands() const
 		}
 		
 		fillRect( b.mRect, b.mColor );
+		
+		if ( b.mSmearBelow > 0.f )
+		{
+			Rectf r = b.mRect;
+			r.y1 = r.y2;
+			r.y2 += b.mSmearBelow;
+			
+			ColorA c2 = b.mColor;
+			c2.a *= 0.f;
+			
+			fillRect2( r, b.mColor, c2 );
+		}
 	}
 
 
