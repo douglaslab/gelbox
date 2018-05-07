@@ -913,7 +913,10 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		f.mOriginSampleFrag = b.mFragment;
 		
 		// speed bias
-		f.mSampleSizeBias = (pos.y - b.mRect.getY1()) / b.mRect.getHeight() ;
+		f.mSampleSizeBias =
+			(pos.y - b.mRect.getY1())
+			 /
+			(b.mRect.getHeight() + b.mSmearBelow);
 		
 		//
 		f.mMass = b.mMass;

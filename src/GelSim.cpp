@@ -140,6 +140,20 @@ Band calcRenderParams( Input input, Band i )
 }
 #endif
 
+int calcRandSeed( const Band& b, Context context )
+{
+	return
+		b.mLane * 17
+//		  + i.mFragment * 13 // this means insertions, etc... will shuffle coherency
+//		  + i.mBases[0] * 1080
+//		  + i.mDye * 2050
+	  + (int)(b.mRect.y1)
+//		  + (int)(mGel->getTime() * 100.f)
+	  + (int)(context.mVoltage * 200.f)
+	  + (int)(b.mMass * 10.f)
+	  ;	
+}
+
 float calcBandAlpha ( const Band& b )
 {
 	float a = constrain( (b.mMass * (float)b.mAggregate) / GelSim::kSampleMassHigh, 0.1f, 1.f );
@@ -220,7 +234,13 @@ Band calcBandGeometry( Context ctx, Band b, Rectf wellRect )
 	b.mUIRect	= b.mRect;
 	b.mUIRect.y2 += b.mSmearBelow;
 	b.mUIRect.inflate(vec2(b.mBlur));
-	
+
+	if ( b.mDye == -1 )
+	{
+		b.mSmileHeight = b.mRect.getHeight() * .35f; 
+		b.mSmileExp = 4.f;
+	}
+		
 	return b;
 }
 
@@ -331,6 +351,7 @@ std::vector<Band> fragToBands(
 	for( auto &b : result )
 	{
 		b = calcBandGeometry( context, b, wellRect );
+		b.mRandSeed = calcRandSeed( b, context ); // uses mRect
 	}
 	
 	//
