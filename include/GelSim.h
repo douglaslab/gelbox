@@ -45,23 +45,6 @@ const int   kSliderBaseCountMax = kBaseCountHigh;
 
 
 
-/*
-	Degrade [0..2]
-	
-	- as degrade goes 0..1, y2, baseCountLow,  lower end of band, moves to end of chart--shorter base pairs
-	- as degrade goes 1..2, y1, baseCountHigh, upper end of band, moves to end of chart--shorter bp
-*/
-//void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade );
-
-
-//float calcDiffusionInflation( Input ); // returns same units as above
-//float calcFlames( bool isDye, float mass ); // normalized to height of band
-//float calcBrightness( Input ); // 0..1
-//float calcThickness ( Input ); // 0..1, proportional to well
-
-
-/// NEW ////
-
 struct Context
 {
 	float	mVoltage		= kSliderVoltageDefaultValue;

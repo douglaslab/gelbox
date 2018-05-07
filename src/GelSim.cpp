@@ -15,22 +15,22 @@ using namespace ci;
 namespace GelSim {
 
 /*
-void degradeBaseCount( int& baseCountHigh, int& baseCountLow, float degrade )
-{
-	// as degrade goes 0..1, y2 moves to end of chart--shorter base pairs
-	// as degrade goes 1..2, y1 moves to end of chart--shorter bp
+	Degrade [0..2]
 	
-	baseCountLow -= min( 1.f, degrade ) * (float)baseCountLow;
-	
-	if ( degrade > 1.f ) baseCountHigh -= min( 1.f, degrade - 1.f ) * (float)baseCountHigh;		
-	
-	baseCountLow  = max( 1, baseCountLow  );
-	baseCountHigh = max( 1, baseCountHigh );
-	
-//	y2b -= min( 1.f, b.mDegrade ); // as degrade goes 0..1, y2 moves to end of chart--shorter base pairs
-//	if ( b.mDegrade > 1.f ) y1b -= min( 1.f, b.mDegrade - 1.f ); // as degrade goes 1..2, y1 moves to end of chart--shorter bp  
-}
+	- as degrade goes 0..1, y2, baseCountLow,  lower end of band, moves to end of chart--shorter base pairs
+	- as degrade goes 1..2, y1, baseCountHigh, upper end of band, moves to end of chart--shorter bp
 */
+
+void calcDegrade( int bases, float degrade, int& degradeLo, int& degradeHi )
+{
+	// as degrade goes 0..1, band.y2 moves to end of chart--shorter base pairs (degradeLo)
+	// as degrade goes 1..2, band.y1 moves to end of chart--shorter bp (degradeHi)
+	
+	degradeLo = min( 1.f, degrade ) * (float)bases;
+	
+	if ( degrade > 1.f ) degradeHi = min( 1.f, degrade - 1.f ) * (float)bases;		
+	else degradeHi = 0;
+}
 
 float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 {
@@ -104,11 +104,6 @@ float calcFlames( bool isDye, float mass )
 	}
 }
 
-float calcThickness ( Input i )
-{
-	return 1.f;
-}
-
 Band calcRenderParams( Input input, Band i )
 {
 	Band o=i;
@@ -139,37 +134,6 @@ Band calcRenderParams( Input input, Band i )
 		
 	
 	return o;
-}
-
-Band calcBandState( const Band& i )
-{
-	Band b = i;
-	
-	// band bounds
-	const float ySpaceScale = getSampleDeltaYSpaceScale();	
-//	const float thicknessNorm = GelSim::calcThickness(GelSim::Input) ;
-	
-	b.mRect = b.mWellRect;
-//	b.mRect.y1 = b.mRect.y2 - thicknessNorm * b.mWellRect.getHeight(); 
-	
-	b.mRect.y1 += GelSim::calcDeltaY( gelSimInput(b,0) ) * ySpaceScale;
-	b.mRect.y2 += GelSim::calcDeltaY( gelSimInput(b,1) ) * ySpaceScale;
-	
-	// blur, bounds
-	b.mBlur = GelSim::calcDiffusionInflation( gelSimInput(b,1) ) * ySpaceScale;
-	b.mRect = b.mRect.inflated( vec2(b.mBlur) );
-	b.mUIRect = b.mRect;
-	// use smaller (faster, more inflation) size. we could use a poly, and inflate top vs. bottom differently.
-	// with degradation, to see more diffusion we need to use [1], since that's what moves first
-	
-	// render params
-	b = GelSim::calcRenderParams( gelSimInput(b,0), b );
-	
-	// alpha
-	b.mColor.a = calcBandAlpha(b,0);
-	
-	//
-	return b;
 }
 #endif
 
@@ -237,13 +201,16 @@ float calcBandDiffusion( int bases, int aggregation, float aspectRatio, Context 
 
 Band calcBandGeometry( Context ctx, Band b, Rectf wellRect )
 {
-	float deltaY = calcDeltaY( b.mBases, b.mAggregate, b.mAspectRatio, ctx );
+	float deltaY1 = calcDeltaY( b.mBases - b.mDegradeHi, b.mAggregate, b.mAspectRatio, ctx );
+	float deltaY2 = calcDeltaY( b.mBases - b.mDegradeLo, b.mAggregate, b.mAspectRatio, ctx );
 	
-	deltaY *= ctx.mYSpaceScale;
+	deltaY1 *= ctx.mYSpaceScale;
+	deltaY2 *= ctx.mYSpaceScale;
 	
 	b.mWellRect = wellRect;
 	b.mRect		= wellRect;
-	b.mRect	   += vec2( 0.f, deltaY );
+	b.mRect.y1 += deltaY1;
+	b.mRect.y2 += deltaY2;
 
 	b.mUIRect	= b.mRect;
 	b.mUIRect.inflate(vec2(b.mBlur));
@@ -295,9 +262,7 @@ Band fragAggregateToBand(
 	b.mBases		= frag.mBases;
 	b.mAggregate	= aggregate;
 	
-	// not done: (TODO)
-//	b.mDegradeLo;
-//	b.mDegradeHi;
+	calcDegrade( b.mBases, frag.mDegrade, b.mDegradeLo, b.mDegradeHi );
 	
 	b.mMass			= frag.mMass * massScale;
 	b.mAspectRatio	= frag.mAspectRatio;
