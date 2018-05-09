@@ -83,62 +83,23 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 	return y;
 }
 
-#if 0
-float calcFlames( bool isDye, float mass )
+float calcFlames( float mass )
 {
-	if (isDye) return 0.f;
-	else
+	// not for dyes
+	
+	const float kOverloadThresh = GelSim::kSampleMassHigh * .8f;
+	
+	float fh = 0.f;
+	
+	if ( mass > kOverloadThresh )
 	{
-		const float kOverloadThresh = GelSim::kSampleMassHigh * .8f;
-		
-		float fh = 0.f;
-		
-		if ( mass > kOverloadThresh )
-		{
-			fh  = (mass - kOverloadThresh) / (GelSim::kSampleMassHigh - kOverloadThresh);
-	//		fh *= o.mWellRect.getHeight() * 2.f;
-			fh *= 2.f;
-		}
-		
-		return fh;
+		fh  = (mass - kOverloadThresh) / (GelSim::kSampleMassHigh - kOverloadThresh);
+//		fh *= o.mWellRect.getHeight() * 2.f;
+		fh *= 2.f;
 	}
+	
+	return fh;
 }
-
-Band calcRenderParams( Input input, Band i )
-{
-	Band o=i;
-			
-	o.mColor.a  = GelSim::calcBrightness( input );
-				
-	o.mRect = i.mRect; // just pass in output rect for now (not mBands, since that is already inflated with blur)
-	o.mBlur	= i.mBlur + 1;
-
-	// !!!!
-	// TODO REINCORPORATE....
-	// !!!!	
-	o.mFlameHeight = o.mRect.getHeight() * GelSim::calcFlames(i.mDye!=-1,i.mMass);
-	
-	o.mSmileHeight = o.mRect.getHeight() * .35f; 
-	o.mSmileExp = 4.f;
-	
-//		o.mSmearBelow = o.mWellRect.getHeight() * 3.f;
-//		o.mSmearAbove = o.mWellRect.getHeight() * 3.f;
-	
-	o.mRandSeed =
-		i.mLane * 17
-//		  + i.mFragment * 13 // this means insertions, etc... will shuffle coherency
-//		  + i.mBases[0] * 1080
-//		  + i.mDye * 2050
-	  + (int)(i.mRect.y1)
-//		  + (int)(mGel->getTime() * 100.f)
-	  + (int)(input.mVoltage * 200.f)
-	  + (int)(i.mMass * 10.f)
-	  ; 
-		
-	
-	return o;
-}
-#endif
 
 int calcRandSeed( const Band& b, Context context )
 {
@@ -235,16 +196,10 @@ Band calcBandGeometry( Context ctx, Band b, Rectf wellRect )
 	b.mUIRect.y2 += b.mSmearBelow;
 	b.mUIRect.inflate(vec2(b.mBlur));
 
-	if ( b.mDye == -1 )
-	{
-		b.mSmileHeight = b.mRect.getHeight() * .35f; 
-		b.mSmileExp = 4.f;
-	}
-		
 	return b;
 }
 
-Band dyeToBand( int lane, int fragi, int dye, float mass, Context context )
+Band dyeToBand( int lane, int fragi, int dye, float mass, Context context, Rectf wellRect )
 {
 	assert( Dye::isValidDye(dye) );
 	
@@ -261,11 +216,10 @@ Band dyeToBand( int lane, int fragi, int dye, float mass, Context context )
 	b.mColor.a		= calcBandAlpha(b);
 	b.mFocusColor	= lerp( Color(b.mColor), Color(0,0,0), .5f );
 	
-	// not done:
-	// - geometry
-	// - render params (except mColor.rgb)
-	
 	b.mBlur			= calcBandDiffusion( b.mBases, b.mAggregate, b.mAspectRatio, context );
+
+	b = calcBandGeometry( context, b, wellRect );
+	b.mRandSeed = calcRandSeed( b, context ); // uses mRect
 	
 	return b;
 }
@@ -276,7 +230,8 @@ Band fragAggregateToBand(
 	const Sample::Fragment& frag,
 	int		aggregate,
 	float	massScale,
-	Context context )
+	Context context,
+	Rectf	wellRect )
 {
 	assert( aggregate > 0 );
 	
@@ -296,12 +251,19 @@ Band fragAggregateToBand(
 	b.mFocusColor	= frag.mColor;
 	b.mColor		= ColorA( 1.f, 1.f, 1.f, calcBandAlpha(b) );
 
-	// not done:
-	// - geometry
-	// - render params (except mColor.rgb)
-
 	b.mBlur			= calcBandDiffusion( b.mBases, b.mAggregate, b.mAspectRatio, context );
 
+	b = calcBandGeometry( context, b, wellRect );
+
+	// users mRect, so must come after calcBandGeometry
+	b.mRandSeed = calcRandSeed( b, context );
+
+	b.mSmileHeight = b.mRect.getHeight() * .35f; 
+	b.mSmileExp = 4.f;
+	
+	b.mFlameHeight = b.mRect.getHeight() * GelSim::calcFlames(b.mMass);	
+	b.mUIRect.y1 -= b.mFlameHeight;
+	
 	return b;	
 }
 
@@ -318,12 +280,27 @@ std::vector<Band> fragToBands(
 	
 	auto addDye = [=,&result]()
 	{
-		result.push_back( dyeToBand( lane, fragi, frag.mDye, frag.mMass, context ) );
+		result.push_back(
+			dyeToBand(
+				lane,
+				fragi,
+				frag.mDye,
+				frag.mMass,
+				context,
+				wellRect ) );
 	};
 	
 	auto addMonomer = [=,&result]()
 	{
-		result.push_back( fragAggregateToBand( lane, fragi, frag, 1, 1.f, context ) );
+		result.push_back(
+			fragAggregateToBand(
+				lane,
+				fragi,
+				frag,
+				1,
+				1.f,
+				context,
+				wellRect ) );
 	};
 
 	auto addMultimer = [=,&result]( float asum )
@@ -335,7 +312,15 @@ std::vector<Band> fragToBands(
 			{
 				float massScale = (frag.mAggregate[m] / asum);
 				
-				result.push_back( fragAggregateToBand( lane, fragi, frag, m+1, massScale, context ) );
+				result.push_back(
+					fragAggregateToBand(
+						lane,
+						fragi,
+						frag,
+						m+1,
+						massScale,
+						context,
+						wellRect ) );
 			}
 		}
 	};	
@@ -346,13 +331,6 @@ std::vector<Band> fragToBands(
 	if      ( frag.mDye >= 0 && frag.mMass > 0.f )	 addDye();
 	else if ( frag.mAggregate.empty() || asum==0.f ) addMonomer();
 	else											 addMultimer(asum);
-	
-	// finish them
-	for( auto &b : result )
-	{
-		b = calcBandGeometry( context, b, wellRect );
-		b.mRandSeed = calcRandSeed( b, context ); // uses mRect
-	}
 	
 	//
 	return result;
