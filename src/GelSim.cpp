@@ -115,9 +115,9 @@ int calcRandSeed( const Band& b, Context context )
 	  ;	
 }
 
-float calcBandAlpha ( float mass, int aggregate, float degrade )
+float calcBandAlpha ( float mass, float degrade )
 {
-	float a = constrain( (mass * aggregate) / GelSim::kSampleMassHigh, 0.1f, 1.f );
+	float a = constrain( mass / GelSim::kSampleMassHigh, 0.1f, 1.f );
 	
 	float d = degrade / 2.f;
 	d = powf( d, .5f );
@@ -160,28 +160,36 @@ float calcBandDiffusion( int bases, int aggregation, float aspectRatio, Context 
 	const float kTinyScale = 16.f;
 	const float kBaseline = 1.f;
 	
+	float v;
+	
 	if ( bases > kThresh )
 	{
-		float v = lmap( (float)bases, (float)kThresh, (float)kUpperThresh, (float)kThreshAmount, (float)0.f );
+		v = lmap( (float)bases, (float)kThresh, (float)kUpperThresh, (float)kThreshAmount, (float)0.f );
 		
 		v = max( 0.f, v ); // in case bases is out of bounds
 		
 		v += kBaseline;
-		
-		return v;
 	}
 	else
 	{
-		float v = (float)(kThresh - bases) / (float)kThresh;
+		v = (float)(kThresh - bases) / (float)kThresh;
 		// v 0..1
 		
-		v = kBaseline + kThreshAmount + (v * kTinyScale);
-		
-		return v;
+		v = kBaseline + kThreshAmount + (v * kTinyScale);		
 	}
+
+	// time, voltage
+	v *= ctx.mTime;
+	v *= fabsf(ctx.mVoltage) / kSliderVoltageDefaultValue; // normalize to default
+
+	// min
+	v = max( 1.f, v );	
+	
+	// done
+	return v;
 }
 
-Band calcBandGeometry( Context ctx, Band b, Rectf wellRect )
+Band calcBandGeometry( Context ctx, Band b, Rectf wellRect, float fatness )
 {
 	float deltaY1 = calcDeltaY( b.mBases - b.mDegradeHi, b.mAggregate, b.mAspectRatio, ctx );
 	float deltaY2 = calcDeltaY( b.mBases - b.mDegradeLo, b.mAggregate, b.mAspectRatio, ctx );
@@ -191,12 +199,17 @@ Band calcBandGeometry( Context ctx, Band b, Rectf wellRect )
 	
 	b.mWellRect = wellRect;
 	b.mRect		= wellRect;
+	
 	b.mRect.y1 += deltaY1;
 	b.mRect.y2 += deltaY1;
 	
 	b.mSmearBelow = (b.mWellRect.y2 + deltaY2) - b.mRect.y2;
+
+	float fatscale = ctx.mTime;
+	b.mRect.inflate( vec2( 0.f, (fatness-1.f) * fatscale * .5f * b.mRect.getHeight() ) );
 	
 	b.mUIRect	= b.mRect;
+	b.mUIRect.y1 -= max( b.mSmearAbove, b.mFlameHeight );
 	b.mUIRect.y2 += b.mSmearBelow;
 	b.mUIRect.inflate(vec2(b.mBlur));
 
@@ -217,12 +230,14 @@ Band dyeToBand( int lane, int fragi, int dye, float mass, Context context, Rectf
 	b.mMass			= mass;
 	
 	b.mColor		= Dye::kColors[dye];
-	b.mColor.a		= calcBandAlpha(b.mBases,1,0.f);
+	b.mColor.a		= calcBandAlpha(mass,0.f);
 	b.mFocusColor	= lerp( Color(b.mColor), Color(0,0,0), .5f );
 	
-	b.mBlur			= calcBandDiffusion( b.mBases, b.mAggregate, b.mAspectRatio, context );
-
-	b = calcBandGeometry( context, b, wellRect );
+	b.mBlur			= calcBandDiffusion( b.mBases, 1, 1.f, context );
+//	if (dye==0) cout << b.mBlur << endl;
+//	b.mBlur = (dye<3) ? 0 : 2;
+	
+	b = calcBandGeometry( context, b, wellRect, kWellToDyeHeightScale );
 	b.mRandSeed = calcRandSeed( b, context ); // uses mRect
 	
 	return b;
@@ -253,11 +268,11 @@ Band fragAggregateToBand(
 	b.mAspectRatio	= frag.mAspectRatio;
 	
 	b.mFocusColor	= frag.mColor;
-	b.mColor		= ColorA( 1.f, 1.f, 1.f, calcBandAlpha(b.mBases,b.mAggregate,frag.mDegrade) );
+	b.mColor		= ColorA( 1.f, 1.f, 1.f, calcBandAlpha(b.mMass,frag.mDegrade) );
 
 	b.mBlur			= calcBandDiffusion( b.mBases, b.mAggregate, b.mAspectRatio, context );
 
-	b = calcBandGeometry( context, b, wellRect );
+	b = calcBandGeometry( context, b, wellRect, 2.f );
 
 	// users mRect, so must come after calcBandGeometry
 	b.mRandSeed = calcRandSeed( b, context );
@@ -332,7 +347,10 @@ std::vector<Band> fragToBands(
 	// do it
 	const float asum = frag.mAggregate.calcSum();
 
-	if      ( frag.mDye >= 0 && frag.mMass > 0.f )	 addDye();
+	if ( frag.mDye >= 0 )
+	{
+		if ( frag.mMass > 0.f ) addDye();
+	}
 	else if ( frag.mAggregate.empty() || asum==0.f ) addMonomer();
 	else											 addMultimer(asum);
 	

@@ -23,6 +23,7 @@ namespace GelSim // unify namespace with Gelbox? (rename both Gelbox?)
 const float kSampleMassHigh = 125.f; // 125ml
 const int   kBaseCountHigh  = 14000;
 
+const float kWellToDyeHeightScale = 4.f;
 
 /*
  * Slider Tuning Values
