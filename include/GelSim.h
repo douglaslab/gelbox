@@ -10,6 +10,7 @@
 
 #include "Buffer.h"
 #include "Band.h"
+#include "Dye.h"
 
 class Sample;
 
@@ -31,8 +32,10 @@ const float kWellToDyeHeightScale = 4.f;
 
 const int   kSliderTimelineMaxMinutes = 60 * 3; // 3 hrs
 
+const float kSliderMassMin	  = 1.f;
 const float kSliderMassMax	  = kSampleMassHigh;
-const float kSliderDyeMassMax = kSampleMassHigh; // set to Dye::kMaxMass UNIFY
+const float kSliderDyeMassMin = 0.f;
+const float kSliderDyeMassMax = Dye::kMaxMass;
 
 const float kSliderVoltageLow   = -300;
 const float kSliderVoltageHigh  =  300;
@@ -42,6 +45,7 @@ const float kSliderVoltageDefaultValue = kSliderVoltageNotch;
 const float kSliderAspectRatioMax = 16.f;
 const int   kSliderAggregateMaxMultimer = 7;
 
+const int   kSliderBaseCountMin = 1;
 const int   kSliderBaseCountMax = kBaseCountHigh;
 
 

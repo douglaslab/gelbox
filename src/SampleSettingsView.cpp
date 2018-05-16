@@ -55,7 +55,7 @@ void SampleSettingsView::makeSliders()
 		s.mBarEmptyColor	= lerp( s.mBarFillColor, ColorA(1,1,1,1), .8f );
 		
 		
-		s.mValueMappedLo = 0.f;
+		s.mValueMappedLo = GelSim::kSliderDyeMassMin;
 		s.mValueMappedHi = GelSim::kSliderDyeMassMax;
 		s.mValueQuantize = 1.f;
 	

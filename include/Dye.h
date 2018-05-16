@@ -34,7 +34,7 @@ namespace Dye
 	}
 	
 	// misc
-	const float kMaxMass = 125.f; // set to GelSim::kSampleMassHigh  UNIFY
+	const float kMaxMass = 125.f;
 	
 	// names
 	const string kNames[kCount] =

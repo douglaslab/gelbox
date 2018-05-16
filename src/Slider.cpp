@@ -378,6 +378,7 @@ float Slider::getMappedValue() const
 	// might have been better to track mValue in units user cares about, not 0..1,
 	// but it's not worth rewriting this whole thing right now
 	v = quantize( v, mValueQuantize );
+	v = ci::constrain( v, mValueMappedLo, mValueMappedHi ); // prevent us from going out of bounds
 	//
 	
 	return v;

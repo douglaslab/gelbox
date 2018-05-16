@@ -105,7 +105,7 @@ void FragmentView::makeSliders()
 		Slider aggregate;
 		Slider degrade;
 		
-		size.mValueMappedLo = 1;
+		size.mValueMappedLo = GelSim::kSliderBaseCountMin;
 		size.mValueMappedHi = GelSim::kSliderBaseCountMax;
 		size.mValueQuantize = 100;
 		size.mSetter = [this]( float v ) {
@@ -120,7 +120,7 @@ void FragmentView::makeSliders()
 			return addCommasToNumericStr( toString(v) ) + " bp";
 		};
 		
-		concentration.mValueMappedLo = 0.f;
+		concentration.mValueMappedLo = GelSim::kSliderMassMin;
 		concentration.mValueMappedHi = GelSim::kSliderMassMax;
 		concentration.mSetter = [this]( float v ) {
 			getEditFragment().mMass = v;

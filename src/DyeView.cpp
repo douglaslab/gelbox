@@ -85,7 +85,7 @@ void DyeView::makeSliders()
 	{
 		Slider s;
 		
-		s.mValueMappedLo = 0.f;
+		s.mValueMappedLo = GelSim::kSliderDyeMassMin;
 		s.mValueMappedHi = GelSim::kSliderDyeMassMax;
 		
 		s.mSetter = [sthis,dye]( float v )
