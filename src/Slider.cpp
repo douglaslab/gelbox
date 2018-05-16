@@ -371,7 +371,7 @@ void Slider::drawNotches() const
 			{
 				// ball
 				if (mEnabled) gl::color( kLayout.mSliderLineColor * .5f );
-				else gl::color( lerp(kLayout.mSliderLineColor,Color::white(),.75f) * .5f );
+				else gl::color( lerp(kLayout.mSliderLineColor * .5f,Color::white(),.75f) );
 				
 				gl::drawSolidCircle( c, kLayout.mSliderNotchRadius );
 			}
