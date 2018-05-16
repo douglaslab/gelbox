@@ -293,25 +293,46 @@ void GelView::drawBands() const
 	
 	for( auto &b : bands )
 	{
+		float fadeBelow = b.mSmearBelow;
+		float fadeAbove = max( b.mFlameHeight, b.mSmearAbove );
+		
 		if ( b.mBlur )
 		{
 			ColorA bc = b.mColor;
 			bc.a *= .2f;
-			fillRect( b.mRect.inflated(vec2(b.mBlur)), bc );
+			
+			Rectf r = b.mRect;
+			r.y1 -= fadeAbove;
+			r.y2 += fadeBelow;
+			r.inflate( vec2(b.mBlur) );
+			
+			fillRect( r, bc );
 		}
 		
 		fillRect( b.mRect, b.mColor );
 		
-		if ( b.mSmearBelow > 0.f )
+		if ( fadeBelow > 0.f )
 		{
 			Rectf r = b.mRect;
 			r.y1 = r.y2;
-			r.y2 += b.mSmearBelow;
+			r.y2 += fadeBelow;
 			
 			ColorA c2 = b.mColor;
 			c2.a *= 0.f;
 			
 			fillRect2( r, b.mColor, c2 );
+		}
+
+		if ( fadeAbove )
+		{
+			Rectf r = b.mRect;
+			r.y2 = r.y1;
+			r.y1 -= fadeAbove;
+			
+			ColorA c2 = b.mColor;
+			c2.a *= 0.f;
+			
+			fillRect2( r, c2, b.mColor );
 		}
 	}
 

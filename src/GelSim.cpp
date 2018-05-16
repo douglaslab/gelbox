@@ -115,10 +115,14 @@ int calcRandSeed( const Band& b, Context context )
 	  ;	
 }
 
-float calcBandAlpha ( const Band& b )
+float calcBandAlpha ( float mass, int aggregate, float degrade )
 {
-	float a = constrain( (b.mMass * (float)b.mAggregate) / GelSim::kSampleMassHigh, 0.1f, 1.f );
-
+	float a = constrain( (mass * aggregate) / GelSim::kSampleMassHigh, 0.1f, 1.f );
+	
+	float d = degrade / 2.f;
+	d = powf( d, .5f );
+	a *= 1.f - d;
+	
 	a = powf( a, .5f ); // make it brighter
 	
 	return a;
@@ -213,7 +217,7 @@ Band dyeToBand( int lane, int fragi, int dye, float mass, Context context, Rectf
 	b.mMass			= mass;
 	
 	b.mColor		= Dye::kColors[dye];
-	b.mColor.a		= calcBandAlpha(b);
+	b.mColor.a		= calcBandAlpha(b.mBases,1,0.f);
 	b.mFocusColor	= lerp( Color(b.mColor), Color(0,0,0), .5f );
 	
 	b.mBlur			= calcBandDiffusion( b.mBases, b.mAggregate, b.mAspectRatio, context );
@@ -249,7 +253,7 @@ Band fragAggregateToBand(
 	b.mAspectRatio	= frag.mAspectRatio;
 	
 	b.mFocusColor	= frag.mColor;
-	b.mColor		= ColorA( 1.f, 1.f, 1.f, calcBandAlpha(b) );
+	b.mColor		= ColorA( 1.f, 1.f, 1.f, calcBandAlpha(b.mBases,b.mAggregate,frag.mDegrade) );
 
 	b.mBlur			= calcBandDiffusion( b.mBases, b.mAggregate, b.mAspectRatio, context );
 
