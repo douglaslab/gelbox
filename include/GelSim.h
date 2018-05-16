@@ -42,6 +42,11 @@ const float kSliderVoltageHigh  =  300;
 const float kSliderVoltageNotch =  70;
 const float kSliderVoltageDefaultValue = kSliderVoltageNotch;
 
+const int   kSliderNumLanesMin = 7;
+const int   kSliderNumLanesMax = 20;
+
+const float kSliderGelRotateMax = 20.f;
+
 const float kSliderAspectRatioMax = 16.f;
 const int   kSliderAggregateMaxMultimer = 7;
 

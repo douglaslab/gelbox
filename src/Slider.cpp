@@ -135,7 +135,9 @@ void Slider::draw( int highlightIcon ) const
 			
 		case Style::Slider:
 		{
-			gl::color(kLayout.mSliderLineColor);
+			if (mEnabled) gl::color(kLayout.mSliderLineColor);
+			else gl::color( lerp(kLayout.mSliderLineColor,Color(1,1,1),.75f ) );
+			
 			vec2 o(0.f,0.5f); // this is to get us pixel-aligned so we don't stroke between pixels
 			gl::drawLine(mEndpoint[0]+o, mEndpoint[1]+o);
 		}
@@ -155,7 +157,7 @@ void Slider::draw( int highlightIcon ) const
 				}
 			};			
 
-			gl::color( mBarEmptyColor );
+			gl::color( ColorA( mBarEmptyColor, mEnabled ? 1.f : .5f ) );
 			fill(mBar);
 			
 			// draw fill
@@ -173,23 +175,35 @@ void Slider::draw( int highlightIcon ) const
 	// handle (in practice, only on Style::Slider)
 	if ( hasHandle() )
 	{
+		ColorA color = kLayout.mSliderHandleColor;
+		if (!mEnabled) color = lerp( color, ColorA(1,1,1,1), .5f );
+		
 		const float ck = 4.f;
 		Rectf sliderHandleRect = calcHandleRect();
 		sliderHandleRect = snapToPixel(sliderHandleRect);
 		sliderHandleRect.inflate( vec2(-.5f) ); // pixel align for stroke
-		gl::color(0,0,0,.15f);
-		gl::drawSolidRoundedRect(sliderHandleRect+vec2(0.f,3.f),ck);
-		gl::color(kLayout.mSliderHandleColor);
+		
+		if (mEnabled) {
+			gl::color(0,0,0,.15f);
+			gl::drawSolidRoundedRect(sliderHandleRect+vec2(0.f,3.f),ck);
+		}
+		
+		gl::color(color);
 		gl::drawSolidRoundedRect(sliderHandleRect,ck);
-		gl::color(kLayout.mSliderHandleColor*.5f);
-		gl::drawStrokedRoundedRect(sliderHandleRect,ck);
+		
+//		if (mEnabled) {
+			gl::color(color*.5f);
+			gl::drawStrokedRoundedRect(sliderHandleRect,ck);
+//		}
 	}
 	
 	// icons
 	for( int i=0; i<2; ++i )
 	{
-		if (i==highlightIcon) gl::color( Color::gray(.5f) );
+		if (!mEnabled) gl::color( ColorA( Color::gray(.85), .5f ) );
+		else if (i==highlightIcon) gl::color( Color::gray(.5f) );
 		else gl::color(1,1,1);
+		
 		gl::draw( mIcon[i], mIconRect[i] );
 		
 		if (kLayout.mDebugDrawLayoutGuides)
@@ -356,7 +370,9 @@ void Slider::drawNotches() const
 			else
 			{
 				// ball
-				gl::color( kLayout.mSliderLineColor * .5f );
+				if (mEnabled) gl::color( kLayout.mSliderLineColor * .5f );
+				else gl::color( lerp(kLayout.mSliderLineColor,Color::white(),.75f) * .5f );
+				
 				gl::drawSolidCircle( c, kLayout.mSliderNotchRadius );
 			}
 		}
@@ -553,6 +569,8 @@ Slider::quantizeNormalizedValue( float valueNorm, float valueMapLo, float valueM
 			// normalize q value
 		
 		valueNorm = quantize( valueNorm, q );
+
+		valueNorm = constrain( valueNorm, 0.f, 1.f );
 	}
 	
 	return valueNorm;

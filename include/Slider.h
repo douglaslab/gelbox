@@ -27,6 +27,8 @@ public:
 	ci::ColorA			mBarFillColor   = ci::Color::gray(.3f);
 	ci::ColorA			mBarEmptyColor  = ci::Color::gray(.8f);
 	
+	bool				mEnabled = true;
+	
 	bool		loadIcons( ci::fs::path lo, ci::fs::path hi );
 	void		setIcon( int icon, ci::gl::TextureRef tex, int pixelsPerPoint=1 ); // sets mIcon, mIconSize; handles tex==0
 	

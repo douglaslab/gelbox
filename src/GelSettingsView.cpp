@@ -119,10 +119,26 @@ void GelSettingsView::makeSliders()
 	// unwired placeholder sliders...
 	Slider damage;
 	damage.mValue = 0.f;
+	damage.mEnabled = false;
 	add( damage, "well-damage" );
 	
-	add( Slider(), "gel-rotate" );
-	add( Slider(), "gel-lanes" );
+	Slider rotate;
+	rotate.mEnabled = false;
+	rotate.mValueMappedLo = -GelSim::kSliderGelRotateMax;
+	rotate.mValueMappedHi =  GelSim::kSliderGelRotateMax;
+	rotate.mValue = .5f;
+	rotate.addFixedNotches(3);
+	rotate.mNotchAction = Slider::Notch::Snap;
+	add( rotate, "gel-rotate" );
+	
+	Slider numlanes;
+	numlanes.mEnabled = false;
+	numlanes.mValueMappedLo = GelSim::kSliderNumLanesMin;
+	numlanes.mValueMappedHi = GelSim::kSliderNumLanesMax;
+	numlanes.mValue = 0.f;
+	numlanes.addFixedNotches(GelSim::kSliderNumLanesMax - GelSim::kSliderNumLanesMin + 1);
+	numlanes.mNotchAction = Slider::Notch::Nearest;
+	add( numlanes, "gel-lanes" );
 }
 
 void GelSettingsView::close()
