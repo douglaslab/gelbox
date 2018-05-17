@@ -89,7 +89,7 @@ public:
 	
 	ci::vec2	mBufferViewSlidersTopLeft		= ci::vec2(66,41); // of bar itself
 	float		mBufferViewSliderVOffset		= 31.f;
-	ci::vec2	mBufferViewSliderBarSize		= ci::vec2(132,23);
+	ci::vec2	mBufferViewSliderBarSize		= ci::vec2(135,23);
 	float		mBufferViewSlidersIconGutter	= 13.f;
 	ci::Color	mBufferViewSliderEmptyColor		= ci::Color::hex(0xE8EBF1);
 	ci::Color	mBufferViewSliderFillColor		= ci::Color::hex(0xAEB6C3);
@@ -99,8 +99,8 @@ public:
 	std::string	mBufferViewSliderLabelFont		= "Avenir-Medium";
 	int			mBufferViewSliderLabelFontSize	= 12;
 	
-	ci::vec2	mBufferViewPresetsTopLeft		= ci::vec2(68,0);
-	ci::vec2	mBufferViewPresetsSize			= ci::vec2(125,23);
+	ci::vec2	mBufferViewPresetsTopLeft		= ci::vec2(66,0);
+	ci::vec2	mBufferViewPresetsSize			= ci::vec2(135,23);
 	float		mBufferViewPresetsCornerRadius	= 5.f;
 	ci::Color	mBufferViewPresetsColor			= ci::Color::hex(0x979797);
 	std::string	mBufferViewPresetsFont			= "Avenir-Medium";

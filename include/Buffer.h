@@ -69,6 +69,15 @@ public:
 		b.mEDTA		= 1.f;
 		return b;
 	}
+
+	static Buffer h2o()
+	{
+		Buffer b;
+		b.mTris		= 0.f;
+		b.mAcetate	= 0.f;
+		b.mEDTA		= 0.f;
+		return b;
+	}
 	
 	// xml
 	ci::XmlTree toXml() const;
@@ -126,21 +135,23 @@ const string kBufferParamIconName[Buffer::kNumParams] =
 };
 
 // presets
-const int kBufferNumPresets = 2;
+const int kBufferNumPresets = 3;
 const int kBufferDefaultPreset = 0;
 
 const string kBufferPresetNames[kBufferNumPresets] =
 {
 	".5x TBE",
 //	"1x TBE",
-	"1x TAE" 
+	"1x TAE",
+	"H2O"
 };
 
 const Buffer kBufferPresets[kBufferNumPresets] =
 {
 	Buffer::TBE() * .5f,
 //	Buffer::TBE(),
-	Buffer::TAE()
+	Buffer::TAE(),
+	Buffer::h2o()
 };
 
 
