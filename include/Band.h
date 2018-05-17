@@ -49,3 +49,18 @@ public:
 	int			mRandSeed	= 0;	
 
 };
+
+inline int findBandByAggregate( const std::vector<Band>& bands, int aggregate )
+{
+	int bandi = -1;
+	
+	for( size_t i=0; i<bands.size(); ++i )
+	{
+		if ( bands[i].mAggregate == aggregate ) {
+			bandi = (int)i;
+			break;
+		}
+	}
+	
+	return bandi;
+}

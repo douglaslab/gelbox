@@ -599,21 +599,23 @@ bool GelView::newFragmentAtPos( ci::vec2 pos )
 		// new fragment
 		mSampleView->newFragment(); // let sampleview generate it 
 		
-		auto &frag = sample->mFragments.back();
+		int  fragi = (int)sample->mFragments.size();
+		auto &frag = sample->mFragments[fragi];
 		
 		frag.mAspectRatio = 1.f; // lock aspect ratio
 		
 		// lock aggregate to 1
+		int aggregate=1;
 		for( float & v : frag.mAggregate ) v=0.f;
-		frag.mAggregate[0] = 1.f;
+		frag.mAggregate[aggregate-1] = 1.f;
 		
 		frag.mBases = solveBasePairForY(
 			rootToChild(pos).y,
-			1,
-			frag.mAspectRatio,
-			mGel->getSimContext(*getSample(lane)),
-			mGel->getWellBounds(lane).getCenter().y,
-			mGel->getSampleDeltaYSpaceScale() );
+			*sample,
+			fragi,
+			lane,
+			aggregate,
+			mGel->getSimContext(*getSample(lane)) );
 		
 		// update, since we moved it
 		sampleDidChange( sample );
@@ -1187,15 +1189,16 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 		//		since by default we would put top of band at mouse,
 		//		simply compute delta from
 		//		band top to mouse down loc
-		float dragDeltaY = mMouseDownBand.mRect.y1 - rootToChild(getMouseDownLoc()).y ;
+		float dragDeltaY = getDragBandYReference(mMouseDownBand) - rootToChild(getMouseDownLoc()).y ;
 		
 		frag.mBases = solveBasePairForY(
 			rootToChild(e.getPos()).y + dragDeltaY,
+			*sample,
+			fragi,
+			lane,
 			mMouseDownBand.mAggregate,
-			frag.mAspectRatio,
-			mGel->getSimContext(*sample),
-			mGel->getWellBounds(lane).y1,
-			mGel->getSampleDeltaYSpaceScale() );		
+			mGel->getSimContext(*sample)
+			);		
 	}
 	
 	// pick new lane?
@@ -1323,54 +1326,75 @@ void GelView::drawReverseSolverTest()
 			tReverseGelSolverCache cache;
 			
 			int aggregate = 1;
-			float aspectRatio = 1.f;
+			if ( !getSample(lane) ) return;
 			GelSim::Context simContext = mGel->getSimContext(*getSample(lane));
+			
+			Sample sample;
+			sample.mFragments.push_back( Sample::Fragment() );
+			int fragi=0;
 			
 			int bp = solveBasePairForY(
 				mouseLocal.y,
 
+				sample,
+				fragi,
+				lane,
 				aggregate,
-				aspectRatio,
-				simContext,
 				
-				mGel->getWellBounds(lane).getCenter().y,
-				mGel->getSampleDeltaYSpaceScale(),
+				simContext,
 				&cache );
 			
-			Rectf r = mGel->getWellBounds(lane);
+			// make a rect
+			sample.mFragments[0].mBases = bp;
 
-			const float ySpaceScale = mGel->getSampleDeltaYSpaceScale();
+			vector<Band> bands = GelSim::fragToBands(
+				sample,
+				fragi,
+				mGel->getWellBounds(lane),
+				lane,
+				simContext );
+
+			int bandi = findBandByAggregate( bands, aggregate );
 			
-			float d = GelSim::calcDeltaY( bp, aggregate, aspectRatio, simContext ) * ySpaceScale; 			
-			r += vec2( 0.f, d );
-			
-			gl::color(1, 0, 0);
-			gl::drawSolidRect(r);
-			
-			gl::drawString( toString(bp), r.getLowerRight() + vec2(16,0) );
-			
-			gl::color(0,0,1);
-			for( auto i : cache )
+			// fail?
+			if ( bandi != -1 )
 			{
-				const float k = 10;
+				Rectf r = bands[bandi].mRect;				
+	//			Rectf r = mGel->getWellBounds(lane);			
+				//float d = GelSim::calcDeltaY( bp, aggregate, aspectRatio, simContext ) * ySpaceScale; 			
+				//r += vec2( 0.f, d );
 				
-				int y = i.first;
+				gl::color(1, 0, 0);
+				gl::drawSolidRect(r);
 				
-				gl::drawLine( vec2(r.x1-k,y), vec2(r.x2+k,y) );
-			}
-		}
-	}
+				gl::drawString( toString(bp), r.getLowerRight() + vec2(16,0) );
+				gl::drawString( toString(mouseLocal.y), r.getLowerRight() + vec2(16,16) );
+				
+				gl::color(0,0,1);
+				for( auto i : cache )
+				{
+					const float k = 10;
+					
+					int y = i.first;
+					
+					gl::drawLine( vec2(r.x1-k,y), vec2(r.x2+k,y) );
+				}
+			} // bandi
+		} // lane
+	} // rollover
 }
 
 int GelView::solveBasePairForY(
-		int			  findy,
-		int			  aggregation,
-		float		  aspectRatio,
-		GelSim::Context context,
-		float		  ystart,
-		float		  yscale,
+		int			  			findy,
+		Sample 					sample,
+		int						fragi,
+		int						lane,
+		int			  			aggregate, // select which aggregate you want (1 for monomer)
+		GelSim::Context			context,
 		tReverseGelSolverCache* cache ) const
 {
+	assert( fragi >= 0 && fragi < sample.mFragments.size() );
+	
 	if ( cache && cache->find(findy) != cache->end() ) return (*cache)[findy];
 	
 	// bp search location, direction, speed
@@ -1381,11 +1405,25 @@ int GelView::solveBasePairForY(
 	int iterationsLeft = kSolverMaxIterations; // in case there is no solution
 	
 	do
-	{
-		int y = ystart + GelSim::calcDeltaY( bp, aggregation, aspectRatio, context ) * yscale;
-//					   - GelSim::calcDiffusionInflation( params ) * yscale;
-			// use cache here for small perf. gain?
-			// also, might be better here to track two rects per band, and just use inner non-diffused band for drag and not calc inflation here.  
+	{		
+		// simulate
+		sample.mFragments[fragi].mBases = bp;
+		
+		vector<Band> bands = GelSim::fragToBands(
+			sample,
+			fragi,
+			mGel->getWellBounds(lane),
+			lane,
+			context );
+		
+		// find proper aggregate
+		int bandi = findBandByAggregate( bands, aggregate );
+		
+		// fail?
+		if ( bandi == -1 ) break;
+		
+		// get y
+		int y = getDragBandYReference( bands[bandi] );
 		
 		if (cache) (*cache)[y] = bp;
 		

@@ -72,7 +72,4 @@ std::vector<Band> fragToBands(
 	int				lane,
 	Context			context );
 
-float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx );
-	// 	How far on a normalized y axis of gel will this sample move?
-
 } // namespace

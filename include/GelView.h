@@ -161,15 +161,17 @@ private:
 	void		drawBandFocus() const;
 
 	// reverse gel sim solver
+	float		getDragBandYReference( const Band& b ) const { return b.mRect.y1; }
+	
 	typedef std::map<int,int> tReverseGelSolverCache; // maps y to base pairs, all this is f( aggregate, aspectRatio, time )
 			
 	int			solveBasePairForY(
-					int			  findy,
-					int			  aggregation,
-					float		  aspectRatio,
-					GelSim::Context context,
-					float		  ystart,
-					float		  yscale,
+					int			  			findy,
+					Sample 					sample,
+					int						fragi,
+					int						lane,
+					int			  			aggregate, // select which aggregate you want (1 for monomer)
+					GelSim::Context			context,
 					tReverseGelSolverCache* cache=0 ) const;
 	
 	void		drawReverseSolverTest();

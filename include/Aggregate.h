@@ -17,6 +17,8 @@
 		   - can no non-uniform distributions, e.g.: {.5,1,2}
 		   etc...
 
+	We should probably make set/get work with 1 indexing, not 0 indexing...
+	
 */
 
 class Aggregate : public std::vector<float>
