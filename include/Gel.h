@@ -69,7 +69,7 @@ public:
 	ci::vec2	getWellSize() const;
 	ci::Rectf	getWellBounds( int lane ) const;
 
-	float		getSampleDeltaYSpaceScale() const { return mSize.y - mYMargin*2.f; }
+	float		getSampleDeltaYSpaceScale() const { return mSize.y - mYMargin*2.f - mLaneWidth*.2f; }
 	
 	GelSim::Context getSimContext( const Sample& ) const;
 	
