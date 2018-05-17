@@ -13,27 +13,17 @@
 #include "GelSim.h"
 #include "GelRender.h"
 #include "Layout.h"
+#include "Config.h"
 #include "ButtonView.h"
 #include "GelSettingsView.h"
 
 using namespace ci;
 using namespace std;
 
-const bool kEnableDrag = false;
-const bool kBandRolloverOpensSampleView = false;
-const bool kHoverGelDetailViewOnBandDrag= false;
-const bool kDragBandMakesNewSamples = true;
-
-const bool kShowReverseSolverDebugTest = false;
-const int  kSolverMaxIterations = 50; // this number is totally fine; maybe could even be smaller
-
-const bool kEnableGelRenderByDefault = false; // enable new fancy gel rendering with FBO
-const bool kEnableLoupeOnHoverByDefault = false; 
-
 GelView::GelView()
 {
-	if (kEnableGelRenderByDefault) mGelRender = make_shared<GelRender>();
-	mIsLoupeOnHoverEnabled = kEnableLoupeOnHoverByDefault;
+	if (kConfig.mEnableGelRenderByDefault) mGelRender = make_shared<GelRender>();
+	mIsLoupeOnHoverEnabled = kConfig.mEnableLoupeOnHoverByDefault;
 	
 	mMicrotubeIcon = kLayout.uiImage("microtube1500ul.png");
 	
@@ -197,7 +187,7 @@ void GelView::draw()
 	drawDragMicrotube();
 		
 	// test solver
-	if (kShowReverseSolverDebugTest) drawReverseSolverTest();
+	if (kConfig.mShowReverseSolverDebugTest) drawReverseSolverTest();
 }
 
 void GelView::drawMicrotubes() const
@@ -497,7 +487,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 				mMouseDownMicrotube = lane;
 				selectMicrotube(mMouseDownMicrotube); // select
 			}
-			else if ( kEnableDrag )
+			else if ( kConfig.mEnableGelViewDrag )
 			{
 				mDrag = Drag::View;
 			}
@@ -1019,7 +1009,7 @@ void GelView::updateBandRollover( ci::vec2 rootPos )
 	
 	if ( getHasRollover() && pickBand( localMouseLoc, band ) )
 	{
-		if (kBandRolloverOpensSampleView) selectMicrotube(band.mLane);
+		if (kConfig.mBandRolloverOpensSampleView) selectMicrotube(band.mLane);
 
 		mRolloverState->set( getSample(band.mLane), band.mFragment );
 	}
@@ -1035,7 +1025,7 @@ void GelView::enableLoupeOnHover( bool v )
 void GelView::updateHoverGelDetailView()
 {
 	if ( (    getHasRollover()
-		  || (getHasMouseDown() && kHoverGelDetailViewOnBandDrag) )
+		  || (getHasMouseDown() && kConfig.mHoverGelDetailViewOnBandDrag) )
 	    && (mIsLoupeOnHoverEnabled || GelboxApp::instance()->getModifierKeys() & app::KeyEvent::META_DOWN )
 	    && pickLane(getMouseLoc()) != -1
 	   )
@@ -1216,7 +1206,7 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 	
 	// change lanes?
 	if ( newlane != -1 && newlane != lane
-	  && ( kDragBandMakesNewSamples || getSample(newlane)) )
+	  && ( kConfig.mDragBandMakesNewSamples || getSample(newlane)) )
 	{
 		// clear old temp sample?
 		if ( mMouseDragMadeSampleInLane != -1 )
@@ -1267,7 +1257,7 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 	if (sample) sampleDidChange(sample);
 	
 	// do 
-	if (kHoverGelDetailViewOnBandDrag) updateHoverGelDetailView();
+	if (kConfig.mHoverGelDetailViewOnBandDrag) updateHoverGelDetailView();
 }
 
 void GelView::mouseDragSample( ci::app::MouseEvent event )
@@ -1402,7 +1392,7 @@ int GelView::solveBasePairForY(
 	int stepsize = 1000;
 	int stepdir  = 1;
 	
-	int iterationsLeft = kSolverMaxIterations; // in case there is no solution
+	int iterationsLeft = kConfig.mSolverMaxIterations; // in case there is no solution
 	
 	do
 	{		

@@ -15,8 +15,6 @@ class Layout
 {
 public:
 
-	std::string	mHelpURL			= "http://bionano.ucsf.edu/downloads";
-	
 	// main view layout
 	ci::vec2	mWindowSize			= ci::vec2(1365,768);
 

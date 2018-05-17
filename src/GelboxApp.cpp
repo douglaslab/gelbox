@@ -15,6 +15,7 @@
 #include "ImageView.h"
 #include "Interaction.h"
 #include "Layout.h"
+#include "Config.h"
 //#include "OperationView.h"
 
 #include "GelboxApp.h"
@@ -175,7 +176,7 @@ void GelboxApp::makeHelpBtn()
 	mHelpBtn->mClickFunction = [this]()
 	{
 		string cmd = "open '";
-		cmd += kLayout.mHelpURL;
+		cmd += kConfig.mHelpURL;
 		cmd += "'";
 		
 		system(cmd.c_str());
