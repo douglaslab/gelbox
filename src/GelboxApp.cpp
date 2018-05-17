@@ -61,7 +61,8 @@ void GelboxApp::setup()
 //	glEnable( GL_POLYGON_SMOOTH );
 	
 	makeGel();
-	setupSettingsBtn();
+	makeSettingsBtn();
+	makeHelpBtn();
 	
 	// ui assets
 	mUIFont = gl::TextureFont::create( Font(kLayout.mUIFont,kLayout.mUIFontSize) );
@@ -137,7 +138,7 @@ void GelboxApp::makeGel()
 	}
 }
 
-void GelboxApp::setupSettingsBtn()
+void GelboxApp::makeSettingsBtn()
 {
 	mSettingsBtn = make_shared<ButtonView>();
 	
@@ -163,6 +164,28 @@ void GelboxApp::setupSettingsBtn()
 	Rectf r( vec2(0.f), mSettingsBtn->getFrame().getSize() );
 	r += vec2(0.f,getWindowSize().y) + vec2(kLayout.mBtnGutter,-kLayout.mBtnGutter) - r.getLowerLeft(); 
 	mSettingsBtn->setFrame(r);
+}
+
+void GelboxApp::makeHelpBtn()
+{
+	mHelpBtn = make_shared<ButtonView>();
+	
+	mHelpBtn->setup( kLayout.uiImage("help.png"), 1 );
+	
+	mHelpBtn->mClickFunction = [this]()
+	{
+		string cmd = "open '";
+		cmd += kLayout.mHelpURL;
+		cmd += "'";
+		
+		system(cmd.c_str());
+	};
+
+	mViews.addView(mHelpBtn);
+
+	Rectf r( vec2(0.f), mHelpBtn->getFrame().getSize() );
+	r += vec2(getWindowSize()) + vec2(-kLayout.mBtnGutter,-kLayout.mBtnGutter) - r.getLowerRight(); 
+	mHelpBtn->setFrame(r);
 }
 
 /*

@@ -54,12 +54,13 @@ class GelboxApp : public ci::app::App {
 
 	ViewCollection			mViews;
 	GelViewRef				mGelView;
-	ButtonViewRef	 		mSettingsBtn;
+	ButtonViewRef	 		mSettingsBtn, mHelpBtn;
 	AppSettingsViewRef		mSettingsView;
 	
 	static GelboxApp*		mInstance;
 
-	void		setupSettingsBtn();
+	void		makeSettingsBtn();
+	void		makeHelpBtn();
   	int			getModifierKeys( ci::app::KeyEvent ) const;
 	SampleRef	loadSample( ci::fs::path ) const;	
 

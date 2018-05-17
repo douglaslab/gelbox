@@ -9,10 +9,13 @@
 #pragma once
 
 #include <map>
+#include <string>
 
 class Layout
 {
 public:
+
+	std::string	mHelpURL			= "http://bionano.ucsf.edu/downloads";
 	
 	// main view layout
 	ci::vec2	mWindowSize			= ci::vec2(1365,768);
@@ -178,6 +181,7 @@ public:
 	ci::gl::TextureRef renderHead   ( std::string ) const;
 	ci::gl::TextureRef renderUI     ( std::string ) const;
 	ci::Rectf		   layoutHeadingText( ci::gl::TextureRef tex, ci::vec2 offsetFromViewTopLeft ) const;
+	
 	
 private:
 	ci::gl::TextureRef renderText   ( std::string, const ci::Font&, ci::ColorA ) const;
