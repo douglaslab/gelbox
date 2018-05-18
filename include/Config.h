@@ -23,6 +23,7 @@ public:
 	bool		mBandRolloverOpensSampleView	= false;
 	bool		mHoverGelDetailViewOnBandDrag	= false;
 	bool		mDragBandMakesNewSamples		= true;
+	bool		mEnableBufferSlides				= false;  // disable sliders for now
 
 	// reverse solver tuning/debug
 	bool		mShowReverseSolverDebugTest		= false;

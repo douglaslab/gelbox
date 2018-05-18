@@ -163,7 +163,7 @@ void Slider::draw( int highlightIcon ) const
 			// draw fill
 			Rectf f = mBar;
 			f.x2 = lerp( f.x1, f.x2, mValue );
-			gl::color( mBarFillColor );
+			gl::color( ColorA( mBarFillColor, mEnabled ? 1.f : .5f ) );
 			fill(f);
 		}
 		break;
@@ -358,7 +358,7 @@ void Slider::drawNotches() const
 			if ( mStyle==Style::Bar )
 			{
 				// line
-				gl::color( mBarFillColor * .8f );
+				gl::color( ColorA( mBarFillColor * .8f, (mEnabled ? 1.f : .5f) ) );
 //				const float k = mBar.getHeight()/2.f - mBarCornerRadius;
 //				const float k = -mBarCornerRadius;
 				const float k = 0.f;

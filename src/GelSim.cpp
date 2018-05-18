@@ -60,7 +60,7 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 
 	// -------------------
 	// TEST buffers
-	if (1)
+	if ((0))
 	{
 		for( int p=0; p<Gelbox::Buffer::kNumParams; ++p )
 		{

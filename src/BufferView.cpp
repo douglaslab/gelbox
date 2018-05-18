@@ -14,6 +14,7 @@
 #include "Gel.h"
 #include "GelView.h"
 #include "Layout.h"
+#include "Config.h"
 
 using namespace std;
 using namespace ci;
@@ -77,6 +78,7 @@ void BufferView::makeSliders()
 			return ss.str();
 		};
 		
+		s.mEnabled = kConfig.mEnableBufferSlides;
 		s.mStyle = Slider::Style::Bar;
 		s.mNotchAction = Slider::Notch::Snap;
 		s.mValueQuantize = .5f; // not 1, because some of interesting values are not @ 1 (eg .5)
@@ -92,11 +94,11 @@ void BufferView::makeSliders()
 		s.setIcon( 1, kLayout.uiImage( fs::path("molecules"), Gelbox::kBufferParamIconName[param] + ".png" ) );
 		
 		TextLayout label;
-		label.clear( ColorA(1,1,1,1) );
+		label.clear( ColorA(1,1,1,0) );
 		label.setFont( labelFont ); // should be medium, but maybe that's default
 		label.setColor( kLayout.mBufferViewSliderTextLabelColor );
 		label.addRightLine(Gelbox::kBufferParamName[param]);
-		s.setIcon( 0, gl::Texture::create(label.render()) );
+		s.setIcon( 0, gl::Texture::create(label.render(true)) );
 		
 		// insert
 		SliderViewRef v = make_shared<SliderView>(s);
