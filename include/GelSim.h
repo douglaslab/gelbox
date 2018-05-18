@@ -61,6 +61,7 @@ struct Context
 	float	mVoltage		= kSliderVoltageDefaultValue;
 	float	mTime			= 1.f;
 	float	mYSpaceScale	= 1.f;
+	float	mWellDamage		= 0.f; // 0..1; same for all wells (for now)
 	
 	Gelbox::Buffer mGelBuffer;
 	Gelbox::Buffer mSampleBuffer;	

@@ -124,7 +124,10 @@ void GelRender::render()
 		
 		// smile
 		smileBand( mBandFBO, mBandFBOTemp, band.mRect.x1, band.mRect.x2, band.mSmileHeight, band.mSmileExp );
-
+		
+		// damage
+		wellDamageBand( mBandFBO, mBandFBOTemp, band.mRect, band.mWellDamage, band.mWellDamageRandSeed );
+		
 		// blur
 		blur( mBandFBO, mBandFBOTemp, band.mBlur );		
 		
@@ -396,6 +399,83 @@ void GelRender::smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float x1, f
 		});
 	
 	warp( buf, tmp, gl::Texture::create(*s), height );
+}
+
+void GelRender::wellDamageBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, ci::Rectf bandr, float damage, int rseed ) const
+{
+	// Optimization: per damage level, store a hash of rseed => Textures. discard it when damage changes, or when it gets too big.
+
+	if ( damage <= 0.f ) return;
+
+	// normalize x1,x2
+	float x1 = bandr.x1;
+	float x2 = bandr.x2;
+	x1 /= mOutputSize.x;
+	x2 /= mOutputSize.x;
+	
+	float w = bandr.getWidth () / mOutputSize.x; // normalized 
+	
+	// generate damage stabs		
+	struct stab
+	{
+		float c;
+		float r;
+		float h;
+		float rinv;
+	};
+	
+	vector<stab> stabs;
+	
+	int nstabs = max( 1, (int)(damage * 10.f) ); // we know damage >= 0 at this point
+
+	Rand r( rseed );
+	
+	const float yscale = max( .2f, powf( damage * .5f, .85f ) );
+	
+	for( int i=0; i<nstabs; ++i )
+	{
+		stab s;
+		s.c = r.nextFloat(x1,x2);
+		s.r = lerp( .05f, .5f, r.nextFloat() * r.nextFloat() ) * w;
+		s.rinv = 1.f / s.r;
+		s.h = r.nextFloat(-1.f,1.f) * yscale;
+		stabs.push_back(s);
+	}
+	
+	// test
+	if ((0))
+	{
+		stabs.clear();
+		stab s;
+		s.c = lerp( x1, x2, .5f );
+		s.r = .5f * w;
+		s.h = r.nextBool() ? -1.f : 1.f;
+		s.rinv = 1.f / s.r;
+		stabs.push_back(s);
+	}
+		
+	// make warp texture
+	ci::Surface8uRef s = makeWarpByFracPos(
+		ivec2( mOutputSize.x, 1 ), // only need 1px tall
+		[=]( vec2 p )
+		{
+			float d = 0.f;
+			
+			for( const auto &s : stabs )
+			{
+				float dist = fabsf( s.c - p.x ) * s.rinv;
+				
+				if ( dist < 1.f )
+				{
+					d += (1.f - dist) * s.h; 
+				}
+			}
+	
+			return vec2( 0.f, d );
+		});
+	
+	// warp
+	warp( buf, tmp, gl::Texture::create(*s), bandr.getHeight() );
 }
 
 void GelRender::warp(

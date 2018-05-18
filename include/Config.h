@@ -15,7 +15,7 @@ public:
 	std::string	mHelpURL						= "http://douglaslab.org/gelbox/help";
 	
 	// app settings defaults
-	bool		mEnableGelRenderByDefault		= false; // enable new fancy gel rendering with FBO
+	bool		mEnableGelRenderByDefault		= true; // enable new fancy gel rendering with FBO
 	bool		mEnableLoupeOnHoverByDefault	= false; 
 
 	// various misc. ui behavior flags

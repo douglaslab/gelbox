@@ -48,6 +48,9 @@ public:
 	
 	int			mRandSeed	= 0;	
 
+	float		mWellDamage = 0.f; // 0..1
+	int			mWellDamageRandSeed = 0;
+
 };
 
 inline int findBandByAggregate( const std::vector<Band>& bands, int aggregate )

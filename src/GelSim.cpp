@@ -115,6 +115,13 @@ int calcRandSeed( const Band& b, Context context )
 	  ;	
 }
 
+int calcWellDamageRandSeed( const Band& b, Context context )
+{
+	return
+		b.mLane * 23
+	  ;	
+}
+
 float calcBandAlpha ( float mass, float degrade )
 {
 	float a = constrain( mass / GelSim::kSampleMassHigh, 0.1f, 1.f );
@@ -246,7 +253,11 @@ Band dyeToBand( int lane, int fragi, int dye, float mass, Context context, Rectf
 //	b.mBlur = (dye<3) ? 0 : 2;
 	
 	b = calcBandGeometry( context, b, wellRect, kWellToDyeHeightScale );
-	b.mRandSeed = calcRandSeed( b, context ); // uses mRect
+
+	// users mRect, so must come after calcBandGeometry
+	b.mRandSeed				= calcRandSeed( b, context );
+	b.mWellDamageRandSeed	= calcWellDamageRandSeed( b, context ); 
+	b.mWellDamage			= context.mWellDamage;
 	
 	return b;
 }
@@ -283,8 +294,10 @@ Band fragAggregateToBand(
 	b = calcBandGeometry( context, b, wellRect, 2.f );
 
 	// users mRect, so must come after calcBandGeometry
-	b.mRandSeed = calcRandSeed( b, context );
-
+	b.mRandSeed				= calcRandSeed( b, context );
+	b.mWellDamageRandSeed	= calcWellDamageRandSeed( b, context ); 
+	b.mWellDamage			= context.mWellDamage;
+	
 	b.mSmileHeight = b.mRect.getHeight() * .35f; 
 	b.mSmileExp = 4.f;
 	

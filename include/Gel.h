@@ -58,6 +58,9 @@ public:
 	
 	void  setVoltage( float );
 	float getVoltage() const { return mVoltage; }
+
+	void  setWellDamage( float );
+	float getWellDamage() const { return mWellDamage; }
 	
 	const std::vector<Band>&	getBands() const { return mBands; }
 	const Band*	getSlowestBandInFragment( int lane, int frag ) const;
@@ -90,6 +93,7 @@ private:
 	bool					mIsPaused = true;
 	
 	float					mVoltage;
+	float					mWellDamage = 0.f;
 	
 	// layout
 	glm::vec2				mSize; // ( lane dimension, pos elec dimension ) cm

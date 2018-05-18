@@ -61,6 +61,7 @@ private:
 	void drawFlames( ci::Rectf r, float height, ci::Rand& ) const;
 	
 	void smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float x1, float x2, float height, float exp ) const;
+	void wellDamageBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, ci::Rectf, float damage, int randseed ) const;
 	
 	void warp(	ci::gl::FboRef& buf,
 				ci::gl::FboRef& tmp,

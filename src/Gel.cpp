@@ -153,6 +153,12 @@ void Gel::setVoltage( float v )
 	updateBands();
 }
 
+void Gel::setWellDamage( float v )
+{
+	mWellDamage = v;
+	updateBands();
+}
+
 void Gel::updateBands()
 {
 	mBands.clear();
@@ -198,6 +204,7 @@ GelSim::Context Gel::getSimContext( const Sample& sample ) const
 	context.mVoltage		= getVoltage();
 	context.mTime			= getTime();
 	context.mYSpaceScale	= getSampleDeltaYSpaceScale();
+	context.mWellDamage		= mWellDamage;
 	context.mGelBuffer		= mBuffer;
 	context.mSampleBuffer	= sample.mBuffer;
 	return context;

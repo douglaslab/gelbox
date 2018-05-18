@@ -116,12 +116,20 @@ void GelSettingsView::makeSliders()
 		add(s,"clock");
 	}
 	
-	// unwired placeholder sliders...
 	Slider damage;
+	damage.mValueMappedLo = 0;
+	damage.mValueMappedHi = 1.f; // gel sim tracks time from 0..1
 	damage.mValue = 0.f;
-	damage.mEnabled = false;
+	damage.mSetter = [this]( float v ) {
+		mGelView->getGel()->setWellDamage(v);
+		mGelView->gelDidChange();
+	};
+	damage.mGetter = [this]() {
+		return mGelView->getGel()->getWellDamage();
+	};
 	add( damage, "well-damage" );
 	
+	// unwired placeholder sliders...
 	Slider rotate;
 	rotate.mEnabled = false;
 	rotate.mValueMappedLo = -GelSim::kSliderGelRotateMax;
