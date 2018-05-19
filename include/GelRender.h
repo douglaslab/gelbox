@@ -49,7 +49,7 @@ private:
 	ci::gl::FboRef mCompositeFBO;
 
 	// shaders
-	ci::gl::GlslProgRef	mBlur5Glsl;
+	ci::gl::GlslProgRef	mBlur5Glsl, mBlur9Glsl, mBlur13Glsl; // 1px, 2px, 3px blur
 	ci::gl::GlslProgRef	mWarpGlsl;
 
 	//
@@ -72,5 +72,11 @@ private:
 	
 	void shadeRect( ci::gl::TextureRef texture, ci::gl::GlslProgRef glsl, ci::Rectf dstRect ) const;
 		// you bind glsl before calling, so you can set your own params
+	
+	
+	// reusable textures
+	ci::gl::TextureRef get1dTex( ci::Surface8uRef ) const;
+	
+	mutable ci::gl::TextureRef m1dTex;
 	
 };

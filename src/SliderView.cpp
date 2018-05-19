@@ -73,7 +73,8 @@ void SliderView::mouseUp  ( ci::app::MouseEvent e )
 
 void SliderView::mouseDrag( ci::app::MouseEvent e )
 {
-	if (mSlider.mEnabled)
+	if ( mSlider.mEnabled
+	  && length(getMouseMoved()) > 0.f ) // optimization
 	{
 		vec2 mouseDownLocal = rootToChild(getMouseDownLoc());
 		vec2 local = rootToChild(e.getPos());

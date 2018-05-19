@@ -72,6 +72,8 @@ void GelRender::setup( glm::ivec2 gelsize, int pixelsPerUnit )
 	};
 
 	loadShader( mBlur5Glsl,"passthrough.vert", "blur5.frag" );	
+	loadShader( mBlur9Glsl,"passthrough.vert", "blur9.frag" );	
+	loadShader( mBlur13Glsl,"passthrough.vert", "blur13.frag" );	
 	loadShader( mWarpGlsl, "passthrough.vert", "warp.frag" );	
 }
 
@@ -398,7 +400,7 @@ void GelRender::smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float x1, f
 			return d;
 		});
 	
-	warp( buf, tmp, gl::Texture::create(*s), height );
+	warp( buf, tmp, get1dTex(s), height );
 }
 
 void GelRender::wellDamageBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, ci::Rectf bandr, float damage, int rseed ) const
@@ -475,7 +477,7 @@ void GelRender::wellDamageBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, ci::Re
 		});
 	
 	// warp
-	warp( buf, tmp, gl::Texture::create(*s), bandr.getHeight() );
+	warp( buf, tmp, get1dTex(s), bandr.getHeight() );
 }
 
 void GelRender::warp(
@@ -512,10 +514,58 @@ void GelRender::warp(
 
 void GelRender::blur( ci::gl::FboRef& fbo, ci::gl::FboRef& fboTemp, int distance )
 {
-	// We could do fewer passes if we use the blur5 (1px), blur9 (4px), blur15 (7px) shaders, too.
-	// But this works and should be fine. 
+	// Do fewer passes with all the blur shaders
+	if ( mBlur5Glsl && mBlur9Glsl && mBlur13Glsl )
+	{
+		ci::gl::GlslProgRef kernels[3] =
+		{
+			mBlur5Glsl,
+			mBlur9Glsl,
+			mBlur13Glsl
+		};
+		
+		const auto oldglsl = gl::context()->getGlslProg();
+
+		int activekernel = 0; // 1, 2, 3
+
+		int steps = distance;
+		
+		ci::gl::GlslProgRef glsl;
 	
-	if ( mBlur5Glsl )
+		while ( steps > 0 )
+		{		
+			// pick shader; switch?
+			int kernel = min( steps, 3 ); // max kernel size
+			
+			if ( kernel != activekernel )
+			{
+				glsl = kernels[kernel-1];
+				gl::context()->bindGlslProg( glsl );
+				activekernel = kernel;
+			}
+
+			// do it
+			for( int i=0; i<2; ++i ) // 2x, for horizontal + vertical decomposition
+			{
+				swap( fbo, fboTemp );
+
+				gl::ScopedFramebuffer bandFboScope( fbo );
+
+				glsl->uniform("uBlurResolution", vec2(mGelSize) );
+				glsl->uniform("uBlurDirection",  (i%2) ? vec2(0,1) : vec2(1,0) );
+				
+				shadeRect( fboTemp->getColorTexture(), glsl, Rectf( vec2(0), mGelSize ) );		
+			}
+						
+			// decrement
+			steps -= kernel;
+		}
+		
+		//
+		gl::context()->bindGlslProg(oldglsl);
+	}
+	// This works and should be fine; just use 1px blur shader 
+	else if ( mBlur5Glsl )
 	{
 		gl::ScopedGlslProg glslScope( mBlur5Glsl );
 
@@ -524,7 +574,6 @@ void GelRender::blur( ci::gl::FboRef& fbo, ci::gl::FboRef& fboTemp, int distance
 			swap( fbo, fboTemp );
 
 			gl::ScopedFramebuffer bandFboScope( fbo );
-			gl::clear( Color(0,0,1) );
 
 			mBlur5Glsl->uniform("uBlurResolution", vec2(mGelSize) );
 			mBlur5Glsl->uniform("uBlurDirection",  (i%2) ? vec2(0,1) : vec2(1,0) );
@@ -563,4 +612,28 @@ void GelRender::shadeRect( gl::TextureRef texture, gl::GlslProgRef glsl, Rectf d
 
 	ctx->setDefaultShaderVars();
 	ctx->drawArrays( GL_TRIANGLE_STRIP, 0, 4 );		
+}
+
+ci::gl::TextureRef GelRender::get1dTex( ci::Surface8uRef s ) const
+{
+	assert( s->getHeight() == 1 );
+	
+	// dump old? (different size)
+	if ( m1dTex && m1dTex->getWidth() != s->getWidth() )
+	{
+		m1dTex = 0;
+	}
+	
+	if ( m1dTex )
+	{
+		// update old
+		m1dTex->update(*s);
+	}
+	else	
+	{
+		// make new?
+		m1dTex = gl::Texture::create(*s); 
+	}
+	
+	return m1dTex;
 }
