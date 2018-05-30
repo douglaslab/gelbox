@@ -43,6 +43,7 @@ public:
 	void  syncBandsToSample( SampleRef ); // tell us when SampleRef changed...
 	void  syncBandsToSample( int lane  ); // tell us when SampleRef changed...
 	int	  getLaneForSample ( SampleRef ) const;
+	int   getFirstEmptyLane() const; // -1 for none
 	
 	void  setBuffer( const Gelbox::Buffer& b );
 	const Gelbox::Buffer& getBuffer() { return mBuffer; }

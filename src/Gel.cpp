@@ -50,6 +50,15 @@ int Gel::getLaneForSample( SampleRef sample ) const
 	return -1;
 }
 
+int Gel::getFirstEmptyLane() const
+{
+	for( int i=0; i<mNumLanes; ++i )
+	{
+		if ( !mSamples[i] ) return i;
+	}
+	return -1;	
+}
+
 void Gel::setSample( SampleRef s, int lane )
 {
 	assert( lane >= 0 && lane < mNumLanes );

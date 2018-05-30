@@ -25,7 +25,7 @@ const float kSampleMassHigh = 175.f; // 175ml
 const int   kBaseCountHigh  = 14000;
 
 const float kWellToDyeHeightScale = 4.f;
-const float kSampleMassTooHighStuckInWellThreshold = 150.f;
+//const float kSampleMassTooHighStuckInWellThreshold = 150.f;
 
 /*
  * Slider Tuning Values

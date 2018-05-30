@@ -428,11 +428,11 @@ void GelRender::wellDamageBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, ci::Re
 	
 	vector<stab> stabs;
 	
-	int nstabs = max( 1, (int)(damage * 10.f) ); // we know damage >= 0 at this point
+	int nstabs = max( 1, (int)(damage * 5.f) ); // we know damage >= 0 at this point
 
 	Rand r( rseed );
 	
-	const float yscale = max( .2f, powf( damage * .5f, .85f ) );
+	const float yscale = max( .2f, powf( damage * .25f, .85f ) );
 	
 	for( int i=0; i<nstabs; ++i )
 	{

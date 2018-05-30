@@ -15,6 +15,7 @@
 #include "GelView.h"
 #include "GelSim.h"
 #include "Layout.h"
+#include "Config.h"
 #include "ButtonView.h"
 #include "SampleSettingsView.h"
 
@@ -687,7 +688,7 @@ void SampleView::newFragment()
 		f.mAspectRatio = 1.f;
 		f.mDegrade = 0.f ; //mRand.nextFloat() * mRand.nextFloat() * mRand.nextFloat() * .25f;
 		
-		if ( mRand.nextInt() % 3 == 0 )
+		if ( mRand.nextFloat() < kConfig.mNewFragChanceNonUniformAspectRatio )
 		{
 			f.mAspectRatio = 1.f + (kRandFragMaxAspect-1.f) * mRand.nextFloat();
 		}
@@ -696,7 +697,7 @@ void SampleView::newFragment()
 		{
 			f.mAggregate.resize( kNewFragNumAggregateBands );
 			
-			if ( mRand.nextInt(5)==0 )
+			if ( mRand.nextFloat() < kConfig.mNewFragChanceMultimer )
 			{
 				int r = mRand.nextInt( (int)f.mAggregate.size() );
 				for( int i=0; i<r; ++i )

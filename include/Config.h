@@ -29,6 +29,10 @@ public:
 	bool		mShowReverseSolverDebugTest		= false;
 	int			mSolverMaxIterations			= 50; // this number is totally fine; maybe could even be smaller
 	
+	// random new frag
+	float		mNewFragChanceNonUniformAspectRatio = 0.f; // was 1/3
+	float		mNewFragChanceMultimer				= 0.f; // was 1/5
+	
 };
 extern       Config  gConfig;
 extern const Config &kConfig;

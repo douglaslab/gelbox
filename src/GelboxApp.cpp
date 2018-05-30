@@ -268,7 +268,7 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 		std::string ext = i.extension().string();
 		
 		// xml?
-/*		if ( ext == ".xml" )
+		if ( ext == ".xml" )
 		{
 			try
 			{
@@ -278,17 +278,41 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 				if ( xml.hasChild(Sample::kRootXMLNodeName) )
 				{
 					SampleRef	 source = std::make_shared<Sample>(xml);
-					SampleTubeViewRef view	= std::make_shared<SampleTubeView>(source);
+
+					// find a lane
+					if ( mGelView && mGelView->getGel() )
+					{
+						int lane = -1;
+						
+						// try picking
+						lane = mGelView->pickLane( mGelView->rootToParent(vec2(event.getPos())) );
+						
+						// already full?
+						if ( lane != -1 && mGelView->getSample(lane) ) {
+							lane = -1;
+						}
+						
+						// pick first empty
+						if (lane == -1) lane = mGelView->getGel()->getFirstEmptyLane();
+						
+						// set it
+						if (lane != -1)
+						{
+							mGelView->getGel()->setSample(source,lane);
+							mGelView->sampleDidChange(source);
+						}
+					}
 					
-					view->setFrame( view->getFrame() + (pos - view->getFrame().getCenter()) );
 					
-					mViews.addView(view);
+//					SampleTubeViewRef view	= std::make_shared<SampleTubeView>(source);
+//					view->setFrame( view->getFrame() + (pos - view->getFrame().getCenter()) );
+//					mViews.addView(view);
 				}
 			}
 			catch (...) {
 				cout << "Failed to load .xml '" << i << "'" << endl;
 			}
-		}*/
+		}
 		
 		// image?
 		if ( find( imgExtensions.begin(), imgExtensions.end(), ext ) != imgExtensions.end() )

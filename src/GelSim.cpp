@@ -200,11 +200,11 @@ Band calcBandGeometry( Context ctx, Band b, Rectf wellRect, float fatness )
 {
 	float deltaY1, deltaY2;
 	
-	if ( b.mMass > kSampleMassTooHighStuckInWellThreshold )
+	/*if ( b.mMass > kSampleMassTooHighStuckInWellThreshold )
 	{
 		deltaY1 = deltaY2 = 0.f;
 	}
-	else {
+	else*/ {
 		deltaY1 = calcDeltaY( b.mBases - b.mDegradeHi, b.mAggregate, b.mAspectRatio, ctx );
 		deltaY2 = calcDeltaY( b.mBases - b.mDegradeLo, b.mAggregate, b.mAspectRatio, ctx );
 	}
