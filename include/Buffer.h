@@ -136,22 +136,20 @@ const string kBufferParamIconName[Buffer::kNumParams] =
 
 // presets
 const int kBufferNumPresets = 3;
-const int kBufferDefaultPreset = 0;
+const int kBufferDefaultPreset = 1;
 
 const string kBufferPresetNames[kBufferNumPresets] =
 {
+	"H2O",
 	".5x TBE",
-//	"1x TBE",
-	"1x TAE",
-	"H2O"
+	"1x TAE"
 };
 
 const Buffer kBufferPresets[kBufferNumPresets] =
 {
+	Buffer::h2o(),
 	Buffer::TBE() * .5f,
-//	Buffer::TBE(),
-	Buffer::TAE(),
-	Buffer::h2o()
+	Buffer::TAE()
 };
 
 
