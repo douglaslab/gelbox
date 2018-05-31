@@ -33,7 +33,8 @@ void GelRender::setup( glm::ivec2 gelsize, int pixelsPerUnit )
 	mOutputSize		= mGelSize * mPixelsPerUnit;
 	
 	// fbos
-	mCompositeFBO = gl::Fbo::create( mOutputSize.x, mOutputSize.y );
+	mCompositeFBO		= gl::Fbo::create( mOutputSize.x, mOutputSize.y );
+	mCompositeFBOTemp	= gl::Fbo::create( mOutputSize.x, mOutputSize.y );
 
 	gl::Texture::Format f;
 	if ( kChannelFormat != GL_RGB )
@@ -143,6 +144,9 @@ void GelRender::render()
 			gl::draw( mBandFBO->getColorTexture(), Rectf( vec2(0.f), mGelSize ) );
 		}
 	}
+	
+	// global effects
+	overcook( mCompositeFBO, mCompositeFBOTemp, mGlobalWarp, mGlobalWarpRandSeed );
 }
 
 void GelRender::drawSmear ( ci::Rectf ir, float direction, float thickness, ColorA cclose, ColorA cfar ) const
@@ -351,6 +355,9 @@ ci::Surface8uRef makeWarpByFracPos( ivec2 warpSize, function<vec2(vec2)> f )
 				vec2 pos = vec2(iter.getPos()) * denom ;
 				
 				vec2 d = f(pos);
+				
+				d.x = constrain( d.x, -1.f, 1.f );
+				d.y = constrain( d.y, -1.f, 1.f );
 				
 				iter.r() = (uint8_t)lmap( d.x, -1.f, 1.f, 0.f, 255.f );
 				iter.g() = (uint8_t)lmap( d.y, -1.f, 1.f, 0.f, 255.f );
@@ -590,6 +597,35 @@ void GelRender::blur( ci::gl::FboRef& fbo, ci::gl::FboRef& fboTemp, int distance
 	}
 }
 
+void GelRender::overcook( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float amount, int rseed )
+{
+	if ( amount > 0.f )
+	{
+		float scale = amount * 20.f;
+		
+		ci::Surface8uRef control = makeWarpByFracPos( mOutputSize,
+			[=]( vec2 p ) -> vec2
+			{
+				vec2 c(0.f);
+
+				c.x +=  .45f  * sinf(p.y * .5f * M_PI * 2.f);
+				c.y +=  .35f * sinf(p.x * .5f * M_PI * 2.f);
+				
+				c.x +=  .35f * sinf(p.y * 1.f * M_PI * 2.f);
+				c.y +=  .25f * sinf(p.x * 1.f * M_PI * 2.f);
+
+				c.x +=  .2f  * sinf(p.y * 4.f * M_PI * 2.f);
+				c.y +=  .2f * sinf(p.x * 4.f * M_PI * 2.f);
+
+	//			c.y += min( 0.f, sinf( p.y * 8.f * M_PI * 2.f) ); // just vertical displacement; wacky
+				
+				return c;
+			});
+		
+		warp( buf, tmp, get2dTex(control), scale );
+	}
+}
+
 void GelRender::shadeRect( gl::TextureRef texture, gl::GlslProgRef glsl, Rectf dstRect ) const
 {
 	// TODO: replace with my own VBO w a unit square and just use model transform, not this other sillyness.
@@ -636,4 +672,26 @@ ci::gl::TextureRef GelRender::get1dTex( ci::Surface8uRef s ) const
 	}
 	
 	return m1dTex;
+}
+
+ci::gl::TextureRef GelRender::get2dTex( ci::Surface8uRef s ) const
+{
+	// dump old? (different size)
+	if ( m2dTex && m2dTex->getSize() != s->getSize() )
+	{
+		m2dTex = 0;
+	}
+	
+	if ( m2dTex )
+	{
+		// update old
+		m2dTex->update(*s);
+	}
+	else	
+	{
+		// make new?
+		m2dTex = gl::Texture::create(*s); 
+	}
+	
+	return m2dTex;
 }

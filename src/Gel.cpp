@@ -117,6 +117,32 @@ ci::Rectf Gel::getWellBounds( int lane ) const
 	return r;
 }
 
+std::vector<float> Gel::getBufferWarpForLanes() const
+{
+	std::vector<float> warp( getNumLanes(), 0.f );
+	
+	for( int l=0; l<getNumLanes(); ++l )
+	{
+		const SampleRef sample = mSamples[l];
+		
+		if (sample)
+		{
+			float f = 0.f;
+			float s = 0.f;
+			
+			for( int i=0; i<Gelbox::Buffer::kNumParams; ++i )
+			{
+				f += fabsf( getBuffer().mValue[i] - sample->mBuffer.mValue[i] );
+				s += Gelbox::kBufferParamMax[i];
+			}
+			
+			warp[l] = f / s;
+		}
+	}
+	
+	return warp;
+}
+
 void Gel::insertSample( const Sample& src, int lane )
 {
 	GelSim::Context context = getSimContext(src);

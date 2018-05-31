@@ -31,13 +31,17 @@ public:
 	void setup( glm::ivec2 gelsize, int pixelsPerUnit );
 	
 	void setBands( const std::vector<Band>& b ) { mBands = b; } 
+	void setGlobalWarp( float amount, int randseed ) { mGlobalWarp=amount; mGlobalWarpRandSeed=randseed; }
 	void render();
 	
 	ci::gl::TextureRef getOutput() { return mCompositeFBO ? mCompositeFBO->getColorTexture() : 0; }
 	
 private:
 
-	std::vector<Band> mBands;
+	// input
+	std::vector<Band>	mBands;
+	float				mGlobalWarp;
+	int					mGlobalWarpRandSeed = 0;
 	
 	// output size
 	glm::ivec2 mGelSize;    // so we can talk in terms of gel world space coordinates 
@@ -46,7 +50,7 @@ private:
 
 	// final compositing
 	ci::gl::FboRef mBandFBO, mBandFBOTemp; // so we can ping-pong; always render TO mBandFBO
-	ci::gl::FboRef mCompositeFBO;
+	ci::gl::FboRef mCompositeFBO, mCompositeFBOTemp;
 
 	// shaders
 	ci::gl::GlslProgRef	mBlur5Glsl, mBlur9Glsl, mBlur13Glsl; // 1px, 2px, 3px blur
@@ -70,13 +74,16 @@ private:
 		
 	void blur( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, int distance );
 	
+	void overcook( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float amount, int rseed );
+	
 	void shadeRect( ci::gl::TextureRef texture, ci::gl::GlslProgRef glsl, ci::Rectf dstRect ) const;
 		// you bind glsl before calling, so you can set your own params
 	
 	
 	// reusable textures
 	ci::gl::TextureRef get1dTex( ci::Surface8uRef ) const;
+	ci::gl::TextureRef get2dTex( ci::Surface8uRef ) const;
 	
-	mutable ci::gl::TextureRef m1dTex;
+	mutable ci::gl::TextureRef m1dTex, m2dTex;
 	
 };

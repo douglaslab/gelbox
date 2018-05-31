@@ -156,6 +156,14 @@ void GelView::updateGelRender()
 	if ( !mGelRender ) return;
 	
 	mGelRender->setBands( mGel->getBands() );
+	
+	{
+		auto wl = mGel->getBufferWarpForLanes();
+		float w = 0.f;
+		for ( float v : wl ) w += v;
+		mGelRender->setGlobalWarp( w, 0 );
+	}
+	
 	mGelRender->render();
 }
 

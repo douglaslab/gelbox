@@ -46,7 +46,7 @@ public:
 	int   getFirstEmptyLane() const; // -1 for none
 	
 	void  setBuffer( const Gelbox::Buffer& b );
-	const Gelbox::Buffer& getBuffer() { return mBuffer; }
+	const Gelbox::Buffer& getBuffer() const { return mBuffer; }
 	
 	void  stepTime( float dt );
 	
@@ -72,6 +72,7 @@ public:
 	int			getNumLanes() const { return mNumLanes; }
 	ci::vec2	getWellSize() const;
 	ci::Rectf	getWellBounds( int lane ) const;
+	std::vector<float> getBufferWarpForLanes() const;
 
 	float		getSampleDeltaYSpaceScale() const { return mSize.y - mYMargin*2.f - mLaneWidth*.2f; }
 	
