@@ -55,6 +55,7 @@ public:
 	ci::vec2	mGelSettingsHeaderBaselinePos	= ci::vec2( 76.f, -mHeadingGutter );	
 	std::string	mGelSettingsHeaderStr			= "Gel";	
 	ci::vec2	mGelViewBufferViewTopLeft		= ci::vec2(61,15);
+	bool		mGelSettingsBtnRightOfGel		= false;
 	
 	// sample settings view
 	ci::vec2	mSampleSettingsContentOffset	= ci::vec2(8,0);

@@ -7,7 +7,7 @@
 #include "Sample.h"
 #include "ButtonView.h"
 #include "AppSettingsView.h"
-//#include "SampleTubeView.h"
+#include "GelSettingsView.h"
 #include "SampleView.h"
 #include "View.h"
 #include "Slider.h"
@@ -16,7 +16,6 @@
 #include "Interaction.h"
 #include "Layout.h"
 #include "Config.h"
-//#include "OperationView.h"
 
 #include "GelboxApp.h"
 
@@ -111,17 +110,48 @@ void GelboxApp::makeGel()
 		kLayout.mGelWellGutter ); // layout in points
 	
 	// gel view
-	auto gelView = make_shared<GelView>();
-	mGelView = gelView;
+	mGelView = make_shared<GelView>();
 	
 	{
-		gelView->setup(gel);
+		mGelView->setup(gel);
 		
-		Rectf frame = gelView->getFrame();
+		Rectf frame = mGelView->getFrame();
 		frame += kLayout.mGelTopLeft - frame.getUpperLeft();
 		
-		gelView->setFrame( frame );
-		mViews.addView(gelView);
+		mGelView->setFrame( frame );
+		mViews.addView(mGelView);
+	}
+	
+	// gel timeline slider
+	if ( kConfig.mTimelineBelowGel )
+	{
+		Slider s = GelSettingsView::getTimelineSlider(mGelView);
+		
+		float w = mGelView->getBounds().getWidth();
+
+		if ( kLayout.mGelSettingsBtnRightOfGel ) {
+			w -= kLayout.mBtnGutter * 2.f;
+		} else {
+			w -= kLayout.mFragViewSliderIconNotionalSize.x;
+			w -= kLayout.mBtnGutter * 3.f;
+		}
+		
+		s.doLayoutInWidth(
+			w,
+			kLayout.mFragViewSlidersIconGutter,
+			kLayout.mFragViewSliderIconNotionalSize
+		);
+		
+		auto sv = make_shared<SliderView>(s);
+		sv->setParent( mGelView );
+		
+		sv->setFrame(
+			sv->getFrame()
+			+ vec2(
+				kLayout.mBtnGutter, // + kLayout.mFragViewSliderIconNotionalSize.x,
+//				0.f,
+				mGelView->getBounds().getHeight() + kLayout.mBtnGutter )
+			); 
 	}
 	
 	// add samples
@@ -131,8 +161,8 @@ void GelboxApp::makeGel()
 		
 		SampleRef sample = loadSample( ladder );
 		
-		gel->setSample( sample, 0 );
-		gelView->gelDidChange();
+		mGelView->getGel()->setSample( sample, 0 );
+		mGelView->gelDidChange();
 	}
 	catch (...) {
 		cerr << "ERROR loading 1kb ladder" << endl;

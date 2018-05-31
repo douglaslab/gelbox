@@ -11,6 +11,7 @@
 #include "SliderView.h"
 #include "GelSim.h"
 #include "Layout.h"
+#include "Config.h"
 #include "BufferView.h"
 
 using namespace std;
@@ -39,9 +40,56 @@ void GelSettingsView::setup( GelViewRef gelView )
 	layout();
 }
 
+Slider GelSettingsView::getTimelineSlider( GelViewRef gelView )
+{
+	Slider s;
+
+	s.mValueMappedLo = 0;
+	s.mValueMappedHi = 1.f; // gel sim tracks time from 0..1
+	s.mSetter = [gelView]( float v ) {
+		gelView->getGel()->setTime(v);
+		gelView->gelDidChange();
+	};
+	s.mGetter = [gelView]() {
+		return gelView->getGel()->getTime();
+	};
+	s.mMappedValueToStr = []( float v )
+	{
+		v *= GelSim::kSliderTimelineMaxMinutes;
+		
+		int m = roundf(v); // we get fractional values, so fix that.
+		
+		int mins = m % 60;
+		int hrs  = m / 60;
+		
+		string minstr = toString(mins);
+		if (minstr.size()==1) minstr = string("0") + minstr;
+		
+		return toString(hrs) + ":" + minstr ;
+	};
+
+	fs::path iconPathBase = app::getAssetPath("slider-icons");
+	s.loadIcons(
+		iconPathBase / ("clock-lo.png"),
+		iconPathBase / ("clock-hi.png")
+		); 
+	
+	s.pullValueFromGetter();
+	
+	return s;
+}
+
 void GelSettingsView::makeSliders()
 {
-	auto add = [this]( Slider s, string iconprefix )
+	auto addSlider = [this]( Slider s )
+	{
+		auto sv = make_shared<SliderView>(s);
+		sv->setParent( shared_from_this() );
+		
+		mSliders.push_back(sv);		
+	};
+	
+	auto add = [this,addSlider]( Slider &s, std::string iconprefix )
 	{
 		fs::path iconPathBase = app::getAssetPath("slider-icons");
 		s.loadIcons(
@@ -51,10 +99,7 @@ void GelSettingsView::makeSliders()
 		
 		s.pullValueFromGetter();
 		
-		auto sv = make_shared<SliderView>(s);
-		sv->setParent( shared_from_this() );
-		
-		mSliders.push_back(sv);		
+		addSlider(s);
 	};
 	
 	// voltage slider
@@ -86,34 +131,9 @@ void GelSettingsView::makeSliders()
 	}
 	
 	// timeline slider
+	if ( ! kConfig.mTimelineBelowGel )
 	{
-		Slider s;
-
-		s.mValueMappedLo = 0;
-		s.mValueMappedHi = 1.f; // gel sim tracks time from 0..1
-		s.mSetter = [this]( float v ) {
-			mGelView->getGel()->setTime(v);
-			mGelView->gelDidChange();
-		};
-		s.mGetter = [this]() {
-			return mGelView->getGel()->getTime();
-		};
-		s.mMappedValueToStr = []( float v )
-		{
-			v *= GelSim::kSliderTimelineMaxMinutes;
-			
-			int m = roundf(v); // we get fractional values, so fix that.
-			
-			int mins = m % 60;
-			int hrs  = m / 60;
-			
-			string minstr = toString(mins);
-			if (minstr.size()==1) minstr = string("0") + minstr;
-			
-			return toString(hrs) + ":" + minstr ;
-		};
-		
-		add(s,"clock");
+		addSlider( getTimelineSlider(mGelView) );
 	}
 	
 	Slider damage;

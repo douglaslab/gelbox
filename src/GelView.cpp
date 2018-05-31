@@ -108,7 +108,19 @@ void GelView::layout()
 	if (mSettingsBtn)
 	{
 		Rectf r( vec2(0.f), mSettingsBtn->getFrame().getSize() );
-		r += ( getBounds().getLowerRight() + vec2(0,kLayout.mBtnGutter)) - r.getUpperRight(); 
+		
+		if ( kLayout.mGelSettingsBtnRightOfGel )
+		{
+			// upper right
+//			r += ( getBounds().getUpperRight() + vec2(kLayout.mBtnGutter,0)) - r.getUpperLeft();
+			// lower right
+			r += ( getBounds().getLowerRight() + vec2(kLayout.mBtnGutter/2.f,0)) - r.getLowerLeft();
+		}
+		else
+		{
+			r += ( getBounds().getLowerRight() + vec2(0,kLayout.mBtnGutter)) - r.getUpperRight();
+		}
+		 
 		mSettingsBtn->setFrame(r);
 	}
 	

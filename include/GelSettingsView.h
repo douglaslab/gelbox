@@ -8,6 +8,7 @@
 #pragma once
 
 #include "View.h"
+#include "Slider.h"
 
 class GelView;
 typedef std::shared_ptr<GelView> GelViewRef;
@@ -31,7 +32,9 @@ public:
 	void setBounds( ci::Rectf r ) override;
 	
 	void draw() override;
-		
+	
+	static Slider getTimelineSlider( GelViewRef );
+	
 private:
 	GelViewRef				mGelView;
 	BufferViewRef			mBufferView;

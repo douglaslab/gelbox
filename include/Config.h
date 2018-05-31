@@ -32,7 +32,10 @@ public:
 	// random new frag
 	float		mNewFragChanceNonUniformAspectRatio = 0.f; // was 1/3
 	float		mNewFragChanceMultimer				= 0.f; // was 1/5
-	
+
+	// layout options
+	bool		mTimelineBelowGel				= true;
+		
 };
 extern       Config  gConfig;
 extern const Config &kConfig;
