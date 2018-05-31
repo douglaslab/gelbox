@@ -44,6 +44,11 @@ ci::gl::TextureRef Layout::uiImageWithPath( fs::path assetPath ) const
 	else return i->second;
 }
 
+ci::fs::path Layout::sliderIconPath() const
+{
+	return app::getAssetPath("slider-icons");	
+}
+
 ci::Rectf Layout::layoutBrace( ci::Rectf inRect ) const
 {
 	Rectf r;

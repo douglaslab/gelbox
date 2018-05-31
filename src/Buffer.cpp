@@ -7,6 +7,7 @@
 //
 
 #include "Buffer.h"
+#include "Layout.h"
 
 namespace Gelbox{
 
@@ -16,6 +17,8 @@ static gl::TextureRef sSliderIcons[Buffer::kNumParams];
 
 gl::TextureRef Buffer::getParamSliderIcon( int i )
 {
+	// this should probably be in Layout.h, not calling into it.
+	
 	string prefix("");
 	string postfix(".png");
 	
@@ -23,7 +26,7 @@ gl::TextureRef Buffer::getParamSliderIcon( int i )
 	
 	if ( ! sSliderIcons[i] )
 	{
-		fs::path iconPathBase = app::getAssetPath("slider-icons");
+		fs::path iconPathBase = kLayout.sliderIconPath();
 		fs::path path = iconPathBase / (prefix + string(kBufferParamIconName[i]) + postfix); 
 
 		try {

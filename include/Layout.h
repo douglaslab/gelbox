@@ -169,7 +169,8 @@ public:
 	ci::gl::TextureRef uiImage( std::string name ) const;
 	ci::gl::TextureRef uiImage( ci::fs::path stem, std::string name ) const;
 	ci::gl::TextureRef uiImageWithPath( ci::fs::path assetPath ) const;
-
+	ci::fs::path	   sliderIconPath() const;
+	
 	// helpers
 	ci::vec2  snapToPixel( ci::vec2  p ) const;
 	ci::Rectf snapToPixel( ci::Rectf r ) const;

@@ -68,10 +68,9 @@ Slider GelSettingsView::getTimelineSlider( GelViewRef gelView )
 		return toString(hrs) + ":" + minstr ;
 	};
 
-	fs::path iconPathBase = app::getAssetPath("slider-icons");
 	s.loadIcons(
-		iconPathBase / ("clock-lo.png"),
-		iconPathBase / ("clock-hi.png")
+		kLayout.sliderIconPath() / ("clock-lo.png"),
+		kLayout.sliderIconPath() / ("clock-hi.png")
 		); 
 	
 	s.pullValueFromGetter();
@@ -91,7 +90,7 @@ void GelSettingsView::makeSliders()
 	
 	auto add = [this,addSlider]( Slider &s, std::string iconprefix )
 	{
-		fs::path iconPathBase = app::getAssetPath("slider-icons");
+		fs::path iconPathBase = kLayout.sliderIconPath();
 		s.loadIcons(
 			iconPathBase / (iconprefix + "-lo.png"),
 			iconPathBase / (iconprefix + "-hi.png")
