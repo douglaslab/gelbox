@@ -66,7 +66,7 @@ public:
 	
 	bool pick( glm::vec2 ) const override;
 	
-	void newFragment();
+	void newFragment(); // is at back of fragments
 	void deleteFragment( int i ); // fades out instances
 	
 	void fragmentDidChange( int frag ); // -1 for we deleted one; in practice ignores frag 

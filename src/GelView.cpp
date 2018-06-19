@@ -609,15 +609,14 @@ bool GelView::newFragmentAtPos( ci::vec2 pos )
 		// new fragment
 		mSampleView->newFragment(); // let sampleview generate it 
 		
-		int  fragi = (int)sample->mFragments.size();
+		int  fragi = (int)sample->mFragments.size() - 1;
 		auto &frag = sample->mFragments[fragi];
 		
 		frag.mAspectRatio = 1.f; // lock aspect ratio
 		
 		// lock aggregate to 1
 		int aggregate=1;
-		for( float & v : frag.mAggregate ) v=0.f;
-		frag.mAggregate[aggregate-1] = 1.f;
+		frag.mAggregate.set( aggregate-1, 1.f ); // mAggregate is this state by default.
 		
 		frag.mBases = solveBasePairForY(
 			rootToChild(pos).y,
