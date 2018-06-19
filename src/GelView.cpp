@@ -1210,6 +1210,12 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 			);		
 	}
 	
+	// constrain y?
+	if ( e.isShiftDown() )
+	{
+		frag.mBases = mMouseDownBand.mBases;
+	}
+	
 	// pick new lane?
 	int newlane = pickLane( rootToParent(e.getPos()) );
 	
