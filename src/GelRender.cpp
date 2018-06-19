@@ -77,6 +77,29 @@ void GelRender::setup( glm::ivec2 gelsize, int pixelsPerUnit )
 	loadShader( mBlur9Glsl,"passthrough.vert", "blur9.frag" );	
 	loadShader( mBlur13Glsl,"passthrough.vert", "blur13.frag" );	
 	loadShader( mWarpGlsl, "passthrough.vert", "warp.frag" );	
+	
+	// tuning vars
+	app->getFileWatch().loadJson( app->getOverloadedAssetPath() / "tuning" / "render.json",
+		[this]( const JsonTree& json )
+	{
+		auto getf = [json]( string key, float& v )
+		{
+			if ( json.hasChild(key) ) {
+				v = json.getChild(key).getValue<float>();
+			}
+		};
+
+		auto geti = [json]( string key, int& v )
+		{
+			if ( json.hasChild(key) ) {
+				v = json.getChild(key).getValue<int>();
+			}
+		};
+		
+		getf( "OvercookScale", mTuning.mOvercookScale );
+		
+		mIsDirty = true;
+	});
 }
 
 void GelRender::render()
@@ -604,7 +627,7 @@ void GelRender::overcook( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float amount
 {
 	if ( amount > 0.f )
 	{
-		float scale = amount * 20.f;
+		float scale = amount * kTuning.mOvercookScale;
 		
 		ci::Surface8uRef control = makeWarpByFracPos( mOutputSize,
 			[=]( vec2 p ) -> vec2

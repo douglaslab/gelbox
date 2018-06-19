@@ -39,6 +39,13 @@ public:
 	
 private:
 
+	struct Tuning
+	{
+		float mOvercookScale = 20.f;
+	}
+	mTuning;
+	const Tuning &kTuning = mTuning;
+	
 	bool				mIsDirty = false; // if shader, bands, warp, tuning vars change.
 	
 	// input

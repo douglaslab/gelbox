@@ -511,12 +511,17 @@ ci::fs::path GelboxApp::calcOverloadedAssetPath() const
 	{
 		const char* srcroot = getenv("GELBOXSRCROOT");
 		if (srcroot) {
-			return (fs::path(srcroot) / ".." / "assets");
-//			return fs::path(srcroot); // why not this?
+			return (fs::path(srcroot) / ".." / "assets"); // assuming "assets" directory is ../assets relative to xcode proj file
 		}
 	}
 	
-	return fs::path();
+	auto d = getAssetDirectories();
+	
+	if (d.empty()) {
+		cerr << "Failed to find any asset directories" << endl;
+		return fs::path(); // !?!
+	}
+	else return d[0];
 }
 
 #if defined( CINDER_MSW ) && ! defined( CINDER_GL_ANGLE )
