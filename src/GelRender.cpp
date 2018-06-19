@@ -7,6 +7,7 @@
 //
 
 #include "GelRender.h"
+#include "GelboxApp.h" // for FileWatch
 
 using namespace ci;
 using namespace ci::app; // loadAsset
@@ -27,6 +28,8 @@ const GLint kChannelFormat = GL_RGB;
 
 void GelRender::setup( glm::ivec2 gelsize, int pixelsPerUnit )
 {
+	mIsDirty = true;
+	
 	// sizing params
 	mGelSize		= gelsize;
 	mPixelsPerUnit	= pixelsPerUnit;
@@ -54,22 +57,20 @@ void GelRender::setup( glm::ivec2 gelsize, int pixelsPerUnit )
 		);
 		
 	// shaders
-	auto loadShader = []( gl::GlslProgRef &prog, string vert, string frag )
+	auto app = GelboxApp::instance();
+	assert(app);
+	
+	auto loadShader = [app,this]( gl::GlslProgRef &prog, string vert, string frag )
 	{
-		try
-		{
-			fs::path p = getAssetPath("shaders");
-			
-			prog = gl::GlslProg::create(
-				loadFile( p / vert ),
-				loadFile( p / frag )
-				);
-		}
-		catch ( Exception e )
-		{
-			cerr << "Failed to load GelRender shader '" << vert << "','" << frag << "'" << endl;
-			cerr << e.what() << endl;
-		}
+		const fs::path shaderprefix = app->getOverloadedAssetPath() / "shaders";
+		
+		app->getFileWatch().loadShader(
+			shaderprefix / vert,
+			shaderprefix / frag, [&prog,this]( gl::GlslProgRef glsl )
+			{
+				prog = glsl;
+				mIsDirty = true;
+			});
 	};
 
 	loadShader( mBlur5Glsl,"passthrough.vert", "blur5.frag" );	
@@ -80,6 +81,8 @@ void GelRender::setup( glm::ivec2 gelsize, int pixelsPerUnit )
 
 void GelRender::render()
 {
+	mIsDirty = false;
+	
 	/* Notes:
 		- Would be clearer + faster to not use gl::ScopedFramebuffer and just manually switch them. But whatever.
 	*/

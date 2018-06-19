@@ -1018,6 +1018,12 @@ void GelView::tick( float dt )
 	{
 		mRolloverState->clear();
 	}
+	
+	// re-render?
+	if ( mGelRender && mGelRender->getIsDirty() )
+	{
+		mGelRender->render();
+	}
 }
 
 void GelView::updateBandRollover( ci::vec2 rootPos )

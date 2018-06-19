@@ -45,7 +45,7 @@ class GelboxApp : public ci::app::App {
 	int getModifierKeys() const { return mModifierKeys; }
 
 	ci::fs::path getOverloadedAssetPath() const { return mOverloadedAssetPath; }
-	
+	FileWatch&   getFileWatch() { return mFileWatch; }
 	
   private:
   	

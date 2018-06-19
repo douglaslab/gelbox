@@ -30,14 +30,17 @@ class GelRender
 public:
 	void setup( glm::ivec2 gelsize, int pixelsPerUnit );
 	
-	void setBands( const std::vector<Band>& b ) { mBands = b; } 
-	void setGlobalWarp( float amount, int randseed ) { mGlobalWarp=amount; mGlobalWarpRandSeed=randseed; }
+	void setBands( const std::vector<Band>& b ) { mBands = b; mIsDirty = true; } 
+	void setGlobalWarp( float amount, int randseed ) { mGlobalWarp=amount; mGlobalWarpRandSeed=randseed; mIsDirty=true; }
 	void render();
+	bool getIsDirty() const { return mIsDirty; }
 	
 	ci::gl::TextureRef getOutput() { return mCompositeFBO ? mCompositeFBO->getColorTexture() : 0; }
 	
 private:
 
+	bool				mIsDirty = false; // if shader, bands, warp, tuning vars change.
+	
 	// input
 	std::vector<Band>	mBands;
 	float				mGlobalWarp;
