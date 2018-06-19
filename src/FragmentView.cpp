@@ -105,8 +105,8 @@ void FragmentView::makeSliders()
 		Slider aggregate;
 		Slider degrade;
 		
-		size.mValueMappedLo = GelSim::kSliderBaseCountMin;
-		size.mValueMappedHi = GelSim::kSliderBaseCountMax;
+		size.mValueMappedLo = GelSim::kTuning.mSliderBaseCountMin;
+		size.mValueMappedHi = GelSim::kTuning.mSliderBaseCountMax;
 		size.mValueQuantize = 100;
 		size.mSetter = [this]( float v ) {
 			getEditFragment().mBases = roundf(v);
@@ -120,8 +120,8 @@ void FragmentView::makeSliders()
 			return addCommasToNumericStr( toString(v) ) + " bp";
 		};
 		
-		concentration.mValueMappedLo = GelSim::kSliderMassMin;
-		concentration.mValueMappedHi = GelSim::kSliderMassMax;
+		concentration.mValueMappedLo = GelSim::kTuning.mSliderMassMin;
+		concentration.mValueMappedHi = GelSim::kTuning.mSliderMassMax;
 		concentration.mSetter = [this]( float v ) {
 			getEditFragment().mMass = v;
 			fragmentDidChange();
@@ -137,7 +137,7 @@ void FragmentView::makeSliders()
 		};
 
 		aspect.mValueMappedLo = 1.f;
-		aspect.mValueMappedHi = GelSim::kSliderAspectRatioMax;
+		aspect.mValueMappedHi = GelSim::kTuning.mSliderAspectRatioMax;
 		aspect.mSetter = [this](float v ) {
 			getEditFragment().mAspectRatio = v; 
 			fragmentDidChange();
@@ -157,7 +157,7 @@ void FragmentView::makeSliders()
 		aggregate.mGraphDrawAsColumns = kDrawGraphAsColumns;
 		if ( ! kDrawGraphAsColumns )
 		{
-			aggregate.addFixedNotches( GelSim::kSliderAggregateMaxMultimer );
+			aggregate.addFixedNotches( GelSim::kTuning.mSliderAggregateMaxMultimer );
 			aggregate.mNotchAction = Slider::Notch::DrawOnly;
 		}
 				
@@ -168,10 +168,10 @@ void FragmentView::makeSliders()
 		aggregate.mValueQuantize = .05f;
 		
 		aggregate.mValueMappedLo = 1;
-		aggregate.mValueMappedHi = GelSim::kSliderAggregateMaxMultimer;
+		aggregate.mValueMappedHi = GelSim::kTuning.mSliderAggregateMaxMultimer;
 		
 		aggregate.mStyle = Slider::Style::Graph;
-		aggregate.mGraphValues.resize( GelSim::kSliderAggregateMaxMultimer );
+		aggregate.mGraphValues.resize( GelSim::kTuning.mSliderAggregateMaxMultimer );
 		aggregate.mGraphHeight = kLayout.mFragViewSlidersGraphHeight; 
 		for( float &x : aggregate.mGraphValues ) x = randFloat(); // test data		
 		
@@ -188,8 +188,8 @@ void FragmentView::makeSliders()
 			if ( a.empty() ) a = Aggregate(); 
 
 			// ensure # slider notches we want
-			if ( a.size() < GelSim::kSliderAggregateMaxMultimer ) {
-				 a.resize(GelSim::kSliderAggregateMaxMultimer,0.f);
+			if ( a.size() < GelSim::kTuning.mSliderAggregateMaxMultimer ) {
+				 a.resize(GelSim::kTuning.mSliderAggregateMaxMultimer,0.f);
 			}
 
 			// return			

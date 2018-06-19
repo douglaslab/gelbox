@@ -1471,7 +1471,7 @@ int GelView::solveBasePairForY(
 	// no solution? just return our closest guess
 	
 	// sanity check
-	bp = constrain( bp, 1, GelSim::kBaseCountHigh );
+	bp = constrain( bp, 1, GelSim::kTuning.mBaseCountHigh );
 	
 	return bp;
 }

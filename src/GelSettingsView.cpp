@@ -55,7 +55,7 @@ Slider GelSettingsView::getTimelineSlider( GelViewRef gelView )
 	};
 	s.mMappedValueToStr = []( float v )
 	{
-		v *= GelSim::kSliderTimelineMaxMinutes;
+		v *= GelSim::kTuning.mSliderTimelineMaxMinutes;
 		
 		int m = roundf(v); // we get fractional values, so fix that.
 		
@@ -105,13 +105,13 @@ void GelSettingsView::makeSliders()
 	{
 		Slider s;
 
-		s.mValueMappedLo = GelSim::kSliderVoltageLow;
-		s.mValueMappedHi = GelSim::kSliderVoltageHigh;
+		s.mValueMappedLo = GelSim::kTuning.mSliderVoltageLow;
+		s.mValueMappedHi = GelSim::kTuning.mSliderVoltageHigh;
 		s.mValueQuantize = 1.f;
 		
 		s.mNotchAction = Slider::Notch::Snap;
 //		s.addFixedNotches(2);
-		s.addNotchAtMappedValue(GelSim::kSliderVoltageDefaultValue);
+		s.addNotchAtMappedValue(GelSim::kTuning.mSliderVoltageDefaultValue);
 		s.addNotchAtMappedValue(0.f);
 		
 		s.mSetter = [this]( float v ) {
@@ -151,8 +151,8 @@ void GelSettingsView::makeSliders()
 	// unwired placeholder sliders...
 	Slider rotate;
 	rotate.mEnabled = false;
-	rotate.mValueMappedLo = -GelSim::kSliderGelRotateMax;
-	rotate.mValueMappedHi =  GelSim::kSliderGelRotateMax;
+	rotate.mValueMappedLo = -GelSim::kTuning.mSliderGelRotateMax;
+	rotate.mValueMappedHi =  GelSim::kTuning.mSliderGelRotateMax;
 	rotate.mValue = .5f;
 	rotate.addFixedNotches(3);
 	rotate.mNotchAction = Slider::Notch::Snap;
@@ -160,10 +160,10 @@ void GelSettingsView::makeSliders()
 	
 	Slider numlanes;
 //	numlanes.mEnabled = false;
-	numlanes.mValueMappedLo = GelSim::kSliderNumLanesMin;
-	numlanes.mValueMappedHi = GelSim::kSliderNumLanesMax;
+	numlanes.mValueMappedLo = GelSim::kTuning.mSliderNumLanesMin;
+	numlanes.mValueMappedHi = GelSim::kTuning.mSliderNumLanesMax;
 	numlanes.mValue = 0.f;
-//	numlanes.addFixedNotches(GelSim::kSliderNumLanesMax - GelSim::kSliderNumLanesMin + 1);
+//	numlanes.addFixedNotches(GelSim::kTuning.mSliderNumLanesMax - GelSim::kTuning.mSliderNumLanesMin + 1);
 //	numlanes.mNotchAction = Slider::Notch::Nearest;
 	numlanes.mValueQuantize = 1.f;
 	numlanes.mSetter = [this]( float v ) {

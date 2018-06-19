@@ -640,7 +640,7 @@ void SampleView::syncToModel()
 			auto  s = mSample->mFragments[i];
 			
 			f.mColor		= s.mColor;
-			f.mTargetPop	= max( 1.f, (s.mMass/GelSim::kSampleMassHigh) * kNumPartsPerMassHigh );
+			f.mTargetPop	= max( 1.f, (s.mMass/GelSim::kTuning.mSampleMassHigh) * kNumPartsPerMassHigh );
 			f.mAggregate	= s.mAggregate;
 			f.mAggregateWeightSum = s.mAggregate.calcSum();
 			
@@ -684,7 +684,7 @@ void SampleView::newFragment()
 		
 		f.mColor = FragmentView::getRandomColorFromPalette( &mRand );
 		f.mBases = lerp((float)kRandFragMinNumBases,(float)kRandFragMaxNumBases,mRand.nextFloat()*mRand.nextFloat());
-		f.mMass  = mRand.nextFloat() * GelSim::kSampleMassHigh;
+		f.mMass  = mRand.nextFloat() * GelSim::kTuning.mSampleMassHigh;
 		f.mAspectRatio = 1.f;
 		f.mDegrade = 0.f ; //mRand.nextFloat() * mRand.nextFloat() * mRand.nextFloat() * .25f;
 		
@@ -1038,7 +1038,7 @@ void SampleView::drawSimBackground( int highlight )
 		
 		for( int i=0; i<Dye::kCount; ++i )
 		{
-			float norm = dyes[i] / GelSim::kSliderDyeMassMax; 
+			float norm = dyes[i] / GelSim::kTuning.mSliderDyeMassMax; 
 			
 			c += Dye::kColors[i] * norm;
 			w += norm;

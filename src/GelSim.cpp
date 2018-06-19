@@ -14,6 +14,9 @@ using namespace ci;
 
 namespace GelSim {
 
+	  Tuning  gTuning;
+const Tuning &kTuning = gTuning;
+
 /*
 	Degrade [0..2]
 	
@@ -35,7 +38,7 @@ void calcDegrade( int bases, float degrade, int& degradeLo, int& degradeHi )
 float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 {
 	// Constants
-	const int   kHighBaseCountNorm = kBaseCountHigh;
+	const int   kHighBaseCountNorm = kTuning.mBaseCountHigh;
 	
 	const float kHighAspectRatio   = 16.f;
 	const float kAspectRatioScale  = .25f;
@@ -73,7 +76,7 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 	y = kCurveBase + powf( 1.f - y, kCurveExp );
 	
 	// voltage
-	float vn = (ctx.mVoltage - kSliderVoltageDefaultValue) / kSliderVoltageDefaultValue; // using UI value since I hacked this param in and want it to behave the same as it did before!
+	float vn = (ctx.mVoltage - kTuning.mSliderVoltageDefaultValue) / kTuning.mSliderVoltageDefaultValue; // using UI value since I hacked this param in and want it to behave the same as it did before!
 	y *= (1.f + vn * 1.f);
 	
 	// time
@@ -87,13 +90,13 @@ float calcFlames( float mass )
 {
 	// not for dyes
 	
-	const float kOverloadThresh = GelSim::kSampleMassHigh * .8f;
+	const float kOverloadThresh = kTuning.mSampleMassHigh * .8f;
 	
 	float fh = 0.f;
 	
 	if ( mass > kOverloadThresh )
 	{
-		fh  = (mass - kOverloadThresh) / (GelSim::kSampleMassHigh - kOverloadThresh);
+		fh  = (mass - kOverloadThresh) / (kTuning.mSampleMassHigh - kOverloadThresh);
 //		fh *= o.mWellRect.getHeight() * 2.f;
 		fh *= 2.f;
 	}
@@ -124,7 +127,7 @@ int calcWellDamageRandSeed( const Band& b, Context context )
 
 float calcBandAlpha ( float mass, float degrade )
 {
-	float a = constrain( mass / GelSim::kSampleMassHigh, 0.1f, 1.f );
+	float a = constrain( mass / kTuning.mSampleMassHigh, 0.1f, 1.f );
 	
 	float d = degrade / 2.f;
 	d = powf( d, .5f );
@@ -137,7 +140,7 @@ float calcBandAlpha ( float mass, float degrade )
 	// Below--old code that dims with diffusion/spread of rectangle
 	
 	/*
-	float a = GelSim::calcBrightness( gelSimInput(b,i) );
+	float a = calcBrightness( gelSimInput(b,i) );
 	
 	auto area = []( Rectf r ) {
 		return r.getWidth() * r.getHeight();
@@ -187,7 +190,7 @@ float calcBandDiffusion( int bases, int aggregation, float aspectRatio, Context 
 
 	// time, voltage
 	v *= ctx.mTime;
-	v *= fabsf(ctx.mVoltage) / kSliderVoltageDefaultValue; // normalize to default
+	v *= fabsf(ctx.mVoltage) / kTuning.mSliderVoltageDefaultValue; // normalize to default
 
 	// min
 	v = max( 1.f, v );	
@@ -252,7 +255,7 @@ Band dyeToBand( int lane, int fragi, int dye, float mass, Context context, Rectf
 //	if (dye==0) cout << b.mBlur << endl;
 //	b.mBlur = (dye<3) ? 0 : 2;
 	
-	b = calcBandGeometry( context, b, wellRect, kWellToDyeHeightScale );
+	b = calcBandGeometry( context, b, wellRect, kTuning.mWellToDyeHeightScale );
 
 	// users mRect, so must come after calcBandGeometry
 	b.mRandSeed				= calcRandSeed( b, context );
@@ -301,7 +304,7 @@ Band fragAggregateToBand(
 	b.mSmileHeight = b.mRect.getHeight() * .35f; 
 	b.mSmileExp = 4.f;
 	
-	b.mFlameHeight = b.mRect.getHeight() * GelSim::calcFlames(b.mMass);	
+	b.mFlameHeight = b.mRect.getHeight() * calcFlames(b.mMass);	
 	b.mUIRect.y1 -= b.mFlameHeight;
 	
 	return b;	

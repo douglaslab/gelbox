@@ -55,8 +55,8 @@ void SampleSettingsView::makeSliders()
 		s.mBarEmptyColor	= lerp( s.mBarFillColor, ColorA(1,1,1,1), .8f );
 		
 		
-		s.mValueMappedLo = GelSim::kSliderDyeMassMin;
-		s.mValueMappedHi = GelSim::kSliderDyeMassMax;
+		s.mValueMappedLo = GelSim::kTuning.mSliderDyeMassMin;
+		s.mValueMappedHi = GelSim::kTuning.mSliderDyeMassMax;
 		s.mValueQuantize = 1.f;
 	
 		SampleSettingsViewRef sthis = dynamic_pointer_cast<SampleSettingsView>( shared_from_this() );

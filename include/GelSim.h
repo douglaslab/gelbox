@@ -18,47 +18,63 @@ namespace GelSim // unify namespace with Gelbox? (rename both Gelbox?)
 {
 
 
+
 /*
-	Tuning Values 
+	Tuning
 */
-const float kSampleMassHigh = 175.f; // 175ml
-const int   kBaseCountHigh  = 14000;
 
-const float kWellToDyeHeightScale = 4.f;
-//const float kSampleMassTooHighStuckInWellThreshold = 150.f;
+class Tuning
+{
+public:
 
-/*
- * Slider Tuning Values
- */
 
-const int   kSliderTimelineMaxMinutes = 60 * 3; // 3 hrs
+	/*
+	 *		Sim
+	 */
+	 
+	float mSampleMassHigh = 175.f; // 175ml
+	int   mBaseCountHigh  = 14000;
 
-const float kSliderMassMin	  = 1.f;
-const float kSliderMassMax	  = kSampleMassHigh;
-const float kSliderDyeMassMin = 0.f;
-const float kSliderDyeMassMax = Dye::kMaxMass;
+	float mWellToDyeHeightScale = 4.f;
+	//float mSampleMassTooHighStuckInWellThreshold = 150.f;
 
-const float kSliderVoltageLow   = -300;
-const float kSliderVoltageHigh  =  300;
-const float kSliderVoltageNotch =  70;
-const float kSliderVoltageDefaultValue = kSliderVoltageNotch;
 
-const int   kSliderNumLanesMin = 7;
-const int   kSliderNumLanesMax = 20;
+	/*
+	 *		Slider
+	 */
 
-const float kSliderGelRotateMax = 20.f;
+	int   mSliderTimelineMaxMinutes = 60 * 3; // 3 hrs
 
-const float kSliderAspectRatioMax = 16.f;
-const int   kSliderAggregateMaxMultimer = 7;
+	float mSliderMassMin	  = 1.f;
+	float mSliderMassMax	  = mSampleMassHigh;
+	float mSliderDyeMassMin = 0.f;
+	float mSliderDyeMassMax = Dye::kMaxMass;
 
-const int   kSliderBaseCountMin = 1;
-const int   kSliderBaseCountMax = kBaseCountHigh;
+	float mSliderVoltageLow   = -300;
+	float mSliderVoltageHigh  =  300;
+	float mSliderVoltageNotch =  70;
+	float mSliderVoltageDefaultValue = mSliderVoltageNotch;
+
+	int   mSliderNumLanesMin = 7;
+	int   mSliderNumLanesMax = 20;
+
+	float mSliderGelRotateMax = 20.f;
+
+	float mSliderAspectRatioMax = 16.f;
+	int   mSliderAggregateMaxMultimer = 7;
+
+	int   mSliderBaseCountMin = 1;
+	int   mSliderBaseCountMax = mBaseCountHigh;
+	
+};
+extern       Tuning  gTuning;
+extern const Tuning &kTuning;
 
 
 
 struct Context
 {
-	float	mVoltage		= kSliderVoltageDefaultValue;
+	float	mVoltage		= kTuning.mSliderVoltageDefaultValue;
 	float	mTime			= 1.f;
 	float	mYSpaceScale	= 1.f;
 	float	mWellDamage		= 0.f; // 0..1; same for all wells (for now)
