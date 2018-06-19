@@ -53,8 +53,9 @@ GelboxApp::~GelboxApp()
 
 void GelboxApp::setup()
 {
+	mOverloadedAssetPath = calcOverloadedAssetPath();
+
 	setWindowSize( kLayout.mWindowSize );
-	
 		
 //	glEnable( GL_MULTISAMPLE_ARB );
 	glEnable( GL_LINE_SMOOTH );
@@ -90,7 +91,22 @@ void GelboxApp::setup()
 		{
 			cout << "Could not find palette" << endl;
 		}
-	}	
+	}
+	
+	// load tuning data
+	{
+		mFileWatch.loadJson( mOverloadedAssetPath / "tuning" / "sim.json",
+			[this]( JsonTree json )
+		{
+			GelSim::gTuning.load(json);
+			
+			// re-run simulation
+			if (mGelView) {
+				if (mGelView->getGel()) mGelView->getGel()->syncBandsToSamples();
+				mGelView->gelDidChange();
+			}
+		});
+	}
 }
 
 void GelboxApp::makeGel()
@@ -209,7 +225,7 @@ void GelboxApp::makeHelpBtn()
 		cmd += kConfig.mHelpURL;
 		cmd += "'";
 		
-		system(cmd.c_str());
+		::system(cmd.c_str());
 	};
 
 	mViews.addView(mHelpBtn);
@@ -421,7 +437,8 @@ void GelboxApp::keyUp    ( ci::app::KeyEvent event )
 }
 
 void GelboxApp::update()
-{	
+{
+	mFileWatch.update();
 	mViews.tick(.1f);
 	if ( Interaction::get() ) Interaction::get()->update();
 }
@@ -486,6 +503,20 @@ SampleRef GelboxApp::loadSample( ci::fs::path path ) const
 void GelboxApp::prepareSettings( Settings *settings )
 {
 	settings->setResizable(false);
+}
+
+ci::fs::path GelboxApp::calcOverloadedAssetPath() const
+{
+	// env vars for hotloading assets
+	{
+		const char* srcroot = getenv("GELBOXSRCROOT");
+		if (srcroot) {
+			return (fs::path(srcroot) / ".." / "assets");
+//			return fs::path(srcroot); // why not this?
+		}
+	}
+	
+	return fs::path();
 }
 
 #if defined( CINDER_MSW ) && ! defined( CINDER_GL_ANGLE )

@@ -1,0 +1,32 @@
+{
+	"SampleMassHigh"			: "175", // ml
+	"BaseCountHigh"				: "14000",
+	"WellToDyeHeightScale"		: "4",
+	
+	"Slider": {
+
+		"TimelineMaxMinutes"	: "180",
+		
+		"MassMin"				: "1",
+		"__MassMax"				: "mSampleMassHigh",
+		
+		"DyeMassMin"			: "0",
+		"__DyeMassMax"			: "Dye::kMaxMass",
+		
+		"VoltageLow"			: "-300",
+		"VoltageHigh"			:  "300",
+		"VoltageNotch"			: "70",
+		"__VoltageDefaultValue"	: "mSliderVoltageNotch",
+		
+		"NumLanesMin"			: "7",
+		"NumLanesMax"			: "20",
+		
+		"GelRotateMax"			: "20",
+		"AspectRatioMax"		: "16",
+		"AggregateMaxMultimer"	: "7",
+		
+		"BaseCountMin"			: "1",
+		"__BaseCountMax"			: "mBaseCountHigh"
+
+	}
+}

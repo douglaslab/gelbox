@@ -13,7 +13,7 @@
 #include "View.h"
 #include "Sample.h"
 #include "GelView.h"
-//#include "DropTarget.h"
+#include "FileWatch.h"
 
 class AppSettingsView;
 typedef std::shared_ptr<AppSettingsView> AppSettingsViewRef;
@@ -40,13 +40,14 @@ class GelboxApp : public ci::app::App {
 	static void prepareSettings( Settings *settings );
 
 	
-//	DropTargetRef pickDropTarget( ci::vec2 ) const;
-	
 	ci::gl::TextureFontRef getUIFont() const { return mUIFont; }
 	
 	int getModifierKeys() const { return mModifierKeys; }
+
+	ci::fs::path getOverloadedAssetPath() const { return mOverloadedAssetPath; }
 	
-  public:
+	
+  private:
   	
   	int						mModifierKeys=0; // e.g. ci::app::KeyEvent::SHIFT_DOWN
   	
@@ -65,5 +66,10 @@ class GelboxApp : public ci::app::App {
 	SampleRef	loadSample( ci::fs::path ) const;	
 
 	void makeGel();
+
+	ci::fs::path			calcOverloadedAssetPath() const;
+	ci::fs::path			mOverloadedAssetPath;
+	
+	FileWatch				mFileWatch;
 	
 };

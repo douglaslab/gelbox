@@ -34,6 +34,7 @@
 		2693E3262000415300633564 /* SampleView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2693E3252000415300633564 /* SampleView.cpp */; };
 		2693E3292004019800633564 /* FragmentView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2693E3282004019800633564 /* FragmentView.cpp */; };
 		26A4B747200ED29600D2119E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 26A4B746200ED29600D2119E /* Credits.rtf */; };
+		26B6629320D9BEC800608E3D /* FileWatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26B6629220D9BEC800608E3D /* FileWatch.cpp */; };
 		26C36DCC203246C700229323 /* BufferView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26C36DCB203246C700229323 /* BufferView.cpp */; };
 		26C36DD42033961200229323 /* ColorPaletteView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26C36DD32033961200229323 /* ColorPaletteView.cpp */; };
 		26C36DD72033B84F00229323 /* Dye.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26C36DD62033B84F00229323 /* Dye.cpp */; };
@@ -100,6 +101,8 @@
 		2693E3282004019800633564 /* FragmentView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FragmentView.cpp; path = ../src/FragmentView.cpp; sourceTree = "<group>"; };
 		269F51DC209A3CB600D43B8F /* Aggregate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Aggregate.h; path = ../include/Aggregate.h; sourceTree = "<group>"; };
 		26A4B746200ED29600D2119E /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = Credits.rtf; path = ../assets/Credits.rtf; sourceTree = "<group>"; };
+		26B6629220D9BEC800608E3D /* FileWatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileWatch.cpp; path = ../src/FileWatch.cpp; sourceTree = "<group>"; };
+		26B6629420D9BED700608E3D /* FileWatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FileWatch.h; path = ../include/FileWatch.h; sourceTree = "<group>"; };
 		26C36DCA203246AC00229323 /* BufferView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BufferView.h; path = ../include/BufferView.h; sourceTree = "<group>"; };
 		26C36DCB203246C700229323 /* BufferView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BufferView.cpp; path = ../src/BufferView.cpp; sourceTree = "<group>"; };
 		26C36DCD20338EE200229323 /* virtual_shared_ptr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = virtual_shared_ptr.h; path = ../include/virtual_shared_ptr.h; sourceTree = "<group>"; };
@@ -167,6 +170,7 @@
 				26C36DCF2033952F00229323 /* Sim */,
 				26C36DCE2033951600229323 /* UI */,
 				266EEC9520AE2729001865A4 /* Config.cpp */,
+				26B6629220D9BEC800608E3D /* FileWatch.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -326,6 +330,7 @@
 				26C36DD12033954800229323 /* Sim */,
 				26C36DD02033954300229323 /* UI */,
 				26FC514420193F2B0004A458 /* Gelbox.h */,
+				26B6629420D9BED700608E3D /* FileWatch.h */,
 				7DB7066D3F64466AB6A78935 /* Resources.h */,
 				2029F7E3D4854834BD477628 /* Gelbox_Prefix.pch */,
 				26C36DCD20338EE200229323 /* virtual_shared_ptr.h */,
@@ -435,6 +440,7 @@
 				263D9F582051B59B0012B4C0 /* SampleSettingsView.cpp in Sources */,
 				26D11235204DD83900315F87 /* Layout.cpp in Sources */,
 				2642C0FA1FD730F000528061 /* Sample.cpp in Sources */,
+				26B6629320D9BEC800608E3D /* FileWatch.cpp in Sources */,
 				268BF8CA202248E100E6553F /* GelSim.cpp in Sources */,
 				2640C9962056F15E0030923A /* AppSettingsView.cpp in Sources */,
 				26FC514720194F1F0004A458 /* SliderView.cpp in Sources */,

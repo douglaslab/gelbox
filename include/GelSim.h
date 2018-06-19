@@ -11,6 +11,7 @@
 #include "Buffer.h"
 #include "Band.h"
 #include "Dye.h"
+#include "cinder/Json.h"
 
 class Sample;
 
@@ -27,7 +28,9 @@ class Tuning
 {
 public:
 
-
+	void load( const ci::JsonTree& );
+	
+	
 	/*
 	 *		Sim
 	 */
@@ -65,7 +68,17 @@ public:
 
 	int   mSliderBaseCountMin = 1;
 	int   mSliderBaseCountMax = mBaseCountHigh;
-	
+
+
+	void constrain()
+	{
+		// called by load() after json is parsed.
+		mSliderMassMax				= mSampleMassHigh;
+		mSliderDyeMassMax			= Dye::kMaxMass;
+		mSliderVoltageDefaultValue	= mSliderVoltageNotch;
+		mSliderBaseCountMax			= mBaseCountHigh;
+	}
+		
 };
 extern       Tuning  gTuning;
 extern const Tuning &kTuning;

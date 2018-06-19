@@ -17,6 +17,45 @@ namespace GelSim {
 	  Tuning  gTuning;
 const Tuning &kTuning = gTuning;
 
+void Tuning::load( const JsonTree& json )
+{
+	auto getf = [json]( string key, float& v )
+	{
+		if ( json.hasChild(key) ) {
+			v = json.getChild(key).getValue<float>();
+		}
+	};
+
+	auto geti = [json]( string key, int& v )
+	{
+		if ( json.hasChild(key) ) {
+			v = json.getChild(key).getValue<int>();
+		}
+	};
+
+	getf("SampleMassHigh",mSampleMassHigh);
+	geti("BaseCountHigh",mBaseCountHigh);
+	getf("WellToDyeHeightScale",mWellToDyeHeightScale);	
+	geti("Slider.TimelineMaxMinutes",mSliderTimelineMaxMinutes);
+	getf("Slider.MassMin",mSliderMassMin);
+	getf("Slider.MassMax",mSliderMassMax);
+	getf("Slider.DyeMassMin",mSliderDyeMassMin);
+	getf("Slider.DyeMassMax",mSliderDyeMassMax);
+	getf("Slider.VoltageLow",mSliderVoltageLow);
+	getf("Slider.VoltageHigh",mSliderVoltageHigh);
+	getf("Slider.VoltageNotch",mSliderVoltageNotch);
+	getf("Slider.VoltageDefaultValue",mSliderVoltageDefaultValue);
+	geti("Slider.NumLanesMin",mSliderNumLanesMin);
+	geti("Slider.NumLanesMax",mSliderNumLanesMax);
+	getf("Slider.GelRotateMax",mSliderGelRotateMax);
+	getf("Slider.AspectRatioMax",mSliderAspectRatioMax);
+	geti("Slider.AggregateMaxMultimer",mSliderAggregateMaxMultimer);
+	geti("Slider.BaseCountMin",mSliderBaseCountMin);
+	geti("Slider.BaseCountMax",mSliderBaseCountMax);
+	
+	constrain();
+}
+
 /*
 	Degrade [0..2]
 	
