@@ -159,12 +159,25 @@ void GelSettingsView::makeSliders()
 	add( rotate, "gel-rotate" );
 	
 	Slider numlanes;
-	numlanes.mEnabled = false;
+//	numlanes.mEnabled = false;
 	numlanes.mValueMappedLo = GelSim::kSliderNumLanesMin;
 	numlanes.mValueMappedHi = GelSim::kSliderNumLanesMax;
 	numlanes.mValue = 0.f;
-	numlanes.addFixedNotches(GelSim::kSliderNumLanesMax - GelSim::kSliderNumLanesMin + 1);
-	numlanes.mNotchAction = Slider::Notch::Nearest;
+//	numlanes.addFixedNotches(GelSim::kSliderNumLanesMax - GelSim::kSliderNumLanesMin + 1);
+//	numlanes.mNotchAction = Slider::Notch::Nearest;
+	numlanes.mValueQuantize = 1.f;
+	numlanes.mSetter = [this]( float v ) {
+		mGelView->getGel()->setNumLanes(v);
+		mGelView->gelDidChange();
+	};
+	numlanes.mGetter = [this]() {
+		return mGelView->getGel()->getNumLanes();
+	};
+	numlanes.mMappedValueToStr = []( float v )
+	{
+		return toString(v) /*+ " lanes"*/;
+	};
+
 	add( numlanes, "gel-lanes" );
 }
 

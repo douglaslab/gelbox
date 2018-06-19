@@ -216,20 +216,21 @@ void GelView::drawMicrotubes() const
 
 	for( int i=0; i<mGel->getNumLanes(); ++i )
 	{
+		float cornerRadius;
 		const bool  laneHasSample = getSample(i) != nullptr;
-		const Rectf wellRect = calcMicrotubeWellRect(i);
+		const Rectf wellRect = calcMicrotubeWellRect(i,&cornerRadius);
 		
 		// r will be round rect that is tube background
 		Rectf r = wellRect;
-		r.y1 += kLayout.mGelMicrotubeBkgndTopInsetFromIcon;
+		r.y1 += min( kLayout.mGelMicrotubeBkgndTopInsetFromIcon, wellRect.getHeight() * .5f );
 		r.y2 = getBounds().y2;
 		
 		gl::color( mSelectedMicrotube==i
 			? kLayout.mGelMicrotubeBkgndColorSelected
 			: kLayout.mGelMicrotubeBkgndColor );
-		
-		gl::drawSolidRoundedRect( r, kLayout.mGelMicrotubeBkgndCornerRadius );
-		gl::drawStrokedRoundedRect( r, kLayout.mGelMicrotubeBkgndCornerRadius ); // anti-alias
+
+		gl::drawSolidRoundedRect( r, cornerRadius );
+		gl::drawStrokedRoundedRect( r, cornerRadius ); // anti-alias
 		
 		Rectf iconRect = calcMicrotubeIconRect(wellRect); 
 		
@@ -1092,7 +1093,7 @@ DropTargetRef GelView::getDropTarget( glm::vec2 locInFrame )
 	else return 0;
 }*/
 
-ci::Rectf GelView::calcMicrotubeWellRect( int lane ) const
+ci::Rectf GelView::calcMicrotubeWellRect( int lane, float* cornerRadius ) const
 {
 	assert( mGel->getNumLanes() >=0 );
 	
@@ -1105,11 +1106,17 @@ ci::Rectf GelView::calcMicrotubeWellRect( int lane ) const
 	vec2 size = vec2(w,h) - vec2(kLayout.mGelMicrotubeWellPadding);
 	Rectf r( c - size/2.f, c + size/2.f );
 	
-	r += vec2( 0, -kLayout.mGelMicrotubeIconToGelGutter );
+	float gelGutter = kLayout.mGelMicrotubeIconToGelGutter;
+	gelGutter = min( gelGutter, h * .25f );
+	r += vec2( 0, -gelGutter );
 	
-	r.x1 = c.x - kLayout.mGelMicrotubeBkgndCornerRadius;
-	r.x2 = c.x + kLayout.mGelMicrotubeBkgndCornerRadius;
+	float cr = kLayout.mGelMicrotubeBkgndCornerRadius;
+	cr = min( cr, w * .4f );
 	
+	r.x1 = c.x - cr;
+	r.x2 = c.x + cr;
+	
+	if (cornerRadius) *cornerRadius = cr;
 	return r;
 }
 
@@ -1119,7 +1126,7 @@ ci::Rectf GelView::calcMicrotubeIconRect( ci::Rectf wellRect ) const
 	
 	Rectf iconRect( vec2(0.f), iconSize );
 	Rectf iconFitIntoRect = wellRect;
-	float insetx = kLayout.mGelMicrotubeIconPadding;
+	float insetx = min( kLayout.mGelMicrotubeIconPadding, wellRect.getWidth() * .25f );
 	iconFitIntoRect.x1 = wellRect.x1 + insetx;
 	iconFitIntoRect.x2 = wellRect.x2 - insetx;
 	iconRect = iconRect.getCenteredFit(iconFitIntoRect,true);			

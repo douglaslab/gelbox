@@ -129,7 +129,7 @@ private:
 	void		layout(); // called once by setup, then by setBounds 
 	
 	// microtubes
-	ci::Rectf	calcMicrotubeWellRect( int lane ) const; // not icon rect; a notional rectangle that contains the icon
+	ci::Rectf	calcMicrotubeWellRect( int lane, float* cornerRadius=0 ) const; // not icon rect; a notional rectangle that contains the icon
 	ci::Rectf	calcMicrotubeIconRect( ci::Rectf wellRect ) const;
 	int			pickMicrotube( ci::vec2 ) const; // local coords
 	void		mouseDragSample( ci::app::MouseEvent );

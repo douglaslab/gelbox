@@ -34,7 +34,10 @@ void Gel::setLayout(
 	mNumLanes  = numLanes;
 	mLaneWidth = mSize.x / (float)numLanes;
 	
-	mSamples.resize(numLanes);
+	// add more samples if needed (don't remove, allow that to persist)
+	if ( mSamples.size() < mNumLanes ) {
+		mSamples.resize(mNumLanes);
+	}
 }
 
 int Gel::getLaneForSample( SampleRef sample ) const
@@ -91,11 +94,35 @@ void Gel::syncBandsToSample( int lane )
 	}
 }
 
+void Gel::syncBandsToSamples()
+{
+	mBands.clear();
+	
+	for( int i=0; i<mNumLanes; ++i )
+	{
+		if (mSamples[i]) {
+			insertSample( *mSamples[i], i );
+		}
+	}
+}
+
 void Gel::setBuffer( const Gelbox::Buffer& b )
 {
 	mBuffer = b;
 	
 	updateBands();
+}
+
+void Gel::setNumLanes( int num )
+{
+	setLayout(
+		mSize.x,
+		mSize.y,
+		num,
+		mYMargin
+		);
+		
+	syncBandsToSamples();
 }
 
 ci::vec2 Gel::getWellSize() const

@@ -40,10 +40,12 @@ public:
 	
 	void  setSample( SampleRef s, int lane );
 	const std::vector<SampleRef>&	getSamples() { return mSamples; }
-	void  syncBandsToSample( SampleRef ); // tell us when SampleRef changed...
-	void  syncBandsToSample( int lane  ); // tell us when SampleRef changed...
 	int	  getLaneForSample ( SampleRef ) const;
 	int   getFirstEmptyLane() const; // -1 for none
+
+	void  syncBandsToSample( SampleRef ); // tell us when SampleRef changed...
+	void  syncBandsToSample( int lane  ); // tell us when SampleRef changed...
+	void  syncBandsToSamples(); // all lanes/samples
 	
 	void  setBuffer( const Gelbox::Buffer& b );
 	const Gelbox::Buffer& getBuffer() const { return mBuffer; }
@@ -70,6 +72,7 @@ public:
 	glm::vec2	getSize() const { return mSize; }
 	float		getLaneWidth() const { return mLaneWidth; }
 	int			getNumLanes() const { return mNumLanes; }
+	void		setNumLanes( int );
 	ci::vec2	getWellSize() const;
 	ci::Rectf	getWellBounds( int lane ) const;
 	std::vector<float> getBufferWarpForLanes() const;
