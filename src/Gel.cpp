@@ -146,6 +146,38 @@ ci::Rectf Gel::getWellBounds( int lane ) const
 
 std::vector<float> Gel::getBufferWarpForLanes() const
 {
+	bool gwarp = false;
+	
+	// if any buffer is h2o, then warp everything (what Shawn said)
+	if ( getBuffer() == Gelbox::Buffer::h2o() )
+	{
+		gwarp = true;
+	}
+	
+	if ( !gwarp )
+	{
+		for( int l=0; l<getNumLanes(); ++l )
+		{
+			const SampleRef sample = mSamples[l];
+			
+			if (sample)
+			{
+				if ( sample->mBuffer == Gelbox::Buffer::h2o() )
+				{
+					gwarp = true;
+					break;
+				}
+			}
+		}
+	}
+
+	std::vector<float> warp( getNumLanes(), gwarp ? 1.f : 0.f );	
+	
+	return warp;
+	
+	/*
+	// old, per lane, warp technique
+	
 	std::vector<float> warp( getNumLanes(), 0.f );
 	
 	for( int l=0; l<getNumLanes(); ++l )
@@ -168,6 +200,7 @@ std::vector<float> Gel::getBufferWarpForLanes() const
 	}
 	
 	return warp;
+	*/
 }
 
 void Gel::insertSample( const Sample& src, int lane )
