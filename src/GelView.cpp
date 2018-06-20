@@ -870,17 +870,25 @@ SampleViewRef GelView::updateGelDetailView( SampleViewRef view, vec2 withSampleA
 	if ( doLayout || isNewView )
 	{
 		// layout
-		Rectf frame = view->getFrame();
+		Rectf frame = view->getTargetFrame();
 		
 		frame.offsetCenterTo( withSampleAtRootPos + vec2(frame.getWidth(),0) );
 		
-		view->setFrame(frame);
+		view->setTargetFrame(frame);
 	}
 	
 	vec2 oldSampleAtRootPos = view->getCalloutAnchor();
 	
 	view->setCalloutAnchor( withSampleAtRootPos );
 	
+	// animate opening
+	if (isNewView)
+	{
+		Rectf tframe = view->getTargetFrame();
+		view->setFrame( Rectf(withSampleAtRootPos,withSampleAtRootPos) );
+		view->setTargetFrame(tframe);
+	}
+		
 	// content
 	SampleRef s = view->getSample();
 

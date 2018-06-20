@@ -101,7 +101,13 @@ void SampleView::close()
 {
 	closeFragEditor();
 	openSettingsView(false);
-	getCollection()->removeView( shared_from_this() );
+	
+	if (mIsLoupeView) {
+		mIsClosing=true;
+		setTargetFrame( Rectf(mAnchor,mAnchor) );
+	} else {
+		getCollection()->removeView( shared_from_this() );
+	}
 }
 
 void SampleView::draw()
@@ -241,6 +247,8 @@ void SampleView::layout()
 
 bool SampleView::pick( glm::vec2 p ) const
 {
+	if (mIsClosing) return false;
+	
 	return View::pick(p)
 		|| pickLoupe(p)
 		|| pickCalloutWedge(p)
@@ -460,12 +468,12 @@ void SampleView::mouseDrag( ci::app::MouseEvent )
 			break;
 			
 		case Drag::View:
-			setFrame( getFrame() + getMouseMoved() );
+			setTargetFrame( getTargetFrame() + getMouseMoved() );
 			updateCallout();
 			break;
 			
 		case Drag::LoupeAndView:
-			setFrame( getFrame() + getMouseMoved() );
+			setTargetFrame( getTargetFrame() + getMouseMoved() );
 			setCalloutAnchor( getCalloutAnchor() + getMouseMoved() ); // updates callout
 			updateContent = true;
 			break;
@@ -624,6 +632,20 @@ void SampleView::tick( float dt )
 			bool isNil = getFocusFragment()==-1;
 
 			mSettingsView->setIsVisible( isNil || isDye );
+		}
+	}
+	
+	// animate frame
+	{
+		View::setFrame( lerp( getFrame(), mTargetFrame, .35f ) );
+		updateCallout();
+	}
+	
+	// close?
+	if ( mIsClosing )
+	{
+		if ( getFrame().calcArea() < 10.f ) {
+			getCollection()->removeView( shared_from_this() );
 		}
 	}
 }

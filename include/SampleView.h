@@ -98,7 +98,11 @@ public:
 		LoupeAndView
 	};
 	void setDragMode( Drag d ) { mDrag=d; } // if you want to reroute mouseDown/mouseDrag events and customize behafvior
-	
+
+	void setFrame ( ci::Rectf f ) override { View::setFrame(f); mTargetFrame=f; }
+	void setTargetFrame( ci::Rectf f ) { mTargetFrame=f; }
+	ci::Rectf getTargetFrame() const { return mTargetFrame; }
+	   
 private:
 
 	bool isFragment( int i ) const { return i >=0 && i < mFragments.size() ; }
@@ -134,6 +138,10 @@ private:
 
 	ci::gl::TextureRef	mHeadingTex;
 	ci::Rectf			mHeadingRect;
+	
+	// ui animation logic
+	bool				mIsClosing = false;
+	ci::Rectf			mTargetFrame;
 	
 	// other views
 	GelViewRef				mGelView;
