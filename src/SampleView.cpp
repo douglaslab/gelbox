@@ -936,7 +936,7 @@ void SampleView::tickSim( float dt )
 	
 	for( int f = 0; f<mFragments.size(); ++f )
 	{
-		int targetPop = (float)max( 1, mFragments[f].mTargetPop ) * popDensityScale ;
+		int targetPop = (int) max( 1.f, (float)mFragments[f].mTargetPop * popDensityScale ) ;
 		
 		// dye? pop=0
 		if (mFragments[f].mIsDye) targetPop=0;
