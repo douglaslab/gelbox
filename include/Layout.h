@@ -20,6 +20,7 @@ public:
 
 	ci::vec2	mGelSize			= ci::vec2(390,520);
 	ci::vec2	mGelTopLeft			= ci::vec2(208,124);
+	ci::vec2	mGelTopLeftMin		= ci::vec2(8.f,64.f);
 	int			mGelDefaultLanes	= 7;
 	float		mGelWellGutter		= 20.f;
 	float		mGelMicrotubeBkgndCornerRadius	= 20.f;

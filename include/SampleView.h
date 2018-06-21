@@ -47,7 +47,7 @@ public:
 	SampleFragRefRef getSelectionStateData() const { return mSelection; }
 	SampleFragRefRef getRolloverStateData () const { return mRollover; }
 	
-	// callout
+	// callout (anchor is in parent space, i.e. frame space)
 	void setCalloutAnchor( glm::vec2 p ) { mAnchor=p; updateCallout(); }
 	void setShowCalloutAnchor( bool v ) { mShowCalloutAnchor=v; }
 	glm::vec2 getCalloutAnchor() const { return mAnchor; }
@@ -149,10 +149,10 @@ private:
 	SampleSettingsViewRef	mSettingsView;
 	
 	// ui + loupe logic (relevant if mIsLoupeView)
-	bool pickLoupe( ci::vec2 rootLoc ) const;
+	bool pickLoupe( ci::vec2 frameSpace ) const;
 	void drawLoupe() const;
 
-	bool pickCalloutWedge( ci::vec2 rootLoc ) const; // respects mHasLoupe and kCanPickCalloutWedge in .cpp file
+	bool pickCalloutWedge( ci::vec2 frameSpace ) const; // respects mHasLoupe and kCanPickCalloutWedge in .cpp file
 	
 	void openSettingsView( bool v=true );
 	

@@ -52,11 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/GelView.cpp"
-            timestampString = "551310037.772023"
+            timestampString = "551316014.390716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "974"
-            endingLineNumber = "974"
+            startingLineNumber = "975"
+            endingLineNumber = "975"
             landmarkName = "GelView::makeSampleFromGelPos( vec2 pos )"
             landmarkType = "7">
          </BreakpointContent>

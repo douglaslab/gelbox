@@ -20,8 +20,10 @@ public:
 	
 	void draw() override;
 	void mouseUp( ci::app::MouseEvent ) override;
+	void resize() override { if (mLayoutFunction) mLayoutFunction(*this); }
 	
 	std::function<void()> mClickFunction;
+	std::function<void( ButtonView& )> mLayoutFunction;
 	
 private:
 	ci::gl::TextureRef mImage;

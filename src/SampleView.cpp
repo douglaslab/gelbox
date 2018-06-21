@@ -106,7 +106,7 @@ void SampleView::close()
 		mIsClosing=true;
 		setTargetFrame( Rectf(mAnchor,mAnchor) );
 	} else {
-		getCollection()->removeView( shared_from_this() );
+		setParent(0);
 	}
 }
 
@@ -214,7 +214,7 @@ void SampleView::layout()
 	if (mSettingsView)
 	{
 		Rectf frame( vec2(0.f), kLayout.mSampleSettingsSize );  		
-		frame += getFrame().getUpperRight() + vec2(kLayout.mSampleToBraceGutter,0.f);
+		frame += getBounds().getUpperRight() + vec2(kLayout.mSampleToBraceGutter,0.f);
 		mSettingsView->setFrameAndBoundsWithSize( frame );
 	}	
 	
@@ -255,14 +255,14 @@ bool SampleView::pick( glm::vec2 p ) const
 		;
 }
 
-bool SampleView::pickCalloutWedge( ci::vec2 rootLoc ) const
+bool SampleView::pickCalloutWedge( ci::vec2 frameSpace ) const
 {
-	vec2 parentLoc = rootToParent(rootLoc);
+	vec2 parentLoc = frameSpace; //rootToParent(rootLoc);
 	
 	return mHasLoupe && kCanPickCalloutWedge // wedge is pickable
 		&& mCallout.contains(parentLoc)		 // in wedge
 		&& !getFrame().contains(parentLoc)	 // not in box
-		&& !pickLoupe(rootLoc)				 // not in loupe
+		&& !pickLoupe(frameSpace)			 // not in loupe
 		;
 }
 
@@ -280,7 +280,7 @@ void SampleView::openSettingsView( bool v )
 
 		mSettingsView = make_shared<SampleSettingsView>();
 		mSettingsView->setup( dynamic_pointer_cast<SampleView>(shared_from_this()) );
-		if (getCollection()) getCollection()->addView( mSettingsView );
+		mSettingsView->setParent( shared_from_this() );
 		
 		layout();
 
@@ -305,14 +305,14 @@ void SampleView::updateCallout()
 	mCallout.setClosed();
 }
 
-bool SampleView::pickLoupe( ci::vec2 rootLoc ) const
+bool SampleView::pickLoupe( ci::vec2 frameSpace ) const
 {
-	return mHasLoupe && distance( rootToParent(rootLoc), mAnchor ) <= kLoupeRadius ;
+	return mHasLoupe && distance( frameSpace, mAnchor ) <= kLoupeRadius ;
 }
 
 void SampleView::drawLoupe() const
 {
-	vec2 p = rootToChild(mAnchor);
+	vec2 p = parentToChild(mAnchor);
 
 	bool hover = getHasRollover() && pickLoupe(getMouseLoc());
 	bool focus = hover || getHasKeyboardFocus();
@@ -373,12 +373,12 @@ void SampleView::openFragEditor()
 		mFragEditor = make_shared<FragmentView>();
 		
 		Rectf frame( vec2(0.f), kLayout.mFragViewSize );  		
-		frame += getFrame().getUpperRight() + vec2(kLayout.mSampleToBraceGutter,0.f);
+		frame += getBounds().getUpperRight() + vec2(kLayout.mSampleToBraceGutter,0.f);
 		mFragEditor->setFrameAndBoundsWithSize( frame );
 		
 		mFragEditor->setSampleView( dynamic_pointer_cast<SampleView>(shared_from_this()) );
 		
-		getCollection()->addView(mFragEditor);
+		mFragEditor->setParent( shared_from_this() );
 	}
 }
 
@@ -448,8 +448,10 @@ void SampleView::mouseDown( ci::app::MouseEvent e )
 	
 	
 	// drag?
-	if		( pickLoupe(e.getPos()) )		 mDrag = Drag::Loupe;
-	else if ( pickCalloutWedge(e.getPos()) ) mDrag = Drag::LoupeAndView;
+	vec2 mouseParent = rootToParent(e.getPos());
+	
+	if		( pickLoupe(mouseParent) )		 mDrag = Drag::Loupe;
+	else if ( pickCalloutWedge(mouseParent) )mDrag = Drag::LoupeAndView;
 //	else if ( mSelectedFragment != -1 )      mDrag = Drag::None; // allow loupe drag to start on a part, too 
 	else if ( mIsLoupeView )				 mDrag = Drag::View; 
 	else mDrag = Drag::None;
@@ -637,7 +639,8 @@ void SampleView::tick( float dt )
 	
 	// animate frame
 	{
-		View::setFrame( lerp( getFrame(), mTargetFrame, .35f ) );
+//		View::setFrame( lerp( getFrame(), mTargetFrame, .35f ) );
+		setFrame( mTargetFrame );
 		updateCallout();
 	}
 	

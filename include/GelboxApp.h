@@ -33,6 +33,7 @@ class GelboxApp : public ci::app::App {
 	void fileDrop ( ci::app::FileDropEvent event ) override;
 	void keyDown  ( ci::app::KeyEvent ) override;
 	void keyUp    ( ci::app::KeyEvent ) override;
+	void resize   () override;
 
 	void update() override;
 	void draw() override;

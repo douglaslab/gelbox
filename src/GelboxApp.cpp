@@ -131,11 +131,30 @@ void GelboxApp::makeGel()
 	{
 		mGelView->setup(gel);
 		
-		Rectf frame = mGelView->getFrame();
-		frame += kLayout.mGelTopLeft - frame.getUpperLeft();
-		
-		mGelView->setFrame( frame );
 		mViews.addView(mGelView);
+
+		mGelView->mLayoutFunction = [this]( GelView &g )
+		{
+			Rectf frame = g.getFrame();
+			
+			vec2 tl = kLayout.mGelTopLeft;
+			
+			const vec2 d = vec2(getWindowSize()) - kLayout.mWindowSize;
+			
+			if ( d.x > 0.f ) tl.x += d.x * .4f;
+			else tl.x += d.x * .8f;
+			
+			tl.y += d.y * .5f; 
+
+			tl = round(tl);			
+			tl = max( tl, kLayout.mGelTopLeftMin );
+			
+			frame += tl - frame.getUpperLeft();
+			
+			g.setFrame( frame );
+		};
+		
+		mGelView->mLayoutFunction(*mGelView);		
 	}
 	
 	// gel timeline slider
@@ -208,9 +227,14 @@ void GelboxApp::makeSettingsBtn()
 
 	mViews.addView(mSettingsBtn);
 
-	Rectf r( vec2(0.f), mSettingsBtn->getFrame().getSize() );
-	r += vec2(0.f,getWindowSize().y) + vec2(kLayout.mBtnGutter,-kLayout.mBtnGutter) - r.getLowerLeft(); 
-	mSettingsBtn->setFrame(r);
+	mSettingsBtn->mLayoutFunction = [this]( ButtonView& b )
+	{
+		Rectf r( vec2(0.f), b.getFrame().getSize() );
+		r += vec2(0.f,getWindowSize().y) + vec2(kLayout.mBtnGutter,-kLayout.mBtnGutter) - r.getLowerLeft(); 
+		b.setFrame(r);
+	};
+	
+	mSettingsBtn->mLayoutFunction(*mSettingsBtn);
 }
 
 void GelboxApp::makeHelpBtn()
@@ -230,9 +254,14 @@ void GelboxApp::makeHelpBtn()
 
 	mViews.addView(mHelpBtn);
 
-	Rectf r( vec2(0.f), mHelpBtn->getFrame().getSize() );
-	r += vec2(getWindowSize()) + vec2(-kLayout.mBtnGutter,-kLayout.mBtnGutter) - r.getLowerRight(); 
-	mHelpBtn->setFrame(r);
+	mHelpBtn->mLayoutFunction = [this]( ButtonView& b )
+	{
+		Rectf r( vec2(0.f), b.getFrame().getSize() );
+		r += vec2(getWindowSize()) + vec2(-kLayout.mBtnGutter,-kLayout.mBtnGutter) - r.getLowerRight(); 
+		b.setFrame(r);
+	};
+	
+	mHelpBtn->mLayoutFunction(*mHelpBtn);
 }
 
 /*
@@ -436,6 +465,11 @@ void GelboxApp::keyUp    ( ci::app::KeyEvent event )
 	if (mGelView) mGelView->keyUp(event);
 }
 
+void GelboxApp::resize()
+{
+	mViews.resize();
+}
+
 void GelboxApp::update()
 {
 	mFileWatch.update();
@@ -502,7 +536,7 @@ SampleRef GelboxApp::loadSample( ci::fs::path path ) const
 
 void GelboxApp::prepareSettings( Settings *settings )
 {
-	settings->setResizable(false);
+//	settings->setResizable(false);
 }
 
 ci::fs::path GelboxApp::calcOverloadedAssetPath() const

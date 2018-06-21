@@ -407,7 +407,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 		closeHoverGelDetailView(); // if we animate, we might want to transform one into the other so transition is less weird
 		
 		// start dragging it
-		mMouseDownMadeLoupe = addLoupe( e.getPos() );
+		mMouseDownMadeLoupe = addLoupe( rootToChild(e.getPos()) );
 		if (mMouseDownMadeLoupe)
 		{
 //			mMouseDownMadeLoupe->mouseDown(e);
@@ -727,14 +727,14 @@ void GelView::openSampleView()
 			
 			Rectf frame = mSampleView->getBounds();
 			
-			frame += getFrame().getUpperRight() + vec2(kLayout.mGelToSampleGutter,0.f)
+			frame += getBounds().getUpperRight() + vec2(kLayout.mGelToSampleGutter,0.f)
 				     - frame.getUpperLeft();
 			
 			mSampleView->setFrame( frame );
 			
-			mSampleView->setCalloutAnchor( childToRoot( calcMicrotubeWellRect(tube).getCenter() ) );
+			mSampleView->setCalloutAnchor( calcMicrotubeWellRect(tube).getCenter() ); // not that we show this anymore
 
-			getCollection()->addView(mSampleView);
+			mSampleView->setParent( shared_from_this() );
 			
 			// make + set sample
 			if ( ! getSample(tube) )
@@ -803,9 +803,9 @@ void GelView::gelDidChange()
 	updateGelRender();
 }
 
-SampleViewRef GelView::addLoupe( vec2 withSampleAtRootPos )
+SampleViewRef GelView::addLoupe( vec2 withSampleAtGelPos )
 {
-	SampleViewRef view = updateGelDetailView( 0, withSampleAtRootPos, true, true );
+	SampleViewRef view = updateGelDetailView( 0, withSampleAtGelPos, true, true );
 	
 	if (view)
 	{
@@ -840,7 +840,7 @@ SampleViewRef GelView::openGelDetailView()
 	view->setRolloverStateData (mRolloverState);
 	
 	// add
-	getCollection()->addView(view);
+	view->setParent( shared_from_this() );
 	
 	return view;
 }
@@ -854,7 +854,7 @@ void GelView::closeHoverGelDetailView()
 	}
 }
 
-SampleViewRef GelView::updateGelDetailView( SampleViewRef view, vec2 withSampleAtRootPos, bool forceUpdate, bool doLayout )
+SampleViewRef GelView::updateGelDetailView( SampleViewRef view, vec2 withSampleAtGelPos, bool forceUpdate, bool doLayout )
 {
 	if (!mGel) return view;
 	
@@ -872,31 +872,32 @@ SampleViewRef GelView::updateGelDetailView( SampleViewRef view, vec2 withSampleA
 		// layout
 		Rectf frame = view->getTargetFrame();
 		
-		frame.offsetCenterTo( withSampleAtRootPos + vec2(frame.getWidth(),0) );
+		frame.offsetCenterTo( withSampleAtGelPos + vec2(frame.getWidth(),0) );
 		
 		view->setTargetFrame(frame);
 	}
 	
-	vec2 oldSampleAtRootPos = view->getCalloutAnchor();
+	vec2 oldSampleAtGelPos = view->getCalloutAnchor();
 	
-	view->setCalloutAnchor( withSampleAtRootPos );
+	view->setCalloutAnchor( withSampleAtGelPos );
 	
 	// animate opening
 	if (isNewView)
 	{
 		Rectf tframe = view->getTargetFrame();
-		view->setFrame( Rectf(withSampleAtRootPos,withSampleAtRootPos) );
+		vec2 start = withSampleAtGelPos;
+		view->setFrame( Rectf(start,start) );
 		view->setTargetFrame(tframe);
 	}
 		
 	// content
 	SampleRef s = view->getSample();
 
-	int lane = pickLane( rootToParent(withSampleAtRootPos) );	
+	int lane = pickLane( childToParent(withSampleAtGelPos) );	
 	
 	if (   forceUpdate
 		|| (!s || s->mID != lane)
-		|| withSampleAtRootPos != oldSampleAtRootPos
+		|| withSampleAtGelPos != oldSampleAtGelPos
 	   )
 	{
 		updateGelDetailViewContent(view);
@@ -914,7 +915,7 @@ void GelView::updateGelDetailViewContent( SampleViewRef view ) const
 	
 	SampleRef s = view->getSample();
 	
-	vec2 withSampleAtRootPos = view->getCalloutAnchor();
+	vec2 withSampleAtRootPos = view->parentToRoot( view->getCalloutAnchor() );
 	
 	vec2 withSampleAtPos = rootToChild(withSampleAtRootPos);
 	
@@ -1092,7 +1093,7 @@ void GelView::updateHoverGelDetailView()
 	    && pickLane(getMouseLoc()) != -1
 	   )
 	{
-		mHoverGelDetailView = updateGelDetailView( mHoverGelDetailView, getMouseLoc(), true, true ); // implicitly opens it
+		mHoverGelDetailView = updateGelDetailView( mHoverGelDetailView, rootToChild(getMouseLoc()), true, true ); // implicitly opens it
 		getCollection()->moveViewToTop(mHoverGelDetailView); // ensure it's on top
 	}
 	else

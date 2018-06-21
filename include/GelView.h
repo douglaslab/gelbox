@@ -65,6 +65,7 @@ public:
 	void	mouseMove( ci::app::MouseEvent ) override;
 	void	keyDown  ( ci::app::KeyEvent ) override { updateHoverGelDetailView(); }
 	void	keyUp    ( ci::app::KeyEvent ) override { updateHoverGelDetailView(); }
+	void	resize	() override { if (mLayoutFunction) mLayoutFunction(*this); }
 
 //	DropTargetRef getDropTarget( glm::vec2 locInFrame ) override;
 
@@ -85,6 +86,8 @@ public:
 
 	void		selectFragment( int lane, int frag );
 	void		deselectFragment();
+
+	std::function<void( GelView& )> mLayoutFunction;
 	
 private:
 	GelRef				mGel;
@@ -144,8 +147,8 @@ private:
 	void		updateHoverGelDetailView();
 	void		closeHoverGelDetailView();
 
-	SampleViewRef addLoupe( ci::vec2 withSampleAtRootPos ); // persistent; returns it if you want it
-	SampleViewRef updateGelDetailView( SampleViewRef view, ci::vec2 withSampleAtRootPos, bool forceUpdate, bool doLayout ); // root coords; makes view if null
+	SampleViewRef addLoupe( ci::vec2 withSampleAtGelPos ); // persistent; returns it if you want it
+	SampleViewRef updateGelDetailView( SampleViewRef view, ci::vec2 withSampleAtGelPos, bool forceUpdate, bool doLayout ); // root coords; makes view if null
 	SampleViewRef openGelDetailView();
 	SampleRef	makeSampleFromGelPos( ci::vec2 pos ) const;
 	void		updateLoupes();
