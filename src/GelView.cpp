@@ -953,14 +953,42 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		f.mOriginSample = getSample(b.mLane);
 		f.mOriginSampleFrag = b.mFragment;
 		
+		// where do we hit?
+		float massScale = 1.f;
+		float sizeScale = 1.f;
+
+		const float smearPickAbove = b.pickSmearAbove(pos);
+		const float smearPickBelow = b.pickSmearBelow(pos);
+		const float smearPick = max( smearPickAbove, smearPickBelow );
+		
+		if ( b.mRect.contains(pos) )
+		{
+			// center
+			massScale = 1.f;
+		}
+		else if ( smearPick > 0.f )
+		{
+			// smear
+			massScale = smearPick;
+			
+			if (smearPickBelow > 0.f) {
+				sizeScale = smearPickBelow;
+			}
+		}
+		else
+		{
+			// assume blur
+			float d = b.mRect.distance(pos);
+			d = 1.f - min( 1.f, (d / (float)b.mBlur) );
+			d = powf(d,3.f);
+			massScale = d;
+		}
+		
 		// speed bias
-		f.mSampleSizeBias =
-			(pos.y - b.mRect.getY1())
-			 /
-			(b.mRect.getHeight() + b.mSmearBelow);
+		f.mSampleSizeBias = sizeScale;
 		
 		//
-		f.mMass = b.mMass;
+		f.mMass = b.mMass * massScale;
 		
 		// aggregates
 		f.mAggregate.zeroAll();

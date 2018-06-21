@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <algorithm>
+#include "cinder/CinderMath.h"
 
 class Band
 {
@@ -51,6 +53,38 @@ public:
 	float		mWellDamage = 0.f; // 0..1
 	int			mWellDamageRandSeed = 0;
 
+	// helpers
+	float		pickSmear( ci::vec2 p ) const
+	{
+		return std::max( pickSmearAbove(p), pickSmearBelow(p) );
+	}
+	
+	float		pickSmearAbove( ci::vec2 p ) const
+	{
+		if (    mSmearAbove > 0.f
+		     && p.x >= mRect.x1 && p.x <= mRect.x2
+		     && p.y >= mRect.y1 - mSmearAbove
+		     && p.y <= mRect.y1
+		     )
+		{
+			return ci::lmap( p.y, mRect.y1 - mSmearAbove, mRect.y1, 0.f, 1.f );
+		}
+		else return 0.f;
+	}
+
+	float		pickSmearBelow( ci::vec2 p ) const
+	{
+		if (    mSmearBelow > 0.f
+		     && p.x >= mRect.x1 && p.x <= mRect.x2
+		     && p.y >= mRect.y2
+		     && p.y <= mRect.y2 + mSmearBelow
+		     )
+		{
+			return ci::lmap( p.y, mRect.y2, mRect.y2 + mSmearBelow, 1.f, 0.f );
+		}
+		else return 0.f;
+	}
+	
 };
 
 inline int findBandByAggregate( const std::vector<Band>& bands, int aggregate )

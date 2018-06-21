@@ -62,7 +62,7 @@ public:
 		float mMass			= 0.f; // ng
 		
 		float mDegrade		= 0.f; // 0..2
-		float mSampleSizeBias = -1.f; // -1 for none, 0 to skew towards big + slow, 1 for small + fast 
+		float mSampleSizeBias = -1.f; // -1 for none, 1 to skew towards big + slow, 0 for small + fast 
 		
 		int   mDye			= -1; // if >=0, then this fragment is a dye, and this is which dye. mMass will indicate how much of the dye there is.
 		

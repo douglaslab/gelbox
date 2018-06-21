@@ -813,7 +813,7 @@ SampleView::randomPart( int f )
 	p.mColor  = mFragments[p.mFragment].mColor ; 
 	
 	p.mRadiusScaleKey = mRand.nextFloat();
-	if ( mFragments[p.mFragment].mSampleSizeBias != -1.f ) p.mRadiusScaleKey = 1.f - mFragments[p.mFragment].mSampleSizeBias;
+	if ( mFragments[p.mFragment].mSampleSizeBias != -1.f ) p.mRadiusScaleKey = mFragments[p.mFragment].mSampleSizeBias;
 
 	// multimer setup
 	Part::Multi m;
