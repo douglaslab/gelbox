@@ -956,7 +956,6 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		
 		// where do we hit?
 		float massScale = 1.f;
-		float sizeScale = 1.f;
 
 		const float smearPickAbove = b.pickSmearAbove(pos);
 		const float smearPickBelow = b.pickSmearBelow(pos);
@@ -972,8 +971,11 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 			// smear
 			massScale = smearPick;
 			
+			// adjust bp to where we are in degrade smear
 			if (smearPickBelow > 0.f) {
-				sizeScale = smearPickBelow;
+				// TODO: use reverse solver to get us to exactly right size!
+				f.mBases = (float)f.mBases * smearPickBelow;
+				f.mDegrade = 0.f; 
 			}
 		}
 		else
@@ -984,9 +986,6 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 			d = powf(d,3.f);
 			massScale = d;
 		}
-		
-		// speed bias
-		f.mSampleSizeBias = sizeScale;
 		
 		//
 		f.mMass = b.mMass * massScale;

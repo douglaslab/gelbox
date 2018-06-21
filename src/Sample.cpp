@@ -339,7 +339,6 @@ Sample::toXml() const
 		addChildAttrValue( fx, "Mass",		toString(f.mMass) );
 		addChildAttrValue( fx, "Degrade",	toString(f.mDegrade) );
 		
-		addChildAttrValue( fx, "SampleSizeBias", toString(f.mSampleSizeBias) );
 		addChildAttrValue( fx, "Dye",		toString(f.mDye) );
 		addChildAttrValue( fx, "AspectRatio",	 toString(f.mAspectRatio) );
 		addChildAttrValue( fx, "Color",		toString(f.mColor) );
@@ -349,7 +348,7 @@ Sample::toXml() const
 		
 		if ( !f.mAggregate.empty() )
 		{
-			XmlTree ax("Aggregate");
+			XmlTree ax("Aggregate","");
 			
 			for( int i=0; i<f.mAggregate.size(); ++i )
 			{
