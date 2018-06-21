@@ -1,3 +1,13 @@
 {
-	"OvercookScale"				: "4"
+	"Overcook" : {
+		"NumWaves"			: "5",
+		"WavelengthMin"		: ".1",
+		"WavelengthMax"		: "1",
+		"AmpMin"			: "1",
+		"AmpMax"			: "1",
+		"Scale" : {
+			"x" 			: "5", 
+			"y"				: "10"
+		}
+	}
 }

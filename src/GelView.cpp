@@ -160,7 +160,7 @@ void GelView::updateGelRender()
 	{
 		auto wl = mGel->getBufferWarpForLanes();
 		float w = 0.f;
-		for ( float v : wl ) w += v;
+		for ( float v : wl ) w = max(w,v);
 		mGelRender->setGlobalWarp( w, 0 );
 	}
 	

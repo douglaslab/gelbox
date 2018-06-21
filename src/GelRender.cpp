@@ -96,8 +96,15 @@ void GelRender::setup( glm::ivec2 gelsize, int pixelsPerUnit )
 			}
 		};
 		
-		getf( "OvercookScale", mTuning.mOvercookScale );
-		
+//		getf("Overcook.Scale",mTuning.mOvercook.mScale);
+		getf("Overcook.NumWaves",mTuning.mOvercook.mNumWaves);
+		getf("Overcook.WavelengthMin",mTuning.mOvercook.mWavelengthMin);
+		getf("Overcook.WavelengthMax",mTuning.mOvercook.mWavelengthMax);
+		getf("Overcook.AmpMin",mTuning.mOvercook.mAmpMin);
+		getf("Overcook.AmpMax",mTuning.mOvercook.mAmpMax);
+		getf("Overcook.Scale.x",mTuning.mOvercook.mScale.x);
+		getf("Overcook.Scale.y",mTuning.mOvercook.mScale.y);
+			
 		mIsDirty = true;
 	});
 }
@@ -433,7 +440,7 @@ void GelRender::smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float x1, f
 			return d;
 		});
 	
-	warp( buf, tmp, get1dTex(s), height );
+	warp( buf, tmp, get1dTex(s), vec2(height) );
 }
 
 void GelRender::wellDamageBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, ci::Rectf bandr, float damage, int rseed ) const
@@ -510,14 +517,14 @@ void GelRender::wellDamageBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, ci::Re
 		});
 	
 	// warp
-	warp( buf, tmp, get1dTex(s), bandr.getHeight() );
+	warp( buf, tmp, get1dTex(s), vec2(bandr.getHeight()) );
 }
 
 void GelRender::warp(
 	ci::gl::FboRef& buf,
 	ci::gl::FboRef& tmp,
 	ci::gl::TextureRef warp,
-	float			   warpScale ) const
+	vec2			   warpScale ) const
 {
 	if (mWarpGlsl)
 	{
@@ -525,7 +532,7 @@ void GelRender::warp(
 		gl::ScopedGlslProg glslScope( mWarpGlsl );
 		
 		
-		vec2 warpScaleUV = vec2(warpScale) / vec2(mGelSize); // with uv 
+		vec2 warpScaleUV = warpScale / vec2(mGelSize); // with uv 
 		
 		mWarpGlsl->uniform("uWarpScale",warpScaleUV);
 		mWarpGlsl->uniform("uTexWarp", 1 );
@@ -627,28 +634,56 @@ void GelRender::overcook( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float amount
 {
 	if ( amount > 0.f )
 	{
-		float scale = amount * kTuning.mOvercookScale;
+		// this is an approximation of the Photoshop wave filter. 
+		
+//		float scale;
+//		vec2  scale2 = kTuning.mOvercook.mScale;
+		
+//		scale = max( scale2.x, scale2.y );
+//		scale2 /= scale;
+		
+		struct W
+		{
+			vec2  mPhase;
+//			float mLength;
+//			float mAmp;
+			vec2  mPrescale;
+			vec2  mPostscale;
+		};
+		
+		vector<W> waves( kTuning.mOvercook.mNumWaves );
+//		const float wnorm = waves.empty() ? 1.f : (1.f / (float)waves.size()); 
+		
+		Rand rgen(mGlobalWarpRandSeed);
+		
+		for( auto &w : waves )
+		{
+			w.mPhase     = vec2( rgen.nextFloat(), rgen.nextFloat() );
+			float length = rgen.nextFloat( kTuning.mOvercook.mWavelengthMin, kTuning.mOvercook.mWavelengthMax );
+			float amp	 = rgen.nextFloat( kTuning.mOvercook.mAmpMin,		kTuning.mOvercook.mAmpMax );
+			w.mPostscale = vec2(amp);
+			w.mPrescale  = vec2( (1.f / length) * M_PI * 2.f );
+		}
 		
 		ci::Surface8uRef control = makeWarpByFracPos( mOutputSize,
 			[=]( vec2 p ) -> vec2
 			{
 				vec2 c(0.f);
-
-				c.x +=  .45f  * sinf(p.y * .5f * M_PI * 2.f);
-				c.y +=  .35f * sinf(p.x * .5f * M_PI * 2.f);
 				
-				c.x +=  .35f * sinf(p.y * 1.f * M_PI * 2.f);
-				c.y +=  .25f * sinf(p.x * 1.f * M_PI * 2.f);
-
-				c.x +=  .2f  * sinf(p.y * 4.f * M_PI * 2.f);
-				c.y +=  .2f * sinf(p.x * 4.f * M_PI * 2.f);
-
-	//			c.y += min( 0.f, sinf( p.y * 8.f * M_PI * 2.f) ); // just vertical displacement; wacky
+				for( const auto &w : waves )
+				{
+					vec2 v = (p - w.mPhase) * w.mPrescale;
+					
+					v.x = sinf( v.y );
+					v.y = sinf( v.x );
+					
+					c += w.mPostscale * v;
+				}
 				
 				return c;
 			});
 		
-		warp( buf, tmp, get2dTex(control), scale );
+		warp( buf, tmp, get2dTex(control), amount * kTuning.mOvercook.mScale );
 	}
 }
 

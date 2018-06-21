@@ -41,7 +41,17 @@ private:
 
 	struct Tuning
 	{
-		float mOvercookScale = 20.f;
+		struct Overcook
+		{
+//			float mScale			= 20.f;
+			float mNumWaves			= 40.f;
+			float mWavelengthMin	= 0.f;
+			float mWavelengthMax	= 1.f;
+			float mAmpMin			= 1.f;
+			float mAmpMax			= 91.f;
+			ci::vec2 mScale			= ci::vec2( 20.f, 30.f );
+		}
+		mOvercook;
 	}
 	mTuning;
 	const Tuning &kTuning = mTuning;
@@ -80,7 +90,7 @@ private:
 	void warp(	ci::gl::FboRef& buf,
 				ci::gl::FboRef& tmp,
 				ci::gl::TextureRef warp,
-				float			   warpScale ) const;
+				ci::vec2		   warpScale ) const;
 		
 	void blur( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, int distance );
 	
