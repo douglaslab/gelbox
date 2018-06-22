@@ -48,7 +48,7 @@ public:
 
 private:
 
-//	ci::TriMeshRef makeMoleculesMesh( SampleFragRefRef selection, SampleFragRefRef rollover ) const;
+	ci::TriMeshRef makeMoleculesMesh( SampleFragRefRef selection, SampleFragRefRef rollover ) const;
 	
 
 	class Part;
@@ -102,7 +102,7 @@ private:
 		ci::TriMeshRef makeMesh() const { return makeMesh( ci::ColorA(mColor,mFade), 0.f ); }
 		ci::TriMeshRef makeMesh( ci::ColorA color, float inflateDrawRadius ) const;
 		
-		glm::mat4	getTransform2() const;
+		glm::mat4	getRootTransform() const;
 		glm::mat4	getTransform( int multiIndex=-1 ) const;
 		
 //		ci::TriMeshRef mMesh;

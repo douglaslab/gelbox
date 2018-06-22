@@ -40,9 +40,36 @@ const Color& kSelectColor   = kLayout.mSampleViewFragSelectColor;
 const Color& kRolloverColor = kLayout.mSampleViewFragHoverColor;
 const float& kOutlineWidth  = kLayout.mSampleViewFragOutlineWidth;
 
-const bool kDebugDrawMeshVerts = false;
+const float kMultimerAdhereOverlapFrac = .1f;
+
+//const bool kDebugDrawMeshVerts = false;
 
 
+ci::TriMeshRef concatMesh( ci::TriMeshRef a, ci::TriMeshRef b, mat4 xb )
+{
+	assert(a);
+	
+	if (b)
+	{
+		vec2* v = b->getPositions<2>();
+		uint32_t off = (uint32_t)a->getNumVertices();
+		
+		for( int i=0; i<b->getNumVertices(); ++i )
+		{
+			v[i] = vec2( xb * vec4( v[i], 0.f, 1.f ) );
+		}
+		
+		for ( uint32_t& ix : b->getIndices() ) ix += off;
+
+		a->appendColors( b->getColors<4>(), b->getNumVertices() );
+		a->appendPositions( v, b->getNumVertices() );
+		a->appendIndices( b->getIndices().data(), b->getNumIndices() );
+	}
+	
+	return a;
+}
+
+/*
 static void drawMeshVerts( ci::TriMeshRef mesh )
 {
 	gl::color( 1,0,0 );
@@ -52,6 +79,7 @@ static void drawMeshVerts( ci::TriMeshRef mesh )
 		gl::drawSolidCircle(v[i],1.f);
 	}
 }
+*/
 
 MolecularSim::MolecularSim()
 {
@@ -452,26 +480,23 @@ void MolecularSim::drawRepresentativeOfFrag( int frag, ci::vec2 pos ) const
 			gl::ScopedModelMatrix modelMatrix;
 			gl::multModelMatrix(
 				glm::translate( vec3(pos-p.mLoc,0.f) ) // put it where we want
-			  * p.getTransform2() );
+			  * p.getRootTransform() );
 			gl::draw(*mesh);
 		}
 	}
 }
 
-//ci::TriMeshRef makeMoleculesMesh( SampleFragRefRef selection, SampleFragRefRef rollover ) const
-//{
-//	
-//}
-//
-void MolecularSim::draw( SampleFragRefRef fselection, SampleFragRefRef frollover )
+ci::TriMeshRef MolecularSim::makeMoleculesMesh( SampleFragRefRef fselection, SampleFragRefRef frollover ) const
 {
+	ci::TriMeshRef mesh = ci::TriMesh::create( ci::TriMesh::Format().positions(2).colors(4) ); 
+	
 	// draw parts
 	for ( const auto &p : mParts )
 	{
 		const bool selected = isFragment(p.mFragment) && fselection->isa( mSample, p.mFragment );
 		const bool rollover = isFragment(p.mFragment) && frollover ->isa( mSample, p.mFragment );		 
 
-		auto drawPart = [&]( bool outline )
+		auto doPart = [&]( bool outline )
 		{
 			if ( outline && !selected && !rollover ) return; 
 
@@ -486,23 +511,24 @@ void MolecularSim::draw( SampleFragRefRef fselection, SampleFragRefRef frollover
 				else color = selected ? ColorA(kSelectColor,p.mFade) : ColorA(kRolloverColor,p.mFade);				
 			}
 			
-			auto mesh = p.makeMesh(color,inflate);
-			
-			if (mesh)
-			{
-				gl::ScopedModelMatrix modelMatrix;
-				gl::multModelMatrix( p.getTransform2() );
-				gl::draw(*mesh);
-				
-				if (kDebugDrawMeshVerts) drawMeshVerts(mesh);
-			}
+			auto pmesh = p.makeMesh(color,inflate);
+
+			mesh = concatMesh( mesh, pmesh, p.getRootTransform() );
 		};
 		
 		// outlines in 1st pass, for proper outline effect
-		drawPart(true);
-		drawPart(false);
+		doPart(true);
+		doPart(false);
 
-	} // part
+	} // part		
+	
+	return mesh;
+}
+
+void MolecularSim::draw( SampleFragRefRef fselection, SampleFragRefRef frollover )
+{
+	ci::TriMeshRef mesh = makeMoleculesMesh(fselection,frollover);
+	if (mesh) gl::draw(*mesh);
 }
 
 MolecularSim::Part
@@ -567,7 +593,7 @@ MolecularSim::Part::makeMesh( ColorA color, float inflateDrawRadius ) const
 		const auto &m = mMulti[mi];
 		
 		mat4 x;
-		x *= translate( vec3( m.mLoc * min(mRadius.x,mRadius.y) * 2.f, 0) );
+		x *= translate( vec3( m.mLoc * min(mRadius.x,mRadius.y) * (1.f-kMultimerAdhereOverlapFrac) * 2.f, 0) );
 		x *= glm::rotate( m.mAngle, vec3(0,0,1) );
 		x *= scale( vec3(mRadius.x+inflateDrawRadius,mRadius.y+inflateDrawRadius,1.f) );
 
@@ -596,7 +622,7 @@ MolecularSim::Part::makeMesh( ColorA color, float inflateDrawRadius ) const
 }
 
 glm::mat4
-MolecularSim::Part::getTransform2() const
+MolecularSim::Part::getRootTransform() const
 {
 	mat4 xform;
 	xform *= translate( vec3(mLoc,0) );
@@ -607,9 +633,7 @@ MolecularSim::Part::getTransform2() const
 glm::mat4
 MolecularSim::Part::getTransform( int multiIndex ) const
 {
-	mat4 xform;
-	xform *= translate( vec3(mLoc,0) );
-	xform *= glm::rotate( mAngle, vec3(0,0,1) );
+	mat4 xform = getRootTransform();
 	
 	if ( multiIndex >= 0 && multiIndex < mMulti.size() )
 	{
