@@ -157,7 +157,7 @@ void SampleView::drawHeader()
 		
 		gl::color( kLayout.mGelMicrotubeBkgndColorSelected );
 		gl::drawSolidCircle(c,r);
-		gl::drawStrokedCircle(c,r); // anti-alias it!
+//		gl::drawStrokedCircle(c,r); // anti-alias it!
 	}
 	
 	// icon
@@ -294,11 +294,12 @@ void SampleView::drawLoupe() const
 	{
 		gl::drawStrokedCircle( p, r, thickness );
 		
+		/*
 		if (thickness > 1.f)
 		{
 			gl::drawStrokedCircle( p, r - thickness/2 ); // use this call, has anti-aliasing
 			gl::drawStrokedCircle( p, r + thickness/2 ); // use this call, has anti-aliasing
-		}
+		}*/
 	};
 	
 	// a bitmap icon might be nice

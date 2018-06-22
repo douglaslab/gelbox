@@ -230,7 +230,7 @@ void GelView::drawMicrotubes() const
 			: kLayout.mGelMicrotubeBkgndColor );
 
 		gl::drawSolidRoundedRect( r, cornerRadius );
-		gl::drawStrokedRoundedRect( r, cornerRadius ); // anti-alias
+//		gl::drawStrokedRoundedRect( r, cornerRadius ); // anti-alias
 		
 		Rectf iconRect = calcMicrotubeIconRect(wellRect); 
 		
