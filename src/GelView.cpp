@@ -840,7 +840,7 @@ SampleViewRef GelView::openGelDetailView()
 	view->setFrameAndBoundsWithSize(frame);
 	
 	// misc
-	view->setSimTimeScale(0.f); // paused
+	view->simPause();
 	view->setIsLoupeView(true);
 	
 	// shared state
@@ -928,7 +928,7 @@ void GelView::updateGelDetailViewContent( SampleViewRef view ) const
 	vec2 withSampleAtPos = rootToChild(withSampleAtRootPos);
 	
 	// reset view particles
-	view->clearParticles();
+	view->simClearParticles();
 	view->setRand( ci::Rand(
 		withSampleAtPos.x*19
 	  + withSampleAtPos.y*1723
@@ -943,7 +943,7 @@ void GelView::updateGelDetailViewContent( SampleViewRef view ) const
 	view->setSample(s);
 	
 	// insure fully spawned
-	view->prerollSim();
+	view->simPreroll();
 }
 
 SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const

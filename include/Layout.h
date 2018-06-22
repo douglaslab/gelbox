@@ -75,7 +75,7 @@ public:
 	std::string mSampleSettingsHeaderStr		= "Buffer + Dyes";
 	
 	// sample view
-	ci::Color	mSampleViewBkgndColor			= ci::Color::hex( 0xF1F1F2 );
+	ci::Color	mMolecularSimBkgndColor			= ci::Color::hex( 0xF1F1F2 );
 	float		mSampleViewMicrotubeBkgndGutter	= 11.f;
 	float		mSampleViewMicrotubeBkgndRadius	= 20.f;
 	float		mSampleViewMicrotubeWidth		= 19.f;
