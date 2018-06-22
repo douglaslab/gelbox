@@ -974,17 +974,20 @@ void GelView::updateGelDetailViewContent( SampleViewRef view ) const
 	  ) );
 
 	// make new sample
-	s = makeSampleFromGelPos( withSampleAtPos );
+	std::map<int,int> degradeFilter;
+	s = makeSampleFromGelPos( withSampleAtPos, degradeFilter );
 	
 	s->mID = pickLane( rootToParent(withSampleAtRootPos) );				
 	
-	view->setSample(s);
+	view->setSample(s,&degradeFilter);
+	
+	if ((0)) cout << "updateGelDetailViewContent" << endl;
 	
 	// insure fully spawned
 	view->simPreroll();
 }
 
-SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
+SampleRef GelView::makeSampleFromGelPos( vec2 pos, std::map<int,int>& degradeFilter ) const
 {
 	assert(mGel);
 
@@ -1011,23 +1014,7 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		const float smearPickBelow = b.pickSmearBelow(pos);
 		const float smearPick = max( smearPickAbove, smearPickBelow );
 		
-		auto calcBases = [=]()
-		{
-			if ( b.mSmearBelow == 0.f ) return f.mBases;
-			else
-			{
-				// use reverse solver to get us to exactly right size
-				return solveBasePairForY(
-					pos.y,
-					*f.mOriginSample,
-					f.mOriginSampleFrag,
-					b.mLane,
-					b.mAggregate,
-					mGel->getSimContext(*f.mOriginSample)
-				);
-			}
-		};
-		
+		// mass
 		if ( b.mRect.contains(pos) )
 		{
 			if (verbose) cout << "center" << endl;
@@ -1041,15 +1028,6 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 
 			// smear
 			massScale = smearPick;
-			
-			// adjust bp to where we are in degrade smear
-			if (smearPickBelow > 0.f)
-			{
-				f.mBases = calcBases();
-				
-				// make sure we aren't degrading anymore				
-				f.mDegrade = 0.f; 
-			}
 		}
 		else
 		{
@@ -1060,13 +1038,30 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 			d = 1.f - min( 1.f, (d / (float)b.mBlur) );
 			d = powf(d,3.f);
 			massScale = d;
-			
-			f.mBases = calcBases();			
 		}
-		
-		//
+
+		// mass scale
 		f.mMass = b.mMass * massScale;
-		
+
+		// degrade
+		if ( b.mSmearBelow > 0.f )
+		{
+			// use reverse solver to get us to exactly right size
+			int bpe = solveBasePairForY(
+				pos.y,
+				*f.mOriginSample,
+				f.mOriginSampleFrag,
+				b.mLane,
+				b.mAggregate,
+				mGel->getSimContext(*f.mOriginSample)
+			);
+			
+			degradeFilter[b.mFragment] = bpe;
+
+			// make sure we aren't degrading anymore		
+			f.mDegrade = 0.f; 
+		}
+					
 		// aggregates
 		f.mAggregate.zeroAll();
 		f.mAggregate.set(

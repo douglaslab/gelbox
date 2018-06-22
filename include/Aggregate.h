@@ -73,6 +73,20 @@ public:
 		return sum; 
 	}
 
+	int top() const {
+		int   t=0;
+		float w=0.f;
+		for( size_t i=0; i<size(); ++i )
+		{
+			if ( get(i) > w )
+			{
+				t=(int)i;
+				w=get(i);
+			}
+		}
+		return t;
+	}
+	
 /*
 	// Doesn't make much sense--0th element will always be zero!
 	float calcWeightedSum() const {

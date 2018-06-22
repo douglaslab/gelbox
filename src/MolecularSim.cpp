@@ -94,9 +94,12 @@ void MolecularSim::setBounds( ci::Rectf r )
 	mSizeDensityScale = (getBounds().getWidth() * getBounds().getHeight()) / (400.f*400.f);
 }
 
-void MolecularSim::setSample( SampleRef sample )
+void MolecularSim::setSample( SampleRef sample, std::map<int,int> *degradeFilter )
 {
 	mSample = sample;
+	
+	if (degradeFilter) mDegradeFilter = *degradeFilter;
+	else mDegradeFilter.clear();
 	
 	if (!sample) return;
 	
@@ -115,25 +118,44 @@ void MolecularSim::setSample( SampleRef sample )
 		// radius
 		float r = lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
 		
-		f.mRadiusHi.y = sqrt( (r*r) / s.mAspectRatio );
-		f.mRadiusHi.x = s.mAspectRatio * f.mRadiusHi.y;
+		f.mRadius.y = sqrt( (r*r) / s.mAspectRatio );
+		f.mRadius.x = s.mAspectRatio * f.mRadius.y;
 		// this calculation maintains the area for a circle in an ellipse that meets desired aspect ratio
 		// math for maintaining circumfrence is wickedly harder
 		
 		// degraded radius				
-		// do degrade (NOTE: this replicates logic in Gel::calcBandBounds)
+		// do degrade (NOTE: this replicates logic in GelSim::calcDegrade)
 		// just have multiple degrade params in each frag, to make this  simpler then encoding it all in 0..2?
-		f.mRadiusLo = f.mRadiusHi;
-		
-		f.mRadiusLo *= max( 0.f, 1.f - s.mDegrade ); // as degrade goes 0..1, low end drops out--shorter base pairs, lower radii
+		f.mDegradeHi = 1.f;
+		f.mDegradeLo = max( 0.f, 1.f - s.mDegrade ); // as degrade goes 0..1, low end goes up -- finely degraded molecules possible
 	
-		if ( s.mDegrade > 1.f ) f.mRadiusHi *= 2.f - min(2.f,s.mDegrade); // as degrade goes 1..2, upper radii moves drops out--shorter
+		if ( s.mDegrade > 1.f ) f.mDegradeHi = 2.f - min(2.f,s.mDegrade); // as degrade goes 1..2, upper radii moves drops out--shorter
+		
+//		cout << "degrade: " << s.mDegrade << ", lo: " << f.mDegradeLo << ", hi: " << f.mDegradeHi << endl;
 		
 		// set a lower limit on degrade...
-		const vec2 kMinRadius(1,1);
-		f.mRadiusLo = glm::max( f.mRadiusLo, kMinRadius );
+//		const vec2 kMinRadius(1,1);
+//		f.mRadiusLo = glm::max( f.mRadiusLo, kMinRadius );
 //			f.mRadius		  = glm::max( f.mRadius,		 kMinRadius );
-
+		f.mDegradeLo = max( f.mDegradeLo, .1f );
+		f.mDegradeHi = max( f.mDegradeHi, .1f );
+		
+		// degrade filter
+		{
+			auto degradeF = mDegradeFilter.find(i);
+			
+			if ( degradeF != mDegradeFilter.end() )
+			{
+				int a = s.mAggregate.top()+1; // we assume (good bet) we are just getting a single multimer size here 
+				
+				const int   bpe = degradeF->second; // get base pair equivalent size
+				const float ds  = (float)bpe / (float)(s.mBases*a); // convert to a scale factor
+				
+				f.mDegradeLo = f.mDegradeHi = ds;
+			}
+		}
+//		cout << f.mDegradeLo << ", " << f.mDegradeHi << endl;
+		
 		// dye? no problem; population will get culled in tickSim()
 		// we just let there be a 1:1 correspondence between
 		// fragments here and in sample, and just don't make any particles for dyes
@@ -339,10 +361,11 @@ void MolecularSim::tick( bool bulletTime )
 		// sync to frag
 		if (frag)
 		{
-			vec2 fragRadius = lerp( frag->mRadiusLo, frag->mRadiusHi, p.mRadiusScaleKey );
+			float toDegrade = lerp( frag->mDegradeLo, frag->mDegradeHi, p.mDegradeKey );
 			
-			p.mColor	= lerp( p.mColor,  frag->mColor, .5f );
-			p.mRadius	= lerp( p.mRadius, fragRadius,	 .5f );
+			p.mDegrade  = lerp( p.mDegrade, toDegrade,    .5f );
+			p.mColor	= lerp( p.mColor,  frag->mColor,  .5f );
+			p.mRadius	= lerp( p.mRadius, frag->mRadius, .5f );
 			
 		} // sync
 	}
@@ -548,10 +571,10 @@ MolecularSim::randomPart( int f )
 	p.mAngleVel = randFloat(-1.f,1.f) * M_PI * .002f;
 	
 	p.mFragment = f;
-	p.mRadius = mFragments[p.mFragment].mRadiusHi ;
+	p.mRadius = mFragments[p.mFragment].mRadius ;
 	p.mColor  = mFragments[p.mFragment].mColor ; 
 	
-	p.mRadiusScaleKey = mRand.nextFloat();
+	p.mDegradeKey = mRand.nextFloat();
 
 	// multimer setup
 	Part::Multi m;
@@ -586,22 +609,20 @@ MolecularSim::Part::makeMesh( ColorA color, float inflateDrawRadius ) const
 	
 	const float tDelta = 1 / (float)N * 2.0f * 3.14159f;
 
-	auto mesh = ci::TriMesh::create( ci::TriMesh::Format().positions(2).colors(4) );
-	
+	ci::TriMeshRef mmesh = ci::TriMesh::create( ci::TriMesh::Format().positions(2).colors(4) );
+	ci::TriMeshRef  mesh = ci::TriMesh::create( ci::TriMesh::Format().positions(2).colors(4) );
+
 	for( int mi=0; mi<mMulti.size(); ++mi )
 	{
 		const auto &m = mMulti[mi];
 		
-		mat4 x;
-		x *= translate( vec3( m.mLoc * min(mRadius.x,mRadius.y) * (1.f-kMultimerAdhereOverlapFrac) * 2.f, 0) );
-		x *= glm::rotate( m.mAngle, vec3(0,0,1) );
-		x *= scale( vec3(mRadius.x+inflateDrawRadius,mRadius.y+inflateDrawRadius,1.f) );
-
-		uint32_t ind = (uint32_t)mesh->getNumVertices();
-		float	 t = 0;		
+		Rand r( 4000000.f * mDegradeKey + mi );
 		
-		vec4 c = vec4(vec3(0.f),1.f);
-		mesh->appendPosition( vec2( x * c ) );
+		// make mesh
+		mesh->clear();
+		float	 t = 0;
+		
+		mesh->appendPosition( vec2(0.f) );
 		mesh->appendColors( &color, 1 );
 		
 		for( int i=0; i<N; ++i )
@@ -609,16 +630,28 @@ MolecularSim::Part::makeMesh( ColorA color, float inflateDrawRadius ) const
 			vec2 unit( math<float>::cos( t ), math<float>::sin( t ) );
 			t += tDelta;
 			
-			// radius, locate now (if we want)
+			// randomly repeat the last vertex with degrade param
+			if ( i>2 && r.nextFloat() > mDegrade /**mDegrade*/ ) {
+				unit = mesh->getPositions<2>()[ mesh->getNumVertices()-1 ];
+			}
 			
-			mesh->appendPosition( vec2( x * vec4(unit,0.f,1.f) ) );
+			mesh->appendPosition( unit );
 			mesh->appendColors( &color, 1 );
 			
-			mesh->appendTriangle( ind, ind+(i)+1, ind + ((i+1)%N) + 1 );
+			mesh->appendTriangle( 0, (i)+1, ((i+1)%N) + 1 );			
 		}
+
+
+		// transform, concatenate
+		mat4 x;
+		x *= translate( vec3( m.mLoc * min(mRadius.x,mRadius.y) * (1.f-kMultimerAdhereOverlapFrac) * 2.f, 0) );
+		x *= glm::rotate( m.mAngle, vec3(0,0,1) );
+		x *= scale( vec3(mRadius.x+inflateDrawRadius,mRadius.y+inflateDrawRadius,1.f) );
+
+		mmesh = concatMesh( mmesh, mesh, x );
 	}
 	
-	return mesh;
+	return mmesh;
 }
 
 glm::mat4
