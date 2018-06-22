@@ -564,4 +564,4 @@ auto options = RendererGl::Options().version( 3, 3 ); // instancing functions ar
 auto options = RendererGl::Options().msaa(4); // implemented as extensions in Mac OS 10.7+
 #endif
 
-CINDER_APP( GelboxApp, RendererGl, GelboxApp::prepareSettings )
+CINDER_APP( GelboxApp, RendererGl(options), GelboxApp::prepareSettings )

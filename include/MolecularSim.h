@@ -7,6 +7,7 @@
 
 #include "cinder/Rand.h"
 #include "Sample.h"
+#include "cinder/GeomIo.h"
 
 #pragma once
 
@@ -47,8 +48,11 @@ public:
 
 private:
 
-	class Part;
+//	ci::TriMeshRef makeMoleculesMesh( SampleFragRefRef selection, SampleFragRefRef rollover ) const;
 	
+
+	class Part;
+
 	Part randomPart( int fragment );
 	int  getRandomWeightedAggregateSize( int fragment );
 	
@@ -95,8 +99,14 @@ private:
 		};
 		std::vector<Multi> mMulti;
 		
-		glm::mat4 getTransform( int multiIndex=-1 ) const;
-
+		ci::TriMeshRef makeMesh() const { return makeMesh( ci::ColorA(mColor,mFade), 0.f ); }
+		ci::TriMeshRef makeMesh( ci::ColorA color, float inflateDrawRadius ) const;
+		
+		glm::mat4	getTransform2() const;
+		glm::mat4	getTransform( int multiIndex=-1 ) const;
+		
+//		ci::TriMeshRef mMesh;
+//		void		updateMesh();
 	};
 	
 	SampleRef		  mSample;

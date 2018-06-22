@@ -40,6 +40,18 @@ const Color& kSelectColor   = kLayout.mSampleViewFragSelectColor;
 const Color& kRolloverColor = kLayout.mSampleViewFragHoverColor;
 const float& kOutlineWidth  = kLayout.mSampleViewFragOutlineWidth;
 
+const bool kDebugDrawMeshVerts = false;
+
+
+static void drawMeshVerts( ci::TriMeshRef mesh )
+{
+	gl::color( 1,0,0 );
+	vec2* v = mesh->getPositions<2>();
+	for( int i=0; i<mesh->getNumVertices(); ++i )
+	{
+		gl::drawSolidCircle(v[i],1.f);
+	}
+}
 
 MolecularSim::MolecularSim()
 {
@@ -432,27 +444,25 @@ void MolecularSim::drawRepresentativeOfFrag( int frag, ci::vec2 pos ) const
 	if ( pick != -1 )
 	{
 		const auto &p = mParts[pick];
+
+		auto mesh = p.makeMesh();
 		
-		for( int i=0; i<p.mMulti.size(); ++i )
+		if (mesh)
 		{
-			// duplicating code below...
 			gl::ScopedModelMatrix modelMatrix;
 			gl::multModelMatrix(
 				glm::translate( vec3(pos-p.mLoc,0.f) ) // put it where we want
-			  * p.getTransform(i) );
-			
-			gl::color( ColorA( p.mColor, p.mFade ) );
-			
-			gl::drawSolidCircle( vec2(0,0), 1.f, kNumCirclePartVertices ); // fill
-			if (p.mFade==1.f)
-			{
-				gl::drawStrokedCircle( vec2(0,0), 1.f, kNumCirclePartVertices );
-				// outline for anti-aliasing... assumes GL_LINE_SMOOTH
-			}
+			  * p.getTransform2() );
+			gl::draw(*mesh);
 		}
 	}
 }
 
+//ci::TriMeshRef makeMoleculesMesh( SampleFragRefRef selection, SampleFragRefRef rollover ) const
+//{
+//	
+//}
+//
 void MolecularSim::draw( SampleFragRefRef fselection, SampleFragRefRef frollover )
 {
 	// draw parts
@@ -464,37 +474,28 @@ void MolecularSim::draw( SampleFragRefRef fselection, SampleFragRefRef frollover
 		auto drawPart = [&]( bool outline )
 		{
 			if ( outline && !selected && !rollover ) return; 
+
+			ColorA color	= ci::ColorA(p.mColor,p.mFade);
+			float  inflate	= 0.f;
 			
-			for( int i=0; i<p.mMulti.size(); ++i )
+			if (outline)
+			{
+				inflate += kOutlineWidth;
+
+				if (selected && rollover) color = ColorA( lerp( kSelectColor, kRolloverColor, .5f ), p.mFade );
+				else color = selected ? ColorA(kSelectColor,p.mFade) : ColorA(kRolloverColor,p.mFade);				
+			}
+			
+			auto mesh = p.makeMesh(color,inflate);
+			
+			if (mesh)
 			{
 				gl::ScopedModelMatrix modelMatrix;
-				gl::multModelMatrix( p.getTransform(i) );
+				gl::multModelMatrix( p.getTransform2() );
+				gl::draw(*mesh);
 				
-				if (!outline)
-				{
-					gl::color( ColorA( p.mColor, p.mFade ) );
-					
-					gl::drawSolidCircle( vec2(0,0), 1.f, kNumCirclePartVertices ); // fill
-					if (p.mFade==1.f)
-					{
-						gl::drawStrokedCircle( vec2(0,0), 1.f, kNumCirclePartVertices ); // outline for anti-aliasing... assumes GL_LINE_SMOOTH
-					}
-				}
-				
-				if ( outline && (selected || rollover) )
-				{
-					ColorA color;
-					
-					if (selected && rollover) color = ColorA( lerp( kSelectColor, kRolloverColor, .5f ), p.mFade );
-					else color = selected ? ColorA(kSelectColor,p.mFade) : ColorA(kRolloverColor,p.mFade);
-					
-					gl::color( color );
-					float lineWidth = kOutlineWidth / p.mRadius.x;
-					gl::drawStrokedCircle( vec2(0,0), 1.f + lineWidth/2.f, lineWidth, kNumCirclePartVertices );
-					// i guess to get proportional line scaling we could draw a second circle and deform it appropriately...
-					// not sure that would actually work though. easiest to just generate our own line shapes...
-				}
-			} // multi			
+				if (kDebugDrawMeshVerts) drawMeshVerts(mesh);
+			}
 		};
 		
 		// outlines in 1st pass, for proper outline effect
@@ -550,6 +551,57 @@ MolecularSim::randomPart( int f )
 	}
 	
 	return p;
+}
+
+ci::TriMeshRef
+MolecularSim::Part::makeMesh( ColorA color, float inflateDrawRadius ) const
+{
+	const int N = kNumCirclePartVertices;
+	
+	const float tDelta = 1 / (float)N * 2.0f * 3.14159f;
+
+	auto mesh = ci::TriMesh::create( ci::TriMesh::Format().positions(2).colors(4) );
+	
+	for( int mi=0; mi<mMulti.size(); ++mi )
+	{
+		const auto &m = mMulti[mi];
+		
+		mat4 x;
+		x *= translate( vec3( m.mLoc * min(mRadius.x,mRadius.y) * 2.f, 0) );
+		x *= glm::rotate( m.mAngle, vec3(0,0,1) );
+		x *= scale( vec3(mRadius.x+inflateDrawRadius,mRadius.y+inflateDrawRadius,1.f) );
+
+		uint32_t ind = (uint32_t)mesh->getNumVertices();
+		float	 t = 0;		
+		
+		vec4 c = vec4(vec3(0.f),1.f);
+		mesh->appendPosition( vec2( x * c ) );
+		mesh->appendColors( &color, 1 );
+		
+		for( int i=0; i<N; ++i )
+		{
+			vec2 unit( math<float>::cos( t ), math<float>::sin( t ) );
+			t += tDelta;
+			
+			// radius, locate now (if we want)
+			
+			mesh->appendPosition( vec2( x * vec4(unit,0.f,1.f) ) );
+			mesh->appendColors( &color, 1 );
+			
+			mesh->appendTriangle( ind, ind+(i)+1, ind + ((i+1)%N) + 1 );
+		}
+	}
+	
+	return mesh;
+}
+
+glm::mat4
+MolecularSim::Part::getTransform2() const
+{
+	mat4 xform;
+	xform *= translate( vec3(mLoc,0) );
+	xform *= glm::rotate( mAngle, vec3(0,0,1) );	
+	return xform;
 }
 
 glm::mat4
