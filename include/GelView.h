@@ -77,6 +77,7 @@ public:
 	void		closeSampleView();
 
 	void		sampleDidChange( SampleRef );
+	void		samplesChanged(); // all
 	void		gelDidChange();
 	void		updateGelDetailViewContent( SampleViewRef ) const;
 	
@@ -124,7 +125,6 @@ private:
 	bool				mIsLoupeOnHoverEnabled = true;
 	
 	// gel renderer
-	bool				mGelRenderIsDirty = false;
 	GelRenderRef		mGelRender;
 	
 	void		updateGelRender();

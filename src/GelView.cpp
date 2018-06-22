@@ -185,10 +185,10 @@ void GelView::draw()
 		// interior content
 		if (mGelRender)
 		{
-			if (mGelRenderIsDirty) {
-	//			updateGelRender();
-				mGelRenderIsDirty=false;
-			}
+// Doing this in tick(), since it doesn't work right in draw() loop :P
+//			if (mGelRender->getIsDirty()) {
+//				mGelRender->render();
+//			}
 			
 			if (mGelRender->getOutput()) {
 				gl::color(1,1,1,1);
@@ -773,6 +773,15 @@ void GelView::sampleDidChange( SampleRef s )
 	gelDidChange();
 }
 
+void GelView::samplesChanged()
+{
+	// update gel
+	if ( mGel ) mGel->syncBandsToSamples();
+	
+	// update views
+	gelDidChange();	
+}
+
 void GelView::updateLoupes()
 {
 	// update loupes (and remove ones that are gone)
@@ -799,7 +808,6 @@ void GelView::gelDidChange()
 	updateHoverGelDetailView();
 
 	// some state problem w deferring until draw()
-//	mGelRenderIsDirty=true;
 	updateGelRender();
 }
 
@@ -941,6 +949,8 @@ void GelView::updateGelDetailViewContent( SampleViewRef view ) const
 SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 {
 	assert(mGel);
+
+	const bool verbose = false;
 	
 	SampleRef s = make_shared<Sample>();
 
@@ -953,6 +963,8 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		Sample::Fragment f = getSample(b.mLane)->mFragments[b.mFragment];
 		f.mOriginSample = getSample(b.mLane);
 		f.mOriginSampleFrag = b.mFragment;
+
+		assert( b.mFragment >= 0 && b.mFragment < getSample(b.mLane)->mFragments.size() );
 		
 		// where do we hit?
 		float massScale = 1.f;
@@ -961,30 +973,57 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos ) const
 		const float smearPickBelow = b.pickSmearBelow(pos);
 		const float smearPick = max( smearPickAbove, smearPickBelow );
 		
+		auto calcBases = [=]()
+		{
+			if ( b.mSmearBelow == 0.f ) return f.mBases;
+			else
+			{
+				// use reverse solver to get us to exactly right size
+				return solveBasePairForY(
+					pos.y,
+					*f.mOriginSample,
+					f.mOriginSampleFrag,
+					b.mLane,
+					b.mAggregate,
+					mGel->getSimContext(*f.mOriginSample)
+				);
+			}
+		};
+		
 		if ( b.mRect.contains(pos) )
 		{
+			if (verbose) cout << "center" << endl;
+
 			// center
 			massScale = 1.f;
 		}
 		else if ( smearPick > 0.f )
 		{
+			if (verbose) cout << "smear" << endl;
+
 			// smear
 			massScale = smearPick;
 			
 			// adjust bp to where we are in degrade smear
-			if (smearPickBelow > 0.f) {
-				// TODO: use reverse solver to get us to exactly right size!
-				f.mBases = (float)f.mBases * smearPickBelow;
+			if (smearPickBelow > 0.f)
+			{
+				f.mBases = calcBases();
+				
+				// make sure we aren't degrading anymore				
 				f.mDegrade = 0.f; 
 			}
 		}
 		else
 		{
+			if (verbose) cout << "blur" << endl;
+			
 			// assume blur
 			float d = b.mRect.distance(pos);
 			d = 1.f - min( 1.f, (d / (float)b.mBlur) );
 			d = powf(d,3.f);
 			massScale = d;
+			
+			f.mBases = calcBases();			
 		}
 		
 		//
@@ -1320,18 +1359,12 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 			else color = mMouseDownBand.mFocusColor; // should be original color! (unless we change how we do it) 
 		}
 		
-		// update sample
-		sampleDidChange( toSample );
-		
 		// update selection
 		selectFragment( mMouseDragBand.mLane, mMouseDragBand.mFragment );
 	}
 	
 	// update
-	if (sample) sampleDidChange(sample);
-	
-	// do 
-	if (kConfig.mHoverGelDetailViewOnBandDrag) updateHoverGelDetailView();
+	samplesChanged(); // sample, toSample may have changed; updates gel, rendering, and loupe views
 }
 
 void GelView::mouseDragSample( ci::app::MouseEvent event )
