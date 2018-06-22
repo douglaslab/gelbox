@@ -545,7 +545,7 @@ void SampleView::setIsLoupeView ( bool l )
 
 void SampleView::tick( float dt )
 {
-	mMolecularSim.setSample( getSample() );
+	mMolecularSim.syncToSample();
 
 	mMolecularSim.tick( getHasRollover() || getHasMouseDown() );
 	

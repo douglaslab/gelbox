@@ -23,9 +23,14 @@ public:
 	
 	void tick( bool bulletTime );
 
-	void setSample( const SampleRef ); // updates mFragments to match mSample
+	void setSample(
+		const SampleRef,
+		std::map<int,int>* degradeFilter=0 // fragment => base pair size equiv
+		); // updates mFragments to match mSample
+		
 	void deleteFragment( int i ); // also erases it from the sample!!
-
+	
+	void syncToSample() { setSample( mSample, &mDegradeFilter ); }
 
 	// advanced sim
 	void setPopDensityScale( float s ) { mPopDensityScale=s; }
@@ -59,14 +64,14 @@ private:
 	class Frag
 	{
 	public:
-		Frag( ci::Color c, float r ) : mColor(c), mRadiusHi(r), mRadiusLo(r) {}
-		Frag() : mColor(0,0,0), mRadiusHi(1.f), mRadiusLo(1.f) {}
+		Frag( ci::Color c, float r ) : mColor(c), mRadius(r) {}
+		Frag() : mColor(0,0,0), mRadius(1.f) {}
 		
 		int			mTargetPop=20;
 		bool		mIsDye=false;
 		
-		glm::vec2	mRadiusHi;
-		glm::vec2	mRadiusLo;
+		glm::vec2	mRadius;
+		float		mDegradeHi=0.f, mDegradeLo=0.f;
 		
 		ci::Color	mColor;
 		
@@ -90,7 +95,8 @@ private:
 		float		mFade=0.f;
 		bool		mAlive=true; // fading in or out?
 		
-		float		mRadiusScaleKey=0.f; // random, from 0..1; for inter-frame coherency when dialing size + degradation 
+		float		mDegradeKey=0.f; // random, from 0..1; for inter-frame coherency when dialing size + degradation 
+		float		mDegrade   =1.f; // degrade param * degrade key (when 1, means perfect condition, 0 means fully degraded)
 		
 		struct Multi
 		{
@@ -120,5 +126,6 @@ private:
 	float mSizeDensityScale	=1.f; // implicitly set by bounds
 	float mPopDensityScale	=1.f; // set by user
 	float mTimeScale   		=1.f;	
-	
+
+	std::map<int,int> mDegradeFilter;
 };
