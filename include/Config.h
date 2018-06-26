@@ -16,7 +16,7 @@ public:
 
 	// high level app settings
 	bool		mEnableHDDisplay				= true;
-	bool		mEnableHDGelRender				= false;
+	bool		mEnableHDGelRender				= false; // works; but is it worth the performance cost?
 	bool		mEnableWindowResize				= true;
 	
 	// app settings defaults

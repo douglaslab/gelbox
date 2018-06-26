@@ -39,6 +39,7 @@ public:
 	bool getIsDirty() const { return mIsDirty; }
 	
 	ci::gl::TextureRef getOutput() { return mCompositeFBO ? mCompositeFBO->getColorTexture() : 0; }
+	float getPixelsPerUnit() const { return mPixelsPerUnit; }
 	
 private:
 

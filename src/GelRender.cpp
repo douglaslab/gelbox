@@ -165,7 +165,7 @@ void GelRender::render()
 		wellDamageBand( mBandFBO, mBandFBOTemp, band.mRect, band.mWellDamage, band.mWellDamageRandSeed );
 		
 		// blur
-		blur( mBandFBO, mBandFBOTemp, band.mBlur );		
+		blur( mBandFBO, mBandFBOTemp, (float)band.mBlur * mPixelsPerUnit );		
 		
 		// composite
 		{
@@ -532,7 +532,7 @@ void GelRender::warp(
 		gl::ScopedGlslProg glslScope( mWarpGlsl );
 		
 		
-		vec2 warpScaleUV = warpScale / vec2(mOutputSize); // with uv 
+		vec2 warpScaleUV = warpScale / vec2(mGelSize); // with uv 
 		
 		mWarpGlsl->uniform("uWarpScale",warpScaleUV);
 		mWarpGlsl->uniform("uTexWarp", 1 );

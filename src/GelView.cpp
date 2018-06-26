@@ -203,7 +203,8 @@ void GelView::draw()
 			
 			if (mGelRender->getOutput()) {
 				gl::color(1,1,1,1);
-				gl::draw( mGelRender->getOutput() );
+				vec2 size = vec2(mGelRender->getOutput()->getSize()) / mGelRender->getPixelsPerUnit();
+				gl::draw( mGelRender->getOutput(), Rectf( vec2(0), size ) );
 			}
 		}
 		else
