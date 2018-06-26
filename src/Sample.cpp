@@ -372,43 +372,37 @@ Sample::toXml() const
 ci::JsonTree
 Sample::toJson() const
 {
-	ci::JsonTree json(Sample::kRootXMLNodeName,"");
+	JsonTree json;
+	JsonTree fragments = JsonTree::makeArray("Fragments"); 
 
-//	json.setAttribute("name",		mName);
-//	json.setAttribute("icon",		mIconFileName);
-//	json.setAttribute("iconScale",	mIconScale);
-//	json.setAttribute("id",			mID);
-	
-	auto addChildAttrValue = []( JsonTree& x, string child, string value )
-	{
-		JsonTree c(child,value);
-		x.addChild(c);
-	};
+	json.addChild( JsonTree("name",			mName) );
+	json.addChild( JsonTree("icon",			mIconFileName) );
+	json.addChild( JsonTree("iconScale",	mIconScale) );
+	json.addChild( JsonTree("id",			mID) );
 	
 	for( auto f : mFragments )
 	{
-		JsonTree fx ("Fragment","");
-		// TODO: make into an array of Fragments
-		
-		addChildAttrValue( fx, "Bases",		toString(f.mBases) );
-		addChildAttrValue( fx, "Mass",		toString(f.mMass) );
-		addChildAttrValue( fx, "Degrade",	toString(f.mDegrade) );
-		
-		addChildAttrValue( fx, "Dye",		toString(f.mDye) );
-		addChildAttrValue( fx, "AspectRatio",	 toString(f.mAspectRatio) );
-		addChildAttrValue( fx, "Color",		toString(f.mColor) );
+		JsonTree fx;
+				
+		fx.addChild( JsonTree( "Bases",			f.mBases) );
+		fx.addChild( JsonTree( "Mass",			f.mMass) );
+		fx.addChild( JsonTree( "Degrade",		f.mDegrade) );
+		fx.addChild( JsonTree( "Dye",			f.mDye) );
+		fx.addChild( JsonTree( "AspectRatio",	f.mAspectRatio) );
+		fx.addChild( JsonTree( "Color",			toString(f.mColor) ) );
 
-		addChildAttrValue( fx, "OriginSample",	 toString(f.mOriginSample.get()) );
-		addChildAttrValue( fx, "OriginSampleFrag",	 toString(f.mOriginSampleFrag) );
+		fx.addChild( JsonTree( "OriginSample",	 	toString(f.mOriginSample.get()) ) );
+		fx.addChild( JsonTree( "OriginSampleFrag",	f.mOriginSampleFrag) );
 		
 		if ( !f.mAggregate.empty() )
 		{
 //			json.addChild( f.mAggregate.toJson() );
 		}
 		
-		json.addChild(fx);
+		fragments.pushBack(fx);
 	}
 
+	json.addChild(fragments);
 //	json.addChild( mBuffer.toJson() );	
 	
 	return json;

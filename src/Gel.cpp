@@ -308,5 +308,22 @@ GelSim::Context Gel::getSimContext( const Sample& sample ) const
 ci::JsonTree Gel::toJson() const
 {
 	ci::JsonTree j;
+
+	ci::JsonTree samples = JsonTree::makeArray("Samples");
+	
+	for ( int i=0; i<mNumLanes; ++i )
+	{
+		JsonTree lane;
+		
+		if ( mSamples[i] )
+		{
+			lane = mSamples[i]->toJson();
+		}
+		
+		samples.pushBack(lane);
+	}
+	
+	j.addChild(samples);
+	
 	return j;
 }

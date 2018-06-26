@@ -588,7 +588,7 @@ void GelboxApp::keyDown  ( ci::app::KeyEvent event )
 							promptUserToSaveSample( mGelView->getSample(mGelView->getSelectedMicrotube()) );
 						}
 					}
-					else if ((0))
+					else
 					{
 						// save whole gel
 						if (mGelView->getGel()) {
