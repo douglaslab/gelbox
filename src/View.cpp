@@ -133,7 +133,7 @@ glm::ivec2 View::getScissorLowerLeftForBounds() const
 	scissorLowerLeft.x = lowerLeftInRoot.x;
 	scissorLowerLeft.y = getWindowHeight() - lowerLeftInRoot.y; // invert y
 	
-	return scissorLowerLeft;
+	return scissorLowerLeft * ci::app::getWindowContentScale();
 }
 
 glm::ivec2 View::getScissorSizeForBounds() const
@@ -149,7 +149,7 @@ glm::ivec2 View::getScissorSizeForBounds() const
 		scissorSize.y = lowerLeftInRoot.y  - upperRightInRoot.y;
 	}
 
-	return scissorSize;
+	return ivec2( (vec2)scissorSize * ci::app::getWindowContentScale() );
 }
 
 vec2 View::getMouseLoc() const

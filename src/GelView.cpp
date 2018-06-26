@@ -86,7 +86,7 @@ void GelView::setGel( GelRef gel )
 		if (oldGel) frame.offsetCenterTo( getFrame().getCenter() ); // center on old
 		setFrame(frame);
 
-		if (mGelRender) mGelRender->setup( mGel->getSize(), 1.f );
+		if (mGelRender) mGelRender->setup( mGel->getSize(), getGelRenderPixelsPerUnit() );
 		gelDidChange();
 	}
 }
@@ -145,7 +145,7 @@ void GelView::enableGelRender( bool v )
 	
 	if (v) {
 		mGelRender = make_shared<GelRender>();
-		if (mGel) mGelRender->setup( mGel->getSize(), 1.f );
+		if (mGel) mGelRender->setup( mGel->getSize(), getGelRenderPixelsPerUnit() );
 		updateGelRender();
 	}
 	else mGelRender=0;
@@ -167,6 +167,15 @@ void GelView::updateGelRender()
 	}
 	
 	mGelRender->render();
+}
+
+float GelView::getGelRenderPixelsPerUnit() const
+{
+	if ( kConfig.mEnableHDGelRender )
+	{
+		return ci::app::getWindowContentScale();
+	}
+	else return 1;
 }
 
 void GelView::draw()

@@ -15,7 +15,8 @@ public:
 	std::string	mHelpURL						= "http://douglaslab.org/gelbox/help";
 
 	// high level app settings
-	bool		mEnableHDDisplay				= false;
+	bool		mEnableHDDisplay				= true;
+	bool		mEnableHDGelRender				= false;
 	bool		mEnableWindowResize				= true;
 	
 	// app settings defaults

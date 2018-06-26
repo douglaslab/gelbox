@@ -28,7 +28,10 @@ typedef std::shared_ptr<GelRender> GelRenderRef;
 class GelRender
 {
 public:
-	void setup( glm::ivec2 gelsize, int pixelsPerUnit );
+	void setup( glm::ivec2 gelsize, float pixelsPerUnit );
+		// pixelsPerUnit should give us integral pixel values, so:
+		// • 1, 2, 3, ... N are fine
+		// • .5, .25, 1/8, 1/16, etc... are good. 
 	
 	void setBands( const std::vector<Band>& b ) { mBands = b; mIsDirty = true; } 
 	void setGlobalWarp( float amount, int randseed ) { mGlobalWarp=amount; mGlobalWarpRandSeed=randseed; mIsDirty=true; }
@@ -65,7 +68,7 @@ private:
 	
 	// output size
 	glm::ivec2 mGelSize;    // so we can talk in terms of gel world space coordinates 
-	int		   mPixelsPerUnit;
+	float	   mPixelsPerUnit;
 	glm::ivec2 mOutputSize; // = mGelSize * mPixelsPerUnit
 
 	// final compositing

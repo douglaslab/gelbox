@@ -128,6 +128,7 @@ private:
 	GelRenderRef		mGelRender;
 	
 	void		updateGelRender();
+	float		getGelRenderPixelsPerUnit() const;
 	
 	void		layout(); // called once by setup, then by setBounds 
 	

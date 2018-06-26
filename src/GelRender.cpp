@@ -26,14 +26,14 @@ const GLint kChannelFormat = GL_RGB;
 //const GLint kChannelFormat = GL_R16F;
 //const GLint kChannelFormat = GL_R32F;
 
-void GelRender::setup( glm::ivec2 gelsize, int pixelsPerUnit )
+void GelRender::setup( glm::ivec2 gelsize, float pixelsPerUnit )
 {
 	mIsDirty = true;
 	
 	// sizing params
 	mGelSize		= gelsize;
 	mPixelsPerUnit	= pixelsPerUnit;
-	mOutputSize		= mGelSize * mPixelsPerUnit;
+	mOutputSize		= ivec2( vec2(mGelSize) * mPixelsPerUnit );
 	
 	// fbos
 	mCompositeFBO		= gl::Fbo::create( mOutputSize.x, mOutputSize.y );
@@ -413,8 +413,8 @@ void GelRender::smileBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float x1, f
 	if ( height == 0.f ) return;
 	
 	// normalize x1,x2
-	x1 /= mOutputSize.x;
-	x2 /= mOutputSize.x;
+	x1 /= mGelSize.x;
+	x2 /= mGelSize.x;
 	
 	// make warp texture
 	ci::Surface8uRef s = makeWarpByFracPos(
@@ -452,10 +452,10 @@ void GelRender::wellDamageBand( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, ci::Re
 	// normalize x1,x2
 	float x1 = bandr.x1;
 	float x2 = bandr.x2;
-	x1 /= mOutputSize.x;
-	x2 /= mOutputSize.x;
+	x1 /= mGelSize.x;
+	x2 /= mGelSize.x;
 	
-	float w = bandr.getWidth () / mOutputSize.x; // normalized 
+	float w = bandr.getWidth () / mGelSize.x; // normalized 
 	
 	// generate damage stabs		
 	struct stab
@@ -532,7 +532,7 @@ void GelRender::warp(
 		gl::ScopedGlslProg glslScope( mWarpGlsl );
 		
 		
-		vec2 warpScaleUV = warpScale / vec2(mGelSize); // with uv 
+		vec2 warpScaleUV = warpScale / vec2(mOutputSize); // with uv 
 		
 		mWarpGlsl->uniform("uWarpScale",warpScaleUV);
 		mWarpGlsl->uniform("uTexWarp", 1 );
@@ -591,7 +591,7 @@ void GelRender::blur( ci::gl::FboRef& fbo, ci::gl::FboRef& fboTemp, int distance
 
 				gl::ScopedFramebuffer bandFboScope( fbo );
 
-				glsl->uniform("uBlurResolution", vec2(mGelSize) );
+				glsl->uniform("uBlurResolution", vec2(mOutputSize) );
 				glsl->uniform("uBlurDirection",  (i%2) ? vec2(0,1) : vec2(1,0) );
 				
 				shadeRect( fboTemp->getColorTexture(), glsl, Rectf( vec2(0), mGelSize ) );		
@@ -615,7 +615,7 @@ void GelRender::blur( ci::gl::FboRef& fbo, ci::gl::FboRef& fboTemp, int distance
 
 			gl::ScopedFramebuffer bandFboScope( fbo );
 
-			mBlur5Glsl->uniform("uBlurResolution", vec2(mGelSize) );
+			mBlur5Glsl->uniform("uBlurResolution", vec2(mOutputSize) );
 			mBlur5Glsl->uniform("uBlurDirection",  (i%2) ? vec2(0,1) : vec2(1,0) );
 			
 			shadeRect( fboTemp->getColorTexture(), mBlur5Glsl, Rectf( vec2(0), mGelSize ) );		
