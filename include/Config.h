@@ -13,6 +13,10 @@ public:
 	
 	// help button url
 	std::string	mHelpURL						= "http://douglaslab.org/gelbox/help";
+
+	// high level app settings
+	bool		mEnableHDDisplay				= false;
+	bool		mEnableWindowResize				= true;
 	
 	// app settings defaults
 	bool		mEnableGelRenderByDefault		= true; // enable new fancy gel rendering with FBO

@@ -27,6 +27,7 @@ public:
 private:
 	GelViewRef				mGelView;
 	
+	int						mDivLineScale=1;
 	ci::gl::TextureRef		mDivLineTex;
 	ci::Rectf				mDivLineRect;
 

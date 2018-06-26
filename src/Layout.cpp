@@ -7,6 +7,7 @@
 //
 
 #include "Layout.h"
+#include "Config.h"
 
 using namespace std;
 using namespace ci;
@@ -14,18 +15,43 @@ using namespace ci;
 	  Layout  gLayout;
 const Layout &kLayout = gLayout;
 
-ci::gl::TextureRef Layout::uiImage( string name ) const
+ci::gl::TextureRef Layout::uiImage( string name, int* oScaleFactor ) const
 {
-	return uiImageWithPath( app::getAssetPath(name) );
+	return uiImageWithPath( app::getAssetPath(name), -1, oScaleFactor );
 }
 
-ci::gl::TextureRef Layout::uiImage( fs::path stem, string name ) const
+ci::gl::TextureRef Layout::uiImage( fs::path stem, string name, int* oScaleFactor ) const
 {
-	return uiImageWithPath( app::getAssetPath(stem) / name );
+	return uiImageWithPath( app::getAssetPath(stem) / name, -1, oScaleFactor );
 }
 
-ci::gl::TextureRef Layout::uiImageWithPath( fs::path assetPath ) const
-{
+ci::gl::TextureRef Layout::uiImageWithPath( fs::path assetPath, int scaleFactor, int* oScaleFactor ) const
+{	
+	// auto-pick size
+	if ( scaleFactor == -1 ) {
+		scaleFactor = (ci::app::getWindowContentScale()==2) ? 2 : 1;
+		
+		// try higher size, default to lower
+		if (scaleFactor != 1) {
+			ci::gl::TextureRef r = uiImageWithPath(assetPath,scaleFactor,oScaleFactor);
+			if (r) return r;
+			else return uiImageWithPath(assetPath,1,oScaleFactor);
+		}
+	}
+
+	if ( scaleFactor != 1 )
+	{
+		fs::path ext = assetPath.extension();
+		fs::path pp  = assetPath.parent_path();
+		fs::path fn  = assetPath.stem();
+		
+		string fn2 = fn.string() + ("@" + to_string(scaleFactor)) + "x" + ext.string();
+		
+		assetPath = pp / fn2; 
+	}
+			
+
+	// load it
 	auto i = mUIImages.find(assetPath);
 	
 	if (i==mUIImages.end())
@@ -33,6 +59,7 @@ ci::gl::TextureRef Layout::uiImageWithPath( fs::path assetPath ) const
 		try
 		{
 			mUIImages[assetPath] = gl::Texture::create( ::loadImage( assetPath ), gl::Texture2d::Format().mipmap() );
+			if (oScaleFactor) *oScaleFactor = scaleFactor;
 			return mUIImages[assetPath];
 		}
 		catch (...)
@@ -41,7 +68,11 @@ ci::gl::TextureRef Layout::uiImageWithPath( fs::path assetPath ) const
 			return 0;
 		}
 	}
-	else return i->second;
+	else
+	{
+		if (oScaleFactor) *oScaleFactor = scaleFactor;
+		return i->second;
+	}
 }
 
 ci::fs::path Layout::sliderIconPath() const
@@ -78,19 +109,19 @@ Rectf Layout::snapToPixel( Rectf r ) const
 	return Rectf( ul, ul + s );
 };
 
-ci::gl::TextureRef Layout::renderSubhead( string str ) const
+ci::gl::TextureRef Layout::renderSubhead( string str, int pixelScale ) const
 {
-	return renderText( str, Font(mSubheadFont,mSubheadFontSize), mSubheadFontColor );
+	return renderText( str, Font(mSubheadFont,mSubheadFontSize*pixelScale), mSubheadFontColor );
 }
 
-ci::gl::TextureRef Layout::renderHead( string str ) const
+ci::gl::TextureRef Layout::renderHead( string str, int pixelScale ) const
 {
-	return renderText( str, Font(mHeadFont,mHeadFontSize), mHeadFontColor );
+	return renderText( str, Font(mHeadFont,mHeadFontSize*pixelScale), mHeadFontColor );
 }
 
-ci::gl::TextureRef Layout::renderUI( string str ) const
+ci::gl::TextureRef Layout::renderUI( string str, int pixelScale ) const
 {
-	return renderText( str, Font(mUIFont,mUIFontSize), mUIFontColor );
+	return renderText( str, Font(mUIFont,mUIFontSize*pixelScale), mUIFontColor );
 }
 
 ci::gl::TextureRef Layout::renderText ( std::string str, const ci::Font& font, ci::ColorA color ) const
@@ -103,13 +134,11 @@ ci::gl::TextureRef Layout::renderText ( std::string str, const ci::Font& font, c
 	return gl::Texture::create(label.render(true));	
 }
 
-ci::Rectf Layout::layoutHeadingText( ci::gl::TextureRef tex, ci::vec2 offsetFromViewTopLeft ) const
+ci::Rectf Layout::layoutHeadingText( ci::gl::TextureRef tex, ci::vec2 offsetFromViewTopLeft, int pixelScale ) const
 {
-	const int pixelsPerPt = 1;
-	
 	Rectf r;
 	
-	r = Rectf( vec2(0.f), tex->getSize() * pixelsPerPt );
+	r = Rectf( vec2(0.f), tex->getSize() / pixelScale );
 	
 	r += vec2( 0.f, -r.getSize().y );
 	r += offsetFromViewTopLeft;

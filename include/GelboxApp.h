@@ -41,7 +41,7 @@ class GelboxApp : public ci::app::App {
 	static void prepareSettings( Settings *settings );
 
 	
-	ci::gl::TextureFontRef getUIFont() const { return mUIFont; }
+	ci::gl::TextureFontRef getUIFont( int scale=1, int *oScale=0 );
 	
 	int getModifierKeys() const { return mModifierKeys; }
 
@@ -52,7 +52,7 @@ class GelboxApp : public ci::app::App {
   	
   	int						mModifierKeys=0; // e.g. ci::app::KeyEvent::SHIFT_DOWN
   	
-	ci::gl::TextureFontRef	mUIFont;
+	ci::gl::TextureFontRef	mUIFont, mUIFont2x;
 
 	ViewCollection			mViews;
 	GelViewRef				mGelView;

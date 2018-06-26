@@ -17,10 +17,10 @@ void AppSettingsView::setup( GelViewRef gelView )
 {
 	mGelView = gelView;
 
-	mDivLineTex = kLayout.uiImage("app-settings-line.png");
+	mDivLineTex = kLayout.uiImage("app-settings-line.png",&mDivLineScale);
 	
 	if (mDivLineTex) {
-		mDivLineRect = Rectf( vec2(0.f), mDivLineTex->getSize() );
+		mDivLineRect = Rectf( vec2(0.f), mDivLineTex->getSize() / mDivLineScale );
 		mDivLineRect -= kLayout.mAppSettingsToDivLine;
 		mDivLineRect -= vec2( 0.f, mDivLineRect.getHeight() );
 		mDivLineRect = snapToPixel(mDivLineRect);

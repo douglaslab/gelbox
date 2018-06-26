@@ -37,7 +37,9 @@ void GelView::setup( GelRef gel )
 	
 	mSettingsBtn = make_shared<ButtonView>();
 	
-	mSettingsBtn->setup( kLayout.uiImage("settings.png"), 1 );
+	int scale;
+	auto img = kLayout.uiImage("settings.png",&scale);
+	mSettingsBtn->setup( img, scale );
 	
 	mSettingsBtn->mClickFunction = [this]()
 	{

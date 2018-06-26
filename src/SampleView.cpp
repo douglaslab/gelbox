@@ -48,12 +48,15 @@ void SampleView::setup()
 	
 	mMicrotubeIcon = kLayout.uiImage("microtube1500ul.png");
 
-	mHeadingTex = kLayout.renderHead(kLayout.mSampleViewHeaderStr);
+	mHeadingScale = ci::app::getWindowContentScale();
+	mHeadingTex = kLayout.renderHead(kLayout.mSampleViewHeaderStr,mHeadingScale);
 
 	// new btn
 	mNewBtn = make_shared<ButtonView>();
 	
-	mNewBtn->setup( kLayout.uiImage("new-btn.png"), 1 );
+	int scale;
+	auto img = kLayout.uiImage("new-btn.png",&scale);
+	mNewBtn->setup( img, scale );
 	
 	mNewBtn->mClickFunction = [this]()
 	{
@@ -210,7 +213,7 @@ void SampleView::layout()
 	}
 
 	if (mHeadingTex) {
-		mHeadingRect = kLayout.layoutHeadingText( mHeadingTex, kLayout.mSampleViewHeaderBaselinePos );
+		mHeadingRect = kLayout.layoutHeadingText( mHeadingTex, kLayout.mSampleViewHeaderBaselinePos, mHeadingScale );
 	}
 	
 	mMolecularSim.setBounds( getBounds() );		

@@ -33,7 +33,8 @@ private:
 	bool				mMouseDownState;
 	
 	ci::Rectf			mBoxRect;	
-	ci::Rectf			mLabelRect;	
+	ci::Rectf			mLabelRect;
 	ci::gl::TextureRef	mLabel;
+	int					mLabelTextScale=1;	
 
 };

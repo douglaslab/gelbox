@@ -18,7 +18,7 @@ void ButtonView::setup( ci::gl::TextureRef t, int pixelsPerPt )
 	
 	if (t)
 	{
-		size = t->getSize() * pixelsPerPt;
+		size = t->getSize() / pixelsPerPt;
 	}
 	else size = kLayout.mBtnSize;
 
@@ -48,6 +48,12 @@ void ButtonView::draw()
 		
 		gl::drawSolidRect(getBounds());
 	}	
+
+	if (kLayout.mDebugDrawLayoutGuides)
+	{
+		gl::color( kLayout.mDebugDrawLayoutGuideColor );
+		gl::drawStrokedRect( getBounds() );
+	}
 }
 
 void ButtonView::mouseUp( ci::app::MouseEvent e )

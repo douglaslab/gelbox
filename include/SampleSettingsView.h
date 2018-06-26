@@ -42,6 +42,8 @@ private:
 	ci::Rectf				mBraceRect;
 	ci::gl::TextureRef		mBraceTex;
 
+	int						mTextContentScale=1;
+
 	ci::gl::TextureRef		mSubheadTex;
 	ci::Rectf				mSubheadRect;
 

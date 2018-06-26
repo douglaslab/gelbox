@@ -134,6 +134,7 @@ private:
 	ci::gl::TextureRef	mMicrotubeIcon;
 	ci::Rectf			mMicrotubeIconRect;
 
+	int					mHeadingScale=1;
 	ci::gl::TextureRef	mHeadingTex;
 	ci::Rectf			mHeadingRect;
 	

@@ -167,9 +167,9 @@ public:
 		
 	
 	// assets
-	ci::gl::TextureRef uiImage( std::string name ) const;
-	ci::gl::TextureRef uiImage( ci::fs::path stem, std::string name ) const;
-	ci::gl::TextureRef uiImageWithPath( ci::fs::path assetPath ) const;
+	ci::gl::TextureRef uiImage( std::string name, int* scaleFactor=0 ) const;
+	ci::gl::TextureRef uiImage( ci::fs::path stem, std::string name, int* scaleFactor=0 ) const;
+	ci::gl::TextureRef uiImageWithPath( ci::fs::path assetPath, int scaleFactor=-1, int* oScaleFactor=0 ) const;
 	ci::fs::path	   sliderIconPath() const;
 	
 	// helpers
@@ -178,10 +178,10 @@ public:
 
 	ci::Rectf layoutBrace( ci::Rectf inRect ) const;
 	
-	ci::gl::TextureRef renderSubhead( std::string ) const;
-	ci::gl::TextureRef renderHead   ( std::string ) const;
-	ci::gl::TextureRef renderUI     ( std::string ) const;
-	ci::Rectf		   layoutHeadingText( ci::gl::TextureRef tex, ci::vec2 offsetFromViewTopLeft ) const;
+	ci::gl::TextureRef renderSubhead( std::string, int pixelScale=1 ) const;
+	ci::gl::TextureRef renderHead   ( std::string, int pixelScale=1 ) const;
+	ci::gl::TextureRef renderUI     ( std::string, int pixelScale=1 ) const;
+	ci::Rectf		   layoutHeadingText( ci::gl::TextureRef tex, ci::vec2 offsetFromViewTopLeft, int pixelScale=1 ) const;
 	
 	
 private:

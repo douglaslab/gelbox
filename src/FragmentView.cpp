@@ -70,7 +70,8 @@ FragmentView::FragmentView()
 {
 	mBraceTex = kLayout.uiImage("brace.png");
 
-	mHeadingTex = kLayout.renderHead(kLayout.mFragViewHeaderStr);
+	mHeadingScale = ci::app::getWindowContentScale();
+	mHeadingTex = kLayout.renderHead(kLayout.mFragViewHeaderStr,mHeadingScale);
 }
 
 void FragmentView::makeSliders()
@@ -285,7 +286,7 @@ void FragmentView::updateLayout()
 	mWellRect += kLayout.mFragViewWellTopLeft;
 
 	if (mHeadingTex) {
-		mHeadingRect = kLayout.layoutHeadingText( mHeadingTex, kLayout.mFragViewHeaderBaselinePos );
+		mHeadingRect = kLayout.layoutHeadingText( mHeadingTex, kLayout.mFragViewHeaderBaselinePos, mHeadingScale );
 	}
 }
 

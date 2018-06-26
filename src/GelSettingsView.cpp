@@ -35,7 +35,8 @@ void GelSettingsView::setup( GelViewRef gelView )
 		+ kLayout.mGelViewBufferViewTopLeft
 		);
 
-	mHeadingTex = kLayout.renderHead(kLayout.mGelSettingsHeaderStr);
+	mHeadingScale = ci::app::getWindowContentScale();
+	mHeadingTex = kLayout.renderHead(kLayout.mGelSettingsHeaderStr,mHeadingScale);
 
 	layout();
 }
@@ -206,7 +207,7 @@ void GelSettingsView::layout()
 		);
 
 	if (mHeadingTex) {
-		mHeadingRect = kLayout.layoutHeadingText( mHeadingTex, kLayout.mGelSettingsHeaderBaselinePos );
+		mHeadingRect = kLayout.layoutHeadingText( mHeadingTex, kLayout.mGelSettingsHeaderBaselinePos, mHeadingScale );
 	}
 }
 

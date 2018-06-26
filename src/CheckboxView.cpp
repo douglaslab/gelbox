@@ -14,12 +14,12 @@ using namespace std;
 
 void CheckboxView::setup( string name )
 {
-	const int pixelsPerPt = 1; 
+	mLabelTextScale = ci::app::getWindowContentScale();
 
 	mBoxRect = Rectf( vec2(0.f), kLayout.mCheckboxSize );
 
-	mLabel = kLayout.renderUI(name); // get proper font for this!
-	mLabelRect = Rectf( vec2(0.f), mLabel->getSize() * pixelsPerPt );
+	mLabel = kLayout.renderUI(name,mLabelTextScale); // get proper font for this!
+	mLabelRect = Rectf( vec2(0.f), mLabel->getSize() / mLabelTextScale );
 	mLabelRect += mBoxRect.getLowerRight() + vec2(kLayout.mCheckboxToLabelGutter,0.f) - mLabelRect.getLowerLeft();
 	mLabelRect += vec2(0.f,2.f); // tweak! (could be programmatically done as center in y dimension)
 	

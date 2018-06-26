@@ -35,15 +35,18 @@ void SampleSettingsView::setup( SampleViewRef sampleView )
 		+ kLayout.mSampleBufferViewTopLeft
 		);
 
-	mSubheadTex = kLayout.renderSubhead("Dyes");
-	mHeadingTex = kLayout.renderHead(kLayout.mSampleSettingsHeaderStr);
+	mTextContentScale = ci::app::getWindowContentScale(); 
+	
+	mSubheadTex = kLayout.renderSubhead("Dyes",mTextContentScale);
+	mHeadingTex = kLayout.renderHead(kLayout.mSampleSettingsHeaderStr,mTextContentScale);
 
 	layout();
 }
 
 void SampleSettingsView::makeSliders()
 {
-	Font labelFont( kLayout.mBufferViewSliderLabelFont, kLayout.mBufferViewSliderLabelFontSize );
+	int  labelFontScale = ci::app::getWindowContentScale();
+	Font labelFont( kLayout.mBufferViewSliderLabelFont, kLayout.mBufferViewSliderLabelFontSize * labelFontScale );
 
 	for( int dye=0; dye<Dye::kCount; ++dye )
 	{
@@ -87,7 +90,9 @@ void SampleSettingsView::makeSliders()
 		s.pullValueFromGetter();
 		
 		// labels
-		s.setIcon( 1, kLayout.uiImage( fs::path("molecules"), Dye::kIconName[dye] + ".png" ) );
+		int scale;
+		auto img = kLayout.uiImage( fs::path("molecules"), Dye::kIconName[dye] + ".png", &scale );
+		s.setIcon( 1, img, scale );
 		
 		TextLayout label;
 		label.clear( ColorA(1,1,1,1) );
@@ -113,7 +118,7 @@ void SampleSettingsView::makeSliders()
 			}
 		}
 		
-		s.setIcon( 0, gl::Texture::create(label.render()) );		
+		s.setIcon( 0, gl::Texture::create(label.render()), labelFontScale );		
 		
 		// insert		
 		auto sv = make_shared<SliderView>(s);
@@ -143,8 +148,6 @@ void SampleSettingsView::setBounds( ci::Rectf r )
 
 void SampleSettingsView::layout()
 {
-	const int pixelsPerPt = 1;
-
 	mBraceRect = kLayout.layoutBrace( getBounds() );	
 
 	SliderView::layoutSlidersFromBar(
@@ -157,7 +160,7 @@ void SampleSettingsView::layout()
 
 	if (mSubheadTex)
 	{
-		mSubheadRect = Rectf( vec2(0.f), mSubheadTex->getSize() * pixelsPerPt );
+		mSubheadRect = Rectf( vec2(0.f), mSubheadTex->getSize() / mTextContentScale );
 		
 		vec2 ll = kLayout.mSampleSettingsSlidersTopLeft;
 		ll.y -= kLayout.mSampleSettingsSlidersToDyeLabel;
@@ -167,7 +170,7 @@ void SampleSettingsView::layout()
 	}
 
 	if (mHeadingTex) {
-		mHeadingRect = kLayout.layoutHeadingText( mHeadingTex, kLayout.mSampleSettingsHeaderBaselinePos );
+		mHeadingRect = kLayout.layoutHeadingText( mHeadingTex, kLayout.mSampleSettingsHeaderBaselinePos, mTextContentScale );
 	}
 }
 

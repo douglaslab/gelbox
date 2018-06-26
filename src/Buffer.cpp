@@ -28,14 +28,8 @@ gl::TextureRef Buffer::getParamSliderIcon( int i )
 	{
 		fs::path iconPathBase = kLayout.sliderIconPath();
 		fs::path path = iconPathBase / (prefix + string(kBufferParamIconName[i]) + postfix); 
-
-		try {
-			sSliderIcons[i] = gl::Texture::create( loadImage(path), gl::Texture2d::Format().mipmap() );
-		}
-		catch (...)
-		{
-			cerr << "ERROR Buffer::getParamSliderIcon failed to load icon " << path << endl;
-		}
+		
+		return kLayout.uiImageWithPath(path);
 	}
 	
 	return sSliderIcons[i];

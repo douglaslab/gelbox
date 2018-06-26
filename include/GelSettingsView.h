@@ -42,6 +42,7 @@ private:
 	ci::Rectf				mBraceRect;
 	ci::gl::TextureRef		mBraceTex;
 
+	int						mHeadingScale=1;
 	ci::gl::TextureRef		mHeadingTex;
 	ci::Rectf				mHeadingRect;
 

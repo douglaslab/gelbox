@@ -29,13 +29,10 @@ bool Slider::loadIcons( ci::fs::path lo, ci::fs::path hi )
 	
 	for( int i=0; i<2; ++i )
 	{
-		try {
-			setIcon( i, gl::Texture::create( loadImage(paths[i]), gl::Texture2d::Format().mipmap() ) );
-		}
-		catch (...)
-		{
-			cerr << "ERROR Slider::loadIcons failed to load icon " << paths[i] << endl;
-		}
+		int  scale; 
+		auto img   = kLayout.uiImageWithPath(paths[i],-1,&scale);
+		
+		setIcon( i, img, scale );
 	}
 	
 	return mIcon[0] && mIcon[1];
@@ -49,7 +46,7 @@ void Slider::setIcon( int i, ci::gl::TextureRef tex, int pixelsPerPoint )
 	
 	if (tex)
 	{
-		mIconSize[i] = tex->getSize() * pixelsPerPoint;
+		mIconSize[i] = tex->getSize() / pixelsPerPoint;
 	}
 	else mIconSize[i] = vec2(0.f);
 }
@@ -296,7 +293,8 @@ void Slider::drawTextLabel() const
 {
 	if (mMappedValueToStr)
 	{
-		const auto fontRef = GelboxApp::instance()->getUIFont();
+		int fontScale;
+		const auto fontRef = GelboxApp::instance()->getUIFont( ci::app::getWindowContentScale(), &fontScale );
 		
 		string str = mMappedValueToStr( getMappedValue() );
 		
@@ -341,7 +339,8 @@ void Slider::drawTextLabel() const
 		}
 
 		gl::color(mTextLabelColor);		
-		fontRef->drawString( str, snapToPixel(baseline) );
+		auto options = gl::TextureFont::DrawOptions().scale( 1.f / fontScale );
+		fontRef->drawString( str, snapToPixel(baseline), options );
 	}
 }
 

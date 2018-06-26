@@ -51,6 +51,20 @@ GelboxApp::~GelboxApp()
 	mInstance=0;
 }
 
+ci::gl::TextureFontRef GelboxApp::getUIFont( int scale, int *oScale )
+{
+	if ( scale==2 )
+	{
+		if (oScale) *oScale = 2;
+		return mUIFont2x;
+	}
+	else
+	{
+		if (oScale) *oScale = 1;
+		return mUIFont;		
+	}
+}
+
 void GelboxApp::setup()
 {
 	mOverloadedAssetPath = calcOverloadedAssetPath();
@@ -66,7 +80,8 @@ void GelboxApp::setup()
 	makeHelpBtn();
 	
 	// ui assets
-	mUIFont = gl::TextureFont::create( Font(kLayout.mUIFont,kLayout.mUIFontSize) );
+	mUIFont   = gl::TextureFont::create( Font(kLayout.mUIFont,kLayout.mUIFontSize) );
+	mUIFont2x = gl::TextureFont::create( Font(kLayout.mUIFont,kLayout.mUIFontSize*2) );
 	
 	// gel source palette
 	bool verbosePalette = true;
@@ -208,7 +223,9 @@ void GelboxApp::makeSettingsBtn()
 {
 	mSettingsBtn = make_shared<ButtonView>();
 	
-	mSettingsBtn->setup( kLayout.uiImage("settings.png"), 1 );
+	int scale;
+	auto img = kLayout.uiImage("settings.png",&scale);
+	mSettingsBtn->setup( img, scale );
 	
 	mSettingsBtn->mClickFunction = [this]()
 	{
@@ -241,7 +258,9 @@ void GelboxApp::makeHelpBtn()
 {
 	mHelpBtn = make_shared<ButtonView>();
 	
-	mHelpBtn->setup( kLayout.uiImage("help.png"), 1 );
+	int scale;
+	auto img = kLayout.uiImage("help.png",&scale);
+	mHelpBtn->setup( img, scale );
 	
 	mHelpBtn->mClickFunction = [this]()
 	{
@@ -536,7 +555,8 @@ SampleRef GelboxApp::loadSample( ci::fs::path path ) const
 
 void GelboxApp::prepareSettings( Settings *settings )
 {
-//	settings->setResizable(false);
+	settings->setResizable( kConfig.mEnableWindowResize );
+	settings->setHighDensityDisplayEnabled( kConfig.mEnableHDDisplay );
 }
 
 ci::fs::path GelboxApp::calcOverloadedAssetPath() const

@@ -82,6 +82,8 @@ private:
 	
 	SampleRef			mSample;
 	GelRef				mGel;
+
+	int					mTextContentScale=1;
 	
 	ci::gl::TextureRef	mHeadingTex;
 	ci::Rectf			mHeadingRect;

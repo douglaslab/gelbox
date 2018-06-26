@@ -24,11 +24,13 @@ void BufferView::setup()
 {
 	makeSliders();
 
-	// subhead label
-	mHeadingTex = kLayout.renderSubhead("Buffer");
+	mTextContentScale = ci::app::getWindowContentScale();
 	
-	// preset labels	
-	Font presetFont( kLayout.mBufferViewPresetsFont, kLayout.mBufferViewPresetsFontSize );
+	// subhead label
+	mHeadingTex = kLayout.renderSubhead("Buffer",mTextContentScale);
+	
+	// preset labels
+	Font presetFont( kLayout.mBufferViewPresetsFont, kLayout.mBufferViewPresetsFontSize * mTextContentScale );
 	mPresetLabel.resize(Gelbox::kBufferNumPresets,0);
 	for( int i=0; i<Gelbox::kBufferNumPresets; ++i )
 	{
@@ -50,7 +52,8 @@ void BufferView::makeSliders()
 	const fs::path iconPathBase = getAssetPath("slider-icons");
 
 	// buffer params
-	Font labelFont( kLayout.mBufferViewSliderLabelFont, kLayout.mBufferViewSliderLabelFontSize );
+	int  labelFontScale = ci::app::getWindowContentScale();
+	Font labelFont( kLayout.mBufferViewSliderLabelFont, kLayout.mBufferViewSliderLabelFontSize * labelFontScale );
 	
 	for( int param=0; param<Gelbox::Buffer::kNumParams; ++param )
 	{
@@ -91,14 +94,17 @@ void BufferView::makeSliders()
 		s.mBarCornerRadius= kLayout.mBufferViewSliderCornerRadius;
 		
 		// load icon
-		s.setIcon( 1, kLayout.uiImage( fs::path("molecules"), Gelbox::kBufferParamIconName[param] + ".png" ) );
+		int  scale; 
+		auto img   = kLayout.uiImage(fs::path("molecules"), Gelbox::kBufferParamIconName[param] + ".png",&scale);
+		
+		s.setIcon( 1, img, scale );
 		
 		TextLayout label;
 		label.clear( ColorA(1,1,1,0) );
 		label.setFont( labelFont ); // should be medium, but maybe that's default
 		label.setColor( kLayout.mBufferViewSliderTextLabelColor );
 		label.addRightLine(Gelbox::kBufferParamName[param]);
-		s.setIcon( 0, gl::Texture::create(label.render(true)) );
+		s.setIcon( 0, gl::Texture::create(label.render(true)), labelFontScale );
 		
 		// insert
 		SliderViewRef v = make_shared<SliderView>(s);
@@ -123,8 +129,6 @@ void BufferView::updateLayout()
 	mPresetsRect += kLayout.mBufferViewPresetsTopLeft;
 	mPresetsRect.inflate(-vec2(.5f)); // pixel align for stroke
 	
-	const int pixelsPerPt = 1;
-	
 	mPresetLabelRect.resize(Gelbox::kBufferNumPresets);
 	for( int i=0; i<Gelbox::kBufferNumPresets; ++i )
 	{
@@ -136,7 +140,7 @@ void BufferView::updateLayout()
 			vec2 c( x, mPresetsRect.getCenter().y );
 			c += vec2( 0.f, 1.f );
 			
-			mPresetLabelRect[i] = Rectf( vec2(0.f), mPresetLabel[i]->getSize() * pixelsPerPt );
+			mPresetLabelRect[i] = Rectf( vec2(0.f), mPresetLabel[i]->getSize() / mTextContentScale );
 			mPresetLabelRect[i] += c - mPresetLabelRect[i].getCenter();
 			mPresetLabelRect[i] = snapToPixel(mPresetLabelRect[i]); 
 		}
@@ -144,7 +148,7 @@ void BufferView::updateLayout()
 	
 	if (mHeadingTex)
 	{
-		mHeadingRect = Rectf( vec2(0.f), mHeadingTex->getSize() * pixelsPerPt );
+		mHeadingRect = Rectf( vec2(0.f), mHeadingTex->getSize() / mTextContentScale );
 		
 		vec2 xp = vec2( mSliders[0]->getSlider().mIconRect[0].x2, 0.f );
 		xp = mSliders[0]->childToParent(xp);
