@@ -13,6 +13,7 @@
 #include "glm/vec2.hpp"
 #include "cinder/Rand.h"
 #include "cinder/Color.h"
+#include "cinder/Json.h"
 #include "Buffer.h"
 #include "GelSim.h"
 #include "Band.h"
@@ -80,6 +81,8 @@ public:
 	float		getSampleDeltaYSpaceScale() const { return mSize.y - mYMargin*2.f - mLaneWidth*.2f; }
 	
 	GelSim::Context getSimContext( const Sample& ) const;
+	
+	ci::JsonTree	toJson() const;
 	
 private:
 	

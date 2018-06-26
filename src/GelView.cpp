@@ -666,6 +666,7 @@ void GelView::setSample( int lane, SampleRef s )
 	if (mGel && lane >= 0 && lane < mGel->getSamples().size() )
 	{
 		mGel->setSample( s, lane );
+		sampleDidChange(s);
 	}
 	else assert(0&&"invalid lane");
 }

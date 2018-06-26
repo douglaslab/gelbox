@@ -73,6 +73,7 @@ public:
 	ci::Rectf	getLaneRect( int ) const; // in bounds space 
 
 	void		selectMicrotube( int lane );
+	int			getSelectedMicrotube() const { return mSelectedMicrotube; }
 	void		openSampleView(); 
 	void		closeSampleView();
 
@@ -83,7 +84,7 @@ public:
 	
 	bool		newFragmentAtPos( ci::vec2 ); // in root (e.g. mouse) space (can fail to work, returns false) 
 	SampleRef	getSample( int lane ) const; // returns null if invalid lane
-	void		setSample( int lane, SampleRef s ); // asserts if invalid lane
+	void		setSample( int lane, SampleRef s ); // asserts if invalid lane; calls gelDidChange().
 
 	void		selectFragment( int lane, int frag );
 	void		deselectFragment();

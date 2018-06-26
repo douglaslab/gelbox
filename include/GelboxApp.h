@@ -66,6 +66,19 @@ class GelboxApp : public ci::app::App {
   	int			getModifierKeys( ci::app::KeyEvent ) const;
 	SampleRef	loadSample( ci::fs::path ) const;	
 
+	void promptUserToSaveSample( SampleRef );
+	void promptUserToSaveGel   ( GelRef );
+	void promptUserToOpenFile();
+
+	int pickLaneForDroppedSample( vec2 dropPos ) const;
+	void makeIconForDroppedSample( SampleRef, vec2 dropPos );
+	void makeIconForSample( SampleRef );
+
+	SampleRef tryXmlToSample ( ci::XmlTree ) const;
+	GelRef    tryXmlToGel    ( ci::XmlTree ) const;
+	SampleRef tryJsonToSample( ci::JsonTree ) const;
+	GelRef	  tryJsonToGel	 ( ci::JsonTree ) const;
+	
 	void makeGel();
 
 	ci::fs::path			calcOverloadedAssetPath() const;

@@ -357,6 +357,22 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 	const vec2				pos			  = vec2( event.getPos() );
 	const vector<string>	imgExtensions = {".jpg",".png",".gif"};
 	
+	auto loadSample = [=]( SampleRef source )
+	{
+		if ( source && mGelView && mGelView->getGel() )
+		{
+			int lane = pickLaneForDroppedSample( event.getPos() );
+			
+			if (lane==-1) lane = mGelView->getGel()->getFirstEmptyLane();
+			
+			if (lane!=-1)
+			{
+				mGelView->setSample(lane,source);
+			}
+			makeIconForDroppedSample( source, event.getPos() );
+		}		
+	};
+	
 	for( auto i : files )
 	{
 		std::string ext = i.extension().string();
@@ -369,45 +385,42 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 				XmlTree xml( loadFile(i) );
 				
 				// Sample?
-				if ( xml.hasChild(Sample::kRootXMLNodeName) )
-				{
-					SampleRef	 source = std::make_shared<Sample>(xml);
+				SampleRef source = tryXmlToSample(xml);
 
-					// find a lane
-					if ( mGelView && mGelView->getGel() )
-					{
-						int lane = -1;
-						
-						// try picking
-						lane = mGelView->pickLane( mGelView->rootToParent(vec2(event.getPos())) );
-						
-						// already full?
-						if ( lane != -1 && mGelView->getSample(lane) ) {
-							lane = -1;
-						}
-						
-						// pick first empty
-						if (lane == -1) lane = mGelView->getGel()->getFirstEmptyLane();
-						
-						// set it
-						if (lane != -1)
-						{
-							mGelView->getGel()->setSample(source,lane);
-							mGelView->sampleDidChange(source);
-						}
-					}
-					
-					
-//					SampleTubeViewRef view	= std::make_shared<SampleTubeView>(source);
-//					view->setFrame( view->getFrame() + (pos - view->getFrame().getCenter()) );
-//					mViews.addView(view);
-				}
+				if (source) loadSample( source );
+				
+				// Gel?
+				GelRef gel = tryXmlToGel(xml);
+				
+				if (gel && mGelView) mGelView->setGel(gel);
 			}
 			catch (...) {
 				cout << "Failed to load .xml '" << i << "'" << endl;
 			}
 		}
-		
+
+		// json?
+		if ( ext == ".json" )
+		{
+			try
+			{
+				JsonTree json( loadFile(i) );
+				
+				// Sample?
+				SampleRef source = tryJsonToSample(json);
+				
+				if (source) loadSample( source );
+				
+				// Gel?
+				GelRef gel = tryJsonToGel(json);
+				
+				if (gel && mGelView) mGelView->setGel(gel);
+			}
+			catch (...) {
+				cout << "Failed to load .json '" << i << "'" << endl;
+			}
+		}
+				
 		// image?
 		if ( find( imgExtensions.begin(), imgExtensions.end(), ext ) != imgExtensions.end() )
 		{
@@ -448,6 +461,115 @@ int	GelboxApp::getModifierKeys( ci::app::KeyEvent e ) const
 	return m;
 }
 
+int GelboxApp::pickLaneForDroppedSample( vec2 dropPos ) const
+{
+	int lane = -1;
+	
+	// try picking
+	lane = mGelView->pickLane( mGelView->rootToParent(dropPos) );
+
+	// already full?
+	if ( lane != -1 && mGelView->getSample(lane) ) {
+		lane = -1;
+	}
+
+	return lane;
+}
+
+void GelboxApp::makeIconForDroppedSample( SampleRef, vec2 dropPos )
+{
+	// TODO
+}
+
+void GelboxApp::makeIconForSample( SampleRef s )
+{
+	vec2 pos;
+	// TODO find a pos
+	makeIconForDroppedSample(s,pos);
+}
+
+SampleRef GelboxApp::tryXmlToSample ( ci::XmlTree ) const
+{
+	// TODO
+	return 0;
+}
+
+GelRef GelboxApp::tryXmlToGel ( ci::XmlTree ) const
+{
+	// not supported; we don't even save it.
+	return 0;
+}
+
+SampleRef GelboxApp::tryJsonToSample( ci::JsonTree ) const
+{
+	// TODO
+	return 0;
+}
+
+GelRef GelboxApp::tryJsonToGel ( ci::JsonTree ) const
+{
+	// TODO
+	return 0;
+}
+
+void GelboxApp::promptUserToSaveSample( SampleRef s )
+{
+	if (!s) return;
+	
+	fs::path p = getSaveFilePath( fs::path(), std::vector<string>{"json"} );
+	
+	if ( !p.empty() )
+	{
+		JsonTree j = s->toJson();
+		j.write(p);
+	}
+}
+
+void GelboxApp::promptUserToSaveGel( GelRef g )
+{
+	if (!g) return;
+	
+	fs::path p = getSaveFilePath( fs::path(), std::vector<string>{"json"} );
+
+	if ( !p.empty() )
+	{
+		JsonTree j = g->toJson();
+		j.write(p);
+	}		
+}
+
+void GelboxApp::promptUserToOpenFile()
+{
+	fs::path p = getOpenFilePath( fs::path(), std::vector<string>{"json","xml"} );
+	
+	ci::JsonTree j;
+	
+	try {
+		j = JsonTree( loadFile(p) );
+	} catch (...) {
+		cerr << "promptUserToOpenFile error parsing json for " << p << endl;
+	}
+	
+	SampleRef s = tryJsonToSample(j);
+	GelRef 	  g = tryJsonToGel(j);
+
+	if (s)
+	{
+		int lane = mGelView->getGel()->getFirstEmptyLane();
+		
+		if (lane!=-1)
+		{
+			mGelView->setSample(lane,s);
+		}
+		makeIconForSample(s);
+	}
+	
+	if (g)
+	{
+		mGelView->setGel(g);
+	}
+}
+
 void GelboxApp::keyDown  ( ci::app::KeyEvent event )
 {
 	mModifierKeys = getModifierKeys(event);
@@ -456,6 +578,30 @@ void GelboxApp::keyDown  ( ci::app::KeyEvent event )
 	{
 		switch(event.getCode())
 		{
+			case KeyEvent::KEY_s:
+				if (mGelView)
+				{
+					if ( event.isAltDown() )
+					{
+						// save sample (if one is selected)
+						if ( mGelView->getSelectedMicrotube() != -1 ) {
+							promptUserToSaveSample( mGelView->getSample(mGelView->getSelectedMicrotube()) );
+						}
+					}
+					else if ((0))
+					{
+						// save whole gel
+						if (mGelView->getGel()) {
+							promptUserToSaveGel( mGelView->getGel() );
+						}
+					}
+				}
+				break;
+
+			case KeyEvent::KEY_o:
+				promptUserToOpenFile();
+				break;
+			
 			case KeyEvent::KEY_r:
 				if (mGelView) mGelView->enableGelRender( !mGelView->isGelRenderEnabled()  );
 				break;

@@ -11,6 +11,7 @@
 #include <vector>
 #include "cinder/Rand.h"
 #include "cinder/Xml.h"
+#include "cinder/Json.h"
 #include "Dye.h"
 #include "Buffer.h"
 #include "Aggregate.h"
@@ -114,6 +115,7 @@ public:
 	
 	void	loadXml( const ci::XmlTree& ); // clears existing mFragments, mDyes first
 	ci::XmlTree toXml() const;
+	ci::JsonTree toJson() const;
 	
 	static const std::string kRootXMLNodeName;
 	

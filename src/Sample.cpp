@@ -368,3 +368,48 @@ Sample::toXml() const
 	
 	return xml;
 }
+
+ci::JsonTree
+Sample::toJson() const
+{
+	ci::JsonTree json(Sample::kRootXMLNodeName,"");
+
+//	json.setAttribute("name",		mName);
+//	json.setAttribute("icon",		mIconFileName);
+//	json.setAttribute("iconScale",	mIconScale);
+//	json.setAttribute("id",			mID);
+	
+	auto addChildAttrValue = []( JsonTree& x, string child, string value )
+	{
+		JsonTree c(child,value);
+		x.addChild(c);
+	};
+	
+	for( auto f : mFragments )
+	{
+		JsonTree fx ("Fragment","");
+		// TODO: make into an array of Fragments
+		
+		addChildAttrValue( fx, "Bases",		toString(f.mBases) );
+		addChildAttrValue( fx, "Mass",		toString(f.mMass) );
+		addChildAttrValue( fx, "Degrade",	toString(f.mDegrade) );
+		
+		addChildAttrValue( fx, "Dye",		toString(f.mDye) );
+		addChildAttrValue( fx, "AspectRatio",	 toString(f.mAspectRatio) );
+		addChildAttrValue( fx, "Color",		toString(f.mColor) );
+
+		addChildAttrValue( fx, "OriginSample",	 toString(f.mOriginSample.get()) );
+		addChildAttrValue( fx, "OriginSampleFrag",	 toString(f.mOriginSampleFrag) );
+		
+		if ( !f.mAggregate.empty() )
+		{
+//			json.addChild( f.mAggregate.toJson() );
+		}
+		
+		json.addChild(fx);
+	}
+
+//	json.addChild( mBuffer.toJson() );	
+	
+	return json;
+}

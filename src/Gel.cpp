@@ -304,3 +304,9 @@ GelSim::Context Gel::getSimContext( const Sample& sample ) const
 	context.mSampleBuffer	= sample.mBuffer;
 	return context;
 }
+
+ci::JsonTree Gel::toJson() const
+{
+	ci::JsonTree j;
+	return j;
+}
