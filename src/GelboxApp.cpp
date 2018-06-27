@@ -379,7 +379,7 @@ void GelboxApp::load( ci::fs::path i, const vec2 *dropLoc, SampleRef *sampleOut 
 		{
 			int lane = -1;
 			
-			if (dropLoc) pickLaneForDroppedSample( *dropLoc );
+			if (dropLoc) lane = pickLaneForDroppedSample( *dropLoc );
 			
 			if (lane==-1) lane = mGelView->getGel()->getFirstEmptyLane();
 			
@@ -486,6 +486,8 @@ int GelboxApp::pickLaneForDroppedSample( vec2 dropPos ) const
 	// try picking
 	lane = mGelView->pickLane( mGelView->rootToParent(dropPos) );
 
+	if (lane==-1) lane = mGelView->pickMicrotube( mGelView->rootToChild(dropPos) );
+	
 	// already full?
 	if ( lane != -1 && mGelView->getSample(lane) ) {
 		lane = -1;

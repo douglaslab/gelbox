@@ -70,6 +70,7 @@ public:
 //	DropTargetRef getDropTarget( glm::vec2 locInFrame ) override;
 
 	int			pickLane ( ci::vec2 ) const; // loc in frame space; -1 if out of bounds
+	int			pickMicrotube( ci::vec2 ) const; // local coords :P
 	ci::Rectf	getLaneRect( int ) const; // in bounds space 
 
 	void		selectMicrotube( int lane );
@@ -136,7 +137,6 @@ private:
 	// microtubes
 	ci::Rectf	calcMicrotubeWellRect( int lane, float* cornerRadius=0 ) const; // not icon rect; a notional rectangle that contains the icon
 	ci::Rectf	calcMicrotubeIconRect( ci::Rectf wellRect ) const;
-	int			pickMicrotube( ci::vec2 ) const; // local coords
 	void		mouseDragSample( ci::app::MouseEvent );
 
 	// bands

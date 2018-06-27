@@ -307,7 +307,7 @@ GelSim::Context Gel::getSimContext( const Sample& sample ) const
 
 ci::JsonTree Gel::toJson() const
 {
-	ci::JsonTree j = JsonTree::makeObject("Gel"); // this name gets lost. we need a top level root object with app, version info, etc...
+	ci::JsonTree j = JsonTree::makeObject("Gel");
 
 	ci::JsonTree samples = JsonTree::makeArray("Samples");
 	
@@ -324,6 +324,7 @@ ci::JsonTree Gel::toJson() const
 	}
 	
 	j.addChild(samples);
+	j.addChild( mBuffer.toJson() );
 	
 	return j;
 }

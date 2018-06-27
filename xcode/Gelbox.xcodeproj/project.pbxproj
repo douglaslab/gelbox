@@ -76,6 +76,7 @@
 		26247E711FE1A9890094711F /* TODO.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = TODO.md; path = ../TODO.md; sourceTree = "<group>"; };
 		26369E7020DD5ADC00BBAFE3 /* MolecularSim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MolecularSim.h; path = ../include/MolecularSim.h; sourceTree = "<group>"; };
 		26369E7120DD5AFB00BBAFE3 /* MolecularSim.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MolecularSim.cpp; path = ../src/MolecularSim.cpp; sourceTree = "<group>"; };
+		26369E7520E3F57700BBAFE3 /* Serialize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Serialize.h; path = ../include/Serialize.h; sourceTree = "<group>"; };
 		263B13FC2093AE8000AC33A5 /* Band.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Band.h; path = ../include/Band.h; sourceTree = "<group>"; };
 		263D9F50204F2C1A0012B4C0 /* GelSettingsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelSettingsView.h; path = ../include/GelSettingsView.h; sourceTree = "<group>"; };
 		263D9F51204F2C3F0012B4C0 /* GelSettingsView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GelSettingsView.cpp; path = ../src/GelSettingsView.cpp; sourceTree = "<group>"; };
@@ -339,6 +340,7 @@
 				7DB7066D3F64466AB6A78935 /* Resources.h */,
 				2029F7E3D4854834BD477628 /* Gelbox_Prefix.pch */,
 				26C36DCD20338EE200229323 /* virtual_shared_ptr.h */,
+				26369E7520E3F57700BBAFE3 /* Serialize.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";

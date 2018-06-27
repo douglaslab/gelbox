@@ -8,6 +8,7 @@
 
 #include "Buffer.h"
 #include "Layout.h"
+#include "Serialize.h"
 
 namespace Gelbox{
 
@@ -59,6 +60,16 @@ ci::JsonTree Buffer::toJson() const
 	}
 	
 	return j;
+}
+
+Buffer::Buffer( const ci::JsonTree& j )
+{
+	*this = Buffer();
+
+	for( int i=0; i<kNumParams; ++i )
+	{
+		jsonValue( j, kBufferParamName[i], mValue[i] );
+	}
 }
 
 } // namespace Buffer

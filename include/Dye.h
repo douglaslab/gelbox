@@ -45,6 +45,14 @@ namespace Dye
 		"Orange G"
 	};
 	
+	inline int nameToDye( std::string name )
+	{
+		for( int i=0; i < kCount; ++i )
+		{
+			if ( kNames[i] == name ) return i;
+		}
+		return -1;
+	}
 	
 	// colors
 	const Color kColors[kCount] =

@@ -26,7 +26,7 @@ class Buffer
 public:
 	
 	Buffer(){}
-	
+	Buffer( const ci::JsonTree& );
 	
 	// params
 	static const int kTris    = 0;

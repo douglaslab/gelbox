@@ -7,6 +7,7 @@
 //
 
 #include "Sample.h"
+#include "Serialize.h"
 #include <cstdlib>
 
 using namespace std;
@@ -324,13 +325,6 @@ Sample::toXml() const
 	xml.setAttribute("iconScale",	mIconScale);
 	xml.setAttribute("id",			mID);
 	
-	auto addChildAttrValue = []( XmlTree& x, string child, string value )
-	{
-		XmlTree c(child,"");
-		c.setAttribute("value",value);
-		x.push_back(c);
-	};
-	
 	for( auto f : mFragments )
 	{
 		XmlTree fx ("Fragment","");
@@ -387,12 +381,18 @@ Sample::toJson() const
 		fx.addChild( JsonTree( "Bases",			f.mBases) );
 		fx.addChild( JsonTree( "Mass",			f.mMass) );
 		fx.addChild( JsonTree( "Degrade",		f.mDegrade) );
-		fx.addChild( JsonTree( "Dye",			f.mDye) );
+		
+		if (f.mDye != -1) {
+			fx.addChild( JsonTree( "Dye",		Dye::kNames[f.mDye] ) );
+		}
+		
 		fx.addChild( JsonTree( "AspectRatio",	f.mAspectRatio) );
-		fx.addChild( JsonTree( "Color",			toString(f.mColor) ) );
+		fx.addChild( ::toJson( f.mColor, "Color" ) );
 
-		fx.addChild( JsonTree( "OriginSample",	 	toString(f.mOriginSample.get()) ) );
-		fx.addChild( JsonTree( "OriginSampleFrag",	f.mOriginSampleFrag) );
+		if (f.mOriginSample) {
+			fx.addChild( JsonTree( "OriginSample",	 	toString(f.mOriginSample.get()) ) );
+			fx.addChild( JsonTree( "OriginSampleFrag",	f.mOriginSampleFrag) );
+		}
 		
 		if ( !f.mAggregate.empty() )
 		{
@@ -406,14 +406,6 @@ Sample::toJson() const
 	json.addChild( mBuffer.toJson() );	
 	
 	return json;
-}
-
-template<class T> void jsonValue( const JsonTree& j, string key, T& val )
-{
-	if ( j.hasChild(key) )
-	{
-		val = j.getValueForKey<T>(key);
-	}
 }
 
 SampleRef Sample::fromJson( const ci::JsonTree& j )
@@ -437,10 +429,16 @@ SampleRef Sample::fromJson( const ci::JsonTree& j )
 			jsonValue( *jf, "Bases",			f.mBases) ;
 			jsonValue( *jf, "Mass",				f.mMass) ;
 			jsonValue( *jf, "Degrade",			f.mDegrade) ;
-			jsonValue( *jf, "Dye",				f.mDye) ;
+			
+			std::string dyeName;
+			jsonValue( *jf, "Dye",				dyeName ) ;
+			if ( !dyeName.empty() ) {
+				f.mDye = Dye::nameToDye(dyeName);
+				if (f.mDye==-1) cerr << "Unknown dye '" << dyeName << "'" << endl;
+			}
+			
 			jsonValue( *jf, "AspectRatio",		f.mAspectRatio) ;
-//			jsonValue( *jf, "Color",			toString(f.mColor) ) ;
-// TODO
+			jsonValue( *jf, "Color",			f.mColor ) ;
 
 			// Do not parse f.mOriginSample --- it's a pointer!!!
 			// While we are at it, let's not parse this, too. It's meaningless now.
@@ -448,8 +446,7 @@ SampleRef Sample::fromJson( const ci::JsonTree& j )
 			
 			if ( jf->hasChild("Aggregate") )
 			{
-//				f.mAggregate.loadJson( jf->getChild("Aggregate") );
-// TODO
+				f.mAggregate = Aggregate( jf->getChild("Aggregate") );
 			}
 			
 			s->mFragments.push_back(f);
@@ -458,8 +455,7 @@ SampleRef Sample::fromJson( const ci::JsonTree& j )
 	
 	if ( j.hasChild("Buffer") )
 	{
-//		s->mBuffer.loadJson( j.getChild("Buffer") );
-// TODO
+		s->mBuffer = Gelbox::Buffer( j.getChild("Buffer") );
 	}
 	
 	return s; 

@@ -128,4 +128,13 @@ public:
 		return j;
 	}
 	
+	Aggregate( const ci::JsonTree& j )
+	{
+		for ( auto i = j.begin(); i != j.end(); ++i )
+		{
+			float v = i->getValue<float>();
+			push_back(v);
+		}
+	}
+	
 };
