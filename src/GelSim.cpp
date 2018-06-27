@@ -36,7 +36,9 @@ void Tuning::load( const JsonTree& json )
 	getf("SampleMassHigh",mSampleMassHigh);
 	geti("BaseCountHigh",mBaseCountHigh);
 	getf("WellToDyeHeightScale",mWellToDyeHeightScale);	
-	geti("Slider.TimelineMaxMinutes",mSliderTimelineMaxMinutes);
+    getf("AspectRatioScale", mAspectRatioScale);
+    
+    geti("Slider.TimelineMaxMinutes",mSliderTimelineMaxMinutes);
 	getf("Slider.MassMin",mSliderMassMin);
 	getf("Slider.MassMax",mSliderMassMax);
 	getf("Slider.DyeMassMin",mSliderDyeMassMin);
@@ -79,12 +81,8 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 	// Constants
 	const int   kHighBaseCountNorm = kTuning.mBaseCountHigh;
 	
-	const float kHighAspectRatio   = 16.f;
-	const float kAspectRatioScale  = .25f;
-	
 	const float kCurveExp = 3.7f;
 	const float kCurveBase = .05f;
-	
 	
 	float y;
 	
@@ -96,7 +94,7 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 	y  = constrain( y, 0.f, 1.f );
 	
 	// aspect ratio
-	float aspectDelta = ((aspectRatio - 1.f) / kHighAspectRatio) * kAspectRatioScale;
+	float aspectDelta = ((aspectRatio - 1.f) / kTuning.mSliderAspectRatioMax) * kTuning.mAspectRatioScale;
 	y -= aspectDelta * ctx.mTime ;
 		// longer aspect ratio makes it behave 
 

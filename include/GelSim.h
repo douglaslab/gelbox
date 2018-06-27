@@ -37,10 +37,9 @@ public:
 	 
 	float mSampleMassHigh = 175.f; // 175ml
 	int   mBaseCountHigh  = 14000;
-
 	float mWellToDyeHeightScale = 4.f;
-	//float mSampleMassTooHighStuckInWellThreshold = 150.f;
-
+    float mAspectRatioScale = .15f;
+    //float mSampleMassTooHighStuckInWellThreshold = 150.f;
 
 	/*
 	 *		Slider
