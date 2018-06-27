@@ -49,4 +49,16 @@ ci::XmlTree Buffer::toXml() const
 	return xml;
 }
 
+ci::JsonTree Buffer::toJson() const
+{
+	JsonTree j = JsonTree::makeObject("Buffer");
+
+	for( int i=0; i<kNumParams; ++i )
+	{
+		j.addChild( JsonTree( kBufferParamName[i], mValue[i] ) );
+	}
+	
+	return j;
+}
+
 } // namespace Buffer

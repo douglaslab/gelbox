@@ -114,6 +114,18 @@ public:
 		
 		ss << "]";
 		return ss.str();		
-	} 
+	}
+	
+	ci::JsonTree toJson() const
+	{
+		ci::JsonTree j = ci::JsonTree::makeArray("Aggregate");
+		
+		for( auto v : *this )
+		{
+			j.pushBack( ci::JsonTree("",v) );
+		}
+		
+		return j;
+	}
 	
 };

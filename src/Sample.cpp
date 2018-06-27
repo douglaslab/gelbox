@@ -372,7 +372,7 @@ Sample::toXml() const
 ci::JsonTree
 Sample::toJson() const
 {
-	JsonTree json;
+	JsonTree json = JsonTree::makeObject("Sample");
 	JsonTree fragments = JsonTree::makeArray("Fragments"); 
 
 	json.addChild( JsonTree("name",			mName) );
@@ -396,14 +396,71 @@ Sample::toJson() const
 		
 		if ( !f.mAggregate.empty() )
 		{
-//			json.addChild( f.mAggregate.toJson() );
+			fx.addChild( f.mAggregate.toJson() );
 		}
 		
 		fragments.pushBack(fx);
 	}
 
 	json.addChild(fragments);
-//	json.addChild( mBuffer.toJson() );	
+	json.addChild( mBuffer.toJson() );	
 	
 	return json;
+}
+
+template<class T> void jsonValue( const JsonTree& j, string key, T& val )
+{
+	if ( j.hasChild(key) )
+	{
+		val = j.getValueForKey<T>(key);
+	}
+}
+
+SampleRef Sample::fromJson( const ci::JsonTree& j )
+{
+	SampleRef s = make_shared<Sample>();
+
+	jsonValue( j, "name",		s->mName) ;
+	jsonValue( j, "icon",		s->mIconFileName) ;
+	jsonValue( j, "iconScale",	s->mIconScale) ;
+	jsonValue( j, "id",			s->mID) ;
+		// i think this stuff is deprecated. but we might want it again some day. (like name)
+	
+	if ( j.hasChild("Fragments") )
+	{
+		auto jfs = j.getChild("Fragments");
+		
+		for ( auto jf = jfs.begin(); jf != jfs.end(); ++jf )
+		{
+			Sample::Fragment f;
+			
+			jsonValue( *jf, "Bases",			f.mBases) ;
+			jsonValue( *jf, "Mass",				f.mMass) ;
+			jsonValue( *jf, "Degrade",			f.mDegrade) ;
+			jsonValue( *jf, "Dye",				f.mDye) ;
+			jsonValue( *jf, "AspectRatio",		f.mAspectRatio) ;
+//			jsonValue( *jf, "Color",			toString(f.mColor) ) ;
+// TODO
+
+			// Do not parse f.mOriginSample --- it's a pointer!!!
+			// While we are at it, let's not parse this, too. It's meaningless now.
+			// jsonValue( *jf, "OriginSampleFrag",	f.mOriginSampleFrag) ;
+			
+			if ( jf->hasChild("Aggregate") )
+			{
+//				f.mAggregate.loadJson( jf->getChild("Aggregate") );
+// TODO
+			}
+			
+			s->mFragments.push_back(f);
+		}
+	}
+	
+	if ( j.hasChild("Buffer") )
+	{
+//		s->mBuffer.loadJson( j.getChild("Buffer") );
+// TODO
+	}
+	
+	return s; 
 }

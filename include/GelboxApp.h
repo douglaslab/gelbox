@@ -64,15 +64,19 @@ class GelboxApp : public ci::app::App {
 	void		makeSettingsBtn();
 	void		makeHelpBtn();
   	int			getModifierKeys( ci::app::KeyEvent ) const;
-	SampleRef	loadSample( ci::fs::path ) const;	
-
+	void		load      ( ci::fs::path, const vec2 *dropLoc=0, SampleRef *sampleOut=0 ); 
+		// optional dropLoc, if user drops file into window.
+		// if sampleOut supplied, we return any loaded sample there, otherwise we add it to the gel, make an icon, etc...
+		
 	void promptUserToSaveSample( SampleRef );
 	void promptUserToSaveGel   ( GelRef );
 	void promptUserToOpenFile();
+	ci::JsonTree wrapJsonToSaveInFile( ci::JsonTree, std::string fileType ) const;
+	std::string  getJsonSaveFileType ( ci::JsonTree ) const; // empty for does not compute 
 
 	int pickLaneForDroppedSample( vec2 dropPos ) const;
 	void makeIconForDroppedSample( SampleRef, vec2 dropPos );
-	void makeIconForSample( SampleRef );
+	void makeIconForSample( SampleRef, const vec2 *dropLoc=0 );
 
 	SampleRef tryXmlToSample ( ci::XmlTree ) const;
 	GelRef    tryXmlToGel    ( ci::XmlTree ) const;

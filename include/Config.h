@@ -13,7 +13,8 @@ public:
 	
 	// help button url
 	std::string	mHelpURL						= "http://douglaslab.org/gelbox/help";
-
+	std::string	mAppFileVersion					= "1.0";
+	
 	// high level app settings
 	bool		mEnableHDDisplay				= true;
 	bool		mEnableHDGelRender				= false; // works; but is it worth the performance cost?

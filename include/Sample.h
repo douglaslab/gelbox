@@ -114,8 +114,9 @@ public:
 	bool	isValidFragment( int f ) const { return f >=0 && f < mFragments.size(); }
 	
 	void	loadXml( const ci::XmlTree& ); // clears existing mFragments, mDyes first
-	ci::XmlTree toXml() const;
+	ci::XmlTree  toXml() const;
 	ci::JsonTree toJson() const;
+	static SampleRef fromJson( const ci::JsonTree& );		 
 	
 	static const std::string kRootXMLNodeName;
 	

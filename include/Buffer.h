@@ -11,6 +11,7 @@
 #include <memory>
 #include "cinder/gl/Texture.h"
 #include "cinder/Xml.h"
+#include "cinder/Json.h"
 
 namespace Gelbox
 {
@@ -80,7 +81,8 @@ public:
 	}
 	
 	// xml
-	ci::XmlTree toXml() const;
+	ci::XmlTree  toXml() const;
+	ci::JsonTree toJson() const;
 
 	// icons
 	ci::gl::TextureRef getParamSliderIcon( int );

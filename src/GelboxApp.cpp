@@ -209,7 +209,8 @@ void GelboxApp::makeGel()
 	{
 		fs::path ladder = getAssetPath("palette") / "1kbladder.xml";
 		
-		SampleRef sample = loadSample( ladder );
+		SampleRef sample;
+		load( ladder, 0, &sample );
 		
 		mGelView->getGel()->setSample( sample, 0 );
 		mGelView->gelDidChange();
@@ -355,13 +356,30 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 {
 	auto					files		  = event.getFiles();
 	const vec2				pos			  = vec2( event.getPos() );
-	const vector<string>	imgExtensions = {".jpg",".png",".gif"};
 	
-	auto loadSample = [=]( SampleRef source )
+	for( auto i : files )
 	{
-		if ( source && mGelView && mGelView->getGel() )
+		load( i, &pos );
+	}
+}
+
+void GelboxApp::load( ci::fs::path i, const vec2 *dropLoc, SampleRef *sampleOut )
+{
+	const vector<string>	imgExtensions = {".jpg",".png",".gif"};
+
+	auto doSample = [=]( SampleRef source )
+	{
+		if ( !source ) return;
+		
+		if ( sampleOut )
 		{
-			int lane = pickLaneForDroppedSample( event.getPos() );
+			*sampleOut = source;
+		}
+		else if ( mGelView && mGelView->getGel() )
+		{
+			int lane = -1;
+			
+			if (dropLoc) pickLaneForDroppedSample( *dropLoc );
 			
 			if (lane==-1) lane = mGelView->getGel()->getFirstEmptyLane();
 			
@@ -369,85 +387,85 @@ void GelboxApp::fileDrop ( FileDropEvent event )
 			{
 				mGelView->setSample(lane,source);
 			}
-			makeIconForDroppedSample( source, event.getPos() );
+			else
+			{
+				makeIconForSample( source, dropLoc );
+			}
 		}		
 	};
 	
-	for( auto i : files )
+	auto doGel = [=]( GelRef gel )
 	{
-		std::string ext = i.extension().string();
-		
-		// xml?
-		if ( ext == ".xml" )
+		if (gel && mGelView) mGelView->setGel(gel);		
+	};
+	
+	std::string ext = i.extension().string();
+	
+	// xml?
+	if ( ext == ".xml" )
+	{
+		try
 		{
-			try
-			{
-				XmlTree xml( loadFile(i) );
-				
-				// Sample?
-				SampleRef source = tryXmlToSample(xml);
-
-				if (source) loadSample( source );
-				
-				// Gel?
-				GelRef gel = tryXmlToGel(xml);
-				
-				if (gel && mGelView) mGelView->setGel(gel);
-			}
-			catch (...) {
-				cout << "Failed to load .xml '" << i << "'" << endl;
-			}
+			XmlTree xml( loadFile(i) );
+			
+			doSample( tryXmlToSample(xml) );
+			doGel   ( tryXmlToGel   (xml) );			
 		}
-
-		// json?
-		if ( ext == ".json" )
-		{
-			try
-			{
-				JsonTree json( loadFile(i) );
-				
-				// Sample?
-				SampleRef source = tryJsonToSample(json);
-				
-				if (source) loadSample( source );
-				
-				// Gel?
-				GelRef gel = tryJsonToGel(json);
-				
-				if (gel && mGelView) mGelView->setGel(gel);
-			}
-			catch (...) {
-				cout << "Failed to load .json '" << i << "'" << endl;
-			}
-		}
-				
-		// image?
-		if ( find( imgExtensions.begin(), imgExtensions.end(), ext ) != imgExtensions.end() )
-		{
-			try {
-				gl::TextureRef image = gl::Texture::create( loadImage(i), gl::Texture2d::Format().mipmap() );
-				
-				if (image) {
-					// make view
-					auto imageView = make_shared<ImageView>(image);
-					
-					// center frame on drop loc
-					Rectf frame = imageView->getFrame();
-					
-					frame.offsetCenterTo(pos);
-					
-					imageView->setFrame( frame );
-					
-					mViews.addView(imageView);
-					
-					mViews.setKeyboardFocusView(imageView);
-				}
-			} catch (...) {
-				cout << "Failed to load image '" << i << "'" << endl;
-			}
+		catch (...) {
+			cout << "Failed to load .xml '" << i << "'" << endl;
 		}
 	}
-}
+
+	// json?
+	if ( ext == ".json" )
+	{
+		try
+		{
+			JsonTree json( loadFile(i) );
+			
+			string ftype = getJsonSaveFileType(json);
+			
+			if ( ftype == "sample" )
+			{
+				doSample( tryJsonToSample(json) );
+			}
+			else if ( ftype == "gel" )
+			{
+				doGel( tryJsonToGel(json) );
+			}
+			else cerr << "Unknown json file type '" << ftype << "'" << endl; 
+		}
+		catch (...) {
+			cerr << "Failed to load .json '" << i << "'" << endl;
+		}
+	}
+			
+	// image?
+	if ( find( imgExtensions.begin(), imgExtensions.end(), ext ) != imgExtensions.end() )
+	{
+		try {
+			gl::TextureRef image = gl::Texture::create( loadImage(i), gl::Texture2d::Format().mipmap() );
+			
+			if (image) {
+				// make view
+				auto imageView = make_shared<ImageView>(image);
+				
+				// center frame on drop loc
+				Rectf frame = imageView->getFrame();
+				
+				if (dropLoc) frame.offsetCenterTo(*dropLoc);
+				
+				imageView->setFrame( frame );
+				
+				mViews.addView(imageView);
+				
+				mViews.setKeyboardFocusView(imageView);
+			}
+		} catch (...) {
+			cout << "Failed to load image '" << i << "'" << endl;
+		}
+	}	
+} 
 
 int	GelboxApp::getModifierKeys( ci::app::KeyEvent e ) const
 {
@@ -481,17 +499,28 @@ void GelboxApp::makeIconForDroppedSample( SampleRef, vec2 dropPos )
 	// TODO
 }
 
-void GelboxApp::makeIconForSample( SampleRef s )
+void GelboxApp::makeIconForSample( SampleRef s, const vec2 *dropLoc )
 {
 	vec2 pos;
-	// TODO find a pos
+	
+	if (dropLoc) pos = *dropLoc;
+	else
+	{
+		// TODO find a pos; random? good place? offset from last?
+		pos.x = randFloat( 0.f, getWindowSize().x );
+		pos.y = randFloat( 0.f, getWindowSize().y );
+	}
+	
 	makeIconForDroppedSample(s,pos);
 }
 
-SampleRef GelboxApp::tryXmlToSample ( ci::XmlTree ) const
+SampleRef GelboxApp::tryXmlToSample ( ci::XmlTree xml ) const
 {
-	// TODO
-	return 0;
+	if ( xml.hasChild(Sample::kRootXMLNodeName) )
+	{
+		return std::make_shared<Sample>(xml);
+	}
+	else return 0;
 }
 
 GelRef GelboxApp::tryXmlToGel ( ci::XmlTree ) const
@@ -500,16 +529,52 @@ GelRef GelboxApp::tryXmlToGel ( ci::XmlTree ) const
 	return 0;
 }
 
-SampleRef GelboxApp::tryJsonToSample( ci::JsonTree ) const
+SampleRef GelboxApp::tryJsonToSample( ci::JsonTree j ) const
 {
-	// TODO
-	return 0;
+	SampleRef s;
+	
+	if ( getJsonSaveFileType(j) == "sample"
+	  && j.hasChild("Sample") )
+	{
+		s = Sample::fromJson( j.getChild("Sample") );
+	}
+	
+	return s;
 }
 
 GelRef GelboxApp::tryJsonToGel ( ci::JsonTree ) const
 {
 	// TODO
 	return 0;
+}
+
+std::string GelboxApp::getJsonSaveFileType( ci::JsonTree j ) const
+{
+	if ( j.hasChild("Gelbox")
+	  && j.hasChild("Gelbox.version")
+	  && j.hasChild("Gelbox.type")
+	   )
+	{
+		string version = j.getValueForKey("Gelbox.version");
+		string ftype   = j.getValueForKey("Gelbox.type");
+		cout << "Verified json save file, version '" << version << "', type '" << ftype << "'" << endl;
+		return ftype;		
+	}
+	else return "";
+}
+
+ci::JsonTree GelboxApp::wrapJsonToSaveInFile( ci::JsonTree t, std::string ftype ) const
+{
+	JsonTree j = JsonTree::makeObject();
+	
+	JsonTree g = JsonTree::makeObject("Gelbox");
+	g.addChild( JsonTree( "version", kConfig.mAppFileVersion ) );
+	g.addChild( JsonTree( "type",    ftype ) );
+	j.addChild(g);
+	
+	j.addChild(t);
+	
+	return j;
 }
 
 void GelboxApp::promptUserToSaveSample( SampleRef s )
@@ -520,7 +585,7 @@ void GelboxApp::promptUserToSaveSample( SampleRef s )
 	
 	if ( !p.empty() )
 	{
-		JsonTree j = s->toJson();
+		JsonTree j = wrapJsonToSaveInFile( s->toJson(), "sample" );
 		j.write(p);
 	}
 }
@@ -533,7 +598,7 @@ void GelboxApp::promptUserToSaveGel( GelRef g )
 
 	if ( !p.empty() )
 	{
-		JsonTree j = g->toJson();
+		JsonTree j = wrapJsonToSaveInFile( g->toJson(), "gel" );
 		j.write(p);
 	}		
 }
@@ -541,32 +606,10 @@ void GelboxApp::promptUserToSaveGel( GelRef g )
 void GelboxApp::promptUserToOpenFile()
 {
 	fs::path p = getOpenFilePath( fs::path(), std::vector<string>{"json","xml"} );
-	
-	ci::JsonTree j;
-	
-	try {
-		j = JsonTree( loadFile(p) );
-	} catch (...) {
-		cerr << "promptUserToOpenFile error parsing json for " << p << endl;
-	}
-	
-	SampleRef s = tryJsonToSample(j);
-	GelRef 	  g = tryJsonToGel(j);
 
-	if (s)
+	if ( !p.empty() )
 	{
-		int lane = mGelView->getGel()->getFirstEmptyLane();
-		
-		if (lane!=-1)
-		{
-			mGelView->setSample(lane,s);
-		}
-		makeIconForSample(s);
-	}
-	
-	if (g)
-	{
-		mGelView->setGel(g);
+		load(p);
 	}
 }
 
@@ -665,39 +708,6 @@ void GelboxApp::draw()
 	//
 	if ( Interaction::get() ) Interaction::get()->draw();
 }
-
-SampleRef GelboxApp::loadSample( ci::fs::path path ) const
-{
-	std::string ext = path.extension().string();
-	SampleRef source;
-	
-	// xml?
-	if ( ext == ".xml" )
-	{
-		try
-		{
-			XmlTree xml( loadFile(path) );
-			
-			// Sample?
-			if ( xml.hasChild(Sample::kRootXMLNodeName) )
-			{
-				source = std::make_shared<Sample>(xml);
-			}
-			else
-			{
-				cerr << "ERROR xml for sample " << path << " has no root '"
-					 << Sample::kRootXMLNodeName << "'" << endl;
-			}
-		}
-		catch(...)
-		{
-			cerr << "ERROR could not parse xml for sample " << path << endl; 
-		}
-	}
-	else cerr << "ERROR sample " << path << " is not .xml file" << endl;
-	
-	return source;
-}	
 
 void GelboxApp::prepareSettings( Settings *settings )
 {
