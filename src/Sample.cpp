@@ -237,13 +237,8 @@ void Sample::removeFragment( int f )
 	mFragments.pop_back();
 }
 
-
-void
-Sample::loadXml( const XmlTree& xml )
+Sample::Sample( const XmlTree& xml )
 {
-	clearDyes();
-	mFragments.clear();
-	
 	if ( !xml.hasChild(kRootXMLNodeName) )
 	{
 		cout << "Sample::loadXml no " << kRootXMLNodeName << " root node" << endl;
@@ -408,14 +403,12 @@ Sample::toJson() const
 	return json;
 }
 
-SampleRef Sample::fromJson( const ci::JsonTree& j )
+Sample::Sample( const ci::JsonTree& j )
 {
-	SampleRef s = make_shared<Sample>();
-
-	jsonValue( j, "name",		s->mName) ;
-	jsonValue( j, "icon",		s->mIconFileName) ;
-	jsonValue( j, "iconScale",	s->mIconScale) ;
-	jsonValue( j, "id",			s->mID) ;
+	jsonValue( j, "name",		mName) ;
+	jsonValue( j, "icon",		mIconFileName) ;
+	jsonValue( j, "iconScale",	mIconScale) ;
+	jsonValue( j, "id",			mID) ;
 		// i think this stuff is deprecated. but we might want it again some day. (like name)
 	
 	if ( j.hasChild("Fragments") )
@@ -449,14 +442,12 @@ SampleRef Sample::fromJson( const ci::JsonTree& j )
 				f.mAggregate = Aggregate( jf->getChild("Aggregate") );
 			}
 			
-			s->mFragments.push_back(f);
+			mFragments.push_back(f);
 		}
 	}
 	
 	if ( j.hasChild("Buffer") )
 	{
-		s->mBuffer = Gelbox::Buffer( j.getChild("Buffer") );
+		mBuffer = Gelbox::Buffer( j.getChild("Buffer") );
 	}
-	
-	return s; 
 }

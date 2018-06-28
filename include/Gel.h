@@ -30,7 +30,7 @@ class Gel
 public:
 	
 	Gel();
-	Gel( const Gel& ) = delete; // sorry, this is broken right now because of Gelbox::BufferRef
+	Gel( const ci::JsonTree& );
 	
 	// Methods
 	void setLayout(
@@ -100,7 +100,7 @@ private:
 	float					mDuration = 1.f;
 	bool					mIsPaused = true;
 	
-	float					mVoltage;
+	float					mVoltage  = 0.f;
 	float					mWellDamage = 0.f;
 	
 	// layout

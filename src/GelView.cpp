@@ -71,6 +71,14 @@ void GelView::setup( GelRef gel )
 
 void GelView::setGel( GelRef gel )
 {
+	// close some views, clear out some old state
+	closeHoverGelDetailView();
+	closeLoupes();
+	deselectFragment();
+	selectMicrotube(-1);
+	closeSampleView();
+
+	// update	
 	auto oldGel = mGel;
 	
 	mGel = gel;
@@ -812,6 +820,16 @@ void GelView::updateLoupes()
 			mLoupeViews.push_back(l);
 		}
 	}
+}
+
+void GelView::closeLoupes()
+{
+	for( auto i : mLoupeViews )
+	{
+		auto l = i.lock();
+		
+		if (l) l->close();
+	}	
 }
 
 void GelView::gelDidChange()

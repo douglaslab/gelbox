@@ -74,6 +74,7 @@ public:
 	ci::Rectf	getLaneRect( int ) const; // in bounds space 
 
 	void		selectMicrotube( int lane );
+	void		deselectMicrotube() { selectMicrotube(-1); }
 	int			getSelectedMicrotube() const { return mSelectedMicrotube; }
 	void		openSampleView(); 
 	void		closeSampleView();
@@ -154,9 +155,7 @@ private:
 	SampleViewRef openGelDetailView();
 	SampleRef	makeSampleFromGelPos( ci::vec2 pos ) const;
 	void		updateLoupes();
-
-	// buffer view
-	void		openBufferView( bool v=true );
+	void		closeLoupes();
 	
 	// drawing
 	void		drawMicrotubes() const;

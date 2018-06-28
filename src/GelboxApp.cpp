@@ -538,16 +538,30 @@ SampleRef GelboxApp::tryJsonToSample( ci::JsonTree j ) const
 	if ( getJsonSaveFileType(j) == "sample"
 	  && j.hasChild("Sample") )
 	{
-		s = Sample::fromJson( j.getChild("Sample") );
+		s = make_shared<Sample>( j.getChild("Sample") );
 	}
 	
 	return s;
 }
 
-GelRef GelboxApp::tryJsonToGel ( ci::JsonTree ) const
+GelRef GelboxApp::tryJsonToGel ( ci::JsonTree j ) const
 {
-	// TODO
-	return 0;
+	GelRef g;
+
+	if ( getJsonSaveFileType(j) == "gel"
+	  && j.hasChild("Gel") )
+	{
+		g = make_shared<Gel>( j.getChild("Gel") );
+
+		// we don't persist layout info, so set it as we have before
+		g->setLayout(
+			kLayout.mGelSize.x, 
+			kLayout.mGelSize.y,
+			g->getNumLanes(),
+			kLayout.mGelWellGutter );
+	}
+	
+	return g;
 }
 
 std::string GelboxApp::getJsonSaveFileType( ci::JsonTree j ) const

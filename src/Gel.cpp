@@ -9,6 +9,7 @@
 #include "Gel.h"
 #include "Sample.h"
 #include "GelSim.h"
+#include "Serialize.h"
 
 using namespace std;
 using namespace ci;
@@ -38,6 +39,8 @@ void Gel::setLayout(
 	if ( mSamples.size() < mNumLanes ) {
 		mSamples.resize(mNumLanes);
 	}
+	
+	syncBandsToSamples();
 }
 
 int Gel::getLaneForSample( SampleRef sample ) const
@@ -121,8 +124,6 @@ void Gel::setNumLanes( int num )
 		num,
 		mYMargin
 		);
-		
-	syncBandsToSamples();
 }
 
 ci::vec2 Gel::getWellSize() const
@@ -292,7 +293,6 @@ Band Gel::getSlowestBandInFragment( Band query )
 	return *biggestBand;	
 }
 
-
 GelSim::Context Gel::getSimContext( const Sample& sample ) const
 {
 	GelSim::Context context;
@@ -325,6 +325,44 @@ ci::JsonTree Gel::toJson() const
 	
 	j.addChild(samples);
 	j.addChild( mBuffer.toJson() );
+	j.addChild( JsonTree( "Time", mTime ) );
+	j.addChild( JsonTree( "Voltage", mVoltage ) );
+	j.addChild( JsonTree( "WellDamage", mWellDamage ) );
+	// ignore sim params mDuration, mIsPaused -- not user accessible right now anyway
+	// mNumLanes implcitly captured in Samples[]
+	// layout params we ignore, let View management take care of that for us.
 	
 	return j;
+}
+
+Gel::Gel( const JsonTree& j )
+{
+	if ( j.hasChild("Samples") )
+	{
+		auto jsamples = j.getChild("Samples");
+		
+		cout << jsamples.getNumChildren() << endl;
+		setNumLanes( (int)jsamples.getNumChildren() );
+		
+		for( int i=0; i<mNumLanes; ++i )
+		{
+			auto jsample = jsamples[i];
+			
+			if ( jsample.getNumChildren() > 0 ) // non-null sample?
+			{
+				mSamples[i] = make_shared<Sample>(jsample); 
+			}
+		}
+	}
+
+	if ( j.hasChild("Buffer") )
+	{
+		mBuffer = Gelbox::Buffer( j.getChild("Buffer") );
+	}	
+	
+	jsonValue( j, "Time", mTime );
+	jsonValue( j, "Voltage", mVoltage );
+	jsonValue( j, "WellDamage", mWellDamage );
+	
+	syncBandsToSamples();
 }
