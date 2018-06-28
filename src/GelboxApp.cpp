@@ -72,7 +72,7 @@ void GelboxApp::setup()
 	setWindowSize( kLayout.mWindowSize );
 		
 //	glEnable( GL_MULTISAMPLE_ARB );
-	glEnable( GL_LINE_SMOOTH );
+//	glEnable( GL_LINE_SMOOTH );
 //	glEnable( GL_POLYGON_SMOOTH );
 	
 	makeGel();
