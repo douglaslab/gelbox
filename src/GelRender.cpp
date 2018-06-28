@@ -630,6 +630,36 @@ void GelRender::blur( ci::gl::FboRef& fbo, ci::gl::FboRef& fboTemp, int distance
 	}
 }
 
+#if 1
+// Older not fully tunable overcook effect; looks OK. 
+void GelRender::overcook( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float amount, int rseed )
+{
+	if ( amount > 0.f )
+	{
+		ci::Surface8uRef control = makeWarpByFracPos( mOutputSize,
+			[=]( vec2 p ) -> vec2
+			{
+				vec2 c(0.f);
+
+				c.x +=  .45f  * sinf(p.y * .5f * M_PI * 2.f);
+				c.y +=  .35f * sinf(p.x * .5f * M_PI * 2.f);
+				
+				c.x +=  .35f * sinf(p.y * 1.f * M_PI * 2.f);
+				c.y +=  .25f * sinf(p.x * 1.f * M_PI * 2.f);
+
+				c.x +=  .2f  * sinf(p.y * 4.f * M_PI * 2.f);
+				c.y +=  .2f * sinf(p.x * 4.f * M_PI * 2.f);
+
+	//			c.y += min( 0.f, sinf( p.y * 8.f * M_PI * 2.f) ); // just vertical displacement; wacky
+				
+				return c;
+			});
+		
+		warp( buf, tmp, get2dTex(control), amount * kTuning.mOvercook.mScale );
+	}
+}
+#else
+// Newer, more Photoshop style overcook effect; looks not amazing, doesn't work as desired quite yet.
 void GelRender::overcook( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float amount, int rseed )
 {
 	if ( amount > 0.f )
@@ -686,6 +716,7 @@ void GelRender::overcook( ci::gl::FboRef& buf, ci::gl::FboRef& tmp, float amount
 		warp( buf, tmp, get2dTex(control), amount * kTuning.mOvercook.mScale );
 	}
 }
+#endif
 
 void GelRender::shadeRect( gl::TextureRef texture, gl::GlslProgRef glsl, Rectf dstRect ) const
 {
