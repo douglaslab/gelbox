@@ -324,8 +324,7 @@ void GelboxApp::mouseDown( MouseEvent event )
 	
 	if ( mSettingsView && !hitSettings )
 	{
-		mSettingsView->close();
-		mSettingsView=0;
+		closeSettingsMenu();
 	}
 }
 
@@ -593,6 +592,25 @@ ci::JsonTree GelboxApp::wrapJsonToSaveInFile( ci::JsonTree t, std::string ftype 
 	return j;
 }
 
+void GelboxApp::promptUserToSaveGel()
+{
+	if (mGelView) {
+		promptUserToSaveGel( mGelView->getGel() );
+	}
+}
+
+void GelboxApp::promptUserToSaveSelectedSample()
+{
+	if ( isSampleSelected() ) {
+		promptUserToSaveSample( mGelView->getSample(mGelView->getSelectedMicrotube()) );
+	}
+}
+
+bool GelboxApp::isSampleSelected() const
+{
+	return mGelView && mGelView->getSelectedMicrotube() != -1;
+}
+
 void GelboxApp::promptUserToSaveSample( SampleRef s )
 {
 	if (!s) return;
@@ -638,6 +656,7 @@ void GelboxApp::keyDown  ( ci::app::KeyEvent event )
 		switch(event.getCode())
 		{
 			case KeyEvent::KEY_s:
+				closeSettingsMenu();
 				if (mGelView)
 				{
 					if ( event.isAltDown() )
@@ -658,6 +677,7 @@ void GelboxApp::keyDown  ( ci::app::KeyEvent event )
 				break;
 
 			case KeyEvent::KEY_o:
+				closeSettingsMenu();
 				promptUserToOpenFile();
 				break;
 			
@@ -699,6 +719,12 @@ void GelboxApp::update()
 	mFileWatch.update();
 	mViews.tick(.1f);
 	if ( Interaction::get() ) Interaction::get()->update();
+	
+	if (mCloseSettingsMenu) {
+		mSettingsView->close();
+		mSettingsView=0;
+		mCloseSettingsMenu=false;
+	}
 }
 
 void GelboxApp::draw()

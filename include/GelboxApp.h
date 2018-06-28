@@ -37,6 +37,12 @@ class GelboxApp : public ci::app::App {
 
 	void update() override;
 	void draw() override;
+
+	void promptUserToSaveGel();
+	void promptUserToOpenFile();
+	void promptUserToSaveSelectedSample();
+	bool isSampleSelected() const;
+	void closeSettingsMenu() { mCloseSettingsMenu=true; }
 	
 	static void prepareSettings( Settings *settings );
 
@@ -58,6 +64,7 @@ class GelboxApp : public ci::app::App {
 	GelViewRef				mGelView;
 	ButtonViewRef	 		mSettingsBtn, mHelpBtn;
 	AppSettingsViewRef		mSettingsView;
+	bool					mCloseSettingsMenu=false;
 	
 	static GelboxApp*		mInstance;
 
@@ -70,7 +77,7 @@ class GelboxApp : public ci::app::App {
 		
 	void promptUserToSaveSample( SampleRef );
 	void promptUserToSaveGel   ( GelRef );
-	void promptUserToOpenFile();
+
 	ci::JsonTree wrapJsonToSaveInFile( ci::JsonTree, std::string fileType ) const;
 	std::string  getJsonSaveFileType ( ci::JsonTree ) const; // empty for does not compute 
 

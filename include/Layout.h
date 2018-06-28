@@ -41,13 +41,19 @@ public:
 	ci::Color	mRuleColor			= ci::Color::hex(0xC4C4C4);
 	
 	float		mHeadingGutter					= 25.f;
+	
+	// app settings
+	float		mAppSettingsToFirstWidgetGutter = 32.f;
+	ci::vec2	mAppSettingsToDivLine			= ci::vec2(4,10); 
+	float		mAppSettingsItemVOffset			= 28.f;
+
 	ci::vec2	mCheckboxSize					= ci::vec2(16.f);
 	float		mCheckboxToLabelGutter			= 5.f;
 	ci::Color	mCheckboxColor					= ci::Color::hex(0x979797);
-	float		mAppSettingsToFirstCheckboxGuter = 32.f;
-	ci::vec2	mAppSettingsToDivLine			= ci::vec2(4,10); 
-	float		mAppSettingsItemVOffset			= 28.f;
-	
+
+	ci::ColorA	mAppSettingsButtonColor			= ci::ColorA(.8f,.8f,.8f,1.f);
+	float		mAppSettingsButtonCornerRadius	= 2.f;
+		
 	// gel settings view
 	ci::vec2	mGelSettingsSize				= ci::vec2(303,520);
 	ci::vec2	mGelSettingsSlidersTopLeft		= ci::vec2(84,246);

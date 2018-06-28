@@ -5,10 +5,12 @@
 //  Created by Chaim Gingold on 3/8/18.
 //
 
+#include "GelboxApp.h"
 #include "AppSettingsView.h"
 #include "GelView.h"
 #include "Layout.h"
 #include "CheckboxView.h"
+#include "ButtonView.h"
 
 using namespace std;
 using namespace ci;
@@ -29,19 +31,38 @@ void AppSettingsView::setup( GelViewRef gelView )
 	// make stuff
 	int n=0;
 	
-	auto addCheckbox = [this,&n]( string name, function<bool()> get, function<void(bool)> set )
+	auto setFrame = [&n]( ViewRef cv )
+	{
+		cv->setFrame(
+			cv->getFrame()
+			+ vec2(0.f,-kLayout.mAppSettingsToFirstWidgetGutter - kLayout.mAppSettingsItemVOffset * n )
+			- cv->getFrame().getLowerLeft()
+			);
+			
+		n++;		
+	};
+	
+	auto addCheckbox = [this,setFrame]( string name, function<bool()> get, function<void(bool)> set )
 	{
 		CheckboxViewRef cv = make_shared<CheckboxView>();
 		cv->setup(name);
 		cv->mSetter = set;
 		cv->mGetter = get;
 		cv->setParent( shared_from_this() );
-		cv->setFrame( cv->getFrame()
-			+ vec2(0.f,-kLayout.mAppSettingsToFirstCheckboxGuter - kLayout.mAppSettingsItemVOffset * n )
-			- cv->getFrame().getLowerLeft()
-			);		
-		
-		n++;
+		setFrame(cv);
+	};
+	
+	auto addButton = [this,setFrame]( string name, function<void()> click, function<bool(void)> isEnabled )
+	{
+		ButtonViewRef cv = make_shared<ButtonView>();
+		cv->setup( name, ci::app::getWindowContentScale() );
+		cv->mClickFunction		= click;
+		cv->mIsEnabledFunction	= isEnabled;
+		cv->mRectCornerRadius	= kLayout.mAppSettingsButtonCornerRadius;
+//		cv->mFrameColor			= kLayout.mAppSettingsButtonColor;
+		cv->mFillColor			= ColorA(.95,.95,.95,1.f);
+		cv->setParent( shared_from_this() );
+		setFrame(cv);
 	};
 	
 	// this appear in an inverted order...
@@ -63,7 +84,37 @@ void AppSettingsView::setup( GelViewRef gelView )
 		[this]( bool v ) {
 			mGelView->enableLoupeOnHover(v);
 		}
-		);		
+		);
+		
+	if (GelboxApp::instance()->isSampleSelected())
+	{
+		addButton( " Save Selected Sample… ",
+			[]() {
+				GelboxApp::instance()->promptUserToSaveSelectedSample();
+				GelboxApp::instance()->closeSettingsMenu();
+			},
+			[]() {
+				return GelboxApp::instance()->isSampleSelected();
+			}
+			);
+	}
+		
+	addButton( " Save Gel… ",
+		[]() {
+			GelboxApp::instance()->promptUserToSaveGel();
+			GelboxApp::instance()->closeSettingsMenu();
+		},
+		0
+		);
+
+	addButton( " Open… ",
+		[]() {
+			GelboxApp::instance()->promptUserToOpenFile();
+			GelboxApp::instance()->closeSettingsMenu();
+		},
+		0
+		);
+
 }
 
 void AppSettingsView::close()
