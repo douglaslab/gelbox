@@ -298,7 +298,7 @@ void Slider::drawTextLabel() const
 		
 		string str = mMappedValueToStr( getMappedValue() );
 		
-		vec2 size = fontRef->measureString(str);
+		vec2 size = fontRef->measureString(str) / (float)fontScale;
 
 		vec2 baseline;
 		
@@ -323,7 +323,7 @@ void Slider::drawTextLabel() const
 				if ( mValue > .5f )
 				{
 					baseline.x -= kGutter.x;
-					baseline.x -= fontRef->measureString(str).x;
+					baseline.x -= fontRef->measureString(str).x / (float)fontScale;
 				}
 				else baseline.x += kGutter.x;
 			}
@@ -467,9 +467,9 @@ Slider::setValueWithMouse ( ci::vec2 p )
 		
 		float fx = (p.x - mEndpoint[0].x) / (mEndpoint[1].x - mEndpoint[0].x);
 		
-		int x = roundf( fx * (float)(mGraphValues.size()-1) );
+		int x = roundf( fx * (float)(mGraphValues.size()) - .5f );
 		
-		x = constrain( x, 0, (int)mGraphValues.size() );
+		x = constrain( x, 0, (int)mGraphValues.size()-1 );
 		
 		float fy = (mEndpoint[0].y - p.y) / mGraphHeight;
 		
