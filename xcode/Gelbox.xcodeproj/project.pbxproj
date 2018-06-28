@@ -66,14 +66,12 @@
 		26054E991FD8726C007DB5F8 /* View.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = View.cpp; path = ../src/View.cpp; sourceTree = "<group>"; };
 		26054E9C1FD87473007DB5F8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		26054EA01FD874C2007DB5F8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		26054EA21FD874D1007DB5F8 /* Changes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Changes.md; path = ../Changes.md; sourceTree = "<group>"; };
 		26054EA61FD88259007DB5F8 /* ImageView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageView.cpp; path = ../src/ImageView.cpp; sourceTree = "<group>"; };
 		26054EA81FD8826A007DB5F8 /* ImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImageView.h; path = ../include/ImageView.h; sourceTree = "<group>"; };
 		261BE5C720408CFD000027EC /* GelRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelRender.h; path = ../include/GelRender.h; sourceTree = "<group>"; };
 		261BE5C820408D0E000027EC /* GelRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GelRender.cpp; path = ../src/GelRender.cpp; sourceTree = "<group>"; };
 		262003BE20126E1B003AEFE8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Gelbox/Images.xcassets; sourceTree = "<group>"; };
 		26247E6E1FDF0BF00094711F /* GelboxApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GelboxApp.h; path = ../include/GelboxApp.h; sourceTree = "<group>"; };
-		26247E711FE1A9890094711F /* TODO.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = TODO.md; path = ../TODO.md; sourceTree = "<group>"; };
 		26369E7020DD5ADC00BBAFE3 /* MolecularSim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MolecularSim.h; path = ../include/MolecularSim.h; sourceTree = "<group>"; };
 		26369E7120DD5AFB00BBAFE3 /* MolecularSim.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MolecularSim.cpp; path = ../src/MolecularSim.cpp; sourceTree = "<group>"; };
 		26369E7520E3F57700BBAFE3 /* Serialize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Serialize.h; path = ../include/Serialize.h; sourceTree = "<group>"; };
@@ -313,8 +311,6 @@
 		29B97314FDCFA39411CA2CEA /* Gelbox */ = {
 			isa = PBXGroup;
 			children = (
-				26247E711FE1A9890094711F /* TODO.md */,
-				26054EA21FD874D1007DB5F8 /* Changes.md */,
 				26054E9C1FD87473007DB5F8 /* README.md */,
 				26054EA01FD874C2007DB5F8 /* LICENSE */,
 				01B97315FEAEA392516A2CEA /* Blocks */,
