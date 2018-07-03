@@ -721,8 +721,10 @@ void GelboxApp::update()
 	if ( Interaction::get() ) Interaction::get()->update();
 	
 	if (mCloseSettingsMenu) {
-		mSettingsView->close();
-		mSettingsView=0;
+		if (mSettingsView) {
+			mSettingsView->close();
+			mSettingsView=0;
+		}
 		mCloseSettingsMenu=false;
 	}
 }
