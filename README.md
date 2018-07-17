@@ -14,16 +14,24 @@ http://www.douglaslab.org/gelbox/
 3. Place libcinder 0.9.0 adjacent to Gelbox project directory (or a symbolic link to libcinder; aliases won't work)
 4. Build
 
- ## Non-obvious Commands
+ ## Commands and Shortcuts
  
 |             Command          |             Meaning            |
-| Hold command key while hovering over gel	   | Loupe view	| 
-| Opt-drag band		   |  clone band			|
-| Shift-drag band		   | lock band size when dragging |
-| Opt-drag sample tube   |  clone tube			|
-| Cmd-S                          | save gel  				|
-| Cmd-O				  | open gel				|
-| Cmd-Opt-S			  | save selected sample	|
-| Drag sample file into window | add it to the gel; can drop into a specific lane |
-| Drag gel file into window | load gel |
-| Drag image file into window | load image |
+| *Loupes* ||
+| Show loupe			| Hold command key while hovering over gel, or toggle app setting. | 
+| Add fixed loupe		| Hold command key and click in gel. Reposition by dragging. To close, click on loupe then push escape or delete. |
+| *Bands* ||
+| Move band				| Click and drag band. Hold Shift to lock size. |
+| Duplicate band			| Opt-drag band. |
+| Delete band				| Select band with mouse and push delete key. |
+| Select next species/band in sample | Tab key; shift-tab to reverse. |
+| *Samples* ||
+| Clone sample			| Opt-drag sample tube. |
+| Move sample			| Drag sample tube to a new well. |
+| Delete sample			| Drag sample away from gel, and release. |
+| *Save and Load* ||
+| Save gel				| Cmd-S. Or use app menu. |
+| Open gel 				| Cmd-O, or drag file into window. Or use app menu. |
+| Save selected sample		| Cmd-Opt-S. Or use app menu. |
+| Load sample			| Drag sample file into window; can drop it into a specific lane. |
+| Load image				| Drag image file into window. |
