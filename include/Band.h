@@ -38,7 +38,8 @@ public:
 	// render params (some just for GelRender class)
 	float		mSmearAbove = 0.f; // same units as mRect
 	float		mSmearBelow = 0.f; // same units as mRect
-	float		mSmearBrightness[2] = {1,0}; // near, far (e.g. 1,0)
+	float		mSmearBrightnessAbove[2] = {1,0}; // near, far (e.g. 1,0)
+	float		mSmearBrightnessBelow[2] = {1,0}; // near, far (e.g. 1,0)
 	
 	float		mFlameHeight = 0.f; // in unit space, how high to make the flames?
 	
@@ -46,7 +47,8 @@ public:
 	float		mSmileExp	 = 0.f; // what exponent to apply to smile curve?
 	
 	int			mBlur		= 0;
-	ci::ColorA	mColor		= ci::ColorA(1,1,1,1);
+	float		mBrightness = 1.f; // 0..1; effectively mColor's alpha
+	ci::Color	mColor		= ci::Color(1,1,1); // almost always white (except dyes)
 	
 	int			mRandSeed	= 0;	
 
@@ -54,6 +56,8 @@ public:
 	int			mWellDamageRandSeed = 0;
 
 	// helpers
+	ci::ColorA	getColorA() const { return ci::ColorA( mColor, mBrightness ); }
+	
 	float		pickSmear( ci::vec2 p ) const
 	{
 		return std::max( pickSmearAbove(p), pickSmearBelow(p) );

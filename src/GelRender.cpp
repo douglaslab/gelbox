@@ -128,6 +128,16 @@ void GelRender::render()
 	gl::ScopedMatrices scpM;
 	gl::setMatrices(ortho);
 	
+	auto brightnessToColor = []( float b ) -> ColorA
+	{
+		// could be mono-channel
+		// we don't care about color until final compositing.
+		// use alpha so these things composite together properly
+		return ColorA::gray(b,1.f);
+//		return ColorA(1.f,1.f,1.f,b);
+//		return ColorA(b,b,b,1.f);
+	};  
+	
 	// each
 	for( auto band : mBands )
 	{
@@ -139,23 +149,31 @@ void GelRender::render()
 			gl::ScopedFramebuffer bandFboScope( mBandFBO );
 			gl::clear( Color(0,0,0) );
 
-			// body
-			gl::color(1,1,1,1); // could be rendering to mono-channel, so color doesn't really matter
-			gl::drawSolidRect(band.mRect);
+			// smears			
+			{
+//				gl::ScopedBlend blendScp( GL_SRC_ALPHA, GL_ONE );
+
+				drawSmear( band.mRect, -1, band.mSmearAbove,
+					brightnessToColor(band.mSmearBrightnessAbove[0]),
+					brightnessToColor(band.mSmearBrightnessAbove[1]) );
+					
+				drawSmear( band.mRect, +1, band.mSmearBelow,
+					brightnessToColor(band.mSmearBrightnessBelow[0]),
+					brightnessToColor(band.mSmearBrightnessBelow[1]) );			
+					// would be nice to have flame in its own texture, so we can
+					// just stretch it up, too...
+			}
 			
+			// body
+			gl::color( brightnessToColor(band.mBrightness) ); 
+//			gl::color( Color::gray(band.mBrightness) ); 
+			gl::drawSolidRect(band.mRect);
+
 			// flames
 			if ( band.mFlameHeight > 0.f )
 			{
 				drawFlames( band.mRect, band.mFlameHeight, randGen );
 			}
-
-			// smears
-			ColorA smearColorClose(band.mSmearBrightness[0],band.mSmearBrightness[0],band.mSmearBrightness[0],1.f);
-			ColorA smearColorFar  (band.mSmearBrightness[1],band.mSmearBrightness[1],band.mSmearBrightness[1],1.f);
-			drawSmear( band.mRect, -1, band.mSmearAbove, smearColorClose, smearColorFar );
-			drawSmear( band.mRect, +1, band.mSmearBelow, smearColorClose, smearColorFar );
-				// would be nice to have flame in its own texture, so we can
-				// just stretch it up, too...
 		}
 		
 		// smile
@@ -170,7 +188,6 @@ void GelRender::render()
 		// composite
 		{
 			// fbo automatically back to compositeFboScope
-			
 			gl::ScopedBlend blendScp( GL_SRC_ALPHA, GL_ONE );
 			
 			gl::color(band.mColor);

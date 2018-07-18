@@ -39,6 +39,7 @@ public:
 	int   mBaseCountHigh  = 14000;
 
 	float mWellToDyeHeightScale = 4.f;
+	float mWellToHeightScale	= 2.f;
 	//float mSampleMassTooHighStuckInWellThreshold = 150.f;
 
 

@@ -2,6 +2,7 @@
 	"SampleMassHigh"			: "175",
 	"BaseCountHigh"				: "14000",
 	"WellToDyeHeightScale"		: "4",
+	"WellToHeightScale"			: "1.5",
 	
 	"Slider": {
 

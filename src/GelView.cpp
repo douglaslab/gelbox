@@ -329,7 +329,7 @@ void GelView::drawBands() const
 		
 		if ( b.mBlur )
 		{
-			ColorA bc = b.mColor;
+			ColorA bc = b.getColorA();
 			bc.a *= .2f;
 			
 			Rectf r = b.mRect;
@@ -340,18 +340,17 @@ void GelView::drawBands() const
 			fillRect( r, bc );
 		}
 		
-		fillRect( b.mRect, b.mColor );
-		
+		fillRect( b.mRect, b.getColorA() );
+
 		if ( fadeBelow > 0.f )
 		{
 			Rectf r = b.mRect;
 			r.y1 = r.y2;
 			r.y2 += fadeBelow;
 			
-			ColorA c2 = b.mColor;
-			c2.a *= 0.f;
-			
-			fillRect2( r, b.mColor, c2 );
+			fillRect2( r,
+				ColorA::gray(b.mSmearBrightnessBelow[0]),
+				ColorA::gray(b.mSmearBrightnessBelow[1]) );
 		}
 
 		if ( fadeAbove )
@@ -360,10 +359,18 @@ void GelView::drawBands() const
 			r.y2 = r.y1;
 			r.y1 -= fadeAbove;
 			
-			ColorA c2 = b.mColor;
-			c2.a *= 0.f;
+			if ( b.mSmearAbove > b.mFlameHeight ) {
+				// smear colors
+				fillRect2( r,
+					ColorA::gray(b.mSmearBrightnessBelow[0]),
+					ColorA::gray(b.mSmearBrightnessBelow[1])
+				);
+			} else {
+				// flame colors
+				fillRect2( r, ColorA(b.mColor,0.f), ColorA(b.mColor,b.mBrightness) );
+			}
+		
 			
-			fillRect2( r, c2, b.mColor );
 		}
 	}
 

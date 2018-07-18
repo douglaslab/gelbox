@@ -36,6 +36,7 @@ void Tuning::load( const JsonTree& json )
 	getf("SampleMassHigh",mSampleMassHigh);
 	geti("BaseCountHigh",mBaseCountHigh);
 	getf("WellToDyeHeightScale",mWellToDyeHeightScale);	
+	getf("WellToHeightScale",mWellToHeightScale);	
 	geti("Slider.TimelineMaxMinutes",mSliderTimelineMaxMinutes);
 	getf("Slider.MassMin",mSliderMassMin);
 	getf("Slider.MassMax",mSliderMassMax);
@@ -63,15 +64,28 @@ void Tuning::load( const JsonTree& json )
 	- as degrade goes 1..2, y1, baseCountHigh, upper end of band, moves to end of chart--shorter bp
 */
 
-void calcDegrade( int bases, float degrade, int& degradeLo, int& degradeHi )
+void calcDegradeAsFrac( float degrade, float& degradeLo, float& degradeHi )
+{
+	degradeLo = min( 1.f, degrade );
+
+	if ( degrade > 1.f ) degradeHi = min( 1.f, degrade - 1.f );		
+	else degradeHi = 0.f;
+}
+
+void calcDegradeAsBP( int bases, float degrade, int& degradeLo, int& degradeHi )
 {
 	// as degrade goes 0..1, band.y2 moves to end of chart--shorter base pairs (degradeLo)
 	// as degrade goes 1..2, band.y1 moves to end of chart--shorter bp (degradeHi)
 	
-	degradeLo = min( 1.f, degrade ) * (float)bases;
+	float loScale, hiScale;
+	calcDegradeAsFrac(degrade, loScale, hiScale);
 	
-	if ( degrade > 1.f ) degradeHi = min( 1.f, degrade - 1.f ) * (float)bases;		
-	else degradeHi = 0;
+	degradeLo = loScale * (float)bases;
+	degradeHi = hiScale * (float)bases;
+	
+	// don't go to zero
+	degradeLo = max( 1, degradeLo );
+	degradeHi = max( 1, degradeHi );
 }
 
 float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
@@ -287,7 +301,7 @@ Band dyeToBand( int lane, int fragi, int dye, float mass, Context context, Rectf
 	b.mMass			= mass;
 	
 	b.mColor		= Dye::kColors[dye];
-	b.mColor.a		= calcBandAlpha(mass,0.f);
+	b.mBrightness	= calcBandAlpha(mass,0.f);
 	b.mFocusColor	= lerp( Color(b.mColor), Color(0,0,0), .5f );
 	
 	b.mBlur			= calcBandDiffusion( b.mBases, 1, 1.f, context );
@@ -323,17 +337,26 @@ Band fragAggregateToBand(
 	b.mBases		= frag.mBases;
 	b.mAggregate	= aggregate;
 	
-	calcDegrade( b.mBases, frag.mDegrade, b.mDegradeLo, b.mDegradeHi );
+	calcDegradeAsBP( b.mBases, frag.mDegrade, b.mDegradeLo, b.mDegradeHi );
 	
 	b.mMass			= frag.mMass * massScale;
 	b.mAspectRatio	= frag.mAspectRatio;
 	
 	b.mFocusColor	= frag.mColor;
-	b.mColor		= ColorA( 1.f, 1.f, 1.f, calcBandAlpha(b.mMass,frag.mDegrade) );
+	b.mColor		= Color( 1.f, 1.f, 1.f );
+	
+	// brightness
+	{
+		float a = calcBandAlpha(b.mMass,frag.mDegrade);
+		float d = frag.mDegrade / 2.f; // just map total degradation value to 0..1
+		
+		b.mBrightness				= powf( a * (1.f - d), .5f );
+		b.mSmearBrightnessBelow[0]	= powf( a * d,		   .5f );
+	}
 
 	b.mBlur			= calcBandDiffusion( b.mBases, b.mAggregate, b.mAspectRatio, context );
 
-	b = calcBandGeometry( context, b, wellRect, 2.f );
+	b = calcBandGeometry( context, b, wellRect, kTuning.mWellToHeightScale );
 
 	// users mRect, so must come after calcBandGeometry
 	b.mRandSeed				= calcRandSeed( b, context );
