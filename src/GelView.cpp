@@ -974,7 +974,7 @@ void GelView::updateGelDetailViewContent( SampleViewRef view ) const
 	  ) );
 
 	// make new sample
-	std::map<int,int> degradeFilter;
+	DegradeFilter degradeFilter;
 	s = makeSampleFromGelPos( withSampleAtPos, degradeFilter );
 	
 	s->mID = pickLane( rootToParent(withSampleAtRootPos) );				
@@ -987,7 +987,7 @@ void GelView::updateGelDetailViewContent( SampleViewRef view ) const
 	view->simPreroll();
 }
 
-SampleRef GelView::makeSampleFromGelPos( vec2 pos, std::map<int,int>& degradeFilter ) const
+SampleRef GelView::makeSampleFromGelPos( vec2 pos, DegradeFilter& degradeFilter ) const
 {
 	assert(mGel);
 

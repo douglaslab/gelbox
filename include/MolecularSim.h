@@ -11,6 +11,8 @@
 
 #pragma once
 
+class DegradeFilter : public std::map<int,int> {}; // fragment => base pair size equiv
+
 class MolecularSim
 {
 public:
@@ -23,10 +25,8 @@ public:
 	
 	void tick( bool bulletTime );
 
-	void setSample(
-		const SampleRef,
-		std::map<int,int>* degradeFilter=0 // fragment => base pair size equiv
-		); // updates mFragments to match mSample
+	void setSample( const SampleRef, DegradeFilter* degradeFilter=0 );
+		// updates mFragments to match mSample
 		
 	void deleteFragment( int i ); // also erases it from the sample!!
 	
@@ -97,6 +97,7 @@ private:
 		
 		float		mDegradeKey=0.f; // random, from 0..1; for inter-frame coherency when dialing size + degradation 
 		float		mDegrade   =1.f; // degrade param * degrade key (when 1, means perfect condition, 0 means fully degraded)
+		// TODO: rename mDegrade, mDegradeHi, mDegradeLo as mWhole*. Semantics are backwards.
 		
 		struct Multi
 		{
@@ -113,6 +114,13 @@ private:
 		
 //		ci::TriMeshRef mMesh;
 //		void		updateMesh();
+		// we could cache a mesh if we get smart about lazily updating only when needed.
+
+	private:
+		void		makeUnitMesh_randomdrop( ci::TriMeshRef mesh, ci::ColorA color, ci::Rand& r ) const;
+		void		makeUnitMesh_perfect   ( ci::TriMeshRef mesh, ci::ColorA color, ci::Rand& r ) const;
+		void		makeUnitMesh_slice	   ( ci::TriMeshRef mesh, ci::ColorA color, ci::Rand& r ) const;
+		
 	};
 	
 	SampleRef		  mSample;
@@ -127,5 +135,5 @@ private:
 	float mPopDensityScale	=1.f; // set by user
 	float mTimeScale   		=1.f;	
 
-	std::map<int,int> mDegradeFilter;
+	DegradeFilter mDegradeFilter;
 };
