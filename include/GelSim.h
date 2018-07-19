@@ -104,4 +104,13 @@ std::vector<Band> fragToBands(
 	int				lane,
 	Context			context );
 
+
+void calcDegradeAsFrac( float degrade, float& degradeLo, float& degradeHi );
+	//	as degrade goes 0..1, y2, degradeLo, lower end of band, goes to 1
+	//	as degrade goes 1..2, y1, degradeHi, upper end of band, goes to 1
+
+void calcDegradeAsBP  ( float degrade, int bases, int& degradeLo, int& degradeHi );
+	// as degrade goes 0..1, band.y2 moves to end of chart--shorter base pairs (degradeLo)
+	// as degrade goes 1..2, band.y1 moves to end of chart--shorter bp (degradeHi)
+
 } // namespace
