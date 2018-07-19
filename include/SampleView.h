@@ -52,7 +52,7 @@ public:
 	void setCalloutAnchor( glm::vec2 p ) { mAnchor=p; updateCallout(); }
 	void setShowCalloutAnchor( bool v ) { mShowCalloutAnchor=v; }
 	glm::vec2 getCalloutAnchor() const { return mAnchor; }
-	void setSample( SampleRef s, std::map<int,int>* degradeFilter=0 ) { mSample=s; mMolecularSim.setSample(s,degradeFilter); }
+	void setSample( SampleRef s, DegradeFilter* degradeFilter=0 ) { mSample=s; mMolecularSim.setSample(s,degradeFilter); }
 	SampleRef getSample() const { return mSample; }
 	
 	void tick( float dt ) override;

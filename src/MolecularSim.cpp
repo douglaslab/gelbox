@@ -94,7 +94,7 @@ void MolecularSim::setBounds( ci::Rectf r )
 	mSizeDensityScale = (getBounds().getWidth() * getBounds().getHeight()) / (400.f*400.f);
 }
 
-void MolecularSim::setSample( SampleRef sample, std::map<int,int> *degradeFilter )
+void MolecularSim::setSample( SampleRef sample, DegradeFilter *degradeFilter )
 {
 	mSample = sample;
 	
@@ -602,13 +602,147 @@ MolecularSim::randomPart( int f )
 	return p;
 }
 
+static void circleToPolyline( vec2 c, float r, ci::PolyLine2& p )
+{
+	const int	N		= kNumCirclePartVertices;	
+	const float tDelta	= 1 / (float)N * 2.0f * 3.14159f;
+
+	float	 	t = 0;
+	
+	for( int i=0; i<N; ++i )
+	{
+		vec2 unit( math<float>::cos( t ), math<float>::sin( t ) );
+		t += tDelta;
+		
+		p.push_back( c + unit * r );
+	}
+}
+
+static void rectToPolyline( Rectf r, ci::PolyLine2& p )
+{
+	p.push_back( r.getUpperLeft() );
+	p.push_back( r.getUpperRight() );
+	p.push_back( r.getLowerRight() );
+	p.push_back( r.getLowerLeft() );
+}
+
+static void polylineToMesh( const ci::PolyLine2& p, ColorA color, ci::TriMeshRef mesh )
+{
+	// assume convex, so this center trick works
+	const vec2 c = p.calcCentroid();
+	
+	//
+	mesh->appendPosition( c );
+	mesh->appendColors( &color, 1 );
+
+	for( int i=0; i<p.size(); ++i )
+	{
+		mesh->appendPosition( p.getPoints()[i] );
+		mesh->appendColors( &color, 1 );
+		mesh->appendTriangle( 0, (i)+1, ((i+1)%p.size()) + 1 );			
+	}	
+}
+
+static void makeDegradeIntersectShape( float degrade, Rand& r, PolyLine2& p )
+{
+	// we are trying to cut a unit circle (r=1)
+	
+	float area = (2.f*2.f) * max(.1f, r.nextFloat() * degrade );
+	float w = r.nextFloat(.1f,2.f); // up to 2, so we can span entire circle's width
+	float h = area / w; // w*h = area
+	
+	vec2  c = vec2(.0f);
+	
+	const float k = .25f; // skew back from maximal cut (1 means none)
+	c.x += r.nextFloat(-1.f,1.f) * (2.f - w)*.5f * k;
+	c.y += r.nextFloat(-1.f,1.f) * (2.f - h)*.5f * k;
+	
+	Rectf f( c - vec2(w,h)/2.f,
+			 c + vec2(w,h)/2.f );
+	
+	rectToPolyline(f,p);
+}
+
+void MolecularSim::Part::makeUnitMesh_slice( ci::TriMeshRef mesh, ColorA color, Rand& r ) const
+{
+	// unit circle
+	// cache it to optimize
+	// its actually a vector of length 1, so we can easily use PolyLine2 comp. geom code
+	static shared_ptr<vector<PolyLine2>> unitCircle;
+	if (!unitCircle) {
+		unitCircle = make_shared< vector<PolyLine2> >();
+		unitCircle->resize(1);
+		circleToPolyline( vec2(0.f), 1.f, (*unitCircle)[0] );
+	}
+	
+	//
+	if ( mDegrade < 1.f )
+	{
+		vector<PolyLine2> cutWith(1);
+		makeDegradeIntersectShape( mDegrade, r, cutWith[0] );
+		vector<PolyLine2> out = PolyLine2::calcIntersection( *unitCircle, cutWith );
+		polylineToMesh( out[0], color, mesh );
+	}
+	else
+	{
+		// TODO we could cache an unsliced mesh, and just copy it over and just rewrite the colors
+		// in case degrade is zero
+		polylineToMesh( (*unitCircle)[0], color, mesh );
+	}
+}
+
+void MolecularSim::Part::makeUnitMesh_perfect( ci::TriMeshRef mesh, ColorA color, Rand& r ) const
+{
+	const int	N		= kNumCirclePartVertices;	
+	const float tDelta	= 1 / (float)N * 2.0f * 3.14159f;
+
+	float	 	t = 0;
+	
+	mesh->appendPosition( vec2(0.f) );
+	mesh->appendColors( &color, 1 );
+	
+	for( int i=0; i<N; ++i )
+	{
+		vec2 unit( math<float>::cos( t ), math<float>::sin( t ) );
+		t += tDelta;
+		
+		mesh->appendPosition( unit );
+		mesh->appendColors( &color, 1 );
+		
+		mesh->appendTriangle( 0, (i)+1, ((i+1)%N) + 1 );			
+	}	
+}
+
+void MolecularSim::Part::makeUnitMesh_randomdrop( ci::TriMeshRef mesh, ColorA color, Rand& r ) const
+{
+	const int	N		= kNumCirclePartVertices;	
+	const float tDelta	= 1 / (float)N * 2.0f * 3.14159f;
+
+	float	 	t = 0;
+	
+	mesh->appendPosition( vec2(0.f) );
+	mesh->appendColors( &color, 1 );
+	
+	for( int i=0; i<N; ++i )
+	{
+		vec2 unit( math<float>::cos( t ), math<float>::sin( t ) );
+		t += tDelta;
+		
+		// randomly repeat the last vertex with degrade param
+		if ( i>2 && r.nextFloat() > mDegrade ) {
+			unit = mesh->getPositions<2>()[ mesh->getNumVertices()-1 ];
+		}
+		
+		mesh->appendPosition( unit );
+		mesh->appendColors( &color, 1 );
+		
+		mesh->appendTriangle( 0, (i)+1, ((i+1)%N) + 1 );			
+	}	
+}
+
 ci::TriMeshRef
 MolecularSim::Part::makeMesh( ColorA color, float inflateDrawRadius ) const
 {
-	const int N = kNumCirclePartVertices;
-	
-	const float tDelta = 1 / (float)N * 2.0f * 3.14159f;
-
 	ci::TriMeshRef mmesh = ci::TriMesh::create( ci::TriMesh::Format().positions(2).colors(4) );
 	ci::TriMeshRef  mesh = ci::TriMesh::create( ci::TriMesh::Format().positions(2).colors(4) );
 
@@ -620,27 +754,8 @@ MolecularSim::Part::makeMesh( ColorA color, float inflateDrawRadius ) const
 		
 		// make mesh
 		mesh->clear();
-		float	 t = 0;
-		
-		mesh->appendPosition( vec2(0.f) );
-		mesh->appendColors( &color, 1 );
-		
-		for( int i=0; i<N; ++i )
-		{
-			vec2 unit( math<float>::cos( t ), math<float>::sin( t ) );
-			t += tDelta;
-			
-			// randomly repeat the last vertex with degrade param
-			if ( i>2 && r.nextFloat() > mDegrade /**mDegrade*/ ) {
-				unit = mesh->getPositions<2>()[ mesh->getNumVertices()-1 ];
-			}
-			
-			mesh->appendPosition( unit );
-			mesh->appendColors( &color, 1 );
-			
-			mesh->appendTriangle( 0, (i)+1, ((i+1)%N) + 1 );			
-		}
-
+		makeUnitMesh_slice( mesh, color, r );
+//		makeUnitMesh_randomdrop( mesh, color, r );
 
 		// transform, concatenate
 		mat4 x;

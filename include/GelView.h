@@ -35,6 +35,7 @@ typedef std::shared_ptr<ButtonView> ButtonViewRef;
 class GelSettingsView;
 typedef std::shared_ptr<GelSettingsView> GelSettingsViewRef;
 
+class DegradeFilter;
 
 class GelView : public View
 {
@@ -153,7 +154,7 @@ private:
 	SampleViewRef addLoupe( ci::vec2 withSampleAtGelPos ); // persistent; returns it if you want it
 	SampleViewRef updateGelDetailView( SampleViewRef view, ci::vec2 withSampleAtGelPos, bool forceUpdate, bool doLayout ); // root coords; makes view if null
 	SampleViewRef openGelDetailView();
-	SampleRef	makeSampleFromGelPos( ci::vec2 pos, std::map<int,int>& degradeFilter ) const;
+	SampleRef	makeSampleFromGelPos( ci::vec2 pos, DegradeFilter& ) const;
 	void		updateLoupes();
 	void		closeLoupes();
 	
