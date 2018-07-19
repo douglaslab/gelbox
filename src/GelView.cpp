@@ -1044,7 +1044,10 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos, DegradeFilter& degradeFilter 
 		f.mMass = b.mMass * massScale;
 
 		// degrade
-		if ( b.mSmearBelow > 0.f )
+		//if ( b.mSmearBelow > 0.f )
+		float pickSmearBelow = b.pickSmearBelow(pos); 
+		
+		if ( pickSmearBelow > 0.f )
 		{
 			// use reverse solver to get us to exactly right size
 			int bpe = solveBasePairForY(
@@ -1052,14 +1055,29 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos, DegradeFilter& degradeFilter 
 				*f.mOriginSample,
 				f.mOriginSampleFrag,
 				b.mLane,
-				b.mAggregate,
+				b.mAggregate, // should we just pass in 1 to simplify our later decoding of this?
 				mGel->getSimContext(*f.mOriginSample)
 			);
 			
 			degradeFilter[b.mFragment] = bpe;
-
+//			cout << bpe << endl;
+			
 			// make sure we aren't degrading anymore		
-			f.mDegrade = 0.f; 
+//			f.mDegrade = 0.f;
+			
+			// adjust mass
+			f.mMass = lerp( b.mSmearBrightnessBelow[0], b.mSmearBrightnessBelow[1], pickSmearBelow ); 
+		}
+		else
+		{
+//			cout << "None" << endl;
+			
+			// lock degrade filter to full size (show only complete particles)
+//			degradeFilter[b.mFragment] = b.mBases;
+			f.mDegrade = 0.f;
+			
+			// adjust mass
+			f.mMass *= b.mBrightness;
 		}
 					
 		// aggregates
@@ -1328,7 +1346,10 @@ void GelView::mouseDragBand( ci::app::MouseEvent e )
 			lane,
 			mMouseDownBand.mAggregate,
 			mGel->getSimContext(*sample)
-			);		
+			);
+			
+		// constrain
+		frag.mBases = constrain( frag.mBases, 1, GelSim::kTuning.mBaseCountHigh );
 	}
 	
 	// constrain y?

@@ -71,7 +71,7 @@ private:
 		bool		mIsDye=false;
 		
 		glm::vec2	mRadius;
-		float		mDegradeHi=0.f, mDegradeLo=0.f;
+		float		mWholenessHi=0.f, mWholenessLo=0.f;
 		
 		ci::Color	mColor;
 		
@@ -96,8 +96,7 @@ private:
 		bool		mAlive=true; // fading in or out?
 		
 		float		mDegradeKey=0.f; // random, from 0..1; for inter-frame coherency when dialing size + degradation 
-		float		mDegrade   =1.f; // degrade param * degrade key (when 1, means perfect condition, 0 means fully degraded)
-		// TODO: rename mDegrade, mDegradeHi, mDegradeLo as mWhole*. Semantics are backwards.
+		float		mWholeness =1.f; // mWholeness = degrade param * degrade key (when 1, means perfect condition, 0 means fully degraded)
 		
 		struct Multi
 		{
@@ -118,7 +117,7 @@ private:
 
 	private:
 		void		makeUnitMesh_randomdrop( ci::TriMeshRef mesh, ci::ColorA color, ci::Rand& r ) const;
-		void		makeUnitMesh_perfect   ( ci::TriMeshRef mesh, ci::ColorA color, ci::Rand& r ) const;
+		void		makeUnitMesh_shrink    ( ci::TriMeshRef mesh, ci::ColorA color, ci::Rand& r ) const;
 		void		makeUnitMesh_slice	   ( ci::TriMeshRef mesh, ci::ColorA color, ci::Rand& r ) const;
 		
 	};

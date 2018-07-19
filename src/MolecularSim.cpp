@@ -23,6 +23,9 @@ const float kFadeInStep = .05f;
 const float kFadeOutStep = .05f;
 const float kMaxAge = 30 * 1000;
 
+const float kRadiusMin = 2.f;
+const float kRadiusMax = 32.f;
+
 // mitigate dithering artifacts by being lenient / less aggressive with aggregate culling
 const float kAggregateCullChanceScale = (1.f / 30.f) * .5f;
 const int   kAggregateCullPopEps = 0;
@@ -105,6 +108,13 @@ void MolecularSim::setSample( SampleRef sample, DegradeFilter *degradeFilter )
 	
 	mFragments	  .resize( sample->mFragments.size() );
 
+	auto basesToRadius = []( int bp ) -> float
+	{
+		return lmap( (float)bp,
+			0.f, 		(float)GelSim::kTuning.mBaseCountHigh,
+			kRadiusMin, kRadiusMax );		
+	};
+
 	for( int i=0; i<mFragments.size(); ++i )
 	{
 		Frag &f = mFragments[i];
@@ -116,46 +126,53 @@ void MolecularSim::setSample( SampleRef sample, DegradeFilter *degradeFilter )
 		f.mAggregateWeightSum = s.mAggregate.calcSum();
 		
 		// radius
-		float r = lmap( (float)s.mBases, 0.f, 14000.f, 2.f, 32.f );
+		float r = basesToRadius( s.mBases );
 		
 		f.mRadius.y = sqrt( (r*r) / s.mAspectRatio );
 		f.mRadius.x = s.mAspectRatio * f.mRadius.y;
 		// this calculation maintains the area for a circle in an ellipse that meets desired aspect ratio
 		// math for maintaining circumfrence is wickedly harder
 		
-		// degraded radius				
-		// do degrade (NOTE: this replicates logic in GelSim::calcDegrade)
-		// just have multiple degrade params in each frag, to make this  simpler then encoding it all in 0..2?
-		f.mDegradeHi = 1.f;
-		f.mDegradeLo = max( 0.f, 1.f - s.mDegrade ); // as degrade goes 0..1, low end goes up -- finely degraded molecules possible
-	
-		if ( s.mDegrade > 1.f ) f.mDegradeHi = 2.f - min(2.f,s.mDegrade); // as degrade goes 1..2, upper radii moves drops out--shorter
-		
-//		cout << "degrade: " << s.mDegrade << ", lo: " << f.mDegradeLo << ", hi: " << f.mDegradeHi << endl;
-		
-		// set a lower limit on degrade...
-//		const vec2 kMinRadius(1,1);
-//		f.mRadiusLo = glm::max( f.mRadiusLo, kMinRadius );
-//			f.mRadius		  = glm::max( f.mRadius,		 kMinRadius );
-		f.mDegradeLo = max( f.mDegradeLo, .1f );
-		f.mDegradeHi = max( f.mDegradeHi, .1f );
-		
-		// degrade filter
+		// degrade
 		{
+			// Calculate baseline wholeness described by mDegrade
+			GelSim::calcDegradeAsFrac( s.mDegrade, f.mWholenessLo, f.mWholenessHi );
+			f.mWholenessLo = 1.f - f.mWholenessLo;
+			f.mWholenessHi = 1.f - f.mWholenessHi;
+				// wholeness is inverse of degraded-ness
+
+			// Modulate (further constrain) mWholeness with our filter (maybe)
 			auto degradeF = mDegradeFilter.find(i);
 			
 			if ( degradeF != mDegradeFilter.end() )
 			{
 				int a = s.mAggregate.top()+1; // we assume (good bet) we are just getting a single multimer size here 
 				
-				const int   bpe = degradeF->second; // get base pair equivalent size
-				const float ds  = (float)bpe / (float)(s.mBases*a); // convert to a scale factor
+				int   bpe = degradeF->second; // get base pair equivalent size
+				bpe /= a; // de-modulate aggregate size (would be simpler to just assume 1 always here)
 				
-				f.mDegradeLo = f.mDegradeHi = ds;
+				float fr = basesToRadius(bpe);
+//				float w  = (M_PI*fr*fr) / (M_PI*r*r);
+				float w  = fr / r;
+//				f.mWholenessLo = max( f.mWholenessLo, w );
+//				f.mWholenessHi = min( f.mWholenessHi, w );
+				f.mWholenessLo = f.mWholenessHi = lerp( f.mWholenessLo, f.mWholenessHi, w );
+				
+//				cout << w << " (" << f.mWholenessLo << ", " << f.mWholenessHi << ")" << endl;
+				cout << "w: " << w << endl;
+				
+//				const float ds  = (float)bpe / (float)(s.mBases*a); // convert to a scale factor
+				
+//				f.mWholenessLo = f.mWholenessHi = ds;
 			}
+
+			// set a lower limit on degrade...
+			// f.mWholenessLo = max( f.mWholenessLo, .01f );
+			// f.mWholenessHi = max( f.mWholenessHi, .01f );
+
+	//		cout << f.mWholenessLo << ", " << f.mWholenessHi << endl;
 		}
-//		cout << f.mDegradeLo << ", " << f.mDegradeHi << endl;
-		
+
 		// dye? no problem; population will get culled in tickSim()
 		// we just let there be a 1:1 correspondence between
 		// fragments here and in sample, and just don't make any particles for dyes
@@ -361,11 +378,11 @@ void MolecularSim::tick( bool bulletTime )
 		// sync to frag
 		if (frag)
 		{
-			float toDegrade = lerp( frag->mDegradeLo, frag->mDegradeHi, p.mDegradeKey );
+			float toWholeness = lerp( frag->mWholenessLo, frag->mWholenessHi, p.mDegradeKey );
 			
-			p.mDegrade  = lerp( p.mDegrade, toDegrade,    .5f );
-			p.mColor	= lerp( p.mColor,  frag->mColor,  .5f );
-			p.mRadius	= lerp( p.mRadius, frag->mRadius, .5f );
+			p.mWholeness = lerp( p.mWholeness, toWholeness,   .5f );
+			p.mColor	 = lerp( p.mColor,     frag->mColor,  .5f );
+			p.mRadius	 = lerp( p.mRadius,    frag->mRadius, .5f );
 			
 		} // sync
 	}
@@ -643,22 +660,30 @@ static void polylineToMesh( const ci::PolyLine2& p, ColorA color, ci::TriMeshRef
 	}	
 }
 
-static void makeDegradeIntersectShape( float degrade, Rand& r, PolyLine2& p )
+static void makeDegradeIntersectShape( float wholeness, Rand& r, PolyLine2& p )
 {
 	// we are trying to cut a unit circle (r=1)
 	
-	float area = (2.f*2.f) * max(.1f, r.nextFloat() * degrade );
-	float w = r.nextFloat(.1f,2.f); // up to 2, so we can span entire circle's width
-	float h = area / w; // w*h = area
+	float area = (2.f*2.f) * max(.1f, wholeness );
+	
+	vec2 s( sqrtf(area) );
+
+	s.x *= lerp( .1f, 1.f, r.nextFloat(wholeness,1.f) );
+		
+//	float w = lerp( .1f, 2.f, r.nextFloat(degrade,1.f) ); // up to 2, so we can span entire circle's width
+	s.y = area / s.x; // s.x * s.y = area
 	
 	vec2  c = vec2(.0f);
 	
-	const float k = .25f; // skew back from maximal cut (1 means none)
-	c.x += r.nextFloat(-1.f,1.f) * (2.f - w)*.5f * k;
-	c.y += r.nextFloat(-1.f,1.f) * (2.f - h)*.5f * k;
-	
-	Rectf f( c - vec2(w,h)/2.f,
-			 c + vec2(w,h)/2.f );
+	if ((0))
+	{
+		const float k = .25f; // skew back from maximal cut (1 means none)
+		c.x += r.nextFloat(-1.f,1.f) * (2.f - s.x)*.5f * k;
+		c.y += r.nextFloat(-1.f,1.f) * (2.f - s.y)*.5f * k;
+	}
+		
+	Rectf f( c - s/2.f,
+			 c + s/2.f );
 	
 	rectToPolyline(f,p);
 }
@@ -676,10 +701,10 @@ void MolecularSim::Part::makeUnitMesh_slice( ci::TriMeshRef mesh, ColorA color, 
 	}
 	
 	//
-	if ( mDegrade < 1.f )
+	if ( 1 || mWholeness < 1.f )
 	{
 		vector<PolyLine2> cutWith(1);
-		makeDegradeIntersectShape( mDegrade, r, cutWith[0] );
+		makeDegradeIntersectShape( mWholeness, r, cutWith[0] );
 		vector<PolyLine2> out = PolyLine2::calcIntersection( *unitCircle, cutWith );
 		polylineToMesh( out[0], color, mesh );
 	}
@@ -691,7 +716,7 @@ void MolecularSim::Part::makeUnitMesh_slice( ci::TriMeshRef mesh, ColorA color, 
 	}
 }
 
-void MolecularSim::Part::makeUnitMesh_perfect( ci::TriMeshRef mesh, ColorA color, Rand& r ) const
+void MolecularSim::Part::makeUnitMesh_shrink( ci::TriMeshRef mesh, ColorA color, Rand& r ) const
 {
 	const int	N		= kNumCirclePartVertices;	
 	const float tDelta	= 1 / (float)N * 2.0f * 3.14159f;
@@ -705,6 +730,8 @@ void MolecularSim::Part::makeUnitMesh_perfect( ci::TriMeshRef mesh, ColorA color
 	{
 		vec2 unit( math<float>::cos( t ), math<float>::sin( t ) );
 		t += tDelta;
+		
+		unit *= mWholeness;
 		
 		mesh->appendPosition( unit );
 		mesh->appendColors( &color, 1 );
@@ -729,7 +756,7 @@ void MolecularSim::Part::makeUnitMesh_randomdrop( ci::TriMeshRef mesh, ColorA co
 		t += tDelta;
 		
 		// randomly repeat the last vertex with degrade param
-		if ( i>2 && r.nextFloat() > mDegrade ) {
+		if ( i>2 && r.nextFloat() > mWholeness ) {
 			unit = mesh->getPositions<2>()[ mesh->getNumVertices()-1 ];
 		}
 		
@@ -756,6 +783,7 @@ MolecularSim::Part::makeMesh( ColorA color, float inflateDrawRadius ) const
 		mesh->clear();
 		makeUnitMesh_slice( mesh, color, r );
 //		makeUnitMesh_randomdrop( mesh, color, r );
+//		makeUnitMesh_shrink( mesh, color, r );
 
 		// transform, concatenate
 		mat4 x;

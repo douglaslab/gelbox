@@ -72,7 +72,7 @@ void calcDegradeAsFrac( float degrade, float& degradeLo, float& degradeHi )
 	else degradeHi = 0.f;
 }
 
-void calcDegradeAsBP( int bases, float degrade, int& degradeLo, int& degradeHi )
+void calcDegradeAsBP( float degrade, int bases, int& degradeLo, int& degradeHi )
 {
 	// as degrade goes 0..1, band.y2 moves to end of chart--shorter base pairs (degradeLo)
 	// as degrade goes 1..2, band.y1 moves to end of chart--shorter bp (degradeHi)
@@ -337,7 +337,7 @@ Band fragAggregateToBand(
 	b.mBases		= frag.mBases;
 	b.mAggregate	= aggregate;
 	
-	calcDegradeAsBP( b.mBases, frag.mDegrade, b.mDegradeLo, b.mDegradeHi );
+	calcDegradeAsBP( frag.mDegrade, b.mBases, b.mDegradeLo, b.mDegradeHi );
 	
 	b.mMass			= frag.mMass * massScale;
 	b.mAspectRatio	= frag.mAspectRatio;
