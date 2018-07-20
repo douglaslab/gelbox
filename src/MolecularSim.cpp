@@ -26,6 +26,13 @@ const float kMaxAge = 30 * 1000;
 const float kRadiusMin = 2.f;
 const float kRadiusMax = 32.f;
 
+static float basesToRadius( int bp )
+{
+	return lmap( (float)bp,
+		0.f, 		(float)GelSim::kTuning.mBaseCountHigh,
+		kRadiusMin, kRadiusMax );		
+}
+
 // mitigate dithering artifacts by being lenient / less aggressive with aggregate culling
 const float kAggregateCullChanceScale = (1.f / 30.f) * .5f;
 const int   kAggregateCullPopEps = 0;
@@ -108,13 +115,6 @@ void MolecularSim::setSample( SampleRef sample, DegradeFilter *degradeFilter )
 	
 	mFragments	  .resize( sample->mFragments.size() );
 
-	auto basesToRadius = []( int bp ) -> float
-	{
-		return lmap( (float)bp,
-			0.f, 		(float)GelSim::kTuning.mBaseCountHigh,
-			kRadiusMin, kRadiusMax );		
-	};
-
 	for( int i=0; i<mFragments.size(); ++i )
 	{
 		Frag &f = mFragments[i];
@@ -167,8 +167,8 @@ void MolecularSim::setSample( SampleRef sample, DegradeFilter *degradeFilter )
 			}
 
 			// set a lower limit on degrade...
-			// f.mWholenessLo = max( f.mWholenessLo, .01f );
-			// f.mWholenessHi = max( f.mWholenessHi, .01f );
+			 f.mWholenessLo = max( f.mWholenessLo, kRadiusMin / r );
+			 f.mWholenessHi = max( f.mWholenessHi, kRadiusMin / r );
 
 	//		cout << f.mWholenessLo << ", " << f.mWholenessHi << endl;
 		}
@@ -660,36 +660,74 @@ static void polylineToMesh( const ci::PolyLine2& p, ColorA color, ci::TriMeshRef
 	}	
 }
 
-static void makeDegradeIntersectShape( float wholeness, Rand& r, PolyLine2& p )
+static void makeDegradeIntersectShape( vec2 radius, float wholeness, Rand& r, PolyLine2& p )
 {
-	// we are trying to cut a unit circle (r=1)
+	// we are trying to cut an ellipse of radius
 	
-	float area = (2.f*2.f) * max(.1f, wholeness );
-	
-	vec2 s( sqrtf(area) );
 
-	s.x *= lerp( .1f, 1.f, r.nextFloat(wholeness,1.f) );
-		
-//	float w = lerp( .1f, 2.f, r.nextFloat(degrade,1.f) ); // up to 2, so we can span entire circle's width
+	const float kDegradeSliceMinAspect		= .33f; // 3:1
+	const float kDegradeSliceOffsetCenter  	= 1.f;
+	const float kDegradeSliceInflateCorners	= .1f;
+	
+	// how big should the rectangle be?	
+	float area = (radius.x * radius.y) * 4.f  * (wholeness*wholeness);
+
+	float squaredim = sqrtf(area);
+	
+	squaredim = max( squaredim, kRadiusMin * 2.f );
+	
+	vec2 s;
+	s.x = squaredim * max( kDegradeSliceMinAspect, r.nextFloat( wholeness, 1.f ) );
 	s.y = area / s.x; // s.x * s.y = area
 	
 	vec2  c = vec2(.0f);
 	
-	if ((0))
+	// offset cutting rect from center (this will yield a smaller shape than exactly specified) 
+	if ( kDegradeSliceOffsetCenter > 0.f )
 	{
-		const float k = .25f; // skew back from maximal cut (1 means none)
-		c.x += r.nextFloat(-1.f,1.f) * (2.f - s.x)*.5f * k;
-		c.y += r.nextFloat(-1.f,1.f) * (2.f - s.y)*.5f * k;
+		// two axes
+//		c += r.nextVec2() * s * .5f // normalize offset in x and y by using random unit vec2
+//			* kDegradeSliceOffsetCenter	// attenuate tuning const
+//			* powf( (1.f - wholeness), 1.f ); // don't do it if whole!
+
+		// one axis is enough		
+		c.y += r.nextFloat() * s.y * .5f
+			* kDegradeSliceOffsetCenter	// attenuate tuning const
+			* powf( (1.f - wholeness), 1.f ); // don't do it if whole!
 	}
-		
+	
 	Rectf f( c - s/2.f,
 			 c + s/2.f );
 	
 	rectToPolyline(f,p);
+	
+	// noise (yields a slightly larger shape than exactly specified)
+	// 0--1
+	// 3--2
+	
+	if ( kDegradeSliceInflateCorners > 0.f )
+	{
+		const float inflatemax = kDegradeSliceInflateCorners * radius.y;
+		p.getPoints()[0].y -= r.nextFloat() * inflatemax;
+	//	p.getPoints()[1].y -= r.nextFloat() * inflatemax;
+	//	p.getPoints()[2].y += r.nextFloat() * inflatemax;
+		p.getPoints()[3].y += r.nextFloat() * inflatemax;
+	}
 }
 
-void MolecularSim::Part::makeUnitMesh_slice( ci::TriMeshRef mesh, ColorA color, Rand& r ) const
+void MolecularSim::Part::makeMesh_slice( ci::TriMeshRef mesh, vec2 radius, ColorA color, Rand& r ) const
 {
+	// fall back to small circle if we get too small
+	/*
+	{
+		vec2  rw = radius * mWholeness;
+		float mr = min( rw.x, rw.y );
+		
+		if ( mr < kRadiusMin ) {
+			return makeMesh_shrink( mesh, radius, color, r );
+		}
+	}*/
+	
 	// unit circle
 	// cache it to optimize
 	// its actually a vector of length 1, so we can easily use PolyLine2 comp. geom code
@@ -703,10 +741,19 @@ void MolecularSim::Part::makeUnitMesh_slice( ci::TriMeshRef mesh, ColorA color, 
 	//
 	if ( 1 || mWholeness < 1.f )
 	{
+		vector<PolyLine2> circle = *unitCircle;
+		circle[0].scale(radius);
+		
 		vector<PolyLine2> cutWith(1);
-		makeDegradeIntersectShape( mWholeness, r, cutWith[0] );
-		vector<PolyLine2> out = PolyLine2::calcIntersection( *unitCircle, cutWith );
-		polylineToMesh( out[0], color, mesh );
+		makeDegradeIntersectShape( radius, mWholeness, r, cutWith[0] );
+		vector<PolyLine2> out = PolyLine2::calcIntersection( circle, cutWith );
+
+		if ( out.empty() ) {
+			// calcIntersection can fail..., so fallback to circle
+//			return makeMesh_shrink( mesh, radius, color, r );
+			out = cutWith;
+		}
+		else polylineToMesh( out[0], color, mesh );
 	}
 	else
 	{
@@ -716,7 +763,7 @@ void MolecularSim::Part::makeUnitMesh_slice( ci::TriMeshRef mesh, ColorA color, 
 	}
 }
 
-void MolecularSim::Part::makeUnitMesh_shrink( ci::TriMeshRef mesh, ColorA color, Rand& r ) const
+void MolecularSim::Part::makeMesh_shrink( ci::TriMeshRef mesh, vec2 radius, ColorA color, Rand& r ) const
 {
 	const int	N		= kNumCirclePartVertices;	
 	const float tDelta	= 1 / (float)N * 2.0f * 3.14159f;
@@ -731,7 +778,7 @@ void MolecularSim::Part::makeUnitMesh_shrink( ci::TriMeshRef mesh, ColorA color,
 		vec2 unit( math<float>::cos( t ), math<float>::sin( t ) );
 		t += tDelta;
 		
-		unit *= mWholeness;
+		unit *= radius * mWholeness;
 		
 		mesh->appendPosition( unit );
 		mesh->appendColors( &color, 1 );
@@ -740,7 +787,7 @@ void MolecularSim::Part::makeUnitMesh_shrink( ci::TriMeshRef mesh, ColorA color,
 	}	
 }
 
-void MolecularSim::Part::makeUnitMesh_randomdrop( ci::TriMeshRef mesh, ColorA color, Rand& r ) const
+void MolecularSim::Part::makeMesh_randomdrop( ci::TriMeshRef mesh, vec2 radius, ColorA color, Rand& r ) const
 {
 	const int	N		= kNumCirclePartVertices;	
 	const float tDelta	= 1 / (float)N * 2.0f * 3.14159f;
@@ -752,7 +799,7 @@ void MolecularSim::Part::makeUnitMesh_randomdrop( ci::TriMeshRef mesh, ColorA co
 	
 	for( int i=0; i<N; ++i )
 	{
-		vec2 unit( math<float>::cos( t ), math<float>::sin( t ) );
+		vec2 unit = radius * vec2( math<float>::cos( t ), math<float>::sin( t ) );
 		t += tDelta;
 		
 		// randomly repeat the last vertex with degrade param
@@ -778,18 +825,19 @@ MolecularSim::Part::makeMesh( ColorA color, float inflateDrawRadius ) const
 		const auto &m = mMulti[mi];
 		
 		Rand r( 4000000.f * mDegradeKey + mi );
+		vec2 radius = mRadius + vec2(inflateDrawRadius);
 		
 		// make mesh
 		mesh->clear();
-		makeUnitMesh_slice( mesh, color, r );
-//		makeUnitMesh_randomdrop( mesh, color, r );
-//		makeUnitMesh_shrink( mesh, color, r );
+		makeMesh_slice( mesh, radius, color, r );
+//		makeMesh_randomdrop( mesh, radius, color, r );
+//		makeMesh_shrink( mesh, radius, color, r );
 
 		// transform, concatenate
 		mat4 x;
 		x *= translate( vec3( m.mLoc * min(mRadius.x,mRadius.y) * (1.f-kMultimerAdhereOverlapFrac) * 2.f, 0) );
 		x *= glm::rotate( m.mAngle, vec3(0,0,1) );
-		x *= scale( vec3(mRadius.x+inflateDrawRadius,mRadius.y+inflateDrawRadius,1.f) );
+//		x *= scale( vec3(mRadius.x+inflateDrawRadius,mRadius.y+inflateDrawRadius,1.f) );
 
 		mmesh = concatMesh( mmesh, mesh, x );
 	}

@@ -116,9 +116,9 @@ private:
 		// we could cache a mesh if we get smart about lazily updating only when needed.
 
 	private:
-		void		makeUnitMesh_randomdrop( ci::TriMeshRef mesh, ci::ColorA color, ci::Rand& r ) const;
-		void		makeUnitMesh_shrink    ( ci::TriMeshRef mesh, ci::ColorA color, ci::Rand& r ) const;
-		void		makeUnitMesh_slice	   ( ci::TriMeshRef mesh, ci::ColorA color, ci::Rand& r ) const;
+		void		makeMesh_randomdrop( ci::TriMeshRef mesh, ci::vec2 radius, ci::ColorA color, ci::Rand& r ) const;
+		void		makeMesh_shrink    ( ci::TriMeshRef mesh, ci::vec2 radius, ci::ColorA color, ci::Rand& r ) const;
+		void		makeMesh_slice	   ( ci::TriMeshRef mesh, ci::vec2 radius, ci::ColorA color, ci::Rand& r ) const;
 		
 	};
 	
