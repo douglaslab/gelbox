@@ -201,6 +201,8 @@ void GelRender::render()
 
 void GelRender::drawSmear ( ci::Rectf ir, float direction, float thickness, ColorA cclose, ColorA cfar ) const
 {
+	if (thickness <= 0.f) return;
+	
 	// would be nice to have a 1d smear texture we are using
 	// that texture should be brighter where we have tall flames (e.g.)
 	// just like in our reference material
