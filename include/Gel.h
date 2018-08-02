@@ -16,6 +16,7 @@
 #include "cinder/Json.h"
 #include "Buffer.h"
 #include "GelSim.h"
+#include "GelRender.h"
 #include "Band.h"
 
 class Sample;
@@ -76,11 +77,11 @@ public:
 	void		setNumLanes( int );
 	ci::vec2	getWellSize() const;
 	ci::Rectf	getWellBounds( int lane ) const;
-	std::vector<float> getBufferWarpForLanes() const;
 
 	float		getSampleDeltaYSpaceScale() const { return mSize.y - mYMargin*2.f - mLaneWidth*.2f; }
 	
 	GelSim::Context getSimContext( const Sample& ) const;
+	GelRender::GlobalWarp getRenderGlobalWarp() const;
 	
 	ci::JsonTree	toJson() const;
 	

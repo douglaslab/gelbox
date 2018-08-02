@@ -33,8 +33,14 @@ public:
 		// • 1, 2, 3, ... N are fine
 		// • .5, .25, 1/8, 1/16, etc... are good. 
 	
+	struct GlobalWarp
+	{
+		bool	mH2ODistort		= false;
+		int		mRandSeed		= 0;
+	};
+	
 	void setBands( const std::vector<Band>& b ) { mBands = b; mIsDirty = true; } 
-	void setGlobalWarp( float amount, int randseed ) { mGlobalWarp=amount; mGlobalWarpRandSeed=randseed; mIsDirty=true; }
+	void setGlobalWarp( GlobalWarp w ) { mGlobalWarp=w; mIsDirty=true; }
 	void render();
 	bool getIsDirty() const { return mIsDirty; }
 	
@@ -56,6 +62,13 @@ private:
 			ci::vec2 mScale			= ci::vec2( 20.f, 30.f );
 		}
 		mOvercook;
+		
+		struct H2ODistort
+		{
+			float mFaint			= .5f;
+			float mOvercook			= 1.f;
+		}
+		mH2ODistort;
 	}
 	mTuning;
 	const Tuning &kTuning = mTuning;
@@ -64,8 +77,7 @@ private:
 	
 	// input
 	std::vector<Band>	mBands;
-	float				mGlobalWarp;
-	int					mGlobalWarpRandSeed = 0;
+	GlobalWarp			mGlobalWarp;
 	
 	// output size
 	glm::ivec2 mGelSize;    // so we can talk in terms of gel world space coordinates 

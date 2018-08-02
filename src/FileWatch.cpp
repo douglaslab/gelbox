@@ -78,7 +78,7 @@ void FileWatch::loadJson( fs::path path, tJsonCallback func )
 		}
 		catch(cinder::Exception e)
 		{
-			cout << "loadJson, failed to load: " << e.what() << endl;
+			cout << "loadJson, failed to load: " << e.what() << ", " << path << endl;
 		}
 		catch( ... )
 		{

@@ -79,7 +79,7 @@ void GelRender::setup( glm::ivec2 gelsize, float pixelsPerUnit )
 	loadShader( mWarpGlsl, "passthrough.vert", "warp.frag" );	
 	
 	// tuning vars
-	app->getFileWatch().loadJson( app->getOverloadedAssetPath() / "tuning" / "render.json",
+	app->getFileWatch().loadJson( app->getOverloadedAssetPath() / "tuning" / "gel-render.json",
 		[this]( const JsonTree& json )
 	{
 		auto getf = [json]( string key, float& v )
@@ -104,6 +104,9 @@ void GelRender::setup( glm::ivec2 gelsize, float pixelsPerUnit )
 		getf("Overcook.AmpMax",mTuning.mOvercook.mAmpMax);
 		getf("Overcook.Scale.x",mTuning.mOvercook.mScale.x);
 		getf("Overcook.Scale.y",mTuning.mOvercook.mScale.y);
+
+		getf("H2ODistort.Faint",mTuning.mH2ODistort.mFaint);
+		getf("H2ODistort.Overcook",mTuning.mH2ODistort.mOvercook);
 			
 		mIsDirty = true;
 	});
@@ -145,6 +148,8 @@ void GelRender::render()
 		 
 		// draw band to fbo
 		{
+			float brightScale = mGlobalWarp.mH2ODistort ? kTuning.mH2ODistort.mFaint : 1.f;
+			
 			// clear
 			gl::ScopedFramebuffer bandFboScope( mBandFBO );
 			gl::clear( Color(0,0,0) );
@@ -154,18 +159,18 @@ void GelRender::render()
 //				gl::ScopedBlend blendScp( GL_SRC_ALPHA, GL_ONE );
 
 				drawSmear( band.mRect, -1, band.mSmearAbove,
-					brightnessToColor(band.mSmearBrightnessAbove[0]),
-					brightnessToColor(band.mSmearBrightnessAbove[1]) );
+					brightnessToColor(band.mSmearBrightnessAbove[0]*brightScale),
+					brightnessToColor(band.mSmearBrightnessAbove[1]*brightScale) );
 					
 				drawSmear( band.mRect, +1, band.mSmearBelow,
-					brightnessToColor(band.mSmearBrightnessBelow[0]),
-					brightnessToColor(band.mSmearBrightnessBelow[1]) );			
+					brightnessToColor(band.mSmearBrightnessBelow[0]*brightScale),
+					brightnessToColor(band.mSmearBrightnessBelow[1]*brightScale) );			
 					// would be nice to have flame in its own texture, so we can
 					// just stretch it up, too...
 			}
 			
 			// body
-			gl::color( brightnessToColor(band.mBrightness) ); 
+			gl::color( brightnessToColor(band.mBrightness*brightScale) ); 
 //			gl::color( Color::gray(band.mBrightness) ); 
 			gl::drawSolidRect(band.mRect);
 
@@ -196,7 +201,9 @@ void GelRender::render()
 	}
 	
 	// global effects
-	overcook( mCompositeFBO, mCompositeFBOTemp, mGlobalWarp, mGlobalWarpRandSeed );
+	overcook( mCompositeFBO, mCompositeFBOTemp,
+		mGlobalWarp.mH2ODistort ? kTuning.mH2ODistort.mOvercook : 0.f,
+		mGlobalWarp.mRandSeed );
 }
 
 void GelRender::drawSmear ( ci::Rectf ir, float direction, float thickness, ColorA cclose, ColorA cfar ) const

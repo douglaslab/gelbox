@@ -145,65 +145,6 @@ ci::Rectf Gel::getWellBounds( int lane ) const
 	return r;
 }
 
-std::vector<float> Gel::getBufferWarpForLanes() const
-{
-	bool gwarp = false;
-	
-	// if any buffer is h2o, then warp everything (what Shawn said)
-	if ( getBuffer() == Gelbox::Buffer::h2o() )
-	{
-		gwarp = true;
-	}
-	
-	if ( !gwarp )
-	{
-		for( int l=0; l<getNumLanes(); ++l )
-		{
-			const SampleRef sample = mSamples[l];
-			
-			if (sample)
-			{
-				if ( sample->mBuffer == Gelbox::Buffer::h2o() )
-				{
-					gwarp = true;
-					break;
-				}
-			}
-		}
-	}
-
-	std::vector<float> warp( getNumLanes(), gwarp ? 1.f : 0.f );	
-	
-	return warp;
-	
-	/*
-	// old, per lane, warp technique
-	
-	std::vector<float> warp( getNumLanes(), 0.f );
-	
-	for( int l=0; l<getNumLanes(); ++l )
-	{
-		const SampleRef sample = mSamples[l];
-		
-		if (sample)
-		{
-			float f = 0.f;
-			float s = 0.f;
-			
-			for( int i=0; i<Gelbox::Buffer::kNumParams; ++i )
-			{
-				f += fabsf( getBuffer().mValue[i] - sample->mBuffer.mValue[i] );
-				s += Gelbox::kBufferParamMax[i];
-			}
-			
-			warp[l] = f / s;
-		}
-	}
-	
-	return warp;
-	*/
-}
-
 void Gel::insertSample( const Sample& src, int lane )
 {
 	GelSim::Context context = getSimContext(src);
@@ -303,6 +244,16 @@ GelSim::Context Gel::getSimContext( const Sample& sample ) const
 	context.mGelBuffer		= mBuffer;
 	context.mSampleBuffer	= sample.mBuffer;
 	return context;
+}
+
+GelRender::GlobalWarp Gel::getRenderGlobalWarp() const
+{
+	GelRender::GlobalWarp w;
+	
+	w.mH2ODistort = getBuffer() == Gelbox::Buffer::h2o();
+	w.mRandSeed   = 1;
+	
+	return w;
 }
 
 ci::JsonTree Gel::toJson() const
