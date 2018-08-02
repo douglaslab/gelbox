@@ -42,8 +42,10 @@ public:
 	float mWellToHeightScale	= 2.f;
 	//float mSampleMassTooHighStuckInWellThreshold = 150.f;
 
-	float mSmearUpWithH2O		= 2.f;
-
+	float mSmearUpWithH2O		 = 2.f;
+	float mSmearUpWithWellDamage = 2.f;
+	float mSmearUpWithWellDamageThreshold = .5f;
+	
 	/*
 	 *		Slider
 	 */

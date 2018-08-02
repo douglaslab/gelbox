@@ -38,6 +38,8 @@ void Tuning::load( const JsonTree& json )
 	getf("WellToDyeHeightScale",mWellToDyeHeightScale);	
 	getf("WellToHeightScale",mWellToHeightScale);	
 	getf("SmearUpWithH2O",mSmearUpWithH2O);
+	getf("SmearUpWithWellDamage",mSmearUpWithWellDamage);
+	getf("SmearUpWithWellDamageThreshold",mSmearUpWithWellDamageThreshold);
 	
 	geti("Slider.TimelineMaxMinutes",mSliderTimelineMaxMinutes);
 	getf("Slider.MassMin",mSliderMassMin);
@@ -273,18 +275,26 @@ Band calcBandGeometry( Context ctx, Band b, Rectf wellRect, float fatness )
 	b.mWellRect = wellRect;
 	b.mRect		= wellRect;
 	
+	// move
 	b.mRect.y1 += deltaY1;
 	b.mRect.y2 += deltaY1;
 	
+	// inflate
+	float fatscale = ctx.mTime;
+	b.mRect.inflate( vec2( 0.f, (fatness-1.f) * fatscale * .5f * b.mRect.getHeight() ) );
+
+	// smear
 	b.mSmearBelow = (b.mWellRect.y2 + deltaY2) - b.mRect.y2;
 	
 	if ( ctx.mGelBuffer == Gelbox::Buffer::h2o() ) {
-		b.mSmearAbove = b.mRect.getHeight() * kTuning.mSmearUpWithH2O;
+		b.mSmearAbove = max( b.mSmearAbove, b.mRect.getHeight() * kTuning.mSmearUpWithH2O );
+	}
+
+	if ( ctx.mWellDamage > kTuning.mSmearUpWithWellDamageThreshold ) {
+		b.mSmearAbove = max( b.mSmearAbove, b.mRect.getHeight() * kTuning.mSmearUpWithWellDamage );
 	}
 	
-	float fatscale = ctx.mTime;
-	b.mRect.inflate( vec2( 0.f, (fatness-1.f) * fatscale * .5f * b.mRect.getHeight() ) );
-	
+	// ui rect
 	b.mUIRect	= b.mRect;
 	b.mUIRect.y1 -= max( b.mSmearAbove, b.mFlameHeight );
 	b.mUIRect.y2 += b.mSmearBelow;
