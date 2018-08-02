@@ -13,44 +13,61 @@
 using namespace std;
 using namespace ci;
 
+	  MolecularSimTuning  MolecularSim::gTuning;
+const MolecularSimTuning &MolecularSim::kTuning = MolecularSim::gTuning;
 
-// sim
-const float kBulletTimeScale = .1f;
-const bool  kPartSimIsOldAgeDeathEnabled = false;
-const int kNumPartsPerMassHigh = 50;
+void MolecularSimTuning::load( const JsonTree& json )
+{
+	auto getf = [json]( string key, float& v )
+	{
+		if ( json.hasChild(key) ) {
+			v = json.getChild(key).getValue<float>();
+		}
+	};
 
-const float kFadeInStep = .05f; 
-const float kFadeOutStep = .05f;
-const float kMaxAge = 30 * 1000;
+	auto geti = [json]( string key, int& v )
+	{
+		if ( json.hasChild(key) ) {
+			v = json.getChild(key).getValue<int>();
+		}
+	};
 
-const float kRadiusMin = 2.f;
-const float kRadiusMax = 32.f;
+	auto getb = [json,geti]( string key, bool& v )
+	{
+		int n;
+		geti(key,n);
+		v = n;
+	};
+
+	getf( "BulletTimeScale", mBulletTimeScale );
+	getb( "PartSimIsOldAgeDeathEnabled", mPartSimIsOldAgeDeathEnabled );
+	geti( "NumPartsPerMassHigh", mNumPartsPerMassHigh );
+	getf( "FadeInStep", mFadeInStep );
+	getf( "FadeOutStep", mFadeOutStep );
+	getf( "MaxAge", mMaxAge );
+	getf( "RadiusMin", mRadiusMin );
+	getf( "RadiusMax", mRadiusMax );
+
+	geti( "AggregateCullPopEps", mAggregateCullPopEps );
+	getf( "MaxAgeMisfitAggregate", mMaxAgeMisfitAggregate );
+	getf( "Jitter", mJitter );
+	getf( "PartMinPickRadius", mPartMinPickRadius );
+
+	getf( "MultimerAdhereOverlapFrac", mMultimerAdhereOverlapFrac );	
+	
+	getb( "DebugSliceAllMolecules", mDebugSliceAllMolecules );
+}
 
 static float basesToRadius( int bp )
 {
 	return lmap( (float)bp,
 		0.f, 		(float)GelSim::kTuning.mBaseCountHigh,
-		kRadiusMin, kRadiusMax );		
+		MolecularSim::kTuning.mRadiusMin, MolecularSim::kTuning.mRadiusMax );		
 }
-
-// mitigate dithering artifacts by being lenient / less aggressive with aggregate culling
-const float kAggregateCullChanceScale = (1.f / 30.f) * .5f;
-const int   kAggregateCullPopEps = 0;
-const float kMaxAgeMisfitAggregate = 30 * 30;
- 
-const float kJitter = .75f;
-
-const float kPartMinPickRadius = 8.f;	
-
-
-// draw sim
-const int kNumCirclePartVertices = 32;
 
 const Color& kSelectColor   = kLayout.mSampleViewFragSelectColor;
 const Color& kRolloverColor = kLayout.mSampleViewFragHoverColor;
 const float& kOutlineWidth  = kLayout.mSampleViewFragOutlineWidth;
-
-const float kMultimerAdhereOverlapFrac = .1f;
 
 //const bool kDebugDrawMeshVerts = false;
 
@@ -121,7 +138,7 @@ void MolecularSim::setSample( SampleRef sample, DegradeFilter *degradeFilter )
 		auto  s = sample->mFragments[i];
 		
 		f.mColor		= s.mColor;
-		f.mTargetPop	= max( 1.f, (s.mMass/GelSim::kTuning.mSampleMassHigh) * kNumPartsPerMassHigh );
+		f.mTargetPop	= max( 1.f, (s.mMass/GelSim::kTuning.mSampleMassHigh) * kTuning.mNumPartsPerMassHigh );
 		f.mAggregate	= s.mAggregate;
 		f.mAggregateWeightSum = s.mAggregate.calcSum();
 		
@@ -167,8 +184,8 @@ void MolecularSim::setSample( SampleRef sample, DegradeFilter *degradeFilter )
 			}
 
 			// set a lower limit on degrade...
-			 f.mWholenessLo = max( f.mWholenessLo, kRadiusMin / r );
-			 f.mWholenessHi = max( f.mWholenessHi, kRadiusMin / r );
+			 f.mWholenessLo = max( f.mWholenessLo, kTuning.mRadiusMin / r );
+			 f.mWholenessHi = max( f.mWholenessHi, kTuning.mRadiusMin / r );
 
 	//		cout << f.mWholenessLo << ", " << f.mWholenessHi << endl;
 		}
@@ -242,7 +259,7 @@ void MolecularSim::preroll()
 
 void MolecularSim::tick( bool bulletTime )
 {
-	const float dt = ( bulletTime ? kBulletTimeScale : 1.f ) * mTimeScale; 
+	const float dt = ( bulletTime ? kTuning.mBulletTimeScale : 1.f ) * mTimeScale; 
 	
 	const float dt_fadein  = 1.f;
 	const float dt_fadeout = 1.f;
@@ -317,10 +334,10 @@ void MolecularSim::tick( bool bulletTime )
 			int targetMultiPop = ( mFragments[f].mAggregate[m] / mFragments[f].mAggregateWeightSum )
 				* (float)targetPop;
 			
-			if ( aggregatePop[f][m] - kAggregateCullPopEps > targetMultiPop )
+			if ( aggregatePop[f][m] - kTuning.mAggregateCullPopEps > targetMultiPop )
 			{
 				aggregateCullChance[f][m] = (float)(aggregatePop[f][m] - targetMultiPop) / (float)(aggregatePop[f][m]) ;
-				aggregateCullChance[f][m] *= kAggregateCullChanceScale;
+				aggregateCullChance[f][m] *= kTuning.mAggregateCullChanceScale;
 			}			
 		}
 	}
@@ -337,13 +354,13 @@ void MolecularSim::tick( bool bulletTime )
 		
 		if ( p.mAlive )
 		{
-			p.mFade = min( 1.f, p.mFade + kFadeInStep * dt_fadein );
+			p.mFade = min( 1.f, p.mFade + kTuning.mFadeInStep * dt_fadein );
 			
 			// maybe cull?
 			if (   !frag
-				|| (p.mAge > kMaxAge && kPartSimIsOldAgeDeathEnabled)
+				|| (p.mAge > kTuning.mMaxAge && kTuning.mPartSimIsOldAgeDeathEnabled)
 				|| mRand.nextFloat() < cullChance[p.mFragment] // ok to index bc of !frag test above
-				|| (p.mAge > kMaxAgeMisfitAggregate && mRand.nextFloat() < aggregateCullChance[p.mFragment][p.mMulti.size()-1])
+				|| (p.mAge > kTuning.mMaxAgeMisfitAggregate && mRand.nextFloat() < aggregateCullChance[p.mFragment][p.mMulti.size()-1])
 				)
 			{
 				p.mAlive = false;
@@ -351,12 +368,12 @@ void MolecularSim::tick( bool bulletTime )
 		}
 		else
 		{
-			p.mFade = max( 0.f, p.mFade - kFadeOutStep * dt_fadeout );
+			p.mFade = max( 0.f, p.mFade - kTuning.mFadeOutStep * dt_fadeout );
 		}
 		
 		// move
 		p.mLoc += p.mVel * dt;
-		p.mLoc += mRand.nextVec2() * mRand.nextFloat() * kJitter * dt;
+		p.mLoc += mRand.nextVec2() * mRand.nextFloat() * kTuning.mJitter * dt;
 		
 		p.mAngle += p.mAngleVel * dt;
 		
@@ -431,8 +448,8 @@ int  MolecularSim::pickPart( vec2 loc ) const
 	{
 		Part p = mParts[i]; // copy so we can inflate
 		
-		p.mRadius.x = max( p.mRadius.x, kPartMinPickRadius );
-		p.mRadius.y = max( p.mRadius.y, kPartMinPickRadius );
+		p.mRadius.x = max( p.mRadius.x, kTuning.mPartMinPickRadius );
+		p.mRadius.y = max( p.mRadius.y, kTuning.mPartMinPickRadius );
 
 		for( int m=0; m<p.mMulti.size(); ++m )
 		{	
@@ -582,7 +599,7 @@ MolecularSim::randomPart( int f )
 			
 	p.mVel  = mRand.nextVec2() * .5f;
 	
-	p.mAge += mRand.nextInt(kMaxAge); // stagger ages to prevent simul-fadeout-rebirth
+	p.mAge += mRand.nextInt(kTuning.mMaxAge); // stagger ages to prevent simul-fadeout-rebirth
 
 	p.mAngle    = mRand.nextFloat() * M_PI * 2.f;
 	p.mAngleVel = randFloat(-1.f,1.f) * M_PI * .002f;
@@ -621,7 +638,7 @@ MolecularSim::randomPart( int f )
 
 static void circleToPolyline( vec2 c, float r, ci::PolyLine2& p )
 {
-	const int	N		= kNumCirclePartVertices;	
+	const int	N		= MolecularSim::kTuning.mNumCirclePartVertices;	
 	const float tDelta	= 1 / (float)N * 2.0f * 3.14159f;
 
 	float	 	t = 0;
@@ -674,7 +691,7 @@ static void makeDegradeIntersectShape( vec2 radius, float wholeness, Rand& r, Po
 
 	float squaredim = sqrtf(area);
 	
-	squaredim = max( squaredim, kRadiusMin * 2.f );
+	squaredim = max( squaredim, MolecularSim::kTuning.mRadiusMin * 2.f );
 	
 	vec2 s;
 	s.x = squaredim * max( kDegradeSliceMinAspect, r.nextFloat( wholeness, 1.f ) );
@@ -739,11 +756,11 @@ void MolecularSim::Part::makeMesh_slice( ci::TriMeshRef mesh, vec2 radius, Color
 	}
 	
 	//
-	if ( 1 || mWholeness < 1.f )
+	vector<PolyLine2> circle = *unitCircle;
+	circle[0].scale(radius);
+	
+	if ( kTuning.mDebugSliceAllMolecules || mWholeness < 1.f )
 	{
-		vector<PolyLine2> circle = *unitCircle;
-		circle[0].scale(radius);
-		
 		vector<PolyLine2> cutWith(1);
 		makeDegradeIntersectShape( radius, mWholeness, r, cutWith[0] );
 		vector<PolyLine2> out = PolyLine2::calcIntersection( circle, cutWith );
@@ -759,13 +776,13 @@ void MolecularSim::Part::makeMesh_slice( ci::TriMeshRef mesh, vec2 radius, Color
 	{
 		// TODO we could cache an unsliced mesh, and just copy it over and just rewrite the colors
 		// in case degrade is zero
-		polylineToMesh( (*unitCircle)[0], color, mesh );
+		polylineToMesh( circle[0], color, mesh );
 	}
 }
 
 void MolecularSim::Part::makeMesh_shrink( ci::TriMeshRef mesh, vec2 radius, ColorA color, Rand& r ) const
 {
-	const int	N		= kNumCirclePartVertices;	
+	const int	N		= MolecularSim::kTuning.mNumCirclePartVertices;	
 	const float tDelta	= 1 / (float)N * 2.0f * 3.14159f;
 
 	float	 	t = 0;
@@ -789,7 +806,7 @@ void MolecularSim::Part::makeMesh_shrink( ci::TriMeshRef mesh, vec2 radius, Colo
 
 void MolecularSim::Part::makeMesh_randomdrop( ci::TriMeshRef mesh, vec2 radius, ColorA color, Rand& r ) const
 {
-	const int	N		= kNumCirclePartVertices;	
+	const int	N		= MolecularSim::kTuning.mNumCirclePartVertices;	
 	const float tDelta	= 1 / (float)N * 2.0f * 3.14159f;
 
 	float	 	t = 0;
@@ -835,7 +852,7 @@ MolecularSim::Part::makeMesh( ColorA color, float inflateDrawRadius ) const
 
 		// transform, concatenate
 		mat4 x;
-		x *= translate( vec3( m.mLoc * min(mRadius.x,mRadius.y) * (1.f-kMultimerAdhereOverlapFrac) * 2.f, 0) );
+		x *= translate( vec3( m.mLoc * min(mRadius.x,mRadius.y) * (1.f-MolecularSim::kTuning.mMultimerAdhereOverlapFrac) * 2.f, 0) );
 		x *= glm::rotate( m.mAngle, vec3(0,0,1) );
 //		x *= scale( vec3(mRadius.x+inflateDrawRadius,mRadius.y+inflateDrawRadius,1.f) );
 

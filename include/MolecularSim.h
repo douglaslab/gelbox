@@ -13,6 +13,43 @@
 
 class DegradeFilter : public std::map<int,int> {}; // fragment => base pair size equiv
 
+class MolecularSimTuning
+{
+public:
+
+	void load( const ci::JsonTree& );
+		
+	// sim
+	float mBulletTimeScale = .1f;
+	bool  mPartSimIsOldAgeDeathEnabled = false;
+	int   mNumPartsPerMassHigh = 50;
+
+	float mFadeInStep = .05f; 
+	float mFadeOutStep = .05f;
+	float mMaxAge = 30 * 1000;
+
+	float mRadiusMin = 2.f;
+	float mRadiusMax = 32.f;
+
+	// mitigate dithering artifacts by being lenient / less aggressive with aggregate culling
+	float mAggregateCullChanceScale = (1.f / 30.f) * .5f;
+	int   mAggregateCullPopEps = 0;
+	float mMaxAgeMisfitAggregate = 30 * 30;
+	 
+	float mJitter = .75f;
+
+	float mPartMinPickRadius = 8.f;	
+
+
+	// draw sim
+	int mNumCirclePartVertices = 32;
+
+	float mMultimerAdhereOverlapFrac = .1f;	
+		
+	bool mDebugSliceAllMolecules = false;
+	
+};
+
 class MolecularSim
 {
 public:
@@ -50,6 +87,9 @@ public:
 	void draw( SampleFragRefRef selection, SampleFragRefRef rollover );
 	void drawRepresentativeOfFrag( int frag, ci::vec2 pos ) const;	
 	
+
+	static       MolecularSimTuning  gTuning;
+	static const MolecularSimTuning &kTuning;
 
 private:
 

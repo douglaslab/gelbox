@@ -110,7 +110,13 @@ void GelboxApp::setup()
 	
 	// load tuning data
 	{
-		mFileWatch.loadJson( mOverloadedAssetPath / "tuning" / "sim.json",
+		mFileWatch.loadJson( mOverloadedAssetPath / "tuning" / "molecular-sim.json",
+			[this]( JsonTree json )
+		{
+			MolecularSim::gTuning.load(json);
+		});
+		
+		mFileWatch.loadJson( mOverloadedAssetPath / "tuning" / "gel-sim.json",
 			[this]( JsonTree json )
 		{
 			GelSim::gTuning.load(json);

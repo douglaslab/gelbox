@@ -1,0 +1,19 @@
+{
+	"BulletTimeScale"				:  ".1",
+	"PartSimIsOldAgeDeathEnabled"	:  0,
+	"NumPartsPerMassHigh"			:  50,
+	"FadeInStep"					:  ".05",
+	"FadeOutStep" 					:  ".05",
+	"MaxAge" 						:  30000,
+	"RadiusMin"						:  2,
+	"RadiusMax"						:  32,
+
+	"AggregateCullPopEps"			:  0,
+	"MaxAgeMisfitAggregate"			:  900,
+	"Jitter"						:  ".75",
+	"PartMinPickRadius"				:  8,
+
+	"MultimerAdhereOverlapFrac"		:  ".1",
+	
+	"DebugSliceAllMolecules"		: 0
+}
