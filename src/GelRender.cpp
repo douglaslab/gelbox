@@ -215,7 +215,7 @@ void GelRender::drawSmear ( ci::Rectf ir, float direction, float thickness, Colo
 	// just like in our reference material
 	
 	Rectf r  = ir;
-	float hh = ir.getHeight() / 2.f; 
+	float hh = 0.f; //ir.getHeight() / 2.f; // overlap into band amount 
 	
 	if ( direction > 0.f )
 	{
@@ -225,7 +225,7 @@ void GelRender::drawSmear ( ci::Rectf ir, float direction, float thickness, Colo
 	else
 	{
 		r.y2 = ir.y1 + hh;
-		r.y1 = ir.y2 - thickness;
+		r.y1 = ir.y1 - thickness;
 	}
 	
 	vec2 v[4] =

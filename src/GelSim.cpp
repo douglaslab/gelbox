@@ -37,6 +37,8 @@ void Tuning::load( const JsonTree& json )
 	geti("BaseCountHigh",mBaseCountHigh);
 	getf("WellToDyeHeightScale",mWellToDyeHeightScale);	
 	getf("WellToHeightScale",mWellToHeightScale);	
+	getf("SmearUpWithH2O",mSmearUpWithH2O);
+	
 	geti("Slider.TimelineMaxMinutes",mSliderTimelineMaxMinutes);
 	getf("Slider.MassMin",mSliderMassMin);
 	getf("Slider.MassMax",mSliderMassMax);
@@ -275,7 +277,11 @@ Band calcBandGeometry( Context ctx, Band b, Rectf wellRect, float fatness )
 	b.mRect.y2 += deltaY1;
 	
 	b.mSmearBelow = (b.mWellRect.y2 + deltaY2) - b.mRect.y2;
-
+	
+	if ( ctx.mGelBuffer == Gelbox::Buffer::h2o() ) {
+		b.mSmearAbove = b.mRect.getHeight() * kTuning.mSmearUpWithH2O;
+	}
+	
 	float fatscale = ctx.mTime;
 	b.mRect.inflate( vec2( 0.f, (fatness-1.f) * fatscale * .5f * b.mRect.getHeight() ) );
 	
@@ -352,6 +358,7 @@ Band fragAggregateToBand(
 		
 		b.mBrightness				= powf( a * (1.f - d), .5f );
 		b.mSmearBrightnessBelow[0]	= powf( a * d,		   .5f );
+		b.mSmearBrightnessAbove[0]  *= b.mBrightness;
 	}
 
 	b.mBlur			= calcBandDiffusion( b.mBases, b.mAggregate, b.mAspectRatio, context );
