@@ -7,6 +7,12 @@
 	"SmearUpWithH2O"			: 10,
 	"SmearUpWithWellDamage"		: 5,
 	"SmearUpWithWellDamageThreshold" : ".5",
+
+	"DeltaY" : {
+		"CurveExp"				: "3.7",
+		"CurveBase"				: ".05",
+		"AspectRatioScale"		: ".06"
+ 	},
 	
 	"Slider": {
 

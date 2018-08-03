@@ -41,6 +41,10 @@ void Tuning::load( const JsonTree& json )
 	getf("SmearUpWithWellDamage",mSmearUpWithWellDamage);
 	getf("SmearUpWithWellDamageThreshold",mSmearUpWithWellDamageThreshold);
 	
+	getf("DeltaY.CurveExp",mDeltaY.mCurveExp);
+	getf("DeltaY.CurveBase",mDeltaY.mCurveBase);
+	getf("DeltaY.AspectRatioScale",mDeltaY.mAspectRatioScale);
+  	
 	geti("Slider.TimelineMaxMinutes",mSliderTimelineMaxMinutes);
 	getf("Slider.MassMin",mSliderMassMin);
 	getf("Slider.MassMax",mSliderMassMax);
@@ -97,11 +101,11 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 	// Constants
 	const int   kHighBaseCountNorm = kTuning.mBaseCountHigh;
 	
-	const float kHighAspectRatio   = 16.f;
-	const float kAspectRatioScale  = .06f;
+	const float kHighAspectRatio	= kTuning.mSliderAspectRatioMax;
+	const float kAspectRatioScale	= kTuning.mDeltaY.mAspectRatioScale;
 	
-	const float kCurveExp = 3.7f;
-	const float kCurveBase = .05f;
+	const float kCurveExp			= kTuning.mDeltaY.mCurveExp;
+	const float kCurveBase			= kTuning.mDeltaY.mCurveBase;
 	
 	
 	float y;

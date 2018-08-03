@@ -46,6 +46,14 @@ public:
 	float mSmearUpWithWellDamage = 2.f;
 	float mSmearUpWithWellDamageThreshold = .5f;
 	
+	struct DeltaY
+	{
+		float mCurveExp			= 3.7f;
+		float mCurveBase		= .05f;
+		float mAspectRatioScale = .06f; 
+	}
+	mDeltaY;
+	
 	/*
 	 *		Slider
 	 */

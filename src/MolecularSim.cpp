@@ -701,7 +701,10 @@ static void makeDegradeIntersectShape(
 	s.x = targetArea / s.y; // s.x * s.y = area
 
 	f.x2 = f.x1 + s.x + inflateRadius;
-	
+		// the inflateRadius could be incorporated more precisely,
+		// but this is good enough! (eg when just starting out it's too thick,
+		// and when it's all the way sliced it's too thin, but not by too much)
+		
 	// phase shift slice start in from the edge 
 	if ( kDegradeSlicePhaseShiftAttenuate > 0.f )
 	{
