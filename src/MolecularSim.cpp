@@ -176,7 +176,7 @@ void MolecularSim::setSample( SampleRef sample, DegradeFilter *degradeFilter )
 				f.mWholenessLo = f.mWholenessHi = lerp( f.mWholenessLo, f.mWholenessHi, w );
 				
 //				cout << w << " (" << f.mWholenessLo << ", " << f.mWholenessHi << ")" << endl;
-				cout << "w: " << w << endl;
+//				cout << "wholeness: " << w << endl;
 				
 //				const float ds  = (float)bpe / (float)(s.mBases*a); // convert to a scale factor
 				
@@ -693,17 +693,21 @@ static void makeDegradeIntersectShape(
 	Rectf f( -radius, radius );
 	
 	const float targetArea = (radius.x * radius.y) * 4.f  * (wholeness*wholeness);
+//		const float targetArea = (radius.x * radius.y) * M_PI * (wholeness*wholeness);
 	
 	// assuming x axis will be the longer axis for an ellipse.
 	// that is the case right now, so we just work with that assumption
 	vec2 s;
-	s.y = radius.y;
+	s.y = radius.y * 2.f;
 	s.x = targetArea / s.y; // s.x * s.y = area
 
+//		cout << "s: " << s.x << ", " << s.y << endl;
+			
 	f.x2 = f.x1 + s.x + inflateRadius;
 		// the inflateRadius could be incorporated more precisely,
 		// but this is good enough! (eg when just starting out it's too thick,
 		// and when it's all the way sliced it's too thin, but not by too much)
+
 		
 	// phase shift slice start in from the edge 
 	if ( kDegradeSlicePhaseShiftAttenuate > 0.f )

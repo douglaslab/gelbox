@@ -1014,7 +1014,7 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos, DegradeFilter& degradeFilter 
 			if (verbose) cout << "center" << endl;
 
 			// center
-			massScale = 1.f;
+			massScale = b.mBrightness;
 		}
 		else if ( smearPick > 0.f )
 		{
