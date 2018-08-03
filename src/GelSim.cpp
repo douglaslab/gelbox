@@ -98,7 +98,7 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 	const int   kHighBaseCountNorm = kTuning.mBaseCountHigh;
 	
 	const float kHighAspectRatio   = 16.f;
-	const float kAspectRatioScale  = .25f;
+	const float kAspectRatioScale  = .06f;
 	
 	const float kCurveExp = 3.7f;
 	const float kCurveBase = .05f;
