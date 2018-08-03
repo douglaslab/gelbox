@@ -4,7 +4,7 @@
 	"WellToDyeHeightScale"		: "4",
 	"WellToHeightScale"			: "1.5",
 
-	"SmearUpWithH2O"			: 10,
+	"SmearUpWithH2O"			: 6,
 	"SmearUpWithWellDamage"		: 5,
 	"SmearUpWithWellDamageThreshold" : ".5",
 

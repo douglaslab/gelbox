@@ -12,7 +12,7 @@
 	},
 	
 	"H2ODistort" : {
-		"Faint"				: ".7",
-		"Overcook"			: "2"
+		"Faint"				: ".25",
+		"Overcook"			: "3.5"
 	}
 }
