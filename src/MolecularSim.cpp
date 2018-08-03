@@ -395,7 +395,7 @@ void MolecularSim::tick( bool bulletTime )
 		// sync to frag
 		if (frag)
 		{
-			float toWholeness = lerp( frag->mWholenessLo, frag->mWholenessHi, p.mDegradeKey );
+			float toWholeness = p.calcTargetWholeness(*frag);
 			
 			p.mWholeness = lerp( p.mWholeness, toWholeness,   .5f );
 			p.mColor	 = lerp( p.mColor,     frag->mColor,  .5f );
@@ -609,7 +609,8 @@ MolecularSim::randomPart( int f )
 	p.mColor  = mFragments[p.mFragment].mColor ; 
 	
 	p.mDegradeKey = mRand.nextFloat();
-
+	p.mWholeness  = p.calcTargetWholeness(mFragments[p.mFragment]);
+	
 	// multimer setup
 	Part::Multi m;
 	p.mMulti.push_back(m);
@@ -677,74 +678,60 @@ static void polylineToMesh( const ci::PolyLine2& p, ColorA color, ci::TriMeshRef
 	}	
 }
 
-static void makeDegradeIntersectShape( vec2 radius, float wholeness, Rand& r, PolyLine2& p )
+static void makeDegradeIntersectShape(
+	vec2		radius,
+	float		inflateRadius,
+	float		wholeness,
+	Rand&		r,
+	PolyLine2&	p )
 {
-	// we are trying to cut an ellipse of radius
+	radius += vec2(inflateRadius);
 	
-
-	const float kDegradeSliceMinAspect		= .33f; // 3:1
-	const float kDegradeSliceOffsetCenter  	= 1.f;
-	const float kDegradeSliceInflateCorners	= .1f;
+	const float kDegradeSlicePhaseShiftAttenuate = .0f;
 	
-	// how big should the rectangle be?	
-	float area = (radius.x * radius.y) * 4.f  * (wholeness*wholeness);
-
-	float squaredim = sqrtf(area);
+	// we are trying to cut an ellipse of radius with wholeness
+	Rectf f( -radius, radius );
 	
-	squaredim = max( squaredim, MolecularSim::kTuning.mRadiusMin * 2.f );
+	const float targetArea = (radius.x * radius.y) * 4.f  * (wholeness*wholeness);
 	
+	// assuming x axis will be the longer axis for an ellipse.
+	// that is the case right now, so we just work with that assumption
 	vec2 s;
-	s.x = squaredim * max( kDegradeSliceMinAspect, r.nextFloat( wholeness, 1.f ) );
-	s.y = area / s.x; // s.x * s.y = area
-	
-	vec2  c = vec2(.0f);
-	
-	// offset cutting rect from center (this will yield a smaller shape than exactly specified) 
-	if ( kDegradeSliceOffsetCenter > 0.f )
-	{
-		// two axes
-//		c += r.nextVec2() * s * .5f // normalize offset in x and y by using random unit vec2
-//			* kDegradeSliceOffsetCenter	// attenuate tuning const
-//			* powf( (1.f - wholeness), 1.f ); // don't do it if whole!
+	s.y = radius.y;
+	s.x = targetArea / s.y; // s.x * s.y = area
 
-		// one axis is enough		
-		c.y += r.nextFloat() * s.y * .5f
-			* kDegradeSliceOffsetCenter	// attenuate tuning const
-			* powf( (1.f - wholeness), 1.f ); // don't do it if whole!
-	}
+	f.x2 = f.x1 + s.x + inflateRadius;
 	
-	Rectf f( c - s/2.f,
-			 c + s/2.f );
-	
-	rectToPolyline(f,p);
-	
-	// noise (yields a slightly larger shape than exactly specified)
-	// 0--1
-	// 3--2
-	
-	if ( kDegradeSliceInflateCorners > 0.f )
+	// phase shift slice start in from the edge 
+	if ( kDegradeSlicePhaseShiftAttenuate > 0.f )
 	{
-		const float inflatemax = kDegradeSliceInflateCorners * radius.y;
-		p.getPoints()[0].y -= r.nextFloat() * inflatemax;
-	//	p.getPoints()[1].y -= r.nextFloat() * inflatemax;
-	//	p.getPoints()[2].y += r.nextFloat() * inflatemax;
-		p.getPoints()[3].y += r.nextFloat() * inflatemax;
+		float phase = radius.x * 2.f * (1.f - wholeness) * r.nextFloat() * kDegradeSlicePhaseShiftAttenuate;
+		
+		f += vec2( phase, 0.f );
 	}
+	
+	// validate
+	if ((0))
+	{
+		// how far off are we?
+		// because of curvature of ellipse versus area of rectangle we won't be exact,
+		// but we want to be in the right ballpark.
+		cout << "r area = " << f.calcArea()
+			 << ", c area = " << (radius.x * radius.y) * 4.f
+			 << ", degraded area = " << (radius.x * radius.y) * 4.f * (wholeness*wholeness)
+			 << endl;
+	}
+	
+	rectToPolyline(f,p);	
 }
 
-void MolecularSim::Part::makeMesh_slice( ci::TriMeshRef mesh, vec2 radius, ColorA color, Rand& r ) const
+void MolecularSim::Part::makeMesh_slice(
+	ci::TriMeshRef mesh,
+	vec2 radius,
+	float inflateRadius,
+	ColorA color,
+	Rand& r ) const
 {
-	// fall back to small circle if we get too small
-	/*
-	{
-		vec2  rw = radius * mWholeness;
-		float mr = min( rw.x, rw.y );
-		
-		if ( mr < kRadiusMin ) {
-			return makeMesh_shrink( mesh, radius, color, r );
-		}
-	}*/
-	
 	// unit circle
 	// cache it to optimize
 	// its actually a vector of length 1, so we can easily use PolyLine2 comp. geom code
@@ -757,17 +744,16 @@ void MolecularSim::Part::makeMesh_slice( ci::TriMeshRef mesh, vec2 radius, Color
 	
 	//
 	vector<PolyLine2> circle = *unitCircle;
-	circle[0].scale(radius);
+	circle[0].scale( radius + vec2(inflateRadius) );
 	
 	if ( kTuning.mDebugSliceAllMolecules || mWholeness < 1.f )
 	{
 		vector<PolyLine2> cutWith(1);
-		makeDegradeIntersectShape( radius, mWholeness, r, cutWith[0] );
+		makeDegradeIntersectShape( radius, inflateRadius, mWholeness, r, cutWith[0] );
 		vector<PolyLine2> out = PolyLine2::calcIntersection( circle, cutWith );
 
 		if ( out.empty() ) {
-			// calcIntersection can fail..., so fallback to circle
-//			return makeMesh_shrink( mesh, radius, color, r );
+			// calcIntersection might fail..., so fallback
 			out = cutWith;
 		}
 		else polylineToMesh( out[0], color, mesh );
@@ -780,8 +766,15 @@ void MolecularSim::Part::makeMesh_slice( ci::TriMeshRef mesh, vec2 radius, Color
 	}
 }
 
-void MolecularSim::Part::makeMesh_shrink( ci::TriMeshRef mesh, vec2 radius, ColorA color, Rand& r ) const
+void MolecularSim::Part::makeMesh_shrink(
+	ci::TriMeshRef mesh,
+	vec2 radius,
+	float inflateRadius,
+	ColorA color,
+	Rand& r ) const
 {
+	radius += vec2(inflateRadius);
+	
 	const int	N		= MolecularSim::kTuning.mNumCirclePartVertices;	
 	const float tDelta	= 1 / (float)N * 2.0f * 3.14159f;
 
@@ -804,8 +797,15 @@ void MolecularSim::Part::makeMesh_shrink( ci::TriMeshRef mesh, vec2 radius, Colo
 	}	
 }
 
-void MolecularSim::Part::makeMesh_randomdrop( ci::TriMeshRef mesh, vec2 radius, ColorA color, Rand& r ) const
+void MolecularSim::Part::makeMesh_randomdrop(
+	ci::TriMeshRef mesh,
+	vec2 radius,
+	float inflateRadius,
+	ColorA color,
+	Rand& r ) const
 {
+	radius += vec2(inflateRadius);
+
 	const int	N		= MolecularSim::kTuning.mNumCirclePartVertices;	
 	const float tDelta	= 1 / (float)N * 2.0f * 3.14159f;
 
@@ -842,13 +842,12 @@ MolecularSim::Part::makeMesh( ColorA color, float inflateDrawRadius ) const
 		const auto &m = mMulti[mi];
 		
 		Rand r( 4000000.f * mDegradeKey + mi );
-		vec2 radius = mRadius + vec2(inflateDrawRadius);
 		
 		// make mesh
 		mesh->clear();
-		makeMesh_slice( mesh, radius, color, r );
-//		makeMesh_randomdrop( mesh, radius, color, r );
-//		makeMesh_shrink( mesh, radius, color, r );
+		makeMesh_slice( mesh, mRadius, inflateDrawRadius, color, r );
+//		makeMesh_randomdrop( mesh, radius, inflateDrawRadius, color, r );
+//		makeMesh_shrink( mesh, radius, inflateDrawRadius, color, r );
 
 		// transform, concatenate
 		mat4 x;

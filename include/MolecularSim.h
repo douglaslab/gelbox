@@ -138,6 +138,10 @@ private:
 		float		mDegradeKey=0.f; // random, from 0..1; for inter-frame coherency when dialing size + degradation 
 		float		mWholeness =1.f; // mWholeness = degrade param * degrade key (when 1, means perfect condition, 0 means fully degraded)
 		
+		float		calcTargetWholeness( const Frag& f ) const {
+			return ci::lerp( f.mWholenessLo, f.mWholenessHi, mDegradeKey );
+		}
+		
 		struct Multi
 		{
 			glm::vec2	mLoc	= glm::vec2(0,0); // normalized, so (1,1) means one unit radius away in x and y
@@ -156,10 +160,17 @@ private:
 		// we could cache a mesh if we get smart about lazily updating only when needed.
 
 	private:
-		void		makeMesh_randomdrop( ci::TriMeshRef mesh, ci::vec2 radius, ci::ColorA color, ci::Rand& r ) const;
-		void		makeMesh_shrink    ( ci::TriMeshRef mesh, ci::vec2 radius, ci::ColorA color, ci::Rand& r ) const;
-		void		makeMesh_slice	   ( ci::TriMeshRef mesh, ci::vec2 radius, ci::ColorA color, ci::Rand& r ) const;
-		
+		void		makeMesh_randomdrop(	ci::TriMeshRef mesh,
+											ci::vec2 radius, float inflateRadius,
+											ci::ColorA color, ci::Rand& r ) const;
+						
+		void		makeMesh_shrink(		ci::TriMeshRef mesh,
+											ci::vec2 radius, float inflateRadius,
+											ci::ColorA color, ci::Rand& r ) const;
+
+		void		makeMesh_slice(			ci::TriMeshRef mesh,
+											ci::vec2 radius, float inflateRadius,
+											ci::ColorA color, ci::Rand& r ) const;
 	};
 	
 	SampleRef		  mSample;
