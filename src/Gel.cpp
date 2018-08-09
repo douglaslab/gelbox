@@ -299,7 +299,9 @@ Gel::Gel( const JsonTree& j )
 		{
 			auto jsample = jsamples[i];
 			
-			if ( jsample.getNumChildren() > 0 ) // non-null sample?
+			// non-null sample?
+			if ( jsample.getKey() == "Sample"
+			  && jsample.getNumChildren() > 0 )
 			{
 				mSamples[i] = make_shared<Sample>(jsample); 
 			}
