@@ -23,14 +23,15 @@ public:
 	float mBulletTimeScale = .1f;
 	bool  mPartSimIsOldAgeDeathEnabled = false;
 	int   mNumPartsPerMassHigh = 50;
-
+	float mNumPartsExp = .5f;
+	
 	float mFadeInStep = .05f; 
 	float mFadeOutStep = .05f;
 	float mMaxAge = 30 * 1000;
 
 	float mRadiusMin = 2.f;
 	float mRadiusMax = 32.f;
-
+	
 	// mitigate dithering artifacts by being lenient / less aggressive with aggregate culling
 	float mAggregateCullChanceScale = (1.f / 30.f) * .5f;
 	int   mAggregateCullPopEps = 0;
@@ -74,7 +75,7 @@ public:
 	void preroll();
 	void setTimeScale( float s ) { mTimeScale=s; }
 	void clearParticles() { mParts.clear(); }
-	void setRand( ci::Rand r ) { mRand = r; }	
+	void setRand( ci::Rand r ) { mRand = r; mRandSeed = r.nextInt(); }	
 
 
 	// ui
@@ -93,6 +94,8 @@ public:
 
 private:
 
+	float calcTargetPop( float mass ) const;
+
 	ci::TriMeshRef makeMoleculesMesh( SampleFragRefRef selection, SampleFragRefRef rollover ) const;
 	
 
@@ -107,7 +110,7 @@ private:
 		Frag( ci::Color c, float r ) : mColor(c), mRadius(r) {}
 		Frag() : mColor(0,0,0), mRadius(1.f) {}
 		
-		int			mTargetPop=20;
+		float		mTargetPop=20;
 		bool		mIsDye=false;
 		
 		glm::vec2	mRadius;
@@ -176,7 +179,7 @@ private:
 	SampleRef		  mSample;
 	
 	ci::Rectf		  mBounds;
-	ci::Rand		  mRand;
+	ci::Rand		  mRand; // dynamic, evolves with sim
 	
 	std::vector<Frag> mFragments;	
 	std::vector<Part> mParts;
@@ -184,6 +187,7 @@ private:
 	float mSizeDensityScale	=1.f; // implicitly set by bounds
 	float mPopDensityScale	=1.f; // set by user
 	float mTimeScale   		=1.f;	
-
+	int	  mRandSeed			=0; // static, for view params
+	
 	DegradeFilter mDegradeFilter;
 };

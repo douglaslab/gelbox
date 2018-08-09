@@ -1006,26 +1006,28 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos, DegradeFilter& degradeFilter 
 
 		const float smearPickAbove = b.pickSmearAbove(pos);
 		const float smearPickBelow = b.pickSmearBelow(pos);
-		const float smearPick = max( smearPickAbove, smearPickBelow );
 		
 		// mass
+		std::string partName;
+		
 		if ( b.mRect.contains(pos) )
 		{
-			if (verbose) cout << "center" << endl;
-
-			// center
+			if (verbose) partName = "center";
 			massScale = b.mBrightness;
 		}
-		else if ( smearPick > 0.f )
+		else if ( smearPickAbove > 0.f )
 		{
-			if (verbose) cout << "smear" << endl;
-
-			// smear
-			massScale = smearPick;
+			if (verbose) partName = "smear above";
+			massScale = lerp( b.mSmearBrightnessAbove[1], b.mSmearBrightnessAbove[0], smearPickAbove );
+		}
+		else if ( smearPickBelow > 0.f )
+		{
+			if (verbose) partName = "smear below";
+			massScale = lerp( b.mSmearBrightnessBelow[1], b.mSmearBrightnessBelow[0], smearPickBelow );
 		}
 		else
 		{
-			if (verbose) cout << "blur" << endl;
+			if (verbose) partName = "blur";
 			
 			// assume blur
 			float d = b.mRect.distance(pos);
@@ -1036,12 +1038,12 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos, DegradeFilter& degradeFilter 
 
 		// mass scale
 		f.mMass = b.mMass * massScale;
-
+		if (verbose) cout << partName << ", mass: " << f.mMass << endl;
+		
 		// degrade
 		//if ( b.mSmearBelow > 0.f )
-		float pickSmearBelow = b.pickSmearBelow(pos); 
 		
-		if ( pickSmearBelow > 0.f )
+		if ( smearPickBelow > 0.f )
 		{
 			// use reverse solver to get us to exactly right size
 			int bpe = solveBasePairForY(
@@ -1058,9 +1060,6 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos, DegradeFilter& degradeFilter 
 			
 			// make sure we aren't degrading anymore		
 //			f.mDegrade = 0.f;
-			
-			// adjust mass
-			f.mMass = lerp( b.mSmearBrightnessBelow[0], b.mSmearBrightnessBelow[1], pickSmearBelow ); 
 		}
 		else
 		{
@@ -1069,9 +1068,6 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos, DegradeFilter& degradeFilter 
 			// lock degrade filter to full size (show only complete particles)
 //			degradeFilter[b.mFragment] = b.mBases;
 			f.mDegrade = 0.f;
-			
-			// adjust mass
-			f.mMass *= b.mBrightness;
 		}
 					
 		// aggregates

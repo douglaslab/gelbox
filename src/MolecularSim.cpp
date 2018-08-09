@@ -13,6 +13,8 @@
 using namespace std;
 using namespace ci;
 
+const bool kVerbosePopCount = false;
+
 	  MolecularSimTuning  MolecularSim::gTuning;
 const MolecularSimTuning &MolecularSim::kTuning = MolecularSim::gTuning;
 
@@ -42,6 +44,7 @@ void MolecularSimTuning::load( const JsonTree& json )
 	getf( "BulletTimeScale", mBulletTimeScale );
 	getb( "PartSimIsOldAgeDeathEnabled", mPartSimIsOldAgeDeathEnabled );
 	geti( "NumPartsPerMassHigh", mNumPartsPerMassHigh );
+	getf( "NumPartsExp", mNumPartsExp );
 	getf( "FadeInStep", mFadeInStep );
 	getf( "FadeOutStep", mFadeOutStep );
 	getf( "MaxAge", mMaxAge );
@@ -110,7 +113,8 @@ static void drawMeshVerts( ci::TriMeshRef mesh )
 
 MolecularSim::MolecularSim()
 {
-	mRand.seed( randInt() ); // random random seed :-)	
+	mRandSeed = randInt();
+	mRand.seed( mRandSeed ); // random random seed :-)
 }
 
 void MolecularSim::setBounds( ci::Rectf r )
@@ -119,6 +123,21 @@ void MolecularSim::setBounds( ci::Rectf r )
 	
 	// normalize pop den scale to old default size/density
 	mSizeDensityScale = (getBounds().getWidth() * getBounds().getHeight()) / (400.f*400.f);
+}
+
+float MolecularSim::calcTargetPop( float mass ) const
+{
+	const float massNorm = mass / GelSim::kTuning.mSampleMassHigh; 
+	
+	float f = constrain( massNorm, 0.f, 1.f );
+	
+	f = powf( f, kTuning.mNumPartsExp );
+	
+	f *= kTuning.mNumPartsPerMassHigh;
+
+	if (kVerbosePopCount) cout << "mass: " << mass << ", mass norm: " << massNorm << ", pop: " << f << endl;	
+	
+	return f;
 }
 
 void MolecularSim::setSample( SampleRef sample, DegradeFilter *degradeFilter )
@@ -138,7 +157,7 @@ void MolecularSim::setSample( SampleRef sample, DegradeFilter *degradeFilter )
 		auto  s = sample->mFragments[i];
 		
 		f.mColor		= s.mColor;
-		f.mTargetPop	= max( 1.f, (s.mMass/GelSim::kTuning.mSampleMassHigh) * kTuning.mNumPartsPerMassHigh );
+		f.mTargetPop	= calcTargetPop( s.mMass );
 		f.mAggregate	= s.mAggregate;
 		f.mAggregateWeightSum = s.mAggregate.calcSum();
 		
@@ -305,11 +324,25 @@ void MolecularSim::tick( bool bulletTime )
 	}
 	
 	// update population counts
+	Rand popRand( mRandSeed );
+	
 	const float popDensityScale = mSizeDensityScale * mPopDensityScale; 
 	
 	for( int f = 0; f<mFragments.size(); ++f )
 	{
-		int targetPop = (int) max( 1.f, (float)mFragments[f].mTargetPop * popDensityScale ) ;
+		float targetPopFrac = mFragments[f].mTargetPop * popDensityScale;
+		
+		int targetPop = (int)targetPopFrac;
+		
+		if ( targetPop == 0 && mFragments[f].mTargetPop > 0.f )
+		{
+			// dither
+			if (kVerbosePopCount) cout << "dither: " << targetPopFrac << endl;
+			if ( popRand.nextFloat() < targetPopFrac ) {
+				targetPop=1;
+				if (kVerbosePopCount) cout << "dither YES" << endl;
+			}
+		}
 		
 		// dye? pop=0
 		if (mFragments[f].mIsDye) targetPop=0;

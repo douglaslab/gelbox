@@ -2,6 +2,8 @@
 	"BulletTimeScale"				:  ".1",
 	"PartSimIsOldAgeDeathEnabled"	:  0,
 	"NumPartsPerMassHigh"			:  50,
+	"NumPartsExp"					:  "1",
+	"NumPartsZeroThresh"			:  ".0",
 	"FadeInStep"					:  ".05",
 	"FadeOutStep" 					:  ".05",
 	"MaxAge" 						:  30000,
