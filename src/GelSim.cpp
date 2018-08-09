@@ -301,6 +301,9 @@ Band calcBandGeometry( Context ctx, Band b, Rectf wellRect, float fatness )
 		b.mSmearAbove = max( b.mSmearAbove, b.mRect.getHeight() * kTuning.mSmearUpWithWellDamage );
 	}
 	
+	// clip smear above with well bottom
+	b.mSmearAbove = min( b.mSmearAbove, b.mRect.y1 - wellRect.y2 );
+	
 	// ui rect
 	b.mUIRect	= b.mRect;
 	b.mUIRect.y1 -= max( b.mSmearAbove, b.mFlameHeight );
