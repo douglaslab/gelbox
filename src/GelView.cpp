@@ -1043,7 +1043,8 @@ SampleRef GelView::makeSampleFromGelPos( vec2 pos, DegradeFilter& degradeFilter 
 		// degrade
 		//if ( b.mSmearBelow > 0.f )
 		
-		if ( smearPickBelow > 0.f )
+		if ( smearPickBelow > 0.f
+		  || f.mDegrade > .5f ) // if degrade > .5f, then there are no whole molecules anywhere in this band.
 		{
 			// use reverse solver to get us to exactly right size
 			int bpe = solveBasePairForY(
