@@ -11,6 +11,7 @@
 	"DeltaY" : {
 		"CurveExp"				: "3.7",
 		"CurveBase"				: ".05",
+		"CurveBaseTAE"			: ".07",
 		"AspectRatioScale"		: ".06"
  	},
 	

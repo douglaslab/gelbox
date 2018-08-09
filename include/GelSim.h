@@ -50,6 +50,7 @@ public:
 	{
 		float mCurveExp			= 3.7f;
 		float mCurveBase		= .05f;
+		float mCurveBaseTAE		= .055f;
 		float mAspectRatioScale = .06f; 
 	}
 	mDeltaY;

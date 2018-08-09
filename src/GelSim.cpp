@@ -43,6 +43,7 @@ void Tuning::load( const JsonTree& json )
 	
 	getf("DeltaY.CurveExp",mDeltaY.mCurveExp);
 	getf("DeltaY.CurveBase",mDeltaY.mCurveBase);
+	getf("DeltaY.CurveBaseTAE",mDeltaY.mCurveBaseTAE);
 	getf("DeltaY.AspectRatioScale",mDeltaY.mAspectRatioScale);
   	
 	geti("Slider.TimelineMaxMinutes",mSliderTimelineMaxMinutes);
@@ -105,8 +106,10 @@ float calcDeltaY( int bases, int aggregation, float aspectRatio, Context ctx )
 	const float kAspectRatioScale	= kTuning.mDeltaY.mAspectRatioScale;
 	
 	const float kCurveExp			= kTuning.mDeltaY.mCurveExp;
-	const float kCurveBase			= kTuning.mDeltaY.mCurveBase;
-	
+	const float kCurveBase			=
+		ctx.mGelBuffer == Gelbox::Buffer::TAE()
+			? kTuning.mDeltaY.mCurveBaseTAE
+			: kTuning.mDeltaY.mCurveBase;
 	
 	float y;
 	
