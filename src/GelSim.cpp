@@ -191,13 +191,13 @@ int calcWellDamageRandSeed( const Band& b, Context context )
 
 float calcBandAlpha ( float mass, float degrade )
 {
-	float a = constrain( mass / kTuning.mSampleMassHigh, 0.1f, 1.f );
+	float a = constrain( mass / kTuning.mSampleMassHigh, 0.f, 1.f );
 	
 	float d = degrade / 2.f;
 	d = powf( d, .5f );
 	a *= 1.f - d;
 	
-	a = powf( a, .5f ); // make it brighter
+	a = powf( a, .75f ); // make it brighter
 	
 	return a;
 
