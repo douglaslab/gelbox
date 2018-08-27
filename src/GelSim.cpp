@@ -331,16 +331,16 @@ Band dyeToBand( int lane, int fragi, int dye, float mass, Context context, Rectf
 	b.mBrightness	= calcBandAlpha(mass,0.f);
 	b.mFocusColor	= lerp( Color(b.mColor), Color(0,0,0), .5f );
 	
-	b.mBlur			= calcBandDiffusion( b.mBases, 1, 1.f, context );
-//	if (dye==0) cout << b.mBlur << endl;
-//	b.mBlur = (dye<3) ? 0 : 2;
+    // All bands diffuse like 1bp fragment
+	b.mBlur			= calcBandDiffusion(1, 1, 1.f, context );
 	
 	b = calcBandGeometry( context, b, wellRect, kTuning.mWellToDyeHeightScale );
 
-	// users mRect, so must come after calcBandGeometry
-	b.mRandSeed				= calcRandSeed( b, context );
-	b.mWellDamageRandSeed	= calcWellDamageRandSeed( b, context ); 
-	b.mWellDamage			= context.mWellDamage;
+	// Disabled by SD - Dyes are too small to see WellDamage
+    // users mRect, so must come after calcBandGeometry
+    // b.mRandSeed				= calcRandSeed( b, context );
+	// b.mWellDamageRandSeed	= calcWellDamageRandSeed( b, context );
+	// b.mWellDamage			= context.mWellDamage;
 	
 	return b;
 }

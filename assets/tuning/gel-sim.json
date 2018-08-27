@@ -1,7 +1,7 @@
 {
 	"SampleMassHigh"			: "175",
 	"BaseCountHigh"				: "14000",
-	"WellToDyeHeightScale"		: "4",
+	"WellToDyeHeightScale"		: "3",
 	"WellToHeightScale"			: "1.5",
 
 	"SmearUpWithH2O"			: 6,
