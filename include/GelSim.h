@@ -79,7 +79,7 @@ public:
 	float mSliderAspectRatioMax = 16.f;
 	int   mSliderAggregateMaxMultimer = 7;
 
-	int   mSliderBaseCountMin = 1;
+	int   mSliderBaseCountMin = 100;
 	int   mSliderBaseCountMax = mBaseCountHigh;
 
 

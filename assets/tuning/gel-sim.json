@@ -37,7 +37,7 @@
 		"AspectRatioMax"		: "16",
 		"AggregateMaxMultimer"	: "7",
 		
-		"BaseCountMin"			: "1",
+		"BaseCountMin"			: "100",
 		"__BaseCountMax"			: "mBaseCountHigh"
 
 	}
