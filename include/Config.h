@@ -12,7 +12,7 @@ class Config
 public:
 	
 	// help button url
-	std::string	mHelpURL						= "http://douglaslab.org/gelbox/help";
+	std::string	mHelpURL						= "http://douglaslab.org/gelbox/";
 	std::string	mAppFileVersion					= "1.0";
 	
 	// high level app settings
