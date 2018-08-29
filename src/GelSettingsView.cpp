@@ -101,35 +101,29 @@ void GelSettingsView::makeSliders()
 		
 		addSlider(s);
 	};
-	
-	// voltage slider
-	{
-		Slider s;
 
-		s.mValueMappedLo = GelSim::kTuning.mSliderVoltageLow;
-		s.mValueMappedHi = GelSim::kTuning.mSliderVoltageHigh;
-		s.mValueQuantize = 1.f;
-		
-		s.mNotchAction = Slider::Notch::Snap;
-//		s.addFixedNotches(2);
-		s.addNotchAtMappedValue(GelSim::kTuning.mSliderVoltageDefaultValue);
-		s.addNotchAtMappedValue(0.f);
-		
-		s.mSetter = [this]( float v ) {
-			mGelView->getGel()->setVoltage(v);
-			mGelView->gelDidChange();
-		};
-		s.mGetter = [this]() {
-			return mGelView->getGel()->getVoltage();
-		};
-		s.mMappedValueToStr = []( float v )
-		{
-			return toString(v) + " V";
-		};
-	
-		add(s,"voltage");	
-	}
-	
+    Slider numlanes;
+    //    numlanes.mEnabled = false;
+    numlanes.mValueMappedLo = GelSim::kTuning.mSliderNumLanesMin;
+    numlanes.mValueMappedHi = GelSim::kTuning.mSliderNumLanesMax;
+    numlanes.mValue = 0.f;
+    //    numlanes.addFixedNotches(GelSim::kTuning.mSliderNumLanesMax - GelSim::kTuning.mSliderNumLanesMin + 1);
+    //    numlanes.mNotchAction = Slider::Notch::Nearest;
+    numlanes.mValueQuantize = 1.f;
+    numlanes.mSetter = [this]( float v ) {
+        mGelView->getGel()->setNumLanes(v);
+        mGelView->gelDidChange();
+    };
+    numlanes.mGetter = [this]() {
+        return mGelView->getGel()->getNumLanes();
+    };
+    numlanes.mMappedValueToStr = []( float v )
+    {
+        return toString(v) /*+ " lanes"*/;
+    };
+    
+    add( numlanes, "gel-lanes" );
+  
 	// timeline slider
 	if ( ! kConfig.mTimelineBelowGel )
 	{
@@ -148,7 +142,35 @@ void GelSettingsView::makeSliders()
 		return mGelView->getGel()->getWellDamage();
 	};
 	add( damage, "well-damage" );
-	
+
+    // voltage slider
+    {
+        Slider s;
+        
+        s.mValueMappedLo = GelSim::kTuning.mSliderVoltageLow;
+        s.mValueMappedHi = GelSim::kTuning.mSliderVoltageHigh;
+        s.mValueQuantize = 1.f;
+        
+        s.mNotchAction = Slider::Notch::Snap;
+        //        s.addFixedNotches(2);
+        s.addNotchAtMappedValue(GelSim::kTuning.mSliderVoltageDefaultValue);
+        s.addNotchAtMappedValue(0.f);
+        
+        s.mSetter = [this]( float v ) {
+            mGelView->getGel()->setVoltage(v);
+            mGelView->gelDidChange();
+        };
+        s.mGetter = [this]() {
+            return mGelView->getGel()->getVoltage();
+        };
+        s.mMappedValueToStr = []( float v )
+        {
+            return toString(v) + " V";
+        };
+        
+        add(s,"voltage");
+    }
+    
 	// unwired placeholder sliders...
 	Slider rotate;
 	rotate.mEnabled = false;
@@ -158,28 +180,6 @@ void GelSettingsView::makeSliders()
 	rotate.addFixedNotches(3);
 	rotate.mNotchAction = Slider::Notch::Snap;
 	add( rotate, "gel-rotate" );
-	
-	Slider numlanes;
-//	numlanes.mEnabled = false;
-	numlanes.mValueMappedLo = GelSim::kTuning.mSliderNumLanesMin;
-	numlanes.mValueMappedHi = GelSim::kTuning.mSliderNumLanesMax;
-	numlanes.mValue = 0.f;
-//	numlanes.addFixedNotches(GelSim::kTuning.mSliderNumLanesMax - GelSim::kTuning.mSliderNumLanesMin + 1);
-//	numlanes.mNotchAction = Slider::Notch::Nearest;
-	numlanes.mValueQuantize = 1.f;
-	numlanes.mSetter = [this]( float v ) {
-		mGelView->getGel()->setNumLanes(v);
-		mGelView->gelDidChange();
-	};
-	numlanes.mGetter = [this]() {
-		return mGelView->getGel()->getNumLanes();
-	};
-	numlanes.mMappedValueToStr = []( float v )
-	{
-		return toString(v) /*+ " lanes"*/;
-	};
-
-	add( numlanes, "gel-lanes" );
 }
 
 void GelSettingsView::close()
