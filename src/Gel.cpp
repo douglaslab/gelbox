@@ -17,6 +17,8 @@ using namespace ci;
 const vec2 kLaneVec(1,0);
 const vec2 kPosVec (0,1);
 
+const bool kVerboseLoad = false;
+
 Gel::Gel()
 {
 	mVoltage = GelSim::kTuning.mSliderVoltageDefaultValue;
@@ -300,10 +302,17 @@ Gel::Gel( const JsonTree& j )
 			auto jsample = jsamples[i];
 			
 			// non-null sample?
-			if ( jsample.getKey() == "Sample"
-			  && jsample.getNumChildren() > 0 )
+			if (kVerboseLoad) {
+				cout << "sample, key= '" << jsample.getKey() << "', #children= " << jsample.getNumChildren() << endl;  
+			}
+			
+			if ( /*jsample.getKey() == "Sample"
+			  &&*/ jsample.getNumChildren() > 0 )
 			{
 				mSamples[i] = make_shared<Sample>(jsample); 
+			}
+			else {
+				cout << "Gel::Gel(json), sample " << i << " is malformed or null." << endl;
 			}
 		}
 	}
@@ -318,4 +327,9 @@ Gel::Gel( const JsonTree& j )
 	jsonValue( j, "WellDamage", mWellDamage );
 	
 	syncBandsToSamples();
+	
+	if (kVerboseLoad) {
+		cout << "Gel(json)" << endl;
+		cout << toJson() << endl;
+	}	
 }

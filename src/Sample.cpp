@@ -15,6 +15,7 @@ using namespace ci;
 
 const std::string Sample::kRootXMLNodeName = "Sample";
 
+const bool kVerboseLoad = false;
 
 bool SampleFragRef::isValid() const
 {
@@ -308,6 +309,11 @@ Sample::Sample( const XmlTree& xml )
 			}		
 		}
 	}
+
+	if (kVerboseLoad) {
+		cout << "Sample(xml)" << endl;
+		cout << toXml() << endl;
+	}
 }
 
 ci::XmlTree
@@ -449,5 +455,10 @@ Sample::Sample( const ci::JsonTree& j )
 	if ( j.hasChild("Buffer") )
 	{
 		mBuffer = Gelbox::Buffer( j.getChild("Buffer") );
+	}
+	
+	if (kVerboseLoad) {
+		cout << "Sample(json)" << endl;
+		cout << toXml() << endl;
 	}
 }
