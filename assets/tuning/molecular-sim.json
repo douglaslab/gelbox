@@ -17,5 +17,5 @@
 
 	"MultimerAdhereOverlapFrac"		:  ".1",
 	
-	"DebugSliceAllMolecules"		: 1
+	"DebugSliceAllMolecules"		: 0
 }
