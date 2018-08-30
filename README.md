@@ -15,10 +15,11 @@ http://www.douglaslab.org/gelbox/
 4. Build
 
  ## Commands and Shortcuts
- 
+
 |             Command          |             Meaning            |
+| :- | :- |
 | *Loupes* ||
-| Show loupe			| Hold command key while hovering over gel, or toggle app setting. | 
+| Show loupe			| Hold command key while hovering over gel, or toggle app setting. |
 | Add fixed loupe		| Hold command key and click in gel. Reposition by dragging. To close, click on loupe then push escape or delete. |
 | *Bands* ||
 | Move band				| Click and drag band. Hold Shift to lock size. |
