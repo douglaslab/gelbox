@@ -75,6 +75,7 @@ public:
 	float		getLaneWidth() const { return mLaneWidth; }
 	int			getNumLanes() const { return mNumLanes; }
 	void		setNumLanes( int );
+	void		constrainNumLanesToSliderMinMax();
 	ci::vec2	getWellSize() const;
 	ci::Rectf	getWellBounds( int lane ) const;
 

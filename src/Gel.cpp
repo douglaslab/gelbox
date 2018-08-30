@@ -317,6 +317,8 @@ Gel::Gel( const JsonTree& j )
 		}
 	}
 
+	constrainNumLanesToSliderMinMax();
+	
 	if ( j.hasChild("Buffer") )
 	{
 		mBuffer = Gelbox::Buffer( j.getChild("Buffer") );
@@ -332,4 +334,15 @@ Gel::Gel( const JsonTree& j )
 		cout << "Gel(json)" << endl;
 		cout << toJson() << endl;
 	}	
+}
+
+void Gel::constrainNumLanesToSliderMinMax()
+{
+	if ( getNumLanes() < GelSim::kTuning.mSliderNumLanesMin ) {
+		 setNumLanes( GelSim::kTuning.mSliderNumLanesMin );
+	}
+	else
+	if ( getNumLanes() > GelSim::kTuning.mSliderNumLanesMax ) {
+		 setNumLanes( GelSim::kTuning.mSliderNumLanesMax );
+	}
 }
