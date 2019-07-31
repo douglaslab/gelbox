@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>17F77</string>
+	<string>18F132</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleIconName</key>
 	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.libcinder.Gelbox</string>
+	<string>org.douglaslab.Gelbox</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -33,17 +33,17 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>9E145</string>
+	<string>10G8</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>17E189</string>
+	<string>18G74</string>
 	<key>DTSDKName</key>
-	<string>macosx10.13</string>
+	<string>macosx10.14</string>
 	<key>DTXcode</key>
-	<string>0930</string>
+	<string>1030</string>
 	<key>DTXcodeBuild</key>
-	<string>9E145</string>
+	<string>10G8</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.8</string>
 	<key>NSHumanReadableCopyright</key>
