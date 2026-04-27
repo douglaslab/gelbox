@@ -1,0 +1,5 @@
+node_modules
+dashboard
+.DS_Store
+*.local
+.vite
