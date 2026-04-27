@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import { execSync } from 'node:child_process';
 
 const buildDate = new Date().toISOString().slice(0, 10);
@@ -14,7 +15,7 @@ try {
 
 export default defineConfig({
   base: './',
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   define: {
     __BUILD_DATE__: JSON.stringify(buildDate),
     __BUILD_SHA__: JSON.stringify(buildSha),

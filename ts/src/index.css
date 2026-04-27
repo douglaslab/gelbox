@@ -1,4 +1,6 @@
-:root {
+@import "tailwindcss";
+
+@theme {
   /* Light theme tokens (default) */
   --color-ink:               #1f2933;
   --color-ink-muted:         #5a6573;
