@@ -5,3 +5,8 @@ dist
 .vite
 *.tsbuildinfo
 .tsbuildinfo*
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
