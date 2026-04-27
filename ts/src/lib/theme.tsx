@@ -11,7 +11,7 @@ export interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-const STORAGE_KEY = 'dash:theme';
+const STORAGE_KEY = 'gel:theme';
 
 function readStoredTheme(): Theme | null {
   try {

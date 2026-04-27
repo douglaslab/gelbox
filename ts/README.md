@@ -1,36 +1,45 @@
-# Dash
+# Gelbox (web port)
 
-A starting point for static, `file://`-deployable dashboards. Vite + React +
-TypeScript + Tailwind v4 + HashRouter, bundled into a single
-`dashboard/index.html` via `vite-plugin-singlefile`.
+TypeScript + raw WebGPU port of [Gelbox](http://www.douglaslab.org/gelbox/), the Douglas Lab gel electrophoresis simulator. WebGL2 fallback for browsers without WebGPU.
 
 ## Quick start
 
-```bash
-nvm use   # or: export PATH="/opt/homebrew/opt/node@22/bin:$PATH"
+```sh
+nvm use            # Node 22
 npm install
-npm run dev      # iteration server
-npm run build    # produces dashboard/index.html
-open dashboard/index.html   # double-click test (the canonical verification)
+npm run dev        # http://localhost:5173
 ```
 
-## What to read next
+## Scripts
 
-- [`docs/principles.md`](docs/principles.md) — the dashboard design playbook.
-- [`docs/recipe.md`](docs/recipe.md) — the build/runtime guide.
-- [`docs/sandbox-design.md`](docs/sandbox-design.md) — when designing
-  sandboxes inside the dashboard.
-- [`docs/sandbox-engine.md`](docs/sandbox-engine.md) — when extending or
-  forking a sandbox engine.
+| Command | What it does |
+| - | - |
+| `npm run dev` | Vite dev server |
+| `npm run build` | Type-check then bundle to `dist/` |
+| `npm run preview` | Serve the built `dist/` |
+| `npm run typecheck` | Strict type-check, no emit |
+| `npm run test:unit` | Vitest unit tests |
+| `npm run test:visual` | Playwright visual / smoke tests |
 
-## What ships in the skeleton
+## Layout
 
-- Vite config wired for single-file `file://` output.
-- Tailwind v4 with semantic theme tokens (`--color-ink`, `--color-surface`,
-  ...) and a `data-theme` toggle that propagates to inline SVG and CSS.
-- `HashRouter` (the History API does not work on `file://`).
-- `AppLayout` with header + `TabNav` + footer with build-time freeze stamp
-  (date + git short-SHA).
-- A single `HomePage` stub that exists to verify theme propagation.
+```
+ts/
+  src/
+    lib/gpu/         WebGPU adapter, surface, shader infra
+    lib/sim/         GelSim, sample/buffer/dye data model
+    lib/gel/         Gel render pass scheduler
+    components/      AppLayout, TabNav, gel/, sample/, chrome/
+    routes/          HomePage, GelPage, DevPage
+    shaders/         WGSL sources (ported from C++ GLSL 150)
+  fixtures/          Golden frames + canonical states
+  tests/             unit/ (Vitest) + visual/ (Playwright)
+```
 
-Nothing else. New projects add tabs, data, and sandboxes per `principles.md`.
+## Phase 1 plan
+
+The implementation plan lives at `../docs/superpowers/plans/2026-04-27-gelbox-ts-phase-1-overview.md`. Each milestone has its own detail-plan; M1 is the scaffold (where you are now).
+
+## License
+
+UNLICENSED — internal Douglas Lab work.
