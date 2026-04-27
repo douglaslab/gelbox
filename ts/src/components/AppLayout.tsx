@@ -4,7 +4,9 @@ import type { TabDef } from './TabNav';
 import { ThemeToggle } from './ThemeToggle';
 
 const TABS: TabDef[] = [
-  // Project fills in. Empty array hides the nav.
+  { to: '/', label: 'Home' },
+  { to: '/gel', label: 'Gel' },
+  { to: '/dev', label: 'Dev' },
 ];
 
 export function AppLayout() {

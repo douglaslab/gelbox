@@ -9,21 +9,21 @@ export function HomePage() {
       borderRadius: '8px',
       color: 'var(--color-ink)',
     }}>
-      <h1 style={{ marginTop: 0 }}>Dash</h1>
+      <h1 style={{ marginTop: 0 }}>Gelbox</h1>
       <p style={{ color: 'var(--color-ink-muted)' }}>
-        A starting point for static, file://-deployable dashboards. Read{' '}
-        <code>docs/principles.md</code> and <code>docs/recipe.md</code> before
-        adding tabs.
+        A web port of the Douglas Lab gel electrophoresis simulator. Built on
+        TypeScript + WebGPU with WebGL2 fallback.
       </p>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '20px' }}>
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 3v18M3 12h18" />
-        </svg>
-        <span style={{ color: 'var(--color-ink-muted)' }}>
-          Toggle the theme — this icon and the panel both follow.
-        </span>
-      </div>
+      <ul style={{ color: 'var(--color-ink-muted)', lineHeight: 1.8, marginTop: '20px', paddingLeft: '20px' }}>
+        <li>
+          <strong style={{ color: 'var(--color-ink)' }}>Gel</strong>
+          {' — main app'}
+        </li>
+        <li>
+          <strong style={{ color: 'var(--color-ink)' }}>Dev</strong>
+          {' — debug playground (GPU capability, single-band tests)'}
+        </li>
+      </ul>
     </article>
   );
 }
