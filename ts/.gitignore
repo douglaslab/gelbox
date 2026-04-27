@@ -1,5 +1,7 @@
 node_modules
-dashboard
+dist
 .DS_Store
 *.local
 .vite
+*.tsbuildinfo
+.tsbuildinfo*
