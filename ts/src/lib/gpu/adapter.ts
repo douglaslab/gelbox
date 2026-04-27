@@ -1,8 +1,15 @@
 export type GpuBackend = 'webgpu' | 'webgl2' | 'none';
 
+export interface AdapterInfoPlain {
+  vendor: string;
+  architecture: string;
+  device: string;
+  description: string;
+}
+
 export interface GpuCapability {
   backend: GpuBackend;
-  adapterInfo?: GPUAdapterInfo;
+  adapterInfo?: AdapterInfoPlain;
   features?: string[];
   limits?: Record<string, number>;
   reasons: string[];
@@ -19,16 +26,12 @@ export async function detectGpuCapability(): Promise<GpuCapability> {
     try {
       const adapter = await navigator.gpu.requestAdapter();
       if (adapter) {
-        const info = (adapter as unknown as { info?: GPUAdapterInfo }).info;
         const features = Array.from(adapter.features ?? []);
-        const limits: Record<string, number> = {};
-        for (const key of Object.keys(adapter.limits ?? {})) {
-          const v = (adapter.limits as unknown as Record<string, unknown>)[key];
-          if (typeof v === 'number') limits[key] = v;
-        }
+        const adapterInfo = extractAdapterInfo(adapter);
+        const limits = extractLimits(adapter.limits);
         return {
           backend: 'webgpu',
-          adapterInfo: info,
+          adapterInfo,
           features,
           limits,
           reasons: ['navigator.gpu.requestAdapter resolved'],
@@ -57,4 +60,38 @@ export async function detectGpuCapability(): Promise<GpuCapability> {
   }
 
   return { backend: 'none', reasons };
+}
+
+// GPUAdapterInfo exposes vendor/architecture/device/description as getter
+// properties on the prototype, so JSON.stringify on the object yields {}.
+// Read each field explicitly into a plain object.
+function extractAdapterInfo(adapter: GPUAdapter): AdapterInfoPlain | undefined {
+  const raw = (adapter as unknown as { info?: GPUAdapterInfo }).info;
+  if (!raw) return undefined;
+  return {
+    vendor: raw.vendor ?? '',
+    architecture: raw.architecture ?? '',
+    device: raw.device ?? '',
+    description: raw.description ?? '',
+  };
+}
+
+// GPUSupportedLimits exposes each limit (e.g. maxTextureDimension2D) as a
+// getter property on the prototype, not an own property. Object.keys returns
+// []. Walk the prototype chain to enumerate them and copy the numeric values.
+function extractLimits(limits: GPUSupportedLimits | undefined): Record<string, number> {
+  const out: Record<string, number> = {};
+  if (!limits) return out;
+  const seen = new Set<string>();
+  let proto: object | null = Object.getPrototypeOf(limits);
+  while (proto && proto !== Object.prototype) {
+    for (const key of Object.getOwnPropertyNames(proto)) {
+      if (key === 'constructor' || seen.has(key)) continue;
+      seen.add(key);
+      const v = (limits as unknown as Record<string, unknown>)[key];
+      if (typeof v === 'number') out[key] = v;
+    }
+    proto = Object.getPrototypeOf(proto);
+  }
+  return out;
 }
