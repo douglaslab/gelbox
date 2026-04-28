@@ -1,5 +1,5 @@
 import type { PingPong } from '../../gpu/target';
-import type { WarpTextureCpu } from '../smile';
+import type { WarpTextureCpu } from '../warpTexture';
 import { createUniformBuffer, writeVec2 } from '../../gpu/uniforms';
 import { createShaderModule } from '../../gpu/shader';
 import { createQuad } from '../../gpu/quad';

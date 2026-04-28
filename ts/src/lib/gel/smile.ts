@@ -1,15 +1,10 @@
+import type { WarpTextureCpu } from './warpTexture';
+
 export interface SmileParams {
   x1: number;          // band rect x1 in gel-space
   x2: number;          // band rect x2 in gel-space
   smileHeight: number; // gel-space pixels (peel-back peak)
   smileExp:    number;
-}
-
-export interface WarpTextureCpu {
-  data:   Uint8Array;
-  width:  number;
-  height: number;       // always 1 for smile/welldamage
-  scale:  [number, number];  // UV-space scale to pass into shader
 }
 
 export function buildSmileWarp(

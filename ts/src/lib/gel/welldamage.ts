@@ -1,6 +1,6 @@
 import { mulberry32, rangeFloat } from '../sim/rng';
 import type { Rect } from '../sim/band';
-import type { WarpTextureCpu } from './smile';
+import type { WarpTextureCpu } from './warpTexture';
 
 export interface WellDamageParams {
   rect: Rect;
