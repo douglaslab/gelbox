@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { detectGpuCapability, type GpuCapability } from '../lib/gpu/adapter';
-import { createSurface } from '../lib/gpu/surface';
 import { requestDevice } from '../lib/gpu/device';
 import { configureContext } from '../lib/gpu/context';
 
@@ -23,56 +22,47 @@ export function DevPage() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    let renderer: ReturnType<typeof import('../lib/gel/render').createGelRenderer> | null = null;
     let cancelled = false;
-    let surface: ReturnType<typeof createSurface> | null = null;
     (async () => {
       try {
-        surface = createSurface(canvas);
+        const fixture = (await import('../../fixtures/states/single-band.json')).default;
+        // Hard-set canvas backing buffer to fixture size — bypass surface.ts's DPR scaling
+        // so goldens are byte-stable regardless of devicePixelRatio (CI runs DPR=1, Retina dev DPR=2).
+        canvas.width  = fixture.gelSize.width  * fixture.pixelsPerUnit;
+        canvas.height = fixture.gelSize.height * fixture.pixelsPerUnit;
+
         const { device, queue } = await requestDevice();
         if (cancelled) return;
         const { context, format } = configureContext(canvas, device);
 
         const [
+          { createGelRenderer },
           { createQuad },
           { createShaderModule },
-          { createImageGraphPipeline },
-          { createUniformBuffer, writeVec2 },
-          passthroughVert,
-          gelPassthroughFrag,
+          { createUniformBuffer },
+          passVertSrc,
+          gelPassthroughSrc,
         ] = await Promise.all([
+          import('../lib/gel/render'),
           import('../lib/gpu/quad'),
           import('../lib/gpu/shader'),
-          import('../lib/gpu/pipeline'),
           import('../lib/gpu/uniforms'),
           import('../shaders/passthrough.vert.wgsl?raw'),
           import('../shaders/gel-passthrough.frag.wgsl?raw'),
         ]);
 
+        renderer = createGelRenderer(device, fixture.gelSize, fixture.pixelsPerUnit);
+        renderer.setBands(fixture.bands as unknown as Parameters<typeof renderer.setBands>[0]);
+        renderer.render();
+
+        // Blit composite RT → canvas via passthrough fs_main (no tint, no blend).
+        // Blit uses fs_main only (no tint, no blend) → 3-binding layout. fs_composite's
+        // CompositeUniforms (binding 3) is declared in the shader module but unreachable
+        // from fs_main, so it doesn't appear in this pipeline's resource interface.
         const quad = createQuad(device);
-        const vs = createShaderModule(device, passthroughVert.default, 'passthrough.vert');
-        const fs = createShaderModule(device, gelPassthroughFrag.default, 'gel-passthrough.frag');
-
-        // 2×2 test texture: red, green, blue, white pixels (top row, then bottom row)
-        const testTex = device.createTexture({
-          size: { width: 2, height: 2 },
-          format: 'rgba8unorm-srgb',
-          usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
-        });
-        queue.writeTexture(
-          { texture: testTex },
-          new Uint8Array([
-            255, 0, 0, 255,    0, 255, 0, 255,
-            0, 0, 255, 255,  255, 255, 255, 255,
-          ]),
-          { bytesPerRow: 8, rowsPerImage: 2 },
-          { width: 2, height: 2 }
-        );
-
-        const sampler = device.createSampler({
-          magFilter: 'nearest', minFilter: 'nearest',
-          addressModeU: 'clamp-to-edge', addressModeV: 'clamp-to-edge',
-        });
-
+        const vs = createShaderModule(device, passVertSrc.default, 'passthrough.vert');
+        const fs = createShaderModule(device, gelPassthroughSrc.default, 'gel-passthrough.frag');
         const bgl = device.createBindGroupLayout({
           entries: [
             { binding: 0, visibility: GPUShaderStage.VERTEX,   buffer:  { type: 'uniform' } },
@@ -80,41 +70,41 @@ export function DevPage() {
             { binding: 2, visibility: GPUShaderStage.FRAGMENT, sampler: { type: 'filtering' } },
           ],
         });
-
-        const pipeline = createImageGraphPipeline({
-          device, vertex: vs, fragment: fs,
-          vertexLayout: quad.layout, targetFormat: format,
-          bindGroupLayout: bgl, label: 'passthrough',
+        const pipeline = device.createRenderPipeline({
+          label: 'blit',
+          layout: device.createPipelineLayout({ bindGroupLayouts: [bgl] }),
+          vertex:   { module: vs, entryPoint: 'vs_main', buffers: [quad.layout] },
+          fragment: { module: fs, entryPoint: 'fs_main', targets: [{ format }] },
+          primitive: { topology: 'triangle-strip' },
         });
-
-        const uPass = createUniformBuffer(device, 48, 'pass-uniforms'); // 6×vec2 = 48 B
-        // Render the quad over the entire canvas in "gel space" (treat canvas px as gel px)
-        const gelW = canvas.width;
-        const gelH = canvas.height;
-        writeVec2(uPass.view,  0, 0,    0);                  // positionOffset
-        writeVec2(uPass.view,  8, gelW, gelH);               // positionScale
-        writeVec2(uPass.view, 16, 0,    0);                  // texCoordOffset
-        writeVec2(uPass.view, 24, 1,    1);                  // texCoordScale
-        writeVec2(uPass.view, 32, gelW, gelH);               // gelSize
-        writeVec2(uPass.view, 40, 0,    0);                  // pad
+        const sampler = device.createSampler({
+          magFilter: 'linear', minFilter: 'linear',
+          addressModeU: 'clamp-to-edge', addressModeV: 'clamp-to-edge',
+        });
+        const uPass = createUniformBuffer(device, 48, 'blit-pass-uniforms');
+        const dv = uPass.view;
+        const w = canvas.width, h = canvas.height;
+        dv.setFloat32(0,  0, true); dv.setFloat32(4,  0, true);
+        dv.setFloat32(8,  w, true); dv.setFloat32(12, h, true);
+        dv.setFloat32(16, 0, true); dv.setFloat32(20, 0, true);
+        dv.setFloat32(24, 1, true); dv.setFloat32(28, 1, true);
+        dv.setFloat32(32, w, true); dv.setFloat32(36, h, true);
+        dv.setFloat32(40, 0, true); dv.setFloat32(44, 0, true);
         uPass.upload(queue);
-
         const bg = device.createBindGroup({
           layout: bgl,
           entries: [
             { binding: 0, resource: { buffer: uPass.buffer } },
-            { binding: 1, resource: testTex.createView() },
+            { binding: 1, resource: renderer.output.view },
             { binding: 2, resource: sampler },
           ],
         });
-
-        const encoder = device.createCommandEncoder();
-        const pass = encoder.beginRenderPass({
+        const enc = device.createCommandEncoder();
+        const pass = enc.beginRenderPass({
           colorAttachments: [{
             view: context.getCurrentTexture().createView(),
+            loadOp: 'clear', storeOp: 'store',
             clearValue: { r: 0, g: 0, b: 0, a: 1 },
-            loadOp: 'clear',
-            storeOp: 'store',
           }],
         });
         pass.setPipeline(pipeline);
@@ -122,13 +112,16 @@ export function DevPage() {
         pass.setVertexBuffer(0, quad.buffer);
         pass.draw(quad.vertexCount);
         pass.end();
-        queue.submit([encoder.finish()]);
+        queue.submit([enc.finish()]);
         if (!cancelled) setBoot({ status: 'ready' });
       } catch (err) {
         if (!cancelled) setBoot({ status: 'error', message: (err as Error).message });
       }
     })();
-    return () => { cancelled = true; surface?.dispose(); };
+    return () => {
+      cancelled = true;
+      renderer?.destroy();
+    };
   }, []);
 
   return (
@@ -147,7 +140,7 @@ export function DevPage() {
       <canvas
         ref={canvasRef}
         data-testid="gel-canvas"
-        style={{ width: '320px', height: '240px', display: 'block', border: '1px solid var(--color-grid)' }}
+        style={{ width: '320px', height: '240px', display: 'block', border: '1px solid var(--color-grid)', imageRendering: 'pixelated' }}
       />
     </section>
   );
