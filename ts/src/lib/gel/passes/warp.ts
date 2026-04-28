@@ -61,28 +61,47 @@ export function createWarpPass(
 
   const uWarp = createUniformBuffer(device, 16, 'warp-uniforms');
 
-  // Reusable warp texture (resized as needed)
-  let warpTex: GPUTexture | null = null;
-  let warpTexW = 0;
-  let warpTexH = 0;
-  function ensureWarpTex(width: number, height: number) {
-    if (warpTex && warpTexW === width && warpTexH === height) return;
-    warpTex?.destroy();
-    warpTexW = width;
-    warpTexH = height;
-    warpTex = device.createTexture({
-      label: 'warp-tex',
-      size: { width, height },
-      format: 'rgba8unorm',
-      usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
-    });
+  // Split cache by "1D" (smile/welldamage 1×N) vs "2D" (overcook full-size).
+  // We never destroy a cached texture mid-frame because submitted bind groups
+  // referenced it. Different size classes get separate slots, so growing one
+  // never invalidates the other.
+  let warpTex1D: GPUTexture | null = null;
+  let warpTex1DW = 0;
+  let warpTex2D: GPUTexture | null = null;
+  let warpTex2DW = 0;
+  let warpTex2DH = 0;
+  function ensureWarpTex(width: number, height: number): GPUTexture {
+    if (height === 1) {
+      if (warpTex1D && warpTex1DW === width) return warpTex1D;
+      warpTex1D?.destroy();
+      warpTex1DW = width;
+      warpTex1D = device.createTexture({
+        label: 'warp-tex-1d',
+        size: { width, height: 1 },
+        format: 'rgba8unorm',
+        usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
+      });
+      return warpTex1D;
+    } else {
+      if (warpTex2D && warpTex2DW === width && warpTex2DH === height) return warpTex2D;
+      warpTex2D?.destroy();
+      warpTex2DW = width;
+      warpTex2DH = height;
+      warpTex2D = device.createTexture({
+        label: 'warp-tex-2d',
+        size: { width, height },
+        format: 'rgba8unorm',
+        usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
+      });
+      return warpTex2D;
+    }
   }
 
   return {
     run(encoder, target, warp) {
-      ensureWarpTex(warp.width, warp.height);
+      const tex = ensureWarpTex(warp.width, warp.height);
       device.queue.writeTexture(
-        { texture: warpTex! },
+        { texture: tex },
         warp.data,
         { bytesPerRow: warp.width * 4, rowsPerImage: warp.height },
         { width: warp.width, height: warp.height }
@@ -97,7 +116,7 @@ export function createWarpPass(
           { binding: 0, resource: { buffer: uPass.buffer } },
           { binding: 1, resource: target.current.view },
           { binding: 2, resource: sampler },
-          { binding: 3, resource: warpTex!.createView() },
+          { binding: 3, resource: tex.createView() },
           { binding: 4, resource: { buffer: uWarp.buffer } },
         ],
       });
@@ -119,7 +138,8 @@ export function createWarpPass(
     destroy() {
       uPass.destroy();
       uWarp.destroy();
-      warpTex?.destroy();
+      warpTex1D?.destroy();
+      warpTex2D?.destroy();
       quad.destroy();
     },
   };
