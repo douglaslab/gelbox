@@ -28,5 +28,15 @@ jobs:
           sudo apt-get install -y libvulkan1 mesa-vulkan-drivers vulkan-tools
           # Verify: vulkaninfo --summary should list at least one device
           vulkaninfo --summary || true
+      - name: Locate SwiftShader Vulkan ICD
+        run: |
+          ICD=$(find ~/.cache/ms-playwright -name 'vk_swiftshader_icd.json' 2>/dev/null | head -1)
+          if [ -z "$ICD" ]; then
+            echo "WARNING: vk_swiftshader_icd.json not found under ms-playwright cache"
+            ls -la ~/.cache/ms-playwright/ || true
+            exit 0
+          fi
+          echo "Found SwiftShader Vulkan ICD at: $ICD"
+          echo "VK_ICD_FILENAMES=$ICD" >> $GITHUB_ENV
       - run: npm run test:visual
       - run: npm run build
