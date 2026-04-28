@@ -64,13 +64,15 @@ export function createWarpPass(
   // Reusable warp texture (resized as needed)
   let warpTex: GPUTexture | null = null;
   let warpTexW = 0;
-  function ensureWarpTex(width: number) {
-    if (warpTex && warpTexW === width) return;
+  let warpTexH = 0;
+  function ensureWarpTex(width: number, height: number) {
+    if (warpTex && warpTexW === width && warpTexH === height) return;
     warpTex?.destroy();
     warpTexW = width;
+    warpTexH = height;
     warpTex = device.createTexture({
       label: 'warp-tex',
-      size: { width, height: 1 },
+      size: { width, height },
       format: 'rgba8unorm',
       usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
     });
@@ -78,12 +80,12 @@ export function createWarpPass(
 
   return {
     run(encoder, target, warp) {
-      ensureWarpTex(warp.width);
+      ensureWarpTex(warp.width, warp.height);
       device.queue.writeTexture(
         { texture: warpTex! },
         warp.data,
-        { bytesPerRow: warp.width * 4 },
-        { width: warp.width, height: 1 }
+        { bytesPerRow: warp.width * 4, rowsPerImage: warp.height },
+        { width: warp.width, height: warp.height }
       );
       writeVec2(uWarp.view, 0, warp.scale[0], warp.scale[1]);
       writeVec2(uWarp.view, 8, 0, 0);
