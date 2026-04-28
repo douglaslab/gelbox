@@ -4,12 +4,21 @@ import { createSurface } from '../lib/gpu/surface';
 import { requestDevice } from '../lib/gpu/device';
 import { configureContext } from '../lib/gpu/context';
 
+type BootState =
+  | { status: 'pending' }
+  | { status: 'ready' }
+  | { status: 'error'; message: string };
+
 export function DevPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [cap, setCap] = useState<GpuCapability | null>(null);
-  const [bootError, setBootError] = useState<string | null>(null);
+  const [boot, setBoot] = useState<BootState>({ status: 'pending' });
 
-  useEffect(() => { detectGpuCapability().then(setCap); }, []);
+  useEffect(() => {
+    let cancelled = false;
+    detectGpuCapability().then((c) => { if (!cancelled) setCap(c); });
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -33,8 +42,9 @@ export function DevPage() {
         });
         pass.end();
         device.queue.submit([encoder.finish()]);
+        if (!cancelled) setBoot({ status: 'ready' });
       } catch (err) {
-        setBootError((err as Error).message);
+        if (!cancelled) setBoot({ status: 'error', message: (err as Error).message });
       }
     })();
     return () => { cancelled = true; surface?.dispose(); };
@@ -51,7 +61,7 @@ export function DevPage() {
         border: '1px solid var(--color-grid)', overflowX: 'auto', color: 'var(--color-ink)',
       }}>{cap ? JSON.stringify(cap, null, 2) : 'detecting…'}</pre>
       <div data-testid="renderer-status" style={{ margin: '12px 0', color: 'var(--color-ink-muted)' }}>
-        {bootError ? `boot error: ${bootError}` : 'renderer: ready'}
+        {boot.status === 'error' ? `boot error: ${boot.message}` : `renderer: ${boot.status}`}
       </div>
       <canvas
         ref={canvasRef}

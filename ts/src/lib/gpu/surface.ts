@@ -13,6 +13,9 @@ export interface Surface {
   dispose(): void;
 }
 
+// TODO(M3+): also observe matchMedia(`(resolution: ${dpr}dppx)`) for DPR changes
+//   between monitors. ResizeObserver only catches CSS-px size changes; the
+//   backbuffer will go stale on cross-monitor drag without this.
 function measure(canvas: HTMLCanvasElement): SurfaceSize {
   const rect = canvas.getBoundingClientRect();
   const dpr = window.devicePixelRatio || 1;
