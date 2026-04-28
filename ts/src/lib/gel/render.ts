@@ -1,16 +1,21 @@
-import { createPingPong, createRenderTarget, type RenderTarget } from '../gpu/target';
+import { createPingPong, type RenderTarget } from '../gpu/target';
 import { createPrimitivePass } from './passes/primitives';
 import { createBlurPass }      from './passes/blur';
 import { createWarpPass }      from './passes/warp';
 import { createCompositePass } from './passes/composite';
 import { buildSmileWarp }      from './smile';
 import { buildWellDamageWarp } from './welldamage';
-import type { Band } from '../sim/band';
+import { buildOvercookWarp }   from './overcook';
+import { GEL_RENDER_TUNING }   from '../../data/tuning';
+import type { Band }       from '../sim/band';
+import type { GlobalWarp } from '../sim/globalWarp';
+import { NO_GLOBAL_WARP }  from '../sim/globalWarp';
 
 export interface GelRenderer {
   setBands(bands: Band[]): void;
+  setGlobalWarp(w: GlobalWarp): void;
   render(): void;
-  output: RenderTarget;
+  readonly output: RenderTarget;  // getter — points at composite.current after render()
   destroy(): void;
 }
 
@@ -24,7 +29,7 @@ export function createGelRenderer(
   const outputH = Math.round(gelSize.height * pixelsPerUnit);
 
   const band      = createPingPong(device, outputW, outputH, format, 'band');
-  const composite = createRenderTarget(device, outputW, outputH, format, 'composite');
+  const composite = createPingPong(device, outputW, outputH, format, 'composite');
 
   const primitives = createPrimitivePass(device, gelSize, format);
   const blur       = createBlurPass(device, gelSize, format);
@@ -32,42 +37,61 @@ export function createGelRenderer(
   const cmp        = createCompositePass(device, gelSize, format);
 
   let bands: Band[] = [];
+  let globalWarp: GlobalWarp = NO_GLOBAL_WARP;
+
+  // Per-band brightness clone — applies the H2O Faint factor by scaling all
+  // brightness channels of the band before passing it to primitives.draw.
+  // Cheaper than threading a brightScale parameter through three mesh builders.
+  function withFaint(b: Band, s: number): Band {
+    if (s === 1) return b;
+    return {
+      ...b,
+      brightness: b.brightness * s,
+      smearBrightnessAbove: [b.smearBrightnessAbove[0] * s, b.smearBrightnessAbove[1] * s],
+      smearBrightnessBelow: [b.smearBrightnessBelow[0] * s, b.smearBrightnessBelow[1] * s],
+    };
+  }
 
   function render() {
     const encoder = device.createCommandEncoder({ label: 'gel-render' });
 
-    bands.forEach((b, i) => {
-      // 1. Primitives → band.current (always produces a defined target;
-      //    clears internally to opaque black even on empty geometry)
-      primitives.draw(encoder, band.current, b);
+    const brightScale = globalWarp.h2oDistort
+      ? GEL_RENDER_TUNING.h2oDistort.faint
+      : 1;
 
-      // 2. Smile warp (if any)
+    bands.forEach((b, i) => {
+      const banded = withFaint(b, brightScale);
+      // 1. Primitives → band.current (always defined; clears even when empty)
+      primitives.draw(encoder, band.current, banded);
+
+      // 2. Smile warp
       const smile = buildSmileWarp({
-        x1: b.rect.x1, x2: b.rect.x2,
-        smileHeight: b.smileHeight, smileExp: b.smileExp,
+        x1: banded.rect.x1, x2: banded.rect.x2,
+        smileHeight: banded.smileHeight, smileExp: banded.smileExp,
       }, gelSize);
       if (smile) warp.run(encoder, band, smile);
 
-      // 3. Well-damage warp (if any)
+      // 3. Well-damage warp
       const wd = buildWellDamageWarp({
-        rect: b.rect, wellDamage: b.wellDamage, wellDamageRandSeed: b.wellDamageRandSeed,
+        rect: banded.rect, wellDamage: banded.wellDamage,
+        wellDamageRandSeed: banded.wellDamageRandSeed,
       }, gelSize);
       if (wd) warp.run(encoder, band, wd);
 
-      // 4. Blur (no-op on distance <= 0)
-      if (b.blur > 0) blur.run(encoder, band, b.blur * pixelsPerUnit);
+      // 4. Blur
+      if (banded.blur > 0) blur.run(encoder, band, banded.blur * pixelsPerUnit);
 
-      // 5. Composite — band.current → composite (additive, tinted).
-      //    First band clears the composite; later bands accumulate.
-      cmp.run(encoder, band.current, composite, b.color, /*clear*/ i === 0);
+      // 5. Composite — band.current → composite.current.
+      //    First band clears composite; later bands accumulate.
+      cmp.run(encoder, band.current, composite.current, banded.color, /*clear*/ i === 0);
     });
 
-    // If the bands array is empty, we still need a defined composite target
-    // so the canvas blit (Task 13) sees opaque black. Emit a clear pass.
+    // No bands: still need a defined composite RT for the canvas blit.
     if (bands.length === 0) {
       const pass = encoder.beginRenderPass({
+        label: 'gel-render-empty-clear',
         colorAttachments: [{
-          view: composite.view,
+          view: composite.current.view,
           loadOp: 'clear', storeOp: 'store',
           clearValue: { r: 0, g: 0, b: 0, a: 1 },
         }],
@@ -75,13 +99,18 @@ export function createGelRenderer(
       pass.end();
     }
 
+    // Global overcook warp on the composite ping-pong (only when h2oDistort is on).
+    const overcook = buildOvercookWarp(globalWarp, gelSize, pixelsPerUnit);
+    if (overcook) warp.run(encoder, composite, overcook);
+
     device.queue.submit([encoder.finish()]);
   }
 
   return {
-    setBands(b) { bands = b; },
+    setBands(b)       { bands = b; },
+    setGlobalWarp(w)  { globalWarp = w; },
     render,
-    output: composite,
+    get output()      { return composite.current; },
     destroy() {
       primitives.destroy();
       blur.destroy();
