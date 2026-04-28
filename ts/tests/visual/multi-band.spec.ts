@@ -1,7 +1,16 @@
 import { test, expect } from '@playwright/test';
 
-test('50-band canonical scene with overcook — golden frame', async ({ page }) => {
-  test.skip(process.platform === 'linux', 'WebGPU adapter not available on Linux GitHub runners; revisit when M4 lands WebGL2 fallback');
+test.beforeEach(async ({ page }, testInfo) => {
+  const backend = testInfo.project.name === 'chromium-webgl2' ? 'webgl2' : 'webgpu';
+  await page.addInitScript((b: string) => {
+    localStorage.setItem('gelBackend', b);
+  }, backend);
+});
+
+test('50-band canonical scene with overcook — golden frame', async ({ page }, testInfo) => {
+  if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {
+    test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
+  }
   await page.goto('/#/dev/multi');
   await expect(page.getByTestId('renderer-status')).toHaveText('renderer: ready');
   await page.evaluate(() => new Promise<void>((r) => requestAnimationFrame(() => r())));

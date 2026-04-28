@@ -18,7 +18,7 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'chromium',
+      name: 'chromium-webgpu',
       use: {
         ...devices['Desktop Chrome'],
         launchOptions: {
@@ -28,6 +28,15 @@ export default defineConfig({
             '--ignore-gpu-blocklist',
           ],
         },
+      },
+    },
+    {
+      name: 'chromium-webgl2',
+      use: {
+        ...devices['Desktop Chrome'],
+        // Tests in this project run against the WebGL2 path. Backend selection
+        // is driven by localStorage.gelBackend = 'webgl2' (set by the test
+        // beforeEach below) — no special launch flags needed.
       },
     },
   ],
