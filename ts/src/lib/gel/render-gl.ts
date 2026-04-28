@@ -157,13 +157,47 @@ export function createGlGelRenderer(
     gl.drawArrays(gl.TRIANGLES, 0, mesh.vertexCount);
   }
 
+  function drawComposite(src: GlRenderTarget, dst: GlRenderTarget, color: [number, number, number], clear: boolean) {
+    gl.bindFramebuffer(gl.FRAMEBUFFER, dst.framebuffer);
+    gl.viewport(0, 0, dst.width, dst.height);
+
+    if (clear) {
+      gl.disable(gl.BLEND);
+      gl.clearColor(0, 0, 0, 1);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+    }
+
+    gl.useProgram(progComp.program);
+
+    // Bind src texture as sampler2D uTex0 at TEXTURE_UNIT_0
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, src.texture);
+    gl.uniform1i(progComp.uniform('uTex0'), 0);
+    gl.uniform3f(progComp.uniform('uTint'), color[0], color[1], color[2]);
+
+    // Set passthrough vertex uniforms — full-screen quad mapped 1:1 to dst pixel space.
+    gl.uniform2f(progComp.uniform('uPositionOffset'), 0, 0);
+    gl.uniform2f(progComp.uniform('uPositionScale'),  gelSize.width, gelSize.height);
+    gl.uniform2f(progComp.uniform('uTexCoordOffset'), 0, 0);
+    gl.uniform2f(progComp.uniform('uTexCoordScale'),  1, 1);
+    gl.uniform2f(progComp.uniform('uGelSize'),        gelSize.width, gelSize.height);
+
+    bindQuadAttribs(gl, quad.buffer, progComp.attrib('aPos'), progComp.attrib('aTexCoord'));
+
+    // Premultiplied additive (matches WebGPU composite blend)
+    gl.enable(gl.BLEND);
+    gl.blendFuncSeparate(gl.ONE, gl.ONE, gl.ONE, gl.ONE);
+    gl.blendEquation(gl.FUNC_ADD);
+
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+
   function render() {
     const brightScale = globalWarp.h2oDistort
       ? GEL_RENDER_TUNING.h2oDistort.faint
       : 1;
 
-    // Tasks 8-10 will use these helpers; reference them to satisfy noUnusedLocals.
-    void bindQuadAttribs;
+    // Tasks 9-10 will use these helpers; reference them to satisfy noUnusedLocals.
     void buildSmileWarp;
     void buildWellDamageWarp;
     void buildOvercookWarp;
@@ -173,10 +207,8 @@ export function createGlGelRenderer(
       const b = withFaint(rawBand, brightScale);
       drawGeometry(band.current, b);
 
-      // (Tasks 8-10 will add: smile/wd warp, blur, composite.)
-      // For now, copy band.current into composite.current so the canvas blit shows something.
-      if (i === 0) clearTarget(composite.current);
-      drawCompositeStub(band.current, composite.current);
+      // (Tasks 9-10 will add: smile/wd warp, blur.)
+      drawComposite(band.current, composite.current, b.color, /*clear*/ i === 0);
     });
 
     if (bands.length === 0) clearTarget(composite.current);
@@ -184,20 +216,11 @@ export function createGlGelRenderer(
     // (Task 10 will add: overcook on composite ping-pong.)
   }
 
-  // STUB — replaced in Task 8 with the real composite pass.
-  function drawCompositeStub(_src: GlRenderTarget, _dst: GlRenderTarget) {
-    // Intentionally empty for the geometry-only scaffold. The first band's
-    // geometry-output stays in band.current; downstream the canvas blit will
-    // sample band.current via output. This stub is REPLACED in Task 8.
-  }
-
   return {
     setBands(b)        { bands = b; },
     setGlobalWarp(w)   { globalWarp = w; },
     render,
-    // For Task 7 only, expose band.current as the "output" so the dev page
-    // can blit something non-empty. Task 8 will switch to composite.current.
-    get output()       { return band.current; },
+    get output()       { return composite.current; },
     destroy() {
       progGeom.destroy();
       progWarp.destroy();
