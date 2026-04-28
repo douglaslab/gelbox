@@ -2,6 +2,7 @@ export interface Quad {
   buffer: GPUBuffer;
   vertexCount: number;
   layout: GPUVertexBufferLayout;
+  destroy(): void;
 }
 
 const QUAD_DATA = new Float32Array([
@@ -30,5 +31,6 @@ export function createQuad(device: GPUDevice): Quad {
         { shaderLocation: 1, offset: 4 * 2, format: 'float32x2' }, // texcoord
       ],
     },
+    destroy() { buffer.destroy(); },
   };
 }
