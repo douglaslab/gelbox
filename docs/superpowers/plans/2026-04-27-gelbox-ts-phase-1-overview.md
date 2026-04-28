@@ -153,7 +153,7 @@ gel/
 |---|---|---|---|---|
 | M1 | Scaffold + dev server | `npm run dev` shows three routes, theme toggles, all CI checks green, `/#/dev` shows live GPU capability | [`m1-scaffold.md`](2026-04-27-gelbox-ts-m1-scaffold.md) | Week 1 |
 | M2 | Single-band render parity | Playwright golden-frame matches C++ reference for 1 band, all 6 passes (gradient → rect → flames → smile → well-damage → blur → composite) | [`m2-single-band.md`](2026-04-27-gelbox-ts-m2-single-band.md) | Week 2 |
-| M3 | 50-band loop + global warp + 60fps | Frame profile <16ms with 50 bands at DPR 2 on Apple M1 | TBW after M2 | Week 3 |
+| M3 | 50-band loop + global warp + 60fps | Frame profile <16ms with 50 bands at DPR 2 on Apple M1 | [`m3-multi-band.md`](2026-04-27-gelbox-ts-m3-multi-band.md) | Week 3 |
 | M4 | WebGL2 fallback parity | Same goldens pass with WebGPU disabled (force-WebGL2 query param) | TBW after M3 | Week 3.5 |
 | M5 | GelSim + state pipeline | Voltage/time/buffer/lane sliders drive band positions correctly; goldens exist for canonical states | TBW after M4 | Week 4 |
 | M6 | Interaction layer | Band drag (with shift-lock), opt-drag duplicate, sample drag-between-lanes, tab-through-bands, modifier keys | TBW after M5 | Week 4.5 |
@@ -212,7 +212,7 @@ Apply 25% buffer for solo greenfield WebGPU. Realistic ship: **7–10 weeks**.
 - [x] **Phase 1 Overview** — this file
 - [ ] **M1 Scaffold** — [`2026-04-27-gelbox-ts-m1-scaffold.md`](2026-04-27-gelbox-ts-m1-scaffold.md) — next-execute
 - [x] **M2 Single-band render** — [`2026-04-27-gelbox-ts-m2-single-band.md`](2026-04-27-gelbox-ts-m2-single-band.md)
-- [ ] **M3 Many-band loop** — TBW after M2
+- [x] **M3 Many-band loop** — [`2026-04-27-gelbox-ts-m3-multi-band.md`](2026-04-27-gelbox-ts-m3-multi-band.md)
 - [ ] **M4 WebGL2 fallback** — TBW after M3
 - [ ] **M5 GelSim + state pipeline** — TBW after M4
 - [ ] **M6 Interaction layer** — TBW after M5
