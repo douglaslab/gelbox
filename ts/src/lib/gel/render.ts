@@ -39,6 +39,11 @@ export function createGelRenderer(
   let bands: Band[] = [];
   let globalWarp: GlobalWarp = NO_GLOBAL_WARP;
 
+  // Memo: overcook is a pure function of (globalWarp, gelSize, pixelsPerUnit).
+  // gelSize and pixelsPerUnit are constructor-frozen, so the only invalidator
+  // is setGlobalWarp. Cache invalidates on any setGlobalWarp call.
+  let overcookMemo: { gw: GlobalWarp; warp: ReturnType<typeof buildOvercookWarp> } | null = null;
+
   // Per-band brightness clone — applies the H2O Faint factor by scaling all
   // brightness channels of the band before passing it to primitives.draw.
   // Cheaper than threading a brightScale parameter through three mesh builders.
@@ -100,7 +105,10 @@ export function createGelRenderer(
     }
 
     // Global overcook warp on the composite ping-pong (only when h2oDistort is on).
-    const overcook = buildOvercookWarp(globalWarp, gelSize, pixelsPerUnit);
+    if (!overcookMemo || overcookMemo.gw !== globalWarp) {
+      overcookMemo = { gw: globalWarp, warp: buildOvercookWarp(globalWarp, gelSize, pixelsPerUnit) };
+    }
+    const overcook = overcookMemo.warp;
     if (overcook) warp.run(encoder, composite, overcook);
 
     device.queue.submit([encoder.finish()]);
@@ -108,7 +116,7 @@ export function createGelRenderer(
 
   return {
     setBands(b)       { bands = b; },
-    setGlobalWarp(w)  { globalWarp = w; },
+    setGlobalWarp(w)  { globalWarp = w; overcookMemo = null; },
     render,
     get output()      { return composite.current; },
     destroy() {
