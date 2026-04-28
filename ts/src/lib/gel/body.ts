@@ -1,5 +1,5 @@
 import type { Band } from '../sim/band';
-import { type Mesh, VERTEX_STRIDE } from './smear';
+import { type Mesh, VERTEX_STRIDE } from './mesh';
 
 export function buildBodyMesh(band: Band): Mesh {
   const b = band.brightness;
