@@ -13,6 +13,7 @@ import type { Mesh } from './mesh';
 import { VERTEX_STRIDE } from './mesh';
 import type { GlobalWarp } from '../sim/globalWarp';
 import { NO_GLOBAL_WARP } from '../sim/globalWarp';
+import type { WarpTextureCpu } from './warpTexture';
 
 import passthroughVertSrc from '../../shaders/passthrough.vert.glsl?raw';
 import geometryVertSrc    from '../../shaders/geometry.vert.glsl?raw';
@@ -157,6 +158,46 @@ export function createGlGelRenderer(
     gl.drawArrays(gl.TRIANGLES, 0, mesh.vertexCount);
   }
 
+  function runWarp(target: ReturnType<typeof createGlPingPong>, warp: WarpTextureCpu) {
+    // Upload CPU warp data into managed warp texture (1D or 2D).
+    const tex = ensureWarpTex(warp.width, warp.height);
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, warp.width, warp.height, gl.RGBA, gl.UNSIGNED_BYTE, warp.data);
+
+    // Render to target.next using target.current as input.
+    gl.bindFramebuffer(gl.FRAMEBUFFER, target.next.framebuffer);
+    gl.viewport(0, 0, target.next.width, target.next.height);
+    gl.disable(gl.BLEND);
+    gl.clearColor(0, 0, 0, 1);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    gl.useProgram(progWarp.program);
+
+    // uTex0 = source, uTexWarp = control
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, target.current.texture);
+    gl.uniform1i(progWarp.uniform('uTex0'), 0);
+
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.uniform1i(progWarp.uniform('uTexWarp'), 1);
+
+    gl.uniform2f(progWarp.uniform('uWarpScale'), warp.scale[0], warp.scale[1]);
+
+    // Passthrough vertex uniforms
+    gl.uniform2f(progWarp.uniform('uPositionOffset'), 0, 0);
+    gl.uniform2f(progWarp.uniform('uPositionScale'),  gelSize.width, gelSize.height);
+    gl.uniform2f(progWarp.uniform('uTexCoordOffset'), 0, 0);
+    gl.uniform2f(progWarp.uniform('uTexCoordScale'),  1, 1);
+    gl.uniform2f(progWarp.uniform('uGelSize'),        gelSize.width, gelSize.height);
+
+    bindQuadAttribs(gl, quad.buffer, progWarp.attrib('aPos'), progWarp.attrib('aTexCoord'));
+
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+    target.swap();
+  }
+
   function drawComposite(src: GlRenderTarget, dst: GlRenderTarget, color: [number, number, number], clear: boolean) {
     gl.bindFramebuffer(gl.FRAMEBUFFER, dst.framebuffer);
     gl.viewport(0, 0, dst.width, dst.height);
@@ -197,17 +238,25 @@ export function createGlGelRenderer(
       ? GEL_RENDER_TUNING.h2oDistort.faint
       : 1;
 
-    // Tasks 9-10 will use these helpers; reference them to satisfy noUnusedLocals.
-    void buildSmileWarp;
-    void buildWellDamageWarp;
+    // Task 10 will use this helper; reference it to satisfy noUnusedLocals.
     void buildOvercookWarp;
-    void ensureWarpTex;
 
     bands.forEach((rawBand, i) => {
       const b = withFaint(rawBand, brightScale);
       drawGeometry(band.current, b);
 
-      // (Tasks 9-10 will add: smile/wd warp, blur.)
+      const smile = buildSmileWarp({
+        x1: b.rect.x1, x2: b.rect.x2,
+        smileHeight: b.smileHeight, smileExp: b.smileExp,
+      }, gelSize);
+      if (smile) runWarp(band, smile);
+
+      const wd = buildWellDamageWarp({
+        rect: b.rect, wellDamage: b.wellDamage,
+        wellDamageRandSeed: b.wellDamageRandSeed,
+      }, gelSize);
+      if (wd) runWarp(band, wd);
+
       drawComposite(band.current, composite.current, b.color, /*clear*/ i === 0);
     });
 
