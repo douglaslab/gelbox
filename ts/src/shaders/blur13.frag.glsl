@@ -2,7 +2,6 @@ uniform sampler2D uTex0;
 uniform vec2 uResolution;
 uniform vec2 uDirection;
 
-in vec2 vTexCoord;
 out vec4 fragColor;
 
 void main() {
