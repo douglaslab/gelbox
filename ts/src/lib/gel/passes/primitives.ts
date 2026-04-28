@@ -10,6 +10,13 @@ import geomVertSrc from '../../../shaders/geometry.vert.wgsl?raw';
 import geomFragSrc from '../../../shaders/geometry.frag.wgsl?raw';
 
 export interface PrimitivePass {
+  /**
+   * Render band primitives (smears + body + flames) into `dst`. ALWAYS produces a
+   * defined target: if the band has no visible geometry (smearAbove/smearBelow/
+   * flameHeight all zero etc.), emits a clear-only pass so downstream passes
+   * (warp, blur, composite) sample a clean RT. Callers MUST NOT skip this call
+   * based on band emptiness.
+   */
   draw(encoder: GPUCommandEncoder, dst: RenderTarget, band: Band): void;
   destroy(): void;
 }
