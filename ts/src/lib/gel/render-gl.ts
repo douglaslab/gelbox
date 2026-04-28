@@ -100,6 +100,7 @@ export function createGlGelRenderer(
 
   let bands: Band[] = [];
   let globalWarp: GlobalWarp = NO_GLOBAL_WARP;
+  let overcookMemo: { gw: GlobalWarp; warp: ReturnType<typeof buildOvercookWarp> } | null = null;
 
   function withFaint(b: Band, s: number): Band {
     if (s === 1) return b;
@@ -198,6 +199,43 @@ export function createGlGelRenderer(
     target.swap();
   }
 
+  function runBlur(target: ReturnType<typeof createGlPingPong>, distance: number) {
+    let steps = Math.floor(distance);
+    while (steps > 0) {
+      const kernel = Math.min(steps, 3);  // 1, 2, or 3
+      const prog = kernel === 1 ? progBlur5 : kernel === 2 ? progBlur9 : progBlur13;
+      for (let dir = 0; dir < 2; dir++) {
+        gl.bindFramebuffer(gl.FRAMEBUFFER, target.next.framebuffer);
+        gl.viewport(0, 0, target.next.width, target.next.height);
+        gl.disable(gl.BLEND);
+        gl.clearColor(0, 0, 0, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        gl.useProgram(prog.program);
+
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, target.current.texture);
+        gl.uniform1i(prog.uniform('uTex0'), 0);
+
+        gl.uniform2f(prog.uniform('uResolution'), gelSize.width, gelSize.height);
+        gl.uniform2f(prog.uniform('uDirection'), dir === 0 ? 1 : 0, dir === 0 ? 0 : 1);
+
+        // Passthrough vertex uniforms
+        gl.uniform2f(prog.uniform('uPositionOffset'), 0, 0);
+        gl.uniform2f(prog.uniform('uPositionScale'),  gelSize.width, gelSize.height);
+        gl.uniform2f(prog.uniform('uTexCoordOffset'), 0, 0);
+        gl.uniform2f(prog.uniform('uTexCoordScale'),  1, 1);
+        gl.uniform2f(prog.uniform('uGelSize'),        gelSize.width, gelSize.height);
+
+        bindQuadAttribs(gl, quad.buffer, prog.attrib('aPos'), prog.attrib('aTexCoord'));
+
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        target.swap();
+      }
+      steps -= kernel;
+    }
+  }
+
   function drawComposite(src: GlRenderTarget, dst: GlRenderTarget, color: [number, number, number], clear: boolean) {
     gl.bindFramebuffer(gl.FRAMEBUFFER, dst.framebuffer);
     gl.viewport(0, 0, dst.width, dst.height);
@@ -238,9 +276,6 @@ export function createGlGelRenderer(
       ? GEL_RENDER_TUNING.h2oDistort.faint
       : 1;
 
-    // Task 10 will use this helper; reference it to satisfy noUnusedLocals.
-    void buildOvercookWarp;
-
     bands.forEach((rawBand, i) => {
       const b = withFaint(rawBand, brightScale);
       drawGeometry(band.current, b);
@@ -257,17 +292,23 @@ export function createGlGelRenderer(
       }, gelSize);
       if (wd) runWarp(band, wd);
 
+      if (b.blur > 0) runBlur(band, b.blur * pixelsPerUnit);
+
       drawComposite(band.current, composite.current, b.color, /*clear*/ i === 0);
     });
 
     if (bands.length === 0) clearTarget(composite.current);
 
-    // (Task 10 will add: overcook on composite ping-pong.)
+    if (!overcookMemo || overcookMemo.gw !== globalWarp) {
+      overcookMemo = { gw: globalWarp, warp: buildOvercookWarp(globalWarp, gelSize, pixelsPerUnit) };
+    }
+    const overcook = overcookMemo.warp;
+    if (overcook) runWarp(composite, overcook);
   }
 
   return {
     setBands(b)        { bands = b; },
-    setGlobalWarp(w)   { globalWarp = w; },
+    setGlobalWarp(w)   { globalWarp = w; overcookMemo = null; },
     render,
     get output()       { return composite.current; },
     destroy() {
