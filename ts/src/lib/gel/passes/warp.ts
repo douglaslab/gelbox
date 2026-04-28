@@ -97,6 +97,30 @@ export function createWarpPass(
     }
   }
 
+  // Cache bind groups by (source target view × warp size class).
+  // - Band ping-pong has 2 views; composite ping-pong has 2 views. So 4 sources.
+  // - Two size classes: 1D (smile/welldamage) vs 2D (overcook).
+  // Total potential entries: 8 (in practice 6: smile/wd ride 2 source views × 1D = 2 entries; overcook rides 2 source views × 2D = 2 entries).
+  const bgCache1D = new WeakMap<GPUTextureView, GPUBindGroup>();
+  const bgCache2D = new WeakMap<GPUTextureView, GPUBindGroup>();
+  function getBindGroup(srcView: GPUTextureView, warpView: GPUTextureView, height: number): GPUBindGroup {
+    const cache = height === 1 ? bgCache1D : bgCache2D;
+    let bg = cache.get(srcView);
+    if (bg) return bg;
+    bg = device.createBindGroup({
+      layout: bgl,
+      entries: [
+        { binding: 0, resource: { buffer: uPass.buffer } },
+        { binding: 1, resource: srcView },
+        { binding: 2, resource: sampler },
+        { binding: 3, resource: warpView },
+        { binding: 4, resource: { buffer: uWarp.buffer } },
+      ],
+    });
+    cache.set(srcView, bg);
+    return bg;
+  }
+
   return {
     run(encoder, target, warp) {
       const tex = ensureWarpTex(warp.width, warp.height);
@@ -110,16 +134,7 @@ export function createWarpPass(
       writeVec2(uWarp.view, 8, 0, 0);
       uWarp.upload(device.queue);
 
-      const bg = device.createBindGroup({
-        layout: bgl,
-        entries: [
-          { binding: 0, resource: { buffer: uPass.buffer } },
-          { binding: 1, resource: target.current.view },
-          { binding: 2, resource: sampler },
-          { binding: 3, resource: tex.createView() },
-          { binding: 4, resource: { buffer: uWarp.buffer } },
-        ],
-      });
+      const bg = getBindGroup(target.current.view, tex.createView(), warp.height);
 
       const pass = encoder.beginRenderPass({
         colorAttachments: [{
