@@ -55,7 +55,9 @@ export function DevPage() {
         renderer = createGelRenderer(device, fixture.gelSize, fixture.pixelsPerUnit);
         renderer.setBands(fixture.bands as unknown as Parameters<typeof renderer.setBands>[0]);
         renderer.render();
+        if (cancelled) return;
 
+        // TODO(M3): blit pipeline resources leak on unmount; replaced when GelCanvas owns the lifecycle.
         // Blit composite RT → canvas via passthrough fs_main (no tint, no blend).
         // Blit uses fs_main only (no tint, no blend) → 3-binding layout. fs_composite's
         // CompositeUniforms (binding 3) is declared in the shader module but unreachable
