@@ -1,47 +1,63 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { detectGpuCapability, type GpuCapability } from '../lib/gpu/adapter';
+import { createSurface } from '../lib/gpu/surface';
+import { requestDevice } from '../lib/gpu/device';
+import { configureContext } from '../lib/gpu/context';
 
 export function DevPage() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [cap, setCap] = useState<GpuCapability | null>(null);
+  const [bootError, setBootError] = useState<string | null>(null);
+
+  useEffect(() => { detectGpuCapability().then(setCap); }, []);
 
   useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    let surface: ReturnType<typeof createSurface> | null = null;
     let cancelled = false;
-    detectGpuCapability().then((c) => {
-      if (!cancelled) setCap(c);
-    });
-    return () => {
-      cancelled = true;
-    };
+    (async () => {
+      try {
+        surface = createSurface(canvas);
+        const { device } = await requestDevice();
+        if (cancelled) return;
+        const { context } = configureContext(canvas, device);
+        const encoder = device.createCommandEncoder();
+        const pass = encoder.beginRenderPass({
+          colorAttachments: [{
+            view: context.getCurrentTexture().createView(),
+            clearValue: { r: 0.08, g: 0.10, b: 0.12, a: 1 },
+            loadOp: 'clear',
+            storeOp: 'store',
+          }],
+        });
+        pass.end();
+        device.queue.submit([encoder.finish()]);
+      } catch (err) {
+        setBootError((err as Error).message);
+      }
+    })();
+    return () => { cancelled = true; surface?.dispose(); };
   }, []);
 
   return (
-    <section>
-      <h1 style={{ color: 'var(--color-ink)', marginTop: 0 }}>Dev</h1>
+    <section style={{ padding: '24px', maxWidth: '960px', margin: '0 auto' }}>
+      <h1 style={{ marginTop: 0 }}>Dev</h1>
       <p style={{ color: 'var(--color-ink-muted)' }}>
-        Visual debugging playground.
+        Live GPU capability and renderer harness.
       </p>
-
-      <h2 style={{ color: 'var(--color-ink)' }}>GPU capability</h2>
-      {cap === null ? (
-        <p style={{ color: 'var(--color-ink-muted)' }}>Detecting…</p>
-      ) : (
-        <pre
-          data-testid="gpu-capability"
-          style={{
-            color: 'var(--color-ink)',
-            background: 'var(--color-surface-raised)',
-            padding: '1rem',
-            border: '1px solid var(--color-grid)',
-            borderRadius: '4px',
-            overflow: 'auto',
-            maxWidth: '720px',
-            fontSize: '12px',
-            lineHeight: 1.5,
-          }}
-        >
-          {JSON.stringify(cap, null, 2)}
-        </pre>
-      )}
+      <pre data-testid="gpu-capability" style={{
+        background: 'var(--color-surface-raised)', padding: '12px', borderRadius: '6px',
+        border: '1px solid var(--color-grid)', overflowX: 'auto', color: 'var(--color-ink)',
+      }}>{cap ? JSON.stringify(cap, null, 2) : 'detecting…'}</pre>
+      <div data-testid="renderer-status" style={{ margin: '12px 0', color: 'var(--color-ink-muted)' }}>
+        {bootError ? `boot error: ${bootError}` : 'renderer: ready'}
+      </div>
+      <canvas
+        ref={canvasRef}
+        data-testid="gel-canvas"
+        style={{ width: '320px', height: '240px', display: 'block', border: '1px solid var(--color-grid)' }}
+      />
     </section>
   );
 }

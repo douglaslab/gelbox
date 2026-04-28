@@ -21,3 +21,10 @@ test('navigating to /#/dev shows dev page heading', async ({ page }) => {
   await page.goto('/#/dev');
   await expect(page.getByRole('heading', { name: 'Dev' })).toBeVisible();
 });
+
+test('dev page boots renderer', async ({ page }) => {
+  await page.goto('/#/dev');
+  await expect(page.getByTestId('renderer-status')).toHaveText('renderer: ready');
+  const canvas = page.getByTestId('gel-canvas');
+  await expect(canvas).toBeVisible();
+});

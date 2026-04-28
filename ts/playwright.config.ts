@@ -1,4 +1,4 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests/visual',
@@ -18,7 +18,17 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { browserName: 'chromium' },
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: {
+          args: [
+            '--enable-unsafe-webgpu',
+            '--enable-features=Vulkan',
+            '--use-vulkan=swiftshader',
+            '--disable-vulkan-surface',
+          ],
+        },
+      },
     },
   ],
 });
