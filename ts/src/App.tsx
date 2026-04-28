@@ -3,6 +3,7 @@ import { AppLayout } from './components/AppLayout';
 import { HomePage } from './routes/HomePage';
 import { GelPage } from './routes/GelPage';
 import { DevPage } from './routes/DevPage';
+import { DevMultiPage } from './routes/DevMultiPage';
 import { ThemeProvider } from './lib/theme';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
             <Route index element={<HomePage />} />
             <Route path="gel" element={<GelPage />} />
             <Route path="dev" element={<DevPage />} />
+            <Route path="dev/multi" element={<DevMultiPage />} />
           </Route>
         </Routes>
       </HashRouter>
