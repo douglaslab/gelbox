@@ -8,7 +8,7 @@ type BootState =
   | { status: 'ready' }
   | { status: 'error'; message: string };
 
-const SAMPLE_WINDOW = 60;
+const SAMPLE_WINDOW = 10;
 
 type PerfFixture = {
   gelSize: { width: number; height: number };

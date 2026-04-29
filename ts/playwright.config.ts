@@ -36,7 +36,15 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         // Tests in this project run against the WebGL2 path. Backend selection
         // is driven by localStorage.gelBackend = 'webgl2' (set by the test
-        // beforeEach below) — no special launch flags needed.
+        // beforeEach below).
+        launchOptions: {
+          args: [
+            // Prevent headless Chrome from throttling rAF on CI runners.
+            '--disable-background-timer-throttling',
+            '--disable-backgrounding-occluded-windows',
+            '--disable-renderer-backgrounding',
+          ],
+        },
       },
     },
   ],
