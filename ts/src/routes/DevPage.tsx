@@ -148,10 +148,8 @@ async function mountWebGl2(
   gl.uniform1i(blit.uniform('uTex0'), 0);
   gl.uniform2f(blit.uniform('uPositionOffset'), 0, 0);
   gl.uniform2f(blit.uniform('uPositionScale'),  fixture.gelSize.width, fixture.gelSize.height);
-  // Flip V: WebGL2 FBO row 0 is the bottom of the rendered image; canvas vTexCoord.y=0
-  // is the top. Without this flip, the displayed image is upside down vs the WebGPU path.
-  gl.uniform2f(blit.uniform('uTexCoordOffset'), 0, 1);
-  gl.uniform2f(blit.uniform('uTexCoordScale'),  1, -1);
+  gl.uniform2f(blit.uniform('uTexCoordOffset'), 0, 0);
+  gl.uniform2f(blit.uniform('uTexCoordScale'),  1, 1);
   gl.uniform2f(blit.uniform('uGelSize'),        fixture.gelSize.width, fixture.gelSize.height);
   bindQuadAttribs(gl, quad.buffer, blit.attrib('aPos'), blit.attrib('aTexCoord'));
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
