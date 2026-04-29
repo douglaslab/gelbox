@@ -64,31 +64,38 @@ export function createGelRenderer(
       ? GEL_RENDER_TUNING.h2oDistort.faint
       : 1;
 
+    // Per-frame call counters for the warp pass. WebGPU's queue.writeTexture
+    // and writeBuffer are GLOBAL on the device queue and do NOT serialize
+    // with command-buffer recording — every shared-resource write within a
+    // frame must target a unique pool slot or all draws end up reading the
+    // last write. See passes/*.ts for pool details.
+    let warp1dIdx = 0;
+
     bands.forEach((b, i) => {
       const banded = withFaint(b, brightScale);
       // 1. Primitives → band.current (always defined; clears even when empty)
-      primitives.draw(encoder, band.current, banded);
+      primitives.draw(encoder, band.current, banded, i);
 
       // 2. Smile warp
       const smile = buildSmileWarp({
         x1: banded.rect.x1, x2: banded.rect.x2,
         smileHeight: banded.smileHeight, smileExp: banded.smileExp,
       }, gelSize);
-      if (smile) warp.run(encoder, band, smile);
+      if (smile) warp.run(encoder, band, smile, warp1dIdx++, '1d');
 
       // 3. Well-damage warp
       const wd = buildWellDamageWarp({
         rect: banded.rect, wellDamage: banded.wellDamage,
         wellDamageRandSeed: banded.wellDamageRandSeed,
       }, gelSize);
-      if (wd) warp.run(encoder, band, wd);
+      if (wd) warp.run(encoder, band, wd, warp1dIdx++, '1d');
 
       // 4. Blur
       if (banded.blur > 0) blur.run(encoder, band, banded.blur * pixelsPerUnit);
 
       // 5. Composite — band.current → composite.current.
       //    First band clears composite; later bands accumulate.
-      cmp.run(encoder, band.current, composite.current, banded.color, /*clear*/ i === 0);
+      cmp.run(encoder, band.current, composite.current, banded.color, /*clear*/ i === 0, i);
     });
 
     // No bands: still need a defined composite RT for the canvas blit.
@@ -109,7 +116,7 @@ export function createGelRenderer(
       overcookMemo = { gw: globalWarp, warp: buildOvercookWarp(globalWarp, gelSize, pixelsPerUnit) };
     }
     const overcook = overcookMemo.warp;
-    if (overcook) warp.run(encoder, composite, overcook);
+    if (overcook) warp.run(encoder, composite, overcook, 0, '2d');
 
     device.queue.submit([encoder.finish()]);
   }

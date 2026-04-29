@@ -1,5 +1,5 @@
 import type { RenderTarget } from '../../gpu/target';
-import { createUniformBuffer, writeVec4 } from '../../gpu/uniforms';
+import { createUniformBuffer, writeVec4, type UniformBuffer } from '../../gpu/uniforms';
 import { createShaderModule } from '../../gpu/shader';
 import { createQuad } from '../../gpu/quad';
 import passVertSrc       from '../../../shaders/passthrough.vert.wgsl?raw';
@@ -11,6 +11,10 @@ export interface CompositePass {
    * additive blend (matches C++ SRC_ALPHA, ONE on unpremultiplied source). When
    * `clear` is true, `dst` is cleared to black before the draw (used for the first
    * band of the frame); otherwise `dst` is loaded and accumulated onto.
+   *
+   * `callIdx` selects a per-call tint-uniform slot in an internal pool. The
+   * orchestrator passes a unique slot per draw within a frame so the
+   * writeBuffer calls don't collide on the device queue.
    */
   run(
     encoder: GPUCommandEncoder,
@@ -18,6 +22,7 @@ export interface CompositePass {
     dst: RenderTarget,
     color: [number, number, number],
     clear: boolean,
+    callIdx: number,
   ): void;
   destroy(): void;
 }
@@ -74,10 +79,20 @@ export function createCompositePass(
   dv.setFloat32(40, 0, true); dv.setFloat32(44, 0, true);
   uPass.upload(device.queue);
 
-  const uComp = createUniformBuffer(device, 16, 'composite-uniforms');
+  // Per-call tint-uniform pool (16 bytes each: r, g, b, 1). Grows on demand;
+  // reused frame-to-frame. Slot size is fixed (uniform layout never changes),
+  // so slots are allocated once per session.
+  const uComps: UniformBuffer[] = [];
+  function ensureSlot(callIdx: number): UniformBuffer {
+    while (uComps.length <= callIdx) {
+      uComps.push(createUniformBuffer(device, 16, `composite-uniforms[${uComps.length}]`));
+    }
+    return uComps[callIdx];
+  }
 
   return {
-    run(encoder, src, dst, color, clear) {
+    run(encoder, src, dst, color, clear, callIdx) {
+      const uComp = ensureSlot(callIdx);
       writeVec4(uComp.view, 0, color[0], color[1], color[2], 1);
       uComp.upload(device.queue);
 
@@ -107,7 +122,8 @@ export function createCompositePass(
     },
     destroy() {
       uPass.destroy();
-      uComp.destroy();
+      for (const u of uComps) u.destroy();
+      uComps.length = 0;
       quad.destroy();
     },
   };

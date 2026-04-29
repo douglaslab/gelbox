@@ -1,20 +1,31 @@
 import type { PingPong } from '../../gpu/target';
 import type { WarpTextureCpu } from '../warpTexture';
-import { createUniformBuffer, writeVec2 } from '../../gpu/uniforms';
+import { createUniformBuffer, writeVec2, type UniformBuffer } from '../../gpu/uniforms';
 import { createShaderModule } from '../../gpu/shader';
 import { createQuad } from '../../gpu/quad';
 import passVertSrc from '../../../shaders/passthrough.vert.wgsl?raw';
 import warpFragSrc from '../../../shaders/warp.frag.wgsl?raw';
 
+export type WarpKind = '1d' | '2d';
+
 export interface WarpPass {
   /**
    * Apply a single warp pass: read `target.current`, sample `warp` texture,
    * write deflected result to `target.next`, then swap. After return, the
-   * warped image is at `target.current`. Caller passes a CPU-built warp
-   * texture (1×N or 2D); the pass uploads it to a managed GPU texture
-   * (resized as needed across calls).
+   * warped image is at `target.current`.
+   *
+   * `callIdx` selects a per-call texture/uniform slot (separate pools for
+   * `1d` and `2d` kinds; `2d` is only the overcook pass). `kind` picks the
+   * pool. The orchestrator passes a unique slot per call within a frame so
+   * the writeTexture/writeBuffer calls don't collide on the device queue.
    */
-  run(encoder: GPUCommandEncoder, target: PingPong, warp: WarpTextureCpu): void;
+  run(
+    encoder: GPUCommandEncoder,
+    target: PingPong,
+    warp: WarpTextureCpu,
+    callIdx: number,
+    kind: WarpKind,
+  ): void;
   destroy(): void;
 }
 
@@ -59,73 +70,63 @@ export function createWarpPass(
   writeVec2(uPass.view, 40, 0, 0);
   uPass.upload(device.queue);
 
-  const uWarp = createUniformBuffer(device, 16, 'warp-uniforms');
+  // Per-call pools. `warpTex1Ds` and `warpTex2Ds` are separate pools (smile
+  // and welldamage share the 1D pool indexed by their callIdx; overcook
+  // owns the 2D pool). `uWarps` is a single shared uniform pool indexed by
+  // (kind-tagged) call number — each warp.run() consumes one slot.
+  type TexSlot = { tex: GPUTexture; width: number; height: number };
+  const warpTex1Ds: TexSlot[] = [];
+  const warpTex2Ds: TexSlot[] = [];
+  const uWarps1D: UniformBuffer[] = [];
+  const uWarps2D: UniformBuffer[] = [];
 
-  // Split cache by "1D" (smile/welldamage 1×N) vs "2D" (overcook full-size).
-  // We never destroy a cached texture mid-frame because submitted bind groups
-  // referenced it. Different size classes get separate slots, so growing one
-  // never invalidates the other.
-  let warpTex1D: GPUTexture | null = null;
-  let warpTex1DW = 0;
-  let warpTex2D: GPUTexture | null = null;
-  let warpTex2DW = 0;
-  let warpTex2DH = 0;
-  function ensureWarpTex(width: number, height: number): GPUTexture {
-    if (height === 1) {
-      if (warpTex1D && warpTex1DW === width) return warpTex1D;
-      warpTex1D?.destroy();
-      warpTex1DW = width;
-      warpTex1D = device.createTexture({
-        label: 'warp-tex-1d',
-        size: { width, height: 1 },
-        format: 'rgba8unorm',
-        usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
+  function ensureTexSlot(pool: TexSlot[], callIdx: number, width: number, height: number, label: string): TexSlot {
+    while (pool.length <= callIdx) {
+      // Allocate a placeholder slot at the requested size — first use of
+      // this slot. (We do not pre-allocate beyond what callers need.)
+      pool.push({
+        tex: device.createTexture({
+          label: `${label}[${pool.length}]`,
+          size: { width, height },
+          format: 'rgba8unorm',
+          usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
+        }),
+        width, height,
       });
-      return warpTex1D;
-    } else {
-      if (warpTex2D && warpTex2DW === width && warpTex2DH === height) return warpTex2D;
-      warpTex2D?.destroy();
-      warpTex2DW = width;
-      warpTex2DH = height;
-      warpTex2D = device.createTexture({
-        label: 'warp-tex-2d',
-        size: { width, height },
-        format: 'rgba8unorm',
-        usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
-      });
-      return warpTex2D;
     }
+    const slot = pool[callIdx];
+    if (slot.width === width && slot.height === height) return slot;
+    // Slot size mismatch — recreate. Destroying the old texture is safe per
+    // WebGPU spec (pending commands referencing it complete normally).
+    slot.tex.destroy();
+    slot.tex = device.createTexture({
+      label: `${label}[${callIdx}]`,
+      size: { width, height },
+      format: 'rgba8unorm',
+      usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
+    });
+    slot.width = width;
+    slot.height = height;
+    return slot;
   }
 
-  // Cache bind groups by (source target view × warp size class).
-  // - Band ping-pong has 2 views; composite ping-pong has 2 views. So 4 sources.
-  // - Two size classes: 1D (smile/welldamage) vs 2D (overcook).
-  // Total potential entries: 8 (in practice 6: smile/wd ride 2 source views × 1D = 2 entries; overcook rides 2 source views × 2D = 2 entries).
-  const bgCache1D = new WeakMap<GPUTextureView, GPUBindGroup>();
-  const bgCache2D = new WeakMap<GPUTextureView, GPUBindGroup>();
-  function getBindGroup(srcView: GPUTextureView, warpView: GPUTextureView, height: number): GPUBindGroup {
-    const cache = height === 1 ? bgCache1D : bgCache2D;
-    let bg = cache.get(srcView);
-    if (bg) return bg;
-    bg = device.createBindGroup({
-      layout: bgl,
-      entries: [
-        { binding: 0, resource: { buffer: uPass.buffer } },
-        { binding: 1, resource: srcView },
-        { binding: 2, resource: sampler },
-        { binding: 3, resource: warpView },
-        { binding: 4, resource: { buffer: uWarp.buffer } },
-      ],
-    });
-    cache.set(srcView, bg);
-    return bg;
+  function ensureUSlot(pool: UniformBuffer[], callIdx: number, label: string): UniformBuffer {
+    while (pool.length <= callIdx) {
+      pool.push(createUniformBuffer(device, 16, `${label}[${pool.length}]`));
+    }
+    return pool[callIdx];
   }
 
   return {
-    run(encoder, target, warp) {
-      const tex = ensureWarpTex(warp.width, warp.height);
+    run(encoder, target, warp, callIdx, kind) {
+      const isOneD = kind === '1d';
+      const texPool = isOneD ? warpTex1Ds : warpTex2Ds;
+      const uPool = isOneD ? uWarps1D : uWarps2D;
+      const slot = ensureTexSlot(texPool, callIdx, warp.width, warp.height, isOneD ? 'warp-tex-1d' : 'warp-tex-2d');
+      const uWarp = ensureUSlot(uPool, callIdx, isOneD ? 'warp-uniforms-1d' : 'warp-uniforms-2d');
+
       device.queue.writeTexture(
-        { texture: tex },
+        { texture: slot.tex },
         warp.data,
         { bytesPerRow: warp.width * 4, rowsPerImage: warp.height },
         { width: warp.width, height: warp.height }
@@ -134,7 +135,19 @@ export function createWarpPass(
       writeVec2(uWarp.view, 8, 0, 0);
       uWarp.upload(device.queue);
 
-      const bg = getBindGroup(target.current.view, tex.createView(), warp.height);
+      // Bind group is created per call (cheap; matches composite.ts pattern).
+      // This avoids stale-view bugs if a slot's texture is recreated due to
+      // a size change between frames.
+      const bg = device.createBindGroup({
+        layout: bgl,
+        entries: [
+          { binding: 0, resource: { buffer: uPass.buffer } },
+          { binding: 1, resource: target.current.view },
+          { binding: 2, resource: sampler },
+          { binding: 3, resource: slot.tex.createView() },
+          { binding: 4, resource: { buffer: uWarp.buffer } },
+        ],
+      });
 
       const pass = encoder.beginRenderPass({
         colorAttachments: [{
@@ -152,9 +165,14 @@ export function createWarpPass(
     },
     destroy() {
       uPass.destroy();
-      uWarp.destroy();
-      warpTex1D?.destroy();
-      warpTex2D?.destroy();
+      for (const u of uWarps1D) u.destroy();
+      for (const u of uWarps2D) u.destroy();
+      uWarps1D.length = 0;
+      uWarps2D.length = 0;
+      for (const s of warpTex1Ds) s.tex.destroy();
+      for (const s of warpTex2Ds) s.tex.destroy();
+      warpTex1Ds.length = 0;
+      warpTex2Ds.length = 0;
       quad.destroy();
     },
   };

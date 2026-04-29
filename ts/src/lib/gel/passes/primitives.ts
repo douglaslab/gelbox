@@ -16,10 +16,16 @@ export interface PrimitivePass {
    * flameHeight all zero etc.), emits a clear-only pass so downstream passes
    * (warp, blur, composite) sample a clean RT. Callers MUST NOT skip this call
    * based on band emptiness.
+   *
+   * `callIdx` selects a per-call VBO slot in an internal pool. The orchestrator
+   * passes a unique slot per draw within a frame so the VBO writes don't
+   * collide on the device queue (which serializes globally, not per-encoder).
    */
-  draw(encoder: GPUCommandEncoder, dst: RenderTarget, band: Band): void;
+  draw(encoder: GPUCommandEncoder, dst: RenderTarget, band: Band, callIdx: number): void;
   destroy(): void;
 }
+
+const INITIAL_VBO_BYTES = 64 * 1024;
 
 export function createPrimitivePass(
   device: GPUDevice,
@@ -76,19 +82,40 @@ export function createPrimitivePass(
     entries: [{ binding: 0, resource: { buffer: ub.buffer } }],
   });
 
-  // Pre-allocate a VBO that grows as needed
-  let vbo: GPUBuffer | null = null;
-  let vboSize = 0;
+  // Per-call VBO pool. Indexed by callIdx (one per band per frame). Grows on
+  // demand; reused frame-to-frame. Each slot grows by 2x when a draw needs
+  // more bytes than the slot currently holds.
+  type Slot = { buffer: GPUBuffer; size: number };
+  const vbos: Slot[] = [];
 
-  function ensureVbo(byteLength: number) {
-    if (vbo && vboSize >= byteLength) return;
-    vbo?.destroy();
-    vboSize = Math.max(byteLength, 64 * 1024);
-    vbo = device.createBuffer({
-      label: 'primitives-vbo',
-      size: vboSize,
+  function ensureSlot(callIdx: number, byteLength: number): Slot {
+    // Grow pool length up to and including callIdx.
+    while (vbos.length <= callIdx) {
+      const size = INITIAL_VBO_BYTES;
+      vbos.push({
+        buffer: device.createBuffer({
+          label: `primitives-vbo[${vbos.length}]`,
+          size,
+          usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
+        }),
+        size,
+      });
+    }
+    const slot = vbos[callIdx];
+    if (slot.size >= byteLength) return slot;
+    // Need to grow this slot. Destroying the old buffer is safe per WebGPU
+    // spec — any encoded but unsubmitted commands referencing it complete
+    // normally; the buffer is freed once GPU work that uses it finishes.
+    slot.buffer.destroy();
+    let newSize = slot.size;
+    while (newSize < byteLength) newSize *= 2;
+    slot.size = newSize;
+    slot.buffer = device.createBuffer({
+      label: `primitives-vbo[${callIdx}]`,
+      size: newSize,
       usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
     });
+    return slot;
   }
 
   function combine(meshes: Mesh[]): Mesh {
@@ -101,7 +128,7 @@ export function createPrimitivePass(
   }
 
   return {
-    draw(encoder, dst, band) {
+    draw(encoder, dst, band, callIdx) {
       const mesh = combine([
         buildSmearMesh(band),
         buildBodyMesh(band),
@@ -118,8 +145,8 @@ export function createPrimitivePass(
         pass.end();
         return;
       }
-      ensureVbo(mesh.data.byteLength);
-      device.queue.writeBuffer(vbo!, 0, mesh.data);
+      const slot = ensureSlot(callIdx, mesh.data.byteLength);
+      device.queue.writeBuffer(slot.buffer, 0, mesh.data);
       const pass = encoder.beginRenderPass({
         colorAttachments: [{
           view: dst.view,
@@ -129,12 +156,13 @@ export function createPrimitivePass(
       });
       pass.setPipeline(pipeline);
       pass.setBindGroup(0, bg);
-      pass.setVertexBuffer(0, vbo!);
+      pass.setVertexBuffer(0, slot.buffer);
       pass.draw(mesh.vertexCount);
       pass.end();
     },
     destroy() {
-      vbo?.destroy();
+      for (const slot of vbos) slot.buffer.destroy();
+      vbos.length = 0;
       ub.destroy();
     },
   };

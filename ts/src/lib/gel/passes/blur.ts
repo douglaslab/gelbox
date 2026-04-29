@@ -65,16 +65,28 @@ export function createBlurPass(
   writeVec2(uPass.view, 40, 0, 0);
   uPass.upload(device.queue);
 
-  const uBlur = createUniformBuffer(device, 16, 'blur-uniforms');
+  // Two pre-baked direction uniforms — the only blur uniform field that
+  // varies between calls is the direction, which is always either (1,0) or
+  // (0,1). By baking both up front, we avoid per-call writeBuffer calls
+  // (which would race with command-buffer recording on the device queue).
+  const uBlurH = createUniformBuffer(device, 16, 'blur-uniforms-h');
+  writeVec2(uBlurH.view, 0, gelSize.width, gelSize.height);
+  writeVec2(uBlurH.view, 8, 1, 0);
+  uBlurH.upload(device.queue);
 
-  function makeBindGroup(srcView: GPUTextureView): GPUBindGroup {
+  const uBlurV = createUniformBuffer(device, 16, 'blur-uniforms-v');
+  writeVec2(uBlurV.view, 0, gelSize.width, gelSize.height);
+  writeVec2(uBlurV.view, 8, 0, 1);
+  uBlurV.upload(device.queue);
+
+  function makeBindGroup(srcView: GPUTextureView, uBuffer: GPUBuffer): GPUBindGroup {
     return device.createBindGroup({
       layout: bgl,
       entries: [
         { binding: 0, resource: { buffer: uPass.buffer } },
         { binding: 1, resource: srcView },
         { binding: 2, resource: sampler },
-        { binding: 3, resource: { buffer: uBlur.buffer } },
+        { binding: 3, resource: { buffer: uBuffer } },
       ],
     });
   }
@@ -86,12 +98,8 @@ export function createBlurPass(
         const kernel = Math.min(steps, 3);  // 1, 2, or 3
         const pipeline = pipelines[kernel - 1];
         for (let dir = 0; dir < 2; dir++) {
-          // Read from current, write to next, then swap.
-          writeVec2(uBlur.view, 0, gelSize.width, gelSize.height);
-          writeVec2(uBlur.view, 8, dir === 0 ? 1 : 0, dir === 0 ? 0 : 1);
-          uBlur.upload(device.queue);
-
-          const bg = makeBindGroup(target.current.view);
+          const uBlur = dir === 0 ? uBlurH : uBlurV;
+          const bg = makeBindGroup(target.current.view, uBlur.buffer);
           const pass = encoder.beginRenderPass({
             colorAttachments: [{
               view: target.next.view,
@@ -111,7 +119,8 @@ export function createBlurPass(
     },
     destroy() {
       uPass.destroy();
-      uBlur.destroy();
+      uBlurH.destroy();
+      uBlurV.destroy();
       quad.destroy();
     },
   };
