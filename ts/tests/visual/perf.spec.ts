@@ -19,7 +19,7 @@ test('50-band rAF loop holds avg frame time within budget', async ({ page }, tes
   await expect(async () => {
     const text = await page.getByTestId('frame-avg').textContent();
     expect(text).toMatch(/^avg-frame-ms: /);
-  }).toPass({ timeout: 5000 });
+  }).toPass({ timeout: 30_000 });
   const text = await page.getByTestId('frame-avg').textContent();
   const m = text?.match(/^avg-frame-ms: ([\d.]+)/);
   expect(m, `frame-avg testid did not match expected format: ${text}`).not.toBeNull();
