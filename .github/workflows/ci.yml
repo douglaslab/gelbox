@@ -38,5 +38,9 @@ jobs:
           fi
           echo "Found SwiftShader Vulkan ICD at: $ICD"
           echo "VK_ICD_FILENAMES=$ICD" >> $GITHUB_ENV
+      # Runs both Playwright projects: chromium-webgpu and chromium-webgl2.
+      # WebGPU tests still self-skip on Linux (chromium-headless can't acquire a
+      # Vulkan adapter reliably even with mesa-vulkan-drivers + the SwiftShader
+      # ICD). WebGL2 tests run everywhere — they're the M4 acceptance gate.
       - run: npm run test:visual
       - run: npm run build
