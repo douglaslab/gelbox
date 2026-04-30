@@ -158,7 +158,7 @@ gel/
 | M5 | GelSim + state pipeline | Voltage/time/buffer/lane sliders drive band positions correctly; goldens exist for canonical states | [`m5-gelsim.md`](2026-04-30-gelbox-ts-m5-gelsim.md) | Week 4 |
 | M6 | Interaction layer | Band drag (with shift-lock), opt-drag duplicate, tab-through-fragments, modifier keys (single-lane; sample drag-between-lanes deferred to M6b) | [`m6-interaction.md`](2026-04-30-gelbox-ts-m6-interaction.md) | Week 4.5 |
 | M6b | Multi-lane + sample drag | 7 lanes; microtube row; sample drag-between-lanes; alt-drag clones sample | [`m6b-multilane.md`](2026-04-30-gelbox-ts-m6b-multilane.md) | Week 4.75 |
-| M7 | Loupes + molecular sim | Cmd-click creates a loupe; loupe canvas renders toon-shaded particles via second WebGPU pipeline | TBW after M6 | Week 5 |
+| M7 | Loupes (UI) | Cmd-click creates a loupe popover with fragment metadata + simple particle scatter (toon-shader molecular sim deferred to M7b) | [`m7-loupes.md`](2026-04-30-gelbox-ts-m7-loupes.md) | Week 5 |
 | M8 | Save/load + drag-drop | JSON round-trip (native File API), drag-drop file loading; legacy XML deferred | [`m8-saveload.md`](2026-04-30-gelbox-ts-m8-saveload.md) | Week 5.5 |
 | M9 | Polish + a11y + docs | All goldens pass on both backends; theme toggle reaches both canvases; README + ARCHITECTURE.md done | TBW after M8 | Week 6 |
 
@@ -218,7 +218,7 @@ Apply 25% buffer for solo greenfield WebGPU. Realistic ship: **7–10 weeks**.
 - [x] **M5 GelSim + state pipeline** — [`2026-04-30-gelbox-ts-m5-gelsim.md`](2026-04-30-gelbox-ts-m5-gelsim.md)
 - [x] **M6 Interaction layer** — [`2026-04-30-gelbox-ts-m6-interaction.md`](2026-04-30-gelbox-ts-m6-interaction.md) (single-lane subset; multi-lane sample-drag deferred to M6b)
 - [x] **M6b Multi-lane + sample drag** — [`2026-04-30-gelbox-ts-m6b-multilane.md`](2026-04-30-gelbox-ts-m6b-multilane.md)
-- [ ] **M7 Loupes + molecular sim** — TBW after M6
+- [x] **M7 Loupes (UI)** — [`2026-04-30-gelbox-ts-m7-loupes.md`](2026-04-30-gelbox-ts-m7-loupes.md) (toon-shader molecular sim deferred to M7b)
 - [x] **M8 Save/load + drag-drop** — [`2026-04-30-gelbox-ts-m8-saveload.md`](2026-04-30-gelbox-ts-m8-saveload.md) (legacy XML deferred to M9)
 - [ ] **M9 Polish + a11y + docs** — TBW after M8
 
