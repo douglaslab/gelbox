@@ -134,3 +134,74 @@ test('alt+microtube-drag clones the sample (both lanes filled)', async ({ page }
     (await page.locator('[data-testid="microtube-4"]').getAttribute('fill')) ?? ''
   ).not.toBe('transparent');
 });
+
+test('Save sample button triggers a JSON download', async ({ page }, testInfo) => {
+  if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {
+    test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
+  }
+  await page.goto('/#/gel');
+  // Wait for the page to mount the canvas + buttons (i.e. the renderer ready)
+  await expect(page.getByTestId('save-sample-btn')).toBeVisible();
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByTestId('save-sample-btn').click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toMatch(/\.json$/);
+});
+
+test('Open file input loads a sample-shaped JSON', async ({ page }, testInfo) => {
+  if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {
+    test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
+  }
+  await page.goto('/#/gel');
+  await expect(page.getByTestId('open-btn')).toBeVisible();
+  // Build a tiny sample JSON with a single fragment we can identify.
+  const samplePayload = {
+    schema: 'gel-sample-v0',
+    buffer: { tris: 44.5, borate: 44.5, acetate: 0, edta: 1 },
+    fragments: [
+      { bases: 12345, mass: 50, degrade: 0, dye: -1, aggregate: [], aspectRatio: 1, color: [1, 1, 1] },
+    ],
+  };
+  // setInputFiles directly on the hidden file input.
+  await page.getByTestId('file-input').setInputFiles({
+    name: 'test-sample.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(samplePayload), 'utf8'),
+  });
+  // Verify selection-info reflects the new sample (only 1 fragment with 12345 bp).
+  // Click band-0 to trigger selection text containing "12345 bp".
+  // First, the bands map auto-recomputes from new sample. Since it has 1 fragment,
+  // there should be 1 band (data-testid="band-0").
+  await expect(page.locator('[data-testid="band-0"]')).toBeVisible();
+  await page.locator('[data-testid="band-0"]').click({ button: 'left' });
+  await expect(page.getByTestId('selection-info')).toContainText('12345 bp');
+});
+
+test('Drag-drop a sample-shaped JSON loads it', async ({ page }, testInfo) => {
+  if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {
+    test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
+  }
+  await page.goto('/#/gel');
+  await expect(page.getByTestId('gel-page')).toBeVisible();
+  const samplePayload = {
+    schema: 'gel-sample-v0',
+    buffer: { tris: 44.5, borate: 44.5, acetate: 0, edta: 1 },
+    fragments: [
+      { bases: 9876, mass: 50, degrade: 0, dye: -1, aggregate: [], aspectRatio: 1, color: [1, 1, 1] },
+    ],
+  };
+  // Synthesize a DataTransfer and dispatch drag/drop events.
+  const target = page.getByTestId('gel-page');
+  await target.evaluate((el, payload) => {
+    const dt = new DataTransfer();
+    const file = new File([payload], 'dragged.json', { type: 'application/json' });
+    dt.items.add(file);
+    const dragOver = new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer: dt });
+    el.dispatchEvent(dragOver);
+    const drop = new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: dt });
+    el.dispatchEvent(drop);
+  }, JSON.stringify(samplePayload));
+  await expect(page.locator('[data-testid="band-0"]')).toBeVisible();
+  await page.locator('[data-testid="band-0"]').click({ button: 'left' });
+  await expect(page.getByTestId('selection-info')).toContainText('9876 bp');
+});
