@@ -51,7 +51,7 @@ export function GelControls() {
         </select>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        <label style={{ color: 'var(--color-ink)', fontSize: 13 }}>Sample</label>
+        <label style={{ color: 'var(--color-ink)', fontSize: 13 }}>Sample → lane {state.selectedLane}</label>
         <select
           data-testid="fixture-select"
           value={state.fixtureKey}
@@ -59,14 +59,14 @@ export function GelControls() {
             const fixture = FIXTURES.find((f) => f.key === e.target.value);
             if (!fixture) return;
             const mod = await fixture.loader();
-            dispatch({ type: 'LOAD_FIXTURE', key: fixture.key, sample: mod.default });
+            dispatch({ type: 'LOAD_FIXTURE', key: fixture.key, sample: mod.default, lane: state.selectedLane });
           }}
         >
           {FIXTURES.map((f) => <option key={f.key} value={f.key}>{f.label}</option>)}
         </select>
       </div>
       <div data-testid="modifiers" style={{ fontSize: 12, color: 'var(--color-ink-muted)', fontFamily: 'monospace' }}>
-        modifiers: {[
+        lane {state.selectedLane} · modifiers: {[
           state.modifiers.shift ? 'shift' : null,
           state.modifiers.alt   ? 'alt'   : null,
           state.modifiers.meta  ? 'meta'  : null,
