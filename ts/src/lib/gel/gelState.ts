@@ -22,6 +22,14 @@ export interface SampleDrag {
 }
 export type DragState = BandDrag | SampleDrag;
 
+export interface LoupeRef {
+  id:            number;
+  lane:          number;
+  fragmentIndex: number;
+  x:             number;   // viewport-page x in CSS px
+  y:             number;   // viewport-page y in CSS px
+}
+
 export interface GelState {
   samples:               (Sample | null)[];
   numLanes:              number;
@@ -34,6 +42,8 @@ export interface GelState {
   gelSize:               { width: number; height: number };
   pixelsPerUnit:         number;
   wellRects:             Rect[];
+  loupes:                LoupeRef[];
+  loupeNextId:           number;
 }
 
 export type Action =
@@ -55,7 +65,10 @@ export type Action =
   | { type: 'CLONE_SAMPLE_TO_LANE'; from: number; to: number }
   | { type: 'CLONE_FRAGMENT';     laneIndex: number; sourceIndex: number }
   | { type: 'SET_FRAGMENT_BASES'; laneIndex: number; index: number; bases: number }
-  | { type: 'SET_MODIFIERS';      modifiers: { shift: boolean; alt: boolean; meta: boolean } };
+  | { type: 'SET_MODIFIERS';      modifiers: { shift: boolean; alt: boolean; meta: boolean } }
+  | { type: 'ADD_LOUPE';     lane: number; fragmentIndex: number; x: number; y: number }
+  | { type: 'REMOVE_LOUPE';  id: number }
+  | { type: 'CLEAR_LOUPES' };
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
@@ -99,6 +112,8 @@ export function initialGelState(): GelState {
     gelSize: GEL_SIZE,
     pixelsPerUnit: 1,
     wellRects: computeWellRects(NUM_LANES, GEL_SIZE),
+    loupes: [],
+    loupeNextId: 1,
   };
 }
 
@@ -231,6 +246,20 @@ export function gelReducer(state: GelState, action: Action): GelState {
     }
     case 'SET_MODIFIERS':
       return { ...state, modifiers: action.modifiers };
+    case 'ADD_LOUPE': {
+      const sample = state.samples[action.lane];
+      if (!sample || !sample.fragments[action.fragmentIndex]) return state;
+      const id = state.loupeNextId;
+      return {
+        ...state,
+        loupes: [...state.loupes, { id, lane: action.lane, fragmentIndex: action.fragmentIndex, x: action.x, y: action.y }],
+        loupeNextId: id + 1,
+      };
+    }
+    case 'REMOVE_LOUPE':
+      return { ...state, loupes: state.loupes.filter((l) => l.id !== action.id) };
+    case 'CLEAR_LOUPES':
+      return { ...state, loupes: [], loupeNextId: 1 };
     default: {
       const _: never = action;
       void _;
