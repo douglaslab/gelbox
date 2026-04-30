@@ -88,6 +88,12 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
   function onBandPointerDown(bandIdx: number, e: React.PointerEvent<SVGRectElement>) {
     e.preventDefault();
     const { lane, fragment } = bandToLaneFragment[bandIdx];
+    const isCmd = e.metaKey || e.ctrlKey;
+    if (isCmd) {
+      // Cmd/Ctrl-click → open a loupe, do NOT start drag.
+      dispatch({ type: 'ADD_LOUPE', lane, fragmentIndex: fragment, x: e.clientX, y: e.clientY });
+      return;
+    }
     if (e.altKey) {
       dispatch({ type: 'CLONE_FRAGMENT', laneIndex: lane, sourceIndex: fragment });
       const rect = svgRef.current!.getBoundingClientRect();
