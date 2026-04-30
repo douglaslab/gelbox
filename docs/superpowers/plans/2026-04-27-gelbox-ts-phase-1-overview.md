@@ -156,7 +156,7 @@ gel/
 | M3 | 50-band loop + global warp + 60fps | Frame profile <16ms with 50 bands at DPR 2 on Apple M1 | [`m3-multi-band.md`](2026-04-27-gelbox-ts-m3-multi-band.md) | Week 3 |
 | M4 | WebGL2 fallback parity | Same goldens pass with WebGPU disabled (force-WebGL2 query param) | [`m4-webgl2-fallback.md`](2026-04-28-gelbox-ts-m4-webgl2-fallback.md) | Week 3.5 |
 | M5 | GelSim + state pipeline | Voltage/time/buffer/lane sliders drive band positions correctly; goldens exist for canonical states | [`m5-gelsim.md`](2026-04-30-gelbox-ts-m5-gelsim.md) | Week 4 |
-| M6 | Interaction layer | Band drag (with shift-lock), opt-drag duplicate, sample drag-between-lanes, tab-through-bands, modifier keys | TBW after M5 | Week 4.5 |
+| M6 | Interaction layer | Band drag (with shift-lock), opt-drag duplicate, tab-through-fragments, modifier keys (single-lane; sample drag-between-lanes deferred to M6b) | [`m6-interaction.md`](2026-04-30-gelbox-ts-m6-interaction.md) | Week 4.5 |
 | M7 | Loupes + molecular sim | Cmd-click creates a loupe; loupe canvas renders toon-shaded particles via second WebGPU pipeline | TBW after M6 | Week 5 |
 | M8 | Save/load + drag-drop | JSON round-trip via `browser-fs-access`; drag-drop file loading; legacy XML read-only support | TBW after M7 | Week 5.5 |
 | M9 | Polish + a11y + docs | All goldens pass on both backends; theme toggle reaches both canvases; README + ARCHITECTURE.md done | TBW after M8 | Week 6 |
@@ -215,7 +215,7 @@ Apply 25% buffer for solo greenfield WebGPU. Realistic ship: **7–10 weeks**.
 - [x] **M3 Many-band loop** — [`2026-04-27-gelbox-ts-m3-multi-band.md`](2026-04-27-gelbox-ts-m3-multi-band.md)
 - [x] **M4 WebGL2 fallback** — [`2026-04-28-gelbox-ts-m4-webgl2-fallback.md`](2026-04-28-gelbox-ts-m4-webgl2-fallback.md)
 - [x] **M5 GelSim + state pipeline** — [`2026-04-30-gelbox-ts-m5-gelsim.md`](2026-04-30-gelbox-ts-m5-gelsim.md)
-- [ ] **M6 Interaction layer** — TBW after M5
+- [x] **M6 Interaction layer** — [`2026-04-30-gelbox-ts-m6-interaction.md`](2026-04-30-gelbox-ts-m6-interaction.md) (single-lane subset; multi-lane sample-drag deferred to M6b)
 - [ ] **M7 Loupes + molecular sim** — TBW after M6
 - [ ] **M8 Save/load + drag-drop** — TBW after M7
 - [ ] **M9 Polish + a11y + docs** — TBW after M8
