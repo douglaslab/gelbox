@@ -63,7 +63,7 @@ export function Loupe({ loupe, fragment }: LoupeProps) {
       <svg
         viewBox={`0 0 ${W} ${H}`}
         width={W} height={H}
-        style={{ display: 'block', position: 'absolute', inset: 0 }}
+        style={{ display: 'block', position: 'absolute', inset: 0, pointerEvents: 'none' }}
       >
         {/* Particle scatter inset */}
         <rect x={8} y={28} width={W - 16} height={H - 60} fill="rgba(0,0,0,0.4)" rx={4} />

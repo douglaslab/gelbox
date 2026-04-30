@@ -205,3 +205,47 @@ test('Drag-drop a sample-shaped JSON loads it', async ({ page }, testInfo) => {
   await page.locator('[data-testid="band-0"]').click({ button: 'left' });
   await expect(page.getByTestId('selection-info')).toContainText('9876 bp');
 });
+
+test('cmd+click on a band opens a loupe popover', async ({ page }, testInfo) => {
+  if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {
+    test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
+  }
+  await page.goto('/#/gel');
+  await expect(page.locator('[data-testid="band-0"]')).toBeVisible();
+  // No loupes initially
+  await expect(page.locator('[data-testid^="loupe-"]')).toHaveCount(0);
+  // Cmd+click (meta on Mac, ctrl on others) on band 0
+  // dispatchEvent with metaKey set
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0, metaKey: true });
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  // One loupe should be open
+  await expect(page.locator('[data-loupe-id]')).toHaveCount(1);
+  // Loupe shows fragment metadata
+  await expect(page.locator('[data-loupe-id="1"]')).toContainText('lane 0');
+});
+
+test('loupe close button removes the loupe', async ({ page }, testInfo) => {
+  if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {
+    test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
+  }
+  await page.goto('/#/gel');
+  // Open a loupe
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0, metaKey: true });
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await expect(page.locator('[data-loupe-id]')).toHaveCount(1);
+  // Click close
+  await page.getByTestId('loupe-close-1').click();
+  await expect(page.locator('[data-loupe-id]')).toHaveCount(0);
+});
+
+test('multiple cmd+clicks open multiple loupes', async ({ page }, testInfo) => {
+  if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {
+    test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
+  }
+  await page.goto('/#/gel');
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0, metaKey: true });
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-1"]').dispatchEvent('pointerdown', { button: 0, metaKey: true });
+  await page.locator('[data-testid="band-1"]').dispatchEvent('pointerup');
+  await expect(page.locator('[data-loupe-id]')).toHaveCount(2);
+});
