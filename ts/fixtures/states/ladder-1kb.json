@@ -1,0 +1,141 @@
+{
+  "schema": "gel-sample-v0",
+  "buffer": {
+    "tris": 44.5,
+    "borate": 44.5,
+    "acetate": 0,
+    "edta": 1
+  },
+  "fragments": [
+    {
+      "bases": 100,
+      "mass": 50,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [],
+      "aspectRatio": 1,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "bases": 200,
+      "mass": 50,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [],
+      "aspectRatio": 1,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "bases": 400,
+      "mass": 50,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [],
+      "aspectRatio": 1,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "bases": 800,
+      "mass": 50,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [],
+      "aspectRatio": 1,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "bases": 1600,
+      "mass": 50,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [],
+      "aspectRatio": 1,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "bases": 3200,
+      "mass": 50,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [],
+      "aspectRatio": 1,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "bases": 6400,
+      "mass": 50,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [],
+      "aspectRatio": 1,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "bases": 9000,
+      "mass": 50,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [],
+      "aspectRatio": 1,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "bases": 12000,
+      "mass": 50,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [],
+      "aspectRatio": 1,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "bases": 13500,
+      "mass": 50,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [],
+      "aspectRatio": 1,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    }
+  ]
+}
