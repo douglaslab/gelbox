@@ -160,7 +160,7 @@ gel/
 | M6b | Multi-lane + sample drag | 7 lanes; microtube row; sample drag-between-lanes; alt-drag clones sample | [`m6b-multilane.md`](2026-04-30-gelbox-ts-m6b-multilane.md) | Week 4.75 |
 | M7 | Loupes (UI) | Cmd-click creates a loupe popover with fragment metadata + simple particle scatter (toon-shader molecular sim deferred to M7b) | [`m7-loupes.md`](2026-04-30-gelbox-ts-m7-loupes.md) | Week 5 |
 | M8 | Save/load + drag-drop | JSON round-trip (native File API), drag-drop file loading; legacy XML deferred | [`m8-saveload.md`](2026-04-30-gelbox-ts-m8-saveload.md) | Week 5.5 |
-| M9 | Polish + a11y + docs | All goldens pass on both backends; theme toggle reaches both canvases; README + ARCHITECTURE.md done | TBW after M8 | Week 6 |
+| M9 | Polish + a11y + docs | All goldens pass on both backends ✓; README + ARCHITECTURE.md done; theme-to-canvas + a11y pass deferred to M9b | [`m9-polish.md`](2026-04-30-gelbox-ts-m9-polish.md) | Week 6 |
 
 Apply 25% buffer for solo greenfield WebGPU. Realistic ship: **7–10 weeks**.
 
@@ -220,7 +220,7 @@ Apply 25% buffer for solo greenfield WebGPU. Realistic ship: **7–10 weeks**.
 - [x] **M6b Multi-lane + sample drag** — [`2026-04-30-gelbox-ts-m6b-multilane.md`](2026-04-30-gelbox-ts-m6b-multilane.md)
 - [x] **M7 Loupes (UI)** — [`2026-04-30-gelbox-ts-m7-loupes.md`](2026-04-30-gelbox-ts-m7-loupes.md) (toon-shader molecular sim deferred to M7b)
 - [x] **M8 Save/load + drag-drop** — [`2026-04-30-gelbox-ts-m8-saveload.md`](2026-04-30-gelbox-ts-m8-saveload.md) (legacy XML deferred to M9)
-- [ ] **M9 Polish + a11y + docs** — TBW after M8
+- [x] **M9 Polish + a11y + docs** — [`2026-04-30-gelbox-ts-m9-polish.md`](2026-04-30-gelbox-ts-m9-polish.md) (theme-to-canvas + comprehensive a11y deferred to M9b)
 
 Each sub-plan is detail-planned just before its execution, because the design of each milestone is informed by what the previous one surfaces (especially the engine API shape).
 
