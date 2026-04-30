@@ -5,6 +5,7 @@ import { GelPage } from './routes/GelPage';
 import { DevPage } from './routes/DevPage';
 import { DevMultiPage } from './routes/DevMultiPage';
 import { DevPerfPage } from './routes/DevPerfPage';
+import { DevSimPage } from './routes/DevSimPage';
 import { ThemeProvider } from './lib/theme';
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
             <Route path="dev" element={<DevPage />} />
             <Route path="dev/multi" element={<DevMultiPage />} />
             <Route path="dev/perf" element={<DevPerfPage />} />
+            <Route path="dev/sim" element={<DevSimPage />} />
           </Route>
         </Routes>
       </HashRouter>
