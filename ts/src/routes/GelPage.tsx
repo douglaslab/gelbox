@@ -5,6 +5,7 @@ import { GelOverlay, type BandLaneFragment } from '../components/gel/GelOverlay'
 import { GelControls } from '../components/chrome/GelControls';
 import { FileControls } from '../components/chrome/FileControls';
 import { MicrotubeRow } from '../components/gel/MicrotubeRow';
+import { LoupePortalLayer } from '../components/gel/LoupePortalLayer';
 import { fragToBands } from '../lib/sim/gelSim';
 import { deserializeFile } from '../lib/gel/serialize';
 import type { Band } from '../lib/sim/band';
@@ -87,6 +88,7 @@ function GelInner() {
           {dropError}
         </div>
       )}
+      <LoupePortalLayer />
     </section>
   );
 }
