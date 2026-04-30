@@ -155,7 +155,7 @@ gel/
 | M2 | Single-band render parity | Playwright golden-frame matches C++ reference for 1 band, all 6 passes (gradient → rect → flames → smile → well-damage → blur → composite) | [`m2-single-band.md`](2026-04-27-gelbox-ts-m2-single-band.md) | Week 2 |
 | M3 | 50-band loop + global warp + 60fps | Frame profile <16ms with 50 bands at DPR 2 on Apple M1 | [`m3-multi-band.md`](2026-04-27-gelbox-ts-m3-multi-band.md) | Week 3 |
 | M4 | WebGL2 fallback parity | Same goldens pass with WebGPU disabled (force-WebGL2 query param) | [`m4-webgl2-fallback.md`](2026-04-28-gelbox-ts-m4-webgl2-fallback.md) | Week 3.5 |
-| M5 | GelSim + state pipeline | Voltage/time/buffer/lane sliders drive band positions correctly; goldens exist for canonical states | TBW after M4 | Week 4 |
+| M5 | GelSim + state pipeline | Voltage/time/buffer/lane sliders drive band positions correctly; goldens exist for canonical states | [`m5-gelsim.md`](2026-04-30-gelbox-ts-m5-gelsim.md) | Week 4 |
 | M6 | Interaction layer | Band drag (with shift-lock), opt-drag duplicate, sample drag-between-lanes, tab-through-bands, modifier keys | TBW after M5 | Week 4.5 |
 | M7 | Loupes + molecular sim | Cmd-click creates a loupe; loupe canvas renders toon-shaded particles via second WebGPU pipeline | TBW after M6 | Week 5 |
 | M8 | Save/load + drag-drop | JSON round-trip via `browser-fs-access`; drag-drop file loading; legacy XML read-only support | TBW after M7 | Week 5.5 |
@@ -214,7 +214,7 @@ Apply 25% buffer for solo greenfield WebGPU. Realistic ship: **7–10 weeks**.
 - [x] **M2 Single-band render** — [`2026-04-27-gelbox-ts-m2-single-band.md`](2026-04-27-gelbox-ts-m2-single-band.md)
 - [x] **M3 Many-band loop** — [`2026-04-27-gelbox-ts-m3-multi-band.md`](2026-04-27-gelbox-ts-m3-multi-band.md)
 - [x] **M4 WebGL2 fallback** — [`2026-04-28-gelbox-ts-m4-webgl2-fallback.md`](2026-04-28-gelbox-ts-m4-webgl2-fallback.md)
-- [ ] **M5 GelSim + state pipeline** — TBW after M4
+- [x] **M5 GelSim + state pipeline** — [`2026-04-30-gelbox-ts-m5-gelsim.md`](2026-04-30-gelbox-ts-m5-gelsim.md)
 - [ ] **M6 Interaction layer** — TBW after M5
 - [ ] **M7 Loupes + molecular sim** — TBW after M6
 - [ ] **M8 Save/load + drag-drop** — TBW after M7
