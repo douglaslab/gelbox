@@ -122,4 +122,20 @@ describe('gelReducer (multi-lane)', () => {
     const next = gelReducer(STARTING, { type: 'SET_MODIFIERS', modifiers: { shift: true, alt: false, meta: false } });
     expect(next.modifiers.shift).toBe(true);
   });
+  it('LOAD_GEL_STATE replaces samples + ctx and resets selection/drag', () => {
+    const newSamples = [STARTING.samples[0], null, null];
+    const newCtx = { ...STARTING.ctx, voltage: 200 };
+    const next = gelReducer(
+      { ...STARTING, selectedLane: 5, selectedFragmentIndex: 2, drag: { type: 'sample' as const, laneIndex: 0 } },
+      { type: 'LOAD_GEL_STATE', samples: newSamples, numLanes: 3, ctx: newCtx }
+    );
+    expect(next.numLanes).toBe(3);
+    expect(next.samples.length).toBe(3);
+    expect(next.ctx.voltage).toBe(200);
+    expect(next.selectedLane).toBe(0);
+    expect(next.selectedFragmentIndex).toBeNull();
+    expect(next.drag).toBeNull();
+    // wellRects recomputed for the new lane count
+    expect(next.wellRects.length).toBe(3);
+  });
 });

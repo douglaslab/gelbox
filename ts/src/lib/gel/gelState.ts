@@ -42,6 +42,7 @@ export type Action =
   | { type: 'SET_WELL_DAMAGE';    value: number }
   | { type: 'SET_GEL_BUFFER';     value: 'TBE' | 'TAE' | 'H2O' }
   | { type: 'LOAD_FIXTURE';       key: string; sample: Sample; lane: number }
+  | { type: 'LOAD_GEL_STATE';    samples: (Sample | null)[]; numLanes: number; ctx: SimContext }
   | { type: 'SET_SELECTED_LANE';  laneIndex: number }
   | { type: 'SET_SELECTED';       laneIndex: number; index: number | null }
   | { type: 'SELECT_NEXT' }
@@ -121,6 +122,19 @@ export function gelReducer(state: GelState, action: Action): GelState {
         selectedLane: action.lane,
         selectedFragmentIndex: null,
         ctx: { ...state.ctx, sampleBuffer: action.sample.buffer },
+        drag: null,
+      };
+    }
+    case 'LOAD_GEL_STATE': {
+      const wellRects = computeWellRects(action.numLanes, state.gelSize);
+      return {
+        ...state,
+        samples: action.samples.slice(),
+        numLanes: action.numLanes,
+        ctx: action.ctx,
+        wellRects,
+        selectedLane: 0,
+        selectedFragmentIndex: null,
         drag: null,
       };
     }
