@@ -195,8 +195,8 @@ Each sub-plan is detail-planned just before its execution, because the design of
 - [x] **M10 Layout system + assets + selection state** — `2026-05-01-gelbox-ts-m10-layout-assets.md`
 - [x] **M11 Stage shell** — `2026-05-01-gelbox-ts-m11-stage-shell.md`
 - [x] **M12 Slider primitives** — `2026-05-01-gelbox-ts-m12-slider.md`
-- [ ] **M13 GelView pixel parity** — TBD — next-execute
-- [ ] **M14 GelSettingsView** — TBD
+- [x] **M13 GelView pixel parity** — `2026-05-01-gelbox-ts-m13-gelview.md`
+- [ ] **M14 GelSettingsView** — TBD — next-execute
 - [ ] **M15 SampleView middle panel** — TBD
 - [ ] **M16 SampleSettingsView (dye editor)** — TBD
 - [ ] **M17 FragmentView** — TBD
