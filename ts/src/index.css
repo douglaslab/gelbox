@@ -25,6 +25,13 @@
   --color-danger:            #d05a4e;
 }
 
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size-adjust: 0.493;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html, body, #root {
   height: 100%;
 }
@@ -32,6 +39,6 @@ html, body, #root {
 body {
   background-color: var(--color-surface);
   color: var(--color-ink);
-  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-family: inherit;
   margin: 0;
 }
