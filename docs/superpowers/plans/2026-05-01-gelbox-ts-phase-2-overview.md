@@ -134,10 +134,10 @@ docs/
 | **M11** | Three-panel stage + brace + heading + responsive reflow | `<Stage>` renders 1365×768 on wide; gel sits at `(208,124)`; middle and right panel placeholders sit at correct pixel positions; brace PNG renders between middle and right; per-panel Inter-Bold headings appear at correct baselines; **on viewports below the wide breakpoint (≤1024px), the three panels stack vertically as a single column** | `m11-stage-shell.md` |
 | **M12** | Slider primitives | `slider.ts` data model matches `Slider.cpp`; `SliderView` component renders all three styles (Slider/Graph/Bar) with PNG icons, notches, snapping, quantization; round-trip drag updates value via getter/setter callbacks; unit + visual tests | `m12-slider.md` |
 | **M13** | GelView pixel parity | Microtube row matches `mSampleViewMicrotubeWidth=19`, gutter, corner radius, hex colors `0xE8F2F3`/`0xA1D6FF`; gear settings button toggles GelSettingsView visibility; band hover/select draws focus overlay; existing drag/keyboard interactions intact | `m13-gelview.md` |
-| **M14** | GelSettingsView panel | Voltage, clock, gel-lanes, gel-rotate, well-damage sliders rendered with correct PNG icons + Avenir labels; BufferView (Tris/Borate/EDTA bar sliders + preset rounded-corner selector) at correct sub-position; values round-trip to gelState | `m14-gel-settings.md` |
+| **M14** | FragmentView (Species — DEFAULT inspector) | Right panel shows fragment editor as the default inspector content (auto-selects first fragment if none): heading **"Species"**, 12-color palette (4 cols × 3 rows), 80×80 well preview, 5 sliders — size (bp, quantize 100), concentration (ng), aspect ratio, aggregate (Graph slider, snap notches), degrade (0..2 with 3 notches); values round-trip via reducer | `m14-fragment-view.md` |
 | **M15** | SampleView middle panel (shell) | Middle panel mounts when a microtube is selected, unmounts on deselect; **placeholder** 2D `MolecularSimCanvas` renders one colored dot per fragment instance (NOT visual parity — that's Phase 3); rollover/selection from shared state visibly highlights particles; hover writes back to rollover; click writes selection. Acceptance is **wiring**, not fidelity. | `m15-sample-view-shell.md` |
 | **M16** | SampleSettingsView (dye editor) | Right panel shows dye list (4 rows: Bromphenol, Cresol, Orange G, Xylene); each row is a `Style::Bar` slider with dye color fill + dye PNG icon + name; values map to `GelSim::kTuning.mSliderDyeMass{Min,Max}`; BufferView for sample buffer | `m16-sample-settings.md` |
-| **M17** | FragmentView (fragment editor) | Right panel shows fragment editor when a fragment is selected: size (bp, quantize 100), concentration (ng), aspect ratio, aggregate (Graph slider), degrade (3-notch); ColorPaletteView 4-col grid swaps fragment color; fragment well preview top-left | `m17-fragment-view.md` |
+| **M17** | GelSettingsView panel ("Gel" — gear-toggled) | Voltage, clock, gel-lanes, gel-rotate, well-damage sliders rendered with correct PNG icons + Inter labels; BufferView (Tris/Borate/EDTA bar sliders + preset rounded-corner selector) at correct sub-position; values round-trip to gelState; activated by gear button (M13 already wires `inspectorMode='gel-settings'`) | `m17-gel-settings.md` |
 | **M18** | Right-panel swap + cross-panel wiring | Inspector swaps cleanly: `selection=null, microtube=null` → empty/no panel; gear pressed → GelSettingsView; `microtube ≠ null, selection=null` → SampleSettingsView; `selection ≠ null` → FragmentView. Hover band → particle lights up; click particle → inspector swaps to FragmentView; all transitions <16ms | `m18-wiring.md` |
 | **M19** | Visual goldens + polish | Playwright captures per-panel goldens at DPR 1 and DPR 2 on macOS Chromium (WebGPU + WebGL2 backends); 2026-04-30 README updated with new screenshots; ARCHITECTURE.md updated; tag `phase-2-complete` | `m19-polish.md` |
 
@@ -196,10 +196,10 @@ Each sub-plan is detail-planned just before its execution, because the design of
 - [x] **M11 Stage shell** — `2026-05-01-gelbox-ts-m11-stage-shell.md`
 - [x] **M12 Slider primitives** — `2026-05-01-gelbox-ts-m12-slider.md`
 - [x] **M13 GelView pixel parity** — `2026-05-01-gelbox-ts-m13-gelview.md`
-- [ ] **M14 GelSettingsView** — TBD — next-execute
-- [ ] **M15 SampleView middle panel** — TBD
-- [ ] **M16 SampleSettingsView (dye editor)** — TBD
-- [ ] **M17 FragmentView** — TBD
+- [x] **M14 FragmentView (Species — default inspector)** — `2026-05-01-gelbox-ts-m14-fragment-view.md`
+- [ ] **M15 SampleView middle panel** — TBD — next-execute
+- [ ] **M16 SampleSettingsView (Buffer + Dyes)** — TBD
+- [ ] **M17 GelSettingsView (gear-toggled)** — TBD
 - [ ] **M18 Right-panel swap + wiring** — TBD
 - [ ] **M19 Goldens + polish** — TBD
 
