@@ -1,0 +1,46 @@
+/* Wide layout: fixed 1365x768 with absolute-positioned panel slots */
+.stage {
+  position: relative;
+  width: 1365px;
+  height: 768px;
+  margin: 0 auto;
+  background: #FFFFFF;
+}
+
+.slot {
+  position: absolute;
+}
+
+.braceWrap {
+  position: absolute;
+}
+
+/* Mid viewport (1024-1365): scale the whole stage proportionally; transform applied inline */
+@media (min-width: 1024px) and (max-width: 1364px) {
+  .stage {
+    transform-origin: top left;
+  }
+}
+
+/* Narrow layout: stack vertically, ignore absolute coords */
+@media (max-width: 1023px) {
+  .stage {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 16px;
+    box-sizing: border-box;
+  }
+
+  .slot,
+  .braceWrap {
+    position: static;
+  }
+
+  .braceWrap {
+    display: none;
+  }
+}
