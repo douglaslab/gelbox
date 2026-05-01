@@ -2,6 +2,8 @@ import type { Sample, Fragment } from '../sim/sample';
 import type { SimContext } from '../sim/gelSim';
 import type { Rect } from '../sim/band';
 import { BUFFER_TBE, BUFFER_TAE, BUFFER_H2O } from '../sim/buffer';
+import type { SampleFragRef } from './sampleFragRef';
+import { sampleFragRefEq } from './sampleFragRef';
 import ladder from '../../../fixtures/states/ladder-1kb.json';
 
 const NUM_LANES = 7;
@@ -44,6 +46,8 @@ export interface GelState {
   wellRects:             Rect[];
   loupes:                LoupeRef[];
   loupeNextId:           number;
+  selection:             SampleFragRef | null;
+  rollover:              SampleFragRef | null;
 }
 
 export type Action =
@@ -68,7 +72,9 @@ export type Action =
   | { type: 'SET_MODIFIERS';      modifiers: { shift: boolean; alt: boolean; meta: boolean } }
   | { type: 'ADD_LOUPE';     lane: number; fragmentIndex: number; x: number; y: number }
   | { type: 'REMOVE_LOUPE';  id: number }
-  | { type: 'CLEAR_LOUPES' };
+  | { type: 'CLEAR_LOUPES' }
+  | { type: 'SET_SELECTION'; ref: SampleFragRef | null }
+  | { type: 'SET_ROLLOVER';  ref: SampleFragRef | null };
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
@@ -114,6 +120,8 @@ export function initialGelState(): GelState {
     wellRects: computeWellRects(NUM_LANES, GEL_SIZE),
     loupes: [],
     loupeNextId: 1,
+    selection: null,
+    rollover:  null,
   };
 }
 
@@ -260,6 +268,12 @@ export function gelReducer(state: GelState, action: Action): GelState {
       return { ...state, loupes: state.loupes.filter((l) => l.id !== action.id) };
     case 'CLEAR_LOUPES':
       return { ...state, loupes: [], loupeNextId: 1 };
+    case 'SET_SELECTION':
+      if (sampleFragRefEq(state.selection, action.ref)) return state;
+      return { ...state, selection: action.ref };
+    case 'SET_ROLLOVER':
+      if (sampleFragRefEq(state.rollover, action.ref)) return state;
+      return { ...state, rollover: action.ref };
     default: {
       const _: never = action;
       void _;

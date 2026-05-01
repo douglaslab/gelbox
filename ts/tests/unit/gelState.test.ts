@@ -174,3 +174,51 @@ describe('gelReducer (multi-lane)', () => {
     expect(cleared.loupeNextId).toBe(1);
   });
 });
+
+describe('gelReducer SET_SELECTION', () => {
+  it('updates selection to a new ref', () => {
+    const s0 = initialGelState();
+    expect(s0.selection).toBeNull();
+    const s1 = gelReducer(s0, { type: 'SET_SELECTION', ref: { lane: 2, fragmentIndex: 3 } });
+    expect(s1.selection).toEqual({ lane: 2, fragmentIndex: 3 });
+  });
+
+  it('preserves state identity when selection is unchanged', () => {
+    const s0 = initialGelState();
+    const ref = { lane: 1, fragmentIndex: null };
+    const s1 = gelReducer(s0, { type: 'SET_SELECTION', ref });
+    const s2 = gelReducer(s1, { type: 'SET_SELECTION', ref: { lane: 1, fragmentIndex: null } });
+    expect(s2).toBe(s1);
+  });
+
+  it('clears selection to null', () => {
+    const s0 = initialGelState();
+    const s1 = gelReducer(s0, { type: 'SET_SELECTION', ref: { lane: 0, fragmentIndex: 0 } });
+    const s2 = gelReducer(s1, { type: 'SET_SELECTION', ref: null });
+    expect(s2.selection).toBeNull();
+  });
+});
+
+describe('gelReducer SET_ROLLOVER', () => {
+  it('updates rollover to a new ref', () => {
+    const s0 = initialGelState();
+    expect(s0.rollover).toBeNull();
+    const s1 = gelReducer(s0, { type: 'SET_ROLLOVER', ref: { lane: 4, fragmentIndex: 0 } });
+    expect(s1.rollover).toEqual({ lane: 4, fragmentIndex: 0 });
+  });
+
+  it('preserves state identity when rollover is unchanged', () => {
+    const s0 = initialGelState();
+    const s1 = gelReducer(s0, { type: 'SET_ROLLOVER', ref: { lane: 0, fragmentIndex: 0 } });
+    const s2 = gelReducer(s1, { type: 'SET_ROLLOVER', ref: { lane: 0, fragmentIndex: 0 } });
+    expect(s2).toBe(s1);
+  });
+
+  it('selection and rollover are independent', () => {
+    const s0 = initialGelState();
+    const s1 = gelReducer(s0, { type: 'SET_SELECTION', ref: { lane: 1, fragmentIndex: 0 } });
+    const s2 = gelReducer(s1, { type: 'SET_ROLLOVER',  ref: { lane: 2, fragmentIndex: 5 } });
+    expect(s2.selection).toEqual({ lane: 1, fragmentIndex: 0 });
+    expect(s2.rollover).toEqual({ lane: 2, fragmentIndex: 5 });
+  });
+});
