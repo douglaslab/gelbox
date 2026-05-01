@@ -32,6 +32,8 @@ export interface LoupeRef {
   y:             number;   // viewport-page y in CSS px
 }
 
+export type InspectorMode = 'default' | 'gel-settings' | 'sample-settings' | 'fragment';
+
 export interface GelState {
   samples:               (Sample | null)[];
   numLanes:              number;
@@ -48,6 +50,7 @@ export interface GelState {
   loupeNextId:           number;
   selection:             SampleFragRef | null;
   rollover:              SampleFragRef | null;
+  inspectorMode:         InspectorMode;
 }
 
 export type Action =
@@ -74,7 +77,8 @@ export type Action =
   | { type: 'REMOVE_LOUPE';  id: number }
   | { type: 'CLEAR_LOUPES' }
   | { type: 'SET_SELECTION'; ref: SampleFragRef | null }
-  | { type: 'SET_ROLLOVER';  ref: SampleFragRef | null };
+  | { type: 'SET_ROLLOVER';  ref: SampleFragRef | null }
+  | { type: 'SET_INSPECTOR_MODE'; mode: InspectorMode };
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
@@ -122,6 +126,7 @@ export function initialGelState(): GelState {
     loupeNextId: 1,
     selection: null,
     rollover:  null,
+    inspectorMode: 'default',
   };
 }
 
@@ -274,6 +279,9 @@ export function gelReducer(state: GelState, action: Action): GelState {
     case 'SET_ROLLOVER':
       if (sampleFragRefEq(state.rollover, action.ref)) return state;
       return { ...state, rollover: action.ref };
+    case 'SET_INSPECTOR_MODE':
+      if (state.inspectorMode === action.mode) return state;
+      return { ...state, inspectorMode: action.mode };
     default: {
       const _: never = action;
       void _;

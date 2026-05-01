@@ -222,3 +222,18 @@ describe('gelReducer SET_ROLLOVER', () => {
     expect(s2.rollover).toEqual({ lane: 2, fragmentIndex: 5 });
   });
 });
+
+describe('gelReducer SET_INSPECTOR_MODE', () => {
+  it('updates inspectorMode', () => {
+    const s0 = initialGelState();
+    expect(s0.inspectorMode).toBe('default');
+    const s1 = gelReducer(s0, { type: 'SET_INSPECTOR_MODE', mode: 'gel-settings' });
+    expect(s1.inspectorMode).toBe('gel-settings');
+  });
+
+  it('preserves identity when mode is unchanged', () => {
+    const s0 = initialGelState();
+    const s1 = gelReducer(s0, { type: 'SET_INSPECTOR_MODE', mode: 'default' });
+    expect(s1).toBe(s0);
+  });
+});
