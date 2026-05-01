@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import type { Band } from '../../lib/sim/band';
 import { useGelState, useGelDispatch } from './GelContext';
 import { solveBasesForY } from '../../lib/sim/solver';
+import { LAYOUT } from '../../lib/layout/layout';
 
 export interface BandLaneFragment {
   lane:     number;
@@ -130,6 +131,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
         const h = (b.rect.y2 - b.rect.y1) + upExt + b.smearBelow + 2 * b.blur;
         const lf = bandToLaneFragment[i];
         const selected = state.selectedLane === lf.lane && state.selectedFragmentIndex === lf.fragment;
+        const hovered  = state.rollover?.lane === lf.lane && state.rollover?.fragmentIndex === lf.fragment;
         return (
           <rect
             key={i}
@@ -138,9 +140,15 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
             data-fragment-index={lf.fragment}
             x={x} y={y} width={w} height={h}
             fill="transparent"
-            stroke={selected ? 'var(--color-accent, #66ccff)' : 'transparent'}
-            strokeWidth={1}
+            stroke={
+              selected
+                ? LAYOUT.sampleViewFragSelectColor
+                : (hovered ? LAYOUT.sampleViewFragHoverColor : 'transparent')
+            }
+            strokeWidth={LAYOUT.sampleViewFragOutlineWidth}
             onPointerDown={(e) => onBandPointerDown(i, e)}
+            onPointerEnter={() => dispatch({ type: 'SET_ROLLOVER', ref: { lane: lf.lane, fragmentIndex: lf.fragment } })}
+            onPointerLeave={() => dispatch({ type: 'SET_ROLLOVER', ref: null })}
             style={{ cursor: 'ns-resize' }}
           />
         );
