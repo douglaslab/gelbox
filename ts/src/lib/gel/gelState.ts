@@ -7,9 +7,9 @@ import { sampleFragRefEq } from './sampleFragRef';
 import ladder from '../../../fixtures/states/ladder-1kb.json';
 
 const NUM_LANES = 7;
-const GEL_SIZE = { width: 320, height: 240 };
-const WELL_Y1 = 8;
-const WELL_Y2 = 18;
+const GEL_SIZE = { width: 390, height: 520 };
+const WELL_Y1 = 17;   // was 8 (240-tall gel); 8 × (520/240) ≈ 17.3 → 17
+const WELL_Y2 = 39;   // was 18 (240-tall gel); 18 × (520/240) = 39
 
 export interface BandDrag {
   type:          'band';
