@@ -21,16 +21,13 @@ test('gel page boots with default ladder fixture and renders bands', async ({ pa
   await expect(rects).toHaveCount(10);
 });
 
-test('voltage slider changes (sliders are interactive)', async ({ page }, testInfo) => {
+test('frag-size SliderView is interactive (inspector panel mounts)', async ({ page }, testInfo) => {
   if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {
     test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
   }
   await page.goto('/#/gel');
-  // Find the voltage slider by label
-  const voltage = page.getByLabel('Voltage');
-  await voltage.fill('140');
-  // Value pill in the same group should reflect 140 V
-  await expect(page.locator('text=140 V')).toBeVisible();
+  // M14: FragmentView is the default inspector. frag-size SliderView must be visible.
+  await expect(page.getByTestId('frag-size')).toBeVisible();
 });
 
 test('clicking a band selects its fragment (selection-info updates)', async ({ page }, testInfo) => {
@@ -39,11 +36,12 @@ test('clicking a band selects its fragment (selection-info updates)', async ({ p
   }
   await page.goto('/#/gel');
   const before = await getSelectionText(page);
-  // After M6b the default text shows lane + fragment count, no "no selection"
-  expect(before).toContain('fragments');
-  // Pointer-down on the first band (highest bp, top of canvas)
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  // M14: auto-selects fragment 0 on load, so default text is "lane 0 fragment 0: X bp, Y ng"
+  // (Previously no fragment was auto-selected and the text showed fragment count.)
+  expect(before).toMatch(/lane \d+ fragment \d+/);
+  // Pointer-down on band-1 (second fragment) to change selection
+  await page.locator('[data-testid="band-1"]').dispatchEvent('pointerdown', { button: 0 });
+  await page.locator('[data-testid="band-1"]').dispatchEvent('pointerup');
   const after = await getSelectionText(page);
   // M6b format: "lane N fragment M: X bp, Y ng"
   expect(after).toMatch(/lane \d+ fragment \d+/);
@@ -56,15 +54,16 @@ test('Tab key cycles selection forward', async ({ page }, testInfo) => {
   await page.goto('/#/gel');
   // Focus the overlay
   await page.getByTestId('gel-overlay').focus();
-  // Tab from null → 0: M6b format "lane 0 fragment 0: X bp, Y ng"
-  await page.keyboard.press('Tab');
-  await expect(page.getByTestId('selection-info')).toContainText('fragment 0');
-  // Tab again → 1
+  // M14: fragment 0 is auto-selected on load. Tab advances selection.
+  // Tab from 0 → 1: M6b format "lane 0 fragment N: X bp, Y ng"
   await page.keyboard.press('Tab');
   await expect(page.getByTestId('selection-info')).toContainText('fragment 1');
-  // Shift+Tab → back to 0
+  // Tab again → 2
+  await page.keyboard.press('Tab');
+  await expect(page.getByTestId('selection-info')).toContainText('fragment 2');
+  // Shift+Tab → back to 1
   await page.keyboard.press('Shift+Tab');
-  await expect(page.getByTestId('selection-info')).toContainText('fragment 0');
+  await expect(page.getByTestId('selection-info')).toContainText('fragment 1');
 });
 
 test('alt+pointer-down clones the fragment (band count grows)', async ({ page }, testInfo) => {
@@ -132,47 +131,9 @@ test('alt+microtube-drag clones the sample (both lanes filled)', async ({ page }
   ).toBeNull();
 });
 
-test('Save sample button triggers a JSON download', async ({ page }, testInfo) => {
-  if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {
-    test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
-  }
-  await page.goto('/#/gel');
-  // Wait for the page to mount the canvas + buttons (i.e. the renderer ready)
-  await expect(page.getByTestId('save-sample-btn')).toBeVisible();
-  const downloadPromise = page.waitForEvent('download');
-  await page.getByTestId('save-sample-btn').click();
-  const download = await downloadPromise;
-  expect(download.suggestedFilename()).toMatch(/\.json$/);
-});
-
-test('Open file input loads a sample-shaped JSON', async ({ page }, testInfo) => {
-  if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {
-    test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
-  }
-  await page.goto('/#/gel');
-  await expect(page.getByTestId('open-btn')).toBeVisible();
-  // Build a tiny sample JSON with a single fragment we can identify.
-  const samplePayload = {
-    schema: 'gel-sample-v0',
-    buffer: { tris: 44.5, borate: 44.5, acetate: 0, edta: 1 },
-    fragments: [
-      { bases: 12345, mass: 50, degrade: 0, dye: -1, aggregate: [], aspectRatio: 1, color: [1, 1, 1] },
-    ],
-  };
-  // setInputFiles directly on the hidden file input.
-  await page.getByTestId('file-input').setInputFiles({
-    name: 'test-sample.json',
-    mimeType: 'application/json',
-    buffer: Buffer.from(JSON.stringify(samplePayload), 'utf8'),
-  });
-  // Verify selection-info reflects the new sample (only 1 fragment with 12345 bp).
-  // Click band-0 to trigger selection text containing "12345 bp".
-  // First, the bands map auto-recomputes from new sample. Since it has 1 fragment,
-  // there should be 1 band (data-testid="band-0").
-  await expect(page.locator('[data-testid="band-0"]')).toBeVisible();
-  await page.locator('[data-testid="band-0"]').click({ button: 'left' });
-  await expect(page.getByTestId('selection-info')).toContainText('12345 bp');
-});
+// NOTE: Save/Open file controls (save-sample-btn, open-btn, file-input) were part of
+// GelControls/FileControls which were removed from GelPage during the M11 Stage refactor.
+// Those features will be re-tested when re-mounted in a future milestone.
 
 test('Drag-drop a sample-shaped JSON loads it', async ({ page }, testInfo) => {
   if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {

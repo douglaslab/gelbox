@@ -12,9 +12,10 @@ test('all three tabs are visible', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'Dev' })).toBeVisible();
 });
 
-test('navigating to /#/gel shows gel page heading', async ({ page }) => {
+test('navigating to /#/gel shows gel page', async ({ page }) => {
   await page.goto('/#/gel');
-  await expect(page.getByRole('heading', { name: 'Gel' })).toBeVisible();
+  // The gel page mounts the three-panel Stage; check for the gel-page wrapper.
+  await expect(page.getByTestId('gel-page')).toBeVisible();
 });
 
 test('navigating to /#/dev shows dev page heading', async ({ page }) => {
