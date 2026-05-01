@@ -193,8 +193,8 @@ Each sub-plan is detail-planned just before its execution, because the design of
 
 - [x] **Phase 2 Overview** — this file
 - [x] **M10 Layout system + assets + selection state** — `2026-05-01-gelbox-ts-m10-layout-assets.md`
-- [ ] **M11 Stage shell** — to be detail-planned before M11 starts — next-execute
-- [ ] **M12 Slider primitives** — TBD
+- [x] **M11 Stage shell** — `2026-05-01-gelbox-ts-m11-stage-shell.md`
+- [ ] **M12 Slider primitives** — TBD — next-execute
 - [ ] **M13 GelView pixel parity** — TBD
 - [ ] **M14 GelSettingsView** — TBD
 - [ ] **M15 SampleView middle panel** — TBD
