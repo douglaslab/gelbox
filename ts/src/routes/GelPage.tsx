@@ -2,10 +2,12 @@ import { useMemo, useState } from 'react';
 import { GelProvider, useGelState, useGelDispatch } from '../components/gel/GelContext';
 import { GelCanvas } from '../components/gel/GelCanvas';
 import { GelOverlay, type BandLaneFragment } from '../components/gel/GelOverlay';
-import { GelControls } from '../components/chrome/GelControls';
-import { FileControls } from '../components/chrome/FileControls';
 import { MicrotubeRow } from '../components/gel/MicrotubeRow';
 import { LoupePortalLayer } from '../components/gel/LoupePortalLayer';
+import { Stage } from '../components/stage/Stage';
+import { Brace } from '../components/stage/Brace';
+import { SampleViewPlaceholder } from '../components/stage/SampleViewPlaceholder';
+import { InspectorPlaceholder } from '../components/stage/InspectorPlaceholder';
 import { fragToBands } from '../lib/sim/gelSim';
 import { deserializeFile } from '../lib/gel/serialize';
 import type { Band } from '../lib/sim/band';
@@ -55,28 +57,46 @@ function GelInner() {
     }
   }
 
+  // Left panel: microtube row above the gel canvas + overlay
+  const leftPanel = (
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
+      <div style={{ flex: '0 0 auto' }}>
+        <MicrotubeRow />
+      </div>
+      <div style={{ position: 'relative', flex: '1 1 auto' }}>
+        <GelCanvas bands={bands} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} />
+        <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
+      </div>
+    </div>
+  );
+
   return (
-    <section
+    <div
       data-testid="gel-page"
-      style={{ padding: 24, maxWidth: 1100, margin: '0 auto' }}
       onDragOver={(e) => e.preventDefault()}
       onDrop={onDrop}
+      style={{ minHeight: '100vh', overflow: 'hidden' }}
     >
-      <h1 style={{ marginTop: 0 }}>Gel</h1>
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 24 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <GelControls />
-          <FileControls />
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
-          <MicrotubeRow />
-          <div style={{ position: 'relative' }}>
-            <GelCanvas bands={bands} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} />
-            <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
-          </div>
-        </div>
-      </div>
-      <div data-testid="selection-info" style={{ marginTop: 16, fontSize: 13, color: 'var(--color-ink-muted)' }}>
+      <Stage
+        left={leftPanel}
+        middle={<SampleViewPlaceholder />}
+        right={<InspectorPlaceholder />}
+        brace={<Brace />}
+      />
+      <div
+        data-testid="selection-info"
+        style={{
+          position: 'fixed',
+          bottom: 8,
+          left: 8,
+          fontSize: 13,
+          color: 'var(--color-ink-muted)',
+          background: 'rgba(255,255,255,0.85)',
+          padding: '2px 6px',
+          borderRadius: 3,
+          pointerEvents: 'none',
+        }}
+      >
         {selectedFrag
           ? `lane ${state.selectedLane} fragment ${state.selectedFragmentIndex}: ${selectedFrag.bases} bp, ${selectedFrag.mass} ng`
           : selectedSample
@@ -84,12 +104,25 @@ function GelInner() {
             : `lane ${state.selectedLane}: empty`}
       </div>
       {dropError && (
-        <div data-testid="drop-error" style={{ marginTop: 8, color: 'var(--color-danger, #c44)', fontSize: 12 }}>
+        <div
+          data-testid="drop-error"
+          style={{
+            position: 'fixed',
+            top: 8,
+            right: 8,
+            color: '#c44',
+            fontSize: 12,
+            background: '#fff',
+            padding: '4px 8px',
+            borderRadius: 4,
+            boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
+          }}
+        >
           {dropError}
         </div>
       )}
       <LoupePortalLayer />
-    </section>
+    </div>
   );
 }
 
