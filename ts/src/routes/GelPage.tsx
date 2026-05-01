@@ -8,7 +8,7 @@ import { LoupePortalLayer } from '../components/gel/LoupePortalLayer';
 import { Stage } from '../components/stage/Stage';
 import { Brace } from '../components/stage/Brace';
 import { SampleViewPlaceholder } from '../components/stage/SampleViewPlaceholder';
-import { InspectorPlaceholder } from '../components/stage/InspectorPlaceholder';
+import { InspectorPanel } from '../components/inspector/InspectorPanel';
 import { fragToBands } from '../lib/sim/gelSim';
 import { deserializeFile } from '../lib/gel/serialize';
 import type { Band } from '../lib/sim/band';
@@ -84,7 +84,7 @@ function GelInner() {
       <Stage
         left={leftPanel}
         middle={<SampleViewPlaceholder />}
-        right={<InspectorPlaceholder />}
+        right={<InspectorPanel />}
         brace={<Brace />}
       />
       <div
