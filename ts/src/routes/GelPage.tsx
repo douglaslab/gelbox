@@ -3,6 +3,7 @@ import { GelProvider, useGelState, useGelDispatch } from '../components/gel/GelC
 import { GelCanvas } from '../components/gel/GelCanvas';
 import { GelOverlay, type BandLaneFragment } from '../components/gel/GelOverlay';
 import { MicrotubeRow } from '../components/gel/MicrotubeRow';
+import { SettingsButton } from '../components/gel/SettingsButton';
 import { LoupePortalLayer } from '../components/gel/LoupePortalLayer';
 import { Stage } from '../components/stage/Stage';
 import { Brace } from '../components/stage/Brace';
@@ -66,6 +67,9 @@ function GelInner() {
       <div style={{ position: 'relative', flex: '1 1 auto' }}>
         <GelCanvas bands={bands} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} />
         <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
+        <div style={{ position: 'absolute', right: 8, bottom: 8 }}>
+          <SettingsButton />
+        </div>
       </div>
     </div>
   );

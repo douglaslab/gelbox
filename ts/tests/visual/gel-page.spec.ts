@@ -85,13 +85,10 @@ test('microtube drag moves sample to a new lane', async ({ page }, testInfo) => 
     test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
   }
   await page.goto('/#/gel');
-  // Initial: lane 0 has the sample, lane 3 empty
+  // Initial: lane 0 has the sample (no data-empty), lane 3 empty (has data-empty)
   await expect(page.locator('[data-testid="microtube-0"]')).toBeVisible();
-  // Read initial fill (sample present = filled)
-  const tube0Before = await page.locator('[data-testid="microtube-0"]').getAttribute('fill');
-  expect(tube0Before).not.toBe('transparent');
-  const tube3Before = await page.locator('[data-testid="microtube-3"]').getAttribute('fill');
-  expect(tube3Before).toBe('transparent');
+  expect(await page.locator('[data-testid="microtube-0"]').getAttribute('data-empty')).toBeNull();
+  expect(await page.locator('[data-testid="microtube-3"]').getAttribute('data-empty')).not.toBeNull();
 
   // Drag tube 0 → tube 3 by simulating pointer down on 0, up over 3
   const tube0 = await page.locator('[data-testid="microtube-0"]').boundingBox();
@@ -102,13 +99,13 @@ test('microtube drag moves sample to a new lane', async ({ page }, testInfo) => 
   await page.mouse.move(tube3.x + tube3.width / 2, tube3.y + tube3.height / 2, { steps: 5 });
   await page.mouse.up();
 
-  // Now lane 3 has the sample; lane 0 is empty
+  // Now lane 3 has the sample (no data-empty); lane 0 is empty (has data-empty)
   await expect.poll(async () =>
-    (await page.locator('[data-testid="microtube-3"]').getAttribute('fill')) ?? ''
-  ).not.toBe('transparent');
+    page.locator('[data-testid="microtube-3"]').getAttribute('data-empty')
+  ).toBeNull();
   await expect.poll(async () =>
-    (await page.locator('[data-testid="microtube-0"]').getAttribute('fill')) ?? ''
-  ).toBe('transparent');
+    page.locator('[data-testid="microtube-0"]').getAttribute('data-empty')
+  ).not.toBeNull();
 });
 
 test('alt+microtube-drag clones the sample (both lanes filled)', async ({ page }, testInfo) => {
@@ -126,13 +123,13 @@ test('alt+microtube-drag clones the sample (both lanes filled)', async ({ page }
   await page.mouse.up();
   await page.keyboard.up('Alt');
 
-  // Both 0 and 4 are filled
+  // Both 0 and 4 are filled (no data-empty on either)
   await expect.poll(async () =>
-    (await page.locator('[data-testid="microtube-0"]').getAttribute('fill')) ?? ''
-  ).not.toBe('transparent');
+    page.locator('[data-testid="microtube-0"]').getAttribute('data-empty')
+  ).toBeNull();
   await expect.poll(async () =>
-    (await page.locator('[data-testid="microtube-4"]').getAttribute('fill')) ?? ''
-  ).not.toBe('transparent');
+    page.locator('[data-testid="microtube-4"]').getAttribute('data-empty')
+  ).toBeNull();
 });
 
 test('Save sample button triggers a JSON download', async ({ page }, testInfo) => {
