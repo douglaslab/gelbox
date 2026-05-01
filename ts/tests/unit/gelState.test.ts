@@ -40,8 +40,8 @@ describe('gelReducer (multi-lane)', () => {
     if (n === 0) return;
     const next1 = gelReducer({ ...STARTING, selectedFragmentIndex: 0 }, { type: 'SELECT_NEXT' });
     expect(next1.selectedFragmentIndex).toBe(1 % n);
-    // From an empty lane, no-op
-    const empty = gelReducer({ ...STARTING, selectedLane: 1 }, { type: 'SELECT_NEXT' });
+    // From an empty lane, no-op (selectedFragmentIndex unchanged)
+    const empty = gelReducer({ ...STARTING, selectedLane: 1, selectedFragmentIndex: null }, { type: 'SELECT_NEXT' });
     expect(empty.selectedFragmentIndex).toBeNull();
   });
   it('SELECT_PREV from null goes to last fragment', () => {
@@ -235,5 +235,57 @@ describe('gelReducer SET_INSPECTOR_MODE', () => {
     const s0 = initialGelState();
     const s1 = gelReducer(s0, { type: 'SET_INSPECTOR_MODE', mode: 'default' });
     expect(s1).toBe(s0);
+  });
+});
+
+describe('gelReducer fragment-edit actions', () => {
+  function loaded() {
+    return initialGelState();
+  }
+
+  it('SET_FRAGMENT_MASS updates the fragment mass', () => {
+    const s0 = loaded();
+    const s1 = gelReducer(s0, { type: 'SET_FRAGMENT_MASS', laneIndex: 0, index: 0, mass: 42 });
+    expect(s1.samples[0]!.fragments[0].mass).toBe(42);
+  });
+
+  it('SET_FRAGMENT_ASPECT updates the aspect ratio', () => {
+    const s0 = loaded();
+    const s1 = gelReducer(s0, { type: 'SET_FRAGMENT_ASPECT', laneIndex: 0, index: 0, aspectRatio: 8 });
+    expect(s1.samples[0]!.fragments[0].aspectRatio).toBe(8);
+  });
+
+  it('SET_FRAGMENT_AGGREGATE replaces the aggregate array', () => {
+    const s0 = loaded();
+    const s1 = gelReducer(s0, { type: 'SET_FRAGMENT_AGGREGATE', laneIndex: 0, index: 0, aggregate: [1, 0.5, 0.25] });
+    expect(s1.samples[0]!.fragments[0].aggregate).toEqual([1, 0.5, 0.25]);
+  });
+
+  it('SET_FRAGMENT_DEGRADE updates the degrade value', () => {
+    const s0 = loaded();
+    const s1 = gelReducer(s0, { type: 'SET_FRAGMENT_DEGRADE', laneIndex: 0, index: 0, degrade: 1.5 });
+    expect(s1.samples[0]!.fragments[0].degrade).toBe(1.5);
+  });
+
+  it('SET_FRAGMENT_COLOR updates the color', () => {
+    const s0 = loaded();
+    const s1 = gelReducer(s0, { type: 'SET_FRAGMENT_COLOR', laneIndex: 0, index: 0, color: [1, 0.5, 0] });
+    expect(s1.samples[0]!.fragments[0].color).toEqual([1, 0.5, 0]);
+  });
+
+  it('returns state unchanged when laneIndex has no sample', () => {
+    const s0 = loaded();
+    const emptyLane = 6;
+    expect(s0.samples[emptyLane]).toBeNull();
+    const s1 = gelReducer(s0, { type: 'SET_FRAGMENT_MASS', laneIndex: emptyLane, index: 0, mass: 42 });
+    expect(s1).toBe(s0);
+  });
+});
+
+describe('initialGelState auto-selects fragment 0', () => {
+  it('selects fragment 0 in lane 0 when ladder has fragments', () => {
+    const s = initialGelState();
+    expect(s.selectedLane).toBe(0);
+    expect(s.selectedFragmentIndex).toBe(0);
   });
 });

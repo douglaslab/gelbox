@@ -72,6 +72,11 @@ export type Action =
   | { type: 'CLONE_SAMPLE_TO_LANE'; from: number; to: number }
   | { type: 'CLONE_FRAGMENT';     laneIndex: number; sourceIndex: number }
   | { type: 'SET_FRAGMENT_BASES'; laneIndex: number; index: number; bases: number }
+  | { type: 'SET_FRAGMENT_MASS';     laneIndex: number; index: number; mass: number }
+  | { type: 'SET_FRAGMENT_ASPECT';   laneIndex: number; index: number; aspectRatio: number }
+  | { type: 'SET_FRAGMENT_AGGREGATE'; laneIndex: number; index: number; aggregate: number[] }
+  | { type: 'SET_FRAGMENT_DEGRADE';  laneIndex: number; index: number; degrade: number }
+  | { type: 'SET_FRAGMENT_COLOR';    laneIndex: number; index: number; color: [number, number, number] }
   | { type: 'SET_MODIFIERS';      modifiers: { shift: boolean; alt: boolean; meta: boolean } }
   | { type: 'ADD_LOUPE';     lane: number; fragmentIndex: number; x: number; y: number }
   | { type: 'REMOVE_LOUPE';  id: number }
@@ -115,7 +120,7 @@ export function initialGelState(): GelState {
       sampleBuffer: sample.buffer,
     },
     selectedLane: 0,
-    selectedFragmentIndex: null,
+    selectedFragmentIndex: sample.fragments.length > 0 ? 0 : null,
     fixtureKey: 'ladder-1kb',
     modifiers: { shift: false, alt: false, meta: false },
     drag: null,
@@ -148,7 +153,7 @@ export function gelReducer(state: GelState, action: Action): GelState {
         samples,
         fixtureKey: action.key,
         selectedLane: action.lane,
-        selectedFragmentIndex: null,
+        selectedFragmentIndex: action.sample.fragments.length > 0 ? 0 : null,
         ctx: { ...state.ctx, sampleBuffer: action.sample.buffer },
         drag: null,
       };
@@ -252,6 +257,56 @@ export function gelReducer(state: GelState, action: Action): GelState {
       if (!sample) return state;
       const fragments = sample.fragments.map((f, i) =>
         i === action.index ? { ...f, bases: action.bases } : f
+      );
+      const samples = state.samples.slice();
+      samples[action.laneIndex] = { ...sample, fragments };
+      return { ...state, samples };
+    }
+    case 'SET_FRAGMENT_MASS': {
+      const sample = state.samples[action.laneIndex];
+      if (!sample) return state;
+      const fragments = sample.fragments.map((f, i) =>
+        i === action.index ? { ...f, mass: action.mass } : f
+      );
+      const samples = state.samples.slice();
+      samples[action.laneIndex] = { ...sample, fragments };
+      return { ...state, samples };
+    }
+    case 'SET_FRAGMENT_ASPECT': {
+      const sample = state.samples[action.laneIndex];
+      if (!sample) return state;
+      const fragments = sample.fragments.map((f, i) =>
+        i === action.index ? { ...f, aspectRatio: action.aspectRatio } : f
+      );
+      const samples = state.samples.slice();
+      samples[action.laneIndex] = { ...sample, fragments };
+      return { ...state, samples };
+    }
+    case 'SET_FRAGMENT_AGGREGATE': {
+      const sample = state.samples[action.laneIndex];
+      if (!sample) return state;
+      const fragments = sample.fragments.map((f, i) =>
+        i === action.index ? { ...f, aggregate: action.aggregate.slice() } : f
+      );
+      const samples = state.samples.slice();
+      samples[action.laneIndex] = { ...sample, fragments };
+      return { ...state, samples };
+    }
+    case 'SET_FRAGMENT_DEGRADE': {
+      const sample = state.samples[action.laneIndex];
+      if (!sample) return state;
+      const fragments = sample.fragments.map((f, i) =>
+        i === action.index ? { ...f, degrade: action.degrade } : f
+      );
+      const samples = state.samples.slice();
+      samples[action.laneIndex] = { ...sample, fragments };
+      return { ...state, samples };
+    }
+    case 'SET_FRAGMENT_COLOR': {
+      const sample = state.samples[action.laneIndex];
+      if (!sample) return state;
+      const fragments = sample.fragments.map((f, i) =>
+        i === action.index ? { ...f, color: action.color } : f
       );
       const samples = state.samples.slice();
       samples[action.laneIndex] = { ...sample, fragments };
