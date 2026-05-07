@@ -12,6 +12,7 @@ import { SampleViewPlaceholder } from '../components/stage/SampleViewPlaceholder
 import { InspectorPanel } from '../components/inspector/InspectorPanel';
 import { fragToBands } from '../lib/sim/gelSim';
 import { deserializeFile } from '../lib/gel/serialize';
+import { arePanelsVisible } from '../lib/gel/gelState';
 import type { Band } from '../lib/sim/band';
 
 function GelInner() {
@@ -107,6 +108,7 @@ function GelInner() {
         middle={<SampleViewPlaceholder />}
         right={<InspectorPanel />}
         brace={<Brace />}
+        showRight={arePanelsVisible(state)}
       />
       <div
         data-testid="selection-info"

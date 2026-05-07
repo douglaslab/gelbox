@@ -8,133 +8,146 @@
   },
   "fragments": [
     {
-      "bases": 100,
-      "mass": 50,
+      "bases": 10002,
+      "mass": 42,
       "degrade": 0,
       "dye": -1,
       "aggregate": [],
       "aspectRatio": 1,
       "color": [
-        1,
-        1,
-        1
+        0.033105,
+        0.033105,
+        0.033105
       ]
     },
     {
-      "bases": 200,
-      "mass": 50,
+      "bases": 8001,
+      "mass": 42,
       "degrade": 0,
       "dye": -1,
       "aggregate": [],
       "aspectRatio": 1,
       "color": [
-        1,
-        1,
-        1
+        0,
+        0.132868,
+        0.603827
       ]
     },
     {
-      "bases": 400,
+      "bases": 6001,
       "mass": 50,
       "degrade": 0,
       "dye": -1,
       "aggregate": [],
       "aspectRatio": 1,
       "color": [
-        1,
-        1,
-        1
+        0.603827,
+        0,
+        0
       ]
     },
     {
-      "bases": 800,
-      "mass": 50,
+      "bases": 5001,
+      "mass": 42,
       "degrade": 0,
       "dye": -1,
       "aggregate": [],
       "aspectRatio": 1,
       "color": [
-        1,
-        1,
-        1
+        0.930111,
+        0.056128,
+        0.002428
       ]
     },
     {
-      "bases": 1600,
-      "mass": 50,
+      "bases": 4001,
+      "mass": 33,
       "degrade": 0,
       "dye": -1,
       "aggregate": [],
       "aspectRatio": 1,
       "color": [
-        1,
-        1,
-        1
+        0.930111,
+        0.291771,
+        0.012983
       ]
     },
     {
-      "bases": 3200,
-      "mass": 50,
+      "bases": 3001,
+      "mass": 125,
       "degrade": 0,
       "dye": -1,
       "aggregate": [],
       "aspectRatio": 1,
       "color": [
-        1,
-        1,
-        1
+        0.401978,
+        0.401978,
+        0
       ]
     },
     {
-      "bases": 6400,
-      "mass": 50,
+      "bases": 2000,
+      "mass": 48,
       "degrade": 0,
       "dye": -1,
       "aggregate": [],
       "aspectRatio": 1,
       "color": [
-        1,
-        1,
-        1
+        0.095307,
+        0.496933,
+        0
       ]
     },
     {
-      "bases": 9000,
-      "mass": 50,
+      "bases": 1500,
+      "mass": 36,
       "degrade": 0,
       "dye": -1,
       "aggregate": [],
       "aspectRatio": 1,
       "color": [
-        1,
-        1,
-        1
+        0,
+        0.168269,
+        0
       ]
     },
     {
-      "bases": 12000,
-      "mass": 50,
+      "bases": 1000,
+      "mass": 42,
       "degrade": 0,
       "dye": -1,
       "aggregate": [],
       "aspectRatio": 1,
       "color": [
-        1,
-        1,
-        1
+        0.000911,
+        0.467784,
+        0.361307
       ]
     },
     {
-      "bases": 13500,
-      "mass": 50,
+      "bases": 517,
+      "mass": 21,
       "degrade": 0,
       "dye": -1,
       "aggregate": [],
       "aspectRatio": 1,
       "color": [
-        1,
-        1,
-        1
+        0.008568,
+        0,
+        0.730461
+      ]
+    },
+    {
+      "bases": 500,
+      "mass": 21,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [],
+      "aspectRatio": 1,
+      "color": [
+        0.47932,
+        0.001518,
+        0.14996
       ]
     }
   ]

@@ -282,10 +282,10 @@ describe('gelReducer fragment-edit actions', () => {
   });
 });
 
-describe('initialGelState auto-selects fragment 0', () => {
-  it('selects fragment 0 in lane 0 when ladder has fragments', () => {
+describe('initialGelState defers fragment selection', () => {
+  it('lane 0 holds the ladder but no fragment is auto-selected (panels stay hidden)', () => {
     const s = initialGelState();
     expect(s.selectedLane).toBe(0);
-    expect(s.selectedFragmentIndex).toBe(0);
+    expect(s.selectedFragmentIndex).toBeNull();
   });
 });

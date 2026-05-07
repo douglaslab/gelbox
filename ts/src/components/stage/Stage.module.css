@@ -1,9 +1,12 @@
-/* Wide layout: fixed-size stage with absolute-positioned panel slots.
-   Width/height are set inline from Stage.tsx (STAGE_W / STAGE_H). */
+/* Fixed-size stage with absolute-positioned panel slots. Width/height are set
+   inline from Stage.tsx. Below the breakpoint we uniformly scale the entire
+   stage (transform applied inline) and hide Sample/Species panels via Stage
+   logic — the multi-panel column-stack reflow is intentionally disabled. */
 .stage {
   position: relative;
   margin: 0 auto;
   background: #FFFFFF;
+  transform-origin: top left;
 }
 
 .slot {
@@ -12,34 +15,4 @@
 
 .braceWrap {
   position: absolute;
-}
-
-/* Mid viewport (1024-1365): scale the whole stage proportionally; transform applied inline */
-@media (min-width: 1024px) and (max-width: 1364px) {
-  .stage {
-    transform-origin: top left;
-  }
-}
-
-/* Narrow layout: stack vertically, ignore absolute coords */
-@media (max-width: 1023px) {
-  .stage {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    padding: 16px;
-    box-sizing: border-box;
-  }
-
-  .slot,
-  .braceWrap {
-    position: static;
-  }
-
-  .braceWrap {
-    display: none;
-  }
 }

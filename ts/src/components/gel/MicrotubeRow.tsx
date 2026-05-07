@@ -73,14 +73,12 @@ export function MicrotubeRow() {
               onPointerDown={(e) => onTubePointerDown(i, e)}
               onClick={() => onTubeClick(i)}
             >
-              {hasSample && (
-                <img
-                  src={resolveAssetUrl('/assets/microtube1500ul.png')}
-                  alt=""
-                  className={styles.icon}
-                />
-              )}
-              <span className={styles.label}>{i + 1}</span>
+              <img
+                src={resolveAssetUrl('/assets/microtube1500ul.png')}
+                alt={`lane ${i + 1}`}
+                className={styles.icon}
+                data-empty={!hasSample || undefined}
+              />
             </button>
           </div>
         );

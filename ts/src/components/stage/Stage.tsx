@@ -7,6 +7,8 @@ export interface StageProps {
   middle: ReactNode;
   right:  ReactNode;
   brace?: ReactNode;
+  /** When false, hides the middle/right/brace slots — only the gel is shown. */
+  showRight?: boolean;
 }
 
 // Browser-friendly margins replacing the C++ desktop-app chrome offset.
@@ -15,43 +17,59 @@ export interface StageProps {
 // and let the panel labels (Sample/Gel) sit at PAD_Y - headingGutter.
 const PAD_X = 32;
 const PAD_Y = 60;
-const STAGE_W = PAD_X * 2 + LAYOUT.gelSize.x + LAYOUT.gelToSampleGutter
+const STAGE_W_FULL = PAD_X * 2 + LAYOUT.gelSize.x + LAYOUT.gelToSampleGutter
               + LAYOUT.sampleSize.x + LAYOUT.sampleToBraceGutter
               + LAYOUT.braceSize.x + LAYOUT.gelSettingsSize.x;
+const STAGE_W_GEL_ONLY = PAD_X * 2 + LAYOUT.gelSize.x;
 const STAGE_H = PAD_Y + LAYOUT.gelSize.y + 80; // 80px under the gel for the time slider
 
-const NARROW_BREAKPOINT = 1024;
+// Below this viewport width we hide Sample/Species (gel-only) and uniformly
+// scale the entire stage down. Above it, Sample/Species are shown if the
+// user has selected something (via showRight prop).
+const PANELS_BREAKPOINT = STAGE_W_FULL;
+// Stop scaling further once the gel-only view becomes this size.
+const NARROW_BREAKPOINT = STAGE_W_GEL_ONLY * 0.6;
 
-function useViewportScale(): number {
+function useViewportScale(targetWidth: number): number {
   const [scale, setScale] = useState(1);
 
   useEffect(() => {
     function update() {
       const w = window.innerWidth;
-      if (w >= STAGE_W) {
-        setScale(1);
-      } else if (w >= NARROW_BREAKPOINT) {
-        setScale(w / STAGE_W);
-      } else {
-        setScale(1);
-      }
+      if (w >= targetWidth) setScale(1);
+      else setScale(Math.max(NARROW_BREAKPOINT / targetWidth, w / targetWidth));
     }
     update();
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
-  }, []);
+  }, [targetWidth]);
 
   return scale;
 }
 
 /**
- * Three-panel stage matching the C++ Gelbox layout (1365x768).
- * - Wide (>= 1365px): static absolute-positioned panels at exact LAYOUT coords.
- * - Mid (1024-1364px): same layout, CSS-scaled to fit viewport width.
- * - Narrow (< 1024px): single-column stack (gel, sample, inspector); brace hidden.
+ * Three-panel stage. Sample/Species/brace are only shown when the user has
+ * engaged with something (via showRight prop) AND the viewport has room for
+ * the full panel row. Below PANELS_BREAKPOINT we force gel-only and uniformly
+ * scale the entire stage down to fit the viewport, clamping at NARROW_BREAKPOINT.
+ * Multi-column reflow / single-column mobile is intentionally disabled.
  */
-export function Stage({ left, middle, right, brace }: StageProps) {
-  const scale = useViewportScale();
+export function Stage({ left, middle, right, brace, showRight = true }: StageProps) {
+  const [viewportW, setViewportW] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : PANELS_BREAKPOINT,
+  );
+  useEffect(() => {
+    const onR = () => setViewportW(window.innerWidth);
+    window.addEventListener('resize', onR);
+    return () => window.removeEventListener('resize', onR);
+  }, []);
+
+  // Below PANELS_BREAKPOINT, force the gel-only layout regardless of the
+  // showRight prop — there isn't room for the right side at any reasonable
+  // scale. Mobile/tablet revisit later.
+  const effectiveShowRight = showRight && viewportW >= PANELS_BREAKPOINT;
+  const stageWidth = effectiveShowRight ? STAGE_W_FULL : STAGE_W_GEL_ONLY;
+  const scale = useViewportScale(stageWidth);
 
   const leftStyle = {
     left:   `${PAD_X}px`,
@@ -88,18 +106,40 @@ export function Stage({ left, middle, right, brace }: StageProps) {
     ? { transform: `scale(${scale})` }
     : undefined;
 
+  // When scaling, the transformed stage's logical box still occupies its
+  // un-scaled size in the document flow. Wrap in an outer box sized to the
+  // visual (scaled) extents so the page layout reserves the right space and
+  // we can center the stage horizontally within the viewport.
+  const outerStyle: React.CSSProperties = {
+    width:  stageWidth * scale,
+    height: STAGE_H * scale,
+    margin: '0 auto',
+    position: 'relative',
+  };
+
   return (
-    <div
-      className={styles.stage}
-      style={{ width: STAGE_W, height: STAGE_H, ...stageStyle }}
-      data-testid="stage"
-    >
-      <div className={styles.slot} style={leftStyle}   data-testid="stage-left">{left}</div>
-      <div className={styles.slot} style={middleStyle} data-testid="stage-middle">{middle}</div>
-      {brace && (
-        <div className={styles.braceWrap} style={braceStyle} data-testid="stage-brace">{brace}</div>
-      )}
-      <div className={styles.slot} style={rightStyle}  data-testid="stage-right">{right}</div>
+    <div style={outerStyle}>
+      <div
+        className={styles.stage}
+        style={{
+          width:  stageWidth,
+          height: STAGE_H,
+          margin: 0,
+          ...stageStyle,
+        }}
+        data-testid="stage"
+      >
+        <div className={styles.slot} style={leftStyle}   data-testid="stage-left">{left}</div>
+        {effectiveShowRight && (
+          <>
+            <div className={styles.slot} style={middleStyle} data-testid="stage-middle">{middle}</div>
+            {brace && (
+              <div className={styles.braceWrap} style={braceStyle} data-testid="stage-brace">{brace}</div>
+            )}
+            <div className={styles.slot} style={rightStyle}  data-testid="stage-right">{right}</div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

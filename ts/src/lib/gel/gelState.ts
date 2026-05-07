@@ -8,8 +8,13 @@ import ladder from '../../../fixtures/states/ladder-1kb.json';
 
 const NUM_LANES = 7;
 const GEL_SIZE = { width: 390, height: 520 };
-const WELL_Y1 = 17;   // was 8 (240-tall gel); 8 × (520/240) ≈ 17.3 → 17
-const WELL_Y2 = 39;   // was 18 (240-tall gel); 18 × (520/240) = 39
+const Y_MARGIN = 20;  // matches Layout::mGelWellGutter
+
+// C++ Gel::getSampleDeltaYSpaceScale() = mSize.y - mYMargin*2 - mLaneWidth*0.2
+function computeYSpaceScale(width: number, height: number, numLanes: number, yMargin: number): number {
+  const laneWidth = width / numLanes;
+  return height - yMargin * 2 - laneWidth * 0.2;
+}
 
 export interface BandDrag {
   type:          'band';
@@ -93,13 +98,21 @@ const BUFFER_BY_KEY = {
   H2O: BUFFER_H2O,
 } as const;
 
+// C++ Gel::getWellSize() = (laneWidth*0.5, laneWidth*0.1) centered at (laneCenterX, yMargin).
 function computeWellRects(numLanes: number, gelSize: { width: number; height: number }): Rect[] {
   const laneWidth = gelSize.width / numLanes;
-  const wellWidth = laneWidth * 0.7;
+  const wellWidth  = laneWidth * 0.5;
+  const wellHeight = laneWidth * 0.1;
   const out: Rect[] = [];
   for (let i = 0; i < numLanes; i++) {
     const cx = laneWidth * (i + 0.5);
-    out.push({ x1: cx - wellWidth / 2, y1: WELL_Y1, x2: cx + wellWidth / 2, y2: WELL_Y2 });
+    const cy = Y_MARGIN;
+    out.push({
+      x1: cx - wellWidth / 2,
+      y1: cy - wellHeight / 2,
+      x2: cx + wellWidth / 2,
+      y2: cy + wellHeight / 2,
+    });
   }
   return out;
 }
@@ -114,13 +127,15 @@ export function initialGelState(): GelState {
     ctx: {
       voltage: 70,
       time:    1.0,
-      ySpaceScale: 200,
+      ySpaceScale: computeYSpaceScale(GEL_SIZE.width, GEL_SIZE.height, NUM_LANES, Y_MARGIN),
       wellDamage: 0,
       gelBuffer: BUFFER_TBE,
       sampleBuffer: sample.buffer,
     },
     selectedLane: 0,
-    selectedFragmentIndex: sample.fragments.length > 0 ? 0 : null,
+    // Nothing is selected on first load — Sample/Species panels stay hidden
+    // until the user clicks a tube or a band (matches Gelbox app behavior).
+    selectedFragmentIndex: null,
     fixtureKey: 'ladder-1kb',
     modifiers: { shift: false, alt: false, meta: false },
     drag: null,
@@ -133,6 +148,21 @@ export function initialGelState(): GelState {
     rollover:  null,
     inspectorMode: 'default',
   };
+}
+
+/**
+ * Sample/Species/Brace panels are only visible after the user has explicitly
+ * engaged with something: clicked a non-empty tube, clicked a band, or
+ * toggled the gear. Default load shows just the gel.
+ */
+export function arePanelsVisible(state: GelState): boolean {
+  if (state.inspectorMode === 'gel-settings') return true;
+  if (state.selectedFragmentIndex !== null) return true;
+  if (state.inspectorMode === 'sample-settings'
+      && state.samples[state.selectedLane] !== null) {
+    return true;
+  }
+  return false;
 }
 
 export function gelReducer(state: GelState, action: Action): GelState {
@@ -153,7 +183,9 @@ export function gelReducer(state: GelState, action: Action): GelState {
         samples,
         fixtureKey: action.key,
         selectedLane: action.lane,
-        selectedFragmentIndex: action.sample.fragments.length > 0 ? 0 : null,
+        // Don't auto-select on load — let the user click into a band/tube to
+        // open the Sample/Species panels.
+        selectedFragmentIndex: null,
         ctx: { ...state.ctx, sampleBuffer: action.sample.buffer },
         drag: null,
       };
@@ -171,10 +203,34 @@ export function gelReducer(state: GelState, action: Action): GelState {
         drag: null,
       };
     }
-    case 'SET_SELECTED_LANE':
-      return { ...state, selectedLane: action.laneIndex, selectedFragmentIndex: null };
-    case 'SET_SELECTED':
-      return { ...state, selectedLane: action.laneIndex, selectedFragmentIndex: action.index };
+    case 'SET_SELECTED_LANE': {
+      const sample = state.samples[action.laneIndex];
+      // Clicking a non-empty tube opens the Sample (buffer/dyes) inspector;
+      // clicking an empty tube just moves the selection without opening it.
+      const inspectorMode: InspectorMode =
+        sample !== null
+          ? (state.inspectorMode === 'gel-settings' ? 'gel-settings' : 'sample-settings')
+          : state.inspectorMode;
+      return {
+        ...state,
+        selectedLane: action.laneIndex,
+        selectedFragmentIndex: null,
+        inspectorMode,
+      };
+    }
+    case 'SET_SELECTED': {
+      // Selecting a fragment opens the Species (FragmentView) inspector.
+      const inspectorMode: InspectorMode =
+        action.index !== null
+          ? (state.inspectorMode === 'gel-settings' ? 'gel-settings' : 'fragment')
+          : state.inspectorMode;
+      return {
+        ...state,
+        selectedLane: action.laneIndex,
+        selectedFragmentIndex: action.index,
+        inspectorMode,
+      };
+    }
     case 'SELECT_NEXT': {
       const sample = state.samples[state.selectedLane];
       if (!sample) return state;
@@ -209,6 +265,8 @@ export function gelReducer(state: GelState, action: Action): GelState {
         },
         selectedLane: action.laneIndex,
         selectedFragmentIndex: action.fragmentIndex,
+        // Drag-selecting a band opens the Species inspector too.
+        inspectorMode: state.inspectorMode === 'gel-settings' ? 'gel-settings' : 'fragment',
       };
     }
     case 'END_DRAG':
