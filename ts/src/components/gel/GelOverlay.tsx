@@ -4,6 +4,15 @@ import { useGelState, useGelDispatch } from './GelContext';
 import { solveBasesForY } from '../../lib/sim/solver';
 import { LAYOUT } from '../../lib/layout/layout';
 
+function linearRgbToSrgbHex(rgb: readonly [number, number, number]): string {
+  const toByte = (c: number) => {
+    const srgb = c <= 0.0031308 ? c * 12.92 : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+    return Math.max(0, Math.min(255, Math.round(srgb * 255)));
+  };
+  const [r, g, b] = rgb.map(toByte);
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
+
 export interface BandLaneFragment {
   lane:     number;
   fragment: number;
@@ -132,6 +141,8 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
         const lf = bandToLaneFragment[i];
         const selected = state.selectedLane === lf.lane && state.selectedFragmentIndex === lf.fragment;
         const hovered  = state.rollover?.lane === lf.lane && state.rollover?.fragmentIndex === lf.fragment;
+        const frag = state.samples[lf.lane]?.fragments[lf.fragment];
+        const speciesColor = frag ? linearRgbToSrgbHex(frag.color) : LAYOUT.sampleViewFragSelectColor;
         return (
           <rect
             key={i}
@@ -142,7 +153,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
             fill="transparent"
             stroke={
               selected
-                ? LAYOUT.sampleViewFragSelectColor
+                ? speciesColor
                 : (hovered ? LAYOUT.sampleViewFragHoverColor : 'transparent')
             }
             strokeWidth={LAYOUT.sampleViewFragOutlineWidth}

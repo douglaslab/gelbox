@@ -9,6 +9,17 @@ export interface StageProps {
   brace?: ReactNode;
 }
 
+// Browser-friendly margins replacing the C++ desktop-app chrome offset.
+// gelTopLeft (208, 124) is from a fixed-window app design; in the browser
+// the surrounding chrome is the page itself, so we use small inner padding
+// and let the panel labels (Sample/Gel) sit at PAD_Y - headingGutter.
+const PAD_X = 32;
+const PAD_Y = 60;
+const STAGE_W = PAD_X * 2 + LAYOUT.gelSize.x + LAYOUT.gelToSampleGutter
+              + LAYOUT.sampleSize.x + LAYOUT.sampleToBraceGutter
+              + LAYOUT.braceSize.x + LAYOUT.gelSettingsSize.x;
+const STAGE_H = PAD_Y + LAYOUT.gelSize.y + 80; // 80px under the gel for the time slider
+
 const NARROW_BREAKPOINT = 1024;
 
 function useViewportScale(): number {
@@ -17,10 +28,10 @@ function useViewportScale(): number {
   useEffect(() => {
     function update() {
       const w = window.innerWidth;
-      if (w >= LAYOUT.windowSize.x) {
+      if (w >= STAGE_W) {
         setScale(1);
       } else if (w >= NARROW_BREAKPOINT) {
-        setScale(w / LAYOUT.windowSize.x);
+        setScale(w / STAGE_W);
       } else {
         setScale(1);
       }
@@ -43,16 +54,16 @@ export function Stage({ left, middle, right, brace }: StageProps) {
   const scale = useViewportScale();
 
   const leftStyle = {
-    left:   `${LAYOUT.gelTopLeft.x}px`,
-    top:    `${LAYOUT.gelTopLeft.y}px`,
+    left:   `${PAD_X}px`,
+    top:    `${PAD_Y}px`,
     width:  `${LAYOUT.gelSize.x}px`,
     height: `${LAYOUT.gelSize.y}px`,
   };
 
-  const middleX = LAYOUT.gelTopLeft.x + LAYOUT.gelSize.x + LAYOUT.gelToSampleGutter;
+  const middleX = PAD_X + LAYOUT.gelSize.x + LAYOUT.gelToSampleGutter;
   const middleStyle = {
     left:   `${middleX}px`,
-    top:    `${LAYOUT.gelTopLeft.y}px`,
+    top:    `${PAD_Y}px`,
     width:  `${LAYOUT.sampleSize.x}px`,
     height: `${LAYOUT.sampleSize.y}px`,
   };
@@ -60,7 +71,7 @@ export function Stage({ left, middle, right, brace }: StageProps) {
   const braceX = middleX + LAYOUT.sampleSize.x + LAYOUT.sampleToBraceGutter;
   const braceStyle = {
     left:   `${braceX}px`,
-    top:    `${LAYOUT.gelTopLeft.y + (LAYOUT.gelSize.y - LAYOUT.braceSize.y) / 2}px`,
+    top:    `${PAD_Y + (LAYOUT.gelSize.y - LAYOUT.braceSize.y) / 2}px`,
     width:  `${LAYOUT.braceSize.x}px`,
     height: `${LAYOUT.braceSize.y}px`,
   };
@@ -68,7 +79,7 @@ export function Stage({ left, middle, right, brace }: StageProps) {
   const rightX = braceX + LAYOUT.braceSize.x;
   const rightStyle = {
     left:   `${rightX}px`,
-    top:    `${LAYOUT.gelTopLeft.y}px`,
+    top:    `${PAD_Y}px`,
     width:  `${LAYOUT.gelSettingsSize.x}px`,
     height: `${LAYOUT.gelSettingsSize.y}px`,
   };
@@ -78,7 +89,11 @@ export function Stage({ left, middle, right, brace }: StageProps) {
     : undefined;
 
   return (
-    <div className={styles.stage} style={stageStyle} data-testid="stage">
+    <div
+      className={styles.stage}
+      style={{ width: STAGE_W, height: STAGE_H, ...stageStyle }}
+      data-testid="stage"
+    >
       <div className={styles.slot} style={leftStyle}   data-testid="stage-left">{left}</div>
       <div className={styles.slot} style={middleStyle} data-testid="stage-middle">{middle}</div>
       {brace && (

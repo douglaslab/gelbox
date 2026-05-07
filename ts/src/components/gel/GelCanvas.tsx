@@ -18,6 +18,11 @@ export function GelCanvas({ bands, gelSize, pixelsPerUnit }: GelCanvasProps) {
     rendererGl:  GlRenderer  | null;
     blitFn:      ((output: GpuRenderer | GlRenderer) => void) | null;
   }>({ rendererGpu: null, rendererGl: null, blitFn: null });
+  // Hold the latest bands so that when the async backend setup completes we
+  // can do an initial render without waiting for the next bands prop change
+  // (otherwise the canvas stays a black/white rect on first load).
+  const latestBandsRef = useRef<Band[]>(bands);
+  latestBandsRef.current = bands;
 
   // Mount once; teardown on unmount
   useEffect(() => {
@@ -68,6 +73,9 @@ export function GelCanvas({ bands, gelSize, pixelsPerUnit }: GelCanvasProps) {
             bindQuadAttribs(gl, quad.buffer, blit.attrib('aPos'), blit.attrib('aTexCoord'));
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
           };
+          renderer.setBands(latestBandsRef.current);
+          renderer.render();
+          stateRef.current.blitFn(renderer);
         } else {
           const { requestDevice } = await import('../../lib/gpu/device');
           const { configureContext } = await import('../../lib/gpu/context');
@@ -140,6 +148,9 @@ export function GelCanvas({ bands, gelSize, pixelsPerUnit }: GelCanvasProps) {
             pass.end();
             queue.submit([enc.finish()]);
           };
+          renderer.setBands(latestBandsRef.current);
+          renderer.render();
+          stateRef.current.blitFn(renderer);
         }
       } catch (err) {
         console.error('GelCanvas mount failed:', err);

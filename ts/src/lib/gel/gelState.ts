@@ -113,7 +113,7 @@ export function initialGelState(): GelState {
     numLanes: NUM_LANES,
     ctx: {
       voltage: 70,
-      time:    0.5,
+      time:    1.0,
       ySpaceScale: 200,
       wellDamage: 0,
       gelBuffer: BUFFER_TBE,

@@ -1,8 +1,7 @@
-/* Wide layout: fixed 1365x768 with absolute-positioned panel slots */
+/* Wide layout: fixed-size stage with absolute-positioned panel slots.
+   Width/height are set inline from Stage.tsx (STAGE_W / STAGE_H). */
 .stage {
   position: relative;
-  width: 1365px;
-  height: 768px;
   margin: 0 auto;
   background: #FFFFFF;
 }

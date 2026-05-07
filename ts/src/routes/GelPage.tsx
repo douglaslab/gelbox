@@ -4,6 +4,7 @@ import { GelCanvas } from '../components/gel/GelCanvas';
 import { GelOverlay, type BandLaneFragment } from '../components/gel/GelOverlay';
 import { MicrotubeRow } from '../components/gel/MicrotubeRow';
 import { SettingsButton } from '../components/gel/SettingsButton';
+import { TimelineSlider } from '../components/gel/TimelineSlider';
 import { LoupePortalLayer } from '../components/gel/LoupePortalLayer';
 import { Stage } from '../components/stage/Stage';
 import { Brace } from '../components/stage/Brace';
@@ -58,18 +59,38 @@ function GelInner() {
     }
   }
 
-  // Left panel: microtube row above the gel canvas + overlay
+  // Left panel: microtube row floats above the gel rect (in the same vertical
+  // band as the Sample/Gel panel headers). The gel canvas + overlay fill the
+  // panel, and the time slider sits below.
+  const MICROTUBE_ROW_H = 50;
   const leftPanel = (
-    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
-      <div style={{ flex: '0 0 auto' }}>
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <div
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          top: -MICROTUBE_ROW_H,
+          height: MICROTUBE_ROW_H,
+        }}
+      >
         <MicrotubeRow />
       </div>
-      <div style={{ position: 'relative', flex: '1 1 auto' }}>
-        <GelCanvas bands={bands} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} />
-        <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
-        <div style={{ position: 'absolute', right: 8, bottom: 8 }}>
-          <SettingsButton />
-        </div>
+      <GelCanvas bands={bands} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} />
+      <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
+      <div style={{ position: 'absolute', right: -40, bottom: -40 }}>
+        <SettingsButton />
+      </div>
+      <div
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 40,
+          top: '100%',
+          marginTop: 16,
+        }}
+      >
+        <TimelineSlider />
       </div>
     </div>
   );
