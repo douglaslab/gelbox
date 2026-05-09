@@ -45,6 +45,13 @@ export interface GelState {
   ctx:                   SimContext;
   selectedLane:          number;
   selectedFragmentIndex: number | null;
+  /**
+   * Sticky pointer to the lane whose sample should populate the middle Sample
+   * panel. Updated on any interaction with a non-empty tube or band; never
+   * cleared. Drives "show the most recently selected sample after the user
+   * deselects a band" behavior.
+   */
+  lastSampleLane:        number | null;
   fixtureKey:            string;
   modifiers:             { shift: boolean; alt: boolean; meta: boolean };
   drag:                  DragState | null;
@@ -88,7 +95,8 @@ export type Action =
   | { type: 'CLEAR_LOUPES' }
   | { type: 'SET_SELECTION'; ref: SampleFragRef | null }
   | { type: 'SET_ROLLOVER';  ref: SampleFragRef | null }
-  | { type: 'SET_INSPECTOR_MODE'; mode: InspectorMode };
+  | { type: 'SET_INSPECTOR_MODE'; mode: InspectorMode }
+  | { type: 'CLEAR_FRAGMENT_SELECTION' };
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
@@ -136,6 +144,7 @@ export function initialGelState(): GelState {
     // Nothing is selected on first load — Sample/Species panels stay hidden
     // until the user clicks a tube or a band (matches Gelbox app behavior).
     selectedFragmentIndex: null,
+    lastSampleLane: null,
     fixtureKey: 'ladder-1kb',
     modifiers: { shift: false, alt: false, meta: false },
     drag: null,
@@ -151,11 +160,23 @@ export function initialGelState(): GelState {
 }
 
 /**
- * Sample/Species/Brace panels are only visible after the user has explicitly
- * engaged with something: clicked a non-empty tube, clicked a band, or
- * toggled the gear. Default load shows just the gel.
+ * Sample panel is sticky after first interaction: once the user has clicked
+ * any non-empty tube or band, the Sample slot stays populated, showing the
+ * last-selected sample (lastSampleLane) even if the current selection is
+ * cleared. Returns null before first interaction.
  */
-export function arePanelsVisible(state: GelState): boolean {
+export function getVisibleSampleLane(state: GelState): number | null {
+  if (state.lastSampleLane === null) return null;
+  if (state.samples[state.lastSampleLane] === null) return null;
+  return state.lastSampleLane;
+}
+
+/**
+ * Inspector panel only shows when there's actual content for it: a fragment
+ * is currently selected (Species), or the gear is engaged (Gel settings),
+ * or a sample is currently selected with no fragment (Buffer + Dyes).
+ */
+export function isInspectorVisible(state: GelState): boolean {
   if (state.inspectorMode === 'gel-settings') return true;
   if (state.selectedFragmentIndex !== null) return true;
   if (state.inspectorMode === 'sample-settings'
@@ -215,10 +236,13 @@ export function gelReducer(state: GelState, action: Action): GelState {
         ...state,
         selectedLane: action.laneIndex,
         selectedFragmentIndex: null,
+        // Sticky: only update when the new lane actually has a sample.
+        lastSampleLane: sample !== null ? action.laneIndex : state.lastSampleLane,
         inspectorMode,
       };
     }
     case 'SET_SELECTED': {
+      const sample = state.samples[action.laneIndex];
       // Selecting a fragment opens the Species (FragmentView) inspector.
       const inspectorMode: InspectorMode =
         action.index !== null
@@ -228,6 +252,7 @@ export function gelReducer(state: GelState, action: Action): GelState {
         ...state,
         selectedLane: action.laneIndex,
         selectedFragmentIndex: action.index,
+        lastSampleLane: sample !== null ? action.laneIndex : state.lastSampleLane,
         inspectorMode,
       };
     }
@@ -265,6 +290,7 @@ export function gelReducer(state: GelState, action: Action): GelState {
         },
         selectedLane: action.laneIndex,
         selectedFragmentIndex: action.fragmentIndex,
+        lastSampleLane: action.laneIndex,
         // Drag-selecting a band opens the Species inspector too.
         inspectorMode: state.inspectorMode === 'gel-settings' ? 'gel-settings' : 'fragment',
       };
@@ -395,6 +421,16 @@ export function gelReducer(state: GelState, action: Action): GelState {
     case 'SET_INSPECTOR_MODE':
       if (state.inspectorMode === action.mode) return state;
       return { ...state, inspectorMode: action.mode };
+    case 'CLEAR_FRAGMENT_SELECTION':
+      // Drop the fragment-level selection, fall back to sample-settings (so
+      // the inspector hides when the sample has no fragment focus). The
+      // sticky lastSampleLane is unaffected — Sample panel keeps showing
+      // whatever was last selected.
+      return {
+        ...state,
+        selectedFragmentIndex: null,
+        inspectorMode: state.inspectorMode === 'fragment' ? 'default' : state.inspectorMode,
+      };
     default: {
       const _: never = action;
       void _;

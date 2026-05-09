@@ -4,11 +4,12 @@ import styles from './Stage.module.css';
 
 export interface StageProps {
   left:   ReactNode;
+  /** Contents of the middle Sample slot. Pass null to leave the slot empty. */
   middle: ReactNode;
+  /** Contents of the right Inspector slot. Pass null to leave the slot empty. */
   right:  ReactNode;
+  /** Brace decoration between Sample and Inspector. Pass null to omit. */
   brace?: ReactNode;
-  /** When false, hides the middle/right/brace slots — only the gel is shown. */
-  showRight?: boolean;
 }
 
 // Browser-friendly margins replacing the C++ desktop-app chrome offset.
@@ -54,7 +55,7 @@ function useViewportScale(targetWidth: number): number {
  * scale the entire stage down to fit the viewport, clamping at NARROW_BREAKPOINT.
  * Multi-column reflow / single-column mobile is intentionally disabled.
  */
-export function Stage({ left, middle, right, brace, showRight = true }: StageProps) {
+export function Stage({ left, middle, right, brace }: StageProps) {
   const [viewportW, setViewportW] = useState(
     typeof window !== 'undefined' ? window.innerWidth : PANELS_BREAKPOINT,
   );
@@ -64,11 +65,12 @@ export function Stage({ left, middle, right, brace, showRight = true }: StagePro
     return () => window.removeEventListener('resize', onR);
   }, []);
 
-  // Below PANELS_BREAKPOINT, force the gel-only layout regardless of the
-  // showRight prop — there isn't room for the right side at any reasonable
-  // scale. Mobile/tablet revisit later.
-  const effectiveShowRight = showRight && viewportW >= PANELS_BREAKPOINT;
-  const stageWidth = effectiveShowRight ? STAGE_W_FULL : STAGE_W_GEL_ONLY;
+  // Below PANELS_BREAKPOINT we force the gel-only layout — there isn't room
+  // for the right side at any reasonable scale. Above it we always reserve
+  // all three slots so the gel doesn't shift when the sample/inspector
+  // contents toggle on selection. Mobile/tablet revisit later.
+  const showRightSlots = viewportW >= PANELS_BREAKPOINT;
+  const stageWidth = showRightSlots ? STAGE_W_FULL : STAGE_W_GEL_ONLY;
   const scale = useViewportScale(stageWidth);
 
   const leftStyle = {
@@ -130,8 +132,11 @@ export function Stage({ left, middle, right, brace, showRight = true }: StagePro
         data-testid="stage"
       >
         <div className={styles.slot} style={leftStyle}   data-testid="stage-left">{left}</div>
-        {effectiveShowRight && (
+        {showRightSlots && (
           <>
+            {/* Slot divs are always rendered when there's room — empty when
+                the caller passes null contents — so the gel position never
+                shifts when the user selects/deselects bands. */}
             <div className={styles.slot} style={middleStyle} data-testid="stage-middle">{middle}</div>
             {brace && (
               <div className={styles.braceWrap} style={braceStyle} data-testid="stage-brace">{brace}</div>

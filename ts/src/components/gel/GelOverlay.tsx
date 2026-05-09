@@ -116,12 +116,22 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
     }
   }
 
+  function onBackgroundPointerDown(e: React.PointerEvent<SVGSVGElement>) {
+    // Only fire when the click landed on the SVG background itself, not on
+    // a band rect (those stop the propagation via their own handler).
+    if (e.target !== e.currentTarget) return;
+    if (state.selectedFragmentIndex !== null) {
+      dispatch({ type: 'CLEAR_FRAGMENT_SELECTION' });
+    }
+  }
+
   return (
     <svg
       ref={svgRef}
       data-testid="gel-overlay"
       tabIndex={0}
       onKeyDown={onKeyDown}
+      onPointerDown={onBackgroundPointerDown}
       viewBox={`0 0 ${state.gelSize.width} ${state.gelSize.height}`}
       style={{
         position: 'absolute',
