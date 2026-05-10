@@ -61,7 +61,13 @@ export function MicrotubeRow() {
         const hasSample  = state.samples[i] !== null;
         const dragging   = state.drag?.type === 'sample' && state.drag.laneIndex === i;
         return (
-          <div className={styles.cell} key={i}>
+          <div
+            className={styles.cell}
+            key={i}
+            data-selected={isSelected || undefined}
+            data-loaded={hasSample || undefined}
+          >
+            <div className={styles.underlay} />
             <button
               type="button"
               className={styles.tube}

@@ -1,43 +1,69 @@
 .row {
   display: flex;
   width: 100%;
+  height: 100%;
+  align-items: flex-end;
   user-select: none;
 }
 
 .cell {
   flex: 1 1 0;
+  height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  position: relative;
+}
+
+/*
+ * Rounded background tab behind each tube. C++ Gelbox renders this
+ * #E8F2F3 (loaded) / #A1D6FF (selected) from inside the tube down into
+ * the gel area; the gel canvas obscures the lower portion. We render
+ * a rounded rect that overlaps the bottom of the row so it tucks behind
+ * the gel below. Hidden for empty lanes per the C++ behavior.
+ */
+.underlay {
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 36px;
+  border-radius: 16px 16px 0 0;
+  background: #E8F2F3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cell[data-selected="true"] .underlay {
+  background: #A1D6FF;
 }
 
 .tube {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   background: transparent;
   border: 0;
   padding: 0;
   cursor: pointer;
+  height: 100%;
+  z-index: 1;
 }
 
 .tube:active { cursor: grabbing; }
-
 .tube[data-dragging="true"] { opacity: 0.5; }
 
 .icon {
-  width: 32px;
+  height: 80%;
+  width: auto;
+  max-width: 60%;
   pointer-events: none;
   user-select: none;
   transition: opacity 80ms ease;
 }
 
-/* Empty lanes show a faded tube; loaded lanes are full-opacity. */
 .icon[data-empty="true"] {
   opacity: 0.5;
-}
-
-.tube[data-selected="true"] .icon {
-  filter: drop-shadow(0 0 0 #A1D6FF) drop-shadow(0 0 0 #A1D6FF);
 }
