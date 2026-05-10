@@ -4,7 +4,13 @@ A web port of [Gelbox](https://github.com/douglaslab/gelbox), the gel electropho
 
 ## Status
 
-Phase 1 (web port) ships milestones M1–M8 + M7 minimum (loupe UI). Phase 1 acceptance: a Playwright-tested interactive single-lane gel app at `/#/gel` with sliders, band drag, multi-lane sample drag, save/load, and loupes. The full plan and milestone tags live under [`docs/superpowers/plans/`](../docs/superpowers/plans/).
+**Phase 1** (M1–M9): renderer + simulation + interaction core. WebGPU primary path with hand-ported WebGL2 fallback, full GelSim port, multi-lane interaction, loupes, save/load.
+
+**Phase 2** (M10–M18): three-panel UI parity rebuild. Pixel-precise port of `Layout.h`; custom slider primitive with Style::Slider/Bar/Graph; left panel (gel + microtube row + time slider + gear); middle panel (placeholder MolecularSimCanvas wiring sample ↔ gel hover/select); right panel (context-swapped: "Species" fragment editor / "Buffer + Dyes" sample settings / "Gel" gel settings).
+
+**Phase 3** (deferred): faithful molecular-sim render parity (toon shader, particle physics, aggregate clustering, loupe parity).
+
+The full plan and per-milestone subplans live under [`docs/superpowers/plans/`](../docs/superpowers/plans/); current state is in [`docs/STATUS.md`](../docs/STATUS.md).
 
 ## Quick start
 

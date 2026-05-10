@@ -1,6 +1,8 @@
 # Gelbox TS — Architecture
 
-This document describes the runtime architecture of the Gelbox web port as of M9 (2026-04-30). For the milestone-by-milestone implementation history, see [`superpowers/plans/`](superpowers/plans/).
+This document describes the runtime architecture of the Gelbox web port as of M18 (2026-05-09). For the milestone-by-milestone implementation history, see [`superpowers/plans/`](superpowers/plans/).
+
+Phase 1 (M1–M9, the renderer + sim + interaction core) was followed by Phase 2 (M10–M18, the UI parity rebuild — three-panel stage, custom slider primitives, three context-swapped inspector panels). Phase 3 (molecular-sim visual parity) is deferred.
 
 ## Routes
 
@@ -93,6 +95,7 @@ interface GelState {
   ctx:                   SimContext;
   selectedLane:          number;
   selectedFragmentIndex: number | null;
+  lastSampleLane:        number | null;       // sticky pointer for the Sample slot
   fixtureKey:            string;
   modifiers:             { shift: boolean; alt: boolean; meta: boolean };
   drag:                  DragState | null;    // 'band' or 'sample' discriminated union
@@ -101,8 +104,14 @@ interface GelState {
   wellRects:             Rect[];              // computed from numLanes + gelSize
   loupes:                LoupeRef[];
   loupeNextId:           number;
+  selection:             SampleFragRef | null; // C++ SampleFragRefRef mirror — currently complementary to selectedFragmentIndex
+  rollover:              SampleFragRef | null; // hover state — feeds GelOverlay band stroke + SampleView dot rings
+  inspectorMode:         'default' | 'gel-settings' | 'sample-settings' | 'fragment';
+  gelRotate:             number;              // cosmetic, degrees
 }
 ```
+
+The cross-panel hover/select channel uses `selection` and `rollover`; `selectInspectorView(state)` (in `gelState.ts`) collapses the (inspectorMode, selectedFragmentIndex, samples[selectedLane]) triple into the four-valued render decision used by `<InspectorPanel>`.
 
 The reducer is exhaustively switch-checked (`default` branch asserts `never`). All actions are pure data updates; there's no async, no observer pattern, no side effects in the reducer itself.
 
@@ -110,19 +119,36 @@ State mutations propagate synchronously: action dispatch → React re-render →
 
 ## Components (`/#/gel`)
 
+The `/gel` route is composed as a fixed-size three-panel stage (`<Stage>`)
+with the gel on the left, the molecular-sim canvas in the middle, and a
+context-swapped inspector on the right. Layout positions come from
+`lib/layout/layout.ts` (port of `Layout.h`).
+
 | Component | Path | Role |
 |---|---|---|
-| `GelPage`           | `routes/GelPage.tsx`           | Top-level route; provider + layout |
-| `GelControls`       | `components/chrome/GelControls.tsx` | Voltage/time/well-damage sliders, buffer dropdown, sample loader |
-| `FileControls`      | `components/chrome/FileControls.tsx` | Save sample / Save gel / Open buttons |
-| `GelCanvas`         | `components/gel/GelCanvas.tsx` | Backend-dispatching canvas wrapper |
-| `GelOverlay`        | `components/gel/GelOverlay.tsx` | SVG hit-test layer + band drag + tab nav |
-| `MicrotubeRow`      | `components/gel/MicrotubeRow.tsx` | Microtube icons above the canvas; sample drag-between-lanes |
-| `LoupePortalLayer`  | `components/gel/LoupePortalLayer.tsx` | Renders all open loupes |
-| `Loupe`             | `components/gel/Loupe.tsx` | Single loupe popover |
-| `Slider`            | `components/primitives/Slider.tsx` | Controlled slider primitive |
+| `GelPage`              | `routes/GelPage.tsx`                       | Top-level route; provider + Stage composition + drop-zone |
+| `Stage`                | `components/stage/Stage.tsx`               | 1365×768 fixed frame, scale-to-fit on narrow viewports |
+| `Brace`                | `components/stage/Brace.tsx`               | Decorative brace between Sample and Inspector |
+| `GelCanvas`            | `components/gel/GelCanvas.tsx`             | Backend-dispatching canvas wrapper |
+| `GelOverlay`           | `components/gel/GelOverlay.tsx`            | SVG hit-test layer + band drag + tab nav |
+| `MicrotubeRow`         | `components/gel/MicrotubeRow.tsx`          | Microtube icons above the canvas; sample drag-between-lanes |
+| `SettingsButton`       | `components/gel/SettingsButton.tsx`        | Gear button, toggles `inspectorMode` between `gel-settings` and previous |
+| `TimelineSlider`       | `components/gel/TimelineSlider.tsx`        | Time slider below the gel |
+| `LoupePortalLayer`     | `components/gel/LoupePortalLayer.tsx`      | Renders all open loupes |
+| `Loupe`                | `components/gel/Loupe.tsx`                 | Single loupe popover |
+| `SampleView`           | `components/sample/SampleView.tsx`         | Middle panel: heading + microtube glyph + MolecularSimCanvas |
+| `MolecularSimCanvas`   | `components/sample/MolecularSimCanvas.tsx` | Phase-2 placeholder dot scatter; hover/click round-trips through `selection`/`rollover` |
+| `InspectorPanel`       | `components/inspector/InspectorPanel.tsx`  | Routes by `selectInspectorView(state)` to one of the three views below |
+| `FragmentView`         | `components/inspector/FragmentView.tsx`    | "Species" — fragment editor (5 sliders + palette + well preview) |
+| `SampleSettingsView`   | `components/inspector/SampleSettingsView.tsx` | "Buffer + Dyes" — sample buffer + 4 dye sliders |
+| `GelSettingsView`      | `components/inspector/GelSettingsView.tsx` | "Gel" — voltage/time/lanes/rotate/well-damage + gel buffer |
+| `BufferView`           | `components/inspector/BufferView.tsx`      | 4 ion sliders + 3-button preset selector (re-used by both settings panels) |
+| `DyeRow`               | `components/inspector/DyeRow.tsx`          | Single dye Style::Bar slider with dye-color fill |
+| `ColorPaletteView`     | `components/inspector/ColorPaletteView.tsx`| 12-color swatch grid for FragmentView |
+| `FragmentWell`         | `components/inspector/FragmentWell.tsx`    | 80×80 fragment preview tile |
+| `SliderView`           | `components/primitives/SliderView.tsx`     | Custom slider widget (Style::Slider, ::Bar, ::Graph) |
 
-The dev pages (`DevPage`, `DevMultiPage`, `DevPerfPage`, `DevSimPage`) are renderer-isolated harnesses; they each manually mount/unmount via the `selectBackend()` dispatch (predates the M6-era `<GelCanvas />`). They could be migrated to use `<GelCanvas />` in a future cleanup.
+The dev pages (`DevPage`, `DevMultiPage`, `DevPerfPage`, `DevSimPage`) are renderer-isolated harnesses; they each manually mount/unmount via the `selectBackend()` dispatch (predates the M6-era `<GelCanvas />`).
 
 ## File map (`ts/src/`)
 
@@ -134,7 +160,8 @@ lib/
     backend.ts             # selectBackend()
     band.ts                # legacy Band shape (re-exported from sim/band)
     body.ts, smear.ts, flames.ts  # per-pass mesh builders
-    gelState.ts            # state + reducer
+    gelState.ts            # state + reducer + selectInspectorView selector
+    sampleFragRef.ts       # SampleFragRef type — cross-panel ref alias
     mesh.ts                # Mesh type + VERTEX_STRIDE
     overcook.ts            # 2D global warp generator
     render.ts              # WebGPU GelRenderer
@@ -149,17 +176,28 @@ lib/
     adapter.ts, context.ts, device.ts, quad.ts, shader.ts, surface.ts, target.ts, uniforms.ts
     gl/                    # WebGL2 wrappers (parallel layout)
       context.ts, device.ts, program.ts, quad.ts, target.ts
+  layout/
+    assets.ts              # DPR-aware asset URL resolution
+    layout.ts              # field-by-field port of C++ Layout.h
   sim/
-    aggregate.ts, band.ts, brightness.ts, buffer.ts, diffusion.ts, dye.ts, fragment.ts (legacy alias),
-    gelSim.ts, geometry.ts, globalWarp.ts, mobility.ts, rng.ts, sample.ts, solver.ts
+    aggregate.ts, band.ts, brightness.ts, buffer.ts, diffusion.ts, dye.ts,
+    gelSim.ts, geometry.ts, globalWarp.ts, mobility.ts, molecularSim.ts (Phase 2 placeholder),
+    rng.ts, sample.ts, solver.ts
+  slider/
+    slider.ts              # data model: SliderConfig + helpers (calcNormalizedValue, applyNotchSnap, …)
 shaders/
   *.wgsl                   # WebGPU sources (8 files)
   *.glsl                   # WebGL2 mirrors (8 files)
 components/
   AppLayout.tsx, TabNav.tsx, ThemeToggle.tsx
-  chrome/  GelControls.tsx, FileControls.tsx
-  gel/     GelCanvas.tsx, GelOverlay.tsx, GelContext.tsx, MicrotubeRow.tsx, Loupe.tsx, LoupePortalLayer.tsx
-  primitives/  Slider.tsx
+  stage/    Stage.tsx, Brace.tsx
+  gel/      GelCanvas.tsx, GelOverlay.tsx, GelContext.tsx, MicrotubeRow.tsx,
+            SettingsButton.tsx, TimelineSlider.tsx, Loupe.tsx, LoupePortalLayer.tsx
+  sample/   SampleView.tsx, MolecularSimCanvas.tsx
+  inspector/ InspectorPanel.tsx, FragmentView.tsx, SampleSettingsView.tsx,
+             GelSettingsView.tsx, BufferView.tsx, DyeRow.tsx, ColorPaletteView.tsx,
+             FragmentWell.tsx
+  primitives/ SliderView.tsx, Slider.tsx (legacy)
 routes/
   HomePage.tsx, GelPage.tsx, DevPage.tsx, DevMultiPage.tsx, DevPerfPage.tsx, DevSimPage.tsx
 fixtures/states/
@@ -168,14 +206,29 @@ fixtures/states/
 
 ## Testing
 
-- **Unit (Vitest):** ~146 tests covering sim algorithms, state reducer, solver, slider primitive, RNG, dye constants, etc.
-- **Visual (Playwright):** Two backend projects (`chromium-webgpu`, `chromium-webgl2`); each runs the same tests with per-project goldens. ~22 tests on macOS; Linux skips WebGPU project's visual tests.
+- **Unit (Vitest):** 234+ tests covering sim algorithms, state reducer (incl. M16 `SET_SAMPLE_BUFFER`/`SET_DYE_MASS`, M17 `SET_NUM_LANES`/`SET_GEL_ROTATE`), solver, slider primitive, RNG, dye constants, layout port, the M15 `calcTargetPop`/`layoutDots`/`pickDot` placeholder helpers, and the M18 `selectInspectorView` decision matrix.
+- **Visual (Playwright):** Two backend projects (`chromium-webgpu`, `chromium-webgl2`); each runs the same tests with per-project goldens. The Phase 2 specs (`stage`, `slider`, `gelview`, `fragment-view`, `sample-view`, `sample-settings`, `gel-settings`, `inspector-wiring`) cover the new chrome and panels. Linux skips WebGPU project's visual tests.
 
 CI runs typecheck + unit + build + Playwright on Ubuntu (`ts/.github/workflows/ci.yml`). Linux's chromium-webgl2 project IS the visual gate; chromium-webgpu visual tests skip on Linux.
 
 ## Deferred / known issues
 
-- **M7b** — toon-shader molecular sim inside loupes (M7 ships SVG particle scatter only).
-- **M9b** — theme propagation to canvas content. The CSS-based UI chrome already updates on theme change; the canvas itself is rendered with tuning constants and doesn't theme.
-- **WebGPU perf in CI** — flakes under parallel-project load (gating worker against multiple chromium instances). The per-project run is the meaningful gate.
-- **Linux WebGPU** — `chromium-headless` can't acquire a Vulkan adapter reliably even with `mesa-vulkan-drivers + SwiftShader ICD` env. Visual coverage on Linux uses WebGL2 only.
+- **Phase 3 — Molecular simulation parity.** The middle-panel
+  `MolecularSimCanvas` (M15) is a placeholder dot scatter wired up for
+  hover/select; faithful particle physics, toon shading, aggregate
+  clustering, and the loupe-scene parity (M7b) all roll into Phase 3.
+- **Off-preset gel buffer editing.** M17 ships the gel `BufferView`
+  with preset buttons only; the per-ion sliders inside it dispatch to
+  `SET_GEL_BUFFER` which currently only accepts preset tags. A
+  `SET_GEL_BUFFER_DIRECT` action is the obvious extension when needed.
+- **SampleSettingsView visual polish.** Wiring is correct but the dye/
+  buffer slider gutters are tight, preset-matched notches inside the
+  buffer sliders aren't rendered, and the rule above the "Dyes"
+  subhead is omitted. Tracked in STATUS.md.
+- **WebGPU perf in CI** — flakes under parallel-project load. The
+  per-project run is the meaningful gate.
+- **Linux WebGPU** — `chromium-headless` can't acquire a Vulkan adapter
+  reliably even with `mesa-vulkan-drivers + SwiftShader ICD` env.
+  Visual coverage on Linux uses WebGL2 only.
+- **M9b** — theme propagation to canvas content (CSS chrome themes;
+  canvas does not).

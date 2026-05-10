@@ -201,7 +201,7 @@ Each sub-plan is detail-planned just before its execution, because the design of
 - [x] **M16 SampleSettingsView (Buffer + Dyes)** — `2026-05-01-gelbox-ts-m16-sample-settings.md`
 - [x] **M17 GelSettingsView (gear-toggled)** — `2026-05-01-gelbox-ts-m17-gel-settings.md`
 - [x] **M18 Right-panel swap + wiring** — `2026-05-01-gelbox-ts-m18-wiring.md`
-- [ ] **M19 Goldens + polish** — TBD
+- [x] **M19 Goldens + polish** — partial: drop-zone affordance + docs (ARCHITECTURE, README, CHANGELOG) + STATUS.md close. Per-panel DPR-1/DPR-2 goldens deferred — capture before Phase 3 starts.
 
 ---
 

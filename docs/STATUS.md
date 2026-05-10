@@ -1,6 +1,6 @@
 # Gelbox TS Web Port — Status & Next Steps
 
-_Last updated: 2026-05-09 (after M18 cross-panel wiring)_
+_Last updated: 2026-05-09 (Phase 2 complete — M19 polish + docs)_
 
 ## Where we are
 
@@ -9,8 +9,12 @@ _Last updated: 2026-05-09 (after M18 cross-panel wiring)_
 fallback, full GelSim port, multi-lane interaction, loupes, save/load,
 docs polish. See `MEMORY.md` for the per-milestone log.
 
-**Phase 2 in flight** (UI parity rebuild). The plan is in
-`docs/superpowers/plans/2026-05-01-gelbox-ts-phase-2-overview.md`.
+**Phase 2 complete** (UI parity rebuild). The plan is in
+`docs/superpowers/plans/2026-05-01-gelbox-ts-phase-2-overview.md` with
+each milestone shipped to `main`. M19 polish landed the drop-zone
+affordance + ARCHITECTURE/README/CHANGELOG updates; the rest of the
+visual polish list is captured under "Open polish items" below for
+Phase 3 to clean up alongside the molecular-sim port.
 
 | # | Milestone | Status |
 |---|---|---|
@@ -23,7 +27,7 @@ docs polish. See `MEMORY.md` for the per-milestone log.
 | M16 | SampleSettingsView (Buffer + Dyes) | ✅ shipped |
 | M17 | GelSettingsView (gear-toggled "Gel" panel) | ✅ shipped |
 | M18 | Right-panel swap + cross-panel wiring | ✅ shipped |
-| M19 | Visual goldens + polish | ⬜ next |
+| M19 | Visual goldens + polish | ✅ shipped (partial — see notes) |
 
 **Phase 3 deferred** — molecular sim visual parity (toon shader,
 particle physics, animations) is its own future phase. The M15 shell is
@@ -77,7 +81,12 @@ are tracked separately and not regressed by M15.
 
 ## Next steps (in order)
 
-### 1. M19 — Visual goldens + polish
+### Phase 3 — Molecular simulation parity
+
+See `## Phase 3 (post M19)` section near the bottom of this doc.
+Subplan stub will be filled in just before Phase 3 starts.
+
+### M19 closeout (legacy section — kept for reference)
 
 **Goal.** Tag `phase-2-complete`. Capture per-panel goldens at DPR 1
 and DPR 2 for both backends (WebGPU + WebGL2) on macOS Chromium.

@@ -19,6 +19,7 @@ function GelInner() {
   const state = useGelState();
   const dispatch = useGelDispatch();
   const [dropError, setDropError] = useState<string | null>(null);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   const { bands, bandToLaneFragment } = useMemo(() => {
     const bands: Band[] = [];
@@ -45,6 +46,7 @@ function GelInner() {
   async function onDrop(e: React.DragEvent<HTMLElement>) {
     e.preventDefault();
     setDropError(null);
+    setIsDragOver(false);
     const file = e.dataTransfer.files?.[0];
     if (!file) return;
     try {
@@ -58,6 +60,16 @@ function GelInner() {
     } catch (err) {
       setDropError(`Drop failed: ${(err as Error).message}`);
     }
+  }
+
+  function onDragEnter(e: React.DragEvent<HTMLElement>) {
+    if (e.dataTransfer.types.includes('Files')) {
+      setIsDragOver(true);
+    }
+  }
+  function onDragLeave(e: React.DragEvent<HTMLElement>) {
+    // Only clear when leaving the document, not when crossing child boundaries.
+    if (e.relatedTarget === null) setIsDragOver(false);
   }
 
   // Left panel: microtube row floats above the gel rect (in the same vertical
@@ -120,10 +132,34 @@ function GelInner() {
   return (
     <div
       data-testid="gel-page"
+      data-drag-over={isDragOver || undefined}
       onDragOver={(e) => e.preventDefault()}
+      onDragEnter={onDragEnter}
+      onDragLeave={onDragLeave}
       onDrop={onDrop}
-      style={{ minHeight: '100vh', overflow: 'hidden' }}
+      style={{ minHeight: '100vh', overflow: 'hidden', position: 'relative' }}
     >
+      {isDragOver && (
+        <div
+          data-testid="drop-zone-affordance"
+          style={{
+            position: 'fixed',
+            inset: 16,
+            border: '3px dashed #4990E2',
+            borderRadius: 12,
+            background: 'rgba(73, 144, 226, 0.06)',
+            pointerEvents: 'none',
+            zIndex: 100,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#4990E2',
+            font: '500 16px Inter, system-ui, sans-serif',
+          }}
+        >
+          Drop a sample or gel-state JSON file
+        </div>
+      )}
       <Stage
         left={leftPanel}
         middle={getVisibleSampleLane(state) !== null ? <SampleView /> : null}
