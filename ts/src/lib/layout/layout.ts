@@ -45,7 +45,9 @@ export const LAYOUT = {
   gelSettingsSlidersTopLeft:     { x: 84,  y: 246 } as Vec2,
   gelSettingsRuleTopLeft:        { x: 66,  y: 216.5 } as Vec2,
   gelSettingsRuleLength:         237,
-  gelSettingsHeaderBaselinePos:  { x: 76,  y: -25 } as Vec2,
+  // C++ used y:-25 for header baselines, putting the 24px-tall heading text
+  // ~1px above each panel. Bump to -36 for breathing room in the browser.
+  gelSettingsHeaderBaselinePos:  { x: 76,  y: -36 } as Vec2,
   gelSettingsHeaderStr:          'Gel',
   gelViewBufferViewTopLeft:      { x: 61,  y: 15 } as Vec2,
   gelSettingsBtnRightOfGel:      false,
@@ -59,7 +61,7 @@ export const LAYOUT = {
   sampleBufferViewTopLeft:       { x: 65 + 8,  y: 65 } as Vec2,
   sampleSettingsSlidersToDyeLabel: 16,
   sampleSettingsSliderVOffset:    31,
-  sampleSettingsHeaderBaselinePos: { x: 84 + 8, y: -25 } as Vec2,
+  sampleSettingsHeaderBaselinePos: { x: 84 + 8, y: -36 } as Vec2,
   sampleSettingsHeaderStr:        'Buffer + Dyes',
 
   // sample view
@@ -68,11 +70,14 @@ export const LAYOUT = {
   sampleViewMicrotubeBkgndRadius: 20,
   sampleViewMicrotubeWidth:       19,
   sampleViewMicrotubeGutter:      25,
-  sampleViewHeaderBaselinePos:    { x: 51, y: -25 } as Vec2,
+  sampleViewHeaderBaselinePos:    { x: 51, y: -36 } as Vec2,
   sampleViewHeaderStr:            'Sample',
   sampleViewFragSelectColor:      '#000000',
   sampleViewFragHoverColor:       '#FFFF00',
-  sampleViewFragOutlineWidth:     4,
+  // C++ used 4f in Cinder's anti-aliased GL strokes which rendered visually
+  // thinner; SVG strokes are crisper, so 1.5px reads about right against
+  // the original screenshot.
+  sampleViewFragOutlineWidth:     1.5,
 
   // buffer view
   bufferViewSize:                 { x: 303, y: 180 } as Vec2,
@@ -123,7 +128,7 @@ export const LAYOUT = {
   fragViewColorsTopLeft:         { x: 173, y: 74 } as Vec2,
   fragViewColorSize:             { x: 25, y: 25 } as Vec2,
   fragViewColorsNumCols:         4,
-  fragViewHeaderBaselinePos:     { x: 77, y: -25 } as Vec2,
+  fragViewHeaderBaselinePos:     { x: 77, y: -36 } as Vec2,
   fragViewHeaderStr:             'Species',
   fragViewWellTopLeft:           { x: 77, y: 71 } as Vec2,
   fragViewWellSize:              { x: 80, y: 80 } as Vec2,

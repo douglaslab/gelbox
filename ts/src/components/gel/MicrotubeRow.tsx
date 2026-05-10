@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useGelState, useGelDispatch } from './GelContext';
-import { resolveAssetUrl } from '../../lib/layout/assets';
+import { resolveAssetUrl, dprFallbackOnError } from '../../lib/layout/assets';
 import styles from './MicrotubeRow.module.css';
 
 /**
@@ -78,6 +78,7 @@ export function MicrotubeRow() {
                 alt={`lane ${i + 1}`}
                 className={styles.icon}
                 data-empty={!hasSample || undefined}
+                onError={dprFallbackOnError}
               />
             </button>
           </div>

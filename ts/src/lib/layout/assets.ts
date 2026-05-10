@@ -14,6 +14,20 @@ export function resolveAssetUrl(url: string): string {
 }
 
 /**
+ * `onError` handler for `<img>` tags whose `src` came from `resolveAssetUrl`.
+ * If a @2x request 404s (because no @2x variant exists for that asset), this
+ * silently retries the 1x URL so the image still appears.
+ *
+ * Usage: `<img src={resolveAssetUrl(...)} onError={dprFallbackOnError} />`
+ */
+export function dprFallbackOnError(e: { currentTarget: HTMLImageElement }): void {
+  const el = e.currentTarget;
+  if (el.src.includes('@2x.')) {
+    el.src = el.src.replace('@2x.', '.');
+  }
+}
+
+/**
  * Preload an image and resolve to an HTMLImageElement once decoded.
  * Tries `@2x` at DPR>=2; falls back to `1x` if `@2x` 404s.
  */
