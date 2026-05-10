@@ -2,40 +2,39 @@ import { useGelState } from '../gel/GelContext';
 import { FragmentView } from './FragmentView';
 import { SampleSettingsView } from './SampleSettingsView';
 import { GelSettingsView } from './GelSettingsView';
+import { selectInspectorView } from '../../lib/gel/gelState';
 
 /**
- * Routes the right-panel content based on inspector mode + selection state.
- *
- * Mode resolution (matches C++ Gelbox behavior):
- * - inspectorMode === 'gel-settings'                            → GelSettingsView (M17 stub)
- * - microtube selected, fragment NOT selected, sample exists    → SampleSettingsView "Buffer + Dyes" (M16 stub)
- * - else (default)                                              → FragmentView "Species"
+ * Routes the right-panel content via `selectInspectorView` — the single
+ * source of truth for the gel-settings / sample-settings / fragment swap
+ * matrix. Returning 'none' means the panel is hidden by GelPage; this
+ * component never renders for that case (GelPage gates the slot).
  */
 export function InspectorPanel() {
   const state = useGelState();
-  const sample = state.samples[state.selectedLane];
+  const view  = selectInspectorView(state);
 
-  if (state.inspectorMode === 'gel-settings') {
-    return (
-      <div data-testid="inspector-panel" style={{ width: '100%', height: '100%' }}>
-        <GelSettingsView />
-      </div>
-    );
+  switch (view) {
+    case 'gel-settings':
+      return (
+        <div data-testid="inspector-panel" data-view="gel-settings" style={{ width: '100%', height: '100%' }}>
+          <GelSettingsView />
+        </div>
+      );
+    case 'sample-settings':
+      return (
+        <div data-testid="inspector-panel" data-view="sample-settings" style={{ width: '100%', height: '100%' }}>
+          <SampleSettingsView />
+        </div>
+      );
+    case 'fragment':
+      return (
+        <div data-testid="inspector-panel" data-view="fragment" style={{ width: '100%', height: '100%' }}>
+          <FragmentView />
+        </div>
+      );
+    case 'none':
+      return null;
   }
-
-  if (sample !== null && state.selectedFragmentIndex === null) {
-    return (
-      <div data-testid="inspector-panel" style={{ width: '100%', height: '100%' }}>
-        <SampleSettingsView />
-      </div>
-    );
-  }
-
-  // Default: FragmentView renders its own heading internally.
-  return (
-    <div data-testid="inspector-panel" style={{ width: '100%', height: '100%' }}>
-      <FragmentView />
-    </div>
-  );
 }
 

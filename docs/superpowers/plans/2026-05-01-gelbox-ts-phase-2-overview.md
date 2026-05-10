@@ -200,7 +200,7 @@ Each sub-plan is detail-planned just before its execution, because the design of
 - [x] **M15 SampleView middle panel** — `2026-05-01-gelbox-ts-m15-sample-view-shell.md`
 - [x] **M16 SampleSettingsView (Buffer + Dyes)** — `2026-05-01-gelbox-ts-m16-sample-settings.md`
 - [x] **M17 GelSettingsView (gear-toggled)** — `2026-05-01-gelbox-ts-m17-gel-settings.md`
-- [ ] **M18 Right-panel swap + wiring** — TBD
+- [x] **M18 Right-panel swap + wiring** — `2026-05-01-gelbox-ts-m18-wiring.md`
 - [ ] **M19 Goldens + polish** — TBD
 
 ---

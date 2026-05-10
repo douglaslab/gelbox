@@ -1,6 +1,6 @@
 # Gelbox TS Web Port — Status & Next Steps
 
-_Last updated: 2026-05-09 (after M17 GelSettingsView)_
+_Last updated: 2026-05-09 (after M18 cross-panel wiring)_
 
 ## Where we are
 
@@ -22,8 +22,8 @@ docs polish. See `MEMORY.md` for the per-milestone log.
 | M15 | SampleView middle-panel shell | ✅ shipped |
 | M16 | SampleSettingsView (Buffer + Dyes) | ✅ shipped |
 | M17 | GelSettingsView (gear-toggled "Gel" panel) | ✅ shipped |
-| M18 | Right-panel swap + cross-panel wiring | ⬜ next |
-| M19 | Visual goldens + polish | ⬜ |
+| M18 | Right-panel swap + cross-panel wiring | ✅ shipped |
+| M19 | Visual goldens + polish | ⬜ next |
 
 **Phase 3 deferred** — molecular sim visual parity (toon shader,
 particle physics, animations) is its own future phase. The M15 shell is
@@ -77,27 +77,7 @@ are tracked separately and not regressed by M15.
 
 ## Next steps (in order)
 
-### 1. M18 — Right-panel swap + cross-panel wiring
-
-**Goal.** Tighten the orchestration of which inspector panel shows
-when. The `inspectorMode` reducer slice already exists; this milestone
-is about edge cases, transitions, and the cross-panel state contract.
-
-- Decision matrix codified as a single `selectInspectorView(state)`
-  selector and tested.
-- Hover band → particle highlights in SampleView (M15 wires the
-  forward path; M18 verifies the round-trip with goldens).
-- Click particle → inspector swaps to FragmentView (already partly
-  wired through `SET_SELECTED`; verify with a sample-particle
-  Playwright case).
-- Transitions are synchronous (<16ms — single reducer dispatch, no
-  async).
-
-**Acceptance.** Playwright suite covering: gear-on with no selection,
-gear-on with selection (gear wins), tube click, band click, band Tab
-nav, particle click. All transitions captured as goldens.
-
-### 2. M19 — Visual goldens + polish
+### 1. M19 — Visual goldens + polish
 
 **Goal.** Tag `phase-2-complete`. Capture per-panel goldens at DPR 1
 and DPR 2 for both backends (WebGPU + WebGL2) on macOS Chromium.

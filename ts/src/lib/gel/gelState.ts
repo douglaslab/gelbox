@@ -186,13 +186,32 @@ export function getVisibleSampleLane(state: GelState): number | null {
  * or a sample is currently selected with no fragment (Buffer + Dyes).
  */
 export function isInspectorVisible(state: GelState): boolean {
-  if (state.inspectorMode === 'gel-settings') return true;
-  if (state.selectedFragmentIndex !== null) return true;
+  return selectInspectorView(state) !== 'none';
+}
+
+/**
+ * Single source of truth for which inspector mode is currently showing.
+ *
+ * Decision matrix (precedence top → bottom; first match wins):
+ *
+ *   1. `inspectorMode === 'gel-settings'`        → 'gel-settings'  (gear wins)
+ *   2. `selectedFragmentIndex !== null`          → 'fragment'       (Species)
+ *   3. tube has a sample, mode === sample-settings → 'sample-settings' (Buffer + Dyes)
+ *   4. else                                       → 'none'           (panel hidden)
+ *
+ * Codifies the rules previously scattered across `isInspectorVisible` and
+ * `<InspectorPanel>` so M18 can rely on a single function for the swap.
+ */
+export type InspectorView = 'none' | 'gel-settings' | 'sample-settings' | 'fragment';
+
+export function selectInspectorView(state: GelState): InspectorView {
+  if (state.inspectorMode === 'gel-settings') return 'gel-settings';
+  if (state.selectedFragmentIndex !== null)   return 'fragment';
   if (state.inspectorMode === 'sample-settings'
       && state.samples[state.selectedLane] !== null) {
-    return true;
+    return 'sample-settings';
   }
-  return false;
+  return 'none';
 }
 
 export function gelReducer(state: GelState, action: Action): GelState {
