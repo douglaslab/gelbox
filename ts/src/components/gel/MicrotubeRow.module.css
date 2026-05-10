@@ -25,11 +25,11 @@
 .underlay {
   position: absolute;
   left: 50%;
-  bottom: -8px;
+  bottom: 0;
   transform: translateX(-50%);
-  width: 32px;
-  height: 36px;
-  border-radius: 16px 16px 0 0;
+  width: 28px;
+  height: 22px;
+  border-radius: 14px 14px 0 0;
   background: #E8F2F3;
   pointer-events: none;
   z-index: 0;
@@ -56,14 +56,9 @@
 .tube[data-dragging="true"] { opacity: 0.5; }
 
 .icon {
-  height: 80%;
+  height: 70%;
   width: auto;
-  max-width: 60%;
+  max-width: 50%;
   pointer-events: none;
   user-select: none;
-  transition: opacity 80ms ease;
-}
-
-.icon[data-empty="true"] {
-  opacity: 0.5;
 }
