@@ -1,8 +1,16 @@
 import { expect, test } from '@playwright/test';
 
+// After M18, the inspector hides by default — Species ("fragment") view
+// only mounts after a fragment is selected. Each test explicitly drives the
+// state into the case it's checking.
+
 test('Species panel renders with header + well + palette + 5 sliders', async ({ page }) => {
   await page.setViewportSize({ width: 1365, height: 800 });
   await page.goto('/#/gel');
+
+  // Select a fragment by clicking a band on the gel.
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
 
   await expect(page.getByTestId('fragment-view')).toBeVisible();
   await expect(page.getByText('Species', { exact: true })).toBeVisible();
@@ -17,12 +25,20 @@ test('Species panel renders with header + well + palette + 5 sliders', async ({ 
   await expect(page.getByTestId('fragment-palette')).toBeVisible();
 });
 
-test('Inspector defaults to Species not "Gel" heading', async ({ page }) => {
+test('Inspector shows Species view after a fragment is selected', async ({ page }) => {
   await page.setViewportSize({ width: 1365, height: 800 });
   await page.goto('/#/gel');
 
+  // Initially the inspector slot is empty (hidden).
+  await expect(page.getByTestId('inspector-panel')).toHaveCount(0);
+
+  // Selecting a fragment swaps the inspector to "Species".
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+
   const inspector = page.getByTestId('inspector-panel');
   await expect(inspector).toBeVisible();
+  await expect(inspector).toHaveAttribute('data-view', 'fragment');
   await expect(inspector).toContainText('Species');
 });
 
@@ -30,18 +46,26 @@ test('Clicking a palette swatch updates the fragment color', async ({ page }) =>
   await page.setViewportSize({ width: 1365, height: 800 });
   await page.goto('/#/gel');
 
+  // Open Species first.
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+
   await page.getByTestId('fragment-palette-swatch-1').click();
   await expect(page.getByTestId('fragment-palette-swatch-1')).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('Settings gear button switches inspector to "Gel" stub', async ({ page }) => {
+test('Settings gear button switches inspector to "Gel" view', async ({ page }) => {
   await page.setViewportSize({ width: 1365, height: 800 });
   await page.goto('/#/gel');
 
+  // Open Species so we have a non-empty inspector to swap from.
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
+  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
   await expect(page.getByTestId('fragment-view')).toBeVisible();
+
   await page.getByTestId('settings-button').click();
 
   const inspector = page.getByTestId('inspector-panel');
-  await expect(inspector).toContainText('Gel');
+  await expect(inspector).toHaveAttribute('data-view', 'gel-settings');
   await expect(page.getByTestId('fragment-view')).toBeHidden();
 });

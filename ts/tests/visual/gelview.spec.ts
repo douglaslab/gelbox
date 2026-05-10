@@ -28,14 +28,14 @@ test('Hovering a band sets rollover stroke (yellow)', async ({ page }) => {
   await page.setViewportSize({ width: 1365, height: 800 });
   await page.goto('/#/gel');
 
-  // Wait for bands to render
-  await expect(page.locator('[data-testid^="band-"]')).toHaveCount(10);
+  // Wait for bands to render — the ladder fixture has 11 fragments.
+  await expect(page.locator('[data-testid^="band-"]')).toHaveCount(11);
 
-  // React's onPointerEnter is synthesized from pointerover (which bubbles).
-  // Use Playwright locator.dispatchEvent which fires at the element and lets
-  // React's root delegation pick it up.
-  await page.locator('[data-testid="band-9"]').dispatchEvent('pointerover');
-  await page.waitForTimeout(50);
-  const stroke = await page.locator('[data-testid="band-9"]').getAttribute('stroke');
-  expect(stroke?.toUpperCase()).toBe('#FFFF00');
+  // band-0 is the first (largest bp) fragment, sits at the top of the gel,
+  // and isn't overlapped by lower bands' upward smear extensions. Use
+  // .hover() so React's onPointerEnter fires through the synthesized
+  // pointerover sequence.
+  await page.locator('[data-testid="band-0"]').hover();
+  await expect(page.locator('[data-testid="band-0"]'))
+    .toHaveAttribute('stroke', /#?[fF]{4}00|#[fF][fF][fF][fF]00/i);
 });
