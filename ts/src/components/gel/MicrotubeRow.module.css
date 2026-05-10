@@ -27,8 +27,8 @@
   top: 14px;
   bottom: 0;
   transform: translateX(-50%);
-  width: 28px;
-  border-radius: 14px 14px 0 0;
+  width: 40px;
+  border-radius: 20px 20px 0 0;
   background: #E8F2F3;
   pointer-events: none;
   z-index: 0;
