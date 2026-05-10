@@ -8,7 +8,7 @@ import { TimelineSlider } from '../components/gel/TimelineSlider';
 import { LoupePortalLayer } from '../components/gel/LoupePortalLayer';
 import { Stage } from '../components/stage/Stage';
 import { Brace } from '../components/stage/Brace';
-import { SampleViewPlaceholder } from '../components/stage/SampleViewPlaceholder';
+import { SampleView } from '../components/sample/SampleView';
 import { InspectorPanel } from '../components/inspector/InspectorPanel';
 import { fragToBands } from '../lib/sim/gelSim';
 import { deserializeFile } from '../lib/gel/serialize';
@@ -118,7 +118,7 @@ function GelInner() {
     >
       <Stage
         left={leftPanel}
-        middle={getVisibleSampleLane(state) !== null ? <SampleViewPlaceholder /> : null}
+        middle={getVisibleSampleLane(state) !== null ? <SampleView /> : null}
         right={isInspectorVisible(state) ? <InspectorPanel /> : null}
         brace={isInspectorVisible(state) ? <Brace /> : null}
       />

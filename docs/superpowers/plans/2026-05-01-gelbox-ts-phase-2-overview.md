@@ -197,7 +197,7 @@ Each sub-plan is detail-planned just before its execution, because the design of
 - [x] **M12 Slider primitives** — `2026-05-01-gelbox-ts-m12-slider.md`
 - [x] **M13 GelView pixel parity** — `2026-05-01-gelbox-ts-m13-gelview.md`
 - [x] **M14 FragmentView (Species — default inspector)** — `2026-05-01-gelbox-ts-m14-fragment-view.md`
-- [ ] **M15 SampleView middle panel** — TBD — next-execute
+- [x] **M15 SampleView middle panel** — `2026-05-01-gelbox-ts-m15-sample-view-shell.md`
 - [ ] **M16 SampleSettingsView (Buffer + Dyes)** — TBD
 - [ ] **M17 GelSettingsView (gear-toggled)** — TBD
 - [ ] **M18 Right-panel swap + wiring** — TBD

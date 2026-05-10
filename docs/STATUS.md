@@ -1,6 +1,6 @@
 # Gelbox TS Web Port — Status & Next Steps
 
-_Last updated: 2026-05-09 (after `2b946e6`)_
+_Last updated: 2026-05-09 (after M15 SampleView shell)_
 
 ## Where we are
 
@@ -19,8 +19,8 @@ docs polish. See `MEMORY.md` for the per-milestone log.
 | M12 | Slider primitives | ✅ shipped |
 | M13 | GelView pixel parity (microtube row, gear, focus) | ✅ shipped |
 | M14 | FragmentView ("Species" — default inspector) | ✅ shipped |
-| M15 | SampleView middle-panel shell | ⬜ next |
-| M16 | SampleSettingsView (Buffer + Dyes) | ⬜ |
+| M15 | SampleView middle-panel shell | ✅ shipped |
+| M16 | SampleSettingsView (Buffer + Dyes) | ⬜ next |
 | M17 | GelSettingsView (gear-toggled "Gel" panel) | ⬜ |
 | M18 | Right-panel swap + cross-panel wiring | ⬜ |
 | M19 | Visual goldens + polish | ⬜ |
@@ -37,7 +37,13 @@ The `/gel` route boots a real interactive page:
   selected lane, time slider + gear button below the gel, focus
   outlines on bands, drag-to-resize physics, Tab keyboard nav, drop a
   JSON sample to load it.
-- **Middle:** `SampleViewPlaceholder` — a header + empty rounded rect.
+- **Middle:** `SampleView` — "Sample" heading + selected-lane blue circle
+  + microtube glyph in the upper-left, hosting a 2D `MolecularSimCanvas`
+  that scatters one fragment-colored dot per particle (count from
+  `MolecularSim::calcTargetPop`). Hover/click on a dot dispatches
+  `SET_ROLLOVER` / `SET_SELECTED`; rings on dots reflect both
+  `state.selection` and the per-lane `selectedFragmentIndex`. Visual
+  fidelity is intentionally minimal — Phase 3 owns the toon-shader port.
   Visible whenever `getVisibleSampleLane(state) !== null` (sticky after
   the first sample interaction).
 - **Right:** `InspectorPanel` routes by mode:
@@ -52,57 +58,17 @@ The `/gel` route boots a real interactive page:
   `selection: SampleFragRef`) exist but are wired only on the gel
   side — sample-side wiring lands with M15.
 
-193/193 unit tests + 22/22 Playwright tests pass per backend on macOS;
-typecheck clean.
+209/209 unit tests pass; typecheck clean. The 4 new M15 Playwright tests
+in `tests/visual/sample-view.spec.ts` pass on chromium-webgl2 on macOS.
+A small set of pre-existing Playwright failures (stage layout, gel-page
+selection-info, fragment-view) survives from earlier milestones — those
+are tracked separately and not regressed by M15.
 
 ---
 
 ## Next steps (in order)
 
-### 1. M15 — SampleView middle-panel shell
-
-**Goal.** Replace `SampleViewPlaceholder` with a real `SampleView` that:
-
-- Mounts a 2D `<canvas>` (NOT WebGPU/WebGL2 — plain `CanvasRenderingContext2D`).
-- Renders one colored dot per fragment instance — a quick scatter using
-  the fragment's species color and approximate count from
-  `Sample::calcNumberOfMolecules()`. Aesthetics are intentionally crude
-  — Phase 3 owns the toon-shader replacement.
-- Picks fragments on hover/click. Hover writes
-  `dispatch({ type: 'SET_ROLLOVER', ref })`; click writes
-  `dispatch({ type: 'SET_SELECTED', laneIndex, index })`.
-- Reads `state.rollover` / `state.selection` and lights up the
-  corresponding particles (e.g. yellow ring on hover, fragment-color
-  ring on select), so `GelOverlay` band hover is visible here too.
-- Honors the layout: heading "Sample" at
-  `LAYOUT.sampleViewHeaderBaselinePos`; microtube glyph + selected-lane
-  blue circle in the upper-left of the panel per `SampleView::drawHeader`
-  (C++ `SampleView.cpp:154`).
-
-**Files to add/modify.**
-
-- New: `ts/src/components/sample/SampleView.tsx`
-- New: `ts/src/components/sample/MolecularSimCanvas.tsx`
-- Modify: `ts/src/routes/GelPage.tsx` — replace
-  `<SampleViewPlaceholder />` import with `<SampleView />`.
-- Delete: `ts/src/components/stage/SampleViewPlaceholder.tsx` once the
-  real view is the only consumer.
-
-**C++ references.**
-
-- `~/code/gelbox/src/SampleView.cpp` (653 lines — most of it is the
-  particle rendering we're _not_ porting in M15; focus on `mouseDown`
-  at line 380, `drawHeader` at line 154, `pickFragment` calls).
-- `~/code/gelbox/src/MolecularSim.cpp` is the Phase 3 target — read it
-  only for the shape of `pickFragment(loc)`, not to port.
-
-**Acceptance.** Click a band → middle panel shows colored dots, the
-clicked fragment's dots are ringed, and the Species panel opens on the
-right. Hovering a particle previews on the gel band. Tests include a
-Playwright check that hovering a sample particle changes the band's
-stroke and vice versa.
-
-### 2. M16 — SampleSettingsView (Buffer + Dyes)
+### 1. M16 — SampleSettingsView (Buffer + Dyes)
 
 **Goal.** Replace the right-panel stub for the
 `inspectorMode === 'sample-settings'` case with the real "Buffer +
@@ -136,7 +102,7 @@ a dye slider visibly changes the corresponding band on the gel
 (re-simulates and re-renders). Buffer preset clicks update sample
 buffer chemistry. 4 dyes × 3 buffer ions wired.
 
-### 3. M17 — GelSettingsView ("Gel" gear-toggled panel)
+### 2. M17 — GelSettingsView ("Gel" gear-toggled panel)
 
 **Goal.** Replace the right-panel stub for
 `inspectorMode === 'gel-settings'` (already toggled by the gear button
@@ -164,7 +130,7 @@ five sliders + buffer presets round-trip through the reducer. Voltage
 and time changes re-run the sim immediately (already wired); lane
 count change reflows the microtube row.
 
-### 4. M18 — Right-panel swap + cross-panel wiring
+### 3. M18 — Right-panel swap + cross-panel wiring
 
 **Goal.** Tighten the orchestration of which inspector panel shows
 when. The `inspectorMode` reducer slice already exists; this milestone
@@ -184,7 +150,7 @@ is about edge cases, transitions, and the cross-panel state contract.
 gear-on with selection (gear wins), tube click, band click, band Tab
 nav, particle click. All transitions captured as goldens.
 
-### 5. M19 — Visual goldens + polish
+### 4. M19 — Visual goldens + polish
 
 **Goal.** Tag `phase-2-complete`. Capture per-panel goldens at DPR 1
 and DPR 2 for both backends (WebGPU + WebGL2) on macOS Chromium.
@@ -193,7 +159,7 @@ stage + inspector swap. Add a CHANGELOG entry.
 
 ---
 
-## Open polish items (not blocking M15)
+## Open polish items (not blocking M16)
 
 These accumulated during recent rounds of visual feedback. Worth a
 sweep but not phase-critical:
