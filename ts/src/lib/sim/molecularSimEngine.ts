@@ -354,15 +354,16 @@ export class MolecularSim {
   /** Pick the topmost particle whose ellipse contains `(x, y)`. -1 for miss. */
   pickPart(x: number, y: number): number {
     const cfg = MOLECULAR_SIM_TUNING;
+    const multiScale = (1 - cfg.multimerAdhereOverlapFrac) * 2;
     for (let i = this.parts.length - 1; i >= 0; i--) {
       const p = this.parts[i];
       const rx = Math.max(p.radius.x, cfg.partMinPickRadius);
       const ry = Math.max(p.radius.y, cfg.partMinPickRadius);
-      // Test every multimer slot (rotated + translated by mMulti.loc * radius).
+      const minR = Math.min(p.radius.x, p.radius.y);
+      // Test every multimer slot (rotated + translated by mMulti.loc * minR * multiScale).
       for (const m of p.multi) {
-        // Multimer offset is in radius units; convert to world space.
-        const mx = p.loc.x + m.loc.x * rx;
-        const my = p.loc.y + m.loc.y * ry;
+        const mx = p.loc.x + m.loc.x * minR * multiScale;
+        const my = p.loc.y + m.loc.y * minR * multiScale;
         const dx = x - mx;
         const dy = y - my;
         // Rotate (dx, dy) into the multimer's local frame.
@@ -410,16 +411,16 @@ export class MolecularSim {
       wholeness:  lerp(frag.wholenessLo, frag.wholenessHi, this.rand()),
       multi: [{ loc: { x: 0, y: 0 }, angle: 0 }],
     };
-    // Build multimer to the weighted aggregate size.
+    // Build multimer to the weighted aggregate size. C++ `mRand.nextVec2()`
+    // returns a uniform-direction UNIT vector (Cinder spec); we sample one
+    // by picking a random angle. Each new multimer attaches at parent + unit.
     const aggregate = this.pickAggregateSize(frag);
     while (part.multi.length < aggregate) {
-      const angle = this.rand() * Math.PI * 2;
+      const a = this.rand() * Math.PI * 2;
       const parent = part.multi[Math.floor(this.rand() * part.multi.length)];
-      const ax = (this.rand() - 0.5) * 2;
-      const ay = (this.rand() - 0.5) * 2;
       part.multi.push({
-        loc:   { x: parent.loc.x + ax, y: parent.loc.y + ay },
-        angle,
+        loc:   { x: parent.loc.x + Math.cos(a), y: parent.loc.y + Math.sin(a) },
+        angle: this.rand() * Math.PI * 2,
       });
     }
     return part;

@@ -2,7 +2,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGelState, useGelDispatch } from '../gel/GelContext';
 import { LAYOUT } from '../../lib/layout/layout';
 import { linearRgbToSrgbHex } from '../../lib/sim/molecularSim';
-import { MolecularSim } from '../../lib/sim/molecularSimEngine';
+import { MolecularSim, MOLECULAR_SIM_TUNING } from '../../lib/sim/molecularSimEngine';
+
+// C++ Part::makeMesh translates each multimer by
+//   m.mLoc * min(radius.x, radius.y) * (1 - mMultimerAdhereOverlapFrac) * 2
+// so that adjacent multimers overlap by `mMultimerAdhereOverlapFrac` of their
+// minor radius. We replicate that here so multi parts visibly cluster.
+const MULTIMER_LOC_SCALE = (1 - MOLECULAR_SIM_TUNING.multimerAdhereOverlapFrac) * 2;
 
 /**
  * Phase-3 M21 — middle-panel canvas backed by a live `MolecularSim`
@@ -98,9 +104,12 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
       const isRollover =
         p.fragment === rolloverFragForLane && !isSelected;
       // Each multimer slot draws as one ellipse rotated by p.angle + m.angle.
+      // m.loc is in radius units; the overlap-fraction scale is applied so
+      // adjacent multimers overlap visibly (matches C++ Part::makeMesh).
+      const minR = Math.min(p.radius.x, p.radius.y);
       for (const m of p.multi) {
-        const cx = p.loc.x + m.loc.x * p.radius.x;
-        const cy = p.loc.y + m.loc.y * p.radius.y;
+        const cx = p.loc.x + m.loc.x * minR * MULTIMER_LOC_SCALE;
+        const cy = p.loc.y + m.loc.y * minR * MULTIMER_LOC_SCALE;
         ctx.save();
         ctx.translate(cx, cy);
         ctx.rotate(p.angle + m.angle);
