@@ -1,6 +1,6 @@
 # Gelbox TS Web Port — Status & Next Steps
 
-_Last updated: 2026-05-09 (Phase 2 complete — M19 polish + docs)_
+_Last updated: 2026-05-09 (Phase 2 complete + Phase 3 M20/M21/M22 shipped)_
 
 ## Where we are
 
@@ -29,9 +29,19 @@ Phase 3 to clean up alongside the molecular-sim port.
 | M18 | Right-panel swap + cross-panel wiring | ✅ shipped |
 | M19 | Visual goldens + polish | ✅ shipped (partial — see notes) |
 
-**Phase 3 deferred** — molecular sim visual parity (toon shader,
-particle physics, animations) is its own future phase. The M15 shell is
-explicitly _wiring only_, not fidelity.
+**Phase 3 in flight** — molecular-sim visual parity. Plan:
+`docs/superpowers/plans/2026-05-09-gelbox-ts-phase-3-overview.md`.
+
+| # | Milestone | Status |
+|---|---|---|
+| M20 | Particle data model + tick (no rendering)        | ✅ shipped |
+| M21 | Canvas wires up to live MolecularSim engine      | ✅ shipped |
+| M22 | Multimer offset + connected rendering             | ✅ shipped |
+| M23 | Degradation visual modes (slice / shrink / drop) | ⬜ next |
+| M24 | Toon shader rendering parity (WebGPU + WebGL2)   | ⬜ |
+| M25 | Selection / hover bloom                          | ⬜ |
+| M26 | Loupe parity (replaces M7 portal)                | ⬜ |
+| M27 | Image-as-sample drop                             | ⬜ |
 
 ### What's running today
 
@@ -43,11 +53,13 @@ The `/gel` route boots a real interactive page:
   JSON sample to load it.
 - **Middle:** `SampleView` — "Sample" heading + selected-lane blue circle
   + microtube glyph in the upper-left, hosting a 2D `MolecularSimCanvas`
-  that scatters one fragment-colored dot per particle (count from
-  `MolecularSim::calcTargetPop`). Hover/click on a dot dispatches
-  `SET_ROLLOVER` / `SET_SELECTED`; rings on dots reflect both
-  `state.selection` and the per-lane `selectedFragmentIndex`. Visual
-  fidelity is intentionally minimal — Phase 3 owns the toon-shader port.
+  backed by a live `MolecularSim` engine (Phase 3 M20+M21+M22). Each
+  fragment spawns N ≈ `calcTargetPop(mass)` particles with size
+  proportional to base count; multimers cluster with C++
+  `mMultimerAdhereOverlapFrac` overlap. rAF tick loop runs the spawn /
+  fade / cull / jitter cycle. Hover/click hit-tests against
+  `engine.pickFragment()` and dispatches `SET_ROLLOVER` / `SET_SELECTED`.
+  Toon shader, degradation modes, and bloom are Phase 3 M23-M25.
   Visible whenever `getVisibleSampleLane(state) !== null` (sticky after
   the first sample interaction).
 - **Right:** `InspectorPanel` routes by mode:
@@ -79,12 +91,56 @@ are tracked separately and not regressed by M15.
 
 ---
 
+## Where work was left (autonomous session, 2026-05-09 night)
+
+In one autonomous session the agent shipped M15 → M22 (Phase 2 close-out
++ first three Phase 3 milestones) directly to `main`. Each milestone is
+a separate commit with a milestone-style message; the `phase-2-complete`
+tag is at commit `6260bfd`. The agent's intentional sequence:
+
+1. **M15** SampleView shell + MolecularSimCanvas placeholder
+2. **M16** SampleSettingsView (Buffer + Dyes)
+3. **M17** GelSettingsView (gear-toggled "Gel")
+4. **M18** Cross-panel wiring + `selectInspectorView` selector
+5. **M19** Polish: drop-zone affordance + ARCHITECTURE/README/CHANGELOG
+6. *Phase 3 begins*
+7. **M20** MolecularSim engine (data + tick, no rendering) — port of
+   `MolecularSim.cpp` lifecycle, 14 unit tests
+8. **M21** MolecularSimCanvas wires up to the live engine — replaces
+   M15 placeholder with rAF-driven particle rendering
+9. **M22** Multimer offset math fix + cluster rendering matches C++
+
+**248/248** unit tests + **all new e2e** pass on chromium-webgl2;
+typecheck clean.
+
+## Decisions made autonomously (worth reviewing)
+
+- **Direct commits to `main`** rather than per-milestone PRs. Matches
+  the established repo pattern (recent fix(gel) commits).
+- **M16 visual polish was deferred** — the panel is functional but
+  labels crowd the slider tracks. See "Open polish items" below.
+- **M17 off-preset gel buffer editing was deferred** — `BufferView`
+  per-ion sliders dispatch `SET_GEL_BUFFER` which only takes preset
+  tags. A `SET_GEL_BUFFER_DIRECT` action is the obvious extension.
+- **M19 per-panel goldens were not re-captured** — those snapshots
+  drift on different machines and are noise without human review.
+  Capture before starting Phase 3 M24 (toon shader work).
+- **Phase 3 M22 was a minimal correctness fix** rather than a full
+  multimer-bonds-and-clusters rendering pass. The C++ doesn't draw
+  explicit bonds — particles just overlap. The TS port now matches.
+
 ## Next steps (in order)
 
-### Phase 3 — Molecular simulation parity
+### 1. Phase 3 M23 — Degradation visual modes
 
-See `## Phase 3 (post M19)` section near the bottom of this doc.
-Subplan stub will be filled in just before Phase 3 starts.
+Port the three mesh-generation styles (`slice`, `shrink`,
+`randomdrop`) from `MolecularSim.cpp:768-872`. `Part.wholeness`
+already exists in M20; M23 wires the visual differentiation.
+
+### 2. Phase 3 M24 — Toon shader rendering parity
+
+The big one. WebGPU primary path + hand-ported WebGL2 fallback,
+following the M4 model. Outline pass, fill pass, highlight pass.
 
 ### M19 closeout (legacy section — kept for reference)
 
