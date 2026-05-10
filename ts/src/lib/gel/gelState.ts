@@ -65,6 +65,8 @@ export interface GelState {
   selection:             SampleFragRef | null;
   rollover:              SampleFragRef | null;
   inspectorMode:         InspectorMode;
+  /** Cosmetic gel rotation in degrees (M17 placeholder — not wired to sim). */
+  gelRotate:             number;
 }
 
 export type Action =
@@ -100,7 +102,9 @@ export type Action =
   | { type: 'SET_SELECTION'; ref: SampleFragRef | null }
   | { type: 'SET_ROLLOVER';  ref: SampleFragRef | null }
   | { type: 'SET_INSPECTOR_MODE'; mode: InspectorMode }
-  | { type: 'CLEAR_FRAGMENT_SELECTION' };
+  | { type: 'CLEAR_FRAGMENT_SELECTION' }
+  | { type: 'SET_NUM_LANES';      value: number }
+  | { type: 'SET_GEL_ROTATE';     value: number };
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
@@ -160,6 +164,7 @@ export function initialGelState(): GelState {
     selection: null,
     rollover:  null,
     inspectorMode: 'default',
+    gelRotate: 0,
   };
 }
 
@@ -468,6 +473,31 @@ export function gelReducer(state: GelState, action: Action): GelState {
     case 'SET_INSPECTOR_MODE':
       if (state.inspectorMode === action.mode) return state;
       return { ...state, inspectorMode: action.mode };
+    case 'SET_NUM_LANES': {
+      const numLanes = Math.max(1, Math.round(action.value));
+      if (numLanes === state.numLanes) return state;
+      const wellRects = computeWellRects(numLanes, state.gelSize);
+      // Resize samples array, preserving existing samples in their lanes
+      // (truncate or pad with null as needed).
+      const samples = new Array(numLanes).fill(null) as (Sample | null)[];
+      for (let i = 0; i < Math.min(numLanes, state.samples.length); i++) {
+        samples[i] = state.samples[i];
+      }
+      // Clamp selectedLane.
+      const selectedLane = Math.min(state.selectedLane, numLanes - 1);
+      // Recompute ySpaceScale (depends on lane width which depends on numLanes).
+      const ySpaceScale = computeYSpaceScale(state.gelSize.width, state.gelSize.height, numLanes, Y_MARGIN);
+      return {
+        ...state,
+        numLanes,
+        samples,
+        wellRects,
+        selectedLane,
+        ctx: { ...state.ctx, ySpaceScale },
+      };
+    }
+    case 'SET_GEL_ROTATE':
+      return { ...state, gelRotate: action.value };
     case 'CLEAR_FRAGMENT_SELECTION':
       // Drop the fragment-level selection, fall back to sample-settings (so
       // the inspector hides when the sample has no fragment focus). The

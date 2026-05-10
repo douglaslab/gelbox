@@ -1,6 +1,6 @@
 # Gelbox TS Web Port — Status & Next Steps
 
-_Last updated: 2026-05-09 (after M16 SampleSettingsView)_
+_Last updated: 2026-05-09 (after M17 GelSettingsView)_
 
 ## Where we are
 
@@ -21,8 +21,8 @@ docs polish. See `MEMORY.md` for the per-milestone log.
 | M14 | FragmentView ("Species" — default inspector) | ✅ shipped |
 | M15 | SampleView middle-panel shell | ✅ shipped |
 | M16 | SampleSettingsView (Buffer + Dyes) | ✅ shipped |
-| M17 | GelSettingsView (gear-toggled "Gel" panel) | ⬜ next |
-| M18 | Right-panel swap + cross-panel wiring | ⬜ |
+| M17 | GelSettingsView (gear-toggled "Gel" panel) | ✅ shipped |
+| M18 | Right-panel swap + cross-panel wiring | ⬜ next |
 | M19 | Visual goldens + polish | ⬜ |
 
 **Phase 3 deferred** — molecular sim visual parity (toon shader,
@@ -47,7 +47,11 @@ The `/gel` route boots a real interactive page:
   Visible whenever `getVisibleSampleLane(state) !== null` (sticky after
   the first sample interaction).
 - **Right:** `InspectorPanel` routes by mode:
-  - `gel-settings` → "Gel" panel **stub** (M17 placeholder text)
+  - `gel-settings` → `GelSettingsView` ("Gel"): voltage, time/clock,
+    well-damage, lanes, and rotate sliders (rotate is cosmetic — applied
+    as a CSS rotation on the gel canvas group), plus a `BufferView` for
+    the gel running buffer (3 presets: H₂O / ½× TBE / 1× TAE). Lane
+    count slider grows/shrinks the microtube row + samples array.
   - sample selected, no fragment → `SampleSettingsView` ("Buffer + Dyes"):
     H₂O / ½× TBE / 1× TAE preset selector, 4 Tris/Borate/Acetate/EDTA
     Style::Bar sliders (round-tripped via `SET_SAMPLE_BUFFER`), 4
@@ -73,35 +77,7 @@ are tracked separately and not regressed by M15.
 
 ## Next steps (in order)
 
-### 1. M17 — GelSettingsView ("Gel" gear-toggled panel)
-
-**Goal.** Replace the right-panel stub for
-`inspectorMode === 'gel-settings'` (already toggled by the gear button
-shipped in M13) with the real Gel-settings editor.
-
-- Sliders: voltage, time/clock, gel-lanes, gel-rotate, well-damage —
-  five `Style::Slider`s with the corresponding lo/hi PNG icon pairs
-  from `public/assets/slider-icons/`.
-- A `BufferView` block (re-used from M16) for the **gel running
-  buffer**.
-- Values dispatch to `gelState`: `SET_VOLTAGE`, `SET_TIME`,
-  `SET_WELL_DAMAGE`, `SET_GEL_BUFFER` already exist; `gelLanes` and
-  `gelRotate` actions are new (rotate is cosmetic — visual rotation of
-  the gel canvas).
-
-**Files to add.** `ts/src/components/inspector/GelSettingsView.tsx`.
-
-**Files to modify.** `gelState.ts` — add `SET_NUM_LANES`, `SET_GEL_ROTATE`
-actions. `InspectorPanel.tsx` — swap the stub.
-
-**C++ reference.** `~/code/gelbox/src/GelSettingsView.cpp` (232 lines).
-
-**Acceptance.** Pressing the gear button reveals the Gel panel. All
-five sliders + buffer presets round-trip through the reducer. Voltage
-and time changes re-run the sim immediately (already wired); lane
-count change reflows the microtube row.
-
-### 2. M18 — Right-panel swap + cross-panel wiring
+### 1. M18 — Right-panel swap + cross-panel wiring
 
 **Goal.** Tighten the orchestration of which inspector panel shows
 when. The `inspectorMode` reducer slice already exists; this milestone
@@ -121,7 +97,7 @@ is about edge cases, transitions, and the cross-panel state contract.
 gear-on with selection (gear wins), tube click, band click, band Tab
 nav, particle click. All transitions captured as goldens.
 
-### 3. M19 — Visual goldens + polish
+### 2. M19 — Visual goldens + polish
 
 **Goal.** Tag `phase-2-complete`. Capture per-panel goldens at DPR 1
 and DPR 2 for both backends (WebGPU + WebGL2) on macOS Chromium.
@@ -130,7 +106,7 @@ stage + inspector swap. Add a CHANGELOG entry.
 
 ---
 
-## Open polish items (not blocking M17)
+## Open polish items (not blocking M18)
 
 - **SampleSettingsView spacing.** M16 ships with the panel functional
   but visually tight: dye/buffer labels crowd the bar tracks, and the

@@ -1,8 +1,7 @@
-import type { ReactNode } from 'react';
 import { useGelState } from '../gel/GelContext';
 import { FragmentView } from './FragmentView';
 import { SampleSettingsView } from './SampleSettingsView';
-import { LAYOUT } from '../../lib/layout/layout';
+import { GelSettingsView } from './GelSettingsView';
 
 /**
  * Routes the right-panel content based on inspector mode + selection state.
@@ -18,9 +17,9 @@ export function InspectorPanel() {
 
   if (state.inspectorMode === 'gel-settings') {
     return (
-      <PanelShell heading={LAYOUT.gelSettingsHeaderStr}>
-        <ModeStub label="Gel settings — coming in M17" />
-      </PanelShell>
+      <div data-testid="inspector-panel" style={{ width: '100%', height: '100%' }}>
+        <GelSettingsView />
+      </div>
     );
   }
 
@@ -40,34 +39,3 @@ export function InspectorPanel() {
   );
 }
 
-function PanelShell({ heading, children }: { heading: string; children: ReactNode }) {
-  return (
-    <div
-      data-testid="inspector-panel"
-      style={{ width: '100%', height: '100%', position: 'relative', background: '#FFFFFF' }}
-    >
-      <h2
-        style={{
-          position: 'absolute',
-          left:     `${LAYOUT.gelSettingsHeaderBaselinePos.x}px`,
-          top:      `${LAYOUT.gelSettingsHeaderBaselinePos.y}px`,
-          margin:   0,
-          font:     `${LAYOUT.headFontWeight} ${LAYOUT.headFontSize}px ${LAYOUT.headFont}`,
-          color:    LAYOUT.headFontColor,
-          lineHeight: 1,
-        }}
-      >
-        {heading}
-      </h2>
-      <div style={{ paddingTop: 60 }}>{children}</div>
-    </div>
-  );
-}
-
-function ModeStub({ label }: { label: string }) {
-  return (
-    <div style={{ padding: 24, color: '#666', fontFamily: 'Inter', fontSize: 13 }}>
-      {label}
-    </div>
-  );
-}

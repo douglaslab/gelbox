@@ -77,8 +77,16 @@ function GelInner() {
       >
         <MicrotubeRow />
       </div>
-      <GelCanvas bands={bands} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} />
-      <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
+      <div
+        style={{
+          position: 'absolute', inset: 0,
+          transform: state.gelRotate ? `rotate(${state.gelRotate}deg)` : undefined,
+          transformOrigin: '50% 0%',
+        }}
+      >
+        <GelCanvas bands={bands} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} />
+        <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
+      </div>
       {/*
         C++ Gelbox places the gel-settings button at the gel's lower-right
         with mBtnGutter (=16) below: button.upperRight = (gelRight,
