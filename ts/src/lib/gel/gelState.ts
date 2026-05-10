@@ -1,7 +1,9 @@
 import type { Sample, Fragment } from '../sim/sample';
 import type { SimContext } from '../sim/gelSim';
 import type { Rect } from '../sim/band';
+import type { Buffer } from '../sim/buffer';
 import { BUFFER_TBE, BUFFER_TAE, BUFFER_H2O } from '../sim/buffer';
+import { DYE_COLORS } from '../sim/dye';
 import type { SampleFragRef } from './sampleFragRef';
 import { sampleFragRefEq } from './sampleFragRef';
 import ladder from '../../../fixtures/states/ladder-1kb.json';
@@ -70,6 +72,8 @@ export type Action =
   | { type: 'SET_TIME';           value: number }
   | { type: 'SET_WELL_DAMAGE';    value: number }
   | { type: 'SET_GEL_BUFFER';     value: 'TBE' | 'TAE' | 'H2O' }
+  | { type: 'SET_SAMPLE_BUFFER';  laneIndex: number; buffer: Buffer }
+  | { type: 'SET_DYE_MASS';       laneIndex: number; dye: number; mass: number }
   | { type: 'LOAD_FIXTURE';       key: string; sample: Sample; lane: number }
   | { type: 'LOAD_GEL_STATE';    samples: (Sample | null)[]; numLanes: number; ctx: SimContext }
   | { type: 'SET_SELECTED_LANE';  laneIndex: number }
@@ -196,6 +200,49 @@ export function gelReducer(state: GelState, action: Action): GelState {
       return { ...state, ctx: { ...state.ctx, wellDamage: clamp(action.value, 0, 1) } };
     case 'SET_GEL_BUFFER':
       return { ...state, ctx: { ...state.ctx, gelBuffer: BUFFER_BY_KEY[action.value] } };
+    case 'SET_SAMPLE_BUFFER': {
+      const sample = state.samples[action.laneIndex];
+      if (!sample) return state;
+      const samples = state.samples.slice();
+      samples[action.laneIndex] = { ...sample, buffer: action.buffer };
+      const ctx = action.laneIndex === state.selectedLane
+        ? { ...state.ctx, sampleBuffer: action.buffer }
+        : state.ctx;
+      return { ...state, samples, ctx };
+    }
+    case 'SET_DYE_MASS': {
+      const sample = state.samples[action.laneIndex];
+      if (!sample) return state;
+      const i = sample.fragments.findIndex((f) => f.dye === action.dye);
+      let fragments: Fragment[];
+      if (i === -1) {
+        // Lazy-create dye fragment on first non-zero write — mirrors
+        // C++ Sample::setDye(dye, val) which pushes a new fragment when
+        // the dye isn't present. Zero-mass writes when no fragment exists
+        // are no-ops (don't pollute the fragment list).
+        if (action.mass <= 0) return state;
+        const color = DYE_COLORS[action.dye];
+        fragments = [
+          ...sample.fragments,
+          {
+            bases:       1,
+            mass:        action.mass,
+            degrade:     0,
+            dye:         action.dye,
+            aggregate:   [],
+            aspectRatio: 1,
+            color:       [color[0], color[1], color[2]],
+          },
+        ];
+      } else {
+        fragments = sample.fragments.map((f, j) =>
+          j === i ? { ...f, mass: action.mass } : f
+        );
+      }
+      const samples = state.samples.slice();
+      samples[action.laneIndex] = { ...sample, fragments };
+      return { ...state, samples };
+    }
     case 'LOAD_FIXTURE': {
       const samples = state.samples.slice();
       samples[action.lane] = action.sample;

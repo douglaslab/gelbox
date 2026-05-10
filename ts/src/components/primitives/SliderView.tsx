@@ -19,6 +19,14 @@ export interface SliderViewProps {
   width?: number;
   graphValues?: number[];
   onGraphChange?: (values: number[]) => void;
+  /** Bar style only — fill color (left of handle). Defaults to LAYOUT.bufferViewSliderFillColor. */
+  barFillColor?:  string;
+  /** Bar style only — empty color (right of handle). Defaults to LAYOUT.bufferViewSliderEmptyColor. */
+  barEmptyColor?: string;
+  /** Bar style only — corner radius in px. Defaults to 4. */
+  barCornerRadius?: number;
+  /** Bar style only — track height in px. Defaults to 23. */
+  barHeight?: number;
   style?: CSSProperties;
   testId?: string;
 }
@@ -39,6 +47,10 @@ export function SliderView({
   width      = DEFAULT_WIDTH,
   graphValues,
   onGraphChange,
+  barFillColor,
+  barEmptyColor,
+  barCornerRadius,
+  barHeight,
   style,
   testId,
 }: SliderViewProps) {
@@ -161,11 +173,26 @@ export function SliderView({
         <div
           ref={trackRef}
           className={styles.bar}
+          style={{
+            background:    barEmptyColor ?? undefined,
+            borderRadius:  barCornerRadius ?? undefined,
+            height:        barHeight ?? undefined,
+          }}
           onPointerDown={onPointerDownTrack}
           onPointerMove={onPointerMoveTrack}
           data-testid={testId ? `${testId}-track` : undefined}
         >
-          <div className={styles.barFill} style={{ width: `${normalized * 100}%` }} />
+          <div
+            className={styles.barFill}
+            style={{
+              width:      `${normalized * 100}%`,
+              background: barFillColor ?? undefined,
+            }}
+          />
+          {(config.notchAction === 'drawOnly' || config.notchAction === 'snap' || config.notchAction === 'nearest')
+            && (config.notches ?? []).map((n, i) => (
+              <div key={i} className={styles.notch} style={{ left: `${n * 100}%` }} />
+            ))}
           {labelStr && (
             <div
               className={styles.barLabel}

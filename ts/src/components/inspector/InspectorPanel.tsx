@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { useGelState } from '../gel/GelContext';
 import { FragmentView } from './FragmentView';
+import { SampleSettingsView } from './SampleSettingsView';
 import { LAYOUT } from '../../lib/layout/layout';
 
 /**
@@ -25,9 +26,9 @@ export function InspectorPanel() {
 
   if (sample !== null && state.selectedFragmentIndex === null) {
     return (
-      <PanelShell heading={LAYOUT.sampleSettingsHeaderStr}>
-        <ModeStub label="Sample buffer + dyes — coming in M16" />
-      </PanelShell>
+      <div data-testid="inspector-panel" style={{ width: '100%', height: '100%' }}>
+        <SampleSettingsView />
+      </div>
     );
   }
 
