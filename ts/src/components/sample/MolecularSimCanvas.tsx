@@ -107,6 +107,12 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
       // m.loc is in radius units; the overlap-fraction scale is applied so
       // adjacent multimers overlap visibly (matches C++ Part::makeMesh).
       const minR = Math.min(p.radius.x, p.radius.y);
+      // Slice-mode degradation (M23): clip the unit ellipse to a left-anchored
+      // rectangle whose area is `4 * wholeness²` in unit-space — preserves
+      // wholeness² of the visible area, matching C++ makeDegradeIntersectShape.
+      // Width-only slice (height stays 2). Floor at 0.05 to keep particles
+      // pickable when fully degraded.
+      const sliceW = 2 * Math.max(0.05, p.wholeness * p.wholeness);
       for (const m of p.multi) {
         const cx = p.loc.x + m.loc.x * minR * MULTIMER_LOC_SCALE;
         const cy = p.loc.y + m.loc.y * minR * MULTIMER_LOC_SCALE;
@@ -114,14 +120,22 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
         ctx.translate(cx, cy);
         ctx.rotate(p.angle + m.angle);
         ctx.scale(p.radius.x, p.radius.y);
+        // Clip first (slice rect), then fill the unit ellipse inside the clip.
+        if (sliceW < 2) {
+          ctx.beginPath();
+          ctx.rect(-1, -1, sliceW, 2);
+          ctx.clip();
+        }
         ctx.beginPath();
         ctx.arc(0, 0, 1, 0, Math.PI * 2);
-        ctx.restore();
-        // Fill in world space (gradient/fade applied to alpha).
         ctx.globalAlpha = p.fade;
         ctx.fillStyle = linearRgbToSrgbHex(p.color);
         ctx.fill();
+        ctx.restore();
+        ctx.globalAlpha = 1;
         if (isSelected || isRollover) {
+          // Stroke the FULL undeformed outline so the selection ring is
+          // always a clean ellipse; matches C++ which strokes pre-slice.
           ctx.save();
           ctx.translate(cx, cy);
           ctx.rotate(p.angle + m.angle);
