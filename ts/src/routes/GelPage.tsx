@@ -79,14 +79,27 @@ function GelInner() {
       </div>
       <GelCanvas bands={bands} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} />
       <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
-      <div style={{ position: 'absolute', right: -40, bottom: -40 }}>
+      {/*
+        C++ Gelbox places the gel-settings button at the gel's lower-right
+        with mBtnGutter (=16) below: button.upperRight = (gelRight,
+        gelBottom + 16). So it sits BELOW the gel, right-aligned, in the
+        same horizontal band as the time slider — just past the clock icon.
+      */}
+      <div
+        style={{
+          position: 'absolute',
+          right: 0,
+          top: '100%',
+          marginTop: 16,
+        }}
+      >
         <SettingsButton />
       </div>
       <div
         style={{
           position: 'absolute',
           left: 0,
-          right: 40,
+          right: 48,
           top: '100%',
           marginTop: 16,
         }}
