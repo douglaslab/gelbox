@@ -94,8 +94,8 @@ shader sources.
 ## Sub-plans
 
 - [x] **Phase 3 Overview** — this file
-- [ ] **M20 Particle data model + tick** — TBD — next-execute
-- [ ] **M21 Canvas wires up to live particles** — TBD
+- [x] **M20 Particle data model + tick** — `2026-05-09-gelbox-ts-m20-particle-data-model.md`
+- [x] **M21 Canvas wires up to live particles** — `2026-05-09-gelbox-ts-m21-canvas-live-particles.md`
 - [ ] **M22 Aggregate / multimer rendering** — TBD
 - [ ] **M23 Degradation visual modes** — TBD
 - [ ] **M24 Toon shader rendering parity** — TBD

@@ -1,22 +1,19 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGelState, useGelDispatch } from '../gel/GelContext';
 import { LAYOUT } from '../../lib/layout/layout';
-import {
-  layoutDots,
-  pickDot,
-  linearRgbToSrgbHex,
-  type DotLayout,
-} from '../../lib/sim/molecularSim';
+import { linearRgbToSrgbHex } from '../../lib/sim/molecularSim';
+import { MolecularSim } from '../../lib/sim/molecularSimEngine';
 
 /**
- * Phase-2 placeholder middle-panel canvas. Scatters one colored dot per
- * fragment particle (count from `calcTargetPop`); rings selected/rolled-over
- * fragments. NOT visual parity with the C++ MolecularSim — that's Phase 3.
+ * Phase-3 M21 — middle-panel canvas backed by a live `MolecularSim`
+ * engine. Particles spawn/cull/fade per the C++ tick semantics; this
+ * component just renders them as flat ellipses for now (toon shader is
+ * M24).
  *
- * Wiring contract:
- *   - Hover a dot → dispatch SET_ROLLOVER for its (lane, fragment).
- *   - Click a dot → dispatch SET_SELECTED for its (lane, fragment).
- *   - Reads state.rollover + state.selection to ring matching dots.
+ * Wiring contract (unchanged from M15):
+ *   - Hover a particle → SET_ROLLOVER for its (lane, fragment).
+ *   - Click a particle → SET_SELECTED for its (lane, fragment).
+ *   - Reads state.rollover + state.selection to ring matching particles.
  */
 export interface MolecularSimCanvasProps {
   /** Lane whose sample is shown. Caller decides via getVisibleSampleLane. */
@@ -29,34 +26,59 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
   const state = useGelState();
   const dispatch = useGelDispatch();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const simRef = useRef<MolecularSim | null>(null);
+  // Bumping this forces a redraw when the engine state changes outside
+  // React's normal flow (e.g. on tick).
+  const [, setTick] = useState(0);
 
   const sample = state.samples[laneIndex];
 
-  const dots: DotLayout[] = useMemo(() => {
-    if (!sample) return [];
-    return layoutDots({
-      width,
-      height,
-      laneIndex,
-      fragments: sample.fragments,
-    });
-  }, [sample, width, height, laneIndex]);
+  // Lazily construct + maintain the engine in a ref so per-frame ticks
+  // don't churn React state.
+  useEffect(() => {
+    if (!simRef.current) {
+      simRef.current = new MolecularSim({
+        bounds: { x1: 0, y1: 0, x2: width, y2: height },
+        seed:   laneIndex * 31 + 1,
+      });
+    }
+    simRef.current.setBounds({ x1: 0, y1: 0, x2: width, y2: height });
+  }, [width, height, laneIndex]);
 
-  // Selection / rollover are scoped to this lane only; cross-lane refs don't
-  // light up dots in this lane.
+  // Reconcile the engine to the latest sample whenever the sample shape
+  // changes (fragments added/removed, masses changed). Position-only
+  // re-renders happen in the rAF tick loop, not here.
+  useEffect(() => {
+    if (!simRef.current) return;
+    simRef.current.setSample(sample ?? null);
+    if (sample) simRef.current.preroll(60);
+    setTick((t) => t + 1);
+  }, [sample]);
+
+  // rAF tick loop. Stops when the canvas unmounts.
+  useEffect(() => {
+    let raf = 0;
+    const loop = () => {
+      if (simRef.current) simRef.current.tick(1);
+      setTick((t) => (t + 1) % 1_000_000);
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  // Selection / rollover come from React state; recompute each render.
   const selectedFragForLane =
     state.selection?.lane === laneIndex ? state.selection.fragmentIndex : null;
   const rolloverFragForLane =
     state.rollover?.lane  === laneIndex ? state.rollover.fragmentIndex  : null;
-  // Also reflect classic per-lane fragment selection (the gel side writes
-  // selectedFragmentIndex via SET_SELECTED, not just selection.* — keep both
-  // in sync for the visual ring).
   const classicSelectedFrag =
     state.selectedLane === laneIndex ? state.selectedFragmentIndex : null;
 
+  // Draw on every render (the rAF tick loop schedules them).
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !simRef.current) return;
     const dpr = (typeof window !== 'undefined' ? window.devicePixelRatio : 1) || 1;
     canvas.width  = Math.round(width  * dpr);
     canvas.height = Math.round(height * dpr);
@@ -69,25 +91,43 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
     const hoverColor  = LAYOUT.sampleViewFragHoverColor;
     const ringWidth   = LAYOUT.sampleViewFragOutlineWidth;
 
-    for (const d of dots) {
-      ctx.beginPath();
-      ctx.arc(d.cx, d.cy, d.r, 0, Math.PI * 2);
-      ctx.fillStyle = linearRgbToSrgbHex(d.color);
-      ctx.fill();
+    for (const p of simRef.current.parts) {
       const isSelected =
-        d.fragmentIndex === selectedFragForLane
-        || d.fragmentIndex === classicSelectedFrag;
+        p.fragment === selectedFragForLane
+        || p.fragment === classicSelectedFrag;
       const isRollover =
-        d.fragmentIndex === rolloverFragForLane && !isSelected;
-      if (isSelected || isRollover) {
+        p.fragment === rolloverFragForLane && !isSelected;
+      // Each multimer slot draws as one ellipse rotated by p.angle + m.angle.
+      for (const m of p.multi) {
+        const cx = p.loc.x + m.loc.x * p.radius.x;
+        const cy = p.loc.y + m.loc.y * p.radius.y;
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(p.angle + m.angle);
+        ctx.scale(p.radius.x, p.radius.y);
         ctx.beginPath();
-        ctx.arc(d.cx, d.cy, d.r + ringWidth, 0, Math.PI * 2);
-        ctx.strokeStyle = isSelected ? selectColor : hoverColor;
-        ctx.lineWidth   = ringWidth;
-        ctx.stroke();
+        ctx.arc(0, 0, 1, 0, Math.PI * 2);
+        ctx.restore();
+        // Fill in world space (gradient/fade applied to alpha).
+        ctx.globalAlpha = p.fade;
+        ctx.fillStyle = linearRgbToSrgbHex(p.color);
+        ctx.fill();
+        if (isSelected || isRollover) {
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.rotate(p.angle + m.angle);
+          ctx.scale(p.radius.x + ringWidth, p.radius.y + ringWidth);
+          ctx.beginPath();
+          ctx.arc(0, 0, 1, 0, Math.PI * 2);
+          ctx.restore();
+          ctx.strokeStyle = isSelected ? selectColor : hoverColor;
+          ctx.lineWidth   = ringWidth;
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
       }
     }
-  }, [dots, width, height, selectedFragForLane, rolloverFragForLane, classicSelectedFrag]);
+  });
 
   const eventCoords = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
@@ -101,16 +141,14 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
 
   const onPointerMove = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     const c = eventCoords(e);
-    if (!c) return;
-    const hit = pickDot(dots, c.x, c.y);
-    if (hit) {
-      dispatch({ type: 'SET_ROLLOVER', ref: { lane: laneIndex, fragmentIndex: hit.fragmentIndex } });
+    if (!c || !simRef.current) return;
+    const fragIdx = simRef.current.pickFragment(c.x, c.y);
+    if (fragIdx >= 0) {
+      dispatch({ type: 'SET_ROLLOVER', ref: { lane: laneIndex, fragmentIndex: fragIdx } });
     } else if (state.rollover?.lane === laneIndex) {
-      // Only clear if the active rollover came from this lane — don't stomp
-      // a rollover the gel side just set on a different lane.
       dispatch({ type: 'SET_ROLLOVER', ref: null });
     }
-  }, [dots, eventCoords, dispatch, laneIndex, state.rollover]);
+  }, [eventCoords, dispatch, laneIndex, state.rollover]);
 
   const onPointerLeave = useCallback(() => {
     if (state.rollover?.lane === laneIndex) {
@@ -119,22 +157,26 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
   }, [dispatch, laneIndex, state.rollover]);
 
   const onPointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
-    if (e.button !== 0) return;
+    if (e.button !== 0 || !simRef.current) return;
     const c = eventCoords(e);
     if (!c) return;
-    const hit = pickDot(dots, c.x, c.y);
-    if (hit) {
+    const fragIdx = simRef.current.pickFragment(c.x, c.y);
+    if (fragIdx >= 0) {
       e.preventDefault();
-      dispatch({ type: 'SET_SELECTED', laneIndex, index: hit.fragmentIndex });
+      dispatch({ type: 'SET_SELECTED', laneIndex, index: fragIdx });
     }
-  }, [dots, eventCoords, dispatch, laneIndex]);
+  }, [eventCoords, dispatch, laneIndex]);
+
+  // Also expose a snapshot of the live alive-particle count so e2e tests can
+  // assert. Updated on render, which the rAF loop drives.
+  const aliveCount = simRef.current?.parts.filter((p) => p.alive).length ?? 0;
 
   return (
     <canvas
       ref={canvasRef}
       data-testid="molecular-sim-canvas"
       data-lane-index={laneIndex}
-      data-dot-count={dots.length}
+      data-alive-count={aliveCount}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
       onPointerDown={onPointerDown}

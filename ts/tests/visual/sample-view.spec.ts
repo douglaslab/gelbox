@@ -26,17 +26,17 @@ test('SampleView is hidden until first interaction, then shows heading + canvas'
   await expect(page.getByTestId('molecular-sim-canvas')).toBeVisible();
 });
 
-test('SampleView dot count == sum(calcTargetPop(mass)) over non-dye fragments', async ({ page }, testInfo) => {
+test('SampleView particle count > 0 once the engine has prerolled', async ({ page }, testInfo) => {
   maybeSkipLinuxWebGPU(testInfo);
   await page.setViewportSize({ width: 1365, height: 800 });
   await page.goto('/#/gel');
   await page.locator('[data-testid="microtube-0"]').click();
   const canvas = page.getByTestId('molecular-sim-canvas');
   await expect(canvas).toBeVisible();
-  const count = await canvas.getAttribute('data-dot-count');
-  // The default ladder fixture has 10 fragments, all non-dye, all positive
-  // mass — so the count should be > 0 even if individual masses vary.
-  expect(Number(count)).toBeGreaterThan(0);
+  // The MolecularSim engine prerolls on setSample → parts populate.
+  // data-alive-count is updated on each rAF tick.
+  await expect.poll(async () => Number(await canvas.getAttribute('data-alive-count')))
+    .toBeGreaterThan(0);
 });
 
 test('Clicking a dot in SampleView selects that fragment in the inspector', async ({ page }, testInfo) => {
