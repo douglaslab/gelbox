@@ -1,0 +1,95 @@
+import { describe, it, expect } from 'vitest';
+import { buildMoleculesMesh, type MeshBuildTuning } from '../../src/lib/sim/molecularSimMesh';
+import type { Part } from '../../src/lib/sim/molecularSimEngine';
+import { VERTEX_STRIDE } from '../../src/lib/gel/mesh';
+
+const TUNING: MeshBuildTuning = {
+  numCirclePartVertices: 32,
+  multimerAdhereOverlapFrac: 0.1,
+  outlineWidth: 1.5,
+  selectColor: [0, 0, 0],
+  hoverColor:  [1, 1, 0],
+};
+
+function monomer(over: Partial<Part> = {}): Part {
+  return {
+    fragment: 0,
+    loc: { x: 100, y: 100 },
+    vel: { x: 0, y: 0 },
+    radius: { x: 10, y: 6 },
+    angle: 0,
+    angleVel: 0,
+    color: [0.2, 0.4, 0.6],
+    age: 0,
+    fade: 1,
+    alive: true,
+    degradeKey: 0.5,
+    wholeness: 1,
+    multi: [{ loc: { x: 0, y: 0 }, angle: 0 }],
+    ...over,
+  };
+}
+
+describe('buildMoleculesMesh', () => {
+  it('returns an empty mesh for no parts', () => {
+    const m = buildMoleculesMesh([], null, null, TUNING);
+    expect(m.vertexCount).toBe(0);
+    expect(m.data.length).toBe(0);
+  });
+
+  it('a single whole monomer emits one fill fan (N triangles = 3N verts)', () => {
+    const m = buildMoleculesMesh([monomer()], null, null, TUNING);
+    // Triangle fan over a full circle: N triangles, 3 verts each.
+    expect(m.vertexCount).toBe(TUNING.numCirclePartVertices * 3);
+    expect(m.data.length).toBe(m.vertexCount * VERTEX_STRIDE);
+  });
+
+  it('fill verts carry the part color premultiplied by fade in the color slots', () => {
+    const m = buildMoleculesMesh([monomer({ fade: 0.5 })], null, null, TUNING);
+    // First vertex: [x, y, r, g, b, a]; a = fade.
+    expect(m.data[VERTEX_STRIDE - 1]).toBeCloseTo(0.5, 5);
+  });
+
+  it('a selected monomer adds an outline pass before the fill (2× the verts)', () => {
+    const fill = buildMoleculesMesh([monomer()], null, null, TUNING).vertexCount;
+    const sel  = buildMoleculesMesh([monomer()], 0, null, TUNING).vertexCount;
+    expect(sel).toBe(fill * 2);
+  });
+
+  it('rollover uses the hover color in the outline pass', () => {
+    const m = buildMoleculesMesh([monomer()], null, 0, TUNING);
+    // Outline pass is emitted first; its 2nd vertex color = hoverColor at fade=1.
+    // Vertex layout per fan triangle: [center, rim_i, rim_{i+1}]; rim color = hover.
+    const v1 = m.data.slice(VERTEX_STRIDE, VERTEX_STRIDE * 2);
+    expect([v1[2], v1[3], v1[4]]).toEqual([1, 1, 0]);
+  });
+
+  it('a fully-degraded part still emits geometry (sliceWidth floored)', () => {
+    const m = buildMoleculesMesh([monomer({ wholeness: 0 })], null, null, TUNING);
+    expect(m.vertexCount).toBeGreaterThan(0);
+  });
+
+  it('a 2-slot multimer emits twice the fill geometry of a monomer', () => {
+    const one = buildMoleculesMesh([monomer()], null, null, TUNING).vertexCount;
+    const two = buildMoleculesMesh(
+      [monomer({ multi: [{ loc: { x: 0, y: 0 }, angle: 0 }, { loc: { x: 1, y: 0 }, angle: 0 }] })],
+      null, null, TUNING,
+    ).vertexCount;
+    expect(two).toBe(one * 2);
+  });
+
+  it('the second multimer slot is offset by loc * minRadius * (1-overlap) * 2', () => {
+    const m = buildMoleculesMesh(
+      [monomer({ multi: [{ loc: { x: 0, y: 0 }, angle: 0 }, { loc: { x: 1, y: 0 }, angle: 0 }] })],
+      null, null, TUNING,
+    );
+    const minR = 6; // min(10,6)
+    const expectedDx = 1 * minR * (1 - TUNING.multimerAdhereOverlapFrac) * 2;
+    // Center vertex of slot 0 fan is at part loc (100,100); slot 1 center at +dx.
+    const stride = VERTEX_STRIDE;
+    const slot0CenterX = m.data[0];
+    const slot1CenterX = m.data[TUNING.numCirclePartVertices * 3 * stride];
+    expect(slot0CenterX).toBeCloseTo(100, 4);
+    expect(slot1CenterX).toBeCloseTo(100 + expectedDx, 4);
+  });
+});
