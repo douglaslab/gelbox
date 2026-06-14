@@ -125,6 +125,10 @@ export function createMeshBatch(
       ub.upload(device.queue);
     },
     draw(encoder, targetView, mesh, { clear, clearColor, callIdx }) {
+      // Default clear is transparent black (a:0): the 'over' consumer composites
+      // onto the page, so an unspecified clear must not leave opaque black.
+      // Consumers that want an opaque background (gel additive, sim bg) always
+      // pass an explicit clearColor.
       const cc = clearColor ?? { r: 0, g: 0, b: 0, a: 0 };
       if (mesh.vertexCount === 0) {
         if (clear) {
@@ -142,7 +146,9 @@ export function createMeshBatch(
           view: targetView,
           loadOp: clear ? 'clear' : 'load',
           storeOp: 'store',
-          clearValue: cc,
+          // clearValue is ignored by WebGPU when loadOp is 'load'; only set it
+          // when we actually clear.
+          ...(clear ? { clearValue: cc } : {}),
         }],
       });
       pass.setPipeline(pipeline);
