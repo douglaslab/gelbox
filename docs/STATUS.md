@@ -1,6 +1,6 @@
 # Gelbox TS Web Port — Status & Next Steps
 
-_Last updated: 2026-06-13 (Phase 2 complete + Phase 3 M20–M24 shipped; M25 needs re-eval)_
+_Last updated: 2026-06-14 (Phase 2 complete + Phase 3 M20–M24 shipped; M25 dropped, M26 in flight)_
 
 ## Where we are
 
@@ -39,8 +39,8 @@ Phase 3 to clean up alongside the molecular-sim port.
 | M22 | Multimer offset + connected rendering             | ✅ shipped |
 | M23 | Degradation rendering (slice mode)               | ✅ shipped |
 | M24 | GPU mesh-batch renderer + sample-panel parity    | ✅ shipped |
-| M25 | Selection / hover bloom (NEEDS RE-EVAL — see notes) | ⬜ |
-| M26 | Loupe parity (replaces M7 portal)                | ⬜ |
+| M25 | Selection / hover bloom — DROPPED (covered by M24) | ➖ |
+| M26 | Loupe parity (replaces M7 portal)                | 🔵 in flight |
 | M27 | Image-as-sample drop                             | ⬜ |
 
 ### What's running today
@@ -134,15 +134,19 @@ typecheck clean.
 
 ## Next steps (in order)
 
-### 1. Phase 3 M25 — RE-EVALUATE before implementing
+### 1. Phase 3 M25 — DROPPED (resolved 2026-06-14)
 
 M24 revealed that C++ `MolecularSim` has **no bloom shader** — the
 outline-behind-fill pass *is* the C++ selection/hover effect, and M24
-already ships it. So "M25 bloom" as originally planned is largely a
-no-op. Decide one of: (a) drop M25, or (b) redefine it as a deliberate
-*beyond-C++* glow (now cheap on the GPU substrate — add a blur pass on
-the selected-particle mesh via the existing blur pass infra). Not yet
-scoped; brainstorm before starting.
+already ships it (black `sampleViewFragSelectColor` outline for selected,
+yellow `sampleViewFragHoverColor` outline for rollover, 50/50 lerp when
+both — see `lib/sim/molecularSimMesh.ts`). So "M25 bloom" as originally
+planned has no parity work left.
+
+**Decision (2026-06-14):** drop M25 rather than invent a beyond-C++ glow.
+The blur-pass infra (`lib/gel/passes/blur.ts`, WebGPU-only) stays
+available for a future deliberate effect, but we stay on the C++-parity
+track. Next milestone is **M26 — Loupe parity**.
 
 ### Done: Phase 3 M24 — GPU mesh-batch renderer + sample-panel parity
 

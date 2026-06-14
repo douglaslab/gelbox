@@ -36,7 +36,7 @@ with less fidelity.
 | **M22** | Aggregate / multimer rendering | `Part.mMulti[]` populated from `Frag.mAggregate`; multi-particle bonds drawn as concentric circles with the C++ `mMultimerAdhereOverlapFrac` overlap. | `m22-multimer.md` |
 | **M23** | Degradation visual modes | 3 mesh-generation styles ported (`slice`, `shrink`, `randomdrop`); `mWholeness` drives which style and how strongly. | `m23-degrade-modes.md` |
 | **M24** | Toon shader rendering parity | WebGPU primary + WebGL2 fallback with the same outline/fill/highlight passes the C++ uses. Replaces flat 2D circles. | `m24-toon-shader.md` |
-| **M25** | Selection / hover bloom | Selected fragment's particles render with a bloom outline; rollover gets the C++ yellow `mSampleViewFragHoverColor`. | `m25-bloom.md` |
+| ~~**M25**~~ | ~~Selection / hover bloom~~ — DROPPED 2026-06-14 | Already shipped in M24: outline-behind-fill is the entire C++ selection/hover effect (C++ has no bloom shader). | — |
 | **M26** | Loupe parity (replaces M7 portal) | Cmd-click loupe uses the same MolecularSim renderer at ×1 zoom-in instead of the M7 SVG portal. | `m26-loupe-parity.md` |
 | **M27** | Image-as-sample drop | Drop a PNG → back-solve into a Sample (already a deferred Phase 2 idea). | `m27-image-sample.md` |
 
@@ -99,6 +99,6 @@ shader sources.
 - [ ] **M22 Aggregate / multimer rendering** — TBD
 - [ ] **M23 Degradation visual modes** — TBD
 - [x] **M24 Toon shader rendering parity** — re-scoped → GPU mesh-batch renderer + sample-panel parity; `2026-06-13-gelbox-ts-m24-gpu-mesh-renderer.md` (C++ has no shader; built reusable `meshBatch` primitive)
-- [ ] **M25 Selection / hover bloom** — TBD
-- [ ] **M26 Loupe parity** — TBD
+- [x] **M25 Selection / hover bloom** — DROPPED 2026-06-14; M24's outline-behind-fill pass already is the entire C++ selection/hover effect (no bloom shader exists in C++). Blur infra left available for a future beyond-C++ effect.
+- [ ] **M26 Loupe parity** — in flight; replaces M7 SVG portal with the MolecularSim renderer
 - [ ] **M27 Image-as-sample drop** — TBD
