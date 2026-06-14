@@ -143,7 +143,11 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
       handleRef.current?.destroy();
       handleRef.current = null;
     };
-  }, [width, height, laneIndex]);
+    // Deliberately NOT keyed on laneIndex: the GPU surface is lane-agnostic, so
+    // a lane switch must not tear down and re-acquire the device/context/batch
+    // (expensive + drops frames). Lane-specific state (sim seed, sample) is
+    // handled by the engine effects above and the rAF draw loop below.
+  }, [width, height]);
 
   // Selection / rollover (unchanged from M21).
   const selectedFragForLane =
