@@ -7,12 +7,14 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}',
   use: {
-    baseURL: 'http://localhost:5173',
+    // Override with GEL_BASE_URL to target an already-running dev server on a
+    // non-default port (e.g. when 5173 is occupied). Default unchanged.
+    baseURL: process.env.GEL_BASE_URL ?? 'http://localhost:5173',
     trace: 'on-first-retry',
   },
   webServer: {
     command: 'npm run dev',
-    url: 'http://localhost:5173',
+    url: process.env.GEL_BASE_URL ?? 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,
   },

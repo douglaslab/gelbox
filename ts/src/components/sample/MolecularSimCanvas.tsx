@@ -58,6 +58,14 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
   const hoverRef = useRef(false);
   const downRef = useRef(false);
   const [, setTick] = useState(0);
+  // Test-only deterministic freeze: when `window.__molsimFreezeAfterTicks` is a
+  // number, the rAF loop ticks at most that many times (since the last sample
+  // change) then stops advancing the sim while still drawing — so the seeded
+  // RNG + fixed tick count produce a stable, reproducible frame that Playwright
+  // `toHaveScreenshot` can settle. No effect when the flag is unset (production).
+  const tickCountRef = useRef(0);
+  const frozenRef = useRef(false);
+  const [frozen, setFrozen] = useState(false);
 
   const sample = state.samples[laneIndex];
 
@@ -76,6 +84,11 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
     if (!simRef.current) return;
     simRef.current.setSample(sample ?? null);
     if (sample) simRef.current.preroll(60);
+    // Re-settle the freeze window after a sample change (e.g. dye applied) so a
+    // frozen golden reflects N ticks past the new sample, not a stale freeze.
+    tickCountRef.current = 0;
+    frozenRef.current = false;
+    setFrozen(false);
     setTick((t) => t + 1);
   }, [sample]);
 
@@ -164,7 +177,16 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
       const sim = simRef.current;
       const handle = handleRef.current;
       if (sim && handle) {
-        sim.tick(1);
+        const freezeAfter = (window as unknown as { __molsimFreezeAfterTicks?: number })
+          .__molsimFreezeAfterTicks;
+        const shouldTick = freezeAfter === undefined || tickCountRef.current < freezeAfter;
+        if (shouldTick) {
+          sim.tick(1);
+          tickCountRef.current++;
+        } else if (!frozenRef.current) {
+          frozenRef.current = true;
+          setFrozen(true);
+        }
         const sel = selectedFragForLane ?? classicSelectedFrag;
         const mesh = buildMoleculesMesh(sim.parts, sel, rolloverFragForLane, MESH_TUNING);
         const highlight: 0 | 1 | 2 = downRef.current ? 2 : hoverRef.current ? 1 : 0;
@@ -232,6 +254,7 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
       data-testid="molecular-sim-canvas"
       data-lane-index={laneIndex}
       data-alive-count={aliveCount}
+      data-frozen={frozen ? '1' : '0'}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
       onPointerDown={onPointerDown}

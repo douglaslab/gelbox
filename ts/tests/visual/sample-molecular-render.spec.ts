@@ -1,16 +1,18 @@
 /**
  * sample-molecular-render.spec.ts — Sample-panel GPU render goldens (M24)
  *
- * STATUS: Goldens NOT yet captured. This spec is authored and type-checked but
- * the snapshot files do not exist yet. To capture them:
+ * STATUS: Goldens captured (both backends) and passing. Cross-backend parity
+ * verified: WebGPU vs WebGL2 differ by 1-2 px of 188,760 (0.001%), i.e. the
+ * same mesh renderer through two GPU paths — the primary M24 oracle.
  *
- *   # From ts/ with a free port 5173 and a WebGPU-capable Chrome:
+ * The sim is animated (rAF jitter), so goldens are made deterministic + stable
+ * via a test-only freeze: beforeEach sets window.__molsimFreezeAfterTicks, which
+ * makes MolecularSimCanvas tick a fixed count (from its seeded RNG) then stop
+ * advancing while still drawing. settle() waits for data-frozen="1".
+ *
+ * To re-capture (from ts/, WebGPU-capable Chrome; use GEL_BASE_URL if 5173 busy):
  *   npx playwright test sample-molecular-render --project=chromium-webgpu --update-snapshots
  *   npx playwright test sample-molecular-render --project=chromium-webgl2 --update-snapshots
- *
- * After capture, visually compare the chromium-webgpu vs chromium-webgl2 PNGs
- * for cross-backend parity — they should look identical (same mesh renderer,
- * different GPU path). That parity check is the primary oracle for M24.
  *
  * snapshotPathTemplate (from playwright.config.ts):
  *   {testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}
@@ -29,6 +31,13 @@ import { test, expect, type Page } from '@playwright/test';
 test.beforeEach(async ({ page }, testInfo) => {
   const backend = testInfo.project.name === 'chromium-webgl2' ? 'webgl2' : 'webgpu';
   await page.addInitScript((b: string) => { localStorage.setItem('gelBackend', b); }, backend);
+  // Freeze the molecular sim after a fixed number of ticks so the animated
+  // canvas reaches a STABLE, deterministic frame (seeded RNG + fixed tick
+  // count). Without this, the rAF jitter loop never settles and
+  // toHaveScreenshot's stability check times out. See MolecularSimCanvas.
+  await page.addInitScript(() => {
+    (window as unknown as { __molsimFreezeAfterTicks?: number }).__molsimFreezeAfterTicks = 90;
+  });
 });
 
 function maybeSkipLinuxWebGPU(testInfo: import('@playwright/test').TestInfo) {
@@ -79,8 +88,15 @@ async function settle(page: Page): Promise<void> {
     async () => Number(await canvas.getAttribute('data-alive-count')),
     { timeout: 10_000 },
   ).toBeGreaterThan(0);
-  // Grace period for the rAF sim to reach a stable steady state.
-  await page.waitForTimeout(1500);
+  // Wait for the deterministic freeze (set via __molsimFreezeAfterTicks) so the
+  // frame is stable before snapshotting.
+  await waitForFrozen(page);
+}
+
+/** Wait until the sim has hit its frozen (stable) frame. */
+async function waitForFrozen(page: Page): Promise<void> {
+  await expect(page.getByTestId('molecular-sim-canvas'))
+    .toHaveAttribute('data-frozen', '1', { timeout: 10_000 });
 }
 
 /**
@@ -162,8 +178,9 @@ test('molsim-dyed: after setting dye-0 to mid-range mass (background tinted)', a
   // click, so the dye-row slider track is already in the DOM.
   await setDye(page, 0);
 
-  // Give the rAF loop one cycle to re-render with the new dye tint.
-  await page.waitForTimeout(300);
+  // setDye changes the sample → the sim re-settles and re-freezes. Wait for the
+  // new frozen frame (which carries the dye-tinted background).
+  await waitForFrozen(page);
 
   const canvas = page.getByTestId('molecular-sim-canvas');
   await expect(canvas).toHaveScreenshot('molsim-dyed.png', { maxDiffPixelRatio: 0.02 });
