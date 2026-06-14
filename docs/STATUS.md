@@ -1,6 +1,6 @@
 # Gelbox TS Web Port — Status & Next Steps
 
-_Last updated: 2026-05-09 (Phase 2 complete + Phase 3 M20/M21/M22 shipped)_
+_Last updated: 2026-06-13 (Phase 2 complete + Phase 3 M20–M24 shipped; M25 needs re-eval)_
 
 ## Where we are
 
@@ -37,9 +37,9 @@ Phase 3 to clean up alongside the molecular-sim port.
 | M20 | Particle data model + tick (no rendering)        | ✅ shipped |
 | M21 | Canvas wires up to live MolecularSim engine      | ✅ shipped |
 | M22 | Multimer offset + connected rendering             | ✅ shipped |
-| M23 | Degradation visual modes (slice / shrink / drop) | ⬜ next |
-| M24 | Toon shader rendering parity (WebGPU + WebGL2)   | ⬜ |
-| M25 | Selection / hover bloom                          | ⬜ |
+| M23 | Degradation rendering (slice mode)               | ✅ shipped |
+| M24 | GPU mesh-batch renderer + sample-panel parity    | ✅ shipped |
+| M25 | Selection / hover bloom (NEEDS RE-EVAL — see notes) | ⬜ |
 | M26 | Loupe parity (replaces M7 portal)                | ⬜ |
 | M27 | Image-as-sample drop                             | ⬜ |
 
@@ -59,9 +59,12 @@ The `/gel` route boots a real interactive page:
   `mMultimerAdhereOverlapFrac` overlap. rAF tick loop runs the spawn /
   fade / cull / jitter cycle. Hover/click hit-tests against
   `engine.pickFragment()` and dispatches `SET_ROLLOVER` / `SET_SELECTED`.
-  Toon shader, degradation modes, and bloom are Phase 3 M23-M25.
-  Visible whenever `getVisibleSampleLane(state) !== null` (sticky after
-  the first sample interaction).
+  As of M24 the panel renders through the GPU (WebGPU primary, WebGL2
+  fallback) via the reusable `meshBatch` primitive: dye-tinted background
+  with idle/hover/down highlight states, slice-degraded particle meshes,
+  and outline-behind-fill selection/rollover. A 2D-canvas fallback covers
+  no-GPU environments. Visible whenever `getVisibleSampleLane(state) !==
+  null` (sticky after the first sample interaction).
 - **Right:** `InspectorPanel` routes by mode:
   - `gel-settings` → `GelSettingsView` ("Gel"): voltage, time/clock,
     well-damage, lanes, and rotate sliders (rotate is cosmetic — applied
@@ -131,16 +134,59 @@ typecheck clean.
 
 ## Next steps (in order)
 
-### 1. Phase 3 M23 — Degradation visual modes
+### 1. Phase 3 M25 — RE-EVALUATE before implementing
 
-Port the three mesh-generation styles (`slice`, `shrink`,
-`randomdrop`) from `MolecularSim.cpp:768-872`. `Part.wholeness`
-already exists in M20; M23 wires the visual differentiation.
+M24 revealed that C++ `MolecularSim` has **no bloom shader** — the
+outline-behind-fill pass *is* the C++ selection/hover effect, and M24
+already ships it. So "M25 bloom" as originally planned is largely a
+no-op. Decide one of: (a) drop M25, or (b) redefine it as a deliberate
+*beyond-C++* glow (now cheap on the GPU substrate — add a blur pass on
+the selected-particle mesh via the existing blur pass infra). Not yet
+scoped; brainstorm before starting.
 
-### 2. Phase 3 M24 — Toon shader rendering parity
+### Done: Phase 3 M24 — GPU mesh-batch renderer + sample-panel parity
 
-The big one. WebGPU primary path + hand-ported WebGL2 fallback,
-following the M4 model. Outline pass, fill pass, highlight pass.
+Spec `docs/superpowers/specs/2026-06-13-gelbox-ts-m24-gpu-mesh-renderer-design.md`;
+plan `docs/superpowers/plans/2026-06-13-gelbox-ts-m24-gpu-mesh-renderer.md`.
+
+**Re-scoped from "toon shader".** Reading the C++ showed `MolecularSim`
+uses no GLSL shader — just flat-colored `TriMesh`es via Cinder immediate
+mode, with the "toon" outline done as an inflated mesh drawn behind the
+fill. So M24 became: extract a **reusable WebGPU+WebGL2 2D mesh-batch
+primitive** (`lib/gpu/meshBatch.ts` + `gl/meshBatch.ts`) out of the gel
+renderer's geometry pass, and make the sample panel its first consumer.
+Rationale: reusable GPU capability for the component library + headroom
+for future effects — not new pixels (output matches the prior 2D canvas).
+
+- The gel renderer (`primitives.ts`, `render-gl.ts`) was refactored to
+  consume `meshBatch` too — verified pixel-neutral (gel goldens
+  unchanged on both backends).
+- New pure modules: `molecularSimMesh.ts` (port of `makeMoleculesMesh`
+  + `makeMesh_slice`, slice clip = C++ area-preserving `2·wholeness²−1`),
+  `molecularSimBackground.ts` (port of `drawBackground`), `layout/color.ts`.
+- **sRGB/parity resolved empirically:** WebGPU vs WebGL2 goldens differ
+  by 1–2 px / 188,760 (0.001%); both render correct vibrant colors. The
+  earlier worry that the GPU paths render dark did not manifest.
+- Visual goldens (idle/selected/dyed × both backends) made deterministic
+  via a test-only freeze hook (`window.__molsimFreezeAfterTicks`) since
+  the rAF sim is animated.
+- `combineMeshes` is duplicated in `primitives.ts` and `render-gl.ts`
+  (byte-identical) — a noted follow-up to hoist into `lib/gel/mesh.ts`.
+- 263 unit pass; full Playwright suite 49 pass / 1 skip / 0 fail on both
+  chromium-webgpu and chromium-webgl2.
+
+### Done: Phase 3 M23 — Degradation rendering (slice mode) — `dddf469`
+
+Particles render with `Part::makeMesh_slice` semantics: the unit
+ellipse is clipped to a left-anchored rect of width `2 * wholeness²`,
+preserving ~`wholeness²` of visible area (matches C++
+`makeDegradeIntersectShape`). `wholeness` is populated by M20's
+`setSample` (`clamp(1 - degrade/2, 0, 1)`) and lerped each tick.
+Floor `sliceWidth = max(0.05, wholeness²)` keeps fully-degraded
+particles pickable; the selection ring is drawn around the full
+undeformed ellipse (matches C++). The other two C++ degrade modes
+(`shrink`, `randomdrop`) are commented out in C++ production and were
+intentionally not ported. 248/248 unit pass; typecheck clean.
 
 ### M19 closeout (legacy section — kept for reference)
 

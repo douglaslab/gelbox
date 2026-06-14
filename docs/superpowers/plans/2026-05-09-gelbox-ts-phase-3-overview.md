@@ -98,7 +98,7 @@ shader sources.
 - [x] **M21 Canvas wires up to live particles** — `2026-05-09-gelbox-ts-m21-canvas-live-particles.md`
 - [ ] **M22 Aggregate / multimer rendering** — TBD
 - [ ] **M23 Degradation visual modes** — TBD
-- [ ] **M24 Toon shader rendering parity** — TBD
+- [x] **M24 Toon shader rendering parity** — re-scoped → GPU mesh-batch renderer + sample-panel parity; `2026-06-13-gelbox-ts-m24-gpu-mesh-renderer.md` (C++ has no shader; built reusable `meshBatch` primitive)
 - [ ] **M25 Selection / hover bloom** — TBD
 - [ ] **M26 Loupe parity** — TBD
 - [ ] **M27 Image-as-sample drop** — TBD
