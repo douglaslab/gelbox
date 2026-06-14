@@ -14,9 +14,8 @@ export interface PrimitivePass {
    * (warp, blur, composite) sample a clean RT. Callers MUST NOT skip this call
    * based on band emptiness.
    *
-   * `callIdx` selects a per-call VBO slot in an internal pool. The orchestrator
-   * passes a unique slot per draw within a frame so the VBO writes don't
-   * collide on the device queue (which serializes globally, not per-encoder).
+   * `callIdx` is forwarded to the underlying MeshBatch to select a per-call
+   * VBO slot; pass a unique value per draw within a frame.
    */
   draw(encoder: GPUCommandEncoder, dst: RenderTarget, band: Band, callIdx: number): void;
   destroy(): void;
