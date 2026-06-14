@@ -29,6 +29,10 @@ export function createGlMeshBatch(
   const prog = createGlProgram(gl, geometryVertSrc, geometryFragSrc, `meshBatch-${opts.blend}`);
   let vbo: WebGLBuffer | null = gl.createBuffer();
   let vboSize = 0;
+  // Logical (CSS-pixel) coordinate space the mesh positions live in; fed to the
+  // `uGelSize` vertex uniform to map positions → NDC. This is deliberately
+  // independent of `target.width/height` (the drawing-buffer pixel size used for
+  // gl.viewport), which is dpr-scaled. Update via setViewport on logical resize.
   let viewW = opts.viewport.width;
   let viewH = opts.viewport.height;
 
@@ -71,12 +75,15 @@ export function createGlMeshBatch(
       gl.uniform2f(prog.uniform('uGelSize'), viewW, viewH);
       const aPos = prog.attrib('aPos');
       const aColor = prog.attrib('aColor');
-      const STRIDE = VERTEX_STRIDE * 4;
+      const STRIDE = VERTEX_STRIDE * 4;          // 6 floats × 4 bytes
       if (aPos >= 0)   { gl.enableVertexAttribArray(aPos);   gl.vertexAttribPointer(aPos,   2, gl.FLOAT, false, STRIDE, 0); }
-      if (aColor >= 0) { gl.enableVertexAttribArray(aColor); gl.vertexAttribPointer(aColor, 4, gl.FLOAT, false, STRIDE, 8); }
+      if (aColor >= 0) { gl.enableVertexAttribArray(aColor); gl.vertexAttribPointer(aColor, 4, gl.FLOAT, false, STRIDE, 8); } // color at +2 floats
 
       applyBlend();
       gl.drawArrays(gl.TRIANGLES, 0, mesh.vertexCount);
+      // Leave global GL state clean: BLEND is process-wide, so don't let it leak
+      // to other passes that may share this context.
+      gl.disable(gl.BLEND);
     },
     destroy() {
       prog.destroy();
