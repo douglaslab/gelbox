@@ -77,8 +77,10 @@ function emitPart(
   const N = t.numCirclePartVertices;
   const minR = Math.min(p.radius.x, p.radius.y);
   const locScale = (1 - t.multimerAdhereOverlapFrac) * 2;
-  // Slice half-width in unit space; floored so fully-degraded parts stay visible.
-  const sliceHalfW = Math.max(0.05, p.wholeness * p.wholeness);
+  // Area-preserving slice fraction, floored so fully-degraded parts stay
+  // visible/pickable. C++ makeDegradeIntersectShape uses wholeness² with no
+  // floor; the floor mirrors the pre-M24 canvas behaviour.
+  const wholeFrac = Math.max(0.05, p.wholeness * p.wholeness);
   const cosA = Math.cos(p.angle);
   const sinA = Math.sin(p.angle);
 
@@ -94,15 +96,26 @@ function emitPart(
     const rx = p.radius.x + inflate;
     const ry = p.radius.y + inflate;
 
-    // Build the clipped unit contour (x in [-1, sliceHalfW]) as N points, then
-    // fan from the centroid. The clip keeps the slice anchored to the left edge
-    // (matches makeDegradeIntersectShape: left-anchored rect).
+    // Unit-space x of the left-anchored slice's right edge. Port of C++
+    // makeDegradeIntersectShape: in ellipse space the cut rect is
+    //   x ∈ [-radius.x, -radius.x + 2·radius.x·wholeness² + inflate],
+    // so in unit space (÷rx, with radius already inflated) the right edge is
+    //   (2·wholeness² − 1) + inflate/rx.
+    // The inflate term widens the outline pass's clip to match the inflated
+    // outline ellipse (C++ `f.x2 += inflateRadius`).
+    const sliceRight = (2 * wholeFrac - 1) + inflate / rx;
+
+    // Build the clipped unit contour (x ∈ [-1, sliceRight]) as N points, then
+    // fan from the centre. Clamping x to sliceRight folds the right arc onto a
+    // vertical edge — the points keep distinct y, so the fan stays non-degenerate
+    // and the result equals the ellipse ∩ {x ≤ right} that C++ calcIntersection
+    // and the pre-M24 ctx.clip() produced.
     const pts: Array<[number, number]> = [];
     for (let i = 0; i < N; i++) {
       const th = (i / N) * Math.PI * 2;
       let ux = Math.cos(th);
       const uy = Math.sin(th);
-      if (ux > sliceHalfW) ux = sliceHalfW; // clip to left-anchored rect
+      if (ux > sliceRight) ux = sliceRight; // clip to left-anchored rect
       // unit → ellipse → rotate → translate
       const ex = ux * rx;
       const ey = uy * ry;

@@ -78,6 +78,21 @@ describe('buildMoleculesMesh', () => {
     expect(two).toBe(one * 2);
   });
 
+  it('slices to the area-preserving right edge: x ≤ loc + (2·wholeness²−1)·rx', () => {
+    // C++ makeDegradeIntersectShape cuts the ellipse at unit x = 2·wholeness²−1.
+    // For wholeness²=0.5 → right edge at unit x=0 → world x = loc.x = 100.
+    // (Guards against the earlier bug that clipped at wholeness² instead, which
+    //  would have left vertices out to x=105.)
+    const m = buildMoleculesMesh(
+      [monomer({ wholeness: Math.SQRT1_2 })], // wholeness² = 0.5
+      null, null, TUNING,
+    );
+    let maxX = -Infinity;
+    for (let i = 0; i < m.vertexCount; i++) maxX = Math.max(maxX, m.data[i * VERTEX_STRIDE]);
+    expect(maxX).toBeCloseTo(100, 4);     // not 105
+    expect(maxX).toBeLessThan(101);
+  });
+
   it('the second multimer slot is offset by loc * minRadius * (1-overlap) * 2', () => {
     const m = buildMoleculesMesh(
       [monomer({ multi: [{ loc: { x: 0, y: 0 }, angle: 0 }, { loc: { x: 1, y: 0 }, angle: 0 }] })],
