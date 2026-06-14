@@ -1,6 +1,7 @@
 import { createGlPingPong, type GlRenderTarget } from '../gpu/gl/target';
 import { createGlProgram } from '../gpu/gl/program';
 import { createGlQuad, bindQuadAttribs } from '../gpu/gl/quad';
+import { createGlMeshBatch } from '../gpu/gl/meshBatch';
 import { buildSmearMesh } from './smear';
 import { buildBodyMesh }  from './body';
 import { buildFlamesMesh } from './flames';
@@ -16,8 +17,6 @@ import { NO_GLOBAL_WARP } from '../sim/globalWarp';
 import type { WarpTextureCpu } from './warpTexture';
 
 import passthroughVertSrc from '../../shaders/passthrough.vert.glsl?raw';
-import geometryVertSrc    from '../../shaders/geometry.vert.glsl?raw';
-import geometryFragSrc    from '../../shaders/geometry.frag.glsl?raw';
 import warpFragSrc        from '../../shaders/warp.frag.glsl?raw';
 import blur5FragSrc       from '../../shaders/blur5.frag.glsl?raw';
 import blur9FragSrc       from '../../shaders/blur9.frag.glsl?raw';
@@ -46,21 +45,13 @@ export function createGlGelRenderer(
   const quad = createGlQuad(gl);
 
   // Programs (compiled once, reused across passes).
-  const progGeom    = createGlProgram(gl, geometryVertSrc,    geometryFragSrc,    'geometry');
   const progWarp    = createGlProgram(gl, passthroughVertSrc, warpFragSrc,        'warp');
   const progBlur5   = createGlProgram(gl, passthroughVertSrc, blur5FragSrc,       'blur5');
   const progBlur9   = createGlProgram(gl, passthroughVertSrc, blur9FragSrc,       'blur9');
   const progBlur13  = createGlProgram(gl, passthroughVertSrc, blur13FragSrc,      'blur13');
   const progComp    = createGlProgram(gl, passthroughVertSrc, gelPassthroughSrc,  'composite', ['GEL_COMPOSITE']);
-  // Geometry pass needs a vertex buffer for primitives (grows on demand).
-  let geomVbo: WebGLBuffer | null = gl.createBuffer();
-  let geomVboSize = 0;
-  function ensureGeomVbo(byteLength: number) {
-    if (geomVboSize >= byteLength) return;
-    geomVboSize = Math.max(byteLength, 64 * 1024);
-    gl.bindBuffer(gl.ARRAY_BUFFER, geomVbo);
-    gl.bufferData(gl.ARRAY_BUFFER, geomVboSize, gl.DYNAMIC_DRAW);
-  }
+  // Geometry batch — owns the shader + VBO for band primitive drawing.
+  const geomBatch = createGlMeshBatch(gl, { viewport: gelSize, blend: 'additive' });
 
   // Warp textures (1D and 2D), grown on demand. Same split-cache pattern as the
   // WebGPU warp pass to avoid mid-frame destroys.
@@ -131,32 +122,11 @@ export function createGlGelRenderer(
 
   function drawGeometry(target: GlRenderTarget, b: Band) {
     const mesh = combine([buildSmearMesh(b), buildBodyMesh(b), buildFlamesMesh(b)]);
-
-    gl.bindFramebuffer(gl.FRAMEBUFFER, target.framebuffer);
-    gl.viewport(0, 0, target.width, target.height);
-    gl.clearColor(0, 0, 0, 1);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    if (mesh.vertexCount === 0) return;
-
-    ensureGeomVbo(mesh.data.byteLength);
-    gl.bindBuffer(gl.ARRAY_BUFFER, geomVbo);
-    gl.bufferSubData(gl.ARRAY_BUFFER, 0, mesh.data);
-
-    gl.useProgram(progGeom.program);
-    gl.uniform2f(progGeom.uniform('uGelSize'), gelSize.width, gelSize.height);
-
-    const aPos   = progGeom.attrib('aPos');
-    const aColor = progGeom.attrib('aColor');
-    const STRIDE = VERTEX_STRIDE * 4;  // 6 floats × 4 bytes = 24 bytes
-    if (aPos >= 0)   { gl.enableVertexAttribArray(aPos);   gl.vertexAttribPointer(aPos,   2, gl.FLOAT, false, STRIDE, 0); }
-    if (aColor >= 0) { gl.enableVertexAttribArray(aColor); gl.vertexAttribPointer(aColor, 4, gl.FLOAT, false, STRIDE, 8); }
-
-    // Premultiplied additive (matches WebGPU primitives blend)
-    gl.enable(gl.BLEND);
-    gl.blendFuncSeparate(gl.ONE, gl.ONE, gl.ONE, gl.ONE);
-    gl.blendEquation(gl.FUNC_ADD);
-
-    gl.drawArrays(gl.TRIANGLES, 0, mesh.vertexCount);
+    geomBatch.draw(
+      { framebuffer: target.framebuffer, width: target.width, height: target.height },
+      mesh,
+      { clear: true, clearColor: [0, 0, 0, 1] },
+    );
   }
 
   function runWarp(target: ReturnType<typeof createGlPingPong>, warp: WarpTextureCpu) {
@@ -321,7 +291,7 @@ export function createGlGelRenderer(
     render,
     get output()       { return composite.current; },
     destroy() {
-      progGeom.destroy();
+      geomBatch.destroy();
       progWarp.destroy();
       progBlur5.destroy();
       progBlur9.destroy();
@@ -330,7 +300,6 @@ export function createGlGelRenderer(
       quad.destroy();
       band.destroy();
       composite.destroy();
-      if (geomVbo) gl.deleteBuffer(geomVbo);
       if (warpTex1D) gl.deleteTexture(warpTex1D);
       if (warpTex2D) gl.deleteTexture(warpTex2D);
     },
