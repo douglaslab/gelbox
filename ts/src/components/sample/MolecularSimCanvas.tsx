@@ -1,22 +1,25 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGelState, useGelDispatch } from '../gel/GelContext';
 import { LAYOUT } from '../../lib/layout/layout';
-import { linearRgbToSrgbHex } from '../../lib/sim/molecularSim';
 import { MolecularSim, MOLECULAR_SIM_TUNING } from '../../lib/sim/molecularSimEngine';
-
-// C++ Part::makeMesh translates each multimer by
-//   m.mLoc * min(radius.x, radius.y) * (1 - mMultimerAdhereOverlapFrac) * 2
-// so that adjacent multimers overlap by `mMultimerAdhereOverlapFrac` of their
-// minor radius. We replicate that here so multi parts visibly cluster.
-const MULTIMER_LOC_SCALE = (1 - MOLECULAR_SIM_TUNING.multimerAdhereOverlapFrac) * 2;
+import { buildMoleculesMesh, type MeshBuildTuning } from '../../lib/sim/molecularSimMesh';
+import { computeBackgroundColor, srgbToLinear } from '../../lib/sim/molecularSimBackground';
+import { selectBackend } from '../../lib/gel/backend';
+import { hexToLinearRgb } from '../../lib/layout/color';
+import { isDyeFragment } from '../../lib/sim/sample';
+import type { Sample } from '../../lib/sim/sample';
+import { DYE_COUNT } from '../../lib/sim/dye';
+import type { Mesh } from '../../lib/gel/mesh';
 
 /**
- * Phase-3 M21 — middle-panel canvas backed by a live `MolecularSim`
- * engine. Particles spawn/cull/fade per the C++ tick semantics; this
- * component just renders them as flat ellipses for now (toon shader is
- * M24).
+ * Phase-3 M24 — middle-panel canvas backed by a live `MolecularSim` engine,
+ * now rendered through the GPU `meshBatch` primitive (WebGPU primary, WebGL2
+ * fallback, 2D-canvas fallback when no GPU backend is available).
  *
- * Wiring contract (unchanged from M15):
+ * Closes the two C++ parity gaps: dye-tinted background with highlight states
+ * (hover/down dim), and outline-behind-fill selection/rollover rings.
+ *
+ * Wiring contract (unchanged from M21):
  *   - Hover a particle → SET_ROLLOVER for its (lane, fragment).
  *   - Click a particle → SET_SELECTED for its (lane, fragment).
  *   - Reads state.rollover + state.selection to ring matching particles.
@@ -28,19 +31,37 @@ export interface MolecularSimCanvasProps {
   height: number;
 }
 
+// A backend-agnostic handle the mount effect fills in.
+interface RenderHandle {
+  resize(wpx: number, hpx: number, wcss: number, hcss: number): void;
+  draw(mesh: Mesh, bgLinear: [number, number, number]): void;
+  destroy(): void;
+}
+
+const SELECT_COLOR = hexToLinearRgb(LAYOUT.sampleViewFragSelectColor);
+const HOVER_COLOR  = hexToLinearRgb(LAYOUT.sampleViewFragHoverColor);
+
+const MESH_TUNING: MeshBuildTuning = {
+  numCirclePartVertices: MOLECULAR_SIM_TUNING.numCirclePartVertices,
+  multimerAdhereOverlapFrac: MOLECULAR_SIM_TUNING.multimerAdhereOverlapFrac,
+  outlineWidth: LAYOUT.sampleViewFragOutlineWidth,
+  selectColor: SELECT_COLOR,
+  hoverColor:  HOVER_COLOR,
+};
+
 export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCanvasProps) {
   const state = useGelState();
   const dispatch = useGelDispatch();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const simRef = useRef<MolecularSim | null>(null);
-  // Bumping this forces a redraw when the engine state changes outside
-  // React's normal flow (e.g. on tick).
+  const handleRef = useRef<RenderHandle | null>(null);
+  const hoverRef = useRef(false);
+  const downRef = useRef(false);
   const [, setTick] = useState(0);
 
   const sample = state.samples[laneIndex];
 
-  // Lazily construct + maintain the engine in a ref so per-frame ticks
-  // don't churn React state.
+  // Engine lifecycle (unchanged from M21).
   useEffect(() => {
     if (!simRef.current) {
       simRef.current = new MolecularSim({
@@ -51,9 +72,6 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
     simRef.current.setBounds({ x1: 0, y1: 0, x2: width, y2: height });
   }, [width, height, laneIndex]);
 
-  // Reconcile the engine to the latest sample whenever the sample shape
-  // changes (fragments added/removed, masses changed). Position-only
-  // re-renders happen in the rAF tick loop, not here.
   useEffect(() => {
     if (!simRef.current) return;
     simRef.current.setSample(sample ?? null);
@@ -61,96 +79,102 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
     setTick((t) => t + 1);
   }, [sample]);
 
-  // rAF tick loop. Stops when the canvas unmounts.
+  // GPU surface mount (mirrors GelCanvas.tsx). Falls back to 2D on throw.
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    let cancelled = false;
+    const dpr = (typeof window !== 'undefined' ? window.devicePixelRatio : 1) || 1;
+    const wpx = Math.round(width * dpr);
+    const hpx = Math.round(height * dpr);
+    canvas.width = wpx;
+    canvas.height = hpx;
+
+    (async () => {
+      try {
+        const backend = selectBackend();
+        if (backend === 'webgl2') {
+          const { configureGl2Context } = await import('../../lib/gpu/gl/context');
+          const { createGlMeshBatch } = await import('../../lib/gpu/gl/meshBatch');
+          const { gl } = configureGl2Context(canvas);
+          if (cancelled) return;
+          const batch = createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' });
+          handleRef.current = {
+            resize: (wp, hp, wc, hc) => { canvas.width = wp; canvas.height = hp; batch.setViewport(wc, hc); },
+            draw: (mesh, bg) => {
+              batch.draw(
+                { framebuffer: null, width: canvas.width, height: canvas.height },
+                mesh,
+                { clear: true, clearColor: [bg[0], bg[1], bg[2], 1] },
+              );
+            },
+            destroy: () => batch.destroy(),
+          };
+        } else {
+          const { requestDevice } = await import('../../lib/gpu/device');
+          const { configureContext } = await import('../../lib/gpu/context');
+          const { createMeshBatch } = await import('../../lib/gpu/meshBatch');
+          const { device } = await requestDevice();
+          if (cancelled) return;
+          const { context, format } = configureContext(canvas, device);
+          const batch = createMeshBatch(device, { viewport: { width, height }, blend: 'over', format });
+          handleRef.current = {
+            resize: (_wp, _hp, wc, hc) => { batch.setViewport(wc, hc); },
+            draw: (mesh, bg) => {
+              const enc = device.createCommandEncoder({ label: 'molsim' });
+              batch.draw(enc, context.getCurrentTexture().createView(), mesh, {
+                clear: true,
+                clearColor: { r: bg[0], g: bg[1], b: bg[2], a: 1 },
+                callIdx: 0,
+              });
+              device.queue.submit([enc.finish()]);
+            },
+            destroy: () => batch.destroy(),
+          };
+        }
+      } catch (err) {
+        console.warn('MolecularSimCanvas: GPU unavailable, using 2D fallback', err);
+        handleRef.current = make2dFallback(canvas, width, height);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      handleRef.current?.destroy();
+      handleRef.current = null;
+    };
+  }, [width, height, laneIndex]);
+
+  // Selection / rollover (unchanged from M21).
+  const selectedFragForLane =
+    state.selection?.lane === laneIndex ? state.selection.fragmentIndex : null;
+  const rolloverFragForLane =
+    state.rollover?.lane === laneIndex ? state.rollover.fragmentIndex : null;
+  const classicSelectedFrag =
+    state.selectedLane === laneIndex ? state.selectedFragmentIndex : null;
+
+  // rAF tick + draw.
   useEffect(() => {
     let raf = 0;
     const loop = () => {
-      if (simRef.current) simRef.current.tick(1);
+      const sim = simRef.current;
+      const handle = handleRef.current;
+      if (sim && handle) {
+        sim.tick(1);
+        const sel = selectedFragForLane ?? classicSelectedFrag;
+        const mesh = buildMoleculesMesh(sim.parts, sel, rolloverFragForLane, MESH_TUNING);
+        const highlight: 0 | 1 | 2 = downRef.current ? 2 : hoverRef.current ? 1 : 0;
+        const bgSrgb = computeBackgroundColor(dyeMassesFromSample(sample ?? null), highlight);
+        const bgLinear: [number, number, number] =
+          [srgbToLinear(bgSrgb[0]), srgbToLinear(bgSrgb[1]), srgbToLinear(bgSrgb[2])];
+        handle.draw(mesh, bgLinear);
+      }
       setTick((t) => (t + 1) % 1_000_000);
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, []);
-
-  // Selection / rollover come from React state; recompute each render.
-  const selectedFragForLane =
-    state.selection?.lane === laneIndex ? state.selection.fragmentIndex : null;
-  const rolloverFragForLane =
-    state.rollover?.lane  === laneIndex ? state.rollover.fragmentIndex  : null;
-  const classicSelectedFrag =
-    state.selectedLane === laneIndex ? state.selectedFragmentIndex : null;
-
-  // Draw on every render (the rAF tick loop schedules them).
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || !simRef.current) return;
-    const dpr = (typeof window !== 'undefined' ? window.devicePixelRatio : 1) || 1;
-    canvas.width  = Math.round(width  * dpr);
-    canvas.height = Math.round(height * dpr);
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, width, height);
-
-    const selectColor = LAYOUT.sampleViewFragSelectColor;
-    const hoverColor  = LAYOUT.sampleViewFragHoverColor;
-    const ringWidth   = LAYOUT.sampleViewFragOutlineWidth;
-
-    for (const p of simRef.current.parts) {
-      const isSelected =
-        p.fragment === selectedFragForLane
-        || p.fragment === classicSelectedFrag;
-      const isRollover =
-        p.fragment === rolloverFragForLane && !isSelected;
-      // Each multimer slot draws as one ellipse rotated by p.angle + m.angle.
-      // m.loc is in radius units; the overlap-fraction scale is applied so
-      // adjacent multimers overlap visibly (matches C++ Part::makeMesh).
-      const minR = Math.min(p.radius.x, p.radius.y);
-      // Slice-mode degradation (M23): clip the unit ellipse to a left-anchored
-      // rectangle whose area is `4 * wholeness²` in unit-space — preserves
-      // wholeness² of the visible area, matching C++ makeDegradeIntersectShape.
-      // Width-only slice (height stays 2). Floor at 0.05 to keep particles
-      // pickable when fully degraded.
-      const sliceW = 2 * Math.max(0.05, p.wholeness * p.wholeness);
-      for (const m of p.multi) {
-        const cx = p.loc.x + m.loc.x * minR * MULTIMER_LOC_SCALE;
-        const cy = p.loc.y + m.loc.y * minR * MULTIMER_LOC_SCALE;
-        ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(p.angle + m.angle);
-        ctx.scale(p.radius.x, p.radius.y);
-        // Clip first (slice rect), then fill the unit ellipse inside the clip.
-        if (sliceW < 2) {
-          ctx.beginPath();
-          ctx.rect(-1, -1, sliceW, 2);
-          ctx.clip();
-        }
-        ctx.beginPath();
-        ctx.arc(0, 0, 1, 0, Math.PI * 2);
-        ctx.globalAlpha = p.fade;
-        ctx.fillStyle = linearRgbToSrgbHex(p.color);
-        ctx.fill();
-        ctx.restore();
-        ctx.globalAlpha = 1;
-        if (isSelected || isRollover) {
-          // Stroke the FULL undeformed outline so the selection ring is
-          // always a clean ellipse; matches C++ which strokes pre-slice.
-          ctx.save();
-          ctx.translate(cx, cy);
-          ctx.rotate(p.angle + m.angle);
-          ctx.scale(p.radius.x + ringWidth, p.radius.y + ringWidth);
-          ctx.beginPath();
-          ctx.arc(0, 0, 1, 0, Math.PI * 2);
-          ctx.restore();
-          ctx.strokeStyle = isSelected ? selectColor : hoverColor;
-          ctx.lineWidth   = ringWidth;
-          ctx.stroke();
-        }
-        ctx.globalAlpha = 1;
-      }
-    }
-  });
+  }, [selectedFragForLane, rolloverFragForLane, classicSelectedFrag, sample]);
 
   const eventCoords = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
@@ -163,6 +187,7 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
   }, [width, height]);
 
   const onPointerMove = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
+    hoverRef.current = true;
     const c = eventCoords(e);
     if (!c || !simRef.current) return;
     const fragIdx = simRef.current.pickFragment(c.x, c.y);
@@ -174,6 +199,8 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
   }, [eventCoords, dispatch, laneIndex, state.rollover]);
 
   const onPointerLeave = useCallback(() => {
+    hoverRef.current = false;
+    downRef.current = false;
     if (state.rollover?.lane === laneIndex) {
       dispatch({ type: 'SET_ROLLOVER', ref: null });
     }
@@ -181,6 +208,7 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
 
   const onPointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     if (e.button !== 0 || !simRef.current) return;
+    downRef.current = true;
     const c = eventCoords(e);
     if (!c) return;
     const fragIdx = simRef.current.pickFragment(c.x, c.y);
@@ -190,8 +218,8 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
     }
   }, [eventCoords, dispatch, laneIndex]);
 
-  // Also expose a snapshot of the live alive-particle count so e2e tests can
-  // assert. Updated on render, which the rAF loop drives.
+  const onPointerUp = useCallback(() => { downRef.current = false; }, []);
+
   const aliveCount = simRef.current?.parts.filter((p) => p.alive).length ?? 0;
 
   return (
@@ -203,6 +231,7 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
       onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
       style={{
         width:  `${width}px`,
         height: `${height}px`,
@@ -212,4 +241,40 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
       }}
     />
   );
+}
+
+/**
+ * Map a sample's dye fragments into a length-DYE_COUNT mass array, indexed by
+ * the fragment's dye index. `Fragment.dye` is the dye index per src/lib/sim/
+ * sample.ts (-1 = not a dye; 0..3 = dye index); `isDyeFragment` gates non-dyes.
+ */
+function dyeMassesFromSample(sample: Sample | null): number[] {
+  const out = new Array<number>(DYE_COUNT).fill(0);
+  if (!sample) return out;
+  for (const f of sample.fragments) {
+    if (isDyeFragment(f) && f.dye >= 0 && f.dye < DYE_COUNT) out[f.dye] = f.mass;
+  }
+  return out;
+}
+
+/**
+ * Minimal 2D-canvas fallback when no GPU backend is available (CI safety).
+ * Draws only the background fill; no particle/degradation/outline parity (the
+ * GPU path is the real renderer). Keeps the panel non-blank where WebGPU and
+ * WebGL2 are both absent.
+ */
+function make2dFallback(canvas: HTMLCanvasElement, width: number, height: number): RenderHandle {
+  const ctx = canvas.getContext('2d');
+  return {
+    resize(wp, hp) { canvas.width = wp; canvas.height = hp; },
+    draw(_mesh, bgLinear) {
+      if (!ctx) return;
+      const dpr = canvas.width / width;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const toByte = (c: number) => Math.round(Math.max(0, Math.min(1, c)) ** (1 / 2.4) * 255);
+      ctx.fillStyle = `rgb(${toByte(bgLinear[0])},${toByte(bgLinear[1])},${toByte(bgLinear[2])})`;
+      ctx.fillRect(0, 0, width, height);
+    },
+    destroy() {},
+  };
 }
