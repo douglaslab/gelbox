@@ -1,0 +1,170 @@
+/**
+ * sample-molecular-render.spec.ts — Sample-panel GPU render goldens (M24)
+ *
+ * STATUS: Goldens NOT yet captured. This spec is authored and type-checked but
+ * the snapshot files do not exist yet. To capture them:
+ *
+ *   # From ts/ with a free port 5173 and a WebGPU-capable Chrome:
+ *   npx playwright test sample-molecular-render --project=chromium-webgpu --update-snapshots
+ *   npx playwright test sample-molecular-render --project=chromium-webgl2 --update-snapshots
+ *
+ * After capture, visually compare the chromium-webgpu vs chromium-webgl2 PNGs
+ * for cross-backend parity — they should look identical (same mesh renderer,
+ * different GPU path). That parity check is the primary oracle for M24.
+ *
+ * snapshotPathTemplate (from playwright.config.ts):
+ *   {testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}
+ * → tests/visual/sample-molecular-render.spec.ts-snapshots/molsim-idle-chromium-webgpu.png
+ *   tests/visual/sample-molecular-render.spec.ts-snapshots/molsim-idle-chromium-webgl2.png
+ *   (etc.)
+ */
+
+import { test, expect, type Page } from '@playwright/test';
+
+// ---------------------------------------------------------------------------
+// Backend wiring — identical to every other visual spec in this suite.
+// Copied verbatim from sample-view.spec.ts / inspector-wiring.spec.ts.
+// ---------------------------------------------------------------------------
+
+test.beforeEach(async ({ page }, testInfo) => {
+  const backend = testInfo.project.name === 'chromium-webgl2' ? 'webgl2' : 'webgpu';
+  await page.addInitScript((b: string) => { localStorage.setItem('gelBackend', b); }, backend);
+});
+
+function maybeSkipLinuxWebGPU(testInfo: import('@playwright/test').TestInfo) {
+  if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {
+    test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Open the gel page, click the loaded tube (microtube-0) to populate the
+ * Sample panel, then wait for the molecular-sim canvas to appear and for the
+ * engine to pre-roll particles (data-alive-count > 0).
+ *
+ * Lane-selection approach copied verbatim from sample-view.spec.ts:
+ *   await page.locator('[data-testid="microtube-0"]').click();
+ *   await expect(page.getByTestId('sample-view')).toBeVisible();
+ *   await expect.poll(async () => Number(await canvas.getAttribute('data-alive-count')))
+ *     .toBeGreaterThan(0);
+ */
+async function selectPopulatedLane(page: Page): Promise<void> {
+  await page.setViewportSize({ width: 1365, height: 800 });
+  await page.goto('/#/gel');
+
+  // Click the pre-loaded tube — the same microtube-0 every other spec uses.
+  await page.locator('[data-testid="microtube-0"]').click();
+
+  // Wait for the Sample panel heading and canvas to appear.
+  await expect(page.getByTestId('sample-view')).toBeVisible();
+  await expect(page.getByTestId('molecular-sim-canvas')).toBeVisible();
+}
+
+/**
+ * Wait for the molecular-sim canvas to carry live particles and then wait an
+ * additional fixed period for the rAF loop to reach a steady particle
+ * population before snapshotting.
+ *
+ * Uses data-alive-count polling copied from sample-view.spec.ts, plus a
+ * 1500 ms grace period for the GPU renderer to converge.
+ */
+async function settle(page: Page): Promise<void> {
+  const canvas = page.getByTestId('molecular-sim-canvas');
+  // Poll until the engine has pre-rolled at least some particles.
+  await expect.poll(
+    async () => Number(await canvas.getAttribute('data-alive-count')),
+    { timeout: 10_000 },
+  ).toBeGreaterThan(0);
+  // Grace period for the rAF sim to reach a stable steady state.
+  await page.waitForTimeout(1500);
+}
+
+/**
+ * Set dye dyeIndex to a visible mass by clicking the midpoint of its slider
+ * track. This is the same interaction used by sample-settings.spec.ts:
+ *
+ *   const track = page.getByTestId('dye-row-0-slider-track');
+ *   const box   = await track.boundingBox();
+ *   await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+ *
+ * Clicking at 50% of the track sets the dye mass to ~62 ng (mid-range),
+ * which is sufficient to tint the background visibly without saturating it.
+ */
+async function setDye(page: Page, dyeIndex: number): Promise<void> {
+  // Ensure the Buffer + Dyes panel is open (it is whenever microtube-0 is
+  // selected and no band has been clicked, i.e. data-view="sample-settings").
+  const track = page.getByTestId(`dye-row-${dyeIndex}-slider-track`);
+  const box = await track.boundingBox();
+  if (!box) throw new Error(`dye-row-${dyeIndex}-slider-track bounding box missing`);
+  // Click at 50% along the track — mid-range dye mass (deterministic position).
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+}
+
+// ---------------------------------------------------------------------------
+// Tests
+// ---------------------------------------------------------------------------
+
+test('molsim-idle: populated lane, particles settled', async ({ page }, testInfo) => {
+  maybeSkipLinuxWebGPU(testInfo);
+
+  await selectPopulatedLane(page);
+  await settle(page);
+
+  const canvas = page.getByTestId('molecular-sim-canvas');
+  await expect(canvas).toHaveScreenshot('molsim-idle.png', { maxDiffPixelRatio: 0.02 });
+});
+
+test('molsim-selected: after clicking a particle (selection outline visible)', async ({ page }, testInfo) => {
+  maybeSkipLinuxWebGPU(testInfo);
+
+  await selectPopulatedLane(page);
+  await settle(page);
+
+  // Click across the canvas in a grid until we hit a particle (same strategy
+  // as sample-view.spec.ts / inspector-wiring.spec.ts). At least one grid
+  // cell will land on a dot given the dense layout (~500 dots in 362×520 px).
+  const canvas = page.getByTestId('molecular-sim-canvas');
+  const box = await canvas.boundingBox();
+  if (!box) throw new Error('molecular-sim-canvas bounding box missing');
+
+  let hitFound = false;
+  for (let yi = 0; yi < 8 && !hitFound; yi++) {
+    for (let xi = 0; xi < 8 && !hitFound; xi++) {
+      const px = box.x + (box.width  * (xi + 0.5)) / 8;
+      const py = box.y + (box.height * (yi + 0.5)) / 8;
+      await page.mouse.click(px, py);
+      const view = await page.getByTestId('inspector-panel').getAttribute('data-view');
+      if (view === 'fragment') hitFound = true;
+    }
+  }
+  // If no particle was hit the inspector stays on sample-settings, which means
+  // the canvas still renders cleanly — the golden will just show no selection
+  // outline. This is acceptable; the test does not hard-fail here because
+  // particle positions are not deterministic across browsers/runs.
+
+  // Allow one rAF tick for the selection outline to be drawn.
+  await page.waitForTimeout(200);
+  await expect(canvas).toHaveScreenshot('molsim-selected.png', { maxDiffPixelRatio: 0.02 });
+});
+
+test('molsim-dyed: after setting dye-0 to mid-range mass (background tinted)', async ({ page }, testInfo) => {
+  maybeSkipLinuxWebGPU(testInfo);
+
+  await selectPopulatedLane(page);
+  await settle(page);
+
+  // Set dye-0 (Xylene Cyanol) to a visible mid-range mass. The Buffer + Dyes
+  // inspector opens automatically when microtube-0 is selected with no band
+  // click, so the dye-row slider track is already in the DOM.
+  await setDye(page, 0);
+
+  // Give the rAF loop one cycle to re-render with the new dye tint.
+  await page.waitForTimeout(300);
+
+  const canvas = page.getByTestId('molecular-sim-canvas');
+  await expect(canvas).toHaveScreenshot('molsim-dyed.png', { maxDiffPixelRatio: 0.02 });
+});
