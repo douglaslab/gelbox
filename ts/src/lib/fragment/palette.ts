@@ -1,3 +1,5 @@
+import { srgbToLinear } from '../layout/color';
+
 /**
  * 12 fragment colors arranged 4 cols × 3 rows.
  * Source: ~/code/gelbox/src/FragmentView.cpp:25 — `getColorPalette()`.
@@ -14,10 +16,6 @@ export function srgbHexToLinearRgb(hex: string): [number, number, number] {
   const g = parseInt(h.substring(2, 4), 16) / 255;
   const b = parseInt(h.substring(4, 6), 16) / 255;
   return [srgbToLinear(r), srgbToLinear(g), srgbToLinear(b)];
-}
-
-function srgbToLinear(c: number): number {
-  return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
 }
 
 export const FRAGMENT_PALETTE_LINEAR_RGB: readonly [number, number, number][] =

@@ -8,7 +8,7 @@ const HIGHLIGHT_SCALE = [1.0, 0.97, 0.9] as const;
  * Port of MolecularSim::drawBackground. `highlight`: 0 idle, 1 hover, 2 down.
  * `dyeMasses` is the 4 dye masses (ng) for the sample. Returns an sRGB-domain
  * [r,g,b] in 0..1 — the same domain C++ Cinder Color math works in. Convert
- * with srgbToLinear before uploading to the sRGB render target.
+ * with `srgbToLinear` (lib/layout/color) before uploading to the GPU target.
  */
 export function computeBackgroundColor(
   dyeMasses: readonly number[],
@@ -32,9 +32,4 @@ export function computeBackgroundColor(
     w += norm;
   }
   return [r / w, g / w, b / w];
-}
-
-/** sRGB component (0..1) → linear (0..1). Inverse of molecularSim's toByte. */
-export function srgbToLinear(c: number): number {
-  return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
 }

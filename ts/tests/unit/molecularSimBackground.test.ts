@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { computeBackgroundColor, srgbToLinear } from '../../src/lib/sim/molecularSimBackground';
+import { computeBackgroundColor } from '../../src/lib/sim/molecularSimBackground';
 
 // molecularSimBkgndColor = #F1F1F2 → [0xF1, 0xF1, 0xF2] / 255
 const BASE: [number, number, number] = [0xF1 / 255, 0xF1 / 255, 0xF2 / 255];
@@ -32,15 +32,5 @@ describe('computeBackgroundColor (sRGB-domain, matches C++ drawBackground)', () 
     const atMax  = computeBackgroundColor([125, 0, 0, 0], 0);
     const overMax = computeBackgroundColor([999, 0, 0, 0], 0);
     expect(overMax[0]).toBeCloseTo(atMax[0], 5);
-  });
-});
-
-describe('srgbToLinear', () => {
-  it('round-trips 0 and 1', () => {
-    expect(srgbToLinear(0)).toBeCloseTo(0, 6);
-    expect(srgbToLinear(1)).toBeCloseTo(1, 6);
-  });
-  it('0.5 sRGB ≈ 0.214 linear', () => {
-    expect(srgbToLinear(0.5)).toBeCloseTo(0.21404, 4);
   });
 });

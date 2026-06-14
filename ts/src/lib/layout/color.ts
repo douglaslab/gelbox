@@ -1,4 +1,10 @@
-import { srgbToLinear } from '../sim/molecularSimBackground';
+// Shared color conversions. Canonical home for sRGB↔linear helpers so the
+// engine, layout, palette, and GPU consumers don't each carry their own copy.
+
+/** sRGB component (0..1) → linear (0..1). Standard piecewise sRGB EOTF. */
+export function srgbToLinear(c: number): number {
+  return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+}
 
 /** Parse "#RRGGBB" → linear-RGB triple (0..1) for GPU vertex colors. */
 export function hexToLinearRgb(hex: string): [number, number, number] {
