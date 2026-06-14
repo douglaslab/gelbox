@@ -20,6 +20,10 @@ export function computeBackgroundColor(
   let b = BKGND[2] * s;
   let w = 1;
   for (let i = 0; i < DYE_COLORS.length; i++) {
+    // DYE_MAX_MASS (125 ng) = C++ GelSim::kTuning.mSliderDyeMassMax (= Dye::kMaxMass).
+    // C++ drawBackground doesn't clamp norm; we clamp defensively. The dye-mass
+    // slider caps at DYE_MAX_MASS, so in practice norm never exceeds 1 and this
+    // stays faithful to the C++ result.
     const norm = Math.max(0, Math.min(1, (dyeMasses[i] ?? 0) / DYE_MAX_MASS));
     if (norm <= 0) continue;
     r += DYE_COLORS[i][0] * norm;
