@@ -20,6 +20,11 @@ export interface Band {
   randSeed: number;                       // flames RNG seed
   wellDamage: number;                     // 0..1
   wellDamageRandSeed: number;
+  // --- M26a: source metadata for loupe synthetic-sample extraction. The
+  // renderer ignores these; makeSampleFromGel reads them.
+  mass:      number;   // ng — fragment mass that produced this band (already aggregate-scaled)
+  aggregate: number;   // 1-based multimer tier this band represents (1 = monomer/dye)
+  degrade:   number;   // 0..2 — source fragment's degrade
 }
 
 export function rectWidth(r: Rect):  number { return r.x2 - r.x1; }
