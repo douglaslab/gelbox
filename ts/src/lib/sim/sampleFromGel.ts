@@ -101,6 +101,8 @@ export function makeSampleFromGel(
     } else if (below > 0) {
       massScale = lerp(b.smearBrightnessBelow[1], b.smearBrightnessBelow[0], below);
     } else {
+      // Blur halo: cubic falloff with distance. Math.max(1, blur) guards the
+      // blur=0 case (dist/1 ≥ 1 → massScale 0), a benign zero-contribution edge.
       const d = 1 - Math.min(1, bandRectDistance(b.rect, p) / Math.max(1, b.blur));
       massScale = d * d * d;
     }
