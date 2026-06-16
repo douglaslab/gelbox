@@ -204,7 +204,7 @@ function GelInner() {
           {dropError}
         </div>
       )}
-      <LoupePortalLayer />
+      <LoupePortalLayer bands={bands} bandToLaneFragment={bandToLaneFragment} />
     </div>
   );
 }

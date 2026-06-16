@@ -100,8 +100,13 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
     const { lane, fragment } = bandToLaneFragment[bandIdx];
     const isCmd = e.metaKey || e.ctrlKey;
     if (isCmd) {
-      // Cmd/Ctrl-click → open a loupe, do NOT start drag.
-      dispatch({ type: 'ADD_LOUPE', lane, fragmentIndex: fragment, x: e.clientX, y: e.clientY });
+      // Cmd/Ctrl-click → open a loupe at this gel pixel; do NOT start a drag.
+      const rect = svgRef.current!.getBoundingClientRect();
+      const anchor = {
+        x: ((e.clientX - rect.left) / rect.width)  * state.gelSize.width,
+        y: ((e.clientY - rect.top)  / rect.height) * state.gelSize.height,
+      };
+      dispatch({ type: 'ADD_LOUPE', anchor, screen: { x: e.clientX, y: e.clientY } });
       return;
     }
     if (e.altKey) {
