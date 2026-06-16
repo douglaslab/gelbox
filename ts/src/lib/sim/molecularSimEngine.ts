@@ -170,16 +170,21 @@ export class MolecularSim {
       let wholenessLo = clamp(1 - s.degrade / 2, 0, 1);
       let wholenessHi = wholenessLo;
 
-      // M26a: a loupe degrade filter constrains the visible size to a
-      // reverse-solved base-pair equivalent (mirrors C++ MolecularSim::setSample).
+      // M26a: a loupe degrade filter constrains the visible size to the
+      // reverse-solved base-pair-equivalent at the picked gel position.
+      // C++ MolecularSim::setSample does `lerp(wholenessLo, wholenessHi, w)`,
+      // which depends on the split lo/hi wholeness range C++ keeps. The TS port
+      // collapsed wholeness to a single value (lo == hi) back in M20/M23, where
+      // that lerp is a no-op. So we DIVERGE deliberately: scale the single
+      // wholeness by the filter ratio w (∈[0,1]) — a monotonic shrink that can
+      // only make filtered/smear-below picks smaller, never larger. Exact C++
+      // parity needs split lo/hi wholeness ported first (deferred fidelity work,
+      // tracked in STATUS).
       const bpe = degradeFilter?.get(idx);
       if (bpe !== undefined) {
         const aggTop = aggregate.length > 0 ? aggregate.length : 1;
         const w = basesToRadius(bpe / aggTop) / Math.max(1e-6, r);
         const wClamped = clamp(w, 0, 1);
-        // Scale the existing wholeness range by the filter ratio.
-        // lerp(lo, hi, w) gives the wholeness at position w within [lo..hi];
-        // when lo==hi this collapses to w*lo, effectively multiplying wholeness.
         wholenessLo = wholenessLo * wClamped;
         wholenessHi = wholenessHi * wClamped;
       }
