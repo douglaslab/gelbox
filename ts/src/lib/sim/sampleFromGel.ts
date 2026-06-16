@@ -1,8 +1,11 @@
 // Port of ~/code/gelbox/src/GelView.cpp pickBands (1273) + makeSampleFromGelPos
 // (984). Pure functions — no React. Builds a synthetic Sample from the gel
-// pixel under a loupe. (makeSampleFromGel lands in the next task.)
+// pixel under a loupe.
 
 import type { Band, Rect } from './band';
+import type { Sample, Fragment } from './sample';
+import type { SimContext } from './mobility';
+import { solveBasesForY } from './solver';
 
 export interface Vec2 { x: number; y: number }
 
@@ -54,4 +57,69 @@ export function pickSmearBelow(b: Band, p: Vec2): number {
   const d = p.y - b.rect.y2;
   if (d <= 0 || d > b.smearBelow) return 0;
   return d / b.smearBelow;
+}
+
+export interface BandLaneFragment { lane: number; fragment: number }
+
+function lerp(a: number, b: number, t: number): number { return a + (b - a) * t; }
+
+function bandRectDistance(r: Rect, p: Vec2): number {
+  const dx = Math.max(r.x1 - p.x, 0, p.x - r.x2);
+  const dy = Math.max(r.y1 - p.y, 0, p.y - r.y2);
+  return Math.hypot(dx, dy);
+}
+
+/**
+ * Build a synthetic Sample (and degrade filter) from the bands under a gel
+ * pixel. Mirrors C++ GelView::makeSampleFromGelPos. `bandToLaneFragment` maps
+ * each band index to its source (lane, fragment); `samples`/`wellRects` are the
+ * gel's per-lane data; `ctx` feeds the reverse solver.
+ */
+export function makeSampleFromGel(
+  p: Vec2,
+  bands: readonly Band[],
+  bandToLaneFragment: readonly BandLaneFragment[],
+  samples: readonly (Sample | null)[],
+  wellRects: readonly Rect[],
+  ctx: SimContext,
+): { sample: Sample; degradeFilter: DegradeFilter } {
+  const fragments: Fragment[] = [];
+  const degradeFilter: DegradeFilter = new Map();
+
+  for (const { band: b, index } of pickBands(p, bands)) {
+    const lf = bandToLaneFragment[index];
+    const src = samples[lf.lane]?.fragments[lf.fragment];
+    if (!src) continue;
+
+    const above = pickSmearAbove(b, p);
+    const below = pickSmearBelow(b, p);
+    let massScale: number;
+    if (p.x >= b.rect.x1 && p.x <= b.rect.x2 && p.y >= b.rect.y1 && p.y <= b.rect.y2) {
+      massScale = b.brightness;
+    } else if (above > 0) {
+      massScale = lerp(b.smearBrightnessAbove[1], b.smearBrightnessAbove[0], above);
+    } else if (below > 0) {
+      massScale = lerp(b.smearBrightnessBelow[1], b.smearBrightnessBelow[0], below);
+    } else {
+      const d = 1 - Math.min(1, bandRectDistance(b.rect, p) / Math.max(1, b.blur));
+      massScale = d * d * d;
+    }
+
+    const frag: Fragment = { ...src, mass: src.mass * massScale };
+
+    if (below > 0 || src.degrade > 0.5) {
+      const bpe = solveBasesForY({ targetY: p.y, frag: src, lane: lf.lane, ctx, wellRect: wellRects[lf.lane] });
+      degradeFilter.set(fragments.length, bpe);
+    } else {
+      frag.degrade = 0;
+    }
+
+    frag.aggregate = b.aggregate > 1
+      ? Array.from({ length: b.aggregate }, (_, i) => (i === b.aggregate - 1 ? 1 : 0))
+      : [];
+
+    fragments.push(frag);
+  }
+
+  return { sample: { buffer: ctx.sampleBuffer, fragments }, degradeFilter };
 }
