@@ -79,17 +79,39 @@ export function SampleSimCanvas({
   const frozenRef = useRef(false);
   const [frozen, setFrozen] = useState(false);
 
-  // Engine lifecycle.
-  useEffect(() => {
-    if (!simRef.current) {
-      simRef.current = new MolecularSim({
-        bounds: { x1: 0, y1: 0, x2: width, y2: height },
-        seed,
-      });
-    }
-    simRef.current.setBounds({ x1: 0, y1: 0, x2: width, y2: height });
-  }, [width, height, seed]);
+  // Keep refs to latest sample/degradeFilter so the seed-effect can read them
+  // without listing them as dependencies (avoids re-constructing on sample change).
+  const sampleRef = useRef(sample);
+  sampleRef.current = sample;
+  const degradeFilterRef = useRef(degradeFilter);
+  degradeFilterRef.current = degradeFilter;
 
+  // Engine construction: rebuild whenever seed changes (covers first mount too).
+  // Also applies the current sample + prerolls so the engine is immediately ready.
+  // On first mount the sample-effect below will also run and call setSample/preroll
+  // again — this is intentional and idempotent (cheap FragState rebuild, harmless).
+  useEffect(() => {
+    simRef.current = new MolecularSim({
+      bounds: { x1: 0, y1: 0, x2: width, y2: height },
+      seed,
+    });
+    const s = sampleRef.current;
+    const df = degradeFilterRef.current;
+    simRef.current.setSample(s ?? null, df);
+    if (s) simRef.current.preroll(60);
+    tickCountRef.current = 0;
+    frozenRef.current = false;
+    setFrozen(false);
+    setTick((t) => t + 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seed]);
+
+  // Bounds update: no engine replacement, just inform the existing engine.
+  useEffect(() => {
+    simRef.current?.setBounds({ x1: 0, y1: 0, x2: width, y2: height });
+  }, [width, height]);
+
+  // Sample change: re-apply sample to the existing engine and re-settle freeze.
   useEffect(() => {
     if (!simRef.current) return;
     simRef.current.setSample(sample ?? null, degradeFilter);
@@ -262,7 +284,7 @@ export function SampleSimCanvas({
         width:  `${width}px`,
         height: `${height}px`,
         display: 'block',
-        cursor: 'pointer',
+        cursor: onPickFragment ? 'pointer' : 'default',
         touchAction: 'none',
       }}
     />
