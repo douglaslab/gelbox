@@ -100,5 +100,8 @@ shader sources.
 - [ ] **M23 Degradation visual modes** — TBD
 - [x] **M24 Toon shader rendering parity** — re-scoped → GPU mesh-batch renderer + sample-panel parity; `2026-06-13-gelbox-ts-m24-gpu-mesh-renderer.md` (C++ has no shader; built reusable `meshBatch` primitive)
 - [x] **M25 Selection / hover bloom** — DROPPED 2026-06-14; M24's outline-behind-fill pass already is the entire C++ selection/hover effect (no bloom shader exists in C++). Blur infra left available for a future beyond-C++ effect.
-- [ ] **M26 Loupe parity** — in flight; replaces M7 SVG portal with the MolecularSim renderer
+- [ ] **M26 Loupe parity** — in flight; replaces M7 SVG portal with the MolecularSim renderer. Spec: `2026-06-14-gelbox-ts-m26-loupe-parity-design.md`. Staged M26a/b/c.
+  - [x] **M26a** synthetic-sample loupe content (static) — `2026-06-15-gelbox-ts-m26a-loupe-synthetic-sample.md` (shipped)
+  - [ ] **M26b** loupe drag + callout wedge
+  - [ ] **M26c** hover-preview loupe
 - [ ] **M27 Image-as-sample drop** — TBD

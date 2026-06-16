@@ -138,40 +138,31 @@ describe('gelReducer (multi-lane)', () => {
     // wellRects recomputed for the new lane count
     expect(next.wellRects.length).toBe(3);
   });
-  it('ADD_LOUPE appends a loupe with auto-incrementing id', () => {
-    const next1 = gelReducer(STARTING, { type: 'ADD_LOUPE', lane: 0, fragmentIndex: 0, x: 100, y: 200 });
+  it('ADD_LOUPE appends a loupe with anchor + screen, auto-incrementing id', () => {
+    const next1 = gelReducer(STARTING, { type: 'ADD_LOUPE', anchor: { x: 120, y: 240 }, screen: { x: 300, y: 400 } });
     expect(next1.loupes.length).toBe(1);
-    expect(next1.loupes[0].id).toBe(1);
-    expect(next1.loupes[0].lane).toBe(0);
-    expect(next1.loupes[0].fragmentIndex).toBe(0);
-    expect(next1.loupes[0].x).toBe(100);
-    expect(next1.loupes[0].y).toBe(200);
+    expect(next1.loupes[0]).toEqual({ id: 1, anchor: { x: 120, y: 240 }, screen: { x: 300, y: 400 } });
     expect(next1.loupeNextId).toBe(2);
-    const next2 = gelReducer(next1, { type: 'ADD_LOUPE', lane: 0, fragmentIndex: 1, x: 50, y: 60 });
+    const next2 = gelReducer(next1, { type: 'ADD_LOUPE', anchor: { x: 50, y: 60 }, screen: { x: 100, y: 120 } });
     expect(next2.loupes.length).toBe(2);
+    expect(next2.loupes[0].id).toBe(1);
     expect(next2.loupes[1].id).toBe(2);
   });
-  it('ADD_LOUPE on empty lane is a no-op', () => {
-    const next = gelReducer(STARTING, { type: 'ADD_LOUPE', lane: 1, fragmentIndex: 0, x: 100, y: 200 });
-    expect(next.loupes.length).toBe(0);
-  });
-  it('ADD_LOUPE on out-of-range fragment is a no-op', () => {
-    const next = gelReducer(STARTING, { type: 'ADD_LOUPE', lane: 0, fragmentIndex: 999, x: 100, y: 200 });
-    expect(next.loupes.length).toBe(0);
-  });
   it('REMOVE_LOUPE removes by id', () => {
-    const a = gelReducer(STARTING,    { type: 'ADD_LOUPE', lane: 0, fragmentIndex: 0, x: 1, y: 1 });
-    const b = gelReducer(a,           { type: 'ADD_LOUPE', lane: 0, fragmentIndex: 1, x: 2, y: 2 });
+    const a = gelReducer(STARTING, { type: 'ADD_LOUPE', anchor: { x: 10, y: 10 }, screen: { x: 1, y: 1 } });
+    const b = gelReducer(a,        { type: 'ADD_LOUPE', anchor: { x: 20, y: 20 }, screen: { x: 2, y: 2 } });
     expect(b.loupes.length).toBe(2);
     const removed = gelReducer(b, { type: 'REMOVE_LOUPE', id: 1 });
     expect(removed.loupes.length).toBe(1);
     expect(removed.loupes[0].id).toBe(2);
   });
-  it('CLEAR_LOUPES empties the array and resets id counter', () => {
-    const a = gelReducer(STARTING, { type: 'ADD_LOUPE', lane: 0, fragmentIndex: 0, x: 1, y: 1 });
+  it('CLEAR_LOUPES empties the array and resets id counter so next ADD gets id 1', () => {
+    const a = gelReducer(STARTING, { type: 'ADD_LOUPE', anchor: { x: 10, y: 10 }, screen: { x: 1, y: 1 } });
     const cleared = gelReducer(a, { type: 'CLEAR_LOUPES' });
     expect(cleared.loupes.length).toBe(0);
     expect(cleared.loupeNextId).toBe(1);
+    const after = gelReducer(cleared, { type: 'ADD_LOUPE', anchor: { x: 5, y: 5 }, screen: { x: 50, y: 50 } });
+    expect(after.loupes[0].id).toBe(1);
   });
 });
 

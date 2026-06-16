@@ -32,11 +32,9 @@ export interface SampleDrag {
 export type DragState = BandDrag | SampleDrag;
 
 export interface LoupeRef {
-  id:            number;
-  lane:          number;
-  fragmentIndex: number;
-  x:             number;   // viewport-page x in CSS px
-  y:             number;   // viewport-page y in CSS px
+  id:     number;
+  anchor: { x: number; y: number };   // gel-space pixels (for synthetic-sample extraction)
+  screen: { x: number; y: number };   // viewport-page px (fixed popup position; M26b makes this gel-space + draggable)
 }
 
 export type InspectorMode = 'default' | 'gel-settings' | 'sample-settings' | 'fragment';
@@ -96,7 +94,7 @@ export type Action =
   | { type: 'SET_FRAGMENT_DEGRADE';  laneIndex: number; index: number; degrade: number }
   | { type: 'SET_FRAGMENT_COLOR';    laneIndex: number; index: number; color: [number, number, number] }
   | { type: 'SET_MODIFIERS';      modifiers: { shift: boolean; alt: boolean; meta: boolean } }
-  | { type: 'ADD_LOUPE';     lane: number; fragmentIndex: number; x: number; y: number }
+  | { type: 'ADD_LOUPE';     anchor: { x: number; y: number }; screen: { x: number; y: number } }
   | { type: 'REMOVE_LOUPE';  id: number }
   | { type: 'CLEAR_LOUPES' }
   | { type: 'SET_SELECTION'; ref: SampleFragRef | null }
@@ -470,12 +468,10 @@ export function gelReducer(state: GelState, action: Action): GelState {
     case 'SET_MODIFIERS':
       return { ...state, modifiers: action.modifiers };
     case 'ADD_LOUPE': {
-      const sample = state.samples[action.lane];
-      if (!sample || !sample.fragments[action.fragmentIndex]) return state;
       const id = state.loupeNextId;
       return {
         ...state,
-        loupes: [...state.loupes, { id, lane: action.lane, fragmentIndex: action.fragmentIndex, x: action.x, y: action.y }],
+        loupes: [...state.loupes, { id, anchor: action.anchor, screen: action.screen }],
         loupeNextId: id + 1,
       };
     }

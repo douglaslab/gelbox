@@ -3,6 +3,9 @@ import type { Band } from '../../lib/sim/band';
 import { useGelState, useGelDispatch } from './GelContext';
 import { solveBasesForY } from '../../lib/sim/solver';
 import { LAYOUT } from '../../lib/layout/layout';
+import type { BandLaneFragment } from '../../lib/sim/sampleFromGel';
+
+export type { BandLaneFragment } from '../../lib/sim/sampleFromGel';
 
 function linearRgbToSrgbHex(rgb: readonly [number, number, number]): string {
   const toByte = (c: number) => {
@@ -11,11 +14,6 @@ function linearRgbToSrgbHex(rgb: readonly [number, number, number]): string {
   };
   const [r, g, b] = rgb.map(toByte);
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-}
-
-export interface BandLaneFragment {
-  lane:     number;
-  fragment: number;
 }
 
 interface GelOverlayProps {
@@ -100,8 +98,13 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
     const { lane, fragment } = bandToLaneFragment[bandIdx];
     const isCmd = e.metaKey || e.ctrlKey;
     if (isCmd) {
-      // Cmd/Ctrl-click → open a loupe, do NOT start drag.
-      dispatch({ type: 'ADD_LOUPE', lane, fragmentIndex: fragment, x: e.clientX, y: e.clientY });
+      // Cmd/Ctrl-click → open a loupe at this gel pixel; do NOT start a drag.
+      const rect = svgRef.current!.getBoundingClientRect();
+      const anchor = {
+        x: ((e.clientX - rect.left) / rect.width)  * state.gelSize.width,
+        y: ((e.clientY - rect.top)  / rect.height) * state.gelSize.height,
+      };
+      dispatch({ type: 'ADD_LOUPE', anchor, screen: { x: e.clientX, y: e.clientY } });
       return;
     }
     if (e.altKey) {

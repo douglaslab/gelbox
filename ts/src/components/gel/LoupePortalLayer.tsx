@@ -1,17 +1,31 @@
+import { useMemo } from 'react';
 import { useGelState } from './GelContext';
 import { Loupe } from './Loupe';
+import { makeSampleFromGel, type BandLaneFragment } from '../../lib/sim/sampleFromGel';
+import type { Band } from '../../lib/sim/band';
 
-export function LoupePortalLayer() {
+interface LoupePortalLayerProps {
+  bands: Band[];
+  bandToLaneFragment: BandLaneFragment[];
+}
+
+export function LoupePortalLayer({ bands, bandToLaneFragment }: LoupePortalLayerProps) {
   const state = useGelState();
+  const { loupes, samples, wellRects, ctx } = state;
+
+  const derived = useMemo(
+    () => loupes.map((l) => ({
+      loupe: l,
+      ...makeSampleFromGel(l.anchor, bands, bandToLaneFragment, samples, wellRects, ctx),
+    })),
+    [loupes, bands, bandToLaneFragment, samples, wellRects, ctx],
+  );
+
   return (
     <>
-      {state.loupes.map((l) => {
-        const sample = state.samples[l.lane];
-        if (!sample) return null;
-        const frag = sample.fragments[l.fragmentIndex];
-        if (!frag) return null;
-        return <Loupe key={l.id} loupe={l} fragment={frag} />;
-      })}
+      {derived.map(({ loupe, sample, degradeFilter }) => (
+        <Loupe key={loupe.id} loupe={loupe} sample={sample} degradeFilter={degradeFilter} />
+      ))}
     </>
   );
 }

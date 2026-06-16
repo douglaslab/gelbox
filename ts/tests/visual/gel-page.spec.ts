@@ -164,7 +164,7 @@ test('cmd+click on a band opens a loupe popover', async ({ page }, testInfo) => 
   await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0, metaKey: true });
   await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
   await expect(page.locator('[data-loupe-id]')).toHaveCount(1);
-  await expect(page.locator('[data-loupe-id="1"]')).toContainText('lane 0');
+  await expect(page.locator('[data-testid="loupe-canvas-1"]')).toBeVisible();
 });
 
 test('loupe close button removes the loupe', async ({ page }, testInfo) => {

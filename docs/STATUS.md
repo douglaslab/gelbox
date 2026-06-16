@@ -1,6 +1,6 @@
 # Gelbox TS Web Port — Status & Next Steps
 
-_Last updated: 2026-06-14 (Phase 2 complete + Phase 3 M20–M24 shipped; M25 dropped, M26 in flight)_
+_Last updated: 2026-06-15 (Phase 2 complete + Phase 3 M20–M24 shipped; M25 dropped; M26a shipped, M26b/c pending)_
 
 ## Where we are
 
@@ -40,7 +40,10 @@ Phase 3 to clean up alongside the molecular-sim port.
 | M23 | Degradation rendering (slice mode)               | ✅ shipped |
 | M24 | GPU mesh-batch renderer + sample-panel parity    | ✅ shipped |
 | M25 | Selection / hover bloom — DROPPED (covered by M24) | ➖ |
-| M26 | Loupe parity (replaces M7 portal)                | 🔵 in flight |
+| M26 | Loupe parity (replaces M7 portal)                | 🔵 in flight (M26a ✅) |
+| ↳ M26a | Synthetic-sample loupe content (static)       | ✅ shipped |
+| ↳ M26b | Loupe drag + callout wedge                    | ⬜ |
+| ↳ M26c | Hover-preview loupe                           | ⬜ |
 | M27 | Image-as-sample drop                             | ⬜ |
 
 ### What's running today
@@ -134,7 +137,49 @@ typecheck clean.
 
 ## Next steps (in order)
 
-### 1. Phase 3 M25 — DROPPED (resolved 2026-06-14)
+### 1. Phase 3 M26b — Loupe drag + callout wedge (NEXT)
+
+M26a shipped (see below). M26b adds the C++ loupe interaction layer:
+the callout wedge (convex hull from popup corners → gel anchor), the
+loupe anchor circle widget, and the three drag modes (`Loupe` = move
+anchor + re-extract, `View` = move popup, `LoupeAndView` = move both).
+Spec: `docs/superpowers/specs/2026-06-14-gelbox-ts-m26-loupe-parity-design.md`.
+Then M26c: the transient Meta-hover preview loupe.
+
+**Carried-over fidelity item (from M26a):** the loupe degrade filter
+(`MolecularSim.setSample(sample, degradeFilter)`) currently *diverges*
+from C++. C++ does `lerp(wholenessLo, wholenessHi, w)`, which relies on
+the split lo/hi wholeness range C++ keeps; the TS port collapsed
+wholeness to a single value (lo == hi) back in M20/M23, where that lerp
+is a no-op. M26a's stand-in multiplies the single wholeness by the
+filter ratio `w` (a safe monotonic shrink). Exact C++ parity for
+degraded / smear-below loupe picks needs split lo/hi wholeness ported
+into the engine first — deferred fidelity work, not blocking M26b/c.
+
+### Done: Phase 3 M26a — Synthetic-sample loupe content (static) — `8554302`
+
+The M7 SVG dot-scatter loupe is replaced by a real `MolecularSim`
+rendered from a synthetic sample extracted at the clicked gel pixel.
+
+- `Band` extended with `mass`/`aggregate`/`degrade`; new pure
+  `lib/sim/sampleFromGel.ts` ports C++ `pickBands` + `makeSampleFromGelPos`
+  (massScale by body/smear-above/smear-below/blur-halo, `DegradeFilter`
+  via the reverse solver `solveBasesForY`).
+- `MolecularSim.setSample` now takes an optional `degradeFilter` (see the
+  divergence note above).
+- `MolecularSimCanvas` refactored into a lane-agnostic, presentational
+  `SampleSimCanvas` (the middle panel and each loupe both render it);
+  verified **pixel-neutral** on both backends. Engine re-seeds on `seed`
+  change so loupes reuse it safely. GPU device is now cached/shared
+  across surfaces.
+- Loupe state holds a gel-space `anchor` + `screen` position; Cmd-click
+  on the gel opens a loupe at that pixel. Static popup (close button
+  only) — drag/callout/hover land in M26b/c.
+- 283 unit pass; loupe render goldens (idle, both backends) +
+  open/close/multi e2e pass; particle counts/colors track the picked
+  band (verified: near-black ladder fragments render faithfully).
+
+### 2. Phase 3 M25 — DROPPED (resolved 2026-06-14)
 
 M24 revealed that C++ `MolecularSim` has **no bloom shader** — the
 outline-behind-fill pass *is* the C++ selection/hover effect, and M24

@@ -51,6 +51,9 @@ function dyeToBand(_lane: number, dye: number, mass: number, ctx: SimContext, we
     randSeed: 0,
     wellDamage: 0,
     wellDamageRandSeed: 0,
+    mass,
+    aggregate: 1,
+    degrade: 0,
   };
 }
 
@@ -102,6 +105,9 @@ function fragAggregateToBand(
     randSeed,
     wellDamage: ctx.wellDamage,
     wellDamageRandSeed,
+    mass,
+    aggregate,
+    degrade: frag.degrade,
   };
 }
 
