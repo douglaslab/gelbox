@@ -4,13 +4,17 @@ import type { SimContext } from '../../src/lib/sim/mobility';
 import type { Sample } from '../../src/lib/sim/sample';
 import { BUFFER_TBE } from '../../src/lib/sim/buffer';
 
+// Low-voltage / short-time ctx + small well, tuned so a single fragment lands
+// fully inside the gel for the band-metadata assertions below.
 const CTX_M26A: SimContext = {
   voltage: 1, time: 0.5, wellDamage: 0, ySpaceScale: 480,
   gelBuffer: BUFFER_TBE, sampleBuffer: BUFFER_TBE,
 };
 const WELL_M26A = { x1: 10, y1: 0, x2: 50, y2: 12 };
 
-function monomer(overrides: Partial<Sample['fragments'][0]> = {}) {
+// Generic single-fragment sample factory (not necessarily a monomer — callers
+// override `dye`/`aggregate` as needed).
+function makeSample(overrides: Partial<Sample['fragments'][0]> = {}) {
   const sample: Sample = {
     buffer: BUFFER_TBE,
     fragments: [{ bases: 1000, mass: 100, degrade: 0, dye: -1, aggregate: [], aspectRatio: 1, color: [1, 1, 1], ...overrides }],
@@ -20,7 +24,7 @@ function monomer(overrides: Partial<Sample['fragments'][0]> = {}) {
 
 describe('fragToBands band metadata (M26a)', () => {
   it('a monomer band carries mass, aggregate=1, degrade', () => {
-    const bands = fragToBands(monomer({ mass: 80, degrade: 0.4 }), 0, WELL_M26A, 0, CTX_M26A);
+    const bands = fragToBands(makeSample({ mass: 80, degrade: 0.4 }), 0, WELL_M26A, 0, CTX_M26A);
     expect(bands).toHaveLength(1);
     expect(bands[0].mass).toBeCloseTo(80, 5);
     expect(bands[0].aggregate).toBe(1);
@@ -28,7 +32,7 @@ describe('fragToBands band metadata (M26a)', () => {
   });
 
   it('an aggregated fragment emits one band per tier with scaled mass and the tier index', () => {
-    const bands = fragToBands(monomer({ mass: 90, aggregate: [3, 1] }), 0, WELL_M26A, 0, CTX_M26A);
+    const bands = fragToBands(makeSample({ mass: 90, aggregate: [3, 1] }), 0, WELL_M26A, 0, CTX_M26A);
     expect(bands).toHaveLength(2);
     expect(bands[0].aggregate).toBe(1);
     expect(bands[1].aggregate).toBe(2);
@@ -37,7 +41,7 @@ describe('fragToBands band metadata (M26a)', () => {
   });
 
   it('a dye band carries its mass, aggregate=1, degrade=0', () => {
-    const bands = fragToBands(monomer({ dye: 0, mass: 50, degrade: 1 }), 0, WELL_M26A, 0, CTX_M26A);
+    const bands = fragToBands(makeSample({ dye: 0, mass: 50, degrade: 1 }), 0, WELL_M26A, 0, CTX_M26A);
     expect(bands).toHaveLength(1);
     expect(bands[0].mass).toBeCloseTo(50, 5);
     expect(bands[0].aggregate).toBe(1);
