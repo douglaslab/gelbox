@@ -11,7 +11,13 @@ export type DegradeFilter = Map<number, number>;
 
 export interface PickedBand { band: Band; index: number }
 
-/** The hit-test rect: body expanded by blur (all sides), smear/flame above, smear below. */
+/**
+ * The hit-test rect: body expanded by blur (all sides), max(smearAbove,
+ * flameHeight) above, smearBelow below. Including the flame extent keeps the
+ * visible flame clickable; a pick that lands in the flame zone (above the
+ * smear) falls through to makeSampleFromGel's blur-distance branch and yields
+ * ~zero mass, which is the intended falloff.
+ */
 export function bandUIRect(b: Band): Rect {
   const upExt = Math.max(b.smearAbove, b.flameHeight);
   return {

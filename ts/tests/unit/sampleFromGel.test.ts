@@ -23,6 +23,11 @@ describe('bandUIRect', () => {
     expect(r.y1).toBe(100 - 10 - 4);
     expect(r.y2).toBe(120 + 20 + 4);
   });
+
+  it('uses max(smearAbove, flameHeight) for the top extent', () => {
+    const r = bandUIRect(band({ flameHeight: 30, smearAbove: 10 }));
+    expect(r.y1).toBe(100 - 30 - 4);   // flame (30) wins over smearAbove (10), then blur (4)
+  });
 });
 
 describe('pickBands', () => {
@@ -31,20 +36,39 @@ describe('pickBands', () => {
     const hit = pickBands({ x: 30, y: 110 }, bands);
     expect(hit.map((h) => h.index)).toEqual([0]);
   });
+
+  it('returns an empty array when the point hits no band', () => {
+    expect(pickBands({ x: 999, y: 999 }, [band()])).toEqual([]);
+  });
+
+  it('returns every band whose UI rect contains the point, preserving index', () => {
+    const bands = [
+      band(),                                                  // UI rect x:6..54, y:86..144
+      band({ rect: { x1: 20, y1: 100, x2: 60, y2: 120 } }),    // overlaps at x=30,y=110
+    ];
+    const hit = pickBands({ x: 30, y: 110 }, bands);
+    expect(hit.map((h) => h.index)).toEqual([0, 1]);
+  });
 });
 
 describe('pickSmearAbove / pickSmearBelow', () => {
   it('pickSmearAbove is 0 at the body top edge and approaches 1 at the far smear edge', () => {
     const b = band();
-    expect(pickSmearAbove(b, { x: 30, y: 100 })).toBeCloseTo(0, 5);
+    expect(pickSmearAbove(b, { x: 30, y: 100 })).toBe(0);
     expect(pickSmearAbove(b, { x: 30, y: 95 })).toBeCloseTo(0.5, 5);
     expect(pickSmearAbove(b, { x: 30, y: 110 })).toBe(0);
   });
 
   it('pickSmearBelow is 0 at the body bottom edge and approaches 1 at the far smear edge', () => {
     const b = band();
-    expect(pickSmearBelow(b, { x: 30, y: 120 })).toBeCloseTo(0, 5);
+    expect(pickSmearBelow(b, { x: 30, y: 120 })).toBe(0);
     expect(pickSmearBelow(b, { x: 30, y: 130 })).toBeCloseTo(0.5, 5);
     expect(pickSmearBelow(b, { x: 30, y: 110 })).toBe(0);
+  });
+
+  it('returns 0 when the band has no smear extent (guards divide-by-zero)', () => {
+    const b = band({ smearAbove: 0, smearBelow: 0 });
+    expect(pickSmearAbove(b, { x: 30, y: 95 })).toBe(0);
+    expect(pickSmearBelow(b, { x: 30, y: 130 })).toBe(0);
   });
 });
