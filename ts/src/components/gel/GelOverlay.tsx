@@ -3,6 +3,9 @@ import type { Band } from '../../lib/sim/band';
 import { useGelState, useGelDispatch } from './GelContext';
 import { solveBasesForY } from '../../lib/sim/solver';
 import { LAYOUT } from '../../lib/layout/layout';
+import type { BandLaneFragment } from '../../lib/sim/sampleFromGel';
+
+export type { BandLaneFragment } from '../../lib/sim/sampleFromGel';
 
 function linearRgbToSrgbHex(rgb: readonly [number, number, number]): string {
   const toByte = (c: number) => {
@@ -11,11 +14,6 @@ function linearRgbToSrgbHex(rgb: readonly [number, number, number]): string {
   };
   const [r, g, b] = rgb.map(toByte);
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-}
-
-export interface BandLaneFragment {
-  lane:     number;
-  fragment: number;
 }
 
 interface GelOverlayProps {
