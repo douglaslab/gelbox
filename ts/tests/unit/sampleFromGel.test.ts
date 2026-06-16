@@ -124,7 +124,7 @@ describe('makeSampleFromGel', () => {
     const b = band({ mass: 100, smearBrightnessAbove: [1, 0] }); // [near=1, far=0]
     const lf = [{ lane: 0, fragment: 0 }];
     // y=95 is 5px above body top (100), smearAbove=10 → above=0.5
-    // massScale = lerp(far=0, near=1, 0.5) = 0.5
+    // massScale = lerp(near=1, far=0, 0.5) = 0.5
     const { sample, degradeFilter } = makeSampleFromGel({ x: 30, y: 95 }, [b], lf, samples, wellRects, CTX);
     expect(sample.fragments[0].mass).toBeCloseTo(100 * 0.5, 5);
     expect(degradeFilter.size).toBe(0);            // above does not trigger degrade
@@ -135,11 +135,35 @@ describe('makeSampleFromGel', () => {
     const b = band({ mass: 100, smearBrightnessBelow: [0.8, 0] }); // [near=0.8, far=0]
     const lf = [{ lane: 0, fragment: 0 }];
     // y=130 is 10px below body bottom (120), smearBelow=20 → below=0.5
-    // massScale = lerp(far=0, near=0.8, 0.5) = 0.4
+    // massScale = lerp(near=0.8, far=0, 0.5) = 0.4
     const { sample, degradeFilter } = makeSampleFromGel({ x: 30, y: 130 }, [b], lf, samples, wellRects, CTX);
     expect(sample.fragments[0].mass).toBeCloseTo(100 * 0.4, 5);
     expect(degradeFilter.size).toBe(1);            // smear-below triggers reverse-solve
     expect(degradeFilter.has(0)).toBe(true);       // keyed by output fragment index
+  });
+
+  it('smear-above mass is brightest near the body and fades to zero at the far edge', () => {
+    const { samples, wellRects } = setup();
+    const b = band({ mass: 100, smearBrightnessAbove: [1, 0] }); // [near=1, far=0]
+    const lf = [{ lane: 0, fragment: 0 }];
+    // near the body top (y=98 → above=0.2): massScale = lerp(1, 0, 0.2) = 0.8 → mass 80
+    const near = makeSampleFromGel({ x: 30, y: 98 }, [b], lf, samples, wellRects, CTX);
+    // far edge (y=92 → above=0.8): massScale = lerp(1, 0, 0.8) = 0.2 → mass 20
+    const far = makeSampleFromGel({ x: 30, y: 92 }, [b], lf, samples, wellRects, CTX);
+    expect(near.sample.fragments[0].mass).toBeCloseTo(80, 5);
+    expect(far.sample.fragments[0].mass).toBeCloseTo(20, 5);
+    expect(near.sample.fragments[0].mass).toBeGreaterThan(far.sample.fragments[0].mass);
+  });
+
+  it('uses the band (tier-scaled) mass, not the full source-fragment mass', () => {
+    const { samples, wellRects } = setup(); // source fragment mass = 100
+    // Simulate a multimer tier band whose mass is a fraction of the source mass.
+    const b = band({ mass: 25, brightness: 0.5, aggregate: 2 });
+    const lf = [{ lane: 0, fragment: 0 }];
+    // body-centre hit → massScale = brightness 0.5 → mass = b.mass(25) * 0.5 = 12.5
+    const { sample } = makeSampleFromGel({ x: 30, y: 110 }, [b], lf, samples, wellRects, CTX);
+    expect(sample.fragments[0].mass).toBeCloseTo(25 * 0.5, 5);   // NOT 100 * 0.5
+    expect(sample.fragments[0].aggregate).toEqual([0, 1]);       // tier-2 weight array
   });
 
   it('emits a single-tier aggregate weight array for a multimer band', () => {

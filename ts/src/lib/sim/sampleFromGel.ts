@@ -97,9 +97,9 @@ export function makeSampleFromGel(
     if (p.x >= b.rect.x1 && p.x <= b.rect.x2 && p.y >= b.rect.y1 && p.y <= b.rect.y2) {
       massScale = b.brightness;
     } else if (above > 0) {
-      massScale = lerp(b.smearBrightnessAbove[1], b.smearBrightnessAbove[0], above);
+      massScale = lerp(b.smearBrightnessAbove[0], b.smearBrightnessAbove[1], above);
     } else if (below > 0) {
-      massScale = lerp(b.smearBrightnessBelow[1], b.smearBrightnessBelow[0], below);
+      massScale = lerp(b.smearBrightnessBelow[0], b.smearBrightnessBelow[1], below);
     } else {
       // Blur halo: cubic falloff with distance. Math.max(1, blur) guards the
       // blur=0 case (dist/1 ≥ 1 → massScale 0), a benign zero-contribution edge.
@@ -107,7 +107,7 @@ export function makeSampleFromGel(
       massScale = d * d * d;
     }
 
-    const frag: Fragment = { ...src, mass: src.mass * massScale };
+    const frag: Fragment = { ...src, mass: b.mass * massScale };
 
     if (below > 0 || src.degrade > 0.5) {
       const bpe = solveBasesForY({ targetY: p.y, frag: src, lane: lf.lane, ctx, wellRect: wellRects[lf.lane] });
