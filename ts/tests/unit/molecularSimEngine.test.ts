@@ -144,3 +144,20 @@ describe('MolecularSim.setBounds', () => {
     expect(sim.sizeDensityScale).toBeCloseTo(0.25, 5);  // 200²/400² = 0.25
   });
 });
+
+describe('MolecularSim.setSample with degradeFilter', () => {
+  it('setSample with a degradeFilter shrinks the fragment wholeness toward the filtered size', () => {
+    const sim = new MolecularSim({ bounds: { x1: 0, y1: 0, x2: 200, y2: 200 }, seed: 1 });
+    const s: Sample = {
+      buffer: BUFFER_TBE,
+      fragments: [{ bases: 8000, mass: 100, degrade: 0, dye: -1, aggregate: [], aspectRatio: 1, color: [1, 1, 1] as [number, number, number] }],
+    };
+    sim.setSample(s);
+    const wholeNoFilter = sim.fragments[0].wholenessHi;
+
+    const filter = new Map<number, number>([[0, 1000]]); // much smaller bp than 8000
+    sim.setSample(s, filter);
+    expect(sim.fragments[0].wholenessHi).toBeLessThan(wholeNoFilter);
+    expect(sim.fragments[0].wholenessLo).toBeCloseTo(sim.fragments[0].wholenessHi, 5);
+  });
+});

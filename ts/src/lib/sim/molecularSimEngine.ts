@@ -149,7 +149,7 @@ export class MolecularSim {
    * in flight keep going; this just updates the per-fragment profile (radius,
    * color, target pop). Particles whose fragment was removed get marked dead.
    */
-  setSample(sample: Sample | null): void {
+  setSample(sample: Sample | null, degradeFilter?: ReadonlyMap<number, number>): void {
     this.sample = sample;
     if (!sample) {
       this.fragments = [];
@@ -157,7 +157,7 @@ export class MolecularSim {
       for (const p of this.parts) p.alive = false;
       return;
     }
-    this.fragments = sample.fragments.map((s) => {
+    this.fragments = sample.fragments.map((s, idx) => {
       const r = basesToRadius(s.bases);
       // Maintain area: ry = sqrt(r² / aspect), rx = aspect × ry.
       const ry = Math.sqrt((r * r) / s.aspectRatio);
@@ -167,13 +167,32 @@ export class MolecularSim {
       // Wholeness from degrade — C++ Sample::Fragment uses calcDegradeAsFrac
       // for both lo/hi; for M20 we collapse to (1,1) when degrade=0 and
       // leave the more nuanced port to M23.
-      const wholeness = clamp(1 - s.degrade / 2, 0, 1);
+      let wholenessLo = clamp(1 - s.degrade / 2, 0, 1);
+      let wholenessHi = wholenessLo;
+
+      // M26a: a loupe degrade filter constrains the visible size to a
+      // reverse-solved base-pair equivalent (mirrors C++ MolecularSim::setSample).
+      const bpe = degradeFilter?.get(idx);
+      if (bpe !== undefined) {
+        const aggTop = aggregate.length > 0 ? aggregate.length : 1;
+        const w = basesToRadius(bpe / aggTop) / Math.max(1e-6, r);
+        const wClamped = clamp(w, 0, 1);
+        // Scale the existing wholeness range by the filter ratio.
+        // lerp(lo, hi, w) gives the wholeness at position w within [lo..hi];
+        // when lo==hi this collapses to w*lo, effectively multiplying wholeness.
+        wholenessLo = wholenessLo * wClamped;
+        wholenessHi = wholenessHi * wClamped;
+      }
+      const floor = MOLECULAR_SIM_TUNING.radiusMin / Math.max(1e-6, r);
+      wholenessLo = Math.max(wholenessLo, floor);
+      wholenessHi = Math.max(wholenessHi, floor);
+
       return {
         targetPop: calcTargetPopFromMass(s.mass),
         isDye:     isDyeFragment(s),
         radius:    { x: rx, y: ry },
-        wholenessLo: wholeness,
-        wholenessHi: wholeness,
+        wholenessLo,
+        wholenessHi,
         color:       s.color,
         aggregate,
         aggregateWeightSum,
