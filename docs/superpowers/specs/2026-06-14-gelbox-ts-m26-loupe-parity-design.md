@@ -1,5 +1,7 @@
 # Gelbox TS — M26 Loupe Parity (design)
 
+> Historical M26 design. Reconcile with [ROADMAP P3/P4](../../ROADMAP.md) before implementation: strict parity also requires source-species ancestry/selection, native placement and focus, effective settings, and independent native-reference verification.
+
 _Phase 3 · Molecular-sim visual parity · 2026-06-14_
 
 ## Goal

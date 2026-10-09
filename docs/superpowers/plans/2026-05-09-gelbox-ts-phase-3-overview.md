@@ -1,5 +1,7 @@
 # Gelbox TS Web Port — Phase 3 Overview (Molecular Simulation Parity)
 
+> Historical plan. The [2026-10-09 roadmap](../../ROADMAP.md) supersedes this queue. Do not automatically resume at M26b; establish the P0 native reference first. Image-to-sample inference is a post-parity feature, not native image loading.
+
 > **For agentic workers:** Use `superpowers:executing-plans` (or `subagent-driven-development`)
 > to implement this plan task-by-task. Per-milestone subplans are written just before each
 > milestone starts.

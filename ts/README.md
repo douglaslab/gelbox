@@ -4,13 +4,11 @@ A web port of [Gelbox](https://github.com/douglaslab/gelbox), the gel electropho
 
 ## Status
 
-**Phase 1** (M1–M9): renderer + simulation + interaction core. WebGPU primary path with hand-ported WebGL2 fallback, full GelSim port, multi-lane interaction, loupes, save/load.
+The web implementation reached historical milestone **M26a**: gel simulation/rendering, three-panel editing, live molecular particles, and synthetic-sample loupes are implemented. Native behavior and visual parity are **not complete**: file controls are disconnected, native file compatibility and editing workflows are missing, and rendering/interaction differences remain.
 
-**Phase 2** (M10–M18): three-panel UI parity rebuild. Pixel-precise port of `Layout.h`; custom slider primitive with Style::Slider/Bar/Graph; left panel (gel + microtube row + time slider + gear); middle panel (placeholder MolecularSimCanvas wiring sample ↔ gel hover/select); right panel (context-swapped: "Species" fragment editor / "Buffer + Dyes" sample settings / "Gel" gel settings).
+The confirmed goal is **strict native behavior and visual parity first; improvements afterward**. Finish the web app first; reconsider Rust/native only for a concrete need.
 
-**Phase 3** (deferred): faithful molecular-sim render parity (toon shader, particle physics, aggregate clustering, loupe parity).
-
-The full plan and per-milestone subplans live under [`docs/superpowers/plans/`](../docs/superpowers/plans/); current state is in [`docs/STATUS.md`](../docs/STATUS.md).
+Start with the replacement [roadmap](../docs/ROADMAP.md), [current status](../docs/STATUS.md), and [parity audit](../docs/PORT-AUDIT.md). The old phase plans are historical references. The next increment establishes a runnable native reference and an independent parity test corpus.
 
 ## Quick start
 
@@ -48,4 +46,4 @@ See [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) for the rendering pipeline
 
 ## Plans
 
-Detailed implementation plans for each milestone live under [`docs/superpowers/plans/`](../docs/superpowers/plans/), and each shipped milestone has a git tag (`m1-scaffold`, `m2-single-band`, …, `m7-loupes`, `m8-saveload`).
+Historical implementation plans live under [`docs/superpowers/`](../docs/superpowers/README.md), with milestone tags recording prior delivery. Tags and TS golden tests do not certify native parity. Future implementation plans should follow the P0–P5 gates in [ROADMAP.md](../docs/ROADMAP.md).

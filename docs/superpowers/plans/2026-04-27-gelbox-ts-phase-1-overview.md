@@ -1,5 +1,7 @@
 # Gelbox TS Web Port — Phase 1 Overview
 
+> Historical plan. The [2026-10-09 roadmap](../../ROADMAP.md) supersedes this document for future work. Rust/native phases and old completion claims are not the current contract.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Ship a TypeScript + raw-WebGPU port of Gelbox (the C++/libcinder gel electrophoresis simulator at `~/code/gelbox`) with a WebGL2 fallback, full feature parity with the C++ version, deployed as a multi-file Vite static build. This becomes the visual oracle for the eventual Rust + wgpu engine port (Phase 2/3).

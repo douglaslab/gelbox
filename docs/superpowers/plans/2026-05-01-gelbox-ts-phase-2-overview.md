@@ -1,5 +1,7 @@
 # Gelbox TS Web Port — Phase 2 Overview (UI Parity Rebuild)
 
+> Historical plan. The [2026-10-09 roadmap](../../ROADMAP.md) supersedes this document for future work. Native-observed behavior and visuals, not prior milestone completion, define acceptance.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Rebuild the chrome around the gel canvas to be a pixel-precise port of the C++ Gelbox UI at `/Users/shawn/code/gelbox`. Phase 1 shipped the gel **renderer + simulation + interaction** faithfully but skinned the surrounding UI with generic Tailwind/React. Phase 2 throws that chrome out and replaces it with a hand-built three-panel layout that matches `Layout.h` line-for-line: same window size, same pixel positions, same fonts, same custom-drawn sliders backed by PNG icons, same brace graphic, same microtube glyphs.
