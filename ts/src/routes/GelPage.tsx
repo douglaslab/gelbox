@@ -11,6 +11,7 @@ import { Stage } from '../components/stage/Stage';
 import { Brace } from '../components/stage/Brace';
 import { SampleView } from '../components/sample/SampleView';
 import { InspectorPanel } from '../components/inspector/InspectorPanel';
+import { BUFFER_H2O, bufferEquals } from '../lib/sim/buffer';
 import { fragToBands } from '../lib/sim/gelSim';
 import { deserializeFile } from '../lib/gel/serialize';
 import { getVisibleSampleLane, isInspectorVisible } from '../lib/gel/gelState';
@@ -38,6 +39,12 @@ function GelInner() {
     }
     return { bands, bandToLaneFragment };
   }, [state.samples, state.ctx, state.wellRects, state.numLanes]);
+
+  // Gel::getRenderGlobalWarp: exact water composition, fixed native seed.
+  const globalWarp = useMemo(() => ({
+    h2oDistort: bufferEquals(state.ctx.gelBuffer, BUFFER_H2O),
+    randSeed: 1,
+  }), [state.ctx.gelBuffer]);
 
   const selectedSample = state.samples[state.selectedLane];
   const selectedFrag = selectedSample && state.selectedFragmentIndex !== null
@@ -106,7 +113,7 @@ function GelInner() {
           transformOrigin: '50% 0%',
         }}
       >
-        <GelCanvas bands={bands} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} />
+        <GelCanvas bands={bands} globalWarp={globalWarp} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} />
         <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
       </div>
       {/*

@@ -16,7 +16,7 @@ A working TypeScript/React application under `ts/`, with pure gel simulation, We
 - UI: sample/species/gel panels, many sliders, band resize/clone, tube move/clone, and cross-panel selection/hover exist. Missing native workflows and deliberate/accidental behavioral differences remain.
 - Molecular view: live engine, multimer clusters, slice meshes, dye backgrounds, and selection outlines are implemented. Degradation wholeness ranges/filtering still diverge from native.
 - Loupes: live synthetic content and multiple fixed popups exist. Native dragging, callout geometry, hover preview, source-selection ancestry, and full positioning behavior remain incomplete.
-- Files: native Gelbox JSON import/export now exists, preserving sample metadata and scientific fields. Legacy web formats remain readable. A native → web codec → native ladder roundtrip preserved every JSON field. Open/Save commands are mounted in a bottom-left popup; native XML palette import and targeted sample drops are implemented. Native shell geometry, render/hover settings, and broader interchange coverage remain open.
+- Files: native Gelbox JSON import/export now exists, preserving sample metadata and scientific fields. Legacy web formats remain readable. A native → web codec → native ladder roundtrip preserved every JSON field. Open/Save commands are mounted in a bottom-left popup; native XML palette import and targeted sample drops are implemented. Native shell geometry is implemented; render/hover settings and broader interchange coverage remain open.
 
 ## Verification actually run
 
@@ -34,18 +34,18 @@ The skipped test is narrow-screen reflow. These are implementation/regression te
 
 ## Forward roadmap
 
-P0 reference work and P1 file compatibility are underway; P2–P5 have not started.
+P0 reference work and P1 application/file compatibility are underway. Selected source-backed P2 layout and P3 rendering-integration fixes have landed; their full parity gates remain open.
 
 | Increment | Deliverable | Current status |
 |---|---|---|
 | P0 | Runnable native reference, captures, effective configuration, parity ledger | In progress |
-| P1 | Native application shell and compatible file/edit/save workflow | In progress: JSON codec |
+| P1 | Native application shell and compatible file/edit/save workflow | In progress: native files and shell |
 | P2 | Native editing, identity/selection, panel and control behavior | Planned |
-| P3 | Independently verified numerical and rendering fidelity | Planned |
+| P3 | Independently verified numerical and rendering fidelity | H2O app integration implemented; native certification pending |
 | P4 | Complete native loupes and reference images | Planned |
 | P5 | Browser reliability, production-build verification, parity release | Planned |
 
-The next action is to complete P0 provenance and scenario coverage, then begin P1 file compatibility and shell workflows. See ROADMAP for dependencies and exit gates. No application code was changed as part of this strategy review.
+Continue P0 provenance and scenario coverage alongside source-backed P1/P2 workflow work. See ROADMAP for dependencies and exit gates. The original strategy review changed documentation; subsequent implementation increments are recorded below.
 
 ## Historical records
 
@@ -66,3 +66,9 @@ The root now opens the gel directly; generic header/navigation/theme/footer rema
 Current verification: **309 unit tests and 132 browser tests pass**, with no browser skips on this Mac; typecheck and build pass. Eight web-only particle/loupe snapshots were updated after inspecting pixel-alignment changes caused by replacing fractional centered positions with native integer positions. These are not native goldens. The startup capture and limitations are in [reference/web/shell.json](../reference/web/shell.json).
 
 Narrow browsers expose fixed panels by scrolling instead of native clipping; this remains a recorded adaptation pending final acceptance. Timeline geometry, help, settings completeness, detailed typography, control semantics, selection identity and rendering fidelity remain open.
+
+## Running-buffer rendering increment
+
+The real gel canvas now receives native global effects: exact H2O composition enables faintness/overcook distortion, with native seed 1. Both async renderer initialization and subsequent scene updates receive the complete scene; selecting TBE clears the effects.
+
+A new real-browser differential test compares the gel-settings workflow against an independently configured renderer using identical bands. It failed before the wiring fix on both backends, then passed for H2O and the return to TBE. This proves integration, not native raster equivalence. Current verification: **309 unit tests, 134 browser tests, and production build including TypeScript checks pass** on this Mac. No goldens changed in this increment. Native numerical/pixel certification remains open.

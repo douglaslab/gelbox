@@ -1,9 +1,11 @@
 import { useEffect, useRef } from 'react';
+import type { GlobalWarp } from '../../lib/sim/globalWarp';
 import type { Band } from '../../lib/sim/band';
 import { selectBackend } from '../../lib/gel/backend';
 
 interface GelCanvasProps {
   bands:        Band[];
+  globalWarp:   GlobalWarp;
   gelSize:      { width: number; height: number };
   pixelsPerUnit: number;
 }
@@ -11,18 +13,16 @@ interface GelCanvasProps {
 type GpuRenderer = ReturnType<typeof import('../../lib/gel/render').createGelRenderer>;
 type GlRenderer  = ReturnType<typeof import('../../lib/gel/render-gl').createGlGelRenderer>;
 
-export function GelCanvas({ bands, gelSize, pixelsPerUnit }: GelCanvasProps) {
+export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<{
     rendererGpu: GpuRenderer | null;
     rendererGl:  GlRenderer  | null;
     blitFn:      ((output: GpuRenderer | GlRenderer) => void) | null;
   }>({ rendererGpu: null, rendererGl: null, blitFn: null });
-  // Hold the latest bands so that when the async backend setup completes we
-  // can do an initial render without waiting for the next bands prop change
-  // (otherwise the canvas stays a black/white rect on first load).
-  const latestBandsRef = useRef<Band[]>(bands);
-  latestBandsRef.current = bands;
+  // Async backend setup must render the latest complete scene.
+  const latestSceneRef = useRef({ bands, globalWarp });
+  latestSceneRef.current = { bands, globalWarp };
 
   // Mount once; teardown on unmount
   useEffect(() => {
@@ -73,7 +73,8 @@ export function GelCanvas({ bands, gelSize, pixelsPerUnit }: GelCanvasProps) {
             bindQuadAttribs(gl, quad.buffer, blit.attrib('aPos'), blit.attrib('aTexCoord'));
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
           };
-          renderer.setBands(latestBandsRef.current);
+          renderer.setBands(latestSceneRef.current.bands);
+          renderer.setGlobalWarp(latestSceneRef.current.globalWarp);
           renderer.render();
           stateRef.current.blitFn(renderer);
         } else {
@@ -148,7 +149,8 @@ export function GelCanvas({ bands, gelSize, pixelsPerUnit }: GelCanvasProps) {
             pass.end();
             queue.submit([enc.finish()]);
           };
-          renderer.setBands(latestBandsRef.current);
+          renderer.setBands(latestSceneRef.current.bands);
+          renderer.setGlobalWarp(latestSceneRef.current.globalWarp);
           renderer.render();
           stateRef.current.blitFn(renderer);
         }
@@ -167,15 +169,16 @@ export function GelCanvas({ bands, gelSize, pixelsPerUnit }: GelCanvasProps) {
     };
   }, [gelSize.width, gelSize.height, pixelsPerUnit]);
 
-  // Re-render whenever bands prop changes
+  // Re-render whenever the scientific scene or global effects change
   useEffect(() => {
     const { rendererGpu, rendererGl, blitFn } = stateRef.current;
     const renderer = rendererGpu ?? rendererGl;
     if (!renderer || !blitFn) return;
     renderer.setBands(bands);
+    renderer.setGlobalWarp(globalWarp);
     renderer.render();
     blitFn(renderer);
-  }, [bands]);
+  }, [bands, globalWarp]);
 
   return (
     <canvas
