@@ -1,18 +1,6 @@
-/* Fixed-size stage with absolute-positioned panel slots. Width/height are set
-   inline from Stage.tsx. Below the breakpoint we uniformly scale the entire
-   stage (transform applied inline) and hide Sample/Species panels via Stage
-   logic — the multi-panel column-stack reflow is intentionally disabled. */
 .stage {
   position: relative;
-  margin: 0 auto;
   background: #FFFFFF;
-  transform-origin: top left;
 }
-
-.slot {
-  position: absolute;
-}
-
-.braceWrap {
-  position: absolute;
-}
+.slot { position: absolute; }
+.braceWrap { position: absolute; pointer-events: none; }

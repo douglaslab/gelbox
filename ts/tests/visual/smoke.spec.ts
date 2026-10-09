@@ -5,8 +5,8 @@ test('home page renders title', async ({ page }) => {
   await expect(page).toHaveTitle('Gelbox');
 });
 
-test('all three tabs are visible', async ({ page }) => {
-  await page.goto('/');
+test('engineering navigation remains available on dev routes', async ({ page }) => {
+  await page.goto('/#/dev');
   await expect(page.getByRole('link', { name: 'Home' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Gel' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Dev' })).toBeVisible();

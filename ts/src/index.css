@@ -42,3 +42,14 @@ body {
   font-family: inherit;
   margin: 0;
 }
+
+/* The parity workspace has a fixed native palette, independent of dev theme. */
+.native-workspace {
+  --color-ink: #1f2933;
+  --color-ink-muted: #5a6573;
+  --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-accent: #2f6fb3;
+  --color-grid: #e4e1d6;
+  --color-danger: #b03a2e;
+}

@@ -185,7 +185,7 @@ export function GelCanvas({ bands, gelSize, pixelsPerUnit }: GelCanvasProps) {
         width:  `${gelSize.width  * pixelsPerUnit}px`,
         height: `${gelSize.height * pixelsPerUnit}px`,
         display: 'block',
-        border: '1px solid var(--color-grid)',
+        border: 0,
         imageRendering: 'pixelated',
       }}
     />

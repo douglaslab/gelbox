@@ -141,13 +141,14 @@ function GelInner() {
 
   return (
     <div
+      className="native-workspace"
       data-testid="gel-page"
       data-drag-over={isDragOver || undefined}
       onDragOver={(e) => e.preventDefault()}
       onDragEnter={onDragEnter}
       onDragLeave={onDragLeave}
       onDrop={onDrop}
-      style={{ minHeight: '100vh', overflow: 'hidden', position: 'relative' }}
+      style={{ height: '100dvh', overflow: 'auto', position: 'relative', background: '#fff', color: '#000', fontFamily: 'Avenir, sans-serif', fontSizeAdjust: 'none' }}
     >
       {isDragOver && (
         <div
@@ -173,11 +174,13 @@ function GelInner() {
       <FileControls />
       <Stage
         left={leftPanel}
-        middle={getVisibleSampleLane(state) !== null ? <SampleView /> : null}
+        middle={state.inspectorMode !== 'gel-settings' && getVisibleSampleLane(state) !== null ? <SampleView /> : null}
+        inspectorBesideGel={state.inspectorMode === 'gel-settings'}
         right={isInspectorVisible(state) ? <InspectorPanel /> : null}
         brace={isInspectorVisible(state) ? <Brace /> : null}
       />
       <div
+        hidden
         data-testid="selection-info"
         style={{
           position: 'fixed',

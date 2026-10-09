@@ -1,0 +1,11 @@
+{
+  "capturedOn": "2026-10-09",
+  "capture": "captures/startup-shell.png",
+  "viewport": [1365, 768],
+  "displayScale": 1,
+  "backend": "webgl2",
+  "nativeReference": "../native/captures/startup.png",
+  "verifiedGeometry": { "gel": [208, 124, 390, 520], "sample": [628, 124, 362, 520], "inspector": [1021, 124, 303, 520] },
+  "limitations": ["Not a pixel-parity certification", "Native reference is at DPR 2 and includes a title bar", "Timeline, help control, popup, detailed typography and rendering fidelity remain open"],
+  "browserAdaptation": "Small viewports scroll to expose fixed-size panels rather than clipping them to the native window"
+}

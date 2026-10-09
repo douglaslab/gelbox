@@ -58,3 +58,11 @@ After the JSON codec changes: 36 unit files / 309 tests pass; typecheck and prod
 File workflow increment: native JSON/Open/Save, XML palettes, malformed XML preservation, actual file chooser, empty-lane placement and startup selection availability are exercised in browser tests on both backends. Unsafe legacy XML multimer indices are rejected because native writes out of bounds; use JSON for these samples. This remains an explicit parity edge-case decision, not certified equivalence. When all visible lanes are occupied, the web app reports an error; native calls an unimplemented off-gel icon function.
 
 Final file-workflow verification: 309 unit tests pass; 116 browser tests pass across both backends, with the two pre-existing narrow-reflow cases skipped; typecheck and build pass. The old drop test now verifies preserving lane 0 and placing the imported sample in lane 1.
+
+## Native shell increment
+
+The root now opens the gel directly; generic header/navigation/theme/footer remain only on engineering routes. Stage uses native fixed-size panels and resize offsets, includes the brace inside the inspector bounds, and places gel settings beside the gel. Sample selection closes gel settings. Empty lane icons and false startup highlighting are removed; well outlines are drawn and the CSS border no longer shrinks the gel canvas. System Avenir is used on macOS.
+
+Current verification: **309 unit tests and 132 browser tests pass**, with no browser skips on this Mac; typecheck and build pass. Eight web-only particle/loupe snapshots were updated after inspecting pixel-alignment changes caused by replacing fractional centered positions with native integer positions. These are not native goldens. The startup capture and limitations are in [reference/web/shell.json](../reference/web/shell.json).
+
+Narrow browsers expose fixed panels by scrolling instead of native clipping; this remains a recorded adaptation pending final acceptance. Timeline geometry, help, settings completeness, detailed typography, control semantics, selection identity and rendering fidelity remain open.

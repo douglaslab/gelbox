@@ -57,7 +57,7 @@ export function MicrotubeRow() {
   return (
     <div className={styles.row} ref={rowRef} data-testid="microtube-row">
       {Array.from({ length: state.numLanes }, (_, i) => {
-        const isSelected = state.selectedLane === i;
+        const isSelected = state.lastSampleLane !== null && state.selectedLane === i;
         const hasSample  = state.samples[i] !== null;
         const dragging   = state.drag?.type === 'sample' && state.drag.laneIndex === i;
         return (
@@ -70,6 +70,7 @@ export function MicrotubeRow() {
             <div className={styles.underlay} />
             <button
               type="button"
+              aria-label={`Lane ${i + 1}${hasSample ? " sample" : " empty"}`}
               className={styles.tube}
               data-testid={`microtube-${i}`}
               data-lane-index={i}
@@ -79,13 +80,13 @@ export function MicrotubeRow() {
               onPointerDown={(e) => onTubePointerDown(i, e)}
               onClick={() => onTubeClick(i)}
             >
-              <img
+              {hasSample && <img
                 src={resolveAssetUrl('/assets/microtube1500ul.png')}
                 alt={`lane ${i + 1}`}
                 className={styles.icon}
                 data-empty={!hasSample || undefined}
                 onError={dprFallbackOnError}
-              />
+              />}
             </button>
           </div>
         );

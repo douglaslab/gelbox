@@ -145,6 +145,11 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
         pointerEvents: 'auto',
       }}
     >
+      {state.wellRects.slice(0, state.numLanes).map((well, i) => (
+        <rect key={`well-${i}`} data-testid={`gel-well-${i}`}
+          x={well.x1} y={well.y1} width={well.x2 - well.x1} height={well.y2 - well.y1}
+          fill="none" stroke="rgba(204,204,204,0.8)" strokeWidth={1} pointerEvents="none" />
+      ))}
       {bands.map((b, i) => {
         const upExt = Math.max(b.smearAbove, b.flameHeight);
         const x = b.rect.x1 - b.blur;

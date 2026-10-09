@@ -1,6 +1,5 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { AppLayout } from './components/AppLayout';
-import { HomePage } from './routes/HomePage';
 import { GelPage } from './routes/GelPage';
 import { DevPage } from './routes/DevPage';
 import { DevMultiPage } from './routes/DevMultiPage';
@@ -14,9 +13,9 @@ export default function App() {
     <ThemeProvider>
       <HashRouter>
         <Routes>
+          <Route index element={<GelPage />} />
+          <Route path="gel" element={<GelPage />} />
           <Route element={<AppLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="gel" element={<GelPage />} />
             <Route path="dev" element={<DevPage />} />
             <Route path="dev/multi" element={<DevMultiPage />} />
             <Route path="dev/perf" element={<DevPerfPage />} />

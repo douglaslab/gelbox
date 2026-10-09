@@ -309,7 +309,7 @@ export function gelReducer(state: GelState, action: Action): GelState {
       // clicking an empty tube just moves the selection without opening it.
       const inspectorMode: InspectorMode =
         sample !== null
-          ? (state.inspectorMode === 'gel-settings' ? 'gel-settings' : 'sample-settings')
+          ? 'sample-settings'
           : state.inspectorMode;
       return {
         ...state,
@@ -325,7 +325,7 @@ export function gelReducer(state: GelState, action: Action): GelState {
       // Selecting a fragment opens the Species (FragmentView) inspector.
       const inspectorMode: InspectorMode =
         action.index !== null
-          ? (state.inspectorMode === 'gel-settings' ? 'gel-settings' : 'fragment')
+          ? 'fragment'
           : state.inspectorMode;
       return {
         ...state,
@@ -371,7 +371,7 @@ export function gelReducer(state: GelState, action: Action): GelState {
         selectedFragmentIndex: action.fragmentIndex,
         lastSampleLane: action.laneIndex,
         // Drag-selecting a band opens the Species inspector too.
-        inspectorMode: state.inspectorMode === 'gel-settings' ? 'gel-settings' : 'fragment',
+        inspectorMode: 'fragment',
       };
     }
     case 'END_DRAG':
