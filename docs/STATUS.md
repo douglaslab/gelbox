@@ -53,4 +53,4 @@ The previous status narrative, including original milestone counts and now-stale
 
 ## Current implementation checks
 
-After the JSON codec changes: 36 unit files / 300 tests pass; typecheck and production build pass. Vite reports existing mixed static/dynamic import warnings. Native GUI Open and Save Gel verified semantic equality for the ladder roundtrip; this is one interchange scenario, not complete file-format certification.
+After the JSON codec changes: 36 unit files / 306 tests pass; typecheck and production build pass. Vite reports existing mixed static/dynamic import warnings. Native GUI Open and Save Gel verified semantic equality for the ladder roundtrip; this is one interchange scenario, not complete file-format certification.

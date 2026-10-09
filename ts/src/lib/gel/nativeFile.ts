@@ -16,6 +16,11 @@ function number(value: unknown, fallback: number, path: string): number {
   if (typeof value !== 'number' || !Number.isFinite(value)) return invalid(path);
   return value;
 }
+function integer(value: unknown, fallback: number, path: string): number {
+  const n = number(value, fallback, path);
+  if (!Number.isInteger(n) || n < -2147483648 || n > 2147483647) return invalid(path);
+  return n;
+}
 function string(value: unknown, fallback: string, path: string): string {
   if (value === undefined) return fallback;
   if (typeof value !== 'string') return invalid(path);
@@ -41,13 +46,13 @@ function fragment(value: unknown, path: string): Fragment {
   if (color.length !== 3) return invalid(`${path}.Color`);
   const dye = string(f.Dye, '', `${path}.Dye`);
   return {
-    bases: number(f.Bases, 0, `${path}.Bases`),
+    bases: integer(f.Bases, 0, `${path}.Bases`),
     mass: number(f.Mass, 0, `${path}.Mass`),
     degrade: number(f.Degrade, 0, `${path}.Degrade`),
     aspectRatio: number(f.AspectRatio, 1, `${path}.AspectRatio`),
     color: color.map((v, i) => number(v, 0.5, `${path}.Color[${i}]`)) as Fragment['color'],
     dye: DYE_NAMES.findIndex(name => name === dye),
-    aggregate: f.Aggregate === undefined ? [] : array(f.Aggregate, `${path}.Aggregate`).map((v, i) => number(v, 0, `${path}.Aggregate[${i}]`)),
+    aggregate: f.Aggregate === undefined ? [1] : array(f.Aggregate, `${path}.Aggregate`).map((v, i) => number(v, 0, `${path}.Aggregate[${i}]`)),
   };
 }
 function sample(value: unknown, path: string): Sample {
@@ -56,7 +61,7 @@ function sample(value: unknown, path: string): Sample {
     name: string(s.name, '', `${path}.name`),
     icon: string(s.icon, '', `${path}.icon`),
     iconScale: number(s.iconScale, 1, `${path}.iconScale`),
-    id: number(s.id, -1, `${path}.id`),
+    id: integer(s.id, -1, `${path}.id`),
     buffer: buffer(s.Buffer, `${path}.Buffer`),
     fragments: s.Fragments === undefined ? [] : array(s.Fragments, `${path}.Fragments`).map((f, i) => fragment(f, `${path}.Fragments[${i}]`)),
   };
@@ -70,7 +75,7 @@ export function deserializeNativeFile(value: unknown): DeserializedFile {
   if (header.type === 'sample') return { kind: 'sample', sample: sample(root.Sample, 'Sample') };
   if (header.type !== 'gel') return invalid('Gelbox.type');
   const gel = object(root.Gel, 'Gel');
-  const samples = array(gel.Samples, 'Gel.Samples').map((s, i) => s === null ? null : sample(s, `Gel.Samples[${i}]`));
+  const samples = array(gel.Samples, 'Gel.Samples').map((s, i) => s === null || (typeof s === 'object' && !Array.isArray(s) && Object.keys(s).length === 0) ? null : sample(s, `Gel.Samples[${i}]`));
   // Gel::constrainNumLanesToSliderMinMax retains hidden sample storage.
   const numLanes = Math.min(20, Math.max(7, samples.length));
   while (samples.length < numLanes) samples.push(null);
@@ -94,10 +99,10 @@ export function nativeBuffer(b: Buffer) {
 
 export function nativeSample(s: Sample) {
   return {
-    name: s.name ?? '', icon: s.icon ?? '', iconScale: s.iconScale ?? 1, id: s.id ?? -1,
+    name: s.name ?? '', icon: s.icon ?? '', iconScale: s.iconScale ?? 1, id: integer(s.id, -1, 'Sample.id'),
     Buffer: nativeBuffer(s.buffer),
     Fragments: s.fragments.map(f => ({
-      Bases: f.bases, Mass: f.mass, Degrade: f.degrade,
+      Bases: integer(f.bases, 0, 'Fragment.Bases'), Mass: f.mass, Degrade: f.degrade,
       AspectRatio: f.aspectRatio, Color: f.color,
       ...(f.dye === -1 ? {} : { Dye: DYE_NAMES[f.dye] }),
       ...(f.aggregate.length === 0 ? {} : { Aggregate: f.aggregate }),

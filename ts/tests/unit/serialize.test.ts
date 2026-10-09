@@ -99,3 +99,8 @@ describe('native export contract', () => {
     expect(deserializeFile(JSON.stringify({ schema: 'gel-state-v0', samples: [SAMPLE], numLanes: 1, ctx: CTX }))).toEqual({ kind: 'state', samples: [SAMPLE], numLanes: 1, ctx: CTX });
   });
 });
+
+it('rejects export of integer fields native cannot parse', () => {
+  expect(() => serializeSample({ ...SAMPLE, id: 2.5 })).toThrow(/Invalid native/);
+  expect(() => serializeSample({ ...SAMPLE, fragments: [{ ...SAMPLE.fragments[0], bases: 1000.5 }] })).toThrow(/Invalid native/);
+});

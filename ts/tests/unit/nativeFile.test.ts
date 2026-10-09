@@ -17,7 +17,7 @@ describe('native JSON import', () => {
   it('uses native constructor defaults and ignores runtime pointer fields', () => {
     expect(deserializeFile(sampleFile({ Fragments: [{ OriginSample: '0x123', OriginSampleFrag: 2 }] }))).toEqual({ kind: 'sample', sample: {
       name: '', icon: '', iconScale: 1, id: -1, buffer: { tris: 44.5, borate: 44.5, acetate: 0, edta: 1 },
-      fragments: [{ bases: 0, mass: 0, degrade: 0, dye: -1, aspectRatio: 1, color: [0.5,0.5,0.5], aggregate: [] }],
+      fragments: [{ bases: 0, mass: 0, degrade: 0, dye: -1, aspectRatio: 1, color: [0.5,0.5,0.5], aggregate: [1] }],
     } });
   });
   it('maps dyes and aggregates while distinguishing absent and empty buffers', () => {
@@ -37,4 +37,21 @@ describe('native JSON import', () => {
   it.each([{ Fragments: 'bad' }, { Fragments: [null] }, { Fragments: [{ Mass: '12' }] }, { Fragments: [{ Color: [1,2] }] }, { Fragments: [{ Aggregate: [null] }] }, { Buffer: null }, { Buffer: { Tris: 'x' } }, { iconScale: 'large' }])('rejects malformed nested data %j', value => {
     expect(() => deserializeFile(sampleFile(value))).toThrow(/Invalid native/);
   });
+});
+
+
+it('distinguishes null-like lane objects from populated empty samples', () => {
+  const r = deserializeFile(JSON.stringify({ Gelbox: { version: '1.0', type: 'gel' }, Gel: { Samples: [{}, { Fragments: [] }] } }));
+  if (r.kind !== 'state') throw Error('expected gel');
+  expect(r.samples[0]).toBeNull();
+  expect(r.samples[1]?.fragments).toEqual([]);
+});
+it('preserves explicitly empty aggregate instead of applying monomer default', () => {
+  const r = deserializeFile(sampleFile({ Fragments: [{ Aggregate: [] }] }));
+  if (r.kind !== 'sample') throw Error('expected sample');
+  expect(r.sample.fragments[0].aggregate).toEqual([]);
+});
+it.each([1000.5, 2147483648, -2147483649])('rejects non-native integer fields %s', value => {
+  expect(() => deserializeFile(sampleFile({ id: value }))).toThrow(/Invalid native/);
+  expect(() => deserializeFile(sampleFile({ Fragments: [{ Bases: value }] }))).toThrow(/Invalid native/);
 });
