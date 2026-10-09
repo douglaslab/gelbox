@@ -72,3 +72,9 @@ Narrow browsers expose fixed panels by scrolling instead of native clipping; thi
 The real gel canvas now receives native global effects: exact H2O composition enables faintness/overcook distortion, with native seed 1. Both async renderer initialization and subsequent scene updates receive the complete scene; selecting TBE clears the effects.
 
 A new real-browser differential test compares the gel-settings workflow against an independently configured renderer using identical bands. It failed before the wiring fix on both backends, then passed for H2O and the return to TBE. This proves integration, not native raster equivalence. Current verification: **309 unit tests, 134 browser tests, and production build including TypeScript checks pass** on this Mac. No goldens changed in this increment. Native numerical/pixel certification remains open.
+
+## Lane retention and settings selection
+
+Reducing visible lanes now retains samples in hidden lanes, matching native Gel::setLayout. Increasing the count restores the same sample objects; native JSON export continues to include visible lanes only. Imports target visible empty lanes. Opening gel settings clears sample/species selection; closing it no longer revives old panels. Keyboard cycling cannot select a hidden retained sample or resurrect cleared selection.
+
+Verification: **310 unit tests, 136 browser tests, and production build/TypeScript checks pass**, with no snapshot changes. The real-browser scenario opens a 12-lane native-format document populated in lane 12, reduces to 7, checks the downloaded file, restores to 20, and verifies exact restored sample data. Both backends pass. Native source proves storage/export behavior; this scenario has not yet been replayed successfully through native GUI automation, so native visual certification remains open.

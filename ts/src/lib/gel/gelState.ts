@@ -336,6 +336,7 @@ export function gelReducer(state: GelState, action: Action): GelState {
       };
     }
     case 'SELECT_NEXT': {
+      if (state.lastSampleLane === null || state.selectedLane >= state.numLanes) return state;
       const sample = state.samples[state.selectedLane];
       if (!sample) return state;
       const n = sample.fragments.length;
@@ -345,6 +346,7 @@ export function gelReducer(state: GelState, action: Action): GelState {
       return { ...state, selectedFragmentIndex: next };
     }
     case 'SELECT_PREV': {
+      if (state.lastSampleLane === null || state.selectedLane >= state.numLanes) return state;
       const sample = state.samples[state.selectedLane];
       if (!sample) return state;
       const n = sample.fragments.length;
@@ -497,19 +499,20 @@ export function gelReducer(state: GelState, action: Action): GelState {
       return { ...state, rollover: action.ref };
     case 'SET_INSPECTOR_MODE':
       if (state.inspectorMode === action.mode) return state;
+      if (action.mode === 'gel-settings') {
+        // Native settings entry deselects fragments and closes the sample view.
+        return { ...state, inspectorMode: action.mode, lastSampleLane: null,
+          selectedFragmentIndex: null, selection: null, rollover: null, drag: null };
+      }
       return { ...state, inspectorMode: action.mode };
     case 'SET_NUM_LANES': {
       const numLanes = Math.max(1, Math.round(action.value));
       if (numLanes === state.numLanes) return state;
       const wellRects = computeWellRects(numLanes, state.gelSize);
-      // Resize samples array, preserving existing samples in their lanes
-      // (truncate or pad with null as needed).
-      const samples = new Array(numLanes).fill(null) as (Sample | null)[];
-      for (let i = 0; i < Math.min(numLanes, state.samples.length); i++) {
-        samples[i] = state.samples[i];
-      }
-      // Clamp selectedLane.
-      const selectedLane = Math.min(state.selectedLane, numLanes - 1);
+      // Native Gel::setLayout retains hidden lanes, growing storage only.
+      // Rendering/export use numLanes; restoring the count recovers the samples.
+      const samples = state.samples.slice();
+      while (samples.length < numLanes) samples.push(null);
       // Recompute ySpaceScale (depends on lane width which depends on numLanes).
       const ySpaceScale = computeYSpaceScale(state.gelSize.width, state.gelSize.height, numLanes, Y_MARGIN);
       return {
@@ -517,7 +520,6 @@ export function gelReducer(state: GelState, action: Action): GelState {
         numLanes,
         samples,
         wellRects,
-        selectedLane,
         ctx: { ...state.ctx, ySpaceScale },
       };
     }

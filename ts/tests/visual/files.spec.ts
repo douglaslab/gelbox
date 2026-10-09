@@ -90,3 +90,46 @@ test('dropping a sample into an empty lane preserves the occupied ladder', async
   expect(data.Gel.Samples[0].Fragments).toHaveLength(11);
   expect(data.Gel.Samples[3].name).toBe('dropped');
 });
+
+test('lane reduction hides retained samples and saves only visible lanes', async ({ page }) => {
+  await page.setViewportSize({ width: 1365, height: 768 });
+  const native = JSON.parse(await readFile('../reference/native/files/ladder-after-selection.gel.json', 'utf8'));
+  const sample = { ...native.Gel.Samples[0], name: 'retained last lane' };
+  native.Gel.Samples = Array.from({ length: 12 }, (_, i) => i === 11 ? sample : null);
+  await page.getByTestId('file-input').setInputFiles({ name: 'twelve.gel.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(native)) });
+  await page.getByTestId('microtube-11').click();
+  await expect(page.getByTestId('sample-view')).toBeVisible();
+  await page.getByTestId('settings-button').click();
+  const track = await page.getByTestId('gel-lanes-track').boundingBox();
+  if (!track) throw new Error('Missing lanes slider');
+  await page.mouse.click(track.x + 1, track.y + track.height / 2);
+  await expect(page.getByTestId('microtube-11')).toHaveCount(0);
+  await expect(page.locator('[data-testid^="microtube-"][data-lane-index]')).toHaveCount(7);
+
+  async function saveGel() {
+    await page.getByRole('button', { name: 'Application settings' }).click();
+    const pending = page.waitForEvent('download');
+    await page.getByTestId('save-gel-btn').click();
+    const data = JSON.parse(await readFile((await (await pending).path())!, 'utf8'));
+    await page.keyboard.press('Escape');
+    return data;
+  }
+  expect((await saveGel()).Gel.Samples).toEqual(Array(7).fill(null));
+  await page.getByTestId('settings-button').click();
+  await page.getByTestId('gel-overlay').focus();
+  await page.keyboard.press('Tab');
+  await expect(page.getByTestId('inspector-panel')).toHaveCount(0);
+  await page.keyboard.press('Shift+Tab');
+  await expect(page.getByTestId('inspector-panel')).toHaveCount(0);
+  await page.getByTestId('settings-button').click();
+  await page.mouse.click(track.x + track.width - 1, track.y + track.height / 2);
+  await expect(page.getByTestId('microtube-11')).not.toHaveAttribute('data-empty', 'true');
+  const restored = (await saveGel()).Gel.Samples;
+  expect(restored).toHaveLength(20);
+  expect(restored[11]).toEqual(sample);
+  expect(restored.filter(Boolean)).toHaveLength(1);
+  await page.getByTestId('settings-button').click();
+  await expect(page.getByTestId('sample-view')).toBeHidden();
+  await page.getByRole('button', { name: 'Application settings' }).click();
+  await expect(page.getByTestId('save-sample-btn')).toHaveCount(0);
+});

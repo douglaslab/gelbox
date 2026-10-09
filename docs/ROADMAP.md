@@ -133,7 +133,7 @@ These are product increments, not estimates of calendar duration. The work left 
 - Complete cross-lane band moves/clones, Shift size lock, picked-aggregate-aware reverse solving, click-to-band offset, and overlap picking. Do not resize dyes through the DNA reverse solver.
 - Route dye selection to native dye/sample settings; keep a single selection/rollover identity across gel, sample, and inspector.
 - Match native slider mapping, quantization, notches, presets, ranges, graph editing, labels, disabled states, and focus visuals. Keep buffer sliders and rotation disabled under the reference defaults.
-- Match lane-count reduction/restoration semantics. Native `Gel::setLayout` retains sample storage when reducing visible lanes; the current TS reducer truncates it. Characterize subsequent rendering and saving as well as the immediate screen.
+- Match lane-count reduction/restoration semantics. Native `Gel::setLayout` retains sample storage when reducing visible lanes. The TS reducer now preserves it, with reduce/save/restore browser coverage; expand native replay coverage for subsequent editing and rendering.
 - Reproduce native layout, asset proportions, typography, and resize behavior. Do not replace hidden narrow-screen panels with an unapproved redesign; first match the native reference, with browser limitations recorded explicitly.
 
 **Gate:** replay the editing scenario suite in both applications with matching document values, selection, focus, panel visibility, and screenshots. The suite covers complete multi-step edits and actual pointer/keyboard input, not only synthetic events and isolated reducer calls.

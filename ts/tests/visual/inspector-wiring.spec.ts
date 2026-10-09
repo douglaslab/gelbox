@@ -11,7 +11,7 @@ function maybeSkipLinuxWebGPU(testInfo: import('@playwright/test').TestInfo) {
   }
 }
 
-test('inspector panel transitions: empty → tube → fragment → gear → tube', async ({ page }, testInfo) => {
+test('inspector panel transitions: empty → tube → fragment → gear → empty', async ({ page }, testInfo) => {
   maybeSkipLinuxWebGPU(testInfo);
   await page.setViewportSize({ width: 1365, height: 800 });
   await page.goto('/#/gel');
@@ -32,10 +32,9 @@ test('inspector panel transitions: empty → tube → fragment → gear → tube
   await page.getByTestId('settings-button').click();
   await expect(page.getByTestId('inspector-panel')).toHaveAttribute('data-view', 'gel-settings');
 
-  // Press the gear again: returns to whichever view fits the selection
-  // state. A fragment was previously selected → fragment view.
+  // Native settings entry clears selection; closing must not revive Species.
   await page.getByTestId('settings-button').click();
-  await expect(page.getByTestId('inspector-panel')).toHaveAttribute('data-view', 'fragment');
+  await expect(page.getByTestId('inspector-panel')).toHaveCount(0);
 });
 
 test('cross-panel rollover: hovering a band rings the matching SampleView particles', async ({ page }, testInfo) => {
