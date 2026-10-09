@@ -12,7 +12,7 @@ export interface Fragment {
   dye:         number;             // -1 = not a dye; 0..3 = dye index
   aggregate:   Aggregate;          // weight array, [] = monomer-only
   aspectRatio: number;             // 1..16
-  color:       [number, number, number];  // linear RGB 0..1; used as Band.focusColor (not currently rendered)
+  color:       [number, number, number];  // native RGB channel values 0..1; serialized without gamma conversion
 }
 
 export interface Sample {

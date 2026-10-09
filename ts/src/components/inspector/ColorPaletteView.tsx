@@ -1,4 +1,4 @@
-import { FRAGMENT_PALETTE_HEX, FRAGMENT_PALETTE_LINEAR_RGB, srgbHexToLinearRgb } from '../../lib/fragment/palette';
+import { FRAGMENT_PALETTE_HEX, FRAGMENT_PALETTE_RGB, hexToRgb } from '../../lib/fragment/palette';
 import styles from './ColorPaletteView.module.css';
 
 export interface ColorPaletteViewProps {
@@ -19,7 +19,7 @@ export function ColorPaletteView({ value, onChange, testId }: ColorPaletteViewPr
   return (
     <div className={styles.grid} data-testid={testId}>
       {FRAGMENT_PALETTE_HEX.map((hex, i) => {
-        const linear = FRAGMENT_PALETTE_LINEAR_RGB[i];
+        const linear = FRAGMENT_PALETTE_RGB[i];
         const selected = rgbApproxEq(value, linear);
         return (
           <button
@@ -28,7 +28,7 @@ export function ColorPaletteView({ value, onChange, testId }: ColorPaletteViewPr
             className={styles.swatch}
             data-selected={selected || undefined}
             data-testid={testId ? `${testId}-swatch-${i}` : undefined}
-            onClick={() => onChange(srgbHexToLinearRgb(hex))}
+            onClick={() => onChange(hexToRgb(hex))}
             aria-label={`Color ${i + 1}: ${hex}`}
             aria-pressed={selected}
           >

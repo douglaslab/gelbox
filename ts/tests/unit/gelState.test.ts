@@ -77,12 +77,12 @@ describe('gelReducer (multi-lane)', () => {
     // Other lanes untouched
     for (let i = 1; i < 7; i++) expect(next.samples[i]).toBeNull();
   });
-  it('CLONE_FRAGMENT inserts in the right lane', () => {
+  it('CLONE_FRAGMENT appends in the right lane', () => {
     const sample = STARTING.samples[0]!;
     const before = sample.fragments.length;
     const next = gelReducer(STARTING, { type: 'CLONE_FRAGMENT', laneIndex: 0, sourceIndex: 0 });
     expect(next.samples[0]!.fragments.length).toBe(before + 1);
-    expect(next.selectedFragmentIndex).toBe(1);
+    expect(next.selectedFragmentIndex).toBe(sample.fragments.length);
   });
   it('BEGIN_SAMPLE_DRAG / END_SAMPLE_DRAG', () => {
     const begun = gelReducer(STARTING, { type: 'BEGIN_SAMPLE_DRAG', laneIndex: 0 });

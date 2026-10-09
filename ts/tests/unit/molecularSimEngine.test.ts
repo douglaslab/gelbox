@@ -161,3 +161,22 @@ describe('MolecularSim.setSample with degradeFilter', () => {
     expect(sim.fragments[0].wholenessLo).toBeCloseTo(sim.fragments[0].wholenessHi, 5);
   });
 });
+
+describe('native swap deletion reconciliation', () => {
+  it('preserves particle ownership when the last species replaces a deleted one', () => {
+    const sim = new MolecularSim({ bounds: BOUNDS, seed: 5 });
+    const a = frag({ bases: 1000, mass: 175 });
+    const b = frag({ bases: 2000, mass: 175 });
+    const c = frag({ bases: 3000, mass: 175 });
+    sim.setSample(sample([a, b, c]));
+    sim.preroll(80);
+    const deleted = sim.parts.filter(p => p.fragment === 0);
+    const unchanged = sim.parts.filter(p => p.fragment === 1);
+    const moved = sim.parts.filter(p => p.fragment === 2);
+    expect(deleted.length * unchanged.length * moved.length).toBeGreaterThan(0);
+    sim.setSample(sample([c, b]));
+    expect(deleted.every(p => !p.alive && p.fragment === -1)).toBe(true);
+    expect(unchanged.every(p => p.fragment === 1)).toBe(true);
+    expect(moved.every(p => p.fragment === 0)).toBe(true);
+  });
+});

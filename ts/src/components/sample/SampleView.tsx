@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { LAYOUT } from '../../lib/layout/layout';
-import { useGelState } from '../gel/GelContext';
+import { newFragment } from '../../lib/gel/newFragment';
+import { sampleKeyAction } from '../../lib/gel/sampleKeyboard';
+import { useGelState, useGelDispatch } from '../gel/GelContext';
 import { getVisibleSampleLane } from '../../lib/gel/gelState';
 import { resolveAssetUrl, dprFallbackOnError } from '../../lib/layout/assets';
 import { MolecularSimCanvas } from './MolecularSimCanvas';
 
 /**
- * Middle "Sample" panel. Hosts the (placeholder) molecular-sim canvas and
+ * Middle "Sample" panel. Hosts the molecular-sim canvas and
  * the C++-style header (microtube glyph in a blue circle + "Sample" text).
  *
  * The panel slot itself is sized + positioned by `<Stage>`. Inside, we
@@ -15,6 +17,8 @@ import { MolecularSimCanvas } from './MolecularSimCanvas';
  */
 export function SampleView() {
   const state = useGelState();
+  const dispatch = useGelDispatch();
+  const rootRef = useRef<HTMLDivElement>(null);
   const visibleLane = getVisibleSampleLane(state);
   const innerRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState<{ w: number; h: number } | null>(null);
@@ -47,10 +51,27 @@ export function SampleView() {
 
   return (
     <div
+      ref={rootRef}
+      tabIndex={0}
+      onPointerDownCapture={() => rootRef.current?.focus({ preventScroll: true })}
+      onKeyDown={e => {
+        const action = sampleKeyAction(e.key, e.shiftKey, state);
+        if (action) { e.preventDefault(); e.stopPropagation(); dispatch(action); }
+      }}
       data-testid="sample-view"
       data-lane-index={visibleLane ?? -1}
-      style={{ position: 'relative', width: '100%', height: '100%' }}
+      style={{ position: 'relative', width: '100%', height: '100%', outline: 'none' }}
     >
+      <button type="button" aria-label="New species" data-testid="new-species"
+        onClick={() => {
+          if (visibleLane === null) return;
+          dispatch({ type: 'ADD_FRAGMENT', laneIndex: visibleLane, fragment: newFragment() });
+          rootRef.current?.focus({ preventScroll: true });
+        }}
+        style={{ position: 'absolute', right: 0, top: '100%', marginTop: LAYOUT.btnGutter,
+          width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer' }}>
+        <img src={resolveAssetUrl('/assets/new-btn.png')} onError={dprFallbackOnError} alt="" width={32} height={32} />
+      </button>
       {/* Selected-lane blue circle in upper-left of panel. */}
       <div
         aria-hidden

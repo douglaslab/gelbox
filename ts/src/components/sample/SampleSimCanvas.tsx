@@ -29,6 +29,7 @@ export interface SampleSimCanvasProps {
   rolloverFragment?: number | null;
   /** Pointer-down on a particle → its fragment index (omit → non-interactive, e.g. loupe). */
   onPickFragment?: (fragment: number) => void;
+  onPickBackground?: () => void;
   /** Pointer-move → hovered fragment index or null on leave/miss (omit → no hover dispatch). */
   onHoverFragment?: (fragment: number | null) => void;
   'data-testid'?: string;
@@ -61,6 +62,7 @@ export function SampleSimCanvas({
   selectedFragment = null,
   rolloverFragment = null,
   onPickFragment,
+  onPickBackground,
   onHoverFragment,
   'data-testid': testId = 'molecular-sim-canvas',
 }: SampleSimCanvasProps) {
@@ -263,8 +265,8 @@ export function SampleSimCanvas({
     if (fragIdx >= 0) {
       e.preventDefault();
       onPickFragment?.(fragIdx);
-    }
-  }, [eventCoords, onPickFragment]);
+    } else onPickBackground?.();
+  }, [eventCoords, onPickFragment, onPickBackground]);
 
   const onPointerUp = useCallback(() => { downRef.current = false; }, []);
 

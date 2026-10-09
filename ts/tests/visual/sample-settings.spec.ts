@@ -1,3 +1,4 @@
+import { openSampleSettings } from './sample-helpers';
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }, testInfo) => {
@@ -11,13 +12,14 @@ function maybeSkipLinuxWebGPU(testInfo: import('@playwright/test').TestInfo) {
   }
 }
 
-test('Buffer + Dyes panel opens when a non-empty tube is clicked', async ({ page }, testInfo) => {
+test('Buffer + Dyes panel opens after clicking the sample background', async ({ page }, testInfo) => {
   maybeSkipLinuxWebGPU(testInfo);
   await page.setViewportSize({ width: 1365, height: 800 });
   await page.goto('/#/gel');
 
   // Click the loaded tube — opens SampleSettingsView (no fragment selected).
   await page.locator('[data-testid="microtube-0"]').click();
+  await openSampleSettings(page);
   await expect(page.getByTestId('sample-settings-view')).toBeVisible();
   await expect(page.getByText('Buffer + Dyes', { exact: true })).toBeVisible();
 
@@ -33,6 +35,7 @@ test('Buffer preset buttons select the matching preset', async ({ page }, testIn
   await page.setViewportSize({ width: 1365, height: 800 });
   await page.goto('/#/gel');
   await page.locator('[data-testid="microtube-0"]').click();
+  await openSampleSettings(page);
 
   // Click TAE preset.
   await page.getByTestId('sample-buffer-view-preset-TAE').click();
@@ -57,6 +60,7 @@ test('Setting dye mass adds a band to the gel (lazy-create dye fragment)', async
   await expect(bands).toHaveCount(11);
 
   await page.locator('[data-testid="microtube-0"]').click();
+  await openSampleSettings(page);
   await expect(page.getByTestId('sample-settings-view')).toBeVisible();
 
   // Click on the dye-0 (Xylene) bar track at ~50% to set its mass to ~62 ng.

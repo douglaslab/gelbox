@@ -1,3 +1,4 @@
+import { openSampleSettings } from './sample-helpers';
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -142,6 +143,7 @@ test('native disabled controls preserve imported off-preset buffer values', asyn
   await page.getByTestId('file-input').setInputFiles({ name: 'custom.gel.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(native)) });
   for (const mode of ['gel', 'sample']) {
     await page.getByTestId(mode === 'gel' ? 'settings-button' : 'microtube-0').click();
+    if (mode === 'sample') await openSampleSettings(page);
     const buffer = page.getByTestId(`${mode}-buffer-view`);
     await expect(buffer.locator('[data-selected="true"]')).toHaveCount(0);
     for (const key of ['tris', 'borate', 'acetate', 'edta']) {

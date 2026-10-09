@@ -12,7 +12,7 @@ The replacement strategy is in [ROADMAP.md](ROADMAP.md). The source-backed gap i
 
 A working TypeScript/React application under `ts/`, with pure gel simulation, WebGPU and WebGL2 gel renderers, three-panel editing UI, live molecular simulation, and synthetic-sample loupes. Historical implementation milestones reached M26a in June 2026. This is substantial reusable work, but native parity is not complete or independently certified.
 
-- Renderer/simulation: mobility, diffusion, smears, aggregation, dyes, well damage, mesh particles, and global-warp implementations exist. The main gel canvas does **not** wire running-buffer global warp into the renderer.
+- Renderer/simulation: mobility, diffusion, smears, aggregation, dyes, well damage, mesh particles, and global-warp implementations exist. The main gel canvas now wires running-buffer global warp into both renderers; native numerical and raster certification remains open.
 - UI: sample/species/gel panels, many sliders, band resize/clone, tube move/clone, and cross-panel selection/hover exist. Missing native workflows and deliberate/accidental behavioral differences remain.
 - Molecular view: live engine, multimer clusters, slice meshes, dye backgrounds, and selection outlines are implemented. Degradation wholeness ranges/filtering still diverge from native.
 - Loupes: live synthetic content and multiple fixed popups exist. Native dragging, callout geometry, hover preview, source-selection ancestry, and full positioning behavior remain incomplete.
@@ -40,7 +40,7 @@ P0 reference work and P1 application/file compatibility are underway. Selected s
 |---|---|---|
 | P0 | Runnable native reference, captures, effective configuration, parity ledger | In progress |
 | P1 | Native application shell and compatible file/edit/save workflow | In progress: native files and shell |
-| P2 | Native editing, identity/selection, panel and control behavior | Planned |
+| P2 | Native editing, identity/selection, panel and control behavior | In progress: control defaults and species editing; identity migration remains open |
 | P3 | Independently verified numerical and rendering fidelity | H2O app integration implemented; native certification pending |
 | P4 | Complete native loupes and reference images | Planned |
 | P5 | Browser reliability, production-build verification, parity release | Planned |
@@ -84,3 +84,11 @@ Verification: **310 unit tests, 136 browser tests, and production build/TypeScri
 Gel settings now contains lanes, well damage, voltage and disabled rotation in native order. The duplicate time control is removed because native defaults place time below the gel. Gel and sample concentration sliders are disabled while buffer presets remain active; custom imported compositions stay intact until a preset is chosen. Buffer heading, preset labels, separator and disabled coloring are restored. Disabled value labels remain readable at normal opacity.
 
 Verification: **310 unit tests, 138 browser tests, production build/TypeScript checks pass**. Browser tests attempt track/icon edits on disabled controls and verify native JSON downloads preserve gel/sample concentrations. No regression goldens changed. A reviewed panel capture and remaining icon-size, heading-baseline and notch differences are recorded in [reference/web/controls.json](../reference/web/controls.json); this is not native visual certification.
+
+## Native species editing
+
+Empty tubes now create empty TBE samples. Opening a tube shows the sample alone; background clicks toggle Buffer + Dyes. The New species button and gel right-click create native-default species. Alt-clone appends with a new palette color; deletion swaps in the last fragment and repairs molecular particle ownership. Tab includes the native deselected step, Delete/Backspace removes the selected species, Escape closes the sample, and selecting a dye opens sample settings. Native palette channels are stored and displayed directly, including the selected gel outline.
+
+Verification: **319 unit tests, 144 browser tests across both GPU backends, and production build/TypeScript checks pass** on Node 22. Browser workflows create, edit, clone, delete and download samples, checking exact saved fields and colors. Fresh review caught and resolved obsolete outline gamma conversion and deletion targeting an unrelated moved/cloned sample. Both regressions failed before their fixes. No screenshot baselines changed.
+
+Native source at `5f51097` establishes these rules; a fresh native GUI replay could not be captured because the running reference app exposed no window. This increment is not native visual certification. Runtime RNG sequences, cross-loupe ancestry, sample identity across moves, complete band drag semantics and particle timing remain open. The keyboard deletion guard uses the visible shared selection; it does not complete the broader identity migration.

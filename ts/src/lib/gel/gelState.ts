@@ -47,8 +47,8 @@ export interface GelState {
   selectedFragmentIndex: number | null;
   /**
    * Sticky pointer to the lane whose sample should populate the middle Sample
-   * panel. Updated on any interaction with a non-empty tube or band; never
-   * cleared. Drives "show the most recently selected sample after the user
+   * panel. Updated on tube/band selection and cleared when the sample
+   * view closes, gel settings opens, or the document is replaced. Drives "show the most recently selected sample after the user
    * deselects a band" behavior.
    */
   lastSampleLane:        number | null;
@@ -87,7 +87,11 @@ export type Action =
   | { type: 'END_SAMPLE_DRAG' }
   | { type: 'MOVE_SAMPLE';        from: number; to: number }
   | { type: 'CLONE_SAMPLE_TO_LANE'; from: number; to: number }
-  | { type: 'CLONE_FRAGMENT';     laneIndex: number; sourceIndex: number }
+  | { type: 'CLONE_FRAGMENT'; laneIndex: number; sourceIndex: number; color?: [number, number, number] }
+  | { type: 'ADD_FRAGMENT'; laneIndex: number; fragment: Fragment }
+  | { type: 'DELETE_FRAGMENT'; laneIndex: number; index: number }
+  | { type: 'TOGGLE_SAMPLE_SETTINGS' }
+  | { type: 'CLOSE_SAMPLE' }
   | { type: 'SET_FRAGMENT_BASES'; laneIndex: number; index: number; bases: number }
   | { type: 'SET_FRAGMENT_MASS';     laneIndex: number; index: number; mass: number }
   | { type: 'SET_FRAGMENT_ASPECT';   laneIndex: number; index: number; aspectRatio: number }
@@ -205,12 +209,25 @@ export type InspectorView = 'none' | 'gel-settings' | 'sample-settings' | 'fragm
 
 export function selectInspectorView(state: GelState): InspectorView {
   if (state.inspectorMode === 'gel-settings') return 'gel-settings';
-  if (state.selectedFragmentIndex !== null)   return 'fragment';
+  if (state.selectedFragmentIndex !== null) {
+    const f = state.samples[state.selectedLane]?.fragments[state.selectedFragmentIndex];
+    if (f) return f.dye >= 0 ? 'sample-settings' : 'fragment';
+  }
   if (state.inspectorMode === 'sample-settings'
       && state.samples[state.selectedLane] !== null) {
     return 'sample-settings';
   }
   return 'none';
+}
+
+function selectFragment(state: GelState, lane: number, index: number | null): GelState {
+  const sample = state.samples[lane];
+  if (!sample || (index !== null && !sample.fragments[index])) return state;
+  const fragment = index === null ? null : sample.fragments[index];
+  return { ...state, selectedLane: lane, selectedFragmentIndex: index,
+    selection: { lane, fragmentIndex: index }, lastSampleLane: lane,
+    ctx: { ...state.ctx, sampleBuffer: sample.buffer },
+    inspectorMode: fragment ? (fragment.dye >= 0 ? 'sample-settings' : 'fragment') : 'default' };
 }
 
 export function gelReducer(state: GelState, action: Action): GelState {
@@ -298,62 +315,71 @@ export function gelReducer(state: GelState, action: Action): GelState {
         numLanes: action.numLanes,
         ctx: action.ctx,
         wellRects,
+        lastSampleLane: null, selection: null, rollover: null, loupes: [],
+        inspectorMode: 'default',
         selectedLane: 0,
         selectedFragmentIndex: null,
         drag: null,
       };
     }
     case 'SET_SELECTED_LANE': {
-      const sample = state.samples[action.laneIndex];
-      // Clicking a non-empty tube opens the Sample (buffer/dyes) inspector;
-      // clicking an empty tube just moves the selection without opening it.
-      const inspectorMode: InspectorMode =
-        sample !== null
-          ? 'sample-settings'
-          : state.inspectorMode;
-      return {
-        ...state,
-        selectedLane: action.laneIndex,
-        selectedFragmentIndex: null,
-        // Sticky: only update when the new lane actually has a sample.
-        lastSampleLane: sample !== null ? action.laneIndex : state.lastSampleLane,
-        inspectorMode,
-      };
+      if (action.laneIndex < 0 || action.laneIndex >= state.numLanes) return state;
+      if (state.lastSampleLane === action.laneIndex) return state;
+      const samples = state.samples.slice();
+      const sample = samples[action.laneIndex] ?? { fragments: [], buffer: { ...BUFFER_TBE } };
+      samples[action.laneIndex] = sample;
+      return { ...state, samples, selectedLane: action.laneIndex,
+        selectedFragmentIndex: null, lastSampleLane: action.laneIndex,
+        selection: { lane: action.laneIndex, fragmentIndex: null }, rollover: null,
+        ctx: { ...state.ctx, sampleBuffer: sample.buffer }, inspectorMode: 'default' };
     }
-    case 'SET_SELECTED': {
-      const sample = state.samples[action.laneIndex];
-      // Selecting a fragment opens the Species (FragmentView) inspector.
-      const inspectorMode: InspectorMode =
-        action.index !== null
-          ? 'fragment'
-          : state.inspectorMode;
-      return {
-        ...state,
-        selectedLane: action.laneIndex,
-        selectedFragmentIndex: action.index,
-        lastSampleLane: sample !== null ? action.laneIndex : state.lastSampleLane,
-        inspectorMode,
-      };
-    }
-    case 'SELECT_NEXT': {
-      if (state.lastSampleLane === null || state.selectedLane >= state.numLanes) return state;
-      const sample = state.samples[state.selectedLane];
-      if (!sample) return state;
-      const n = sample.fragments.length;
-      if (n === 0) return state;
-      const cur = state.selectedFragmentIndex;
-      const next = cur === null ? 0 : (cur + 1) % n;
-      return { ...state, selectedFragmentIndex: next };
-    }
+    case 'SET_SELECTED':
+      return selectFragment(state, action.laneIndex, action.index);
+    case 'SELECT_NEXT':
     case 'SELECT_PREV': {
       if (state.lastSampleLane === null || state.selectedLane >= state.numLanes) return state;
-      const sample = state.samples[state.selectedLane];
-      if (!sample) return state;
-      const n = sample.fragments.length;
-      if (n === 0) return state;
+      const n = state.samples[state.selectedLane]?.fragments.length ?? 0;
+      if (!n) return state;
       const cur = state.selectedFragmentIndex;
-      const prev = cur === null ? n - 1 : (cur - 1 + n) % n;
-      return { ...state, selectedFragmentIndex: prev };
+      const next = action.type === 'SELECT_NEXT'
+        ? (cur === null ? 0 : cur + 1 >= n ? null : cur + 1)
+        : (cur === null ? n - 1 : cur === 0 ? null : cur - 1);
+      return selectFragment(state, state.selectedLane, next);
+    }
+    case 'TOGGLE_SAMPLE_SETTINGS':
+      if (state.lastSampleLane === null) return state;
+      return { ...selectFragment(state, state.lastSampleLane, null),
+        inspectorMode: state.inspectorMode === 'sample-settings' ? 'default' : 'sample-settings' };
+    case 'CLOSE_SAMPLE':
+      return { ...state, lastSampleLane: null, selectedFragmentIndex: null,
+        selection: null, rollover: null, drag: null, inspectorMode: 'default' };
+    case 'ADD_FRAGMENT': {
+      if (action.laneIndex < 0 || action.laneIndex >= state.numLanes) return state;
+      const samples = state.samples.slice();
+      const sample = samples[action.laneIndex] ?? { fragments: [], buffer: { ...BUFFER_TBE } };
+      samples[action.laneIndex] = { ...sample, fragments: [...sample.fragments, action.fragment] };
+      return selectFragment({ ...state, samples }, action.laneIndex, sample.fragments.length);
+    }
+    case 'DELETE_FRAGMENT': {
+      const sample = state.samples[action.laneIndex];
+      if (!sample?.fragments[action.index]) return state;
+      const last = sample.fragments.length - 1;
+      const fragments = sample.fragments.slice();
+      fragments[action.index] = fragments[last];
+      fragments.pop();
+      const samples = state.samples.slice();
+      samples[action.laneIndex] = { ...sample, fragments };
+      const remap = (ref: SampleFragRef | null): SampleFragRef | null => {
+        if (!ref || ref.lane !== action.laneIndex || ref.fragmentIndex === null) return ref;
+        if (ref.fragmentIndex === action.index) return null;
+        return ref.fragmentIndex === last ? { ...ref, fragmentIndex: action.index } : ref;
+      };
+      const selectedFragmentIndex = state.selectedLane !== action.laneIndex ? state.selectedFragmentIndex
+        : state.selectedFragmentIndex === action.index ? null
+        : state.selectedFragmentIndex === last ? action.index : state.selectedFragmentIndex;
+      return { ...state, samples, selectedFragmentIndex, selection: remap(state.selection),
+        rollover: remap(state.rollover), drag: null,
+        inspectorMode: selectedFragmentIndex === null && state.inspectorMode === 'fragment' ? 'default' : state.inspectorMode };
     }
     case 'BEGIN_DRAG': {
       const sample = state.samples[action.laneIndex];
@@ -373,7 +399,8 @@ export function gelReducer(state: GelState, action: Action): GelState {
         selectedFragmentIndex: action.fragmentIndex,
         lastSampleLane: action.laneIndex,
         // Drag-selecting a band opens the Species inspector too.
-        inspectorMode: 'fragment',
+        selection: { lane: action.laneIndex, fragmentIndex: action.fragmentIndex },
+        inspectorMode: frag.dye >= 0 ? 'sample-settings' : 'fragment',
       };
     }
     case 'END_DRAG':
@@ -403,19 +430,10 @@ export function gelReducer(state: GelState, action: Action): GelState {
       if (!sample) return state;
       const src = sample.fragments[action.sourceIndex];
       if (!src) return state;
-      const fragments: Fragment[] = [
-        ...sample.fragments.slice(0, action.sourceIndex + 1),
-        { ...src },
-        ...sample.fragments.slice(action.sourceIndex + 1),
-      ];
+      const clone = { ...src, color: [...(action.color ?? src.color)] as [number, number, number], aggregate: [...src.aggregate] };
       const samples = state.samples.slice();
-      samples[action.laneIndex] = { ...sample, fragments };
-      return {
-        ...state,
-        samples,
-        selectedLane: action.laneIndex,
-        selectedFragmentIndex: action.sourceIndex + 1,
-      };
+      samples[action.laneIndex] = { ...sample, fragments: [...sample.fragments, clone] };
+      return selectFragment({ ...state, samples }, action.laneIndex, sample.fragments.length);
     }
     case 'SET_FRAGMENT_BASES': {
       const sample = state.samples[action.laneIndex];
@@ -526,15 +544,7 @@ export function gelReducer(state: GelState, action: Action): GelState {
     case 'SET_GEL_ROTATE':
       return { ...state, gelRotate: action.value };
     case 'CLEAR_FRAGMENT_SELECTION':
-      // Drop the fragment-level selection, fall back to sample-settings (so
-      // the inspector hides when the sample has no fragment focus). The
-      // sticky lastSampleLane is unaffected — Sample panel keeps showing
-      // whatever was last selected.
-      return {
-        ...state,
-        selectedFragmentIndex: null,
-        inspectorMode: state.inspectorMode === 'fragment' ? 'default' : state.inspectorMode,
-      };
+      return selectFragment(state, state.selectedLane, null);
     default: {
       const _: never = action;
       void _;

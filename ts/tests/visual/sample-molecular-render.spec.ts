@@ -1,3 +1,4 @@
+import { openSampleSettings } from './sample-helpers';
 /**
  * sample-molecular-render.spec.ts — Sample-panel GPU render goldens (M24)
  *
@@ -111,6 +112,7 @@ async function waitForFrozen(page: Page): Promise<void> {
  * which is sufficient to tint the background visibly without saturating it.
  */
 async function setDye(page: Page, dyeIndex: number): Promise<void> {
+  await openSampleSettings(page);
   // Ensure the Buffer + Dyes panel is open (it is whenever microtube-0 is
   // selected and no band has been clicked, i.e. data-view="sample-settings").
   const track = page.getByTestId(`dye-row-${dyeIndex}-slider-track`);
@@ -153,7 +155,7 @@ test('molsim-selected: after clicking a particle (selection outline visible)', a
       const px = box.x + (box.width  * (xi + 0.5)) / 8;
       const py = box.y + (box.height * (yi + 0.5)) / 8;
       await page.mouse.click(px, py);
-      const view = await page.getByTestId('inspector-panel').getAttribute('data-view');
+      const view = await page.getByTestId('inspector-panel').count() ? await page.getByTestId('inspector-panel').getAttribute('data-view') : null;
       if (view === 'fragment') hitFound = true;
     }
   }
@@ -174,8 +176,7 @@ test('molsim-dyed: after setting dye-0 to mid-range mass (background tinted)', a
   await settle(page);
 
   // Set dye-0 (Xylene Cyanol) to a visible mid-range mass. The Buffer + Dyes
-  // inspector opens automatically when microtube-0 is selected with no band
-  // click, so the dye-row slider track is already in the DOM.
+  // inspector is opened by clicking the sample background in setDye.
   await setDye(page, 0);
 
   // setDye changes the sample → the sim re-settles and re-freezes. Wait for the

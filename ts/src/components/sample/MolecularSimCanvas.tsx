@@ -46,6 +46,7 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
       rolloverFragment={rolloverFragment}
       onHoverFragment={onHoverFragment}
       onPickFragment={onPickFragment}
+      onPickBackground={() => dispatch({ type: 'TOGGLE_SAMPLE_SETTINGS' })}
       data-testid="molecular-sim-canvas"
     />
   );

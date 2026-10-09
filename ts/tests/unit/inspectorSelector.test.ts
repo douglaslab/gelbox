@@ -19,15 +19,16 @@ describe('selectInspectorView', () => {
     const s = gelReducer(initialGelState(), { type: 'SET_SELECTED', laneIndex: 0, index: 2 });
     expect(selectInspectorView(s)).toBe('fragment');
   });
-  it('non-empty tube selected, no fragment, mode=sample-settings → sample-settings', () => {
-    const s = gelReducer(initialGelState(), { type: 'SET_SELECTED_LANE', laneIndex: 0 });
-    // SET_SELECTED_LANE switches mode to sample-settings when the tube has a sample.
+  it('tube selection shows sample alone; background opens sample settings', () => {
+    const selected = gelReducer(initialGelState(), { type: 'SET_SELECTED_LANE', laneIndex: 0 });
+    expect(selectInspectorView(selected)).toBe('none');
+    const s = gelReducer(selected, { type: 'TOGGLE_SAMPLE_SETTINGS' });
     expect(s.inspectorMode).toBe('sample-settings');
     expect(selectInspectorView(s)).toBe('sample-settings');
   });
   it('empty tube selected → none (no panel content)', () => {
     const s = gelReducer(initialGelState(), { type: 'SET_SELECTED_LANE', laneIndex: 3 });
-    expect(s.samples[3]).toBeNull();
+    expect(s.samples[3]?.fragments).toEqual([]);
     expect(selectInspectorView(s)).toBe('none');
   });
   it('clearing fragment selection while sample-settings was active drops to default', () => {

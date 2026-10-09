@@ -1,3 +1,5 @@
+import { newFragment, randomFragmentColor } from '../../lib/gel/newFragment';
+import { sampleKeyAction } from '../../lib/gel/sampleKeyboard';
 import { useCallback, useEffect, useRef } from 'react';
 import type { Band } from '../../lib/sim/band';
 import { useGelState, useGelDispatch } from './GelContext';
@@ -7,10 +9,9 @@ import type { BandLaneFragment } from '../../lib/sim/sampleFromGel';
 
 export type { BandLaneFragment } from '../../lib/sim/sampleFromGel';
 
-function linearRgbToSrgbHex(rgb: readonly [number, number, number]): string {
+function rgbToHex(rgb: readonly [number, number, number]): string {
   const toByte = (c: number) => {
-    const srgb = c <= 0.0031308 ? c * 12.92 : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
-    return Math.max(0, Math.min(255, Math.round(srgb * 255)));
+    return Math.max(0, Math.min(255, Math.round(c * 255)));
   };
   const [r, g, b] = rgb.map(toByte);
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
@@ -39,10 +40,8 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
   }, [dispatch]);
 
   const onKeyDown = (e: React.KeyboardEvent<SVGSVGElement>) => {
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      dispatch({ type: e.shiftKey ? 'SELECT_PREV' : 'SELECT_NEXT' });
-    }
+    const action = sampleKeyAction(e.key, e.shiftKey, state);
+    if (action) { e.preventDefault(); dispatch(action); }
   };
 
   const onPointerMove = useCallback((e: PointerEvent) => {
@@ -94,7 +93,9 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
   }, [state.drag, onPointerMove, onPointerUp]);
 
   function onBandPointerDown(bandIdx: number, e: React.PointerEvent<SVGRectElement>) {
+    if (e.button !== 0) return;
     e.preventDefault();
+    svgRef.current?.focus();
     const { lane, fragment } = bandToLaneFragment[bandIdx];
     const isCmd = e.metaKey || e.ctrlKey;
     if (isCmd) {
@@ -107,11 +108,16 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
       dispatch({ type: 'ADD_LOUPE', anchor, screen: { x: e.clientX, y: e.clientY } });
       return;
     }
+    const source = state.samples[lane]!.fragments[fragment];
+    if (source.dye >= 0) {
+      dispatch({ type: 'SET_SELECTED', laneIndex: lane, index: fragment });
+      return;
+    }
     if (e.altKey) {
-      dispatch({ type: 'CLONE_FRAGMENT', laneIndex: lane, sourceIndex: fragment });
+      dispatch({ type: 'CLONE_FRAGMENT', laneIndex: lane, sourceIndex: fragment, color: randomFragmentColor() });
       const rect = svgRef.current!.getBoundingClientRect();
       const y = ((e.clientY - rect.top) / rect.height) * state.gelSize.height;
-      dispatch({ type: 'BEGIN_DRAG', laneIndex: lane, fragmentIndex: fragment + 1, startY: y });
+      dispatch({ type: 'BEGIN_DRAG', laneIndex: lane, fragmentIndex: state.samples[lane]!.fragments.length, startY: y });
     } else {
       const rect = svgRef.current!.getBoundingClientRect();
       const y = ((e.clientY - rect.top) / rect.height) * state.gelSize.height;
@@ -134,6 +140,19 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
       data-testid="gel-overlay"
       tabIndex={0}
       onKeyDown={onKeyDown}
+      onContextMenu={e => {
+        e.preventDefault();
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width * state.gelSize.width;
+        const y = (e.clientY - rect.top) / rect.height * state.gelSize.height;
+        const lane = Math.floor(x / state.gelSize.width * state.numLanes);
+        if (lane < 0 || lane >= state.numLanes) return;
+        const fragment = newFragment();
+        fragment.bases = solveBasesForY({ targetY: y, frag: fragment, lane,
+          ctx: state.ctx, wellRect: state.wellRects[lane] });
+        dispatch({ type: 'ADD_FRAGMENT', laneIndex: lane, fragment });
+        e.currentTarget.focus();
+      }}
       onPointerDown={onBackgroundPointerDown}
       viewBox={`0 0 ${state.gelSize.width} ${state.gelSize.height}`}
       style={{
@@ -160,7 +179,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
         const selected = state.selectedLane === lf.lane && state.selectedFragmentIndex === lf.fragment;
         const hovered  = state.rollover?.lane === lf.lane && state.rollover?.fragmentIndex === lf.fragment;
         const frag = state.samples[lf.lane]?.fragments[lf.fragment];
-        const speciesColor = frag ? linearRgbToSrgbHex(frag.color) : LAYOUT.sampleViewFragSelectColor;
+        const speciesColor = frag ? rgbToHex(frag.color) : LAYOUT.sampleViewFragSelectColor;
         return (
           <rect
             key={i}

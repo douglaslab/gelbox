@@ -1,3 +1,4 @@
+import { openSampleSettings } from './sample-helpers';
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }, testInfo) => {
@@ -21,7 +22,8 @@ test('inspector panel transitions: empty → tube → fragment → gear → empt
 
   // Click the loaded tube: opens Buffer + Dyes.
   await page.locator('[data-testid="microtube-0"]').click();
-  await expect(page.getByTestId('inspector-panel')).toHaveAttribute('data-view', 'sample-settings');
+  await expect(page.getByTestId('inspector-panel')).toHaveCount(0);
+  await openSampleSettings(page);
 
   // Click a band: switches to Species.
   await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
@@ -58,7 +60,7 @@ test('cross-panel selection: click a SampleView particle → Species opens', asy
   await page.setViewportSize({ width: 1365, height: 800 });
   await page.goto('/#/gel');
   await page.locator('[data-testid="microtube-0"]').click();
-  await expect(page.getByTestId('inspector-panel')).toHaveAttribute('data-view', 'sample-settings');
+  await expect(page.getByTestId('sample-view')).toBeVisible();
 
   // Click a few canvas points until a particle hit selects a fragment.
   const canvas = page.getByTestId('molecular-sim-canvas');
@@ -70,7 +72,7 @@ test('cross-panel selection: click a SampleView particle → Species opens', asy
       const px = box.x + (box.width  * (xi + 0.5)) / 8;
       const py = box.y + (box.height * (yi + 0.5)) / 8;
       await page.mouse.click(px, py);
-      const view = await page.getByTestId('inspector-panel').getAttribute('data-view');
+      const view = await page.getByTestId('inspector-panel').count() ? await page.getByTestId('inspector-panel').getAttribute('data-view') : null;
       if (view === 'fragment') switched = true;
     }
   }

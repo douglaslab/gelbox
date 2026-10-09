@@ -150,6 +150,17 @@ export class MolecularSim {
    * color, target pop). Particles whose fragment was removed get marked dead.
    */
   setSample(sample: Sample | null, degradeFilter?: ReadonlyMap<number, number>): void {
+    // React document edits preserve surviving fragment objects. Recognize the
+    // native swap-with-last deletion before applying the new profiles, so live
+    // particles retain species ownership instead of changing color/size in place.
+    const previous = this.sample?.fragments;
+    if (sample && previous && sample.fragments.length === previous.length - 1) {
+      const removed = previous.findIndex(f => !sample.fragments.includes(f));
+      if (removed >= 0 && sample.fragments.every((f, i) =>
+        f === previous[i === removed ? previous.length - 1 : i])) {
+        this.deleteFragment(removed);
+      }
+    }
     this.sample = sample;
     if (!sample) {
       this.fragments = [];
@@ -212,24 +223,26 @@ export class MolecularSim {
   /**
    * Drop a fragment by index. Mirrors `MolecularSim::deleteFragment`.
    * Marks particles of that fragment as dead (so they fade out gracefully)
-   * and reindexes any whose fragment > i (the array shrunk by 1).
+   * and moves particles of the last fragment into the vacated index.
    */
   deleteFragment(i: number): void {
     if (i < 0 || i >= this.fragments.length) return;
+    const last = this.fragments.length - 1;
     for (const p of this.parts) {
       if (p.fragment === i) {
         p.alive = false;
         p.fragment = -1;
-      } else if (p.fragment > i) {
-        p.fragment -= 1;
+      } else if (p.fragment === last) {
+        p.fragment = i;
       }
     }
-    this.fragments.splice(i, 1);
+    this.fragments[i] = this.fragments[last];
+    this.fragments.pop();
     if (this.sample) {
-      this.sample = {
-        ...this.sample,
-        fragments: this.sample.fragments.filter((_, idx) => idx !== i),
-      };
+      const fragments = this.sample.fragments.slice();
+      fragments[i] = fragments[last];
+      fragments.pop();
+      this.sample = { ...this.sample, fragments };
     }
   }
 

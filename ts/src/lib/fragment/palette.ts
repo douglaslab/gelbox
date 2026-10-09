@@ -1,4 +1,3 @@
-import { srgbToLinear } from '../layout/color';
 
 /**
  * 12 fragment colors arranged 4 cols × 3 rows.
@@ -10,13 +9,14 @@ export const FRAGMENT_PALETTE_HEX = [
   '#1700de', '#7300de', '#b8056c', '#333333',
 ] as const;
 
-export function srgbHexToLinearRgb(hex: string): [number, number, number] {
+export function hexToRgb(hex: string): [number, number, number] {
   const h = hex.startsWith('#') ? hex.slice(1) : hex;
   const r = parseInt(h.substring(0, 2), 16) / 255;
   const g = parseInt(h.substring(2, 4), 16) / 255;
   const b = parseInt(h.substring(4, 6), 16) / 255;
-  return [srgbToLinear(r), srgbToLinear(g), srgbToLinear(b)];
+  // Cinder Color::hex stores channel/255 directly, including native JSON.
+  return [r, g, b];
 }
 
-export const FRAGMENT_PALETTE_LINEAR_RGB: readonly [number, number, number][] =
-  FRAGMENT_PALETTE_HEX.map(srgbHexToLinearRgb);
+export const FRAGMENT_PALETTE_RGB: readonly [number, number, number][] =
+  FRAGMENT_PALETTE_HEX.map(hexToRgb);
