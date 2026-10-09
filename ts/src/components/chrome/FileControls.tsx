@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { resolveAssetUrl } from '../../lib/layout/assets';
+import { useEffect, useRef, useState } from 'react';
 import { useGelState, useGelDispatch } from '../gel/GelContext';
 import { serializeSample, serializeGelState, deserializeFile } from '../../lib/gel/serialize';
 
@@ -15,12 +16,24 @@ function downloadJson(filename: string, text: string) {
 }
 
 export function FileControls() {
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: PointerEvent) => {
+      if (!menuRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const escape = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('pointerdown', close);
+    document.addEventListener('keydown', escape);
+    return () => { document.removeEventListener('pointerdown', close); document.removeEventListener('keydown', escape); };
+  }, [open]);
   const state = useGelState();
   const dispatch = useGelDispatch();
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const selectedSample = state.samples[state.selectedLane];
+  const selectedSample = state.lastSampleLane === null ? null : state.samples[state.selectedLane];
 
   function onSaveSample() {
     if (!selectedSample) {
@@ -29,6 +42,7 @@ export function FileControls() {
     }
     setError(null);
     downloadJson(`${state.fixtureKey}-lane-${state.selectedLane}.json`, serializeSample(selectedSample));
+    setOpen(false);
   }
 
   function onSaveGel() {
@@ -38,6 +52,7 @@ export function FileControls() {
       numLanes: state.numLanes,
       ctx: state.ctx,
     }));
+    setOpen(false);
   }
 
   function onOpenClick() {
@@ -51,12 +66,8 @@ export function FileControls() {
       const text = await file.text();
       const result = deserializeFile(text);
       if (result.kind === 'sample') {
-        dispatch({
-          type: 'LOAD_FIXTURE',
-          key: file.name.replace(/\.json$/i, ''),
-          sample: result.sample,
-          lane: state.selectedLane,
-        });
+        if (state.samples.slice(0, state.numLanes).every(Boolean)) throw new Error('No empty lane available');
+        dispatch({ type: 'IMPORT_SAMPLE', sample: result.sample });
       } else {
         dispatch({
           type: 'LOAD_GEL_STATE',
@@ -66,6 +77,7 @@ export function FileControls() {
         });
       }
       setError(null);
+      setOpen(false);
     } catch (err) {
       setError(`Open failed: ${(err as Error).message}`);
     } finally {
@@ -75,36 +87,17 @@ export function FileControls() {
   }
 
   return (
-    <section data-testid="file-controls" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-        <button
-          data-testid="save-sample-btn"
-          onClick={onSaveSample}
-          disabled={!selectedSample}
-          style={{ padding: '6px 10px' }}
-        >
-          Save sample
-        </button>
-        <button data-testid="save-gel-btn" onClick={onSaveGel} style={{ padding: '6px 10px' }}>
-          Save gel
-        </button>
-        <button data-testid="open-btn" onClick={onOpenClick} style={{ padding: '6px 10px' }}>
-          Open…
-        </button>
-        <input
-          ref={fileInputRef}
-          data-testid="file-input"
-          type="file"
-          accept=".json,application/json"
-          style={{ display: 'none' }}
-          onChange={onFileChange}
-        />
-      </div>
-      {error && (
-        <div data-testid="file-error" style={{ color: 'var(--color-danger, #c44)', fontSize: 12 }}>
-          {error}
-        </div>
-      )}
+    <section ref={menuRef} data-testid="file-controls" style={{ position: 'fixed', left: 16, bottom: 16, zIndex: 50 }}>
+      {open && <div id="application-file-menu" style={{ position: 'absolute', bottom: 48, left: 0, minWidth: 180, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 12, paddingBottom: 12, borderBottom: '1px solid #979797', background: '#fff' }}>
+        <button data-testid="open-btn" onClick={onOpenClick}>Open…</button>
+        <button data-testid="save-gel-btn" onClick={onSaveGel}>Save Gel…</button>
+        {selectedSample && <button data-testid="save-sample-btn" onClick={onSaveSample}>Save Selected Sample…</button>}
+      </div>}
+      <button type="button" aria-label="Application settings" aria-expanded={open} aria-controls="application-file-menu" onClick={() => setOpen(!open)} style={{ width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer' }}>
+        <img src={resolveAssetUrl('/assets/settings.png')} alt="" width={32} height={32} />
+      </button>
+      <input ref={fileInputRef} data-testid="file-input" type="file" accept=".json,.xml,application/json,text/xml,application/xml" style={{ display: 'none' }} onChange={onFileChange} />
+      {error && <div role="alert" data-testid="file-error" style={{ position: 'absolute', bottom: 180, left: 0, width: 260, background: '#fff', color: '#c44', fontSize: 12 }}>{error}</div>}
     </section>
   );
 }

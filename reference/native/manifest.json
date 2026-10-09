@@ -85,6 +85,11 @@
       "path": "files/ladder-after-selection.gel.json",
       "sha256": "059b5dd12891b319157a065ad55654469b7fe2ec14b733fcf4ea763562ca7814",
       "provenance": "Exported using native Save Gel after the species-selected and gel-settings scenarios, before selecting H2O. Preserve exact native bytes; do not treat as untouched startup state."
+    },
+    {
+      "path": "files/1kbladder.xml",
+      "sha256": "54ff81a1bd811c1f459b8978de34275a2c3cb43b7071c3cf691186b070418472",
+      "provenance": "Copied verbatim from pinned native assets/palette/1kbladder.xml; native asset parity verified in this manifest."
     }
   ],
   "remaining": [

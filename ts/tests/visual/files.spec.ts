@@ -1,0 +1,92 @@
+import { test, expect } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+
+test.beforeEach(async ({ page }, info) => {
+  if (info.project.name.includes('webgl2')) await page.addInitScript(() => localStorage.setItem('gelBackend', 'webgl2'));
+  await page.goto('/#/gel');
+});
+
+test('Open native JSON and Save Gel preserves the native document', async ({ page }) => {
+  await page.getByRole('button', { name: 'Application settings' }).click();
+  await page.getByTestId('file-input').setInputFiles(path.resolve('../reference/native/files/ladder-after-selection.gel.json'));
+  await expect(page.getByRole('button', { name: 'Application settings' })).toHaveAttribute('aria-expanded', 'false');
+  await page.getByRole('button', { name: 'Application settings' }).click();
+  const downloading = page.waitForEvent('download');
+  await page.getByTestId('save-gel-btn').click();
+  const download = await downloading;
+  expect(JSON.parse(await readFile((await download.path())!, 'utf8'))).toEqual(JSON.parse(await readFile('../reference/native/files/ladder-after-selection.gel.json', 'utf8')));
+});
+
+test('Open native XML, reject malformed XML, then save unchanged sample', async ({ page }) => {
+  await page.getByRole('button', { name: 'Application settings' }).click();
+  await page.getByTestId('file-input').setInputFiles(path.resolve('../reference/native/files/1kbladder.xml'));
+  await expect(page.getByRole('button', { name: 'Application settings' })).toHaveAttribute('aria-expanded', 'false');
+  await page.getByTestId('microtube-1').click();
+  await page.getByRole('button', { name: 'Application settings' }).click();
+  await page.getByTestId('file-input').setInputFiles({ name: 'bad.xml', mimeType: 'text/xml', buffer: Buffer.from('<Sample><Fragment></Sample>') });
+  await expect(page.getByTestId('file-error')).toContainText('Open failed');
+  const downloading = page.waitForEvent('download');
+  await page.getByTestId('save-sample-btn').click();
+  const data = JSON.parse(await readFile((await (await downloading).path())!, 'utf8'));
+  expect(data.Gelbox).toEqual({ version: '1.0', type: 'sample' });
+  expect(data.Sample.name).toBe('1kb ladder');
+  expect(data.Sample.iconScale).toBe(0.5);
+  expect(data.Sample.Fragments).toHaveLength(11);
+  expect(data.Sample.Fragments[0]).toMatchObject({ Bases: 10002, Mass: 42, Color: [0.2,0.2,0.2], Aggregate: [1] });
+  expect(data.Sample.Buffer).toEqual({ Tris: 44.5, Borate: 44.5, Acetate: 0, EDTA: 1 });
+});
+
+test('Open invokes a file chooser and settings dismiss with Escape', async ({ page }) => {
+  const settings = page.getByRole('button', { name: 'Application settings' });
+  await settings.click();
+  await page.keyboard.press('Escape');
+  await expect(settings).toHaveAttribute('aria-expanded', 'false');
+  await settings.click();
+  const choosing = page.waitForEvent('filechooser');
+  await page.getByTestId('open-btn').click();
+  await (await choosing).setFiles(path.resolve('../reference/native/files/1kbladder.xml'));
+  await expect(settings).toHaveAttribute('aria-expanded', 'false');
+  await settings.click();
+  await page.screenshot({ path: test.info().outputPath('file-menu.png') });
+});
+
+test('XML import matches native supported fields and reports unsafe aggregates', async ({ page }) => {
+  const settings = page.getByRole('button', { name: 'Application settings' });
+  await settings.click();
+  await page.getByTestId('file-input').setInputFiles({ name: 'fields.xml', mimeType: 'text/xml', buffer: Buffer.from('<Sample name="A &amp; B" id="8"><Buffer/><Fragment><Bases value="500"/><Mass value="20"/><Degrade value="1"/><Dye value="3"/><AspectRatio value="7"/><Aggregate Size="0" Weight="2"/></Fragment></Sample>') });
+  await expect(settings).toHaveAttribute('aria-expanded', 'false');
+  await page.getByTestId('microtube-1').click();
+  await settings.click();
+  const downloading = page.waitForEvent('download');
+  await page.getByTestId('save-sample-btn').click();
+  const data = JSON.parse(await readFile((await (await downloading).path())!, 'utf8'));
+  expect(data.Sample).toMatchObject({ name: 'A & B', id: -1, Buffer: { Tris: 44.5, Borate: 44.5, Acetate: 0, EDTA: 1 } });
+  expect(data.Sample.Fragments).toEqual([{ Bases: 500, Mass: 20, Degrade: 1, AspectRatio: 1, Color: [0.5,0.5,0.5], Aggregate: [2] }]);
+  await settings.click();
+  await page.getByTestId('file-input').setInputFiles({ name: 'unsafe.xml', mimeType: 'text/xml', buffer: Buffer.from('<Sample><Fragment><Aggregate Size="1" Weight="2"/></Fragment></Sample>') });
+  await expect(page.getByTestId('file-error')).toContainText('use native JSON for multimers');
+});
+
+test('unselected startup has no Save Selected Sample command', async ({ page }) => {
+  await page.getByRole('button', { name: 'Application settings' }).click();
+  await expect(page.getByTestId('save-sample-btn')).toHaveCount(0);
+});
+
+test('dropping a sample into an empty lane preserves the occupied ladder', async ({ page }) => {
+  const overlay = page.getByTestId('gel-overlay');
+  const rect = (await overlay.boundingBox())!;
+  const dataTransfer = await page.evaluateHandle(() => {
+    const transfer = new DataTransfer();
+    transfer.items.add(new File(['<Sample name="dropped"><Fragment><Bases value="500"/><Mass value="10"/></Fragment></Sample>'], 'dropped.xml', { type: 'text/xml' }));
+    return transfer;
+  });
+  await overlay.dispatchEvent('drop', { dataTransfer, clientX: rect.x + rect.width * 3.5 / 7, clientY: rect.y + 30 });
+  await expect(page.getByTestId('drop-error')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Application settings' }).click();
+  const downloading = page.waitForEvent('download');
+  await page.getByTestId('save-gel-btn').click();
+  const data = JSON.parse(await readFile((await (await downloading).path())!, 'utf8'));
+  expect(data.Gel.Samples[0].Fragments).toHaveLength(11);
+  expect(data.Gel.Samples[3].name).toBe('dropped');
+});

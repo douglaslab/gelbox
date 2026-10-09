@@ -75,6 +75,7 @@ export type Action =
   | { type: 'SET_SAMPLE_BUFFER';  laneIndex: number; buffer: Buffer }
   | { type: 'SET_DYE_MASS';       laneIndex: number; dye: number; mass: number }
   | { type: 'LOAD_FIXTURE';       key: string; sample: Sample; lane: number }
+  | { type: 'IMPORT_SAMPLE'; sample: Sample; preferredLane?: number }
   | { type: 'LOAD_GEL_STATE';    samples: (Sample | null)[]; numLanes: number; ctx: SimContext }
   | { type: 'SET_SELECTED_LANE';  laneIndex: number }
   | { type: 'SET_SELECTED';       laneIndex: number; index: number | null }
@@ -263,6 +264,15 @@ export function gelReducer(state: GelState, action: Action): GelState {
       }
       const samples = state.samples.slice();
       samples[action.laneIndex] = { ...sample, fragments };
+      return { ...state, samples };
+    }
+    case 'IMPORT_SAMPLE': {
+      const preferred = action.preferredLane ?? -1;
+      const lane = Number.isInteger(preferred) && preferred >= 0 && preferred < state.numLanes && !state.samples[preferred]
+        ? preferred : state.samples.slice(0, state.numLanes).findIndex(s => !s);
+      if (lane < 0) return state;
+      const samples = state.samples.slice();
+      samples[lane] = action.sample;
       return { ...state, samples };
     }
     case 'LOAD_FIXTURE': {

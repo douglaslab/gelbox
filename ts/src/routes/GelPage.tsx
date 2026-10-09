@@ -1,3 +1,4 @@
+import { FileControls } from '../components/chrome/FileControls';
 import { useMemo, useState } from 'react';
 import { GelProvider, useGelState, useGelDispatch } from '../components/gel/GelContext';
 import { GelCanvas } from '../components/gel/GelCanvas';
@@ -49,11 +50,20 @@ function GelInner() {
     setIsDragOver(false);
     const file = e.dataTransfer.files?.[0];
     if (!file) return;
+    const target = e.target as Element;
+    const tube = target.closest('[data-testid^="microtube-"]');
+    const overlay = e.currentTarget.querySelector('[data-testid="gel-overlay"]')?.getBoundingClientRect();
+    let preferredLane: number | undefined;
+    if (tube) preferredLane = Number(tube.getAttribute('data-testid')?.replace('microtube-', ''));
+    else if (overlay && e.clientX >= overlay.left && e.clientX < overlay.right && e.clientY >= overlay.top && e.clientY <= overlay.bottom) {
+      preferredLane = Math.floor((e.clientX - overlay.left) / overlay.width * state.numLanes);
+    }
     try {
       const text = await file.text();
       const result = deserializeFile(text);
       if (result.kind === 'sample') {
-        dispatch({ type: 'LOAD_FIXTURE', key: file.name.replace(/\.json$/i, ''), sample: result.sample, lane: state.selectedLane });
+        if (state.samples.slice(0, state.numLanes).every(Boolean)) throw new Error('No empty lane available');
+        dispatch({ type: 'IMPORT_SAMPLE', sample: result.sample, preferredLane });
       } else {
         dispatch({ type: 'LOAD_GEL_STATE', samples: result.samples, numLanes: result.numLanes, ctx: result.ctx });
       }
@@ -157,9 +167,10 @@ function GelInner() {
             font: '500 16px Inter, system-ui, sans-serif',
           }}
         >
-          Drop a sample or gel-state JSON file
+          Drop a Gelbox JSON document or XML sample
         </div>
       )}
+      <FileControls />
       <Stage
         left={leftPanel}
         middle={getVisibleSampleLane(state) !== null ? <SampleView /> : null}
@@ -171,7 +182,7 @@ function GelInner() {
         style={{
           position: 'fixed',
           bottom: 8,
-          left: 8,
+          left: 64,
           fontSize: 13,
           color: 'var(--color-ink-muted)',
           background: 'rgba(255,255,255,0.85)',

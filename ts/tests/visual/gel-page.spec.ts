@@ -149,9 +149,11 @@ test('Drag-drop a sample-shaped JSON loads it', async ({ page }, testInfo) => {
     const drop = new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: dt });
     el.dispatchEvent(drop);
   }, JSON.stringify(samplePayload));
-  await expect(page.locator('[data-testid="band-0"]')).toBeVisible();
+  await expect(page.locator('[data-testid^="band-"]')).toHaveCount(12);
   await page.locator('[data-testid="band-0"]').click({ button: 'left' });
-  await expect(page.getByTestId('selection-info')).toContainText('9876 bp');
+  await expect(page.getByTestId('selection-info')).toContainText('10002 bp');
+  await page.getByTestId('band-11').click();
+  await expect(page.getByTestId('selection-info')).toContainText('lane 1 fragment 0: 9876 bp');
 });
 
 test('cmd+click on a band opens a loupe popover', async ({ page }, testInfo) => {

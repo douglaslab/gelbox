@@ -280,3 +280,24 @@ describe('initialGelState defers fragment selection', () => {
     expect(s.selectedFragmentIndex).toBeNull();
   });
 });
+
+describe('native sample file placement', () => {
+  it('imports into the first empty lane while preserving selection and existing samples', () => {
+    const s = initialGelState();
+    const next = gelReducer(s, { type: 'IMPORT_SAMPLE', sample: { buffer: BUFFER_TBE, fragments: [], name: 'new' } });
+    expect(next.samples[0]).toBe(s.samples[0]);
+    expect(next.samples[1]?.name).toBe('new');
+    expect(next.lastSampleLane).toBeNull();
+    expect(next.selection).toBeNull();
+  });
+  it('honors an empty drop lane and falls back if occupied', () => {
+    const s = initialGelState();
+    const sample = { buffer: BUFFER_TBE, fragments: [], name: 'new' };
+    expect(gelReducer(s, { type: 'IMPORT_SAMPLE', sample, preferredLane: 3 }).samples[3]).toBe(sample);
+    expect(gelReducer(s, { type: 'IMPORT_SAMPLE', sample, preferredLane: 0 }).samples[1]).toBe(sample);
+  });
+  it('does not replace any sample when all visible lanes are occupied', () => {
+    const s = initialGelState(); s.samples.fill(s.samples[0]);
+    expect(gelReducer(s, { type: 'IMPORT_SAMPLE', sample: { buffer: BUFFER_TBE, fragments: [] } })).toBe(s);
+  });
+});

@@ -16,7 +16,7 @@ A working TypeScript/React application under `ts/`, with pure gel simulation, We
 - UI: sample/species/gel panels, many sliders, band resize/clone, tube move/clone, and cross-panel selection/hover exist. Missing native workflows and deliberate/accidental behavioral differences remain.
 - Molecular view: live engine, multimer clusters, slice meshes, dye backgrounds, and selection outlines are implemented. Degradation wholeness ranges/filtering still diverge from native.
 - Loupes: live synthetic content and multiple fixed popups exist. Native dragging, callout geometry, hover preview, source-selection ancestry, and full positioning behavior remain incomplete.
-- Files: native Gelbox JSON import/export now exists, preserving sample metadata and scientific fields. Legacy web formats remain readable. A native → web codec → native ladder roundtrip preserved every JSON field. Save/Open controls remain unmounted; XML import and full workflow verification remain open.
+- Files: native Gelbox JSON import/export now exists, preserving sample metadata and scientific fields. Legacy web formats remain readable. A native → web codec → native ladder roundtrip preserved every JSON field. Open/Save commands are mounted in a bottom-left popup; native XML palette import and targeted sample drops are implemented. Native shell geometry, render/hover settings, and broader interchange coverage remain open.
 
 ## Verification actually run
 
@@ -53,4 +53,8 @@ The previous status narrative, including original milestone counts and now-stale
 
 ## Current implementation checks
 
-After the JSON codec changes: 36 unit files / 306 tests pass; typecheck and production build pass. Vite reports existing mixed static/dynamic import warnings. Native GUI Open and Save Gel verified semantic equality for the ladder roundtrip; this is one interchange scenario, not complete file-format certification.
+After the JSON codec changes: 36 unit files / 309 tests pass; typecheck and production build pass. Vite reports existing mixed static/dynamic import warnings. Native GUI Open and Save Gel verified semantic equality for the ladder roundtrip; this is one interchange scenario, not complete file-format certification.
+
+File workflow increment: native JSON/Open/Save, XML palettes, malformed XML preservation, actual file chooser, empty-lane placement and startup selection availability are exercised in browser tests on both backends. Unsafe legacy XML multimer indices are rejected because native writes out of bounds; use JSON for these samples. This remains an explicit parity edge-case decision, not certified equivalence. When all visible lanes are occupied, the web app reports an error; native calls an unimplemented off-gel icon function.
+
+Final file-workflow verification: 309 unit tests pass; 116 browser tests pass across both backends, with the two pre-existing narrow-reflow cases skipped; typecheck and build pass. The old drop test now verifies preserving lane 0 and placing the imported sample in lane 1.

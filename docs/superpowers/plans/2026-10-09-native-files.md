@@ -49,3 +49,16 @@
 - [x] Run unit suite, typecheck and build; commit export changes.
 
 Final review occurs after both tasks. Visible Open/Save mounting and XML are the next P1 increment, not waived by completion of this plan.
+
+### Task 3: Visible file workflow and native XML palettes
+
+**Files:** Create `ts/src/lib/gel/nativeXml.ts`, `ts/tests/visual/files.spec.ts`; modify FileControls, GelPage and deserializeFile.
+
+**Interfaces:** `deserializeFile` accepts XML Sample text using browser DOMParser; file dialog and drop both use that boundary. FileControls owns an accessible bottom-left toggle and persistent hidden file input.
+
+- [x] Browser test: settings → Open native JSON → Save Gel produces matching native metadata and fragment values.
+- [x] Browser test: open bundled native XML ladder → Save sample preserves its 11 species, metadata and default TBE. Malformed XML leaves the document intact and displays an error.
+- [x] Watch the browser tests fail because file controls are not mounted.
+- [x] Mount file popup at native 16px bottom/left with settings asset; keep render/hover toggles for their functional increments (do not add inert toggles).
+- [x] Parse XML with DOMParser, not regular-expression structure parsing. Match native supported metadata/Bases/Mass/Degrade/Color; ignore fields native ignores. Reject malformed input and unsafe aggregate indices rather than emulating native out-of-bounds writes; record this unresolved edge case.
+- [x] Run browser workflow tests on both backends, units, typecheck and build. Commit verified workflow; native visual shell fidelity remains separately open.

@@ -1,3 +1,4 @@
+import { deserializeNativeXml } from './nativeXml';
 import { deserializeNativeFile, nativeBuffer, nativeSample } from './nativeFile';
 import type { Sample } from '../sim/sample';
 import type { SimContext } from '../sim/gelSim';
@@ -52,6 +53,7 @@ export function serializeGelState(state: {
 }
 
 export function deserializeFile(text: string): DeserializedFile {
+  if (text.trimStart().startsWith('<')) return deserializeNativeXml(text);
   let parsed: unknown;
   try {
     parsed = JSON.parse(text);
