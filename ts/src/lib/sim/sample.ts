@@ -3,8 +3,7 @@ import type { Aggregate } from './aggregate';
 
 // Port of ~/code/gelbox/include/Sample.h.
 // Plain data — no class methods, no parentage tracking (mOriginSample/Frag dropped),
-// no UI fields (icon, name) live in the sim layer. Higher layers can extend with
-// their own metadata if they need to round-trip.
+// Native metadata is carried unchanged for file interchange; simulation ignores it.
 
 export interface Fragment {
   bases:       number;             // base count, 100..14000 typical
@@ -17,6 +16,11 @@ export interface Fragment {
 }
 
 export interface Sample {
+  name?: string;
+  icon?: string;
+  iconScale?: number;
+  /** Native file metadata, not an internal object identity. */
+  id?: number;
   fragments: Fragment[];
   buffer:    Buffer;               // the sample's own buffer (may differ from gel buffer)
 }
