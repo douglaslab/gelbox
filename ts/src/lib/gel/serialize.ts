@@ -1,4 +1,4 @@
-import { deserializeNativeFile } from './nativeFile';
+import { deserializeNativeFile, nativeBuffer, nativeSample } from './nativeFile';
 import type { Sample } from '../sim/sample';
 import type { SimContext } from '../sim/gelSim';
 import type { Buffer } from '../sim/buffer';
@@ -28,12 +28,7 @@ export type DeserializedFile =
   | { kind: 'state';  samples: (Sample | null)[]; numLanes: number; ctx: SimContext };
 
 export function serializeSample(s: Sample): string {
-  const out: SerializedSample = {
-    schema:    'gel-sample-v0',
-    buffer:    s.buffer,
-    fragments: s.fragments,
-  };
-  return JSON.stringify(out, null, 2);
+  return JSON.stringify({ Gelbox: { version: '1.0', type: 'sample' }, Sample: nativeSample(s) }, null, 2);
 }
 
 export function serializeGelState(state: {
@@ -41,13 +36,19 @@ export function serializeGelState(state: {
   numLanes: number;
   ctx: SimContext;
 }): string {
-  const out: SerializedGelState = {
-    schema:   'gel-state-v0',
-    numLanes: state.numLanes,
-    samples:  state.samples,
-    ctx:      state.ctx,
-  };
-  return JSON.stringify(out, null, 2);
+  return JSON.stringify({
+    Gelbox: { version: '1.0', type: 'gel' },
+    Gel: {
+      Samples: Array.from({ length: state.numLanes }, (_, i) => {
+        const sample = state.samples[i];
+        return sample ? nativeSample(sample) : null;
+      }),
+      Buffer: nativeBuffer(state.ctx.gelBuffer),
+      Time: state.ctx.time,
+      Voltage: state.ctx.voltage,
+      WellDamage: state.ctx.wellDamage,
+    },
+  }, null, 2);
 }
 
 export function deserializeFile(text: string): DeserializedFile {

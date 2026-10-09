@@ -190,5 +190,15 @@
     "tuning/gel-render.json": "12333b3d28f39fbc611d62803111edc9c4367f9440facf2629c5e24fc6d9be45",
     "palette/1kbladder.xml": "54ff81a1bd811c1f459b8978de34275a2c3cb43b7071c3cf691186b070418472",
     "palette/1kbladder-degraded.xml": "59151866b2bb7ce9e3908bd8e35a9538e0d963566284908d096a8ab2eb8e39d4"
+  },
+  "roundtrip": {
+    "sequence": [
+      "files/ladder-after-selection.gel.json",
+      "files/web-roundtrip.gel.json",
+      "files/native-reread.gel.json"
+    ],
+    "result": "All JSON fields semantically identical after native \u2192 web codec \u2192 native Open and Save Gel.",
+    "capture": "captures/web-roundtrip-opened.png",
+    "scope": "Default ladder document; not exhaustive sample/dye/edge-case certification."
   }
 }

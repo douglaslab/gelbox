@@ -28,9 +28,9 @@ describe('serializeSample / deserializeFile (sample)', () => {
       expect(back.sample.fragments[0].bases).toBe(1000);
     }
   });
-  it('serialized JSON has schema gel-sample-v0', () => {
+  it('serialized JSON has native sample wrapper', () => {
     const text = serializeSample(SAMPLE);
-    expect(JSON.parse(text).schema).toBe('gel-sample-v0');
+    expect(JSON.parse(text).Gelbox).toEqual({ version: '1.0', type: 'sample' });
   });
 });
 
@@ -48,9 +48,9 @@ describe('serializeGelState / deserializeFile (state)', () => {
       expect(back.ctx.voltage).toBe(70);
     }
   });
-  it('serialized JSON has schema gel-state-v0', () => {
+  it('serialized JSON has native gel wrapper', () => {
     const text = serializeGelState({ samples: [SAMPLE], numLanes: 1, ctx: CTX });
-    expect(JSON.parse(text).schema).toBe('gel-state-v0');
+    expect(JSON.parse(text).Gelbox).toEqual({ version: '1.0', type: 'gel' });
   });
 });
 
@@ -73,5 +73,29 @@ describe('deserializeFile reads fixture-shaped sample', () => {
     const back = deserializeFile(text);
     if (back.kind !== 'sample') throw new Error('expected sample');
     expect(back.sample.buffer).toEqual(BUFFER_TAE);
+  });
+});
+
+
+describe('native export contract', () => {
+  it('writes native species keys, dye names and metadata without transient fields', () => {
+    expect(JSON.parse(serializeSample({ ...SAMPLE, name: 'test', icon: 'tube.png', iconScale: 0.5, id: 9,
+      fragments: [{ ...SAMPLE.fragments[0], dye: 3, aggregate: [0, 2] }] }))).toEqual({
+      Gelbox: { version: '1.0', type: 'sample' },
+      Sample: { name: 'test', icon: 'tube.png', iconScale: 0.5, id: 9,
+        Buffer: { Tris: 44.5, Borate: 44.5, Acetate: 0, EDTA: 1 },
+        Fragments: [{ Bases: 1000, Mass: 50, Degrade: 0, Dye: 'Orange G', Aggregate: [0, 2], AspectRatio: 1, Color: [1, 1, 1] }] },
+    });
+  });
+  it('saves visible lanes only, padding empty slots and omitting layout and sample context', () => {
+    const file = JSON.parse(serializeGelState({ samples: [null, null, SAMPLE], numLanes: 2, ctx: CTX }));
+    expect(file).toEqual({ Gelbox: { version: '1.0', type: 'gel' }, Gel: {
+      Samples: [null, null], Buffer: { Tris: 44.5, Borate: 44.5, Acetate: 0, EDTA: 1 }, Time: 0.5, Voltage: 70, WellDamage: 0,
+    } });
+    expect(JSON.parse(serializeGelState({ samples: [], numLanes: 2, ctx: CTX })).Gel.Samples).toEqual([null, null]);
+  });
+  it('continues to read legacy web sample and gel documents', () => {
+    expect(deserializeFile(JSON.stringify({ schema: 'gel-sample-v0', ...SAMPLE }))).toEqual({ kind: 'sample', sample: SAMPLE });
+    expect(deserializeFile(JSON.stringify({ schema: 'gel-state-v0', samples: [SAMPLE], numLanes: 1, ctx: CTX }))).toEqual({ kind: 'state', samples: [SAMPLE], numLanes: 1, ctx: CTX });
   });
 });

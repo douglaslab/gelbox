@@ -16,7 +16,7 @@ A working TypeScript/React application under `ts/`, with pure gel simulation, We
 - UI: sample/species/gel panels, many sliders, band resize/clone, tube move/clone, and cross-panel selection/hover exist. Missing native workflows and deliberate/accidental behavioral differences remain.
 - Molecular view: live engine, multimer clusters, slice meshes, dye backgrounds, and selection outlines are implemented. Degradation wholeness ranges/filtering still diverge from native.
 - Loupes: live synthetic content and multiple fixed popups exist. Native dragging, callout geometry, hover preview, source-selection ancestry, and full positioning behavior remain incomplete.
-- Files: web-format serialization exists. Save/Open controls are unmounted. Native JSON/XML compatibility is absent.
+- Files: native Gelbox JSON import/export now exists, preserving sample metadata and scientific fields. Legacy web formats remain readable. A native → web codec → native ladder roundtrip preserved every JSON field. Save/Open controls remain unmounted; XML import and full workflow verification remain open.
 
 ## Verification actually run
 
@@ -34,12 +34,12 @@ The skipped test is narrow-screen reflow. These are implementation/regression te
 
 ## Forward roadmap
 
-P0 reference work is underway; the remaining increments have not started.
+P0 reference work and P1 file compatibility are underway; P2–P5 have not started.
 
 | Increment | Deliverable | Current status |
 |---|---|---|
 | P0 | Runnable native reference, captures, effective configuration, parity ledger | In progress |
-| P1 | Native application shell and compatible file/edit/save workflow | Planned |
+| P1 | Native application shell and compatible file/edit/save workflow | In progress: JSON codec |
 | P2 | Native editing, identity/selection, panel and control behavior | Planned |
 | P3 | Independently verified numerical and rendering fidelity | Planned |
 | P4 | Complete native loupes and reference images | Planned |
@@ -50,3 +50,7 @@ The next action is to complete P0 provenance and scenario coverage, then begin P
 ## Historical records
 
 The previous status narrative, including original milestone counts and now-stale assertions, is preserved in [archive/STATUS-pre-2026-10-09.md](archive/STATUS-pre-2026-10-09.md). Historical plans/specs remain under `superpowers/`; consult them for implementation rationale only. Their claims of complete phases, future Rust phases, placeholder molecular rendering, bloom, or image inference do not supersede the new roadmap.
+
+## Current implementation checks
+
+After the JSON codec changes: 36 unit files / 300 tests pass; typecheck and production build pass. Vite reports existing mixed static/dynamic import warnings. Native GUI Open and Save Gel verified semantic equality for the ladder roundtrip; this is one interchange scenario, not complete file-format certification.

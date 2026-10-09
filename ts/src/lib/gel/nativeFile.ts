@@ -87,3 +87,20 @@ export function deserializeNativeFile(value: unknown): DeserializedFile {
     },
   };
 }
+
+export function nativeBuffer(b: Buffer) {
+  return { Tris: b.tris, Borate: b.borate, Acetate: b.acetate, EDTA: b.edta };
+}
+
+export function nativeSample(s: Sample) {
+  return {
+    name: s.name ?? '', icon: s.icon ?? '', iconScale: s.iconScale ?? 1, id: s.id ?? -1,
+    Buffer: nativeBuffer(s.buffer),
+    Fragments: s.fragments.map(f => ({
+      Bases: f.bases, Mass: f.mass, Degrade: f.degrade,
+      AspectRatio: f.aspectRatio, Color: f.color,
+      ...(f.dye === -1 ? {} : { Dye: DYE_NAMES[f.dye] }),
+      ...(f.aggregate.length === 0 ? {} : { Aggregate: f.aggregate }),
+    })),
+  };
+}
