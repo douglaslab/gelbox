@@ -13,17 +13,8 @@ import styles from './FragmentView.module.css';
 
 // Port of ~/code/gelbox/src/GelSettingsView.cpp.
 //
-// 5 sliders + a BufferView for the gel running buffer:
-//   1. Lanes      (gel-lanes-{lo,hi}.png)
-//   2. Time/clock (clock-{lo,hi}.png)
-//   3. Voltage    (voltage-{lo,hi}.png)
-//   4. Well-damage (well-damage-{lo,hi}.png)
-//   5. Rotate     (gel-rotate-{lo,hi}.png) — cosmetic
-//
-// Tuning constants come straight from `~/code/gelbox/include/GelSim.h`
-// (also mirrored in `~/code/gelbox/assets/tuning/gel-sim.json`).
+// Native default: timeline below gel; lanes, damage, voltage, disabled rotation here.
 
-const TIMELINE_MAX_MINUTES = 180; // mSliderTimelineMaxMinutes
 const VOLTAGE_LOW          = -300;
 const VOLTAGE_HIGH         =  300;
 const VOLTAGE_DEFAULT      =   70;
@@ -35,13 +26,6 @@ const SLIDER_W = LAYOUT.fragViewSlidersWidth;
 const SLIDER_GAP = LAYOUT.fragViewSlidersVOffset;
 const ICON_GUTTER = LAYOUT.fragViewSlidersIconGutter;
 const ICON_SIZE = LAYOUT.fragViewSliderIconNotionalSize;
-
-function formatHrsMin(timeNorm: number): string {
-  const m = Math.round(timeNorm * TIMELINE_MAX_MINUTES);
-  const hrs  = Math.floor(m / 60);
-  const mins = m % 60;
-  return `${hrs}:${String(mins).padStart(2, '0')}`;
-}
 
 export function GelSettingsView() {
   const state    = useGelState();
@@ -63,18 +47,17 @@ export function GelSettingsView() {
       onChange: (v: number) => dispatch({ type: 'SET_NUM_LANES', value: v }),
     },
     {
-      key: 'time',
-      iconLo: '/assets/slider-icons/clock-lo.png',
-      iconHi: '/assets/slider-icons/clock-hi.png',
-      value: state.ctx.time,
+      key: 'well-damage',
+      iconLo: '/assets/slider-icons/well-damage-lo.png',
+      iconHi: '/assets/slider-icons/well-damage-hi.png',
+      value: state.ctx.wellDamage,
       cfg: {
         style: 'slider' as const,
         valueMin: 0,
         valueMax: 1,
         quantize: 0,
-        formatValue: formatHrsMin,
       },
-      onChange: (v: number) => dispatch({ type: 'SET_TIME', value: v }),
+      onChange: (v: number) => dispatch({ type: 'SET_WELL_DAMAGE', value: v }),
     },
     {
       key: 'voltage',
@@ -96,32 +79,18 @@ export function GelSettingsView() {
       onChange: (v: number) => dispatch({ type: 'SET_VOLTAGE', value: v }),
     },
     {
-      key: 'well-damage',
-      iconLo: '/assets/slider-icons/well-damage-lo.png',
-      iconHi: '/assets/slider-icons/well-damage-hi.png',
-      value: state.ctx.wellDamage,
-      cfg: {
-        style: 'slider' as const,
-        valueMin: 0,
-        valueMax: 1,
-        quantize: 0,
-        formatValue: (v: number) => v.toFixed(2),
-      },
-      onChange: (v: number) => dispatch({ type: 'SET_WELL_DAMAGE', value: v }),
-    },
-    {
       key: 'rotate',
       iconLo: '/assets/slider-icons/gel-rotate-lo.png',
       iconHi: '/assets/slider-icons/gel-rotate-hi.png',
       value: state.gelRotate,
       cfg: {
         style: 'slider' as const,
+        enabled: false,
         valueMin: -GEL_ROTATE_MAX,
         valueMax:  GEL_ROTATE_MAX,
         quantize: 0,
-        notches: [0.5],
+        notches: [0, 0.5, 1],
         notchAction: 'snap' as const,
-        formatValue: (v: number) => `${v.toFixed(0)}°`,
       },
       onChange: (v: number) => dispatch({ type: 'SET_GEL_ROTATE', value: v }),
     },
@@ -132,9 +101,8 @@ export function GelSettingsView() {
     if (bufferEquals(b, BUFFER_TBE))      dispatch({ type: 'SET_GEL_BUFFER', value: 'TBE' });
     else if (bufferEquals(b, BUFFER_TAE)) dispatch({ type: 'SET_GEL_BUFFER', value: 'TAE' });
     else if (bufferEquals(b, BUFFER_H2O)) dispatch({ type: 'SET_GEL_BUFFER', value: 'H2O' });
-    // Off-preset edits would need a SET_GEL_BUFFER_DIRECT action; the C++
-    // app exposes per-ion sliders here too, but the gel buffer is rarely
-    // edited off-preset. Defer until M19 polish.
+    // Native defaults disable individual concentration edits; imports still
+    // preserve arbitrary compositions until the user chooses a preset.
   }
 
   return (
@@ -160,6 +128,12 @@ export function GelSettingsView() {
         topLeft={LAYOUT.gelViewBufferViewTopLeft}
         testId="gel-buffer-view"
       />
+
+      <div data-testid="gel-settings-rule" style={{
+        position: 'absolute', left: LAYOUT.gelSettingsRuleTopLeft.x,
+        top: LAYOUT.gelSettingsRuleTopLeft.y, width: LAYOUT.gelSettingsRuleLength,
+        borderTop: `1px solid ${LAYOUT.ruleColor}`,
+      }} />
 
       {/* Sliders. */}
       <div className={styles.sliders} style={{

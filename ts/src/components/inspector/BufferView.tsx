@@ -47,9 +47,9 @@ interface Preset {
 // Order matches C++ kBufferPresets: { h2o, 0.5×TBE, 1×TAE }.
 // (Our BUFFER_TBE constant is already 0.5× per the comment in buffer.ts.)
 const PRESETS: Preset[] = [
-  { key: 'H2O', label: 'H₂O',    buffer: BUFFER_H2O },
-  { key: 'TBE', label: '½× TBE', buffer: BUFFER_TBE },
-  { key: 'TAE', label: '1× TAE', buffer: BUFFER_TAE },
+  { key: 'H2O', label: 'H2O',    buffer: BUFFER_H2O },
+  { key: 'TBE', label: '.5x TBE', buffer: BUFFER_TBE },
+  { key: 'TAE', label: '1x TAE', buffer: BUFFER_TAE },
 ];
 
 export interface BufferViewProps {
@@ -85,6 +85,12 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
 
   return (
     <div data-testid={testId} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+      <h3 style={{ position: 'absolute', margin: 0,
+        left: presetsLeft - 100, width: 100 - LAYOUT.bufferViewSlidersIconGutter,
+        top: presetsTop + 5, textAlign: 'right', lineHeight: 1,
+        color: LAYOUT.subheadFontColor,
+        font: `${LAYOUT.subheadFontWeight} ${LAYOUT.subheadFontSize}px ${LAYOUT.subheadFont}`,
+      }}>Buffer</h3>
       {/* Preset row */}
       <div
         data-testid={`${testId}-presets`}
@@ -95,11 +101,13 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
           width:    LAYOUT.bufferViewPresetsSize.x,
           height:   LAYOUT.bufferViewPresetsSize.y,
           display:  'flex',
-          background: LAYOUT.bufferViewSliderEmptyColor,
+          background: '#FFFFFF',
+          border: `1px solid ${LAYOUT.bufferViewPresetsColor}`,
+          boxSizing: 'border-box',
           borderRadius: LAYOUT.bufferViewPresetsCornerRadius,
           overflow: 'hidden',
           pointerEvents: 'auto',
-          font: `${LAYOUT.subheadFontWeight} ${LAYOUT.bufferViewPresetsFontSize}px ${LAYOUT.bufferViewPresetsFont}`,
+          font: `${LAYOUT.uiFontWeight} ${LAYOUT.bufferViewPresetsFontSize}px ${LAYOUT.bufferViewPresetsFont}`,
         }}
       >
         {PRESETS.map((p, i) => {
@@ -116,7 +124,7 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
                 background: selected ? LAYOUT.bufferViewPresetsSelectColor : 'transparent',
                 color:      LAYOUT.bufferViewPresetsFontColor,
                 border:     'none',
-                borderRight: i < PRESETS.length - 1 ? '1px solid #C4C4C4' : 'none',
+                borderRight: i < PRESETS.length - 1 ? `1px solid ${LAYOUT.bufferViewPresetsColor}` : 'none',
                 cursor: 'pointer',
                 padding: 0,
                 font: 'inherit',
@@ -141,6 +149,7 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
               left:  slidersLeft - 100,    // leave room for the dye-style label on the left
               top,
               width: barW + 100,
+              height: barH,
               pointerEvents: 'auto',
             }}
           >
@@ -150,10 +159,11 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
                 left: 0,
                 top:  '50%',
                 transform: 'translateY(-50%)',
-                width: 90,
+                width: 100 - LAYOUT.bufferViewSlidersIconGutter,
+                filter: 'brightness(0.85) opacity(0.5)',
                 textAlign: 'right',
                 color: LAYOUT.bufferViewSliderTextLabelColor,
-                font: `${LAYOUT.bufferViewSliderLabelFontSize}px ${LAYOUT.bufferViewSliderLabelFont}`,
+                font: `500 ${LAYOUT.bufferViewSliderLabelFontSize}px ${LAYOUT.bufferViewSliderLabelFont}`,
                 pointerEvents: 'none',
               }}
             >
@@ -163,6 +173,7 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
               testId={`${testId}-${key}`}
               config={{
                 style: 'bar',
+                enabled: false,
                 valueMin: 0,
                 valueMax: max,
                 quantize: 0.5,

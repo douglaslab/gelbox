@@ -129,6 +129,7 @@ export function SliderView({
       className={`${styles.root} ${enabled ? '' : styles.disabled}`}
       style={{ width, ...style }}
       data-testid={testId}
+      aria-disabled={!enabled || undefined}
     >
       {iconLo && (
         <img
@@ -174,7 +175,7 @@ export function SliderView({
           ref={trackRef}
           className={styles.bar}
           style={{
-            background:    barEmptyColor ?? undefined,
+            background: enabled ? barEmptyColor : `color-mix(in srgb, ${barEmptyColor ?? '#E8EBF1'} 50%, transparent)`,
             borderRadius:  barCornerRadius ?? undefined,
             height:        barHeight ?? undefined,
           }}
@@ -186,7 +187,7 @@ export function SliderView({
             className={styles.barFill}
             style={{
               width:      `${normalized * 100}%`,
-              background: barFillColor ?? undefined,
+              background: enabled ? barFillColor : `color-mix(in srgb, ${barFillColor ?? '#AEB6C3'} 50%, transparent)`,
             }}
           />
           {(config.notchAction === 'drawOnly' || config.notchAction === 'snap' || config.notchAction === 'nearest')

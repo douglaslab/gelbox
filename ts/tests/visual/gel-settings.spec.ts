@@ -11,7 +11,7 @@ function maybeSkipLinuxWebGPU(testInfo: import('@playwright/test').TestInfo) {
   }
 }
 
-test('Gear button opens GelSettingsView with all 5 sliders + buffer', async ({ page }, testInfo) => {
+test('Gear button opens GelSettingsView with native controls + buffer', async ({ page }, testInfo) => {
   maybeSkipLinuxWebGPU(testInfo);
   await page.setViewportSize({ width: 1365, height: 800 });
   await page.goto('/#/gel');
@@ -21,10 +21,20 @@ test('Gear button opens GelSettingsView with all 5 sliders + buffer', async ({ p
   await expect(panel).toBeVisible();
   await expect(panel.getByRole('heading', { name: 'Gel', exact: true })).toBeVisible();
 
-  for (const k of ['lanes', 'time', 'voltage', 'well-damage', 'rotate']) {
+  for (const k of ['lanes', 'well-damage', 'voltage', 'rotate']) {
     await expect(page.getByTestId(`gel-${k}`)).toBeVisible();
   }
   await expect(page.getByTestId('gel-buffer-view')).toBeVisible();
+  await expect(page.getByTestId('gel-time')).toHaveCount(0);
+  await expect(page.getByTestId('timeline-slider')).toBeVisible();
+  const positions = await Promise.all(['lanes', 'well-damage', 'voltage', 'rotate'].map(async key =>
+    (await page.getByTestId(`gel-${key}`).boundingBox())!.y));
+  expect(positions).toEqual([...positions].sort((a, b) => a - b));
+  await expect(page.getByTestId('gel-buffer-view').getByText('Buffer', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('gel-settings-rule')).toBeVisible();
+  await expect(page.getByTestId('gel-well-damage')).toHaveText('');
+  await expect(page.getByTestId('gel-rotate')).toHaveText('');
+  await page.screenshot({ path: testInfo.outputPath('gel-settings-controls.png') });
 });
 
 test('Voltage slider drag updates state and re-runs sim', async ({ page }, testInfo) => {

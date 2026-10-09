@@ -3,7 +3,8 @@
   display: flex;
   align-items: center;
   user-select: none;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Avenir', sans-serif;
+  font-weight: 500;
   font-size: 12px;
   color: #777777;
 }
@@ -19,7 +20,7 @@
 }
 
 .disabled .icon {
-  filter: grayscale(1) opacity(0.5);
+  filter: brightness(0.85) opacity(0.5);
 }
 
 .track {
@@ -39,7 +40,7 @@
 }
 
 .disabled .line {
-  background: #C7C7C7;
+  background: #E5E5E5;
 }
 
 .handle {
@@ -92,7 +93,6 @@
 
 .disabled .bar {
   cursor: default;
-  opacity: 0.5;
 }
 
 .graph {
@@ -137,8 +137,12 @@
   position: absolute;
   top: 22px;
   font-size: 12px;
-  color: #777777;
+  color: #000000;
   pointer-events: none;
   white-space: nowrap;
   transform: translateX(-50%);
+}
+
+.disabled .notch {
+  background: #D2D2D2;
 }

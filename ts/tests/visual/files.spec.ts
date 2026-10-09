@@ -133,3 +133,42 @@ test('lane reduction hides retained samples and saves only visible lanes', async
   await page.getByRole('button', { name: 'Application settings' }).click();
   await expect(page.getByTestId('save-sample-btn')).toHaveCount(0);
 });
+
+test('native disabled controls preserve imported off-preset buffer values', async ({ page }) => {
+  await page.setViewportSize({ width: 1365, height: 768 });
+  const native = JSON.parse(await readFile('../reference/native/files/ladder-after-selection.gel.json', 'utf8'));
+  native.Gel.Buffer = { Tris: 37, Borate: 19, Acetate: 11, EDTA: 3 };
+  native.Gel.Samples[0].Buffer = { Tris: 23, Borate: 13, Acetate: 7, EDTA: 2 };
+  await page.getByTestId('file-input').setInputFiles({ name: 'custom.gel.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(native)) });
+  for (const mode of ['gel', 'sample']) {
+    await page.getByTestId(mode === 'gel' ? 'settings-button' : 'microtube-0').click();
+    const buffer = page.getByTestId(`${mode}-buffer-view`);
+    await expect(buffer.locator('[data-selected="true"]')).toHaveCount(0);
+    for (const key of ['tris', 'borate', 'acetate', 'edta']) {
+      const slider = page.getByTestId(`${mode}-buffer-view-${key}`);
+      await expect(slider).toHaveAttribute('aria-disabled', 'true');
+      // Native disabled backgrounds fade, but value labels remain fully opaque.
+      const track = page.getByTestId(`${mode}-buffer-view-${key}-track`);
+      await expect(track).toHaveCSS('opacity', '1');
+      for (const target of [track, page.getByTestId(`${mode}-buffer-view-${key}-icon-hi`)]) {
+        const b = (await target.boundingBox())!;
+        await page.mouse.click(b.x + b.width * .9, b.y + b.height / 2);
+      }
+    }
+    if (mode === 'gel') {
+      await expect(page.getByTestId('gel-rotate')).toHaveAttribute('aria-disabled', 'true');
+      for (const id of ['gel-rotate-track', 'gel-rotate-icon-hi']) {
+        const b = (await page.getByTestId(id).boundingBox())!;
+        await page.mouse.click(b.x + b.width * .9, b.y + b.height / 2);
+      }
+      await expect(page.getByTestId('gel-canvas').locator('..')).toHaveCSS('transform', 'none');
+    }
+    await page.getByRole('button', { name: 'Application settings' }).click();
+    const pending = page.waitForEvent('download');
+    await page.getByTestId(mode === 'gel' ? 'save-gel-btn' : 'save-sample-btn').click();
+    const saved = JSON.parse(await readFile((await (await pending).path())!, 'utf8'));
+    expect(mode === 'gel' ? saved.Gel.Buffer : saved.Sample.Buffer)
+      .toEqual(mode === 'gel' ? native.Gel.Buffer : native.Gel.Samples[0].Buffer);
+    await page.keyboard.press('Escape');
+  }
+});
