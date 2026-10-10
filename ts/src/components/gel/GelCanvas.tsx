@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { GraphicsFailure } from '../primitives/GraphicsFailure';
+import { useEffect, useRef, useState } from 'react';
 import type { GlobalWarp } from '../../lib/sim/globalWarp';
 import type { Band } from '../../lib/sim/band';
 import { resolveBackend } from '../../lib/gel/backend';
@@ -14,6 +15,8 @@ type GpuRenderer = ReturnType<typeof import('../../lib/gel/render').createGelRen
 type GlRenderer  = ReturnType<typeof import('../../lib/gel/render-gl').createGlGelRenderer>;
 
 export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanvasProps) {
+  const [failed,setFailed]=useState(false);
+  const [attempt,setAttempt]=useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<{
     rendererGpu: GpuRenderer | null;
@@ -168,8 +171,9 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
           renderer.render();
           stateRef.current.blitFn(renderer);
         }
+        if (!cancelled) setFailed(false);
       } catch (err) {
-        if (!cancelled) console.error('GelCanvas mount failed:', err);
+        if (!cancelled) { console.error('GelCanvas mount failed:', err); setFailed(true); }
       }
     })();
 
@@ -182,7 +186,7 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
       stateRef.current.blitFn = null;
       for (const dispose of cleanup.reverse()) dispose();
     };
-  }, [gelSize.width, gelSize.height, pixelsPerUnit]);
+  }, [gelSize.width, gelSize.height, pixelsPerUnit, attempt]);
 
   // Re-render whenever the scientific scene or global effects change
   useEffect(() => {
@@ -195,8 +199,9 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
     blitFn(renderer);
   }, [bands, globalWarp]);
 
-  return (
+  return (<>
     <canvas
+      key={attempt}
       ref={canvasRef}
       data-testid="gel-canvas"
       data-render-mode="effects"
@@ -208,5 +213,8 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
         imageRendering: 'pixelated',
       }}
     />
-  );
+    {failed&&<GraphicsFailure testId="gel-canvas-error"
+      width={gelSize.width*pixelsPerUnit} height={gelSize.height*pixelsPerUnit}
+      onRetry={()=>{setFailed(false);setAttempt(n=>n+1);}} />}
+  </>);
 }

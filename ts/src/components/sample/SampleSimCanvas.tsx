@@ -1,3 +1,4 @@
+import { GraphicsFailure } from '../primitives/GraphicsFailure';
 import type {MolecularView} from '../../lib/gel/molecularRuntime';
 import {useGelStore} from '../gel/GelContext';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -15,7 +16,7 @@ import type { Mesh } from '../../lib/gel/mesh';
 /**
  * Lane-agnostic presentational canvas backed by a live `MolecularSim` engine,
  * rendered through the GPU `meshBatch` primitive (WebGPU primary, WebGL2
- * fallback, 2D-canvas fallback when no GPU backend is available).
+ * fallback, with a visible error when graphics cannot initialize).
  *
  * Takes explicit props instead of reading gel state, so it can be used both
  * by `MolecularSimCanvas` (which wraps it and wires gel state) and by the
@@ -62,6 +63,8 @@ export function SampleSimCanvas({
   onHoverFragment,
   'data-testid': testId = 'molecular-sim-canvas',
 }: SampleSimCanvasProps) {
+  const [failed,setFailed]=useState(false);
+  const [attempt,setAttempt]=useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const store = useGelStore();
   const sim = view.sim;
@@ -69,7 +72,7 @@ export function SampleSimCanvas({
   const hoverRef = useRef(false);
   const downRef = useRef(false);
   const [, setTick] = useState(0);
-  // GPU surface mount (mirrors GelCanvas.tsx). Falls back to 2D on throw.
+  // GPU surface mount; retry replaces only the drawing canvas, not the live engine.
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -123,10 +126,11 @@ export function SampleSimCanvas({
             destroy: () => batch.destroy(),
           };
         }
+        if (!cancelled) setFailed(false);
       } catch (err) {
         if (cancelled) return;
-        console.warn('SampleSimCanvas: GPU unavailable, using 2D fallback', err);
-        handleRef.current = make2dFallback(canvas, width, height);
+        console.error('SampleSimCanvas graphics initialization failed:', err);
+        setFailed(true);
       }
     })();
 
@@ -135,7 +139,7 @@ export function SampleSimCanvas({
       handleRef.current?.destroy();
       handleRef.current = null;
     };
-  }, [width, height]);
+  }, [width, height, attempt]);
 
   // Draw after the application frame; acquiring a GPU never gates simulation.
   useEffect(() => store.subscribeFrame(() => {
@@ -159,7 +163,7 @@ export function SampleSimCanvas({
       x: ((e.clientX - rect.left) / rect.width)  * width,
       y: ((e.clientY - rect.top)  / rect.height) * height,
     };
-  }, [width, height]);
+  }, [width, height, attempt]);
 
   const onPointerMove = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     hoverRef.current = !store.isPointerDown();
@@ -211,8 +215,9 @@ export function SampleSimCanvas({
 
   const aliveCount = sim.parts.filter((p) => p.alive).length;
 
-  return (
+  return (<>
     <canvas
+      key={attempt}
       ref={canvasRef}
       data-testid={testId}
       data-molecular-view={viewKey}
@@ -232,7 +237,9 @@ export function SampleSimCanvas({
         touchAction: 'none',
       }}
     />
-  );
+    {failed&&<GraphicsFailure testId={`${testId}-error`} width={width} height={height}
+      onRetry={()=>{setFailed(false);setAttempt(n=>n+1);}} />}
+  </>);
 }
 
 /**
@@ -247,26 +254,4 @@ function dyeMassesFromSample(sample: Sample | null): number[] {
     if (isDyeFragment(f) && f.dye >= 0 && f.dye < DYE_COUNT) out[f.dye] = f.mass;
   }
   return out;
-}
-
-/**
- * Minimal 2D-canvas fallback when no GPU backend is available (CI safety).
- * Draws only the background fill; no particle/degradation/outline parity (the
- * GPU path is the real renderer). Keeps the panel non-blank where WebGPU and
- * WebGL2 are both absent.
- */
-function make2dFallback(canvas: HTMLCanvasElement, width: number, height: number): RenderHandle {
-  const ctx = canvas.getContext('2d');
-  return {
-    resize(wp, hp) { canvas.width = wp; canvas.height = hp; },
-    draw(_mesh, bgRgb) {
-      if (!ctx) return;
-      const dpr = canvas.width / width;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const toByte = (c: number) => Math.round(Math.max(0, Math.min(1, c)) * 255);
-      ctx.fillStyle = `rgb(${toByte(bgRgb[0])},${toByte(bgRgb[1])},${toByte(bgRgb[2])})`;
-      ctx.fillRect(0, 0, width, height);
-    },
-    destroy() {},
-  };
 }

@@ -329,3 +329,12 @@ rendered pixels. Full suite: 347 passed, one intentional duplicate skipped; buil
 passes. Next: post-context initialization failure/replacement, reverse fallback,
 clear exhausted-renderer failure, then device/context loss and lifecycle checks.
 P5 and full native parity gates remain open.
+
+
+P5 failure-state update: initialization failure now produces a visible error and
+fresh-canvas retry in gel/molecular views. Removed the background-only molecular
+2D fallback. Four tests cover unavailable graphics, unchanged native JSON saving,
+and recovery of both canvases. Full suite: 351 passed, one intentional duplicate
+skipped; build passes. Next: automatic post-context/reverse fallback, partial
+resource cleanup, device/context loss and lifecycle certification. Full parity and
+release gates remain open.

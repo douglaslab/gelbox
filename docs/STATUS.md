@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 347 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 351 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -34,7 +34,7 @@ The [composed native runtime reference](../reference/native/runtime/README.md) c
 2. **Remaining native features and controls.** Reference-image views are now implemented with source-backed gestures and shared ordering; native image decoding/raster and composed GUI certification remain. The Render-off alternate band scene is now implemented; native raster certification remains. Menu placement and measured button geometry are now implemented at 1×/2×. Complete typography/raster comparison, shortcuts, focus and remaining interaction details, with composed native replay of the restored right-click creation/drag sequence.
 3. **Native visual certification.** Capture controlled matching native/web scenes for gel effects, blur/compositing, particles, loupes, selection and complete application layout. Resolve typography, asset proportions, resize/DPR behavior and justified raster tolerances. Decide cross-platform font handling and any browser layout adaptations explicitly.
 4. **Composed workflow verification.** Expand native → web edit/save → native roundtrips and replay move/clone/delete with loupes open, hidden-lane restoration, degraded multimer dragging, and buffer changes with resizing/failures. Resolve recorded XML safety and unsupported native import edge cases explicitly.
-5. **Browser lifecycle reliability.** WebGPU adapter/device acquisition failure now falls back to full WebGL2 in gel and molecular views. Verify failures after context acquisition, device/context loss, async unmount/disposal, route remount, resize/DPR, hidden-tab resume and repeated multi-view creation/removal. Provide a clear failure when no supported renderer works. Certify shortcuts that browser chrome may intercept.
+5. **Browser lifecycle reliability.** WebGPU adapter/device acquisition failure now falls back to full WebGL2 in gel and molecular views. Verify failures after context acquisition, device/context loss, async unmount/disposal, route remount, resize/DPR, hidden-tab resume and repeated multi-view creation/removal. A visible graphics error and fresh-canvas retry now cover initialization failure; extend recovery to failures after context acquisition. Certify shortcuts that browser chrome may intercept.
 6. **Production and release validation.** Serve built artifacts at root and subpath; check assets, fonts, routing, files and errors. Establish actual Safari/Firefox compatibility after macOS Chromium certification on both renderers. Measure combined-app responsiveness and resource growth on named hardware. Resolve every parity-ledger row and complete Shawn's side-by-side/workflow review.
 
 ## Roadmap state
@@ -826,3 +826,28 @@ This closes acquisition fallback only. Post-context setup/shader failures, rever
 fallback from unavailable WebGL2, exhausted-renderer error UI, device/context loss,
 resource disposal and full lifecycle/platform/performance certification remain
 open. Existing last-resort molecular 2D drawing is not a parity release solution.
+
+
+## Visible graphics failure and retry
+
+Gel and molecular views now show an accessible graphics initialization error with
+Retry graphics. Retry replaces the failed canvas while retaining the live document
+and molecular runtime. The former molecular 2D fallback, which only filled a
+background and omitted particles, has been removed. Successful initialization
+clears the error, including reinitialization after dimension changes. Error-panel
+pointer events do not initiate underlying view gestures.
+
+Four browser cases failed before implementation and pass afterward. With WebGPU
+missing or unable to acquire an adapter and WebGL2 unavailable, both views show the
+error. A native-format file can still be imported and saved with identical supported
+JSON data. Re-enabling WebGL2 and pressing each retry button disconnects the old
+canvas nodes and initializes full WebGL2 contexts. The failure screenshot was
+reviewed. Fresh full verification: **351 browser tests passed, one intentional
+duplicate skipped; production build and TypeScript checks passed**. No goldens
+changed; unchanged model unit baseline remains 2,845.
+
+Post-context initialization failures and partial resource cleanup, automatic reverse
+fallback, device/context loss, lifecycle stress, platform/performance certification,
+and full native visual/workflow parity remain open. This error state is a browser
+failure adaptation, not a replacement for automatic recovery where another renderer
+can work.
