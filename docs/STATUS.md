@@ -23,7 +23,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Unit suite | 2,867 passed |
 | Browser suite across WebGPU/WebGL2 | 433 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
-| Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
+| Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -1480,3 +1480,23 @@ custom color. Verification: **2,867 unit tests, 433 browser tests and 4 producti
 checks passed**, with one intentional duplicate browser skip. Production
 included a fresh build and TypeScript checks. No goldens or tolerances changed.
 Full native raster/typography and inspector focus certification remain open.
+
+
+## Current browser-engine compatibility probe
+
+An [isolated Playwright 1.64.0 probe](../reference/web/compatibility/playwright-1.64/README.md)
+ran the byte-identical production workflows against freshly built `bfbc32b`.
+WebKit 27.2 passed both root and subpath cases, including real WebGL2 rendering
+initialization, controls, assets and exact native-file round trips.
+
+Firefox 157.0 failed both cases before navigation with `Could not find profile
+folder.` An existing persistent profile in the user's cache directory failed
+the same way. Updating the runner alone therefore does not resolve the previous
+Firefox 132 launch limitation; changing away from temporary profile storage is
+also insufficient. Root cause remains unproven. Repository dependencies, browser
+security settings, product code and test assertions were not changed.
+
+Fresh build/type checks and two current WebKit production cases passed. No new
+full unit/browser suite run was needed for this evidence-only change. Shipping
+Safari and Firefox, broader cross-browser workflows and all remaining native
+parity/release gates remain open.

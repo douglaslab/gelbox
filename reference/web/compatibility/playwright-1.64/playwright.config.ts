@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'.',testMatch:'*.spec.ts',timeout:30000,workers:1,reporter:[['list'],['json',{outputFile:'/tmp/gel-browser-compat-1.64/results.json'}]],outputDir:'/tmp/gel-browser-compat-1.64/results',use:{browserName:'firefox',viewport:{width:1365,height:768},deviceScaleFactor:2,launchOptions:{timeout:15000}},projects:[{name:'firefox-webgl2'}]});
