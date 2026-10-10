@@ -153,8 +153,12 @@ text before the sample body. Eight exact RGB comparisons cover integer/fractiona
 positions at DPR1/2 on both backends. Text uses one linear-filtered texture level,
 while ordinary UI images retain mipmaps. The accessible heading remains in the
 DOM. A later reference image covers all header paint in the real app and deleting
-it restores the original pixels. The new-species button, other headings, dynamic
-labels, menus, sliders and remaining paint stay open.
+it restores the original pixels. The sample frame/focus and new-species child button now also contribute in native
+order. Twenty-eight exact RGB comparisons cover the combined header, rectangular
+empty sample body, focus/frame and button states, including a later translucent
+view. Image covering/picking and create/edit/delete/save workflows are verified
+in shared mode. Other headings, dynamic labels, menus, sliders and remaining
+paint stay open.
 
 
 

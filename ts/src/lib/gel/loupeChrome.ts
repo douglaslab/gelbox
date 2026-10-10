@@ -1,3 +1,4 @@
+import {sampleFrame} from './sampleFrame';
 import {loupeHull,type Point} from './loupeGeometry';
 import type {PresentationLayer} from './presentationTypes';
 const f=Math.fround;
@@ -31,12 +32,6 @@ export function loupeChrome(frame:Point,anchor:Point,focused:boolean,hover:boole
  const hull=loupeHull(frame,anchor,size).map(p=>[f(f(p.x)-f(frame.x)),f(f(p.y)-f(frame.y))]);
  before.push(layer(hull.slice(2).flatMap((p,i)=>[hull[0],hull[i+1],p]),[1,1,1,.25]));
  before.push(layer([...hull,hull[0]],[1,1,1,.15],'line-strip'));
- if(focused){
-  // drawStrokedRect(bounds.inflated(-1),2): four joined strips, entirely inside.
-  const a=2,b=size-2,c=size;
-  after.push(layer(strip([[a,b],[a,a],[0,c],[0,0],[a,a],[b,a],[0,0],[c,0],[b,a],[b,b],[c,0],[c,c],[b,b],[a,b],[c,c],[0,c]]),[0,0,1,.1]));
- }
- const gray=focused||hover ? .4 : .8;
- after.push(layer([[0,0],[size,0],[size,size],[0,size],[0,0]],[gray,gray,gray,1],'line-strip'));
+ after.push(...sampleFrame(size,size,focused,hover));
  return {before,after};
 }

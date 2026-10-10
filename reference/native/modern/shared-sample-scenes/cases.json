@@ -1,0 +1,65 @@
+[
+  {
+    "id": "idle",
+    "focus": false,
+    "hover": false,
+    "down": false,
+    "buttonHover": false,
+    "buttonDown": false,
+    "front": false
+  },
+  {
+    "id": "body-hover",
+    "focus": false,
+    "hover": true,
+    "down": false,
+    "buttonHover": false,
+    "buttonDown": false,
+    "front": false
+  },
+  {
+    "id": "body-down",
+    "focus": true,
+    "hover": true,
+    "down": true,
+    "buttonHover": false,
+    "buttonDown": false,
+    "front": false
+  },
+  {
+    "id": "focused",
+    "focus": true,
+    "hover": false,
+    "down": false,
+    "buttonHover": false,
+    "buttonDown": false,
+    "front": false
+  },
+  {
+    "id": "button-hover",
+    "focus": true,
+    "hover": false,
+    "down": false,
+    "buttonHover": true,
+    "buttonDown": false,
+    "front": false
+  },
+  {
+    "id": "button-down",
+    "focus": true,
+    "hover": false,
+    "down": false,
+    "buttonHover": true,
+    "buttonDown": true,
+    "front": false
+  },
+  {
+    "id": "covered",
+    "focus": true,
+    "hover": false,
+    "down": false,
+    "buttonHover": false,
+    "buttonDown": false,
+    "front": true
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "idle-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "body-hover-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "body-down-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "focused-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "button-hover-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "button-down-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "covered-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  }
+]

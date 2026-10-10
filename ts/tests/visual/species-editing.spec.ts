@@ -2,8 +2,9 @@ import {releasePalette} from '../helpers/releasePalette';
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
+for(const shared of [false,true])test.describe(`shared:${shared}`,()=>{
 test.beforeEach(async ({ page }, info) => {
-  await page.addInitScript(b => localStorage.setItem('gelBackend', b), info.project.name.includes('webgl2') ? 'webgl2' : 'webgpu');
+  await page.addInitScript(({backend,shared})=>{localStorage.setItem('gelBackend',backend);if(shared)localStorage.setItem('gelSharedPresentation','1');},{backend:info.project.name.includes('webgl2')?'webgl2':'webgpu',shared});
   await page.setViewportSize({ width: 1365, height: 768 });
   await page.goto('/#/gel');
 });
@@ -70,4 +71,6 @@ test('sample background toggles settings and Tab includes deselection', async ({
   await expect(page.getByTestId('fragment-view')).toHaveCount(0);
   await page.keyboard.press('Shift+Tab');
   await expect(page.getByTestId('fragment-view')).toBeVisible();
+});
+
 });

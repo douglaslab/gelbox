@@ -1,0 +1,88 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceHashes": {
+    "layout": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+    "layoutMethods": "092147a6172861d89fe4d22cbd6889b2366cffad40ce359cce2ab0cfdf0e3ecb",
+    "sampleView": "c69251430da6eedbf1b73cf9fdbf0c5eedc4f4f19a172be935661238e2ac555a",
+    "drawHeader": "828f1d18271beb5a6be8fecb49176b4e6cee0975c31ed280b62624249aad36cb",
+    "headerLayout": "dcab36ed8db49ca426c559be59d07d571ffc89a4117c8241b206c18b8b62b8e4",
+    "sampleDraw": "cd4aeca7baed2fc94596b75b4f500a579cf54aca9ddca9d83fbee0f3b6d50ebc",
+    "buttonSource": "d1631c11a2d5c7aa268e504c94faedb4b8185c5db2214980d578944dcc883f59",
+    "buttonMethods": "2d3866cf65dccb80ebc968da09a692ef48639d565f40d1939c04729667db6849",
+    "molecularSource": "7816bdebddb3aea6933bd7be028c76cd09295e918edacd45494b8b0e4c198dcd"
+  },
+  "inputs": {
+    "driver.cpp": "f20909617ace79bdfa9d024d3272bfda18beb77311d002bad29266f9ec4d3778",
+    "capture.py": "628a0a097dd2083f13ce70f9b41f6829645ff8251e43bee2ce931ccaeb3889f8",
+    "cases.json": "4e064db5f27cf4f177d52e6260a55bcbbdf5cef2389b051766235745aba5ed4a",
+    "new-btn.png": "56b0e1ccb1da2aa5a349531b35e1eacc64cf87694da773e4a49638a96147f2f0",
+    "new-btn@2x.png": "f6d215407c842389216bf2f96f3679cfc72e54f45c260497e133c0b316d918bc",
+    "../shared-tube-scenes/microtube1500ul.png": "b1dbe804a74e1b0bba27c65e2111dfc5c4d80aada15374661b8b014742b625d2"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "files": [
+    {
+      "file": "idle-1.png",
+      "sha256": "ea18f88c8a8e61744ba6e91393a8d00d6fccca33340b14fde021937cc9627d09"
+    },
+    {
+      "file": "idle-2.png",
+      "sha256": "fa40403e4c1d5e6212b5a59a365a29616c4ff17737a516bb163b3d16364b0095"
+    },
+    {
+      "file": "body-hover-1.png",
+      "sha256": "85eedbf7385c2c1f43201493c9cefc94142a039127ed7a9be99f495e4809953e"
+    },
+    {
+      "file": "body-hover-2.png",
+      "sha256": "e8499b8b9e77604b7cb1d666dce1947791dbc4764ade549fcf7e085c6ce5b088"
+    },
+    {
+      "file": "body-down-1.png",
+      "sha256": "de0b617b9f31d442eab3ddb7c14e7de8e44eda0c4e7d1e74b226eabd4bf521c4"
+    },
+    {
+      "file": "body-down-2.png",
+      "sha256": "022e68335d6d9b600fadb698247831a516409ad97828da5e6fbc2e94043167ec"
+    },
+    {
+      "file": "focused-1.png",
+      "sha256": "9de25a75b36988927e235fd83246d88b0044a238c83dd9e26fe2e41a3d1c5160"
+    },
+    {
+      "file": "focused-2.png",
+      "sha256": "96551acbe9809830bace53ece9ae6aa55f606946dd4311b30f8deb5ade6deb77"
+    },
+    {
+      "file": "button-hover-1.png",
+      "sha256": "5337b2ee2b6ccbca27fb8b7f60ff9efdf26f4165393e850ce3036ec482c0a907"
+    },
+    {
+      "file": "button-hover-2.png",
+      "sha256": "e47872795cdfd0d83d1dddafde806bdd21f730dfac97574453718820d9de3f9a"
+    },
+    {
+      "file": "button-down-1.png",
+      "sha256": "94afa173c1a5893ad7361ad0539eb262af67e93b2bd92bd25cce4b89a87b73e9"
+    },
+    {
+      "file": "button-down-2.png",
+      "sha256": "b478d7e54a3ae39399afd5769a1c5d138384d8133a0fdec0131cf81901bc0ae1"
+    },
+    {
+      "file": "covered-1.png",
+      "sha256": "86becef53229103dafa6a348db7bd24221ba842417848d410ad41ebced1dc608"
+    },
+    {
+      "file": "covered-2.png",
+      "sha256": "7042d26e55c99793b3ea4a926624000121341af25be30fdd3566c737f4a2cea1"
+    }
+  ],
+  "limits": [
+    "Pinned SampleView draw/drawHeader, header layout, Layout text/snap methods and ButtonView drawing methods.",
+    "Empty molecular simulation adapter paints the native dye-free background; no particles or callout. Scissor has no visible contribution in these empty scenes.",
+    "Modern Cinder/macOS font rasterization, RGBA8 MSAA4 raw pixels; not original-release GUI."
+  ]
+}

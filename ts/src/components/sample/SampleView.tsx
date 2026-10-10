@@ -1,3 +1,7 @@
+import {SharedAssetPaint} from '../gel/SharedAssetPaint';
+import {useNativeButtonTint} from '../gel/useNativeButtonTint';
+import {useDisplayScale} from '../../lib/gpu/useDisplayScale';
+import {sampleFrame} from '../../lib/gel/sampleFrame';
 import {SampleHeader} from './SampleHeader';
 import {useSharedPresentation} from '../gel/ScenePresentation';
 import { useLayoutEffect, useRef, useState } from 'react';
@@ -17,7 +21,8 @@ import { MolecularSimCanvas } from './MolecularSimCanvas';
  * with the canvas filling it.
  */
 export function SampleView() {
-  const shared=useSharedPresentation();
+  const shared=useSharedPresentation(),newButton=useRef<HTMLButtonElement>(null),button=useNativeButtonTint();
+  useDisplayScale();const newButtonUrl=resolveAssetUrl('/assets/new-btn.png');
   const state = useGelState();
   const dispatch = useGelDispatch();
   const store = useGelStore();
@@ -42,6 +47,12 @@ export function SampleView() {
     return () => ro.disconnect();
   }, []);
 
+  useLayoutEffect(()=>shared?.register('sample',()=>{
+    const el=rootRef.current;if(!el)return [];
+    const rect=el.getBoundingClientRect(),focused=el.contains(document.activeElement);
+    el.dataset.sharedFrameReady='1';
+    return sampleFrame(rect.width,rect.height,focused,hovered).map(op=>({...op,transform:[1,0,0,1,rect.left,rect.top] as const}));
+  },50),[shared,hovered]);
 
   return (
     <div
@@ -58,15 +69,16 @@ export function SampleView() {
       data-lane-index={visibleLane ?? -1}
       style={{ position: 'relative', width: '100%', height: '100%', outline: 'none' }}
     >
-      <button type="button" aria-label="New species" data-testid="new-species"
+      <button ref={newButton} {...button.events} type="button" aria-label="New species" data-testid="new-species"
         onClick={() => {
           if (visibleLane === null) return;
           store.createSpecies(visibleLane);
           rootRef.current?.focus({ preventScroll: true });
         }}
         style={{ position: 'absolute', right: 0, top: '100%', marginTop: LAYOUT.btnGutter,
-          width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer' }}>
-        <img src={resolveAssetUrl('/assets/new-btn.png')} onError={dprFallbackOnError} alt="" width={32} height={32} />
+          width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer',outline:shared?'none':undefined }}>
+        <img src={newButtonUrl} onError={dprFallbackOnError} alt="" width={32} height={32} style={{opacity:shared?0:undefined}} />
+        {shared&&<SharedAssetPaint registry={shared} viewKey="sample" element={newButton} url={newButtonUrl} tint={button.tint} order={100}/>}
       </button>
       <SampleHeader/>
 
@@ -89,7 +101,7 @@ export function SampleView() {
           <MolecularSimCanvas laneIndex={visibleLane} width={size.w} height={size.h} />
         )}
       </div>
-      <div aria-hidden style={{position:'absolute',inset:0,pointerEvents:'none',
+      <div aria-hidden style={{position:'absolute',inset:0,pointerEvents:'none',opacity:shared?0:undefined,
         outline:`1px solid ${focused || hovered ? '#666' : '#ccc'}`,
         boxShadow:focused ? '0 0 0 2px rgba(0,0,255,.1), inset 0 0 0 2px rgba(0,0,255,.1)' : undefined}}/>
     </div>

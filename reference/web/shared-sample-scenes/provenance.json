@@ -1,0 +1,27 @@
+{
+  "base": "fe64426",
+  "sha256": {
+    "ts/src/components/sample/SampleView.tsx": "c8a11101f21d5fb42f26c4bae40262b9640bb41b6cc8f64aae2b9a88252bbfd5",
+    "ts/src/lib/gel/sampleFrame.ts": "7dc4f1f84061ce87839291741fca616df5d2404c221b4d5562c0a2bb1299d41c",
+    "ts/src/lib/gel/loupeChrome.ts": "6b5f2c558a99313f70692a99b612848211d920ba41eb739654f3f011501739d2",
+    "ts/tests/visual/shared-sample.spec.ts": "405b19c0fc839ed2fda64a9f02dadf180a250b136e65ee6a83a2bff6de3ce533",
+    "ts/tests/visual/shared-sample-native.spec.ts": "be262a624637c998129500702dde8e145dac8a4429dcd9fef4893cf82002fcc9",
+    "ts/tests/visual/species-editing.spec.ts": "fdd1d9373c76b1694e374f954f6eb34aad151227b38d08e0c82d14d42e350daf",
+    "reference/native/modern/shared-sample-scenes/manifest.json": "bc9be2ad48641326cbe96658363efa4c632e7e1ab2da4b274e83b5b909a86261",
+    "reference/native/modern/shared-sample-scenes/capture.py": "628a0a097dd2083f13ce70f9b41f6829645ff8251e43bee2ce931ccaeb3889f8"
+  },
+  "exactNativeComparisons": 28,
+  "verification": {
+    "unitTests": 2917,
+    "browserTests": 709,
+    "intentionalSkips": 1,
+    "productionTests": 4,
+    "build": "passed",
+    "nativeRepeatedScenes": 14
+  },
+  "limits": [
+    "Empty sample panel and child button with full pinned SampleView draw; scientific particles have separate fixtures.",
+    "Modern pinned Cinder/macOS, not original-release full GUI certification.",
+    "Shared composition remains development-only."
+  ]
+}
