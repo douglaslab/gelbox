@@ -25,12 +25,15 @@ export function Loupe({loupe,sourceRefs,transient=false}:LoupeProps) {
  const pointer=useRef<{x:number;y:number}|null>(null);
  const rememberPointer=(e:{clientX:number;clientY:number})=>{pointer.current={x:e.clientX,y:e.clientY};};
  const source=(index:number):SampleFragRef|null=>{return sourceRefs[index]??null;};
+ // Native background selection retains the derived sample with fragment -1.
+ // GelView follows this off-gel sample on its next tick and closes the source panel.
+ const selectBackground=()=>dispatch({type:'SET_SELECTION',ref:view?.sample?{sample:view.sample,fragmentIndex:null}:null});
  useEffect(()=>{if(!transient)frame.current?.focus();return()=>{if(hovered.current)dispatch({type:'CLEAR_ROLLOVER_IF',ref:hovered.current});};},[dispatch,transient]);
  const point=(e:{clientX:number;clientY:number})=>{const r=root.current!.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*state.gelSize.width,y:(e.clientY-r.top)/r.height*state.gelSize.height};};
  const begin=(e:ReactPointerEvent,mode:'frame'|'anchor'|'both')=>{
   if(transient)return;
   e.preventDefault();e.stopPropagation();frame.current?.focus();dispatch({type:'RAISE_LOUPE',id:loupe.id});layer.raise();
-  if(mode!=='frame')dispatch({type:'SET_SELECTION',ref:null});
+  if(mode!=='frame')selectBackground();
   const p=point(e);
   // Native pickLoupe wins even when the opaque frame covers its anchor.
   // Canvas particle selection already ran before this bubbling handler.
@@ -80,7 +83,7 @@ export function Loupe({loupe,sourceRefs,transient=false}:LoupeProps) {
      return drag.current||canvasDown?2:hover?1:0;
     }} width={SIZE} height={SIZE}
     onPickFragment={index=>{const ref=source(index);if(ref)dispatch({type:'SET_SELECTION',ref});}}
-    onPickBackground={()=>dispatch({type:'SET_SELECTION',ref:null})}
+    onPickBackground={selectBackground}
     onHoverFragment={index=>{
       const ref=index===null?null:source(index);
       // A frame can acquire rollover without a mouse callback. A miss/leave

@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Latest verification: 2026-10-10 · shared control/font migration · native reference `5f51097`._
+_Latest verification: 2026-10-10 · shared full-window acceptance · native reference `5f51097`._
 
 ## Direction
 
@@ -70,7 +70,7 @@ projection even when the physical surface dimensions remain unchanged, with a
 regression that fails when invalidation is removed. See
 [populated capture evidence](../reference/native/modern/full-window-scenes/README.md).
 Independent review found no Critical or Important issues in this increment.
-The complete regression run passes 949 browser tests with one intentional duplicate
+The complete regression run passes 953 browser tests with one intentional duplicate
 skipped; units, production build and four legacy deployment checks also pass.
 See [retained web comparisons](../reference/web/shared-full-window-scenes/README.md).
 
@@ -82,12 +82,26 @@ files repeat byte-for-byte across independent launches; portable instrumentation
 reproduces the compiled inputs. No application change was needed. See
 [settings/menu evidence](../reference/web/shared-controls-window/README.md).
 
+Six full-window image/species/loupe overlap states now match native on each
+backend (twelve exact RGB comparisons). The sequence includes image resizing,
+an inspector added above an earlier image, a later image covering the inspector,
+a covered loupe, and clicking the loupe to raise it. That last click exposed a
+real behavior gap: native retains the derived sample with fragment -1 on an empty
+loupe selection, then closes the ordinary sample/inspector on the next tick. The
+web now uses the same retained-reference semantics for frame, anchor and wedge
+background presses. Older tests that expected the source panel to remain open
+were corrected against the native capture and source. See
+[overlap evidence](../reference/web/shared-overlap-window/README.md).
+The full regression passes 953 browser tests with one intentional duplicate skipped.
+All twelve overlap outputs from that run match the retained exact evidence.
+Fresh unit/build/legacy deployment checks also pass.
+
+
 
 | Check | Result |
 |---|---|
 | Unit suite | 2,924 passed |
-| Browser suite across WebGPU/WebGL2 | 949 passed; one intentional duplicate skipped |
-| New full-window settings/menu workflow | 2 passed; 10 exact native frame comparisons |
+| Browser suite across WebGPU/WebGL2 | 953 passed; one intentional duplicate skipped |
 | Built-app legacy root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |

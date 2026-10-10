@@ -379,3 +379,37 @@ preceding 949/one-skip full suite, 2,924 units and build/four legacy deployment
 checks remain the latest broader verification; runtime source is unchanged.
 Remaining integrated acceptance includes overlapping images/loupes/representatives,
 particle and input histories, then the production and platform gates above.
+
+
+### Integrated image/species/loupe overlap
+
+Six complete native frames cover image resizing before and after species inspector
+creation, a persistent loupe, an image above that loupe, and raising the loupe.
+The complete web window matches all twelve RGB comparisons across both backends
+at 1365×768/DPR2. Native model/particle inputs are replayed; native draw methods,
+references and comparison tolerance are unchanged. Twelve PNG/state files repeat
+byte-identically, with portable instrumentation reproducing compiled source.
+
+The final background click revealed missing native retained-reference semantics.
+SampleView::selectFragment(-1) retains its derived sample; setToOrigin cannot
+resolve an invalid fragment. GelView::tick therefore follows that off-gel sample
+and closes the ordinary sample. The web had dispatched a null reference, leaving
+the source panel open. Background picks on frame/anchor/wedge now retain the
+synthetic sample with a null fragment index, using existing selection-following
+logic. The new overlap regression fails before the fix on both backends; corrected
+legacy/shared selection tests also fail before the fix on both backends. Existing
+tests expecting the ordinary sample after a background drag/Delete were incorrect
+and now assert closure after the drag and continued absence after deletion.
+
+This accepts this effects-mode overlap history, not every input/RNG history or the
+production compositor. Before production switching, add a direct-render overlap
+counterpart and account for remaining combined hover/press/preset-keyboard
+scenarios using native and existing workflow evidence. Then switch the built app,
+verify exact shared solid/edge composition in an integrated fixture (the old
+resolved CSS-underlay audit describes the retired architecture), and run the
+built shared root/subpath, browser, lifecycle and performance gates. Do not call
+the earlier legacy deployment checks shared-production evidence.
+
+Overlap verification: 953 browser cases pass (one intentional duplicate skipped),
+2,924 units pass, production build and four legacy deployment checks pass. All
+twelve full-suite overlap outputs match the retained exact native comparisons.

@@ -30,6 +30,8 @@ for(const button of ['left','right','middle'] as const)test(`${button} persisten
  await page.mouse.move(f.x+10,f.y+155);await page.mouse.down({button});await page.mouse.move(f.x+40,f.y+175);await page.mouse.up({button});await page.mouse.move(0,0);
  let moved=(await frame.boundingBox())!;expect(moved.x-f.x).toBeCloseTo(30,1);expect(moved.y-f.y).toBeCloseTo(20,1);
  expect(await contentScreenshot()).toEqual(before);
+ // Background selection follows the loupe's off-gel sample and closes the source.
+ await expect(page.getByTestId('molecular-sim-canvas')).toHaveCount(0);
  let a=(await anchor.boundingBox())!;expect(a.x+a.width/2).toBeCloseTo(x,1);
  // Anchor moves independently.
  await page.mouse.move(x,y);await page.mouse.down({button});await page.mouse.move(x+12,y+10);await page.mouse.up({button});
@@ -46,7 +48,7 @@ for(const button of ['left','right','middle'] as const)test(`${button} persisten
  const newGel=(await gel.boundingBox())!,resized=(await frame.boundingBox())!;
  expect(resized.x-old.x).toBeCloseTo(newGel.x-oldGel.x,1);expect(resized.y-old.y).toBeCloseTo(newGel.y-oldGel.y,1);
  await page.keyboard.press('Tab');await expect(frame).toBeFocused();
- await page.keyboard.press('Delete');await expect(frame).toHaveCount(0);await expect(page.getByTestId('molecular-sim-canvas')).toBeVisible();
+ await page.keyboard.press('Delete');await expect(frame).toHaveCount(0);await expect(page.getByTestId('molecular-sim-canvas')).toHaveCount(0);
 });
 test('Cmd drag creates a loupe on empty gel and moves frame and anchor',async({page})=>{
  const g=(await page.getByTestId('gel-overlay').boundingBox())!;const x=g.x+g.width*.8,y=g.y+g.height*.7;

@@ -1,0 +1,226 @@
+{
+  "baseCommit": "8b7ad6168be16fd2acf5178dd51201fe00192b78",
+  "sourceHashes": {
+    "ts/src/components/gel/Loupe.tsx": "7cf43b0c425cd04b596f2a6362cbf79d950eed5ba928ff166d37aab56e9892a5"
+  },
+  "testFile": "ts/tests/visual/shared-overlap-window.spec.ts",
+  "testSha256": "93e8018b3d53c92d89af82300242f6bd38ed5e18db0e1e617e5d93956814d3ee",
+  "nativeManifest": "reference/native/modern/full-window-overlap/manifest.json",
+  "nativeManifestSha256": "9f8181a167ea38e4169f914909fa2cef18ebaf0a28cae491957f29fbe130c14f",
+  "viewport": {
+    "width": 1365,
+    "height": 768,
+    "deviceScaleFactor": 2
+  },
+  "captures": [
+    {
+      "backend": "webgpu",
+      "scene": "image-before-species",
+      "file": "webgpu-image-before-species.png",
+      "sha256": "fd149545ddb9c65ab416637e74d8ccdaf66e2497539dff83ee98bd7dfd095d40",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "species-above-image",
+      "file": "webgpu-species-above-image.png",
+      "sha256": "8b5cf519938984b5c66764c64771ce88f3fa5f58349eefba43bc5e4fdc57a763",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "image-above-species",
+      "file": "webgpu-image-above-species.png",
+      "sha256": "e993751e520776642ed25c14fbdcab40ef4137f5ba7576f30b1e3e8d1d621241",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "loupe-created",
+      "file": "webgpu-loupe-created.png",
+      "sha256": "48eeb4a0c7b6696669977507083ecf27bd6598bbeda4068f0265df4797dcfd2c",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "image-above-loupe",
+      "file": "webgpu-image-above-loupe.png",
+      "sha256": "c57e396e6272751476d0103efd9307713f1b14bf7eb2f36cf519b33c21bd3908",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "loupe-raised",
+      "file": "webgpu-loupe-raised.png",
+      "sha256": "b09223c863927dc0c55d355b9f7e092d751f8b0cd90f818917a063e16d5a5193",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "image-before-species",
+      "file": "webgl2-image-before-species.png",
+      "sha256": "fd149545ddb9c65ab416637e74d8ccdaf66e2497539dff83ee98bd7dfd095d40",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "species-above-image",
+      "file": "webgl2-species-above-image.png",
+      "sha256": "8b5cf519938984b5c66764c64771ce88f3fa5f58349eefba43bc5e4fdc57a763",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "image-above-species",
+      "file": "webgl2-image-above-species.png",
+      "sha256": "e993751e520776642ed25c14fbdcab40ef4137f5ba7576f30b1e3e8d1d621241",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "loupe-created",
+      "file": "webgl2-loupe-created.png",
+      "sha256": "48eeb4a0c7b6696669977507083ecf27bd6598bbeda4068f0265df4797dcfd2c",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "image-above-loupe",
+      "file": "webgl2-image-above-loupe.png",
+      "sha256": "c57e396e6272751476d0103efd9307713f1b14bf7eb2f36cf519b33c21bd3908",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "loupe-raised",
+      "file": "webgl2-loupe-raised.png",
+      "sha256": "b09223c863927dc0c55d355b9f7e092d751f8b0cd90f818917a063e16d5a5193",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    }
+  ],
+  "limits": [
+    "Captured native model and particle replay; not RNG-history equivalence",
+    "One overlap sequence and size/DPR on modern compatibility build",
+    "Shared renderer remains development-only; production and platform gates remain"
+  ]
+}
