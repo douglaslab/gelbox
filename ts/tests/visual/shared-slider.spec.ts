@@ -25,10 +25,10 @@ for(const scale of [1,2])test.describe(`slider integration DPR${scale}`,()=>{
     await page.getByTestId('molecular-sim-canvas').click({position:{x:10,y:10}});
    }else {await page.getByTestId('microtube-2').click();await page.getByTestId('new-species').click();}
    await page.mouse.move(0,0);
-   const controls=kind==='timeline'?['timeline-slider']:kind==='gel-settings'?['gel-lanes','gel-well-damage','gel-voltage','gel-rotate']:['frag-size','frag-mass','frag-aspect','frag-aggregate','frag-degrade'];
+   const controls=kind==='timeline'?['timeline-slider']:kind==='gel-settings'?['gel-lanes','gel-well-damage','gel-voltage','gel-rotate']:['fragment-palette','frag-size','frag-mass','frag-aspect','frag-aggregate','frag-degrade'];
    const areas=[];
    for(const id of controls){
-    const control=page.getByTestId(id);await expect(control).toHaveAttribute('data-shared-ready','1');const r=(await control.boundingBox())!;
+    const control=page.getByTestId(id);await expect(control).toHaveAttribute('data-shared-ready',id==='fragment-palette'?'palette':'1');const r=(await control.boundingBox())!;
     areas.push({x:r.x-3,y:r.y-5,width:r.width+6,height:r.height+27});
    }
    for(const area of areas){

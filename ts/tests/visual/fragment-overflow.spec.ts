@@ -37,8 +37,10 @@ for(const scale of [1,2])test.describe(`fragment overflow DPR${scale}`,()=>{
   const preview=page.getByTestId('fragment-representative');await expect(preview).toBeVisible();
   await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
   expect(await page.getByTestId('overflow-workspace').evaluate(e=>[e.scrollWidth,e.scrollHeight,e.clientWidth,e.clientHeight])).toEqual([800,900,800,900]);
-  const bounds=await preview.boundingBox();
-  expect(bounds!.x).toBeLessThan(150);expect(bounds!.y).toBeLessThan(140);
+  // Backend imports/device acquisition are asynchronous; two rAFs do not
+  // guarantee the representative draw has expanded its viewport yet.
+  await expect.poll(async()=>(await preview.boundingBox())!.x).toBeLessThan(150);
+  await expect.poll(async()=>(await preview.boundingBox())!.y).toBeLessThan(140);
   // Inspect rendered pixels outside the original panel (its origin is200,200).
   const shot=await page.screenshot();
   const colors=await page.evaluate(async({png,scale})=>{

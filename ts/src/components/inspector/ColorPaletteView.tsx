@@ -1,18 +1,48 @@
-import { useRef, type PointerEvent } from 'react';
-import { FRAGMENT_PALETTE_HEX, nearestPaletteIndex, hexToRgb } from '../../lib/fragment/palette';
+import { useLayoutEffect, useRef, type PointerEvent } from 'react';
+import { FRAGMENT_PALETTE_HEX, FRAGMENT_PALETTE_RGB, nearestPaletteIndex, hexToRgb } from '../../lib/fragment/palette';
+import { useSharedPresentation } from '../gel/ScenePresentation';
+import { solidRoundedRect } from '../../lib/gel/fragmentWellGeometry';
 import styles from './ColorPaletteView.module.css';
+
+// Fixed native geometry can be shared by all palette instances and frames.
+const swatchPaint = FRAGMENT_PALETTE_RGB.map((color, i) => {
+  const x = i % 4 * 25, y = Math.floor(i / 4) * 25;
+  return solidRoundedRect({x1:x+2,y1:y+2,x2:x+23,y2:y+23},4,color);
+});
+const selectionPaint = FRAGMENT_PALETTE_RGB.map((_, i) => {
+  const x = i % 4 * 25, y = Math.floor(i / 4) * 25;
+  return solidRoundedRect({x1:x-1,y1:y-1,x2:x+26,y2:y+26},4,[0,0,0]);
+});
 
 export interface ColorPaletteViewProps {
   value: readonly [number, number, number];
   onChange: (color: [number, number, number]) => void;
   testId?: string;
+  presentation?: { viewKey: string; order: number };
 }
 
 /**
  * 4×3 grid of color swatches. Mirrors C++ ColorPaletteView used inside FragmentView.
  */
-export function ColorPaletteView({ value, onChange, testId }: ColorPaletteViewProps) {
+export function ColorPaletteView({ value, onChange, testId, presentation }: ColorPaletteViewProps) {
   const selectedIndex = nearestPaletteIndex(value);
+  const registry = useSharedPresentation();
+  const element = useRef<HTMLDivElement>(null);
+  const selected = useRef(selectedIndex);
+  selected.current = selectedIndex;
+  useLayoutEffect(() => {
+    if (!registry || !presentation) return;
+    return registry.register(presentation.viewKey, () => {
+      const el = element.current;
+      if (!el) return [];
+      const r = el.getBoundingClientRect();
+      const transform = [1, 0, 0, 1, r.left, r.top] as const;
+      // Native paints the selected background before every swatch.
+      const commands = [selectionPaint[selected.current], ...swatchPaint];
+      el.dataset.sharedReady = 'palette';
+      return commands.map(command => ({...command, transform}));
+    }, presentation.order);
+  }, [registry, presentation?.viewKey, presentation?.order]);
   const pointer = useRef<number | null>(null);
   function pick(e: PointerEvent<HTMLDivElement>) {
     // Native pickColor uses whole cells, including their inset/gutter areas.
@@ -32,9 +62,11 @@ export function ColorPaletteView({ value, onChange, testId }: ColorPaletteViewPr
     if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
   }
   return (
-    <div className={styles.grid} data-testid={testId}
+    <div ref={element} className={styles.grid} data-testid={testId}
+      style={registry && presentation ? {opacity:0} : undefined}
+      onContextMenu={e => e.preventDefault()}
       onPointerDown={e => {
-        if (e.button !== 0 || pointer.current !== null) return;
+        if (pointer.current !== null) return;
         e.preventDefault(); // Preserve the native sample keyboard owner.
         if (!pick(e)) return;
         pointer.current = e.pointerId;

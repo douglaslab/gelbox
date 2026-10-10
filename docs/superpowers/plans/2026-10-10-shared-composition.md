@@ -188,8 +188,15 @@ controls remain disabled. Presets apply on native mouse-down (including secondar
 buttons), while keyboard activation remains available. Custom input values are
 preserved even when native float normalization/half-step rounding changes their
 displayed value. Real-app overlap, endpoint/track disabling and notch lifecycle
-checks cover both Gel and Sample buffers. Menus, palette, checkboxes and overlays
-remain to migrate; combined acceptance and production enablement stay open.
+checks cover both Gel and Sample buffers. Palette paint now contributes in native
+child order; 96 exact RGB comparisons cover all twelve selections, both overlap
+orders, both DPRs and both renderers. Real-app covering/removal, original-release
+color exports and focus-preserving drag/Delete pass in both rendering modes.
+Original Cinder right/middle dispatch plus native palette methods prove all-button
+press/drag behavior; corresponding tests failed before removing the primary-only
+guard and now pass. The remaining Slider button-filter audit is still open.
+Menus, checkboxes and overlays remain to migrate; combined acceptance and
+production enablement stay open.
 
 
 

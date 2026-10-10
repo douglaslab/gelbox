@@ -70,6 +70,7 @@ export function FragmentView() {
           >
             <ColorPaletteView
               testId="fragment-palette"
+              presentation={{viewKey:'inspector-fragment',order:90}}
               value={fragment.color}
               onChange={(color) =>
                 dispatch({ type: 'SET_FRAGMENT_COLOR', laneIndex: lane, index: fragIdx!, color })
