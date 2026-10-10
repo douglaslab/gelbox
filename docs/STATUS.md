@@ -21,7 +21,7 @@ On macOS with Node 22, after Render-off integration:
 | Check | Result |
 |---|---|
 | Unit suite | 2,809 passed |
-| Browser suite across WebGPU/WebGL2 | 261 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 263 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; reliable fresh native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -458,4 +458,7 @@ An unchanged compiled `GelView::drawBands` capture supplies14 independent mesh c
 
 Switching modes exposed and corrected effects-renderer async teardown and final-blit resource leaks. Deterministic browser tests hold module loading past unmount and count actual GPU/GL resource allocation/deletion. Direct canvas pixel probes check opaque additive color, overlap, gradients, blur and clearing at DPR1/2 on both backends; resize tests change display scale with viewport dimensions. CDP scale-only emulation emits no media/resize events; actual monitor-change certification remains open.
 
-Verification: **2,809 units, 261 browser tests (one intentional duplicate skip), production build/TypeScript and native Python reference checks pass**. No goldens changed. `/tmp/gel-render-off-chromium-webgl2.png` inspected as a web scene capture. Independent final review pending; implementation plan and boundaries: [Render-off](superpowers/plans/2026-10-09-render-off.md).
+Verification: **2,809 units, 263 browser tests (one intentional duplicate skip), production build/TypeScript and native Python reference checks pass**. No goldens changed. `/tmp/gel-render-off-chromium-webgl2.png` inspected as a web scene capture. Independent final review completed; its Important context-lifetime finding was fixed and regression-tested. Implementation plan and boundaries: [Render-off](superpowers/plans/2026-10-09-render-off.md).
+
+
+Render-off final review: repeated WebGL mode changes could retain retired canvas contexts and evict an open loupe under browser context pressure. Both canvas paths now explicitly release detached contexts after destroying resources; resize and StrictMode reuse retain connected contexts. A deterministic pre-fix regression held the retired context alive and failed; after correction, 50 mode changes retain loupe context/focus and byte-identical paused images on both backends. Final full results are 2,809 units, 263 browser tests plus one intentional skip, build/TypeScript and 2 native reference contracts passed. No goldens changed or Minor findings deferred. Physical monitor-only transitions, original native raster and general external context/device-loss recovery remain open release gates.

@@ -40,6 +40,10 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
           const { configureGl2Context } = await import('../../lib/gpu/gl/context');
           if (cancelled) return;
           const { gl } = configureGl2Context(canvas);
+          cleanup.push(() => {
+            // A mode switch retires the canvas; resize/StrictMode reuse it.
+            if (!canvas.isConnected) gl.getExtension('WEBGL_lose_context')?.loseContext();
+          });
           const [
             { createGlGelRenderer },
             { createGlProgram },

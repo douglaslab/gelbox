@@ -122,3 +122,26 @@ test('switching off releases effects canvas buffers and GL programs',async({page
  await page.keyboard.press('Meta+r');await expect(page.getByTestId('gel-canvas')).toHaveAttribute('data-render-mode','direct');
  expect(await page.evaluate(()=>(window as any).liveEffectResources.size)).toBe(0);
 });
+
+test('mode switches retire unused contexts without disrupting a persistent loupe',async({page},info)=>{
+ test.setTimeout(60000);
+ await page.evaluate(()=>{(window as any).__molsimFreezeAfterTicks=60;});
+ const band=(await page.getByTestId('band-0').boundingBox())!;
+ await page.keyboard.down('Meta');await page.mouse.click(band.x+band.width/2,band.y+band.height/2);await page.keyboard.up('Meta');await page.mouse.move(0,0);
+ const loupe=page.getByTestId('loupe-canvas-1');await expect(loupe).toHaveAttribute('data-frozen','1');
+ const before=await loupe.screenshot();
+ const gl=info.project.name.endsWith('webgl2');
+ for(let i=0;i<50;i++){
+  if(gl)await page.getByTestId('gel-canvas').evaluate((canvas:HTMLCanvasElement)=>{(window as any).retiredCanvas=canvas;(window as any).retiredContext=canvas.getContext('webgl2');});
+  await page.keyboard.press('Meta+r');
+  await expect(page.getByTestId('gel-canvas')).toHaveAttribute('data-render-mode',i%2===0?'direct':'effects');
+  await page.getByTestId('gel-canvas').screenshot();
+  if(gl){
+   // Retain a real context reference so garbage collection cannot hide leaks.
+   await expect.poll(()=>page.evaluate(()=>!(window as any).retiredCanvas.isConnected&&(window as any).retiredContext.isContextLost())).toBe(true);
+   expect(await loupe.evaluate((canvas:HTMLCanvasElement)=>canvas.getContext('webgl2')!.isContextLost())).toBe(false);
+  }
+  await expect(page.getByTestId('loupe-frame-1')).toBeFocused();
+ }
+ expect(await loupe.screenshot()).toEqual(before);
+});

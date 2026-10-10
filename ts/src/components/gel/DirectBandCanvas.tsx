@@ -32,8 +32,13 @@ export function DirectBandCanvas({bands,gelSize}:{bands:Band[];gelSize:{width:nu
             import('../../lib/gpu/gl/context'),import('../../lib/gpu/gl/meshBatch')]);
           if(cancelled)return;
           const {gl}=configureGl2Context(canvas);
+          const release=()=>{
+            // Keep connected canvases usable for resize and StrictMode remount.
+            if(!canvas.isConnected)gl.getExtension('WEBGL_lose_context')?.loseContext();
+          };
+          dispose=release;
           const batch=createGlMeshBatch(gl,{viewport:gelSize,blend:'additive'});
-          dispose=()=>batch.destroy();
+          dispose=()=>{batch.destroy();release();};
           draw=()=>batch.draw({framebuffer:null,width:canvas.width,height:canvas.height},buildDirectBandMesh(latest.current),{clear:true,clearColor:[0,0,0,1]});
         } else {
           const [{requestDevice},{configureContext},{createMeshBatch}]=await Promise.all([
