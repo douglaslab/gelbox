@@ -35,13 +35,16 @@ focus, secondary-button dragging and real-app image overlap pass. See
 menu buttons, checkboxes, text and divider now match 48 native comparisons;
 integer Retina dimensions, press preview, release-outside cancellation,
 secondary-button/keyboard activation and image overlap are checked. See
-[menu evidence](../reference/web/shared-menu-scenes/README.md). Gel overlays and
-integrated acceptance remain before production enablement.
+[menu evidence](../reference/web/shared-menu-scenes/README.md). Gel selection and
+hover paint now matches 88 native comparisons, clips to the gel and follows
+shared view order in effects/direct modes. See
+[focus evidence](../reference/web/shared-band-focus-scenes/README.md). Remaining
+input audits, integrated acceptance and review still gate production enablement.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,922 passed |
-| Browser suite across WebGPU/WebGL2 | 813 passed; one intentional duplicate skipped |
+| Unit suite | 2,924 passed |
+| Browser suite across WebGPU/WebGL2 | 821 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -66,8 +69,8 @@ The [design](superpowers/specs/2026-10-10-shared-composition.md) and
 cover ordered graphics, clipping, textures, frame timing, and DOM interaction
 preservation. Ordered mesh and texture operations are implemented. Development mode now draws
 sample/fragment bodies, gel, loupes, reference images, tube icons, sample chrome,
-inspector headings, standard/graph sliders, Dye rows, Buffer controls, palette and application menu on the shared surface after
-the React commit. Remaining work includes Gel overlays and full integrated acceptance. The production app still
+inspector headings, standard/graph sliders, Dye rows, Buffer controls, palette, application menu and gel focus outlines on the shared surface after
+the React commit. Remaining work includes input audit, full integrated acceptance and review. The production app still
 uses separate view canvases; exact production composition remains open.
 
 

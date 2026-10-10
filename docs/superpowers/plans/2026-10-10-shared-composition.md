@@ -200,8 +200,14 @@ native parent/child order. Forty-eight exact comparisons cover both menu layouts
 checked/unchecked/hover/held states, both overlap orders, both scales and both
 backends. Native integer texture-size division corrects fractional Retina bounds.
 Real-app press preview, release-outside cancellation, secondary-button and
-keyboard activation, and covering/removal pass. Gel overlays remain to migrate;
-combined acceptance, whole-branch review and production enablement stay open.
+keyboard activation, and covering/removal pass. Gel selection/hover outlines now
+paint after wells and before dragged tubes, with native clipping, float colors
+and one combined-alpha stroke per band. Eighty-eight exact comparisons cover
+focus states, overlapping strokes and all gel edges; actual image covering and
+restoration pass in effects/direct modes, both scales and both backends. SVG
+picking/dragging remains intact; scientific image invalidation still passes.
+Remaining input audit, combined acceptance, whole-branch review and production
+enablement stay open.
 
 
 

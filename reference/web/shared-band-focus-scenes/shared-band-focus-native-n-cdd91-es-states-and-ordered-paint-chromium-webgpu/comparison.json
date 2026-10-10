@@ -1,0 +1,134 @@
+[
+  {
+    "id": "none-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "none-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "selected-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "selected-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "hover-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "hover-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "both-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "both-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "overlapping-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "overlapping-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "other-sample-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "other-sample-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "left-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "left-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "right-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "right-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "top-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "top-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "bottom-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "bottom-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "narrow-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "narrow-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  }
+]

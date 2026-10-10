@@ -1,7 +1,10 @@
+import {useSharedPresentation} from './ScenePresentation';
+import {nativeViewScissor} from '../../lib/gel/scenePresentation';
+import {bandFocusState,buildBandFocusLayers} from '../../lib/gel/bandFocus';
 import { fragmentIndexIn } from '../../lib/gel/sampleFragRef';
 import {deriveGelScene} from '../../lib/gel/gelScene';
 import { sampleKeyAction } from '../../lib/gel/sampleKeyboard';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useLayoutEffect, useMemo } from 'react';
 import type { Band } from '../../lib/sim/band';
 import { useGelState, useGelDispatch, useGelStore } from './GelContext';
 import { LAYOUT } from '../../lib/layout/layout';
@@ -28,6 +31,20 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
   const dispatch = useGelDispatch();
   const store = useGelStore();
   const svgRef = useRef<SVGSVGElement>(null);
+  const registry=useSharedPresentation();
+  const focus=useMemo(()=>buildBandFocusLayers(bandFocusState(bands,bandToLaneFragment,state)),
+    [bands,bandToLaneFragment,state.samples,state.selection,state.rollover]);
+  const latestFocus=useRef(focus);latestFocus.current=focus;
+  useLayoutEffect(()=>registry?.register('gel',frame=>{
+    const svg=svgRef.current;if(!svg)return [];
+    const r=svg.getBoundingClientRect();
+    // Preserve explicit DOM hiding (including scientific-image-only inspections).
+    if(!r.width||!r.height||getComputedStyle(svg).visibility!=='visible')return [];
+    const transform=[state.pixelsPerUnit,0,0,state.pixelsPerUnit,r.left,r.top] as const;
+    const scissor=nativeViewScissor(r,frame.height,frame.scale);
+    svg.dataset.sharedReady='focus';
+    return latestFocus.current.map(command=>({...command,transform,scissor}));
+  },40),[registry,state.pixelsPerUnit]);
   const creatingLoupe=useRef<{id:number;x:number;y:number;pointerId:number}|null>(null);
   useEffect(()=>{
     const move=(e:PointerEvent)=>{const d=creatingLoupe.current;if(!d||d.pointerId!==e.pointerId||!svgRef.current)return;if(!svgRef.current.hasPointerCapture(e.pointerId)){creatingLoupe.current=null;return;}const r=svgRef.current.getBoundingClientRect();const p={x:(e.clientX-r.left)/r.width*state.gelSize.width,y:(e.clientY-r.top)/r.height*state.gelSize.height};dispatch({type:'MOVE_LOUPE',id:d.id,mode:'both',delta:{x:p.x-d.x,y:p.y-d.y}});creatingLoupe.current={...d,...p};};
@@ -169,6 +186,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
         width:  `${state.gelSize.width  * state.pixelsPerUnit}px`,
         height: `${state.gelSize.height * state.pixelsPerUnit}px`,
         outline: 'none',
+        opacity: registry ? 0 : undefined,
         pointerEvents: 'auto',
       }}
     >
