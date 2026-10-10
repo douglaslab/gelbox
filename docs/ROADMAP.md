@@ -49,11 +49,17 @@ The 1–2/255 solid-background result cannot justify a general tolerance waiver.
 The white-cutout workaround is removed; real transparency improves visible
 behavior, while exact composition remains an open requirement.
 
-Next rendering increment:
+The shared-surface probe now matches all 32 edge-reference comparisons exactly
+(native/generated meshes, both backends, DPR1/2), without production changes.
+The [design](superpowers/specs/2026-10-10-shared-composition.md) and
+[plan](superpowers/plans/2026-10-10-shared-composition.md) specify the integration.
+The probe establishes feasibility; the production view compositor is still open.
 
-1. Prototype two existing overlapping scene contributions on one ordered MSAA
-   surface and require the intersecting-edge reference to match. Reuse existing
-   native-derived geometry, meshes and both presentation backends.
+Rendering integration sequence:
+
+1. Shared mesh-surface proof is verified. Extend it to ordered mesh/texture
+   operations with per-operation blend, transforms and native clipping; retain
+   existing native-derived geometry and both presentation backends.
 2. Inventory view order, window transforms, opaque scene backgrounds, images,
    braces, text and control interleaving before deciding how far the shared
    surface must extend. Preserve hit testing and simulation ownership.

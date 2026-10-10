@@ -1,0 +1,20 @@
+{
+  "productionCommit": "d676ac5",
+  "nativeManifestSha256": "7546860b161c9be494fe6deff507b2cb2aacae01f72ce288bd5b859dc3ac9f34",
+  "comparisons": 32,
+  "exactMismatches": 0,
+  "sourceSha256": {
+    "ts/src/lib/gel/present.ts": "b19d8f293fa96d31edf95655e96677a2512581841258af72ef59c113fbc69806",
+    "ts/src/lib/gel/present-gl.ts": "a2578a90b19c541c2987f9a2e82ad1806ff6d830837b5209046fa187b0d76dda",
+    "ts/src/lib/gel/presentationTypes.ts": "fbd63c87dfbb8ea46025fe6893ff6288eefea3c43e2805836a860973285e6498",
+    "ts/src/lib/gel/fragmentWellGeometry.ts": "aa525a4e7d6f78344177bb04c937efbde6b224d2d336d284a398073450618601",
+    "ts/src/lib/sim/molecularSimMesh.ts": "71f76214a14cc329191835e27a154e274897e4dbc9014cd8bef035b075c48f4d",
+    "ts/tests/native-shared-composition-audit/compositor.spec.ts": "ca62d0b8b2f7d76fa4dfbde68bffb6e62b23fee01ed7519ced439347b777d71d"
+  },
+  "limitations": [
+    "Diagnostic prototype; no app integration.",
+    "Only these static mesh/line scenes at DPR1/2 on this host Chromium, WebGPU/WebGL2.",
+    "Does not prove texture sampling, mixed blend modes, view order, clipping, fonts or lifecycle integration."
+  ],
+  "verificationLog": "/tmp/gel-shared-composition-proof-final.log"
+}

@@ -38,6 +38,15 @@ within 2/255 RGB levels, but a new intersecting-edge probe differs by up to
 the normal regression suite passing does not close this requirement.
 See the [transparency and edge report](superpowers/reports/2026-10-10-fragment-transparency.md).
 
+The subsequent [shared-surface proof](../reference/web/shared-composition-scenes/README.md)
+passes all 32 native RGB comparisons exactly with existing renderers. It is a
+diagnostic prototype, not app integration; production audits above still fail.
+The [design](superpowers/specs/2026-10-10-shared-composition.md) and
+[implementation sequence](superpowers/plans/2026-10-10-shared-composition.md)
+cover ordered graphics, clipping, textures, frame timing, and DOM interaction
+preservation. Next implement ordered presentation operations before migrating views.
+
+
 ## Remaining completion work
 
 The [composed native runtime reference](../reference/native/runtime/README.md) covers sixteen sequences and eight contracts for constructors, local/global random draws, species generation, loupe preroll, ordered ticks and collection lifetimes. The matching TypeScript runtime is now connected to the live app through a synchronous command store and one application frame driver. Canvases draw existing engines; GPU readiness and React effect replay do not own simulation. Native species generation, intermediate tube/loupe notifications, inspector timing and right-pointer creation/drag are implemented. Twelve store tests and eight new browser checks supplement the reference tests. The review fix is verified; these scripted references and browser checks do not certify full native GUI history or raster parity.
