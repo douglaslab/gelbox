@@ -27,6 +27,13 @@ export class CinderRand {
     this.state[0] = seed >>> 0;
     for (let i=1;i<624;i++) this.state[i] = (Math.imul(1812433253, this.state[i-1] ^ (this.state[i-1] >>> 30)) + i) >>> 0;
   }
+  /** Native ci::Rand copies retain the entire MT state and current cursor. */
+  clone(): CinderRand {
+    const copy = new CinderRand(0);
+    copy.state = this.state.slice();
+    copy.index = this.index;
+    return copy;
+  }
   nextUint(): number {
     if (this.index===624) {
       for (let i=0;i<624;i++) {

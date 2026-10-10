@@ -16,11 +16,11 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest recorded verification
 
-On macOS with Node 22, after Render-off integration:
+On macOS with Node 22: unit/build checks include the molecular runtime foundation; the latest browser run remains the Render-off integration run.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,809 passed |
+| Unit suite | 2,832 passed |
 | Browser suite across WebGPU/WebGL2 | 263 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
@@ -28,7 +28,7 @@ These results combine regression coverage and independent native differential ch
 
 ## Remaining completion work
 
-Active runtime investigation: the [source audit and composed native reference](../reference/native/runtime/README.md) confirms that molecular/view construction, inspector initialization, particle spawning and local species generation use distinct but coupled random streams. Sixteen native sequences reproduce byte-identically across executions; eight contracts check constructor/local/global draws, exact species generation, loupe preroll, ordered ticks and collection lifetimes. The existing web shared RNG is insufficient: lane seeds skip constructor draws, species creation uses `Math.random`, and independent canvas callbacks tie simulation order to renderer readiness. These captures use scripted headless adapters, not full GUI replay. Next is integrating application-owned view lifetimes and ordered simulation updates; the runtime fix remains incomplete.
+Active runtime work: the [source audit and composed native reference](../reference/native/runtime/README.md) confirms that molecular/view construction, inspector initialization, particle spawning and local species generation use distinct but coupled random streams. Sixteen native sequences reproduce byte-identically across executions; eight contracts check constructor/local/global draws, exact species generation, loupe preroll, ordered ticks and collection lifetimes. A framework-independent TypeScript molecular runtime now matches every captured frame, species value and RNG checkpoint, with seven additional ownership/freeze tests. It retains the verified engine and adds application-owned RNG injection, local species generation, explicit view lifetimes and ordered ticks. **Application integration remains unfinished**: live canvases still use lane seeds and their own animation loops, and species commands still use `Math.random`. These captures use scripted headless adapters, not full GUI replay. Next is wiring the runtime through synchronous commands/hover events and presentational canvases, including StrictMode and delayed-GPU browser checks.
 
 1. **Cross-view certification and shared runtime.** Sample identity, off-document references, raw fragment indices and frame selection-following are now implemented and regression-tested. Complete composed native GUI replay of selection/focus/panel transitions, and verify application-wide RNG initialization and view scheduling.
 2. **Remaining native features and controls.** Reference-image views are now implemented with source-backed gestures and shared ordering; native image decoding/raster and composed GUI certification remain. The Render-off alternate band scene is now implemented; native raster certification remains. Complete settings/help/menu geometry, shortcuts, focus and remaining interaction details, including the right-click creation/drag sequence.

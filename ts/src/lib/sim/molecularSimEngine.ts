@@ -116,6 +116,8 @@ export interface MolecularSimOpts {
   seed?: number;
   /** Explicit global Cinder stream seed for independent reference replay. */
   globalSeed?: number;
+  /** Application-owned global stream shared by all of its molecular views. */
+  globalRand?: CinderRand;
 }
 
 export class MolecularSim {
@@ -134,8 +136,11 @@ export class MolecularSim {
   private seed: number;
 
   constructor(opts: MolecularSimOpts) {
+    if (opts.globalRand !== undefined && opts.globalSeed !== undefined) {
+      throw new Error('Provide globalRand or globalSeed, not both');
+    }
     this.bounds = floatRect(opts.bounds);
-    this.globalRand = opts.globalSeed === undefined ? sharedGlobalRand : new CinderRand(opts.globalSeed);
+    this.globalRand = opts.globalRand ?? (opts.globalSeed === undefined ? sharedGlobalRand : new CinderRand(opts.globalSeed));
     this.seed   = opts.seed ?? this.globalRand.nextUint();
     this.rand   = new CinderRand(this.seed);
     // popRand is reseeded each tick from `seed` so dithering is deterministic
