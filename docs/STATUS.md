@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Latest verification: 2026-10-10 · shared full-window acceptance · native reference `5f51097`._
+_Latest verification: 2026-10-10 · shared production validation in progress · native reference `5f51097`._
 
 ## Direction
 
@@ -57,8 +57,9 @@ The complete startup client window now matches the native framebuffer with zero
 RGB differences on both backends at 1365×768 / DPR2. The user screenshot agrees
 after accounting for title bar and rounded window transparency; no application
 pixels are excluded. See [full-window evidence](../reference/web/shared-gel-startup/README.md).
-Overlapping full-window and interaction-history acceptance still gate production enablement;
-existing built-app deployment checks cover the legacy compositor.
+Full-window overlap acceptance is recorded below. The shared compositor is now
+enabled in the local production build; acceptance of this switch remains pending
+the fresh regression, review and reliability checks below.
 
 Complete sample and species windows now also match all RGB channels on both
 backends at 1365×768/DPR2. Tests import the captured native document and replay
@@ -111,35 +112,42 @@ results remain the latest broader verification. See
 | Check | Result |
 |---|---|
 | Unit suite | 2,924 passed |
-| Browser suite across WebGPU/WebGL2 | 953 passed; one intentional duplicate skipped |
-| Built-app legacy root/subpath checks | 4 Chromium passed |
-| Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
+| Browser suite across WebGPU/WebGL2 | 955 passed; one intentional duplicate skipped |
+| Built shared-production suite | 16 Chromium passed; 216 exact native RGB comparisons |
+| Shared-production compatibility | WebKit: 2 deployment cases passed; Firefox blocked at launch; shipping Safari unverified |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
 
-## Current rendering limitation: overlapping multisample edges
+## Shared production composition: validation in progress
 
-The fragment inspector now uses real premultiplied transparency, removing white
-patches over earlier braces and images. Solid-background native probes are
-within 2/255 RGB levels, but a new intersecting-edge probe differs by up to
-24/255 because separate canvases resolve their samples before composition.
-**Strict native composition is still open.** Both exact audits intentionally fail;
-the normal regression suite passing does not close this requirement.
-See the [transparency and edge report](superpowers/reports/2026-10-10-fragment-transparency.md).
+The earlier split-canvas inspector resolved multisample edges before composition,
+causing native RGB differences up to 24/255. Its failed audit dossier remains in
+[the transparency report](superpowers/reports/2026-10-10-fragment-transparency.md).
+The local production build now always uses the shared surface, even when a stored
+preference requests the retired compositor. Development comparison fixtures retain
+the explicit legacy option.
 
-The subsequent [shared-surface proof](../reference/web/shared-composition-scenes/README.md)
-passes all 32 native RGB comparisons exactly with existing renderers. It is a
-diagnostic prototype, not app integration; production audits above still fail.
-The [design](superpowers/specs/2026-10-10-shared-composition.md) and
-[implementation sequence](superpowers/plans/2026-10-10-shared-composition.md)
-cover ordered graphics, clipping, textures, frame timing, and DOM interaction
-preservation. Ordered mesh and texture operations are implemented. Development mode now draws
-sample/fragment bodies, gel, loupes, reference images, tube icons, sample chrome,
-inspector headings, standard/graph sliders, Dye rows, Buffer controls, palette, application menu and gel focus outlines on the shared surface after
-the React commit. Remaining work includes input audit, full integrated acceptance and review. The production app still
-uses separate view canvases; exact production composition remains open.
+The initial compiled-build suite passes 16 tests: root/subpath file workflows and
+single graphics-context ownership; 24 exact complete-window startup/settings/menu
+comparisons; and 192 exact fragment edge/solid comparisons on both backends at
+DPR1/2. The fragment fixture isolates the actual compiled component contribution
+and supplies controlled particles/underlay geometry; it does not replace the
+component mesh with native meshes or modify renderer math. This is component
+composition evidence, distinct from the unmodified full-window tests.
 
+Fresh units pass all 2,924 tests, and a clean full browser run passes955 tests
+with one intentional duplicate skipped. Independent source review found no Critical
+or Important cutover issues. Shared-build WebKit deployment passes two cases;
+Firefox still fails at browser launch before application evaluation. Both combined workload cases pass (50bands, sample and three loupes): steady
+frame-interval p95 is16.7–16.8ms, with tracked resource counts flat at236/WebGPU
+and49/WebGL2 through two10-second windows and a60-move timeline drag. These
+are instrumented object counts and rAF intervals, not resident memory or
+input-to-photon latency. Built lifecycle and shipping-browser checks remain. The production switch is not yet fully accepted. See
+[retained production evidence](../reference/web/shared-production/README.md). Historical verification
+entries below retain their original scope; earlier deployment/performance results
+were for separate canvases. Original-release/toolchain equivalence and the broader
+roadmap gates remain open.
 
 ## Remaining completion work
 

@@ -1,0 +1,2595 @@
+{
+  "baseCommit": "8c403b9439c935402f20f2c73bf87de8675f0b80",
+  "sourceState": "Uncommitted production cutover identified by hashes below; all tracked ts/src file hashes retained.",
+  "sourceFiles": {
+    "ts/src/App.tsx": "a1d491dfcf842d0e6d34419725620cb56e564770f0436e90d50a8643d3b01c4e",
+    "ts/src/components/AppLayout.tsx": "8fc80f968e3d96821769571521905da398e3b4c10f7ed92f8e292a9997b7479d",
+    "ts/src/components/TabNav.tsx": "63d733457e3401c6527ce9f6f5faed87b9ba3f0b214a6d61a0b1914e3d808380",
+    "ts/src/components/ThemeToggle.tsx": "85b8cb382445e7083cb7eeb05708522b3b45dddd7deb33efef0f2ba4a09eaea5",
+    "ts/src/components/chrome/ApplicationMenuPaint.tsx": "e9e19856077c1e03c90c28a1f6123a59eb5f8a6bcdf3dcd76bacc26e712c8411",
+    "ts/src/components/chrome/FileControls.module.css": "7754e13a5e77fcb69b80a907b56385e969aecaee0f4c6e9acece6f47bc3078d2",
+    "ts/src/components/chrome/FileControls.tsx": "61be06ffc583942027f39a5ea943d6dafc72c2e7128b169e8ea9e4014137c861",
+    "ts/src/components/chrome/GelControls.tsx": "0fa1a0dc17aeb653f6a01ab760a949e49064fac2c74e8ca62a686f190886ad8b",
+    "ts/src/components/chrome/HelpButton.module.css": "cb87d6de9d77241cca95a8451fef3476766d807643a3c137d926450eec471432",
+    "ts/src/components/chrome/HelpButton.tsx": "e09df0b36a3ad18413842c74b60e011b938da9e9c811f10b918266fcb0e87cd6",
+    "ts/src/components/gel/DirectBandCanvas.tsx": "21144bfdea92a6544e0f0794aab123cd7cf9ac2b9bcc4562cd0a3b397434438d",
+    "ts/src/components/gel/FileLoadProvider.tsx": "e9355e1ceee9fbb9621d2f56f96849c87d4b8c64f5813e4afbce5ed06ebff43c",
+    "ts/src/components/gel/GelCanvas.tsx": "650f24a2e62167f1a0ca6e157ab5ce21c9e4df68c173ce3412df7dce4c86a216",
+    "ts/src/components/gel/GelContext.tsx": "37871d8f91e9c8a80750ab86fb9850a4b595d20be161db4fc4f6cfeeb99a223d",
+    "ts/src/components/gel/GelOverlay.tsx": "976875a714783efd2e5e28de293f55f8912469394403cb242fe39e0a809dd666",
+    "ts/src/components/gel/Loupe.tsx": "7cf43b0c425cd04b596f2a6362cbf79d950eed5ba928ff166d37aab56e9892a5",
+    "ts/src/components/gel/LoupePortalLayer.tsx": "a0868cfbe0eb32f44a44eb23d21248bba653ee7b1a51afe2195a8d47d0c680c9",
+    "ts/src/components/gel/MicrotubeRow.module.css": "2c8bddf53416d974685484107b2c1a4f27440918f734df9b56c65d71b7b72322",
+    "ts/src/components/gel/MicrotubeRow.tsx": "892b70bf2debf5cb123c4871e4af4f0b89d9b46fced10af58429f40130587149",
+    "ts/src/components/gel/ReferenceImageLayer.tsx": "e6a3a8e9eff4b8155f0c3256a6a93ff9ae761ce674116251bb4955ed40ad6316",
+    "ts/src/components/gel/ScenePresentation.tsx": "e90486f031a149ed3eb3a39c754ac5065eb66c1f0dcf1a1da6dc10f16dfacf40",
+    "ts/src/components/gel/SettingsButton.tsx": "a444c80411f3908f4b4060671b877fad12c1664432006ab4c878f5843486e19a",
+    "ts/src/components/gel/SharedAssetPaint.tsx": "f07886ac42c20451aad047a52e5da5099cd26b1a912b3e3b28cdf9bde3084516",
+    "ts/src/components/gel/SharedGelCanvas.tsx": "b5d9e761e46f83abef0e83e2b67c01da26243b7f5811602ba2265caec9d8e431",
+    "ts/src/components/gel/SharedReferenceImage.tsx": "d38a7820ac5983ad9567be7288743dd9a2d7c800adb8723ec137177cf5a2d805",
+    "ts/src/components/gel/TimelineSlider.tsx": "cef43d70d0821813622ce364b3e1045bba5ac4b666196d2dfa301f72842357cc",
+    "ts/src/components/gel/useHoverLoupe.ts": "3a4ca68fbc3364bef62b78915cfc0190d230933d96e983063e4c07065317338b",
+    "ts/src/components/gel/useNativeButton.ts": "f4057990997ca656a3268be0cbd4e799532b6b1950e248923ad0e31c94f47220",
+    "ts/src/components/gel/useNativeButtonTint.ts": "df4a24687e6a7083a881e99b84e201fd697fa4654100bf2ff84a834af310d6e3",
+    "ts/src/components/gel/useViewLayer.tsx": "eab643e081394bdcd2683356b1f8f18858e9b624988647c27fab313336e31494",
+    "ts/src/components/inspector/BufferPresetPaint.tsx": "33ff326c77d59f07f828b1528ac7bef12197baa7d2118bc46d0f31401ed52242",
+    "ts/src/components/inspector/BufferView.tsx": "e29733318adab0ee5af1381fa116187c94ef11e56b8a950bdd0d5fce090b43cf",
+    "ts/src/components/inspector/ColorPaletteView.module.css": "56a1a0d21e63ac7033343f736398393dddeba3fda2fe4131c2ea04c3ca57ff2b",
+    "ts/src/components/inspector/ColorPaletteView.tsx": "573e30ab22067d8f0dd8a7aaecc4e964c2c236c26ea760379664dbf86d8e3956",
+    "ts/src/components/inspector/DyeRow.tsx": "d768885454f519b712d90c9a498399c5247ce9bda9ce28f7d7c28c2012a0fb4b",
+    "ts/src/components/inspector/FragmentView.module.css": "cbe2de19a6872226c2844ecfe60e02b4bbd2804ce39ca078d59efc89da0e5b78",
+    "ts/src/components/inspector/FragmentView.tsx": "4750190666c36673396f55385743aa1863147c7ae275adc4ed3482961e71ad19",
+    "ts/src/components/inspector/FragmentWell.tsx": "3178df459e514079c4037eea4f807ce2a91a7c4fb58f9e4bbb556a3f48390a65",
+    "ts/src/components/inspector/GelSettingsView.tsx": "e59592bc81ad73744e70a415b329b77acd477da53e549c56ba6a6a097ec5b4cd",
+    "ts/src/components/inspector/InspectorHeadings.tsx": "f07c631afcee9049b8b42528b813cfadd8f4ad98645795d250a9b0e590be097e",
+    "ts/src/components/inspector/InspectorPanel.tsx": "5200c236b659e8b40144cb51cec10ee713a8ab679a0a73a99b34127390e7da69",
+    "ts/src/components/inspector/SampleSettingsView.tsx": "a0a79dbf31d966d48a4c432b85da35a66aedfd8e5be1bc0a1bb2c4653104176f",
+    "ts/src/components/primitives/GraphicsFailure.tsx": "db73358597aa38c8fc8afd487ed9332155ffce794d970eddc73eee26f4ded7e5",
+    "ts/src/components/primitives/Slider.tsx": "1703fdd9073ba59187d01dc25140373bfdfd4323bf866e5b6eca82218ea96db2",
+    "ts/src/components/primitives/SliderScenePaint.tsx": "1f2de19a45f8fdfdd0d20873666fd738e1c87d4b699c3535162b32e007f9938d",
+    "ts/src/components/primitives/SliderView.module.css": "ac9c41b8422352317e83a948cc9da680320cedbd4327422dce4f4df38810de2d",
+    "ts/src/components/primitives/SliderView.tsx": "c2de59b911e7ed4f70ae9b02502627b97d41a92a8c8fc3aeeb37847405562a87",
+    "ts/src/components/sample/MolecularSimCanvas.tsx": "83d03f459373e4ad839590ce4064d1837e620c373e2c86c81463772d58a97c79",
+    "ts/src/components/sample/SampleHeader.tsx": "d60f08ca10b21e434a62a839fd2699fcfe47c8dd0daf58974e91cd18356c0e9f",
+    "ts/src/components/sample/SampleSimCanvas.tsx": "31d24b980f19c6c1fda24039f8e915f012d10b861bc7fdd0d019c1763c1b4d4b",
+    "ts/src/components/sample/SampleView.tsx": "f42ef9ec76da088e53abbb2b0beb9d305be569f6fcfcf664f44a79803c8c323d",
+    "ts/src/components/stage/Brace.tsx": "92247cc5e256d53267822ab72c4bba2ad132cc58ad4cf1314c5a4475fe123547",
+    "ts/src/components/stage/Stage.module.css": "f564d4623b3449a4903082715b47fe4556af6a4aad01130dce5dfd6fb06f0461",
+    "ts/src/components/stage/Stage.tsx": "00ca013f8c372ef5a2172e30c5bc5af51126ddb9e6ae7a432bfe3607ad72d640",
+    "ts/src/data/README.md": "90bd52bc312e8555b3ecd1984ade6cad0afb4c208101d796955412687d7cb430",
+    "ts/src/data/tuning.ts": "53732b44ca9a83277ffb5371dada6faf72eb36cdea229d8082de7a9c2ab5f14c",
+    "ts/src/index.css": "e640f748c9281d048d4f520ee8e8f20ec4df37be1629f4d5f89105cde0e2738f",
+    "ts/src/lib/fragment/palette.ts": "6941047463d4751aefbac073d9510cf43e19e58b0ccb4c377285a5291a20466a",
+    "ts/src/lib/gel/backend.ts": "5cbf8ce0a54fdea47a7301157afeefcd94e256dab8b19a18203334b0f194bad8",
+    "ts/src/lib/gel/bandFocus.ts": "8b062452fba09d202aee713b7a2388c44c4b4f5849c2de86645e45fd9293ad6f",
+    "ts/src/lib/gel/body.ts": "0ee9cdf1785316d53ac5ae2bb9d594d2ea534a4aa26c553d54237b3dac4e375b",
+    "ts/src/lib/gel/directBands.ts": "9244d47ff3307661271f9e8754076d18993692da83f9a9bf232c360b0a766636",
+    "ts/src/lib/gel/fileLoadQueue.ts": "864207fd6a5b266cd10b552d3f8d37101eeacbb750f05182409c2b1ed252fefe",
+    "ts/src/lib/gel/flames.ts": "2e4a253589e9aeec6c9dc143b4d8714e7740ef0add7b04a0a3410d5ecf9a3dd2",
+    "ts/src/lib/gel/fragmentWellGeometry.ts": "8fca540671e8a66f689a7dba2e70e9ab0aa3901f6f20a03203cd2242eddce7e9",
+    "ts/src/lib/gel/gelScene.ts": "ce8f5f2b14dcb934349610629c91d1a44aae07a2bc84ac67e667e87362338958",
+    "ts/src/lib/gel/gelState.ts": "4105d7ffbd0535d69e2d11289e9512f7a052abe18f0563ff7495eee62c6cf880",
+    "ts/src/lib/gel/gelStore.ts": "6c924bffceb46c10759b902c0c0c4081ad96e17498abfad39402d5d75861de26",
+    "ts/src/lib/gel/hoverLoupe.ts": "7250821ecc674a533f448b473c3f2939983bd1bfed8b5797b1873f032b5ca56b",
+    "ts/src/lib/gel/imageGeometry.ts": "c255ae4f634afe2703b4a7440fd8daaaffbba156ddf80088cf44880ae6c39a6a",
+    "ts/src/lib/gel/loupeChrome.ts": "6b5f2c558a99313f70692a99b612848211d920ba41eb739654f3f011501739d2",
+    "ts/src/lib/gel/loupeGeometry.ts": "1f8a82cd051f25f53a83732e3da89d9f5c301d694ada512bc938f9ffe9edbe85",
+    "ts/src/lib/gel/mesh.ts": "62586d56d81f079b2ba86df5deafcfa07432d4506e6525521cd8f705c741d709",
+    "ts/src/lib/gel/molecularRuntime.ts": "5799ab825df4b9d072c5247b812be4fc39d9b25b085531bebc73605544f4dfa5",
+    "ts/src/lib/gel/nativeFile.ts": "b21c7cd0ea1b2cac33822eed8c92e9ef2e5ffc0d82d2e4eb94884109f876d976",
+    "ts/src/lib/gel/nativeSpecies.ts": "9c09271c5b34beebcfd0d2316d7b40e435b81cac3c20002b540e4fbc1bed9876",
+    "ts/src/lib/gel/nativeUiText.ts": "f5bd86d8ded98348d99b6c7a649d5e22b68d5450ee8019f590fed88d96c9dad1",
+    "ts/src/lib/gel/nativeXml.ts": "cc81a3fb1bcc07dd2567d348a5f3e19f2b70e872784d67db081abd95b34bdc32",
+    "ts/src/lib/gel/newFragment.ts": "c4a656e8867911193b5682f79b90828c35423675bc8706000f6c7e82b6e53ea6",
+    "ts/src/lib/gel/overcook.ts": "309dafcec366e254d0809f5eacac1e1f38667eaa8b4627fcce7a0a1af3a77193",
+    "ts/src/lib/gel/passes/blur.ts": "f6bf42c8536bb7cf8c61ec76940e351fd017197fe3ebd86977a5229e2f1e1cb6",
+    "ts/src/lib/gel/passes/composite.ts": "768887d5f8188394c29fd97dc268e43d8d0956dcae619ae9e51c1a01611517f4",
+    "ts/src/lib/gel/passes/flip.ts": "1292738e6f46592cedde2dd20b1310f68e1174f065ae2f20e9c357593ffb65e0",
+    "ts/src/lib/gel/passes/primitives.ts": "bbda1414f6cb592080d7d4cee3b8a036522db5a41fa551ade1e95cf27a28de94",
+    "ts/src/lib/gel/passes/warp.ts": "5ed4b4c9c05ff26d5a172d2bea5e90fefc5d0fe172343fdfe857e1a5fc47adb4",
+    "ts/src/lib/gel/present-gl.ts": "072b74a5aea97aaa1394308c143fa334ac7129c6cdf6bc4d3b829d8e13fe2a49",
+    "ts/src/lib/gel/present.ts": "d90ad59a4661adcdd26d69869d3f38ee459ecbfee1adfcf6cd8949fadbcc0612",
+    "ts/src/lib/gel/presentationScene.ts": "cede84c3103172da96a3d1bf7caca6853b00cf3edc1c899bb7cd1339b72a71a1",
+    "ts/src/lib/gel/presentationTextures-gl.ts": "0afdc53b4f63ab688dade8b7a1a60378afcbb65d4d89976d7411199a510bac1a",
+    "ts/src/lib/gel/presentationTextures.ts": "3537011ae97466a0b753a5f1e762274b959c424335f5b41f77848339a33954ee",
+    "ts/src/lib/gel/presentationTypes.ts": "c10b63957743e8228994d25dba2eecf23b5f5a06b286ed71d664e86c462c9aa0",
+    "ts/src/lib/gel/referenceImages.ts": "8cc467673783a86c65d9d1c4dd57ae94e5553af599e1e0b6210d46e98ec64940",
+    "ts/src/lib/gel/render-gl.ts": "28dbe42c201f142a8b8427b1aa5dd0afa790ab8eacde609d11e7da45ae48f0e1",
+    "ts/src/lib/gel/render.ts": "3096b4626a93bdec1424c81280ba05384fbfe4220212de9b93fd9834a4bb0814",
+    "ts/src/lib/gel/sampleFragRef.ts": "f5388aa81fd1b4903dfd1171ce438284af7d4ad3dfca2aa8d42444a6281e3bb1",
+    "ts/src/lib/gel/sampleFrame.ts": "7dc4f1f84061ce87839291741fca616df5d2404c221b4d5562c0a2bb1299d41c",
+    "ts/src/lib/gel/sampleHeaderGeometry.ts": "5310c23c3382afac33d3dc088d48d3f09f6fb0255292985f8f6ed304245a969f",
+    "ts/src/lib/gel/sampleKeyboard.ts": "213af80dfecdd3c73b6e87b8ed868cb5567b6da094e8fb49d30a8b4b2fd4e7d7",
+    "ts/src/lib/gel/sceneAssets.ts": "f5abd8057d5e04d953adfac4fc3586080e54e29a755a8be0ec3d12121ecef400",
+    "ts/src/lib/gel/sceneImageTexture.ts": "95e8068c459917f14ff19f4c387901aa29454f5f9f080a7960135bd7e3a84ba8",
+    "ts/src/lib/gel/scenePresentation.ts": "fc781454ba27ff7dca29f8674fe1186b059a745797e516572bc039a276c45009",
+    "ts/src/lib/gel/serialize.ts": "92fcac91c09ef69f326181310d0c8f44cab01518d088a354f5d7c1ea3aa4dcab",
+    "ts/src/lib/gel/sliderPaint.ts": "bc4c18ab098f7f4a9bbcd3c448788d08d0325db02718c7b57d3ca5951bfcf481",
+    "ts/src/lib/gel/smear.ts": "bb611b98ae3445566160c0dcd33e8503eed968aad50316e87c46f5ab1053df54",
+    "ts/src/lib/gel/smile.ts": "b3c090098f5d02ccebfacd46ea6e2ddcf22d359e7b76bd210240acc2fed40605",
+    "ts/src/lib/gel/viewOrder.ts": "5d75ea1acdbe56bd7832b27f01a33be3477d02af293a569d14b025b553012e58",
+    "ts/src/lib/gel/warpTexture.ts": "dd2dfa13cf6d3700d2a90577e8cc95caa4b08ad47ae0a080da0b148dd72b6951",
+    "ts/src/lib/gel/welldamage.ts": "3b8b14452b41808735187ca700ff7e0c65fc1faf5d16982a4b7530325d00526f",
+    "ts/src/lib/gpu/adapter.ts": "f34c803a7a86f2d0b3a2c045b91131b929f4ac83d292142c2077ae5e57c7f5a1",
+    "ts/src/lib/gpu/allocations.ts": "d861116158a7c2c84f953831032419b7f9f54588ec053af166693380a8bfd5b3",
+    "ts/src/lib/gpu/context.ts": "c9445a18da015eb04c5e96cda28fa1ad4e3ccde3d0b19fe2ae9039c6aa9fc905",
+    "ts/src/lib/gpu/device.ts": "dd7aaa5502e96f267b33ae924918ef8e3839a8bc6c9f05a1f06010356474c955",
+    "ts/src/lib/gpu/gl/allocations.ts": "578b6a5b0944ef125086cced9ab51b2c0233d5bf5ad6ee3e00697dde1505e917",
+    "ts/src/lib/gpu/gl/context.ts": "fe5089f846ec39aa50f1b9e2c8abb255d00486e6e1e73f58211b1cd627b30576",
+    "ts/src/lib/gpu/gl/device.ts": "d5feef4ab66d3e764bf8a1002efb6ef7364194f30c24190a008786795d67f0f7",
+    "ts/src/lib/gpu/gl/meshBatch.ts": "8ad7a4a5cb22ec0497fe16253c7e722fee75c3c256d8d6d10694e2ce7638bf55",
+    "ts/src/lib/gpu/gl/program.ts": "5c76df6343e1a04798dd3d829cc5a95772640a85c1485ef43e038c918466afe9",
+    "ts/src/lib/gpu/gl/quad.ts": "3ebc605ba5dbaaba2a9876253431c0e09bf3b82748f6e96e17aa958fd6fa50f0",
+    "ts/src/lib/gpu/gl/target.ts": "5f20aa94715d6dcf848237bb6fd29432f53d139ee454468434d1730711d9efc9",
+    "ts/src/lib/gpu/loss.ts": "153928131aaccadb5524afa70ca65c3a63732cefeaa3fcc4837adf895cad0c9e",
+    "ts/src/lib/gpu/meshBatch.ts": "9c77d19c0f87925b85036837e83c9b4f31adffcc8f460c670809a642182f8568",
+    "ts/src/lib/gpu/quad.ts": "268a325d42a4a506b32367c2260c8b1d1260791319343fe5d00157fd07ef951c",
+    "ts/src/lib/gpu/shader.ts": "565b71e37e073a2bd8fb0366b9ccc1731bef06065b727ef02a1717c325e650c7",
+    "ts/src/lib/gpu/surface.ts": "c3a38737460daeb6f7e8aa43a4aec8014ed2c98f7d4f3fc324e846ade4053729",
+    "ts/src/lib/gpu/target.ts": "e028466318ed8156662192f7a2a14de9024f6ff673f2131b8f00f4f168e2d610",
+    "ts/src/lib/gpu/uniforms.ts": "747f310115e48f1075416d166733c69cd439a51a36375b81831dc3a2a71157a1",
+    "ts/src/lib/gpu/useDisplayScale.ts": "8877fabf79d226596178ac261f592ea56daa9a3ca458c5d3e914bfc2abef404c",
+    "ts/src/lib/gpu/useRendererRecovery.ts": "782b4391b337aba7e35bb4555199c549d1f9d803f35b4b1065a41e046c43a944",
+    "ts/src/lib/layout/assets.ts": "2384f66c8356aef01af602f4cbd67f8a4d4ab8f8d8df017bccbeb48f75dd9ab9",
+    "ts/src/lib/layout/color.ts": "3a3984eef0bd7ade7c328c32a26985e184444c7d80780ced02ce7b35ae2a912d",
+    "ts/src/lib/layout/layout.ts": "9d29621f5daa2bdcdd940434d2a61ced78f68d8998854c61724941176546df1f",
+    "ts/src/lib/layout/nativeBufferText.json": "eee612e89a4154f36842a8f59d444c96177b2756bb5020da3d65dee3a6f08d29",
+    "ts/src/lib/layout/nativeInspectorText.json": "e54b3c51554468a4e3ad2e4736ff04570fb9fb7023d686bca6ff7f4c0d2f5ed6",
+    "ts/src/lib/layout/nativeMenuText.json": "58d167f079702cf3c94e4b568a17c929a0785699b3bb0b3cadba86df6c07c9c5",
+    "ts/src/lib/layout/nativeUiFont.json": "67592db915085faa5ffbee9696866658a6ff5d285124d6f091ef3d1af0e109c0",
+    "ts/src/lib/layout/tubeGeometry.ts": "2a18a88cb6934d209f4b5739f0dd439b1a67de6c138fddb9ac48f1a5a4d7e7a4",
+    "ts/src/lib/sim/aggregate.ts": "28ec908fa928d6e2bccbfffc335188ba949e2798d1a19846d76380b8a1b22eda",
+    "ts/src/lib/sim/band.ts": "bc1b5fb7fa5ee443568a0760d514db67004a336be5d8cd1791133b551647d276",
+    "ts/src/lib/sim/brightness.ts": "6cb3d0c3983dc8777f71630cf9695005b1d50e43a8982d9a41a5f3ae894b51fb",
+    "ts/src/lib/sim/buffer.ts": "5048ed445d9a900ac949aa998515c81f3d87d63f48c0155634c212ec65e15346",
+    "ts/src/lib/sim/diffusion.ts": "fcabfd74d2af1a1ebf489d81d9eaef704d0817e26fea40bef9fab4ef2147d649",
+    "ts/src/lib/sim/dye.ts": "8218c6b01017377136992e1d3e2bedd660c25540cee7c87ae741a708b632049f",
+    "ts/src/lib/sim/gelSim.ts": "dd7f65fdbf24a230750efa16e73f19ff765dea9aabad79585c832592d3fd1338",
+    "ts/src/lib/sim/geometry.ts": "6c8e501e35b695c552d9923e67b6ffcd8b4b0bb1f142d34ca598f93d9588954c",
+    "ts/src/lib/sim/globalWarp.ts": "96f9ce2e879fc5bc0ab8e21d3c06a6faafecf98e04dd3a8ed24f184053394047",
+    "ts/src/lib/sim/loupeSeed.ts": "efd31da5831694dd874e902d5630cbd0dd5d5d88c65966d7e231d7938b2845da",
+    "ts/src/lib/sim/mobility.ts": "ce270424887abebe12ccee918086100934eebad153cf4d7479131f32ece92871",
+    "ts/src/lib/sim/molecularSim.ts": "7e4ae5b0a0ad48c1a84542250462b3427ec4ff6cd53033d38ae16e7a70772979",
+    "ts/src/lib/sim/molecularSimBackground.ts": "23f65639630e8c597f3df81e6247e82c2278e3ba3d3498d2f881f42404c9a7b0",
+    "ts/src/lib/sim/molecularSimEngine.ts": "562e73e769c60ca46020f963f795b6c0112dfcac6878414fef707053b0ae8248",
+    "ts/src/lib/sim/molecularSimMesh.ts": "71f76214a14cc329191835e27a154e274897e4dbc9014cd8bef035b075c48f4d",
+    "ts/src/lib/sim/rng.ts": "3359fe662099cf1eef4f16520d42b7fae112d21332dd9b0856b3ca083001a9a1",
+    "ts/src/lib/sim/sample.ts": "2c7a8c7860656007cd7d53b82c7b2ebc42a92e5ed711a4da454b35b99c567441",
+    "ts/src/lib/sim/sampleFromGel.ts": "d27d10c9a49d391f820065c6935fc01ebadf09d679c51ba8a91395ef58b8b398",
+    "ts/src/lib/sim/solver.ts": "d6570a15b981ca2f9668ac4bf544e64cfd466b3e9e419062e2f9cebadcbe987f",
+    "ts/src/lib/slider/slider.ts": "5b534da66c76d6630637379050353e7452c8fdce607faa59ddc995cd5d1340c5",
+    "ts/src/lib/theme.tsx": "eda588b73325657d7c19225eaffa8a20872fd8f2e75eea3c476fa072807bd4cd",
+    "ts/src/main.tsx": "125ca24ef184024b7b7dbd6183bfa204e37e46e9ee27de21434c9b7989d8721b",
+    "ts/src/routes/DevMultiPage.tsx": "fb448a7bbf6ea15159889f50297dcfd5b235b51a66291c2e7581318e8de4efab",
+    "ts/src/routes/DevPage.tsx": "5905ba1c20494db7109a27717aa1062d038d15c8763280c58393160008108125",
+    "ts/src/routes/DevPerfPage.tsx": "f280a491ce9b1310a56b24ae942f8a84a5e73e9e9b0ac629fab84de977e59b80",
+    "ts/src/routes/DevSimPage.tsx": "a1595298a212be8a73ad6473ecca9634d025649687c372a6bac570507d544928",
+    "ts/src/routes/DevSliderPage.tsx": "3644d6a85fb8c58363a4b83c645af05fc50a962a37bbdba8589aa8cb734a539e",
+    "ts/src/routes/GelPage.tsx": "a095bbac59eb1ebd0c60659106f7a268c897cf89ae8c0d43eb2234ca8094a2e0",
+    "ts/src/routes/HomePage.tsx": "96e2b1502dbacc9d944bcb06b10435dbb026e09fcf69a132b4da7e91dad17500",
+    "ts/src/shaders/blur13.frag.glsl": "937a34163b124d87625344946cb9dcc753ec653fdc01c37797487006ed6fe74e",
+    "ts/src/shaders/blur13.frag.wgsl": "6d8eba72661e1b08bdb4bd3c44af6c04922ce24792260856f20ab29cc8574b6d",
+    "ts/src/shaders/blur5.frag.glsl": "57033bda3fb7f795d4eacb2a79da2e130a8d864a4fd6633594b79add252cccd7",
+    "ts/src/shaders/blur5.frag.wgsl": "f60c655e47a02b5c4202312296b60265ce37c72e8bbb110363d269aaad99dd53",
+    "ts/src/shaders/blur9.frag.glsl": "4dbb29fdfd3390904f572d02b4f75d8afcecfbd39c3018777f471c4610fb3aff",
+    "ts/src/shaders/blur9.frag.wgsl": "c823cb502ef05ad84be6804d39b14cb5a53055b3ace2a0dfb4680102aa28a7a7",
+    "ts/src/shaders/gel-passthrough.frag.glsl": "410cef52ca0b2cb31d63cec465391b4e511627c86d048b72f487fc7681990708",
+    "ts/src/shaders/gel-passthrough.frag.wgsl": "efa0bd799a06b72c57302b9bee85c5db862d31abf091723fccd4f84c2701f107",
+    "ts/src/shaders/geometry.frag.glsl": "371a998d4f38b9ca2a05615f58c6b995f94700fe2b97ae7eaa179ad5d2a0dca2",
+    "ts/src/shaders/geometry.frag.wgsl": "bee51e004cbd8408aa9000efba287a3f76a4ab58efe704012826050fa7c7333b",
+    "ts/src/shaders/geometry.vert.glsl": "d1d2d0d92da401dc2635856e145dc5efad4418cf5de15e37014548681b4ad5af",
+    "ts/src/shaders/geometry.vert.wgsl": "3f438c64e56f39571c9bf0089a8493095130d6d86da5c8a1912f17997bd791ff",
+    "ts/src/shaders/passthrough.vert.glsl": "8928fc9b251008d9b39b946e010d55c7d34915020453465197a8300b916b872b",
+    "ts/src/shaders/passthrough.vert.wgsl": "2c8940a69870d2732dd5ef9c6283bfce53e0be4e9195248a6078263a6af901e8",
+    "ts/src/shaders/warp.frag.glsl": "0c18b688be9af8490ca3457ae13c0fc2cb9904770b9b9498871f946e9a9d6bfa",
+    "ts/src/shaders/warp.frag.wgsl": "cfc19a1a60f3281a066edd3aaec71f0cf774f9864de45581c9b8bd3716c1ff7b",
+    "ts/src/vite-env.d.ts": "bf42783176aba168bf69fa3e14b5ba2414f84573238ebd4f729157e626d5ceac"
+  },
+  "testFiles": {
+    "ts/tests/production/native-comparison.ts": "24bc2905bc5299d291667365b0713721021d88f60eb7e9df7ac65c0ad541785e",
+    "ts/tests/production/built-app.ts": "2099582051fc33841c53024849aeb495d1e1138f259a05cf535e5c596c395cde",
+    "ts/tests/production/native-composition.spec.ts": "2143c8fb3dca1dbe8638ea0dc42d02e7bb75156802e5a34e05474f5a995b648d",
+    "ts/tests/production/native-window.spec.ts": "11e46d001aef103af90fe4838c1793c81de1eaa31a47f6b8feb7cd8a3d515d83",
+    "ts/tests/production/deployment.spec.ts": "3fcbc7c806d7d01db33f72c44177531e7603918e7d05532a0f799ead4b1dd730",
+    "ts/src/components/gel/GelContext.tsx": "37871d8f91e9c8a80750ab86fb9850a4b595d20be161db4fc4f6cfeeb99a223d",
+    "ts/playwright.production.config.ts": "1046d14ef3f6310723e77283a73a8e55ded0440c7c1991bf7e0bdf773dec513d",
+    "ts/playwright.fragment-edge-audit.config.ts": "2061db6f1ab3a422433dd42015c5b65a06a7074dbda45afb3ef51d188aa5e151",
+    "ts/playwright.fragment-background-audit.config.ts": "78bd87f94f1c43ce47aa19a38291417bb4112eed848db6ee32708cda7398d6df",
+    "ts/tests/performance/application.spec.ts": "82b2c0c6cfac246cbbe089ecaae7a07445fd42db66d4385667534ce4909fea7d"
+  },
+  "builtFiles": {
+    "ts/dist/assets/50-band-2vpD0nLZ.js": "e50eb48a64a386fefa8fb797586edb7fe6b1e7f2782658efb24e4a8c91972072",
+    "ts/dist/assets/50-band-2vpD0nLZ.js.map": "ed95ac99da710a980b12c5aa9fe6fdadb77bf4503e216225aa36c29d307e161a",
+    "ts/dist/assets/app-settings-line.png": "e577d74a1df4b5287f9908181b8da1485ba2e120e3e1701dee056c7335d9e99e",
+    "ts/dist/assets/app-settings-line@2x.png": "c1d982b70fad1abf6193ddfb68f5af1dfe22cfb59249ae0895402d120a925a11",
+    "ts/dist/assets/brace.png": "0b0e2a5a0b8e6d35fca592b40b1aa4f9e25217b40810506c2c9cdcba9df4e45c",
+    "ts/dist/assets/brace@2x.png": "6f0c23bd9c85eb0ee4c38eaf95dc1d8ade4c948d086f273d8750252f7c5f1188",
+    "ts/dist/assets/context-Bdp54W6L.js": "d0bff70c70cf26b01a5451f65bffa1a0177f1a8993eb1bc6fe1c6251ca3bd2ae",
+    "ts/dist/assets/context-Bdp54W6L.js.map": "dc87cefcde8124611eac52fe2f9a563ea49baa528ccb96d11c2e60220f8bc2d1",
+    "ts/dist/assets/gel-passthrough.frag-C8CjQLHU.js": "038bb402a191651c8ae3ea23dc32a5d3b4595abcc65ec4474ea29e075b24ecd5",
+    "ts/dist/assets/gel-passthrough.frag-C8CjQLHU.js.map": "c5226219e1e18f38c3741f64bd32d9291fc0f03504f7e8d1c53f5fb57893770e",
+    "ts/dist/assets/gel-passthrough.frag-Cs1BeiKx.js": "02ebe72ff3ab5c648e5b20ffc1d04a70b16396962093bc472feca70499f62b27",
+    "ts/dist/assets/gel-passthrough.frag-Cs1BeiKx.js.map": "ef8addd02fc9878f15a3db1046e6b7088ad37afa804472932103abc28e953440",
+    "ts/dist/assets/globalWarp-DTs_3wv-.js": "88bfad6447efbb15237b92b0c7d50418d0edd8b3c260d7f2a592f51e85bf693e",
+    "ts/dist/assets/globalWarp-DTs_3wv-.js.map": "8b86e1de4fb7d468c707040a6bba50c6e28e3981cd0ed059dc574a447f302f00",
+    "ts/dist/assets/help.png": "aeba3e1adc5b130c3fcff81571217da974476228b6b52362f7b89f36087d0e63",
+    "ts/dist/assets/help@2x.png": "8a7c9338ccccdec5872516950ac85161ee068e064fd005b608536a465d84b469",
+    "ts/dist/assets/index-DnkKduzA.js": "1a718c4e36ed97af2dee6eb29cc93cb5805684366a44547daff9891cfcf406cc",
+    "ts/dist/assets/index-DnkKduzA.js.map": "dcaf971531d16d40f29e0796be23c6830c1288d84bfe62144c52bba68c945b86",
+    "ts/dist/assets/index-aSZotJcw.css": "501e5cc7a32eb518e5e41e8c5c14c505aff69caa423c064eb544205ad3618090",
+    "ts/dist/assets/inter-cyrillic-400-normal-HOLc17fK.woff": "6e441a6c94788318fa02b6d0a633aa29eebe27b69c6567eb1e59b4edc68ed70e",
+    "ts/dist/assets/inter-cyrillic-400-normal-obahsSVq.woff2": "f0bb586459ce8f09b238285040f17e3e9e9538b2c5a7aae0775194e33c36c3c3",
+    "ts/dist/assets/inter-cyrillic-500-normal-BasfLYem.woff2": "b77a86ec16aadc157f4a99e8898d71cd75ea264753d9bdf13f962f8c3988cbb0",
+    "ts/dist/assets/inter-cyrillic-500-normal-CxZf_p3X.woff": "5be18e0345781cb882a267798518553c0e915174fc70731ab5f085ca64ba1ebc",
+    "ts/dist/assets/inter-cyrillic-700-normal-CjBOestx.woff2": "5917871d3cc970d8ce195101cbf65c1f68ec948022eb6070030342bb7edfb3bb",
+    "ts/dist/assets/inter-cyrillic-700-normal-DrXBdSj3.woff": "72b6daa49173e531027d8a260ef128e142a165811cab6a2875eefe0c3c58fa0e",
+    "ts/dist/assets/inter-cyrillic-ext-400-normal-BQZuk6qB.woff2": "ef572f9187a8be018d9d9c2c6b77c1f6cb2af4199f02fc16c292ea10ab25a2cc",
+    "ts/dist/assets/inter-cyrillic-ext-400-normal-DQukG94-.woff": "5cb2f1cc0936f89a42ceae34f5a5720248dc5b8114c12b1c33a7d2ef01a9b6b9",
+    "ts/dist/assets/inter-cyrillic-ext-500-normal-B0yAr1jD.woff2": "1c2db92d3cd9b237ca7c9c07af556d542f28ded1db54cd4382cf776501c5291f",
+    "ts/dist/assets/inter-cyrillic-ext-500-normal-BmqWE9Dz.woff": "e250c05aebcf49971e0b25f476992dd463c28c0292ebb204d9db542fb5066ca7",
+    "ts/dist/assets/inter-cyrillic-ext-700-normal-BjwYoWNd.woff2": "a46b99781170971e2c99a87ff7ee9f5cf90a9dfcd18175e1be6300201d030123",
+    "ts/dist/assets/inter-cyrillic-ext-700-normal-LO58E6JB.woff": "0f3d4be2bd7018f78fa3484a5f6e9d8ce567689426643b84a47e8cabb91e5f16",
+    "ts/dist/assets/inter-greek-400-normal-B4URO6DV.woff2": "c15ddd00a9927b56f5c655a41f976f79bd848a20cce91fc14227751872a1cc27",
+    "ts/dist/assets/inter-greek-400-normal-q2sYcFCs.woff": "bdae9d28729e8c68587d5d54e216d771a40d7a6800e824586a6e2f570c2f10df",
+    "ts/dist/assets/inter-greek-500-normal-BIZE56-Y.woff2": "cc197d79d33a3615a047baae85f4d1957f6f98b8898313658e160b1d519b1b6f",
+    "ts/dist/assets/inter-greek-500-normal-Xzm54t5V.woff": "86d55a4b1b9cbced7e61e76d5d44cf49d0bd1c814d3df2de67b7136ab4fdcece",
+    "ts/dist/assets/inter-greek-700-normal-BUv2fZ6O.woff": "53368f53d5fc43381dcc45c8533ba2476f80337136313525f96dcbdc736616a5",
+    "ts/dist/assets/inter-greek-700-normal-C3JjAnD8.woff2": "737c6c91cd60372d30e6540096ada83c89c9b4613cd7472e3366bf2e07ad99f1",
+    "ts/dist/assets/inter-greek-ext-400-normal-DGGRlc-M.woff2": "eadedd9e13c2582430a9fb1519eb86152fdabb483a6f66d90f8d8a52e977a1b7",
+    "ts/dist/assets/inter-greek-ext-400-normal-KugGGMne.woff": "4f2b6f92ddfece8812e79774d446218aa6e0773ff8c2d31130fe2bdc23bd22d0",
+    "ts/dist/assets/inter-greek-ext-500-normal-2j5mBUwD.woff": "c85d11bde719108cc9a4f6f5b008087f6c36493b47395580d4f5336182b0f0c7",
+    "ts/dist/assets/inter-greek-ext-500-normal-C4iEst2y.woff2": "75a9ec9383a3b7a7bf7cfb94f64edf38d9cfdc5f7ffa0cbed2733627a6e4426d",
+    "ts/dist/assets/inter-greek-ext-700-normal-BoQ6DsYi.woff": "b26ed64c9135a750ad580b92152bedeef90771e74e18f6f7759a6d7adb0f1b5d",
+    "ts/dist/assets/inter-greek-ext-700-normal-qfdV9bQt.woff2": "b7b2732ebc981b30a5463ffc850407649dba41e625aee124cc63293da4547629",
+    "ts/dist/assets/inter-latin-400-normal-C38fXH4l.woff2": "8909904ab6c872eb994093482a88a28eca2cd95912d7b6fecd72103b0dc07edc",
+    "ts/dist/assets/inter-latin-400-normal-CyCys3Eg.woff": "e20fa0b4fd2dd26e4d14b3ac3cc922509c3a63fa5e910e90c614544aa042dd45",
+    "ts/dist/assets/inter-latin-500-normal-BL9OpVg8.woff": "9b42c108da48b5ed55a3072e815ffee2d271562e6c0dd6998910e8f9c09e0a3d",
+    "ts/dist/assets/inter-latin-500-normal-Cerq10X2.woff2": "f3779f1efccc4bdcdf9c0a02ab95bf6bd092ed09c48c08cedc725889edd1d19f",
+    "ts/dist/assets/inter-latin-700-normal-BLAVimhd.woff": "7c5ed5655730de337704d3fc94628515cd7e3d8d32368871709bf56ac0397e7a",
+    "ts/dist/assets/inter-latin-700-normal-Yt3aPRUw.woff2": "6f56409fd3d64bb85f7d070bce20749db2d66b6d63cec586cc22d1c761be2491",
+    "ts/dist/assets/inter-latin-ext-400-normal-77YHD8bZ.woff": "22ae8360fbad24d2af7c6c9898a346c881774dc87f7cf94bd262c48ad58d7116",
+    "ts/dist/assets/inter-latin-ext-400-normal-C1nco2VV.woff2": "6744a7f509ebc6ab220a6cd4ea77e898adf014f03d88dcda5d45d8a9feefb4e9",
+    "ts/dist/assets/inter-latin-ext-500-normal-BxGbmqWO.woff": "30d2903ce97f8a89ea0e9c083b42cb8bf97e7bbb5607e7f00352815f19cb0d5b",
+    "ts/dist/assets/inter-latin-ext-500-normal-CV4jyFjo.woff2": "2c6fbc42d315528beb06c1096df45487bf4186c4b78b8111d12c9c951f8acca2",
+    "ts/dist/assets/inter-latin-ext-700-normal-Ca8adRJv.woff2": "143f9504f1377012aa3e39c90c4354ef429cb0494b9ac0e1437f1a81e5412236",
+    "ts/dist/assets/inter-latin-ext-700-normal-TidjK2hL.woff": "1761edba32014180deab3dbbe3f7156c64ef6f34bc76313ba31ce227fc9ff391",
+    "ts/dist/assets/inter-vietnamese-400-normal-Bbgyi5SW.woff": "54aa42d325bcdfd623ecb9eac4a5e3c6420c63d7b86e9d8545fb479f653beb57",
+    "ts/dist/assets/inter-vietnamese-400-normal-DMkecbls.woff2": "547ad9fdaeb0ae43487f4b8a02e47c36553c0c0cb73c8aa98f93b7b615f6b55d",
+    "ts/dist/assets/inter-vietnamese-500-normal-DOriooB6.woff2": "44e36aa5a8f12130029a29bb0e6695d0262b67446ce321e878b1fb56162b5de6",
+    "ts/dist/assets/inter-vietnamese-500-normal-mJboJaSs.woff": "18a4a09f751671cd8929d7c66e8fe7d820b511c36e51cf6047ffceab88eec4a4",
+    "ts/dist/assets/inter-vietnamese-700-normal-BZaoP0fm.woff": "412023ab2f41333b373e2c6eb2a3ebab806fddd610015d2ae8cd4f4314c7ba92",
+    "ts/dist/assets/inter-vietnamese-700-normal-DlLaEgI2.woff2": "5fafa3829a16d9ea5ac3a67c51e54186353122790b604a3e361f96cab188da8b",
+    "ts/dist/assets/meshBatch-DiUrrVaG.js": "537f3193b91e10cd44f809019612b81f51cb6cebdfc67f2e386de15fb02c8558",
+    "ts/dist/assets/meshBatch-DiUrrVaG.js.map": "cc17a5033de6adc505abe7c88b8437432a88ab2f8bcbee6caa03520f9b16330f",
+    "ts/dist/assets/meshBatch-ONGuvSBm.js": "f387c99f248075f1f8fdb3813307e7ff85e8697c134476f0c4ce1de4e414cf4e",
+    "ts/dist/assets/meshBatch-ONGuvSBm.js.map": "ab292e76588736af88ab397f9e08eafb450321c07cbde285e45bc12fb4317bba",
+    "ts/dist/assets/microtube1500ul.png": "b1dbe804a74e1b0bba27c65e2111dfc5c4d80aada15374661b8b014742b625d2",
+    "ts/dist/assets/molecules/Acetate.png": "03798701c5d88ef1a4e5b5bccd4d4703bdf22eb09767e836c32adabd399402e5",
+    "ts/dist/assets/molecules/Acetate@2x.png": "ee10fb353e81ec445e23dbc12c3ae0bd1c0d2a9c546f2ff9d4f981fc449d783f",
+    "ts/dist/assets/molecules/Borate.png": "260ddcef44a3d0728b5043648d204bd75ef899324169db77deba747efa25c7de",
+    "ts/dist/assets/molecules/Borate@2x.png": "8b125d7ce6b023269e1da5e2a0aadae3e0c9a5ba8f97c4c7cc30ead1979f96ac",
+    "ts/dist/assets/molecules/Bromphenol.png": "1b7de7b20ffb3d9c2e21a62a91d684f1d424635766796b0910982f5cf8a9354f",
+    "ts/dist/assets/molecules/Bromphenol@2x.png": "3c28f0efc8389f6a4ed84c11a92967d89cbda68022a65c520f3c9c240fef0f8e",
+    "ts/dist/assets/molecules/Cresol.png": "f0ff013f508f59951c32d37c20f8ff77d667a740cc3aa106e3aa5796324e14c6",
+    "ts/dist/assets/molecules/Cresol@2x.png": "ffe6ac4c82396ac123f96e1831153fe890a0d5cd8fbf80ac16e689bd55753fc5",
+    "ts/dist/assets/molecules/EDTA.png": "2e53564834d7060ed029701d09dcea40da393dd26a52db66be4f6d51413abd24",
+    "ts/dist/assets/molecules/EDTA@2x.png": "7dc22eef31aabdbab218701c42133615433e8824952277e30e3db5b2996a5187",
+    "ts/dist/assets/molecules/Orange G.png": "9c551a1996cbe0f4a9b07ba84e09907531961927d8fbe67dce167bcc8aa44c2c",
+    "ts/dist/assets/molecules/Orange G@2x.png": "8080350bacf4f9aaac0e9644d7f4dcf1bb2fe0b39f3653eac4850115a393c7c6",
+    "ts/dist/assets/molecules/Tris.png": "8411f92fa7b28c292c568144490d113bc15e927a8eb6f3dd7f45fab9bfcd2b15",
+    "ts/dist/assets/molecules/Tris@2x.png": "cfac1f2056eef5a84085590efa4a72fc0a926f9ce31bdd18b9ebed346e39fb57",
+    "ts/dist/assets/molecules/Xylene.png": "d2035df7c20789023e8a921d51fe4d1871a22ba04be30a23dc790552eb39f8a7",
+    "ts/dist/assets/molecules/Xylene@2x.png": "2546cff59ee26619589f7bbb26678c9fe3b7e6af6bea911144024a036856a413",
+    "ts/dist/assets/native-text/buffer-heading.png": "0db465c5fd204b31034e817142032166d00a48872c4010fa0b90232d9801962a",
+    "ts/dist/assets/native-text/buffer-heading@2x.png": "25669f3dff100a891b38e6e4be730a874b8d6e707cc4b58adc37512db5c549cb",
+    "ts/dist/assets/native-text/buffer-label-0.png": "18787b5466c8fbe23bdea1d5e12c7c7cfa1b65ec97c1b3be7e8ca2cdd1667504",
+    "ts/dist/assets/native-text/buffer-label-0@2x.png": "8b599d95a44796e45073baaea8fe6b7a3fb945e0bac11f7d90694c6ddc0adc73",
+    "ts/dist/assets/native-text/buffer-label-1.png": "9e8dd910e1abd6fc93f02dc068d1d56deed10f4b329c47b2f4e0f374adbc7646",
+    "ts/dist/assets/native-text/buffer-label-1@2x.png": "d26a32a7c8a4ef7606658764dec78029955813bb7dc66e6482567c5cc5bab1ea",
+    "ts/dist/assets/native-text/buffer-label-2.png": "34efda83c297f50e2b4eff6efb4d3cdd89144a56fe44223d9fa283ff8a08872c",
+    "ts/dist/assets/native-text/buffer-label-2@2x.png": "aead4fe3ba03f9bcc0c0eba466789252ac870c14312b996413c51cde2f463d6f",
+    "ts/dist/assets/native-text/buffer-label-3.png": "28efec5075b6ef8963f2d780730176d244fea54709de6de85e7b4b98019bcbfc",
+    "ts/dist/assets/native-text/buffer-label-3@2x.png": "feff6c469c1a25c9d652f5c9483d9992b99b3a0a8bafa87bf88f3b090854faa6",
+    "ts/dist/assets/native-text/buffer-preset-0.png": "0b3ec8f45ea2f14aac761ac1337d840baadc0b37b5c59956e96ffa9a4a963c14",
+    "ts/dist/assets/native-text/buffer-preset-0@2x.png": "bc3653c0ae4b9e996a5981a1ab1bea21a0712326aa3f9d440b9486c64d518d11",
+    "ts/dist/assets/native-text/buffer-preset-1.png": "dea8d36afcbe6df98e610949115e49c868bf627bef76efac20e114db9bedeab5",
+    "ts/dist/assets/native-text/buffer-preset-1@2x.png": "cbf603a15a1497e4f83d23e9746225c58ec22e668d701b57088013860b896fef",
+    "ts/dist/assets/native-text/buffer-preset-2.png": "2863ceb6cd32aec3dcddd6e46a32d7b57b1f037ce99689f2d69407cd8aa05d44",
+    "ts/dist/assets/native-text/buffer-preset-2@2x.png": "8271e84a7cc092f926859b708031492ed0241400fa5002cd8f19f76b6d3d241b",
+    "ts/dist/assets/native-text/dye-label-0.png": "ed27e35ebeac3ae6c465ffa0369b78a4936e77c5aeb7ddccd0112a899e110825",
+    "ts/dist/assets/native-text/dye-label-0@2x.png": "f67eaf2887fdb30f62429c82cac2c34825dc7b1036505484931bd6f65dab4e77",
+    "ts/dist/assets/native-text/dye-label-1.png": "b36a076a6af71e0e05385f9ebf8b2ec9e640fd6ac8a0d26da1f34833eea7b078",
+    "ts/dist/assets/native-text/dye-label-1@2x.png": "fab094946bd63019d9ea73376ddb7da700bfafb05212c2c3b53ba7b5bdf0a690",
+    "ts/dist/assets/native-text/dye-label-2.png": "92570653e2a9040bef306b3d1ec2f50c9e48a00c96c0a4b5a96e76a014970ee8",
+    "ts/dist/assets/native-text/dye-label-2@2x.png": "a00039ddc04fe1d8564aadef5e1a250d2bc94e4862ef50da39c6068f0ea7e7b4",
+    "ts/dist/assets/native-text/dye-label-3.png": "47494f48dc77eb730500d3cb99bcc1fb4f172265947208e0e28f1edba800bbf6",
+    "ts/dist/assets/native-text/dye-label-3@2x.png": "60e10d2a8576931f9254ff4c2f91d741bf447b235a07867ae56c270f6ae8a4d0",
+    "ts/dist/assets/native-text/dyes-subhead.png": "872717334ad8062e7d804d0acb59e87d6910fae1a863a53e06aab532f8530d49",
+    "ts/dist/assets/native-text/dyes-subhead@2x.png": "3a719abadbd99ca7fc827a07c3f5e79688193e3cca0d6af14d099329059f396b",
+    "ts/dist/assets/native-text/fragment-heading.png": "097d8fbb5f6ed4af2247fbff9faac780dedf9fe9a680303d954d9318052b63c9",
+    "ts/dist/assets/native-text/fragment-heading@2x.png": "21ad8970154d33f3481b59b9bee5486a3b53644caff17733ddb4c8260291e9f0",
+    "ts/dist/assets/native-text/gel-heading.png": "0178633b7958411feaa896b57f4595c2efdfbf7f7b303cae6a503982c9040931",
+    "ts/dist/assets/native-text/gel-heading@2x.png": "263a8f3402461981e9910a691b31c1fd5d48c1b0efcf820fc991efa35082ea96",
+    "ts/dist/assets/native-text/menu-button-2-1.png": "59d35b8bbbc4492c7769432deda2d47226f6419dcec696d61f7fed9cb41026be",
+    "ts/dist/assets/native-text/menu-button-2-2.png": "59d35b8bbbc4492c7769432deda2d47226f6419dcec696d61f7fed9cb41026be",
+    "ts/dist/assets/native-text/menu-button-3-1.png": "f6fe7f032767eb98216932685eb57cde255df5d876938542058adc0772877fcc",
+    "ts/dist/assets/native-text/menu-button-3-2.png": "f6fe7f032767eb98216932685eb57cde255df5d876938542058adc0772877fcc",
+    "ts/dist/assets/native-text/menu-button-4-1.png": "9ef8bfd220b32775f6813f1c0db9f936a90c1b7842beb25fe136059d9cf5f4e7",
+    "ts/dist/assets/native-text/menu-button-4-2.png": "9ef8bfd220b32775f6813f1c0db9f936a90c1b7842beb25fe136059d9cf5f4e7",
+    "ts/dist/assets/native-text/menu-check-0-1.png": "a2c1da91bc5c0805c7eeb4101a293a4381417c3633246986f2c3bf41bf86feee",
+    "ts/dist/assets/native-text/menu-check-0-2.png": "9fc30bb1048f0710e50f5b6a9caa598abedc1edfd1dbaf3e5743ec428a716004",
+    "ts/dist/assets/native-text/menu-check-1-1.png": "7a8f47510edcffbcb5f8e0f45e21441de561c187f3c53e6b3b3ab2357381ba71",
+    "ts/dist/assets/native-text/menu-check-1-2.png": "664f5d49bae177102c03779c1a1a1a2d5ce2e2dc509c21170d44a5c56743aaea",
+    "ts/dist/assets/native-text/sample-settings-heading.png": "24e2a7db414fbb6e2f83d188bc8e4f771f0721c3effbe7e785e1ae5a944b62f9",
+    "ts/dist/assets/native-text/sample-settings-heading@2x.png": "e4345baad27157b75c98a79bb398517bb8a96adff56b5045ac086ee849107509",
+    "ts/dist/assets/native-text/sample.png": "c4d77f02a7b7756a4f556d46264608d77143e19a8c405b9a66e430afa64d8213",
+    "ts/dist/assets/native-text/sample@2x.png": "dc208bdcb71ddb75dea57b9fe08e624168c4358594bb0f910ad58ea95e953669",
+    "ts/dist/assets/native-text/ui-font-0.png": "9916d927ea1630f004466217d602e843667aa7d08bad2d223e6b460fd8c196b3",
+    "ts/dist/assets/native-text/ui-font-0@2x.png": "d78f5663c95531ccce3f90b2f5aab210fa79cd006de7861de5070f6ac4784297",
+    "ts/dist/assets/new-btn.png": "56b0e1ccb1da2aa5a349531b35e1eacc64cf87694da773e4a49638a96147f2f0",
+    "ts/dist/assets/new-btn@2x.png": "f6d215407c842389216bf2f96f3679cfc72e54f45c260497e133c0b316d918bc",
+    "ts/dist/assets/passthrough.vert-C2lNNOhN.js": "c04c27fc58827f28a3c53015a36649af0603feb397948992e6c5a76a489a2189",
+    "ts/dist/assets/passthrough.vert-C2lNNOhN.js.map": "a84da4bc56059764f31558beeb61eb09c5fd584caa3b22bc79808bb104614fcd",
+    "ts/dist/assets/passthrough.vert-Dpbd90Z0.js": "226d59a4bec3d0d2760c2e87cc06ff80d979bc13af2f7d4cfa37052f50086c52",
+    "ts/dist/assets/passthrough.vert-Dpbd90Z0.js.map": "42fbd44e78e0f1b143927fe75b19dfa55d3e08330019eca771b515d395535d63",
+    "ts/dist/assets/present-CydHRO3p.js": "520203527e190896f1b5c55233e0383c347891a0d833d63a89bdf48ed6f9b905",
+    "ts/dist/assets/present-CydHRO3p.js.map": "e710dfdb449d724147e24086021b8f660c24135c8193bc77931ba6d2057cd5a1",
+    "ts/dist/assets/present-gl-BV-nbbe4.js": "c9e941f30a70d8cad75db02bff646272b1807014199f326bd27452cdcf7c161e",
+    "ts/dist/assets/present-gl-BV-nbbe4.js.map": "4c500e7c8157ea97cb7f55e0b8eab839ef98d452de1666c5ff857e8d66e3fc65",
+    "ts/dist/assets/presentationScene-DJs-6lmS.js": "f4590dd37ac26d0113b1a3d30ec477aefd4ab2aca33143cca6db1e45e8e3a5eb",
+    "ts/dist/assets/presentationScene-DJs-6lmS.js.map": "de659dcb237ab2d678de80fba7bb0f00b8104f594142b0954d5620a0432a7d48",
+    "ts/dist/assets/program-DkyvT7kn.js": "9e5c977744ee0af7b8395336f071fc69ea257e3ad29c91ff10ceb981ca00c6ef",
+    "ts/dist/assets/program-DkyvT7kn.js.map": "094c9f24507f9676e96aa9d0db48269e91e6640ba50c97c13fd0f11edd573cb5",
+    "ts/dist/assets/quad-0DRiqXI7.js": "33f21fa9593c4400cd6b3e9e2f3830542c66b88bd984819e38635f85143f0290",
+    "ts/dist/assets/quad-0DRiqXI7.js.map": "c2711ce479c3afe0d3169ff8aaf6e12e47bd29adb7232ba9c6fd5206deb22345",
+    "ts/dist/assets/quad-BhkmQEp2.js": "84fdd14b7ac22a00f901900d0b3d9fd35fdc907df41f9121e0c2a02b90d582b5",
+    "ts/dist/assets/quad-BhkmQEp2.js.map": "624d4081353689079afa91cb0fc691cf47e1881381d506a4a025f6b228f65e04",
+    "ts/dist/assets/render-C7nYnmQO.js": "5c922ea25c84cc6b862da9af55393a2e113e56bc426af1d3bed59462439148e4",
+    "ts/dist/assets/render-C7nYnmQO.js.map": "03b622cfc99ed10d7a12c46929d8f25ca2175c9aaf475bd4b9b1458fa059c922",
+    "ts/dist/assets/render-gl-0oHDMQR5.js": "bf73b51b5937841273cf090307f5c8212f3b865080b175fa8a78ee0194644bd5",
+    "ts/dist/assets/render-gl-0oHDMQR5.js.map": "11c96287f57da819977d5264fd3ac5fa9155d19015c9862d49fec1e962e61e15",
+    "ts/dist/assets/settings.png": "57b4c1655e42e16a302c7fb2ae4cbb59ea4a707173060807dab7eb7bc7f27bd6",
+    "ts/dist/assets/settings@2x.png": "5edc58d9c40176d8a604021353435ecd255fc57cd4c4af64288a44688c551f13",
+    "ts/dist/assets/shader-DOwDLr9M.js": "ecf7b10f31642ddac5ddab88dea68665c6f269a09b0e3ceaa87b26455d9b7d8d",
+    "ts/dist/assets/shader-DOwDLr9M.js.map": "e6c177cd0b36fbbca92d2b618570a86db3f00753c03a1923a28241d7caa49234",
+    "ts/dist/assets/single-band-DjXVxAJG.js": "a826ebd74ffd327cee10f96907466c090b2eeb29bac803b524a8de58ece8f96e",
+    "ts/dist/assets/single-band-DjXVxAJG.js.map": "9b6aec982ee9e088265e57abe03c1210dc83e0d7a0aa79067659946e4ea97225",
+    "ts/dist/assets/slider-icons/aspect-hi.png": "6a08ba04df51bb4562bcc3a18e857db6433715fa8447388d183667faf2694fe8",
+    "ts/dist/assets/slider-icons/aspect-hi@2x.png": "edec84e8456cd131dafc91c294d58129201d8d5e0429ef2136784ecbece9d587",
+    "ts/dist/assets/slider-icons/aspect-lo.png": "9dae93174859ac067811fbad53dc01f4fcfe13dcb43c2b1cd38bcaeef693101a",
+    "ts/dist/assets/slider-icons/aspect-lo@2x.png": "e4d8d8d478c0d2b82c874ab56751fc8cd556bb4dd7b6beee64a398b9fb042ef1",
+    "ts/dist/assets/slider-icons/clock-hi.png": "9a91d15ba3b1305fdb3dd56855e361a3c36401f2d31372a77831eb0d0dd3f489",
+    "ts/dist/assets/slider-icons/clock-hi@2x.png": "004f1ef16b7d0135ffba5902e0d70917ec9e1e5f95c493882788952c79554714",
+    "ts/dist/assets/slider-icons/clock-lo.png": "b1ede6965fbc55aa2bf2f0588dbf193fb40b2a830d9135d3a6d968cbce2d58a7",
+    "ts/dist/assets/slider-icons/clock-lo@2x.png": "ed66fbc223a811f0f53ea70acf1b7150e4ea93457ac453c1aa3a03e296358e9e",
+    "ts/dist/assets/slider-icons/concentration-hi.png": "644a66c2b0c96e5a263177c148fc7815603129269e67f167b085daa7efcdee1e",
+    "ts/dist/assets/slider-icons/concentration-hi@2x.png": "ef75178140bc2953a9d45b294e99a55d350638b1b3d8945697783c210dbfbda6",
+    "ts/dist/assets/slider-icons/concentration-lo.png": "1f4ab47e5cbe97e7041ab2c3fddfb5e035c78d55309705b3b517712fef9b918e",
+    "ts/dist/assets/slider-icons/concentration-lo@2x.png": "543770a91070c696f7b9d2156bfc0a684ed7ae1240079d4aa74de45f73e41432",
+    "ts/dist/assets/slider-icons/degrade-hi copy.png": "4766af34e918ebeeb97f46aa1201a432c7b1bc4965c5bc071a1f4165711ec9e9",
+    "ts/dist/assets/slider-icons/degrade-hi.png": "d6c3fa81831617ed6299dc008e9121eb7cacf665557318ec2509414585a5aaa7",
+    "ts/dist/assets/slider-icons/degrade-hi@2x.png": "b543bf58a43bf7f3598b82370cbfb7106cd21ba2301c1e48803c1df6158181aa",
+    "ts/dist/assets/slider-icons/degrade-lo.png": "21af33b4ae2c77be15ba801d6c3de772e25fbe2afde69b8619ac378fbed00ddf",
+    "ts/dist/assets/slider-icons/degrade-lo@2x.png": "7cebb0703d8eb18c5f39a4bca1d0e0fbc43ebd3bd0076b2a5742c14424c7455b",
+    "ts/dist/assets/slider-icons/dye-bromphenol-blue-3d-spheres.png": "6c98d067b44dac75fec89e75dcc74ae65ecfbc580e7be8a28d5bcc32e7773940",
+    "ts/dist/assets/slider-icons/dye-bromphenol-blue-3d-spheres@2x.png": "d1ac022c848cc625b84f4af6cafa8cef116405bb30d079659b75d5569eeafd2b",
+    "ts/dist/assets/slider-icons/dye-bromphenol-blue-3d-sticks.png": "076f4f5110de01a9e9d2c656e51b3b3d4a5b3302b44d66f740e6226cd9e09aa4",
+    "ts/dist/assets/slider-icons/dye-bromphenol-blue-3d-sticks@2x.png": "e6263fb057960bf8e0309b992002b0f1534caa6ae95609b5464d07a9df6b9e07",
+    "ts/dist/assets/slider-icons/dye-cresol-red-3d-spheres.png": "60a938cd85bd0813c73819bbfe35d18838287493acb536063a66f4643797ce3f",
+    "ts/dist/assets/slider-icons/dye-cresol-red-3d-spheres@2x.png": "788e3739384a11a3754a135e00febc9726ea7f11ba13df15f1171006bbdb3666",
+    "ts/dist/assets/slider-icons/dye-cresol-red-3d-sticks.png": "a8661e34da38289a2c88524753bcaffd690b173c5efd26f5a8234b1b85b16e8e",
+    "ts/dist/assets/slider-icons/dye-cresol-red-3d-sticks@2x.png": "e88b85836b9b479a0336237bdad48c3c7fcd65770514e84c075a4fcda5882893",
+    "ts/dist/assets/slider-icons/dye-orange-g-3d-spheres.png": "b88fd41aca27fa2bebb65cf6c63caa51a141d1cc91afd9dddfabac14406ba6a0",
+    "ts/dist/assets/slider-icons/dye-orange-g-3d-spheres@2x.png": "5540cf89affd33f31e676215df8b14f030d5ba919eb7237e36d45da35a1bf552",
+    "ts/dist/assets/slider-icons/dye-orange-g-3d-sticks.png": "052ce4784103851a9e6ea807a6ffc42d2ed4d263b1b59241ef4b96933175947c",
+    "ts/dist/assets/slider-icons/dye-orange-g-3d-sticks@2x.png": "a063afa5333d59fe2b777b15a6bcf6a1209c2da6e274c44c21d7ccd203a2bad9",
+    "ts/dist/assets/slider-icons/dye-xylene-cyanol-3d-spheres.png": "61b963d3694fb7a67464b1e20d27995fdd4e02dc853a3f6a54520e169778af04",
+    "ts/dist/assets/slider-icons/dye-xylene-cyanol-3d-spheres@2x.png": "6d7adfb4db6a7e2f027715a3534dcc0452232ffe415597e83c5580b5713d0e9a",
+    "ts/dist/assets/slider-icons/dye-xylene-cyanol-3d-sticks.png": "462c97afed9ef90e85fcf981a0cf490c1d2310d72ff32441bc7182da483d5cf1",
+    "ts/dist/assets/slider-icons/dye-xylene-cyanol-3d-sticks@2x.png": "cc478224a181ff67bf40b8eeb9d1fc1f8dc47d3a0b8e608583c38d3f315b7bbf",
+    "ts/dist/assets/slider-icons/gel-lanes-hi.png": "5308b8c7421c709832fad44d815d1c50eefff8a5b67c0847e2ad907560f7623d",
+    "ts/dist/assets/slider-icons/gel-lanes-hi@2x.png": "fdbc9144c91715c3d09dcdc562823883ff7efd9c37dd3c9e2e8b529266cb07c1",
+    "ts/dist/assets/slider-icons/gel-lanes-lo.png": "c14a3c94503669e192c82e605ceba8ee011a8faf330370ae6da91a0858f14f02",
+    "ts/dist/assets/slider-icons/gel-lanes-lo@2x.png": "be70605dc39496c1119a1c93858fe4981fa7268ce7fa80b4de0513522a12bd43",
+    "ts/dist/assets/slider-icons/gel-rotate-hi.png": "eba50afaf6ebfd8e4479ef22c9e0e9c28031bfedbdbaa9efcd863bdce01c96d6",
+    "ts/dist/assets/slider-icons/gel-rotate-hi@2x.png": "21a8a7b0d2251344233a59fba088c33193556e978f0dd37a8d7368e0c84229c5",
+    "ts/dist/assets/slider-icons/gel-rotate-lo.png": "d45a1aa0aea4a5d292ac52f46a79516a3b80376978b9d7c9a19a8f2dc53ad7f2",
+    "ts/dist/assets/slider-icons/gel-rotate-lo@2x.png": "4becfee34c58556375566fbb1c1e1b83a5ff4d3a671c7392ee7f8255a47e2ca6",
+    "ts/dist/assets/slider-icons/multimer-hi.png": "f416c3d4b193c5a98b63b88fda563cc38a0ff50a9c325bc75954fba678aa071c",
+    "ts/dist/assets/slider-icons/multimer-hi@2x.png": "02257bc36876beae7cfbbf11e1533948efc2548f54f495741b1936056337456b",
+    "ts/dist/assets/slider-icons/multimer-lo.png": "b620047ae9eeda8aa4ac4caf899ca4a9b107d7d97afa7fb49222a1efc79edebe",
+    "ts/dist/assets/slider-icons/multimer-lo@2x.png": "94cb8a7bc80c88a23926ed15927a95b0fbfde9981d2ea9f3e25b342b8a0a395e",
+    "ts/dist/assets/slider-icons/size-hi.png": "a2a6c24e497b7b85244305d11776fc546164a432cf3377f49d332a9edf379770",
+    "ts/dist/assets/slider-icons/size-hi@2x.png": "c63d2be0ffbabdb35778dc548300196856ecb3781ea1edcf829f2e54b5ad7f8d",
+    "ts/dist/assets/slider-icons/size-lo.png": "0e93f7de84ed56aaf8343cb7770adfba6c7900be96e9c763c74bfe2c78c9c154",
+    "ts/dist/assets/slider-icons/size-lo@2x.png": "2e9917f4b248ade98872dad71c33d215f75f74153f78a8957a92b8a043c6ddac",
+    "ts/dist/assets/slider-icons/voltage-hi.png": "088149e461678e4e75ef743be560432bd9565e692d9f8ec5f9d39951133ab451",
+    "ts/dist/assets/slider-icons/voltage-hi@2x.png": "7ff756f56ed0723f1b87b98bd79d6833093da2b97e129bb070a8dc9b9e05c441",
+    "ts/dist/assets/slider-icons/voltage-lo.png": "bd68e7f35034163b816839d3d83b944e714dd5c05c28d99460a262a21ccaf3e1",
+    "ts/dist/assets/slider-icons/voltage-lo@2x.png": "26233b01a8d9e6d0e54292d34827f6008d71215a6ed7faf4f6349b212f05c217",
+    "ts/dist/assets/slider-icons/well-damage-hi.png": "6c1e1d709af7dccb8ab74e4291c80f908a9baf6c109531bf0fcddeb25bbe1fe7",
+    "ts/dist/assets/slider-icons/well-damage-hi@2x.png": "7d6cd32051ae54e5cbd020237cb58d43f90a39fdb226da977fbf8561f0509195",
+    "ts/dist/assets/slider-icons/well-damage-lo.png": "bab38f452f386c05f704b589225186fd1c99bd1d2b64826eb2211b074259af3d",
+    "ts/dist/assets/slider-icons/well-damage-lo@2x.png": "1499eaea7c36c40e4960fb8b559da619a6ffc1bef68c677f3a30721013d9e411",
+    "ts/dist/assets/uniforms-BJ-7ELDu.js": "2753cd2c44698566f6278480e38f75bdea5f1e1c1ede683e950f0b6075375a1a",
+    "ts/dist/assets/uniforms-BJ-7ELDu.js.map": "537b935f005198056273a0e3a965bc5d46254d7baec6bbc12a1c74a9011b81e4",
+    "ts/dist/index.html": "dbfdc0e2150019468cbf7b61f101cfdab28c5594e1053aa72f4e93533511c19b"
+  },
+  "nativeManifests": {
+    "reference/native/modern/full-window-controls/manifest.json": "bb1de682ac4dbf2152f940d9f7141feac152cc371cc6046ee4b5fff4ce32caa6",
+    "reference/native/modern/fragment-edge-scenes/manifest.json": "7546860b161c9be494fe6deff507b2cb2aacae01f72ce288bd5b859dc3ac9f34",
+    "reference/native/modern/fragment-background-scenes/manifest.json": "7df3f95c946487c025191cde5563e6bfb626ed545ddf196cf4be5cfa6b35d523"
+  },
+  "comparisons": [
+    {
+      "file": "captures/native-composition-compile-390e8-preserve-native-composition-chromium-webgl2/empty-2-diagonal.png",
+      "sha256": "6ba8330a845c146a6457d16201ab1461d4a548da39c4b1a68d93c34588392490",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-390e8-preserve-native-composition-chromium-webgl2/large-crossing-2-diagonal.png",
+      "sha256": "f35cfdfdaf85878093970519e9ca53180f8fa4c6caed57a063bf82b1fab1a022",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-390e8-preserve-native-composition-chromium-webgl2/large-round-2-diagonal.png",
+      "sha256": "e14d502bc5661d699f4e49f86bbd3d697c5cb4b677de441e2a5b2a836d555609",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-390e8-preserve-native-composition-chromium-webgpu/empty-2-diagonal.png",
+      "sha256": "6ba8330a845c146a6457d16201ab1461d4a548da39c4b1a68d93c34588392490",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-390e8-preserve-native-composition-chromium-webgpu/large-crossing-2-diagonal.png",
+      "sha256": "f35cfdfdaf85878093970519e9ca53180f8fa4c6caed57a063bf82b1fab1a022",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-390e8-preserve-native-composition-chromium-webgpu/large-round-2-diagonal.png",
+      "sha256": "e14d502bc5661d699f4e49f86bbd3d697c5cb4b677de441e2a5b2a836d555609",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-69287-preserve-native-composition-chromium-webgl2/empty-1-diagonal.png",
+      "sha256": "19590f02b15c86e970c737ad60f5e75133a3affc35afa2318bd81f5c5733a10a",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-69287-preserve-native-composition-chromium-webgl2/large-crossing-1-diagonal.png",
+      "sha256": "eecec98930b89b3e928a49006a6f24fa51f5ea942982a2af552aaf13de8968df",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-69287-preserve-native-composition-chromium-webgl2/large-round-1-diagonal.png",
+      "sha256": "ebd828b6c316f51cb3461a21a751c99bd6bc711eadc1fb94bd59a69cff602704",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-69287-preserve-native-composition-chromium-webgpu/empty-1-diagonal.png",
+      "sha256": "19590f02b15c86e970c737ad60f5e75133a3affc35afa2318bd81f5c5733a10a",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-69287-preserve-native-composition-chromium-webgpu/large-crossing-1-diagonal.png",
+      "sha256": "eecec98930b89b3e928a49006a6f24fa51f5ea942982a2af552aaf13de8968df",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-69287-preserve-native-composition-chromium-webgpu/large-round-1-diagonal.png",
+      "sha256": "ebd828b6c316f51cb3461a21a751c99bd6bc711eadc1fb94bd59a69cff602704",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/empty-2-navy.png",
+      "sha256": "fd80c64c022de0891de490a980b9b83136c68d5b0662a678008bb79551dcb2a3",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/empty-2-rose.png",
+      "sha256": "2fd2dca2e63b04632a584d545814ec25319c16cf13d0bae4329aafd8146727de",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/empty-2-white.png",
+      "sha256": "4b5dd0cf64986e06c3feadedad3f2adada9847e3a94960240e43566bd380e2c2",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-0.01-2-navy.png",
+      "sha256": "a8eaeb84a88d0c49a27facc181e9b24a45be1a363f6a3af1e3d6c841f2d974bb",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-0.01-2-rose.png",
+      "sha256": "23f8e97dc872ca63d5da4d00d35e68714ba1191640bba9f47c54f4f6fe959489",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-0.01-2-white.png",
+      "sha256": "fd07ff095bcd649b89831bc062b22f5996c9b0b120072e9f4148663d0a9ae30f",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-0.25-2-navy.png",
+      "sha256": "0fac6d2a5bd57b77af730bf70f6c52bc338952a69ccffcddf30c224e47d287d1",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-0.25-2-rose.png",
+      "sha256": "815edf1b76e5fa3681cf8bc1cd662ecfaa90133633b1f60c48e8cba838b85c6b",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-0.25-2-white.png",
+      "sha256": "ba725d2d482ea78677e1ce8d96b96a49a0da5bc3c8679f02daf5176fed7a2374",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-0.5-2-navy.png",
+      "sha256": "abd7945755a968c4734c57ded225c7d9375538728ef0121158cb0c9e3e0296f0",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-0.5-2-rose.png",
+      "sha256": "ccda16386f812b76590f09d76338c80773d0dbd0c5b8fe0c21c9bbf5989f2bc4",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-0.5-2-white.png",
+      "sha256": "af2856f20c4e6d82081ec32951dfc95f0a2015157778c6e9761e3327826015f7",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-0.999-2-navy.png",
+      "sha256": "929f73a012805db1611041149a524336995d2bdb55c65260d19f675b665210ca",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-0.999-2-rose.png",
+      "sha256": "eab79fa4d4d39830cda9bb8b4f810312b13071610d06de3fb94c12c145ee0117",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-0.999-2-white.png",
+      "sha256": "174ff64d90c454318f282f665f119d90639bee7598b7c2f18df53b76304556f0",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-1-2-navy.png",
+      "sha256": "929f73a012805db1611041149a524336995d2bdb55c65260d19f675b665210ca",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-1-2-rose.png",
+      "sha256": "eab79fa4d4d39830cda9bb8b4f810312b13071610d06de3fb94c12c145ee0117",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/fade-1-2-white.png",
+      "sha256": "174ff64d90c454318f282f665f119d90639bee7598b7c2f18df53b76304556f0",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-crossing-2-navy.png",
+      "sha256": "0e0f9affd2e47a72f111f08f9b706421f958b497396f11a2b157f6c3c953dbf0",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-crossing-2-rose.png",
+      "sha256": "c4aa2cac2e099c5c8318768f44b7ed1357c79a25ccfd250695ff0efd40a1f32b",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-crossing-2-white.png",
+      "sha256": "c948d19dc2be73a50b845360cdcecb5c67fe2f99ca62b26dfbb386530d9727a8",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-faint-2-navy.png",
+      "sha256": "800e288bb0c3453fa504b74b0f535ca5aaaaef4963b3abfb22e4df55e7649b04",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-faint-2-rose.png",
+      "sha256": "107cb8926b7742ae3ca1a62d15607d38932f88a5770a7b5b900a10888cffdc6c",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-faint-2-white.png",
+      "sha256": "017cea072080ec964ab03a3487eddbdac85a3807275b8501673adf5abddb07e2",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-opaque-2-navy.png",
+      "sha256": "9113b8b6ed0ec617f096821f6b8a25a7647f81d11fa9c4a7ff573edbb357caae",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-opaque-2-rose.png",
+      "sha256": "fe7e0cf5e28e2b2ccc2a7e84e3d66883762dcfb2000c8857aab735c4de69886c",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-opaque-2-white.png",
+      "sha256": "0e990a5239a49d47dbc9bb0b56bdbefeb5fe23feaa00f6f0a06c3eb870ced83d",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-round-2-navy.png",
+      "sha256": "46e04d9a3527c65011e6ba0327f912383da837b787742c560e3a9d4416a3d38f",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-round-2-rose.png",
+      "sha256": "8fcb4f13038701b7408de1794f7f90a86c30ef7b546f4925c72fd1a10bc137f8",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-round-2-white.png",
+      "sha256": "4baed23b23f3816a6c715cee13ed6bbb40250943a58f733cc86d26278359076c",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-subquantum-2-navy.png",
+      "sha256": "fd80c64c022de0891de490a980b9b83136c68d5b0662a678008bb79551dcb2a3",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-subquantum-2-rose.png",
+      "sha256": "2fd2dca2e63b04632a584d545814ec25319c16cf13d0bae4329aafd8146727de",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/large-subquantum-2-white.png",
+      "sha256": "4b5dd0cf64986e06c3feadedad3f2adada9847e3a94960240e43566bd380e2c2",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/multi-25-3-whole-0.5-2-navy.png",
+      "sha256": "cf4c63ae06b03a6231d4a0e0d58e25f28789680c21482acb55c48cbc50819248",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/multi-25-3-whole-0.5-2-rose.png",
+      "sha256": "aeb290a75f189d8f38239df5ceae00c361918b751ce53dbeaa2002acc6606699",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/multi-25-3-whole-0.5-2-white.png",
+      "sha256": "bef069ea5acbd9be88926e9f64851b044827b11d245372d96ae33b7dd208da9c",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/narrow-25-3-whole-0.001-select-False-2-navy.png",
+      "sha256": "fd80c64c022de0891de490a980b9b83136c68d5b0662a678008bb79551dcb2a3",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/narrow-25-3-whole-0.001-select-False-2-rose.png",
+      "sha256": "2fd2dca2e63b04632a584d545814ec25319c16cf13d0bae4329aafd8146727de",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/narrow-25-3-whole-0.001-select-False-2-white.png",
+      "sha256": "4b5dd0cf64986e06c3feadedad3f2adada9847e3a94960240e43566bd380e2c2",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/whole-0.5-select-False-hover-False-2-navy.png",
+      "sha256": "278951ad9df84b553c665a6108ade9dc69cabe651867a70136e460f60613e245",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/whole-0.5-select-False-hover-False-2-rose.png",
+      "sha256": "0a58d40d6bb2ff7a44556317dc4111038a736a4051d3a8b9de28f8bc8efc677c",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/whole-0.5-select-False-hover-False-2-white.png",
+      "sha256": "1ed82d971ebe777eed9c971796fa6b53f21ef7c30b3441dbc1b078d92c4ae57d",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/whole-1-select-False-hover-False-2-navy.png",
+      "sha256": "2b3d1d01960dd22973c9ec636e2a6ff608757592563b7b9c205e06405605dec4",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/whole-1-select-False-hover-False-2-rose.png",
+      "sha256": "b551af1a802c38db4f32fec735d0d09802075fdeac8697184af7a6c903953b47",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgl2/whole-1-select-False-hover-False-2-white.png",
+      "sha256": "f7b4372de03133adda30ba818ccc54b0d492743d4f0d32806a02f09f6a39882e",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/empty-2-navy.png",
+      "sha256": "fd80c64c022de0891de490a980b9b83136c68d5b0662a678008bb79551dcb2a3",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/empty-2-rose.png",
+      "sha256": "2fd2dca2e63b04632a584d545814ec25319c16cf13d0bae4329aafd8146727de",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/empty-2-white.png",
+      "sha256": "4b5dd0cf64986e06c3feadedad3f2adada9847e3a94960240e43566bd380e2c2",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-0.01-2-navy.png",
+      "sha256": "a8eaeb84a88d0c49a27facc181e9b24a45be1a363f6a3af1e3d6c841f2d974bb",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-0.01-2-rose.png",
+      "sha256": "23f8e97dc872ca63d5da4d00d35e68714ba1191640bba9f47c54f4f6fe959489",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-0.01-2-white.png",
+      "sha256": "fd07ff095bcd649b89831bc062b22f5996c9b0b120072e9f4148663d0a9ae30f",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-0.25-2-navy.png",
+      "sha256": "0fac6d2a5bd57b77af730bf70f6c52bc338952a69ccffcddf30c224e47d287d1",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-0.25-2-rose.png",
+      "sha256": "815edf1b76e5fa3681cf8bc1cd662ecfaa90133633b1f60c48e8cba838b85c6b",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-0.25-2-white.png",
+      "sha256": "ba725d2d482ea78677e1ce8d96b96a49a0da5bc3c8679f02daf5176fed7a2374",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-0.5-2-navy.png",
+      "sha256": "abd7945755a968c4734c57ded225c7d9375538728ef0121158cb0c9e3e0296f0",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-0.5-2-rose.png",
+      "sha256": "ccda16386f812b76590f09d76338c80773d0dbd0c5b8fe0c21c9bbf5989f2bc4",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-0.5-2-white.png",
+      "sha256": "af2856f20c4e6d82081ec32951dfc95f0a2015157778c6e9761e3327826015f7",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-0.999-2-navy.png",
+      "sha256": "929f73a012805db1611041149a524336995d2bdb55c65260d19f675b665210ca",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-0.999-2-rose.png",
+      "sha256": "eab79fa4d4d39830cda9bb8b4f810312b13071610d06de3fb94c12c145ee0117",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-0.999-2-white.png",
+      "sha256": "174ff64d90c454318f282f665f119d90639bee7598b7c2f18df53b76304556f0",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-1-2-navy.png",
+      "sha256": "929f73a012805db1611041149a524336995d2bdb55c65260d19f675b665210ca",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-1-2-rose.png",
+      "sha256": "eab79fa4d4d39830cda9bb8b4f810312b13071610d06de3fb94c12c145ee0117",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/fade-1-2-white.png",
+      "sha256": "174ff64d90c454318f282f665f119d90639bee7598b7c2f18df53b76304556f0",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-crossing-2-navy.png",
+      "sha256": "0e0f9affd2e47a72f111f08f9b706421f958b497396f11a2b157f6c3c953dbf0",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-crossing-2-rose.png",
+      "sha256": "c4aa2cac2e099c5c8318768f44b7ed1357c79a25ccfd250695ff0efd40a1f32b",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-crossing-2-white.png",
+      "sha256": "c948d19dc2be73a50b845360cdcecb5c67fe2f99ca62b26dfbb386530d9727a8",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-faint-2-navy.png",
+      "sha256": "800e288bb0c3453fa504b74b0f535ca5aaaaef4963b3abfb22e4df55e7649b04",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-faint-2-rose.png",
+      "sha256": "107cb8926b7742ae3ca1a62d15607d38932f88a5770a7b5b900a10888cffdc6c",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-faint-2-white.png",
+      "sha256": "017cea072080ec964ab03a3487eddbdac85a3807275b8501673adf5abddb07e2",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-opaque-2-navy.png",
+      "sha256": "9113b8b6ed0ec617f096821f6b8a25a7647f81d11fa9c4a7ff573edbb357caae",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-opaque-2-rose.png",
+      "sha256": "fe7e0cf5e28e2b2ccc2a7e84e3d66883762dcfb2000c8857aab735c4de69886c",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-opaque-2-white.png",
+      "sha256": "0e990a5239a49d47dbc9bb0b56bdbefeb5fe23feaa00f6f0a06c3eb870ced83d",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-round-2-navy.png",
+      "sha256": "46e04d9a3527c65011e6ba0327f912383da837b787742c560e3a9d4416a3d38f",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-round-2-rose.png",
+      "sha256": "8fcb4f13038701b7408de1794f7f90a86c30ef7b546f4925c72fd1a10bc137f8",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-round-2-white.png",
+      "sha256": "4baed23b23f3816a6c715cee13ed6bbb40250943a58f733cc86d26278359076c",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-subquantum-2-navy.png",
+      "sha256": "fd80c64c022de0891de490a980b9b83136c68d5b0662a678008bb79551dcb2a3",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-subquantum-2-rose.png",
+      "sha256": "2fd2dca2e63b04632a584d545814ec25319c16cf13d0bae4329aafd8146727de",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/large-subquantum-2-white.png",
+      "sha256": "4b5dd0cf64986e06c3feadedad3f2adada9847e3a94960240e43566bd380e2c2",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/multi-25-3-whole-0.5-2-navy.png",
+      "sha256": "cf4c63ae06b03a6231d4a0e0d58e25f28789680c21482acb55c48cbc50819248",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/multi-25-3-whole-0.5-2-rose.png",
+      "sha256": "aeb290a75f189d8f38239df5ceae00c361918b751ce53dbeaa2002acc6606699",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/multi-25-3-whole-0.5-2-white.png",
+      "sha256": "bef069ea5acbd9be88926e9f64851b044827b11d245372d96ae33b7dd208da9c",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/narrow-25-3-whole-0.001-select-False-2-navy.png",
+      "sha256": "fd80c64c022de0891de490a980b9b83136c68d5b0662a678008bb79551dcb2a3",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/narrow-25-3-whole-0.001-select-False-2-rose.png",
+      "sha256": "2fd2dca2e63b04632a584d545814ec25319c16cf13d0bae4329aafd8146727de",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/narrow-25-3-whole-0.001-select-False-2-white.png",
+      "sha256": "4b5dd0cf64986e06c3feadedad3f2adada9847e3a94960240e43566bd380e2c2",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/whole-0.5-select-False-hover-False-2-navy.png",
+      "sha256": "278951ad9df84b553c665a6108ade9dc69cabe651867a70136e460f60613e245",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/whole-0.5-select-False-hover-False-2-rose.png",
+      "sha256": "0a58d40d6bb2ff7a44556317dc4111038a736a4051d3a8b9de28f8bc8efc677c",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/whole-0.5-select-False-hover-False-2-white.png",
+      "sha256": "1ed82d971ebe777eed9c971796fa6b53f21ef7c30b3441dbc1b078d92c4ae57d",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/whole-1-select-False-hover-False-2-navy.png",
+      "sha256": "2b3d1d01960dd22973c9ec636e2a6ff608757592563b7b9c205e06405605dec4",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/whole-1-select-False-hover-False-2-rose.png",
+      "sha256": "b551af1a802c38db4f32fec735d0d09802075fdeac8697184af7a6c903953b47",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-c694f-preserve-native-composition-chromium-webgpu/whole-1-select-False-hover-False-2-white.png",
+      "sha256": "f7b4372de03133adda30ba818ccc54b0d492743d4f0d32806a02f09f6a39882e",
+      "comparison": {
+        "width": 606,
+        "height": 1040,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/empty-1-navy.png",
+      "sha256": "559cb4127a4086d05bcf6280dade3d4cddbe4f3792595167efe5877b1287eff8",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/empty-1-rose.png",
+      "sha256": "1b12dfcd9c694df3c7a37712427e00bbf5dc66dfa15e49bcea5df23f4a19c706",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/empty-1-white.png",
+      "sha256": "2ae1cb48ea0f1743fe42c56bcc71b83a03497a4b91b4fe93806bc2078acf305a",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-0.01-1-navy.png",
+      "sha256": "7d0f9ad5558df9835656090f629f471580d800b08a078932db377b00c1fc07a9",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-0.01-1-rose.png",
+      "sha256": "ec6ece8a45640ecc598c78209f5913b575db0db90f74214aee8c754a72657374",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-0.01-1-white.png",
+      "sha256": "5b4ba7194e6eb327447844b2697ae62945a73d7d3c7b77263580a1ab615c7430",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-0.25-1-navy.png",
+      "sha256": "3b8c0b673723da79a700868cea94c5dd5ea84a44e51f058a43563c4e7ce76ecc",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-0.25-1-rose.png",
+      "sha256": "656aca7c4b06b5c7d7801064a684614212830321de6fa611748d3db522da605b",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-0.25-1-white.png",
+      "sha256": "b81e04ca1bc8c1d1514f9fb425b0330bf925129ad8f6cd100ea23e60beaca86f",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-0.5-1-navy.png",
+      "sha256": "9cbaf770a417a11d0035f40b41e4abca423ca0ae956290c3585081f6483771e9",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-0.5-1-rose.png",
+      "sha256": "56c8c753493045e390afffd5dd6498e0304495f7d9cf94d632a812a53f114374",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-0.5-1-white.png",
+      "sha256": "11486580ab03b5659f25fedb9ed02ee1c4640b93e4f8629b3fd287ec6ccc7603",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-0.999-1-navy.png",
+      "sha256": "369a994c82ae62670b67d39c59e19e1adbd6c47cd4a1d683cd2f9c5a596d81f2",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-0.999-1-rose.png",
+      "sha256": "ea2a8a568028ca2a68e780323ba0cd82063f1b910a83bb800c22e3a0af855279",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-0.999-1-white.png",
+      "sha256": "7ce67ebaaa87b394afa1f8a34e1ad3763472b380b6af93a4a55d5575e7cd6dcc",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-1-1-navy.png",
+      "sha256": "369a994c82ae62670b67d39c59e19e1adbd6c47cd4a1d683cd2f9c5a596d81f2",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-1-1-rose.png",
+      "sha256": "ea2a8a568028ca2a68e780323ba0cd82063f1b910a83bb800c22e3a0af855279",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/fade-1-1-white.png",
+      "sha256": "7ce67ebaaa87b394afa1f8a34e1ad3763472b380b6af93a4a55d5575e7cd6dcc",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-crossing-1-navy.png",
+      "sha256": "40311e3924068b5776b4b5435eb48db1e0a612f3b545a4fea042701eb06f27ad",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-crossing-1-rose.png",
+      "sha256": "4dd8d68c5fbcd4d07dfa08553a69cef076ca5aeebe07ea3d924ee8ff4423ba37",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-crossing-1-white.png",
+      "sha256": "15a2d99e59b90809ffb3c29d65b5e211fba9f288506aa7b8fdfc9b47777a2e95",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-faint-1-navy.png",
+      "sha256": "515a69e9177593724bfe7299386a2c86baaeb1ed94a1becf3da9bc0c57911e6c",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-faint-1-rose.png",
+      "sha256": "841f4bb8f69b6e0dba4d6226f22914c2156a965018ce374323cc9fe2357d9ad6",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-faint-1-white.png",
+      "sha256": "9ae786ab15425ddd921a6d5ac4f380c7a5aeda33e43db14e2d54125cd0acbaa8",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-opaque-1-navy.png",
+      "sha256": "3a4b58fa197db7b082a06c6ac2d112030d14e1b3cdb259d0357662ae4fc61031",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-opaque-1-rose.png",
+      "sha256": "6607349726a1b5ae14e78c08ead13b24b63868681b34c61fe5c4df3839c9e3c2",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-opaque-1-white.png",
+      "sha256": "5ca32b36ce69b5309662dc51f3931d77e3d58585c95086a67ab43414ef40bd4b",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-round-1-navy.png",
+      "sha256": "baa2d4ab3fb2ff888d28cb07929aa26af8e2df3600aa2c8b7e8cf6c8cfab92d3",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-round-1-rose.png",
+      "sha256": "baa74634f667ddcb0a151a028a29fb0c6944bcc111ad96811bc89efd3ba44998",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-round-1-white.png",
+      "sha256": "c624a72a5e84a6a80185619102afa05bc38af3c16e3e76d421e02665b6b1342b",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-subquantum-1-navy.png",
+      "sha256": "559cb4127a4086d05bcf6280dade3d4cddbe4f3792595167efe5877b1287eff8",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-subquantum-1-rose.png",
+      "sha256": "1b12dfcd9c694df3c7a37712427e00bbf5dc66dfa15e49bcea5df23f4a19c706",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/large-subquantum-1-white.png",
+      "sha256": "2ae1cb48ea0f1743fe42c56bcc71b83a03497a4b91b4fe93806bc2078acf305a",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/multi-25-3-whole-0.5-1-navy.png",
+      "sha256": "e2c7a8665e690b311029213d32fbb0b6a3ca28fdcb19503734f0891fb29c2b4f",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/multi-25-3-whole-0.5-1-rose.png",
+      "sha256": "8cf091ade4ccc3f2008f2fac881477524ee883bb2b6b35d5d97f786140009f21",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/multi-25-3-whole-0.5-1-white.png",
+      "sha256": "438591f9860c6f355e6d3fc6d5ed2f5791dae2da6d24a57521d0686122ed62f6",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/narrow-25-3-whole-0.001-select-False-1-navy.png",
+      "sha256": "559cb4127a4086d05bcf6280dade3d4cddbe4f3792595167efe5877b1287eff8",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/narrow-25-3-whole-0.001-select-False-1-rose.png",
+      "sha256": "1b12dfcd9c694df3c7a37712427e00bbf5dc66dfa15e49bcea5df23f4a19c706",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/narrow-25-3-whole-0.001-select-False-1-white.png",
+      "sha256": "2ae1cb48ea0f1743fe42c56bcc71b83a03497a4b91b4fe93806bc2078acf305a",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/whole-0.5-select-False-hover-False-1-navy.png",
+      "sha256": "8a8c48af7d4a8e5483573dbfa70d7ba05216dacd70897c551a2106aa7b863146",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/whole-0.5-select-False-hover-False-1-rose.png",
+      "sha256": "a85d26c8be5d6e63098972012aa94c1fb5c55a85e7ffbde75eecd916e12288a4",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/whole-0.5-select-False-hover-False-1-white.png",
+      "sha256": "8051abdd3421bb4056c77ff0361d97a397d007e4977b4f7171cbdfe8e82a800c",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/whole-1-select-False-hover-False-1-navy.png",
+      "sha256": "3e5ac31651074fe412c5fd24f9506ccb89c7f108b34d3b9a6ce4018b6e371bec",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/whole-1-select-False-hover-False-1-rose.png",
+      "sha256": "213588b0ec1bac1b566b9d285719edb84eac7c38d8a32f8bc95a2bc8bc46daa6",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgl2/whole-1-select-False-hover-False-1-white.png",
+      "sha256": "445e42dab65c45f72896cc1314b6f2d5bd74d0ec4348c4b7c852f13bac4508be",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/empty-1-navy.png",
+      "sha256": "559cb4127a4086d05bcf6280dade3d4cddbe4f3792595167efe5877b1287eff8",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/empty-1-rose.png",
+      "sha256": "1b12dfcd9c694df3c7a37712427e00bbf5dc66dfa15e49bcea5df23f4a19c706",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/empty-1-white.png",
+      "sha256": "2ae1cb48ea0f1743fe42c56bcc71b83a03497a4b91b4fe93806bc2078acf305a",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-0.01-1-navy.png",
+      "sha256": "7d0f9ad5558df9835656090f629f471580d800b08a078932db377b00c1fc07a9",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-0.01-1-rose.png",
+      "sha256": "ec6ece8a45640ecc598c78209f5913b575db0db90f74214aee8c754a72657374",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-0.01-1-white.png",
+      "sha256": "5b4ba7194e6eb327447844b2697ae62945a73d7d3c7b77263580a1ab615c7430",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-0.25-1-navy.png",
+      "sha256": "3b8c0b673723da79a700868cea94c5dd5ea84a44e51f058a43563c4e7ce76ecc",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-0.25-1-rose.png",
+      "sha256": "656aca7c4b06b5c7d7801064a684614212830321de6fa611748d3db522da605b",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-0.25-1-white.png",
+      "sha256": "b81e04ca1bc8c1d1514f9fb425b0330bf925129ad8f6cd100ea23e60beaca86f",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-0.5-1-navy.png",
+      "sha256": "9cbaf770a417a11d0035f40b41e4abca423ca0ae956290c3585081f6483771e9",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-0.5-1-rose.png",
+      "sha256": "56c8c753493045e390afffd5dd6498e0304495f7d9cf94d632a812a53f114374",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-0.5-1-white.png",
+      "sha256": "11486580ab03b5659f25fedb9ed02ee1c4640b93e4f8629b3fd287ec6ccc7603",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-0.999-1-navy.png",
+      "sha256": "369a994c82ae62670b67d39c59e19e1adbd6c47cd4a1d683cd2f9c5a596d81f2",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-0.999-1-rose.png",
+      "sha256": "ea2a8a568028ca2a68e780323ba0cd82063f1b910a83bb800c22e3a0af855279",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-0.999-1-white.png",
+      "sha256": "7ce67ebaaa87b394afa1f8a34e1ad3763472b380b6af93a4a55d5575e7cd6dcc",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-1-1-navy.png",
+      "sha256": "369a994c82ae62670b67d39c59e19e1adbd6c47cd4a1d683cd2f9c5a596d81f2",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-1-1-rose.png",
+      "sha256": "ea2a8a568028ca2a68e780323ba0cd82063f1b910a83bb800c22e3a0af855279",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/fade-1-1-white.png",
+      "sha256": "7ce67ebaaa87b394afa1f8a34e1ad3763472b380b6af93a4a55d5575e7cd6dcc",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-crossing-1-navy.png",
+      "sha256": "40311e3924068b5776b4b5435eb48db1e0a612f3b545a4fea042701eb06f27ad",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-crossing-1-rose.png",
+      "sha256": "4dd8d68c5fbcd4d07dfa08553a69cef076ca5aeebe07ea3d924ee8ff4423ba37",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-crossing-1-white.png",
+      "sha256": "15a2d99e59b90809ffb3c29d65b5e211fba9f288506aa7b8fdfc9b47777a2e95",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-faint-1-navy.png",
+      "sha256": "515a69e9177593724bfe7299386a2c86baaeb1ed94a1becf3da9bc0c57911e6c",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-faint-1-rose.png",
+      "sha256": "841f4bb8f69b6e0dba4d6226f22914c2156a965018ce374323cc9fe2357d9ad6",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-faint-1-white.png",
+      "sha256": "9ae786ab15425ddd921a6d5ac4f380c7a5aeda33e43db14e2d54125cd0acbaa8",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-opaque-1-navy.png",
+      "sha256": "3a4b58fa197db7b082a06c6ac2d112030d14e1b3cdb259d0357662ae4fc61031",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-opaque-1-rose.png",
+      "sha256": "6607349726a1b5ae14e78c08ead13b24b63868681b34c61fe5c4df3839c9e3c2",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-opaque-1-white.png",
+      "sha256": "5ca32b36ce69b5309662dc51f3931d77e3d58585c95086a67ab43414ef40bd4b",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-round-1-navy.png",
+      "sha256": "baa2d4ab3fb2ff888d28cb07929aa26af8e2df3600aa2c8b7e8cf6c8cfab92d3",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-round-1-rose.png",
+      "sha256": "baa74634f667ddcb0a151a028a29fb0c6944bcc111ad96811bc89efd3ba44998",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-round-1-white.png",
+      "sha256": "c624a72a5e84a6a80185619102afa05bc38af3c16e3e76d421e02665b6b1342b",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-subquantum-1-navy.png",
+      "sha256": "559cb4127a4086d05bcf6280dade3d4cddbe4f3792595167efe5877b1287eff8",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-subquantum-1-rose.png",
+      "sha256": "1b12dfcd9c694df3c7a37712427e00bbf5dc66dfa15e49bcea5df23f4a19c706",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/large-subquantum-1-white.png",
+      "sha256": "2ae1cb48ea0f1743fe42c56bcc71b83a03497a4b91b4fe93806bc2078acf305a",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/multi-25-3-whole-0.5-1-navy.png",
+      "sha256": "e2c7a8665e690b311029213d32fbb0b6a3ca28fdcb19503734f0891fb29c2b4f",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/multi-25-3-whole-0.5-1-rose.png",
+      "sha256": "8cf091ade4ccc3f2008f2fac881477524ee883bb2b6b35d5d97f786140009f21",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/multi-25-3-whole-0.5-1-white.png",
+      "sha256": "438591f9860c6f355e6d3fc6d5ed2f5791dae2da6d24a57521d0686122ed62f6",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/narrow-25-3-whole-0.001-select-False-1-navy.png",
+      "sha256": "559cb4127a4086d05bcf6280dade3d4cddbe4f3792595167efe5877b1287eff8",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/narrow-25-3-whole-0.001-select-False-1-rose.png",
+      "sha256": "1b12dfcd9c694df3c7a37712427e00bbf5dc66dfa15e49bcea5df23f4a19c706",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/narrow-25-3-whole-0.001-select-False-1-white.png",
+      "sha256": "2ae1cb48ea0f1743fe42c56bcc71b83a03497a4b91b4fe93806bc2078acf305a",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/whole-0.5-select-False-hover-False-1-navy.png",
+      "sha256": "8a8c48af7d4a8e5483573dbfa70d7ba05216dacd70897c551a2106aa7b863146",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/whole-0.5-select-False-hover-False-1-rose.png",
+      "sha256": "a85d26c8be5d6e63098972012aa94c1fb5c55a85e7ffbde75eecd916e12288a4",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/whole-0.5-select-False-hover-False-1-white.png",
+      "sha256": "8051abdd3421bb4056c77ff0361d97a397d007e4977b4f7171cbdfe8e82a800c",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/whole-1-select-False-hover-False-1-navy.png",
+      "sha256": "3e5ac31651074fe412c5fd24f9506ccb89c7f108b34d3b9a6ce4018b6e371bec",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/whole-1-select-False-hover-False-1-rose.png",
+      "sha256": "213588b0ec1bac1b566b9d285719edb84eac7c38d8a32f8bc95a2bc8bc46daa6",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-composition-compile-efcb6-preserve-native-composition-chromium-webgpu/whole-1-select-False-hover-False-1-white.png",
+      "sha256": "445e42dab65c45f72896cc1314b6f2d5bd74d0ec4348c4b7c852f13bac4508be",
+      "comparison": {
+        "width": 303,
+        "height": 520,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-37656-tup-and-control-transitions-chromium-webgl2/menu-direct.png",
+      "sha256": "2e0c2bac1219973e8e94d3dfbc48dda1781d2d89cab9ce4d9c655cad424cae89",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-37656-tup-and-control-transitions-chromium-webgl2/menu-effects.png",
+      "sha256": "385fa6b0846298c0d317bbb9a2423a6aab70984ce9953215b39894038de425fb",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-37656-tup-and-control-transitions-chromium-webgl2/settings-effects.png",
+      "sha256": "a07909c9b6acdd535c1bd980a8f50c929f7293d4107744859a29a3c66245b961",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-37656-tup-and-control-transitions-chromium-webgl2/settings-menu-direct.png",
+      "sha256": "449563cd5cf9650aae0692392b89d05a3af1f8b07a4a1532a0e3a83776cd19f4",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-37656-tup-and-control-transitions-chromium-webgl2/settings-menu-effects.png",
+      "sha256": "b3417465c2e1f91bd0663b0384bcdba8a8f0f927f1f55e604d83afd405e785d4",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-37656-tup-and-control-transitions-chromium-webgl2/startup.png",
+      "sha256": "04b1f7736ff3a3bd5025e250c28e9dc272d37ad1557c9f58bbc2a067e3b43b93",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-37656-tup-and-control-transitions-chromium-webgpu/menu-direct.png",
+      "sha256": "2e0c2bac1219973e8e94d3dfbc48dda1781d2d89cab9ce4d9c655cad424cae89",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-37656-tup-and-control-transitions-chromium-webgpu/menu-effects.png",
+      "sha256": "385fa6b0846298c0d317bbb9a2423a6aab70984ce9953215b39894038de425fb",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-37656-tup-and-control-transitions-chromium-webgpu/settings-effects.png",
+      "sha256": "a07909c9b6acdd535c1bd980a8f50c929f7293d4107744859a29a3c66245b961",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-37656-tup-and-control-transitions-chromium-webgpu/settings-menu-direct.png",
+      "sha256": "449563cd5cf9650aae0692392b89d05a3af1f8b07a4a1532a0e3a83776cd19f4",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-37656-tup-and-control-transitions-chromium-webgpu/settings-menu-effects.png",
+      "sha256": "b3417465c2e1f91bd0663b0384bcdba8a8f0f927f1f55e604d83afd405e785d4",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-37656-tup-and-control-transitions-chromium-webgpu/startup.png",
+      "sha256": "04b1f7736ff3a3bd5025e250c28e9dc272d37ad1557c9f58bbc2a067e3b43b93",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-c090b-tup-and-control-transitions-chromium-webgl2/menu-direct.png",
+      "sha256": "2e0c2bac1219973e8e94d3dfbc48dda1781d2d89cab9ce4d9c655cad424cae89",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-c090b-tup-and-control-transitions-chromium-webgl2/menu-effects.png",
+      "sha256": "385fa6b0846298c0d317bbb9a2423a6aab70984ce9953215b39894038de425fb",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-c090b-tup-and-control-transitions-chromium-webgl2/settings-effects.png",
+      "sha256": "a07909c9b6acdd535c1bd980a8f50c929f7293d4107744859a29a3c66245b961",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-c090b-tup-and-control-transitions-chromium-webgl2/settings-menu-direct.png",
+      "sha256": "449563cd5cf9650aae0692392b89d05a3af1f8b07a4a1532a0e3a83776cd19f4",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-c090b-tup-and-control-transitions-chromium-webgl2/settings-menu-effects.png",
+      "sha256": "b3417465c2e1f91bd0663b0384bcdba8a8f0f927f1f55e604d83afd405e785d4",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-c090b-tup-and-control-transitions-chromium-webgl2/startup.png",
+      "sha256": "04b1f7736ff3a3bd5025e250c28e9dc272d37ad1557c9f58bbc2a067e3b43b93",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-c090b-tup-and-control-transitions-chromium-webgpu/menu-direct.png",
+      "sha256": "2e0c2bac1219973e8e94d3dfbc48dda1781d2d89cab9ce4d9c655cad424cae89",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-c090b-tup-and-control-transitions-chromium-webgpu/menu-effects.png",
+      "sha256": "385fa6b0846298c0d317bbb9a2423a6aab70984ce9953215b39894038de425fb",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-c090b-tup-and-control-transitions-chromium-webgpu/settings-effects.png",
+      "sha256": "a07909c9b6acdd535c1bd980a8f50c929f7293d4107744859a29a3c66245b961",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-c090b-tup-and-control-transitions-chromium-webgpu/settings-menu-direct.png",
+      "sha256": "449563cd5cf9650aae0692392b89d05a3af1f8b07a4a1532a0e3a83776cd19f4",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-c090b-tup-and-control-transitions-chromium-webgpu/settings-menu-effects.png",
+      "sha256": "b3417465c2e1f91bd0663b0384bcdba8a8f0f927f1f55e604d83afd405e785d4",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    },
+    {
+      "file": "captures/native-window-built-shared-c090b-tup-and-control-transitions-chromium-webgpu/startup.png",
+      "sha256": "04b1f7736ff3a3bd5025e250c28e9dc272d37ad1557c9f58bbc2a067e3b43b93",
+      "comparison": {
+        "width": 2730,
+        "height": 1536,
+        "differentChannels": 0,
+        "maxChannelDifference": 0
+      }
+    }
+  ],
+  "limits": [
+    "Modern native reconstruction; original-release whole-app equivalence remains open.",
+    "Component fixture isolates compiled contribution; full-window fixture separately tests normal scene collection.",
+    "RGB equality; no alpha-channel claim.",
+    "Compatibility, lifecycle and performance are separate gates."
+  ],
+  "performanceReports": {
+    "webgl2-performance.json": "562ee43fddd92a0098a43374b991038c55f224b346550c434bc4b5685d80366e",
+    "webgpu-performance.json": "1a8f1aea7e35ea6fbfc50c17fc596ca71fda9568990857f50ae91b0cb3a04f86"
+  }
+}

@@ -1,0 +1,85 @@
+
+> @douglaslab/gel@0.0.1 test:unit
+> vitest run
+
+[?25l
+ RUN  v3.0.0 /Users/shawn/.codex/worktrees/3f9f/gel/ts
+
+ ✓ tests/unit/molecularSimMesh.test.ts (12 tests) 19ms
+ ✓ tests/unit/serialize.test.ts (12 tests) 18ms
+ ✓ tests/unit/molecularRuntime.test.ts (7 tests) 15ms
+ ✓ tests/unit/molecularSim.test.ts (16 tests) 25ms
+ ✓ tests/unit/speciesEditing.test.ts (8 tests) 14ms
+ ✓ tests/unit/gelSettings.test.ts (9 tests) 16ms
+ ✓ tests/unit/tubeDrag.test.ts (9 tests) 16ms
+ ✓ tests/unit/gelSim.test.ts (12 tests) 21ms
+ ✓ tests/unit/sampleSettings.test.ts (11 tests) 17ms
+ ✓ tests/unit/sampleFromGel.test.ts (16 tests) 26ms
+ ✓ tests/unit/sampleIdentity.test.ts (14 tests) 24ms
+ ✓ tests/unit/bandTransfer.test.ts (11 tests) 22ms
+ ✓ tests/unit/nativeFile.test.ts (31 tests) 48ms
+ ✓ tests/unit/molecularSimEngine.test.ts (18 tests) 76ms
+ ✓ tests/unit/gelState.test.ts (42 tests) 70ms
+ ✓ tests/unit/gelStore.test.ts (13 tests) 87ms
+ ✓ tests/unit/nativeRuntime.test.ts (16 tests) 116ms
+ ✓ tests/unit/hoverLoupe.test.ts (6 tests) 15ms
+ ✓ tests/unit/mobility.test.ts (17 tests) 30ms
+ ✓ tests/unit/solver.test.ts (4 tests) 10ms
+ ✓ tests/unit/slider.test.ts (15 tests) 32ms
+ ✓ tests/unit/geometry.test.ts (8 tests) 15ms
+ ✓ tests/unit/scenePresentation.test.ts (4 tests) 8ms
+ ✓ tests/unit/palette.test.ts (9 tests) 18ms
+ ✓ tests/unit/sharedSelection.test.ts (7 tests) 17ms
+ ✓ tests/unit/assets.test.ts (7 tests) 25ms
+ ✓ tests/unit/backend.test.ts (10 tests) 41ms
+ ✓ tests/unit/overcook.test.ts (5 tests) 29ms
+ ✓ tests/unit/layout.test.ts (7 tests) 15ms
+ ✓ tests/unit/inspectorSelector.test.ts (7 tests) 19ms
+ ✓ tests/unit/referenceImages.test.ts (4 tests) 13ms
+ ✓ tests/unit/deviceLoss.test.ts (3 tests) 10ms
+ ✓ tests/unit/flames.test.ts (6 tests) 13ms
+ ✓ tests/unit/gpuAllocations.test.ts (3 tests) 9ms
+ ✓ tests/unit/presentationGeometry.test.ts (4 tests) 12ms
+ ✓ tests/unit/sampleFragRef.test.ts (6 tests) 13ms
+ ✓ tests/unit/smear.test.ts (3 tests) 9ms
+ ✓ tests/unit/tuning.test.ts (5 tests) 19ms
+ ✓ tests/unit/nativeMesh.test.ts (64 tests) 336ms
+ ✓ tests/unit/bandFocus.test.ts (2 tests) 5ms
+ ✓ tests/unit/molecularSimBackground.test.ts (4 tests) 14ms
+ ✓ tests/unit/diffusion.test.ts (6 tests) 10ms
+ ✓ tests/unit/nativeLoupe.test.ts (26 tests) 92ms
+ ✓ tests/unit/fileLoadQueue.test.ts (2 tests) 5ms
+ ✓ tests/unit/dye.test.ts (7 tests) 24ms
+ ✓ tests/unit/welldamage-warp.test.ts (3 tests) 7ms
+ ✓ tests/unit/color.test.ts (6 tests) 18ms
+ ✓ tests/unit/rng.test.ts (4 tests) 25ms
+ ✓ tests/unit/imageGeometry.test.ts (24 tests) 35ms
+ ✓ tests/unit/tubeGeometry.test.ts (2 tests) 7ms
+ ✓ tests/unit/smile-warp.test.ts (2 tests) 7ms
+ ✓ tests/unit/buffer.test.ts (5 tests) 11ms
+ ✓ tests/unit/brightness.test.ts (6 tests) 12ms
+ ✓ tests/unit/loupeGestures.test.ts (4 tests) 13ms
+ ✓ tests/unit/nativeWarp.test.ts (137 tests) 270ms
+ ✓ tests/unit/nativeBufferAssets.test.ts (1 test) 33ms
+ ✓ tests/unit/viewOrder.test.ts (1 test) 2ms
+ ✓ tests/unit/adapter.test.ts (2 tests) 4ms
+ ✓ tests/unit/renderMode.test.ts (1 test) 3ms
+ ✓ tests/unit/aggregate.test.ts (3 tests) 7ms
+ ✓ tests/unit/directBands.test.ts (14 tests) 22ms
+ ✓ tests/unit/nativeDyeAssets.test.ts (1 test) 41ms
+ ✓ tests/unit/sanity.test.ts (1 test) 2ms
+ ✓ tests/unit/startupReference.test.ts (1 test) 3ms
+ ✓ tests/unit/nativeBackground.test.ts (36 tests) 51ms
+ ✓ tests/unit/nativeUiText.test.ts (3 tests) 235ms
+ ✓ tests/unit/nativeParticles.test.ts (116 tests) 901ms
+ ✓ tests/unit/nativeNumerical.test.ts (514 tests) 954ms
+ ✓ tests/unit/nativeMolecular.test.ts (509 tests) 841ms
+ ✓ tests/unit/nativePicking.test.ts (511 tests) 784ms
+ ✓ tests/unit/nativeSolver.test.ts (509 tests) 702ms
+
+ Test Files  71 passed (71)
+      Tests  2924 passed (2924)
+   Start at  10:59:47
+   Duration  2.01s (transform 1.46s, setup 0ms, collect 3.56s, tests 6.48s, environment 5ms, prepare 2.81s)
+
+[?25h

@@ -2,7 +2,7 @@
   "name": "@douglaslab/gel",
   "private": true,
   "version": "0.0.1",
-  "description": "Gelbox web port — TypeScript + WebGPU",
+  "description": "Gelbox web port \u2014 TypeScript + WebGPU",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,7 +16,9 @@
     "test:production": "npm run build && playwright test -c playwright.production.config.ts",
     "test:compatibility": "npm run build && playwright test -c playwright.compatibility.config.ts",
     "test:suspension": "playwright test -c playwright.lifecycle.config.ts",
-    "test:performance": "npm run build && playwright test -c playwright.performance.config.ts"
+    "test:performance": "npm run build && playwright test -c playwright.performance.config.ts",
+    "test:fragment-edge": "npm run build && playwright test -c playwright.fragment-edge-audit.config.ts",
+    "test:fragment-background": "npm run build && playwright test -c playwright.fragment-background-audit.config.ts"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",

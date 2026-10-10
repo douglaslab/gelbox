@@ -464,3 +464,29 @@ its DOM canvas at origin, and use a303×520 logical window matching the native
 projection. This proves the compiled component/compositor boundary; complete-window
 built-app tests remain a separate requirement. Do not silently instrument renderer
 math or substitute native meshes for the generated representative.
+
+### Production cutover validation, in progress
+
+Steps1–3 above are implemented locally. Production always creates the shared
+registry; an explicit stored legacy preference cannot override it. Development
+legacy fixtures remain available. The deployment assertions first failed on the
+missing shared canvas before enabling the production registry. The compiled
+production suite now passes16 tests, including216 exact native RGB comparisons
+(24full windows,192 controlled component scenes). Fresh units:2,924/71files.
+The source review found no Critical or Important cutover issues. Retained
+source/build/test/native/output hashes and RGB results are in
+`reference/web/shared-production/provenance.json`. No native reference or
+tolerance changed. Both release fragment-audit configs now select the compiled
+component fixture; package scripts build before auditing. Historical resolved
+CSS-underlay fixture failures remain preserved.
+
+Step4 remains open. Shared-build WebKit deployment:2pass. Firefox:2launch failures
+before application evaluation, same profile/framebuffer limitation as earlier.
+The first broad browser run had948pass/7fail/1skip; Vite logged test-file-triggered
+page reloads during that run. The clean run with no watched-file edits passes955 tests/1intentional skip;
+all seven failures clear without product or assertion changes.
+Combined workload instrumentation asserts shared context ownership; both built
+backend cases pass with steady p95 frame intervals16.7–16.8ms and flat tracked
+resource counts (236/WebGPU,49/WebGL2). Reports are retained with production
+evidence. Built hidden-tab lifecycle acceptance and broader platform gates remain.
+Do not represent this increment as completed P0–P5 or release certification.

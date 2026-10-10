@@ -37,7 +37,8 @@ test('measure built gel with fifty bands, sample and three loupes',async({page,b
   await page.getByRole('button',{name:'Application settings'}).click();
   await page.getByTestId('file-input').setInputFiles({name:'five-ladders.json',mimeType:'application/json',buffer:fixture});
   await expect(page.locator('[data-testid^="band-"]')).toHaveCount(50);
-  await expect(page.getByTestId('gel-canvas')).toHaveAttribute('data-context',backend);
+  await expect(page.getByTestId('shared-scene')).toHaveAttribute('data-context',backend);
+  await expect(page.getByTestId('gel-canvas')).not.toHaveAttribute('data-context',/./);
   await page.getByTestId('band-0').click();
   for(const index of [0,5,9]){
    const band=(await page.getByTestId(`band-${index}`).boundingBox())!;
@@ -46,7 +47,8 @@ test('measure built gel with fifty bands, sample and three loupes',async({page,b
   await expect(page.locator('[data-loupe-id]')).toHaveCount(3);
   const canvases=page.locator('[data-testid="molecular-sim-canvas"],[data-testid^="loupe-canvas-"]');
   await expect(canvases).toHaveCount(4);
-  for(const c of await canvases.all()){await expect(c).toHaveAttribute('data-context',backend);await expect.poll(async()=>Number(await c.getAttribute('data-alive-count'))).toBeGreaterThan(0);}
+  for(const c of await canvases.all()){await expect(c).toHaveAttribute('data-shared-ready','1');await expect(c).not.toHaveAttribute('data-context',/./);await expect.poll(async()=>Number(await c.getAttribute('data-alive-count'))).toBeGreaterThan(0);}
+  await expect(page.locator('canvas[data-context=webgpu],canvas[data-context=webgl2]')).toHaveCount(1);
   await page.waitForTimeout(3000);
   const snapshot=()=>page.evaluate(()=>({resources:(window as any).__appPerf.live.size,particles:[...document.querySelectorAll('[data-alive-count]')].map(c=>({view:c.getAttribute('data-testid'),count:Number(c.getAttribute('data-alive-count'))}))}));
   const baseline=await snapshot(),windows=[];

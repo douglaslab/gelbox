@@ -748,3 +748,23 @@ Shared-composition Task2 regression gates pass: 2,916 units, 559 browser cases
 (one intentional duplicate skipped), four production checks and build. Final
 whole-branch review remains after Task4. Continue Task3; the production switch
 must remain off until complete overlapping view and control paint is migrated.
+
+
+### Shared production validation
+
+The complete paint migration and native full-window overlap fixtures now permit
+the local production build to use shared composition by default. Production
+storage cannot re-enable separate canvases; diagnostic development fixtures retain
+the old mode. Fresh verification passes2,924 units,955 browser tests with one
+intentional skip, and16 built-production tests with216 exact native RGB comparisons.
+An independent cutover source review found no Critical or Important issues.
+Retained compiled-component and full-window evidence, including source/build
+hashes, is in [shared production](../reference/web/shared-production/README.md).
+
+The clean broad run followed an invalidated run where Vite reloaded pages after
+test-file edits. All seven failures clear without product or assertion changes.
+WebKit passes both shared root/subpath deployment cases; Firefox remains blocked
+at browser launch. Combined workload now passes both backends with16.7–16.8ms steady p95 frame
+intervals and flat tracked resource counts. Built hidden-tab resume, shipping Safari,
+original-release/toolchain equivalence and the full P0–P5 contracts remain open.
+Enabling the renderer locally is not release or deployment approval.

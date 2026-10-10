@@ -14,7 +14,7 @@ const DispatchCtx = createContext<Dispatch<Action> | null>(null);
 
 export function GelProvider({ children }: { children: ReactNode }) {
   const [store] = useState(() => new GelStore());
-  const [presentation] = useState(()=>import.meta.env.DEV&&localStorage.getItem('gelSharedPresentation')==='1'?new ScenePresentationRegistry():null);
+  const [presentation] = useState(()=>(!import.meta.env.DEV||localStorage.getItem('gelSharedPresentation')==='1')?new ScenePresentationRegistry():null);
   const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
   const state = snapshot.gel, dispatch = store.dispatch;
   useEffect(() => {
