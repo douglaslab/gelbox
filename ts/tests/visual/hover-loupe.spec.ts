@@ -58,7 +58,7 @@ test('persistent creation replaces preview and browser blur clears transient mod
   await expect(page.getByTestId('hover-loupe')).toHaveCount(0);
   await page.keyboard.up('Meta'); await expect(page.getByTestId('loupe-frame-1')).toBeVisible();
 });
-test('sample import refreshes preview, document replacement clears it and keeps the toggle', async ({ page }) => {
+test('sample import refreshes preview, document replacement recreates it and keeps the toggle', async ({ page }) => {
   const g = (await page.getByTestId('gel-overlay').boundingBox())!;
   const b = (await page.getByTestId('band-0').boundingBox())!;
   const x = b.x + b.width / 2 + g.width / 7, y = b.y + b.height / 2;
@@ -69,8 +69,11 @@ test('sample import refreshes preview, document replacement clears it and keeps 
   await page.getByTestId('file-input').setInputFiles('../reference/native/files/1kbladder.xml');
   await expect(preview).toBeVisible();
   await expect.poll(async () => Number(await canvas.getAttribute('data-alive-count'))).toBeGreaterThan(0);
+  await canvas.evaluate(el => el.setAttribute('data-old-preview', '1'));
   await page.getByTestId('file-input').setInputFiles('../reference/native/files/ladder-after-selection.gel.json');
-  await expect(preview).toHaveCount(0);
+  await expect(preview).toBeVisible();
+  await expect(canvas).not.toHaveAttribute('data-old-preview', '1');
+  await expect(canvas).toHaveAttribute('data-alive-count', '0');
   const next = (await page.getByTestId('gel-overlay').boundingBox())!;
   await page.mouse.move(next.x + 200, next.y + 300); await expect(preview).toBeVisible();
 });
@@ -96,4 +99,28 @@ test('native application setting and Meta-L share the hover toggle', async ({ pa
   await expect(page.getByTestId('hover-loupe')).toBeVisible();
   await page.keyboard.press('Meta+l'); await expect(toggle).not.toBeChecked();
   await expect(page.getByTestId('hover-loupe')).toHaveCount(0);
+});
+
+test('native Alt-clone refreshes preview before mouse-down clears rollover', async ({ page }) => {
+  const b = (await page.getByTestId('band-3').boundingBox())!;
+  const x = b.x + b.width / 2, y = b.y + b.height / 2;
+  await page.mouse.move(x, y); await page.keyboard.press('Meta+l');
+  await page.keyboard.down('Alt');
+  const preview = page.getByTestId('hover-loupe'); await expect(preview).toBeVisible();
+  const count = await page.locator('[data-testid^="band-"]').count();
+  await page.mouse.down();
+  await expect(page.locator('[data-testid^="band-"]')).toHaveCount(count + 1);
+  await expect(preview).toBeVisible();
+  await page.mouse.move(x, y + 20); await expect(preview).toHaveCount(0);
+  await page.mouse.up(); await page.keyboard.up('Alt');
+});
+test('right-create refreshes preview during the native mouse-down operation', async ({ page }) => {
+  const g = (await page.getByTestId('gel-overlay').boundingBox())!;
+  await page.mouse.move(g.x + 180, g.y + 300); await page.keyboard.press('Meta+l');
+  const preview = page.getByTestId('hover-loupe'); await expect(preview).toBeVisible();
+  const count = await page.locator('[data-testid^="band-"]').count();
+  await page.mouse.down({ button: 'right' });
+  await expect(page.locator('[data-testid^="band-"]')).toHaveCount(count + 1);
+  await expect(preview).toBeVisible();
+  await page.mouse.up({ button: 'right' });
 });

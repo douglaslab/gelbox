@@ -14,7 +14,7 @@ it('Meta-L toggle survives release and document replacement, but not a fresh app
   s = reduce(s, { type: 'key', meta: false, toggle: false });
   expect(s.preview?.anchor).toEqual(point);
   s = reduce(s, { type: 'replace' });
-  expect(s.preview).toBeNull(); expect(s.enabled).toBe(true);
+  expect(s.preview?.anchor).toEqual(point); expect(s.enabled).toBe(true);
   expect(reduce(s, { type: 'move', point }).preview).not.toBeNull();
   expect(initialHoverLoupe().enabled).toBe(false);
 });
@@ -41,4 +41,12 @@ it('refresh reuses native view identity but resamples even at the same position'
   const refreshed = reduce(s, { type: 'refresh' });
   expect(refreshed.preview?.id).toBe(s.preview?.id);
   expect(refreshed.preview?.anchor).not.toBe(s.preview?.anchor);
+});
+
+it('native replacement refreshes only when gel retains rollover', () => {
+  let s = reduce(initialHoverLoupe(), { type: 'key', meta: true, toggle: false });
+  s = reduce(s, { type: 'move', point });
+  expect(reduce(s, { type: 'replace' }).preview).not.toBe(s.preview);
+  s = reduce(s, { type: 'down', persistent: false });
+  expect(reduce(s, { type: 'replace' }).preview).toBeNull();
 });

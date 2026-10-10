@@ -9,6 +9,7 @@ export interface HoverLoupeState {
 export type HoverLoupeEvent =
   | { type: 'move' | 'up'; point: Point | null }
   | { type: 'key'; meta: boolean; toggle: boolean }
+  | { type: 'refreshDuringDown'; point: Point | null }
   | { type: 'enable'; value: boolean }
   | { type: 'down'; persistent: boolean }
   | { type: 'refresh' | 'replace' | 'cancel' };
@@ -29,7 +30,8 @@ export function hoverLoupeReducer(state: HoverLoupeState, event: HoverLoupeEvent
     case 'key': return refresh({ ...state, meta: event.meta, enabled: event.toggle ? !state.enabled : state.enabled });
     case 'down': return { ...state, point: null, preview: event.persistent ? null : state.preview };
     case 'refresh': return refresh(state);
-    case 'replace': return { ...state, preview: null };
+    case 'replace': return refresh(state);
+    case 'refreshDuringDown': return { ...refresh({ ...state, point: event.point }), point: state.point };
     case 'cancel': return { ...state, meta: false, point: null, preview: null };
   }
 }

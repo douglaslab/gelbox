@@ -13,8 +13,8 @@ function DerivedLoupe({loupe,bands,bandToLaneFragment,stackIndex,transient=false
  return <Loupe loupe={loupe} stackIndex={stackIndex} transient={transient} {...content}/>;
 }
 export function LoupePortalLayer(props:Props) {
- const {loupes}=useGelState();
+ const {loupes,documentRevision}=useGelState();
  const preview=useHoverLoupe();
  // Keep DOM nodes in creation order: moving a captured node loses capture.
- return <>{[...loupes].sort((a,b)=>a.id-b.id).map(loupe=><DerivedLoupe key={loupe.id} loupe={loupe} stackIndex={loupes.indexOf(loupe)} {...props}/>)}{preview&&<DerivedLoupe key="hover" loupe={preview} transient stackIndex={loupes.length} {...props}/>}</>;
+ return <>{[...loupes].sort((a,b)=>a.id-b.id).map(loupe=><DerivedLoupe key={loupe.id} loupe={loupe} stackIndex={loupes.indexOf(loupe)} {...props}/>)}{preview&&<DerivedLoupe key={`hover-${documentRevision}`} loupe={preview} transient stackIndex={loupes.length} {...props}/>}</>;
 }
