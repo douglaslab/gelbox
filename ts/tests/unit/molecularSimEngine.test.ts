@@ -29,8 +29,8 @@ describe('basesToRadius', () => {
   it('maps high bases to radiusMax = 32', () => {
     expect(basesToRadius(14000)).toBe(32);
   });
-  it('clamps above max', () => {
-    expect(basesToRadius(1e6)).toBe(32);
+  it('extrapolates above the nominal maximum like native lmap', () => {
+    expect(basesToRadius(20000)).toBeCloseTo(44.85714340209961, 5);
   });
 });
 
@@ -146,7 +146,7 @@ describe('MolecularSim.setBounds', () => {
 });
 
 describe('MolecularSim.setSample with degradeFilter', () => {
-  it('setSample with a degradeFilter shrinks the fragment wholeness toward the filtered size', () => {
+  it('a filter preserves full wholeness for an undegraded fragment', () => {
     const sim = new MolecularSim({ bounds: { x1: 0, y1: 0, x2: 200, y2: 200 }, seed: 1 });
     const s: Sample = {
       buffer: BUFFER_TBE,
@@ -157,7 +157,7 @@ describe('MolecularSim.setSample with degradeFilter', () => {
 
     const filter = new Map<number, number>([[0, 1000]]); // much smaller bp than 8000
     sim.setSample(s, filter);
-    expect(sim.fragments[0].wholenessHi).toBeLessThan(wholeNoFilter);
+    expect(sim.fragments[0].wholenessHi).toBe(wholeNoFilter);
     expect(sim.fragments[0].wholenessLo).toBeCloseTo(sim.fragments[0].wholenessHi, 5);
   });
 });

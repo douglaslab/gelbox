@@ -1,6 +1,7 @@
 #include "GelSim.h"
 #include "Sample.h"
 #include "solver-adapter.h"
+#include "molecular-adapter.h"
 #include <fstream>
 #include <iostream>
 using J = nlohmann::json;
@@ -8,9 +9,15 @@ J rect(const ci::Rectf& r) { return {{"x1",r.x1},{"y1",r.y1},{"x2",r.x2},{"y2",r
 Gelbox::Buffer buffer(const J& j) {
   Gelbox::Buffer b;b.mTris=j.at("tris");b.mBorate=j.at("borate");b.mAcetate=j.at("acetate");b.mEDTA=j.at("edta");return b;
 }
+J molecular(SampleRef sample, DegradeFilter* filter=nullptr) {
+  MolecularSim sim;sim.setSample(sample,filter);J result=J::array();
+  for(const auto& f:sim.mFragments)result.push_back({{"targetPop",f.mTargetPop},{"isDye",f.mIsDye},{"radius",{{"x",f.mRadius.x},{"y",f.mRadius.y}}},{"wholenessLo",f.mWholenessLo},{"wholenessHi",f.mWholenessHi},{"aggregateWeightSum",f.mAggregateWeightSum}});
+  return result;
+}
 int main(int argc,char** argv) {
-  if(argc!=3) { std::cerr<<"usage: gel-numerical tuning.json cases.json\n";return 2; }
+  if(argc!=4) { std::cerr<<"usage: gel-numerical tuning.json cases.json molecular-tuning.json\n";return 2; }
   GelSim::gTuning.load(ci::JsonTree(ci::loadFile(argv[1])));
+  MolecularSim::gTuning.load(ci::JsonTree(ci::loadFile(argv[3])));
   std::ifstream file(argv[2]);J cases;file>>cases;J outputs=J::array();
   for(const auto& c:cases) {
     Sample sample;sample.mBuffer=buffer(c.at("sample").at("buffer"));
@@ -55,10 +62,17 @@ int main(int argc,char** argv) {
         for(const auto& f:derived->mFragments) fragments.push_back({{"bases",f.mBases},{"mass",f.mMass},{"degrade",f.mDegrade},{"dye",f.mDye},{"aspectRatio",f.mAspectRatio},{"aggregate",f.mAggregate.get()},{"color",{f.mColor.r,f.mColor.g,f.mColor.b}},{"originFragment",f.mOriginSampleFrag}});
         for(const auto& pair:filter)values.push_back({pair.first,pair.second});
         auto b=derived->mBuffer;
-        probes.push_back({{"point",{{"x",point.x},{"y",point.y}}},{"fragments",fragments},{"filter",values},{"buffer",{{"tris",b.mTris},{"borate",b.mBorate},{"acetate",b.mAcetate},{"edta",b.mEDTA}}}});
+        probes.push_back({{"point",{{"x",point.x},{"y",point.y}}},{"fragments",fragments},{"filter",values},{"molecular",molecular(derived,&filter)},{"buffer",{{"tris",b.mTris},{"borate",b.mBorate},{"acetate",b.mAcetate},{"edta",b.mEDTA}}}});
       }
     }
-    outputs.push_back({{"id",c.at("id")},{"bands",bands},{"nativeMetadata",metadata},{"solved",solved},{"loupeProbes",probes}});
+    J filtered=J::array();
+    if(c.value("loupeProbes",false) || c.at("id").get<string>().find("aggregate-")==0) {
+      for(int bp:{0,1,1001,14000,20000}) {
+        DegradeFilter f;f[fragment]=bp;
+        filtered.push_back({{"index",fragment},{"bases",bp},{"fragments",molecular(std::make_shared<Sample>(sample),&f)}});
+      }
+    }
+    outputs.push_back({{"molecular",molecular(std::make_shared<Sample>(sample))},{"molecularFiltered",filtered},{"id",c.at("id")},{"bands",bands},{"nativeMetadata",metadata},{"solved",solved},{"loupeProbes",probes}});
   }
   std::cout<<outputs.dump(2)<<std::endl;
 }

@@ -24,6 +24,7 @@ native=json.loads((root.parent/'files/ladder-after-selection.gel.json').read_tex
 for i,f in enumerate(native['Fragments']):
  c=copy.deepcopy(base);c['id']=f'startup-fragment-{i}';c['sample']['fragments']=[dict(bases=f['Bases'],mass=f['Mass'],degrade=f['Degrade'],dye=-1,aspectRatio=f['AspectRatio'],aggregate=f['Aggregate'],color=f['Color'])];cases.append(c)
 c=copy.deepcopy(base);c['id']='tied-aggregate-tops';c['sample']['fragments'][0].update(bases=14000,aggregate=[1,1,1]);cases.append(c)
+c=copy.deepcopy(base);c['id']='aggregate-degraded-first-max';c['sample']['fragments'][0].update(bases=14000,aggregate=[2,2,1],degrade=1.5);cases.append(c)
 c=copy.deepcopy(base);c['id']='overloaded-H2O';c['sample']['fragments'][0]['mass']=175;c['ctx']['gelBuffer']=buffers['H2O'];cases.append(c)
 c=copy.deepcopy(base);c['id']='loupe-degraded-multimer';c['sample']['fragments'][0].update(aggregate=[1,2,3],degrade=1.5);cases.append(c)
 c=copy.deepcopy(next(c for c in cases if c['id']=='lane-index-sample-buffer'));c['id']='loupe-source-index';c['sample']['fragments'][1]['degrade']=1.2;cases.append(c)

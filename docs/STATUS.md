@@ -154,3 +154,14 @@ This exposed and corrected horizontal smear bounds, native smear normalization/b
 Verification: **1,899 unit tests, 180 browser tests across both GPU backends, and production build/TypeScript checks pass**. Fresh review verified extracted-method/adapter semantics and found no further blocking issues. Two inspected loupe regression images changed after restoring native aggregate weights, which alter particle sampling and the resulting positions/species distribution; other images are unchanged. These remain web regression baselines, not native visual certification.
 
 Limits are explicit in the numerical-reference README: the adapter probes one source fragment's bands at a time; cross-source overlap and origin object identity remain unverified. Halo arithmetic still has documented double-versus-float tolerances. Molecular particle wholeness/filter semantics, complete loupe gestures/ancestry and native raster comparison remain required work.
+
+
+## Native molecular fragment setup
+
+The independent C++ reference now extracts native molecular setup functions, fragment fields and effective tuning verbatim. The web uses the runtime population exponent of 1, float32 radius/aspect arithmetic with native extrapolation, separate degradation endpoints, first-maximum aggregate demodulation with integer division, native filter interpolation and the minimum-radius floor. The former approximate filter/wholeness behavior is removed.
+
+The initial differential run reproduced **494 failing cases**. All **509 native cases** now pass, including **155 explicit filtered requests** and **206 synthetic loupe probes**. The overall reference contains **2,909 exact solver requests**. Capture runs agree byte-for-byte and all recorded harness/input/output hashes verify. Fresh independent review found no blocking issues; its coverage suggestion added a degraded `[2,2,1]` aggregate case. Deliberately changing first-maximum tie selection to last-maximum makes that regression fail.
+
+Verification: **2,411 unit tests, 180 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. Eight inspected web regression images changed after restoring linear mass-to-population tuning: fewer particles alter positions and the species hit by the fixed-coordinate selection test. Both backends retain visible selection outlines and dye tint. These images are web regression baselines, not native visual certification.
+
+This increment validates fragment setup, not the complete molecular simulator. Particle lifecycle/RNG/motion/mesh fidelity, complete loupe gestures and origin identity, native GUI replay and raster comparison remain required. The pinned-source/modern-Cinder reference limitations still apply.

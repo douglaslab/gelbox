@@ -7,7 +7,7 @@ expected_cinder='f90f332d1a4d453282c76435f3401271f25922f9'
 assert subprocess.check_output(['git','-C',a.cinder,'rev-parse','HEAD']).decode().strip()==expected_cinder, 'Cinder revision differs from reference'
 assert not subprocess.check_output(['git','-C',a.cinder,'status','--porcelain']).strip(), 'Cinder checkout must be clean'
 root=pathlib.Path(__file__).resolve().parent;out=pathlib.Path(a.build);out.mkdir(parents=True,exist_ok=True)
-files=['src/GelSim.cpp','include/GelSim.h','include/Sample.h','include/Buffer.h','include/Band.h','include/Dye.h','include/Aggregate.h','include/Config.h','include/MolecularSim.h','include/GelView.h','src/GelView.cpp','assets/tuning/gel-sim.json']
+files=['src/GelSim.cpp','src/MolecularSim.cpp','assets/tuning/molecular-sim.json','include/GelSim.h','include/Sample.h','include/Buffer.h','include/Band.h','include/Dye.h','include/Aggregate.h','include/Config.h','include/MolecularSim.h','include/GelView.h','src/GelView.cpp','assets/tuning/gel-sim.json']
 hashes={}
 for name in files:
  data=subprocess.check_output(['git','-C',a.gelbox,'show',f'5f51097:{name}']);dest=out/'pinned'/name;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(data);hashes[name]=hashlib.sha256(data).hexdigest()
@@ -20,6 +20,15 @@ for signature,name in [('SampleRef GelView::makeSampleFromGelPos(', 'loupe.inc')
  (out/name).write_text(view[start:end]+'\n')
 molecular=(out/'pinned/include/MolecularSim.h').read_text()
 (out/'degrade-filter.inc').write_text(next(line for line in molecular.splitlines() if line.startswith('class DegradeFilter :'))+'\n')
+molecular_cpp=(out/'pinned/src/MolecularSim.cpp').read_text()
+parts=[]
+for signature in ['void MolecularSimTuning::load(', 'static float basesToRadius(', 'float MolecularSim::calcTargetPop(', 'void MolecularSim::setSample(']:
+ start=molecular_cpp.index(signature);end=molecular_cpp.index('\n}',start)+2;parts.append(molecular_cpp[start:end])
+(out/'molecular-functions.inc').write_text('\n'.join(parts)+'\n')
+start=molecular.index('class MolecularSimTuning');end=molecular.index('\n};',start)+3
+(out/'molecular-tuning.inc').write_text(molecular[start:end]+'\n')
+start=molecular.index('\tclass Frag\n');end=molecular.index('\n\t};',start)+4
+(out/'molecular-frag.inc').write_text(molecular[start:end]+'\n')
 # Force the same fundamental types as native's prefix header plus Cinder's retained legacy JSON API.
 (out/'prefix.h').write_text('#include "cinder/Cinder.h"\n#include "cinder/gl/gl.h"\n#include "cinder/JsonTree.h"\n')
 cmake=f'''cmake_minimum_required(VERSION 3.16)
@@ -38,9 +47,9 @@ manifest={'gelboxCommit':'5f51097','sourceHashes':hashes,'cinderCommit':subproce
 manifest.update(host=platform.platform(), architecture=platform.machine(),
   executableSha256=hashlib.sha256((out/'build/gel-numerical').read_bytes()).hexdigest(),
   compileFlags=(out/'build/CMakeFiles/gel-numerical.dir/flags.make').read_text(),
-  harnessHashes={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in ['build.py','driver.cpp','generate-cases.py','solver-adapter.h']})
+  harnessHashes={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in ['build.py','driver.cpp','generate-cases.py','solver-adapter.h','molecular-adapter.h']})
 if a.capture:
-  command=[str(out/'build/gel-numerical'),str(out/'pinned/assets/tuning/gel-sim.json'),str(root/'cases.json')]
+  command=[str(out/'build/gel-numerical'),str(out/'pinned/assets/tuning/gel-sim.json'),str(root/'cases.json'),str(out/'pinned/assets/tuning/molecular-sim.json')]
   result=subprocess.check_output(command)
   assert result==subprocess.check_output(command), 'Native reference output is not deterministic'
   manifest.update(casesSha256=hashlib.sha256((root/'cases.json').read_bytes()).hexdigest(),outputsSha256=hashlib.sha256(result).hexdigest(),caseCount=len(json.loads(result)))

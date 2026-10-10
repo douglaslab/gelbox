@@ -11,6 +11,7 @@ import { mulberry32, type Rng } from './rng';
 import type { Sample } from './sample';
 import { isDyeFragment } from './sample';
 import { GEL_SIM_TUNING } from '../../data/tuning';
+import { calcDegradeAsFrac } from './mobility';
 
 // ---------------------------------------------------------------------------
 // Tuning constants — port of MolecularSimTuning (include/MolecularSim.h:16).
@@ -20,7 +21,7 @@ export const MOLECULAR_SIM_TUNING = {
   bulletTimeScale:           0.1,
   partSimIsOldAgeDeathEnabled: false,
   numPartsPerMassHigh:       50,
-  numPartsExp:               0.5,
+  numPartsExp:               1, // effective assets/tuning/molecular-sim.json, not header default
 
   fadeInStep:                0.05,
   fadeOutStep:               0.05,
@@ -93,9 +94,9 @@ function clamp(v: number, lo: number, hi: number): number {
 }
 
 function calcTargetPopFromMass(mass: number): number {
-  const massNorm = clamp(mass / GEL_SIM_TUNING.sampleMassHigh, 0, 1);
-  const f = Math.pow(massNorm, MOLECULAR_SIM_TUNING.numPartsExp);
-  return f * MOLECULAR_SIM_TUNING.numPartsPerMassHigh;
+  const f = Math.fround;
+  const massNorm = clamp(f(f(mass) / f(GEL_SIM_TUNING.sampleMassHigh)), 0, 1);
+  return f(f(Math.pow(massNorm, f(MOLECULAR_SIM_TUNING.numPartsExp))) * MOLECULAR_SIM_TUNING.numPartsPerMassHigh);
 }
 
 // ---------------------------------------------------------------------------
@@ -171,35 +172,26 @@ export class MolecularSim {
     this.fragments = sample.fragments.map((s, idx) => {
       const r = basesToRadius(s.bases);
       // Maintain area: ry = sqrt(r² / aspect), rx = aspect × ry.
-      const ry = Math.sqrt((r * r) / s.aspectRatio);
-      const rx = s.aspectRatio * ry;
+      const f = Math.fround;
+      const ry = f(Math.sqrt(f(f(r * r) / f(s.aspectRatio))));
+      const rx = f(f(s.aspectRatio) * ry);
       const aggregate = (s.aggregate ?? []).slice();
-      const aggregateWeightSum = aggregate.reduce((a, b) => a + b, 0);
-      // Wholeness from degrade — C++ Sample::Fragment uses calcDegradeAsFrac
-      // for both lo/hi; for M20 we collapse to (1,1) when degrade=0 and
-      // leave the more nuanced port to M23.
-      let wholenessLo = clamp(1 - s.degrade / 2, 0, 1);
-      let wholenessHi = wholenessLo;
-
-      // M26a: a loupe degrade filter constrains the visible size to the
-      // reverse-solved base-pair-equivalent at the picked gel position.
-      // C++ MolecularSim::setSample does `lerp(wholenessLo, wholenessHi, w)`,
-      // which depends on the split lo/hi wholeness range C++ keeps. The TS port
-      // collapsed wholeness to a single value (lo == hi) back in M20/M23, where
-      // that lerp is a no-op. So we DIVERGE deliberately: scale the single
-      // wholeness by the filter ratio w (∈[0,1]) — a monotonic shrink that can
-      // only make filtered/smear-below picks smaller, never larger. Exact C++
-      // parity needs split lo/hi wholeness ported first (deferred fidelity work,
-      // tracked in STATUS).
+      const aggregateWeightSum = aggregate.reduce((sum, weight) => f(sum + f(weight)), 0);
+      // MolecularSim::setSample keeps the two native degradation endpoints.
+      const degraded = calcDegradeAsFrac(s.degrade);
+      let wholenessLo = f(1 - degraded.lo), wholenessHi = f(1 - degraded.hi);
       const bpe = degradeFilter?.get(idx);
       if (bpe !== undefined) {
-        const aggTop = aggregate.length > 0 ? aggregate.length : 1;
-        const w = basesToRadius(bpe / aggTop) / Math.max(1e-6, r);
-        const wClamped = clamp(w, 0, 1);
-        wholenessLo = wholenessLo * wClamped;
-        wholenessHi = wholenessHi * wClamped;
+        // Aggregate::top selects the first largest weight, not the last slot.
+        let top = 0, weight = 0;
+        aggregate.forEach((value, i) => {
+          if (f(value) > weight) { top = i; weight = f(value); }
+        });
+        const filteredRadius = basesToRadius(Math.trunc(bpe / (top + 1)));
+        const ratio = f(filteredRadius / r);
+        wholenessLo = wholenessHi = f(wholenessLo + f(f(wholenessHi - wholenessLo) * ratio));
       }
-      const floor = MOLECULAR_SIM_TUNING.radiusMin / Math.max(1e-6, r);
+      const floor = f(MOLECULAR_SIM_TUNING.radiusMin / r);
       wholenessLo = Math.max(wholenessLo, floor);
       wholenessHi = Math.max(wholenessHi, floor);
 
@@ -479,6 +471,8 @@ export class MolecularSim {
  * (0..baseCountHigh) to (radiusMin..radiusMax).
  */
 export function basesToRadius(bases: number): number {
-  const t = clamp(bases / GEL_SIM_TUNING.baseCountHigh, 0, 1);
-  return lerp(MOLECULAR_SIM_TUNING.radiusMin, MOLECULAR_SIM_TUNING.radiusMax, t);
+  const f = Math.fround;
+  const { radiusMin, radiusMax } = MOLECULAR_SIM_TUNING;
+  // Native lmap extrapolates and multiplies before dividing.
+  return f(radiusMin + f(f(f(radiusMax - radiusMin) * f(Math.trunc(bases))) / f(GEL_SIM_TUNING.baseCountHigh)));
 }
