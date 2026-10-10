@@ -7,12 +7,14 @@ expected_cinder='f90f332d1a4d453282c76435f3401271f25922f9'
 assert subprocess.check_output(['git','-C',a.cinder,'rev-parse','HEAD']).decode().strip()==expected_cinder, 'Cinder revision differs from reference'
 assert not subprocess.check_output(['git','-C',a.cinder,'status','--porcelain']).strip(), 'Cinder checkout must be clean'
 root=pathlib.Path(__file__).resolve().parent;out=pathlib.Path(a.build);out.mkdir(parents=True,exist_ok=True)
-files=['src/GelSim.cpp','include/GelSim.h','include/Sample.h','include/Buffer.h','include/Band.h','include/Dye.h','include/Aggregate.h','assets/tuning/gel-sim.json']
+files=['src/GelSim.cpp','include/GelSim.h','include/Sample.h','include/Buffer.h','include/Band.h','include/Dye.h','include/Aggregate.h','include/Config.h','include/GelView.h','src/GelView.cpp','assets/tuning/gel-sim.json']
 hashes={}
 for name in files:
  data=subprocess.check_output(['git','-C',a.gelbox,'show',f'5f51097:{name}']);dest=out/'pinned'/name;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(data);hashes[name]=hashlib.sha256(data).hexdigest()
 sample_bytes=subprocess.check_output(['git','-C',a.gelbox,'show','5f51097:src/Sample.cpp']);hashes['src/Sample.cpp']=hashlib.sha256(sample_bytes).hexdigest();sample=sample_bytes.decode();start=sample.index('void Sample::clearDyes()');end=sample.index('\n}',start)+2
 (out/'sample-constructor.cpp').write_text('#include "Sample.h"\n'+sample[start:end]+'\n')
+view=(out/'pinned/src/GelView.cpp').read_text();start=view.index('int GelView::solveBasePairForY(');end=view.index('\n}',start)+2
+(out/'solver.inc').write_text(view[start:end]+'\n')
 # Force the same fundamental types as native's prefix header plus Cinder's retained legacy JSON API.
 (out/'prefix.h').write_text('#include "cinder/Cinder.h"\n#include "cinder/gl/gl.h"\n#include "cinder/JsonTree.h"\n')
 cmake=f'''cmake_minimum_required(VERSION 3.16)
@@ -20,7 +22,7 @@ project(GelNumerical LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 include("{a.cinder}/lib/macosx/Release/cinderConfig.cmake")
 add_executable(gel-numerical "{root}/driver.cpp" "{out}/pinned/src/GelSim.cpp" "{out}/sample-constructor.cpp" "{a.cinder}/src/cinder/JsonTree.cpp" "{a.cinder}/src/jsoncpp/jsoncpp.cpp")
-target_include_directories(gel-numerical PRIVATE "{out}/pinned/include")
+target_include_directories(gel-numerical PRIVATE "{out}/pinned/include" "{out}")
 target_compile_options(gel-numerical PRIVATE -include "{out}/prefix.h")
 target_link_libraries(gel-numerical PRIVATE cinder)
 '''
@@ -31,7 +33,7 @@ manifest={'gelboxCommit':'5f51097','sourceHashes':hashes,'cinderCommit':subproce
 manifest.update(host=platform.platform(), architecture=platform.machine(),
   executableSha256=hashlib.sha256((out/'build/gel-numerical').read_bytes()).hexdigest(),
   compileFlags=(out/'build/CMakeFiles/gel-numerical.dir/flags.make').read_text(),
-  harnessHashes={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in ['build.py','driver.cpp','generate-cases.py']})
+  harnessHashes={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in ['build.py','driver.cpp','generate-cases.py','solver-adapter.h']})
 if a.capture:
   command=[str(out/'build/gel-numerical'),str(out/'pinned/assets/tuning/gel-sim.json'),str(root/'cases.json')]
   result=subprocess.check_output(command)

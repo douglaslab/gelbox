@@ -30,7 +30,7 @@ function dyeToBand(_lane: number, dye: number, mass: number, ctx: SimContext, we
   const blur = Math.trunc(calcBandDiffusion(1, 1, 1, ctx));
 
   // Mobility (uses dye's BP_LO as the position; no degrade)
-  const deltaY = calcDeltaY(bases, aggregate, aspectRatio, ctx) * ctx.ySpaceScale;
+  const deltaY = Math.fround(calcDeltaY(bases, aggregate, aspectRatio, ctx) * Math.fround(ctx.ySpaceScale));
   const geom = calcBandGeometry(ctx, {
     wellRect, deltaY1: deltaY, deltaY2: deltaY, fatness: GEL_SIM_TUNING.wellToDyeHeightScale,
   });
@@ -68,8 +68,8 @@ function fragAggregateToBand(
   const blur = Math.trunc(calcBandDiffusion(frag.bases, aggregate, frag.aspectRatio, ctx));
 
   // Mobility: y1 from (bases - degradeHi), y2 from (bases - degradeLo)
-  const deltaY1 = calcDeltaY(frag.bases - degradeHi, aggregate, frag.aspectRatio, ctx) * ctx.ySpaceScale;
-  const deltaY2 = calcDeltaY(frag.bases - degradeLo, aggregate, frag.aspectRatio, ctx) * ctx.ySpaceScale;
+  const deltaY1 = Math.fround(calcDeltaY(frag.bases - degradeHi, aggregate, frag.aspectRatio, ctx) * Math.fround(ctx.ySpaceScale));
+  const deltaY2 = Math.fround(calcDeltaY(frag.bases - degradeLo, aggregate, frag.aspectRatio, ctx) * Math.fround(ctx.ySpaceScale));
   const geom = calcBandGeometry(ctx, {
     wellRect, deltaY1, deltaY2, fatness: GEL_SIM_TUNING.wellToHeightScale,
   });

@@ -23,6 +23,8 @@ export interface BandDrag {
   laneIndex:     number;
   fragmentIndex: number;
   startY:        number;
+  referenceY:    number;
+  aggregate:     number;
   startBases:    number;
 }
 export interface SampleDrag {
@@ -85,7 +87,7 @@ export type Action =
   | { type: 'SET_SELECTED';       laneIndex: number; index: number | null }
   | { type: 'SELECT_NEXT' }
   | { type: 'SELECT_PREV' }
-  | { type: 'BEGIN_DRAG';         laneIndex: number; fragmentIndex: number; startY: number }
+  | { type: 'BEGIN_DRAG';         laneIndex: number; fragmentIndex: number; startY: number; referenceY?: number; aggregate?: number }
   | { type: 'END_DRAG' }
   | { type: 'BEGIN_SAMPLE_DRAG';  laneIndex: number; clone?: boolean }
   | { type: 'UPDATE_SAMPLE_DRAG'; laneIndex: number }
@@ -415,6 +417,8 @@ function reduceGelState(state: GelState, action: Action): GelState {
           laneIndex: action.laneIndex,
           fragmentIndex: action.fragmentIndex,
           startY: action.startY,
+          referenceY: action.referenceY ?? action.startY,
+          aggregate: action.aggregate ?? 1,
           startBases: frag.bases,
         },
         selectedLane: action.laneIndex,

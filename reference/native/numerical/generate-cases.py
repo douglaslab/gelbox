@@ -23,4 +23,18 @@ for voltage,time in [(70,.6),(210,1),(140,.9)]:
 native=json.loads((root.parent/'files/ladder-after-selection.gel.json').read_text())['Gel']['Samples'][0]
 for i,f in enumerate(native['Fragments']):
  c=copy.deepcopy(base);c['id']=f'startup-fragment-{i}';c['sample']['fragments']=[dict(bases=f['Bases'],mass=f['Mass'],degrade=f['Degrade'],dye=-1,aspectRatio=f['AspectRatio'],aggregate=f['Aggregate'],color=f['Color'])];cases.append(c)
+c=copy.deepcopy(base);c['id']='tied-aggregate-tops';c['sample']['fragments'][0].update(bases=14000,aggregate=[1,1,1]);cases.append(c)
+for c in cases:
+ tiers=[i+1 for i,w in enumerate(c['sample']['fragments'][c['fragment']]['aggregate']) if w>0] or [1]
+ c['solverTargets']=[dict(targetY=y,aggregate=tier) for tier in sorted(set(tiers+[2])) for y in [-200,0,75.9,250,600]]
+# Choose times that put native search guesses near an integer pixel boundary.
+# This independent double-precision construction selects inputs, never expected results.
+for bp in range(1,14000,1000):
+ for target in range(30,400,7):
+  c=copy.deepcopy(base);c['id']=f'boundary-bp{bp}-y{target}'
+  height=c['wellRect']['y2']-c['wellRect']['y1']
+  k=(.05+(1-max(0,(bp-1)/14000))**3.7)*c['ctx']['ySpaceScale']-height*.25
+  c['ctx']['time']=(target-c['wellRect']['y1'])/k
+  if not 0<=c['ctx']['time']<=1: continue
+  c['solverTargets']=[dict(targetY=target,aggregate=1)];cases.append(c)
 (root/'cases.json').write_text(json.dumps(cases,indent=2)+'\n');print(len(cases),'cases')

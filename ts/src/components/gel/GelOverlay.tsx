@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef } from 'react';
 import type { Band } from '../../lib/sim/band';
 import { useGelState, useGelDispatch } from './GelContext';
 import { solveBasesForY } from '../../lib/sim/solver';
+import { GEL_SIM_TUNING } from '../../data/tuning';
+import { BUFFER_TBE } from '../../lib/sim/buffer';
 import { LAYOUT } from '../../lib/layout/layout';
 import type { BandLaneFragment } from '../../lib/sim/sampleFromGel';
 
@@ -46,7 +48,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
 
   const onPointerMove = useCallback((e: PointerEvent) => {
     if (!state.drag || state.drag.type !== 'band' || !svgRef.current) return;
-    if (state.modifiers.shift) {
+    if (e.shiftKey) {
       dispatch({
         type: 'SET_FRAGMENT_BASES',
         laneIndex: state.drag.laneIndex,
@@ -62,10 +64,11 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
     const frag = sample.fragments[state.drag.fragmentIndex];
     if (!frag) return;
     const newBases = solveBasesForY({
-      targetY: y,
+      targetY: y + state.drag.referenceY - state.drag.startY,
+      aggregate: state.drag.aggregate,
       frag,
       lane:    state.drag.laneIndex,
-      ctx:     state.ctx,
+      ctx:     { ...state.ctx, sampleBuffer: sample.buffer },
       wellRect: state.wellRects[state.drag.laneIndex],
     });
     if (newBases !== frag.bases) {
@@ -73,7 +76,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
         type: 'SET_FRAGMENT_BASES',
         laneIndex: state.drag.laneIndex,
         index: state.drag.fragmentIndex,
-        bases: newBases,
+        bases: Math.max(1, Math.min(GEL_SIM_TUNING.baseCountHigh, newBases)),
       });
     }
   }, [state.drag, state.modifiers.shift, state.samples, state.ctx, state.wellRects, state.gelSize.height, dispatch]);
@@ -117,11 +120,16 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
       dispatch({ type: 'CLONE_FRAGMENT', laneIndex: lane, sourceIndex: fragment, color: randomFragmentColor() });
       const rect = svgRef.current!.getBoundingClientRect();
       const y = ((e.clientY - rect.top) / rect.height) * state.gelSize.height;
-      dispatch({ type: 'BEGIN_DRAG', laneIndex: lane, fragmentIndex: state.samples[lane]!.fragments.length, startY: y });
+      // Native Alt clone switches to the slowest band of the copied species.
+      const slowest = bands.filter((_, i) => bandToLaneFragment[i].lane === lane && bandToLaneFragment[i].fragment === fragment)
+        .reduce((a, b) => a.rect.y1 <= b.rect.y1 ? a : b);
+      dispatch({ type: 'BEGIN_DRAG', laneIndex: lane, fragmentIndex: state.samples[lane]!.fragments.length,
+        startY: y, referenceY: slowest.rect.y1, aggregate: slowest.aggregate });
     } else {
       const rect = svgRef.current!.getBoundingClientRect();
       const y = ((e.clientY - rect.top) / rect.height) * state.gelSize.height;
-      dispatch({ type: 'BEGIN_DRAG', laneIndex: lane, fragmentIndex: fragment, startY: y });
+      dispatch({ type: 'BEGIN_DRAG', laneIndex: lane, fragmentIndex: fragment, startY: y,
+        referenceY: bands[bandIdx].rect.y1, aggregate: bands[bandIdx].aggregate });
     }
   }
 
@@ -149,7 +157,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
         if (lane < 0 || lane >= state.numLanes) return;
         const fragment = newFragment();
         fragment.bases = solveBasesForY({ targetY: y, frag: fragment, lane,
-          ctx: state.ctx, wellRect: state.wellRects[lane] });
+          ctx: { ...state.ctx, sampleBuffer: state.samples[lane]?.buffer ?? BUFFER_TBE }, wellRect: state.wellRects[lane] });
         dispatch({ type: 'ADD_FRAGMENT', laneIndex: lane, fragment });
         e.currentTarget.focus();
       }}

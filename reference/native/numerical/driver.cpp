@@ -1,5 +1,6 @@
 #include "GelSim.h"
 #include "Sample.h"
+#include "solver-adapter.h"
 #include <fstream>
 #include <iostream>
 using J = nlohmann::json;
@@ -31,7 +32,12 @@ int main(int argc,char** argv) {
         {"degradeLo",b.mDegradeLo},{"degradeHi",b.mDegradeHi},{"aspectRatio",b.mAspectRatio},{"uiRect",rect(b.mUIRect)},{"wellRect",rect(b.mWellRect)},
         {"focusColor",{b.mFocusColor.r,b.mFocusColor.g,b.mFocusColor.b}}});
     }
-    outputs.push_back({{"id",c.at("id")},{"bands",bands},{"nativeMetadata",metadata}});
+    J solved=J::array();GelView view(well);
+    for(const auto& request:c.value("solverTargets",J::array())) {
+      solved.push_back({{"targetY",request.at("targetY")},{"aggregate",request.at("aggregate")},
+        {"bases",view.solveBasePairForY(request.at("targetY").get<float>(),sample,fragment,lane,request.at("aggregate"),ctx)}});
+    }
+    outputs.push_back({{"id",c.at("id")},{"bands",bands},{"nativeMetadata",metadata},{"solved",solved}});
   }
   std::cout<<outputs.dump(2)<<std::endl;
 }

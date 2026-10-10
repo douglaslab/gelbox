@@ -52,33 +52,18 @@ export function calcDeltaY(
   aspectRatio: number,
   ctx: SimContext,
 ): number {
+  // Native inputs, tuning and every arithmetic intermediate are float32.
+  // Rounding only the returned Y changes inverse-search decisions at integer pixels.
+  const f = Math.fround;
   const T = GEL_SIM_TUNING;
-  const curveBase = bufferEquals(ctx.gelBuffer, BUFFER_TAE) ? T.deltaY.curveBaseTAE : T.deltaY.curveBase;
-  const curveExp = T.deltaY.curveExp;
-  const aspectRatioMax = T.aspectRatioMax;
-  const aspectRatioScale = T.deltaY.aspectRatioScale;
-  const baseCountHigh = T.baseCountHigh;
-  const notch = T.voltageNotch;
-
-  // 1. size, normalized
-  let y = (bases * aggregation) / baseCountHigh;
-  y = clamp(y, 0, 1);
-
-  // 2. aspect ratio (subtractive, time-dependent)
-  const aspectDelta = ((aspectRatio - 1) / aspectRatioMax) * aspectRatioScale;
-  y -= aspectDelta * ctx.time;
-
-  // (TEST buffers branch in C++ is disabled — `if ((0))` — skip)
-
-  // 3. curve
-  y = curveBase + Math.pow(1 - y, curveExp);
-
-  // 4. voltage
-  const vn = (ctx.voltage - notch) / notch;
-  y *= (1 + vn);
-
-  // 5. time
-  y *= ctx.time;
-
-  return y;
+  const curveBase = f(bufferEquals(ctx.gelBuffer, BUFFER_TAE) ? T.deltaY.curveBaseTAE : T.deltaY.curveBase);
+  const time = f(ctx.time);
+  let y = clamp(f(f(bases * aggregation) / f(T.baseCountHigh)), 0, 1);
+  const aspectDelta = f(f(f(f(aspectRatio) - 1) / f(T.aspectRatioMax)) * f(T.deltaY.aspectRatioScale));
+  y = f(y - f(aspectDelta * time));
+  y = f(curveBase + f(Math.pow(f(1 - y), f(T.deltaY.curveExp))));
+  const notch = f(T.voltageNotch);
+  const vn = f(f(f(ctx.voltage) - notch) / notch);
+  y = f(y * f(1 + vn));
+  return f(y * time);
 }

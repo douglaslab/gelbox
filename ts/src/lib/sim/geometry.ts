@@ -30,31 +30,33 @@ export interface GeometryOutput {
 export function calcBandGeometry(ctx: SimContext, input: GeometryInput): GeometryOutput {
   const { wellRect, deltaY1, deltaY2, fatness } = input;
 
-  // Move
-  let y1 = wellRect.y1 + deltaY1;
-  let y2 = wellRect.y2 + deltaY1;
+  const f = Math.fround;
+
+  // Move, preserving native Rectf arithmetic before integer solver comparisons.
+  let y1 = f(f(wellRect.y1) + f(deltaY1));
+  let y2 = f(f(wellRect.y2) + f(deltaY1));
 
   // Inflate (vertical only)
-  const fatscale = ctx.time;
-  const height = y2 - y1;
-  const inflateAmt = (fatness - 1) * fatscale * 0.5 * height;
-  y1 -= inflateAmt;
-  y2 += inflateAmt;
+  const fatscale = f(ctx.time);
+  const height = f(y2 - y1);
+  const inflateAmt = f(f(f(f(fatness) - 1) * fatscale) * 0.5) * height;
+  y1 = f(y1 - f(inflateAmt));
+  y2 = f(y2 + f(inflateAmt));
 
-  const rect: Rect = { x1: wellRect.x1, y1, x2: wellRect.x2, y2 };
+  const rect: Rect = { x1: f(wellRect.x1), y1, x2: f(wellRect.x2), y2 };
 
   // Smear below: distance from rect.y2 down to wellRect.y2 + deltaY2.
-  const smearBelow = (wellRect.y2 + deltaY2) - rect.y2;
+  const smearBelow = f(f(f(wellRect.y2) + f(deltaY2)) - rect.y2);
 
   // Smear above: H2O bumps it to rect.height × 6 (clipped to fit between band and well bottom).
   let smearAbove = 0;  // C++ default Band has smearAbove=0 unless something sets it
   if (bufferEquals(ctx.gelBuffer, BUFFER_H2O)) {
-    smearAbove = Math.max(smearAbove, (rect.y2 - rect.y1) * GEL_SIM_TUNING.smearUpWithH2O);
+    smearAbove = Math.max(smearAbove, f(f(rect.y2 - rect.y1) * f(GEL_SIM_TUNING.smearUpWithH2O)));
   }
   // (wellDamage smear-up disabled in C++ — skip)
 
   // Clip smear above with well bottom
-  smearAbove = Math.min(smearAbove, rect.y1 - wellRect.y2);
+  smearAbove = Math.min(smearAbove, f(rect.y1 - f(wellRect.y2)));
 
   return { rect, smearAbove, smearBelow };
 }

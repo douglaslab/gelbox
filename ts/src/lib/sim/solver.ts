@@ -7,53 +7,32 @@ import { GEL_SIM_TUNING } from '../../data/tuning';
 export interface SolveOpts {
   targetY:  number;     // canvas-pixel Y to match against the band's rect.y1
   frag:     Fragment;   // fragment template; bases is replaced during search
+  aggregate?: number; // native multimer tier selected by the drag (default monomer)
   lane:     number;
   ctx:      SimContext;
   wellRect: Rect;
 }
 
-const MAX_ITER = 30;
-
-/**
- * Binary-search bp ∈ [1, baseCountHigh] such that `fragToBands` produces a
- * band whose rect.y1 best matches `targetY`. Mirrors the C++
- * `solveBasePairForY` solver. Monotonicity is implicit in calcDeltaY:
- * bigger bp → smaller deltaY → smaller rect.y1 (closer to well at top).
- *
- * Returns an integer bp. Iteration count is capped at 30; the search
- * converges to single-bp precision in <17 iterations on a 14000-bp range.
+/** Port of GelView::solveBasePairForY and Config::mSolverMaxIterations at 5f51097.
+ * Native intentionally matches integer Y and returns its search guess, including
+ * its unusual zero/negative-voltage behavior. Do not replace with binary search.
  */
 export function solveBasesForY(opts: SolveOpts): number {
-  const { targetY, frag, lane, ctx, wellRect } = opts;
-  const upper = GEL_SIM_TUNING.baseCountHigh;
-
-  function bandY1At(bases: number): number {
+  const { frag, lane, ctx, wellRect, aggregate = 1 } = opts;
+  const target = Math.trunc(Math.fround(opts.targetY));
+  let bases = 1, stepSize = 1000, stepDirection = 1, iterationsLeft = 50;
+  do {
     const sample: Sample = { buffer: ctx.sampleBuffer, fragments: [{ ...frag, bases }] };
-    const bands = fragToBands(sample, 0, wellRect, lane, ctx);
-    return bands[0].rect.y1;
-  }
-
-  // Boundary checks: if target is unachievable, clamp.
-  const yAtMin = bandY1At(1);          // smallest bp → largest y
-  const yAtMax = bandY1At(upper);      // largest bp → smallest y
-  if (targetY >= yAtMin) return 1;
-  if (targetY <= yAtMax) return upper;
-
-  // Standard integer binary search.
-  let lo = 1;
-  let hi: number = upper;
-  for (let i = 0; i < MAX_ITER; i++) {
-    if (hi - lo <= 1) break;
-    const mid = Math.floor((lo + hi) / 2);
-    const y = bandY1At(mid);
-    if (y > targetY) {
-      // Need larger bp (smaller y).
-      lo = mid;
-    } else {
-      // Need smaller bp (larger y).
-      hi = mid;
+    const band = fragToBands(sample, 0, wellRect, lane, ctx).find(b => b.aggregate === aggregate);
+    if (!band) break;
+    const y = Math.trunc(Math.fround(band.rect.y1));
+    if (y === target) return bases;
+    if ((y > target && stepDirection !== 1) || (y < target && stepDirection !== -1)) {
+      stepDirection *= -1;
+      stepSize = Math.trunc(stepSize / 4);
+      if (stepSize <= 1) break;
     }
-  }
-  // Pick the side closer to target.
-  return Math.abs(bandY1At(lo) - targetY) < Math.abs(bandY1At(hi) - targetY) ? lo : hi;
+    bases += stepSize * stepDirection;
+  } while (iterationsLeft-- > 0);
+  return Math.max(1, Math.min(GEL_SIM_TUNING.baseCountHigh, bases));
 }
