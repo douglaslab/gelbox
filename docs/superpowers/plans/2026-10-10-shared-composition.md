@@ -252,8 +252,13 @@ intentional duplicate skipped), 2,924 units, build and four production checks.
 
 `GelView::mouseDown` has distinct Meta and right-button branches before ordinary
 tube selection. Middle-button tube selection/drag belongs to the ordinary branch;
-do not indiscriminately treat right-clicking a tube as a sample drag. Audit Meta
-input over the tube hit regions against native frame/pick bounds as well.
+right-clicking a tube remains outside lane creation bounds and does not start a
+sample drag. Middle-button sample movement/cloning, gap exit/re-entry, repeated
+clicks, capture loss and keyboard actions now pass. Meta precedes all button
+branches: tube hit regions can create a loupe outside the gel frame, then retain
+creation drag ownership through release or capture loss. Fifty-two focused cases
+pass in both modes/backends; full verification passes 925 browser cases (one
+intentional duplicate skipped), 2,924 units, build and four production checks.
 
 `ButtonView::mouseUp` (line 105) activates its callback on an owned release inside
 for all buttons. Application menu controls already implement this. Gel/application settings,

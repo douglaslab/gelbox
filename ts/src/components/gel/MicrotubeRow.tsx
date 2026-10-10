@@ -61,6 +61,12 @@ export function MicrotubeRow() {
     width: r.x2 - r.x1, height: r.y2 - r.y1 });
   const pointer = useRef<{ id: number; lane: number; x: number; y: number; selected: boolean } | null>(null);
 
+  const creatingLoupe=useRef<{id:number;pointerId:number;x:number;y:number}|null>(null);
+  function gelPoint(e:{clientX:number;clientY:number}){
+    const r=rowRef.current!.parentElement!.getBoundingClientRect();
+    return {x:(e.clientX-r.left)/r.width*state.gelSize.width,y:(e.clientY-r.top)/r.height*state.gelSize.height};
+  }
+
   function laneAtPoint(x: number, y: number): number {
     const rect = rowRef.current?.getBoundingClientRect();
     if (!rect || y < rect.top || y > rect.bottom || x < rect.left || x >= rect.right) return -1;
@@ -77,8 +83,18 @@ export function MicrotubeRow() {
   }
 
   function onTubePointerDown(laneIndex: number, e: React.PointerEvent<HTMLButtonElement>) {
-    if (e.button !== 0 || pointer.current) return;
+    if (pointer.current || creatingLoupe.current) return;
     e.preventDefault();
+    // GelView picks tube hit regions outside its frame, then handles Meta
+    // before right-click creation or ordinary sample selection.
+    if(e.metaKey || e.ctrlKey){
+      const anchor=gelPoint(e);
+      creatingLoupe.current={id:state.loupeNextId,pointerId:e.pointerId,...anchor};
+      rowRef.current?.setPointerCapture(e.pointerId);
+      dispatch({type:'ADD_LOUPE',anchor});
+      return;
+    }
+    if(e.button===2)return;
     pointer.current = { id: e.pointerId, lane: laneIndex, x: e.clientX, y: e.clientY,
       selected: state.lastSampleLane === laneIndex };
     rowRef.current?.setPointerCapture(e.pointerId);
@@ -89,6 +105,11 @@ export function MicrotubeRow() {
   }
 
   function endPointer(e: React.PointerEvent<HTMLDivElement>, cancel = false) {
+    if(creatingLoupe.current?.pointerId===e.pointerId){
+      creatingLoupe.current=null;
+      if(e.currentTarget.hasPointerCapture(e.pointerId))e.currentTarget.releasePointerCapture(e.pointerId);
+      return;
+    }
     const down = pointer.current;
     if (!down || down.id !== e.pointerId) return;
     pointer.current = null;setGhost(null);
@@ -101,7 +122,15 @@ export function MicrotubeRow() {
   return (
     <div className={styles.row} ref={rowRef} data-testid="microtube-row" tabIndex={-1}
       style={{ top: rowTop, height: -rowTop, outline: 'none', touchAction: 'none' }}
+      onContextMenu={e=>e.preventDefault()}
       onPointerMove={e => {
+        const loupe=creatingLoupe.current;
+        if(loupe?.pointerId===e.pointerId){
+          if(!e.currentTarget.hasPointerCapture(e.pointerId)){creatingLoupe.current=null;return;}
+          const p=gelPoint(e);
+          dispatch({type:'MOVE_LOUPE',id:loupe.id,mode:'both',delta:{x:p.x-loupe.x,y:p.y-loupe.y}});
+          creatingLoupe.current={...loupe,...p};return;
+        }
         if (pointer.current?.id === e.pointerId) {
           const lane=laneAtPoint(e.clientX,e.clientY),down=pointer.current;
           if(lane===-1){
