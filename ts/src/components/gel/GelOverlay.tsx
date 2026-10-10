@@ -195,21 +195,23 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
         const selected = fragmentIndexIn(state.selection, state.samples[lf.lane]) === lf.fragment;
         const hovered  = fragmentIndexIn(state.rollover, state.samples[lf.lane]) === lf.fragment;
         const frag = state.samples[lf.lane]?.fragments[lf.fragment];
-        const speciesColor = frag ? rgbToHex(frag.color) : LAYOUT.sampleViewFragSelectColor;
+        const focusColor = frag?.dye != null && frag.dye >= 0
+          ? rgbToHex(b.color.map(c => c * .5) as [number,number,number])
+          : frag ? rgbToHex(frag.color) : LAYOUT.sampleViewFragSelectColor;
+        const focused = selected || hovered;
+        // GelView::drawBandFocus: inflate the UI rectangle, then a 2px stroke.
+        const inset = focused ? 1 : 0;
         return (
           <rect
             key={i}
             data-testid={`band-${i}`}
             data-lane-index={lf.lane}
             data-fragment-index={lf.fragment}
-            x={x} y={y} width={w} height={h}
+            x={x-inset} y={y-inset} width={w+2*inset} height={h+2*inset}
             fill="transparent"
-            stroke={
-              selected
-                ? speciesColor
-                : (hovered ? LAYOUT.sampleViewFragHoverColor : 'transparent')
-            }
-            strokeWidth={LAYOUT.sampleViewFragOutlineWidth}
+            stroke={focused ? focusColor : 'transparent'}
+            strokeOpacity={(selected ? .65 : 0) + (hovered ? .35 : 0)}
+            strokeWidth={2}
             style={{ cursor: 'ns-resize' }}
           />
         );

@@ -1,0 +1,12 @@
+{
+  "nativeCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "sourceHashes": {
+    "src/GelView.cpp": "20159d314759e38b6e2f626fba2c5a401eb4cbf894f15682c597c6145e96a3e6",
+    "src/GelSim.cpp": "198f05d2591e88c8ff5821d07ab70682cf9c7f65c6e04b5ebdcf8df01569953d"
+  },
+  "files": {
+    "webgpu.png": "77f6344ecf469abf6a21130f044b29cfaa53f75aa00d6de5cc6e9bfb30ce3441",
+    "README.md": "7ddce7e5a144781dce96b4e03a9d28c1573d287da56ce329a1b0f38a1e9a64bf",
+    "webgl2.png": "77f6344ecf469abf6a21130f044b29cfaa53f75aa00d6de5cc6e9bfb30ce3441"
+  }
+}

@@ -24,7 +24,7 @@ test('Microtube row uses PNG icons for samples', async ({ page }) => {
   await expect(tube0.locator('img')).toBeVisible();
 });
 
-test('Hovering a band sets rollover stroke (yellow)', async ({ page }) => {
+test('Hovering a band uses the native species-colored rollover stroke', async ({ page }) => {
   await page.setViewportSize({ width: 1365, height: 800 });
   await page.goto('/#/gel');
 
@@ -37,5 +37,5 @@ test('Hovering a band sets rollover stroke (yellow)', async ({ page }) => {
   // pointerover sequence.
   await page.locator('[data-testid="band-0"]').hover();
   await expect(page.locator('[data-testid="band-0"]'))
-    .toHaveAttribute('stroke', /#?[fF]{4}00|#[fF][fF][fF][fF]00/i);
+    .toHaveAttribute('stroke', '#333333');
 });

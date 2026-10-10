@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,867 passed |
-| Browser suite across WebGPU/WebGL2 | 439 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 445 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -1587,3 +1587,25 @@ the selected-band outline is too thick. The post-deletion file check does not
 certify intermediate palette precision. Native JPEGs/live particles are not
 lossless pixel parity evidence. Neither discrepancy nor the broader goal is
 marked complete.
+
+
+## Native band focus geometry, color and opacity
+
+The overly thick outline observed in the original release comparison was traced
+to web reuse of the molecular-particle outline style. Native GelView instead
+draws an outward-inflated UI rectangle with a two-pixel stroke, species color,
+and .65 selection / .35 rollover opacity. Dye focus uses half the dye color.
+Those contracts are now applied and covered by four new browser checks; see
+[retained source and image evidence](../reference/native/replay/band-focus/README.md).
+Coordinate-based band hit testing retains its original uninflated rectangle.
+
+The new DNA regression failed before correction. Three older tests asserted the
+incorrect yellow band highlight and were corrected. Two hover-loupe goldens
+contain the underlying gel; their outline changes were visually inspected and
+the two baselines regenerated, without increasing tolerance. The subsequent
+full run used normal snapshot verification.
+
+Verification: **2,867 unit tests, 445 browser tests and 4 production checks
+passed**, with one intentional duplicate browser skip. Production included fresh
+build/TypeScript checks. Palette precision, complete original-native raster
+comparison and the remaining interaction/release gates stay open.

@@ -46,10 +46,10 @@ test('cross-panel rollover: hovering a band rings the matching SampleView partic
   await page.locator('[data-testid="microtube-0"]').click();
   await expect(page.getByTestId('molecular-sim-canvas')).toBeVisible();
 
-  // Hover band-2 — the band stroke goes yellow on rollover.
+  // Native band-2 rollover uses its red species color.
   const band = page.locator('[data-testid="band-2"]');
   await band.hover();
-  await expect(band).toHaveAttribute('stroke', /#?[fF]{4}00|#[fF][fF][fF][fF]00/i);
+  await expect(band).toHaveAttribute('stroke', '#cc0000');
   // No assertion on the canvas pixel state — that's golden territory.
   // The visible cue is sufficient to confirm SET_ROLLOVER fires through.
 });

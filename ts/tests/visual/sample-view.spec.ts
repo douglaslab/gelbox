@@ -84,10 +84,9 @@ test('Hovering a band updates rollover so SampleView can react', async ({ page }
   await expect(page.getByTestId('sample-view')).toBeVisible();
 
   // Hovering band-0 should set rollover to fragment 0 — the band's stroke
-  // turns yellow per the existing GelOverlay logic.
+  // uses the species color at native rollover opacity.
   const band0 = page.locator('[data-testid="band-0"]');
   await band0.hover();
-  // The band's stroke attribute changes to the hover color (#FFFF00 from
-  // sampleViewFragHoverColor).
-  await expect(band0).toHaveAttribute('stroke', /#?[fF]{4}00|#[fF][fF][fF][fF]00/i);
+  // Native GelView uses species color, not the yellow particle highlight.
+  await expect(band0).toHaveAttribute('stroke', '#333333');
 });
