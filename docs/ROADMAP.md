@@ -409,3 +409,11 @@ contexts, native file roundtrip and malformed-file preservation. Full fresh chec
 2,853 units, 385 development browser cases (one intentional skip), four production
 cases, build/type checks passed. Remaining platform/font/deep-route/lifecycle/
 performance and full native parity gates are still open.
+
+
+P5 engine probe: added separate `test:compatibility` for the built app on pinned
+Playwright Firefox/WebKit. WebKit18.2/WebGL2 passes root/subpath workflows. Firefox132
+fails at browser launch (profile sandbox/framebuffer errors), including with `/tmp`
+profiles; failures remain visible and bounded to 15 seconds. macOS27.0.1 / M5Max.
+Shipping Safari/current Firefox and full platform gates remain open. Product source
+and established Chromium production gate are unchanged.

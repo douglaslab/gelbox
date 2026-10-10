@@ -22,7 +22,8 @@ On macOS with Node 22: these checks include the application runtime integration.
 |---|---|
 | Unit suite | 2,853 passed |
 | Browser suite across WebGPU/WebGL2 | 385 passed; one intentional duplicate skipped |
-| Built-app root/subpath checks | 4 passed |
+| Built-app root/subpath checks | 4 Chromium passed |
+| Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -1052,3 +1053,32 @@ cases passed; one intentional development-browser duplicate skipped. Production
 build and TypeScript checks pass.** This closes these Chromium static-host smoke
 scenarios, not all production checks: browser/platform fonts, deep engineering
 routes, full failure lifecycle, long-run performance and native parity remain open.
+
+
+## Additional browser-engine production checks
+
+`npm --prefix ts run test:compatibility` builds and applies the same strict
+root/subpath production workflows to Playwright Firefox and WebKit. Install
+these engines with `npx playwright install firefox webkit` from `ts/` first.
+The established Chromium `test:production` gate is unchanged; compatibility
+failures are neither skipped nor converted to successful results.
+
+On macOS 27.0.1, Mac17,14 / Apple M5 Max, pinned Playwright 1.49.0 installed
+Firefox 132.0 (build 1466) and WebKit 18.2 (build 2104). Both WebKit/WebGL2 cases
+passed: actual gel context, decoded UI assets, native JSON roundtrip and malformed
+file preservation at root/subpath. These are engine smoke checks, not certification
+of the shipping Safari app, current browsers, molecular pixels or native raster.
+
+Both Firefox cases failed during `browserType.launch`, before requesting app
+content. Logs report `sandbox_extension_issue_file_to_process ... Operation not
+permitted`, `Can't find profile directory`, and `RenderCompositorSWGL failed
+mapping default framebuffer`. Moving the temporary profile from macOS's default
+temporary directory to `/tmp` reproduced the launch failure. No browser security
+settings were disabled. A 15-second launch limit now bounds this diagnostic.
+
+Final compatibility command: **production build/type checks passed; two WebKit
+cases passed, two Firefox launch failures; command exits 1**. Product source was
+unchanged, so existing unit/Chromium verification remains the preceding record.
+Next resolve the Firefox runner/environment or use a validated current browser
+runner, then exercise actual Safari and broader workflows. No Firefox support or
+full browser/release gate is claimed.
