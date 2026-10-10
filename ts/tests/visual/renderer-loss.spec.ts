@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 test('live gel, sample and loupe survive repeated graphics loss',async({page},info)=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  const initial=info.project.name.endsWith('webgl2')?'webgl2':'webgpu';
- await page.route('**/src/components/sample/SampleSimCanvas.tsx',async route=>{
+ await page.route('**/src/components/sample/SampleSimCanvas.tsx*',async route=>{
   const response=await route.fetch();let source=await response.text();
   source=source.replace('const sim = view.sim;',`const sim = view.sim;
     globalThis.__lossViews ??= new Map(); globalThis.__lossViews.set(viewKey,view);`);

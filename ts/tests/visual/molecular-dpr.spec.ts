@@ -3,7 +3,7 @@ test.use({viewport:{width:1365,height:768},deviceScaleFactor:1});
 test('sample, loupe and representative resize backing buffers across live display-scale changes',async({page},info)=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
- await page.route('**/src/components/sample/SampleSimCanvas.tsx',async route=>{
+ await page.route('**/src/components/sample/SampleSimCanvas.tsx*',async route=>{
   const response=await route.fetch();const source=(await response.text()).replace('const sim = view.sim;',`const sim = view.sim;
    globalThis.__dprViews ??= new Map();globalThis.__dprViews.set(viewKey,view);`);
   await route.fulfill({response,body:source});

@@ -1,6 +1,6 @@
 import {test,expect,type Page} from '@playwright/test';
 async function setup(page:Page,backend:string){
- await page.route('**/src/components/sample/SampleSimCanvas.tsx',async route=>{
+ await page.route('**/src/components/sample/SampleSimCanvas.tsx*',async route=>{
   const response=await route.fetch(),source=await response.text();
   const patched=source.replace('const sim = view.sim;',`const sim = view.sim;
    globalThis.__sharedViews ??= new Map();globalThis.__sharedViews.set(viewKey,view);`);
@@ -39,13 +39,18 @@ async function setup(page:Page,backend:string){
  await page.setViewportSize({width:1365,height:768});await page.goto('/#/gel');await page.getByTestId('band-0').click();await page.mouse.move(0,0);
  await expect(page.getByTestId('shared-scene')).toHaveAttribute('data-view-keys',/inspector-fragment/);
  await expect(page.getByTestId('molecular-sim-canvas')).toHaveAttribute('data-frozen','1');
+ const band=(await page.getByTestId('band-0').boundingBox())!;
+ await page.keyboard.down('Meta');await page.mouse.click(band.x+band.width/2,band.y+band.height/2);await page.keyboard.up('Meta');await page.mouse.move(0,0);
+ await expect(page.getByTestId('loupe-canvas-1')).toHaveAttribute('data-shared-ready','1');
  await page.evaluate(()=>{
+  const loupe=(window as any).__sharedViews.get('loupe-1');(window as any).__savedSharedLoupe= {view:loupe,parts:JSON.stringify(loupe.sim.parts),seed:loupe.sim.seed};
   const view=(window as any).__sharedViews.get('sample');(window as any).__savedSharedView=view;
   (window as any).__savedSharedState=JSON.stringify({parts:view.sim.parts,ticks:view.ticks,seed:view.sim.seed});
  });
 }
 const count=(page:Page)=>page.evaluate(()=>(window as any).__sharedLive.size as number);
 async function unchanged(page:Page){
+ expect(await page.evaluate(()=>{const saved=(window as any).__savedSharedLoupe,view=(window as any).__sharedViews.get('loupe-1');return view===saved.view&&JSON.stringify(view.sim.parts)===saved.parts&&view.sim.seed===saved.seed;})).toBe(true);
  expect(await page.evaluate(()=>{const view=(window as any).__sharedViews.get('sample');return view===(window as any).__savedSharedView&&JSON.stringify({parts:view.sim.parts,ticks:view.ticks,seed:view.sim.seed})===(window as any).__savedSharedState;})).toBe(true);
 }
 

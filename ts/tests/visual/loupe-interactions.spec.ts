@@ -1,6 +1,7 @@
 import {test,expect} from '@playwright/test';
+for(const shared of [false,true])test.describe(`shared:${shared}`,()=>{
 test.beforeEach(async({page},info)=>{
- await page.addInitScript(b=>{localStorage.setItem('gelBackend',b);(window as any).__molsimFreezeAfterTicks=60;},info.project.name.includes('webgl2')?'webgl2':'webgpu');
+ await page.addInitScript(({b,shared})=>{localStorage.setItem('gelBackend',b);if(shared)localStorage.setItem('gelSharedPresentation','1');(window as any).__molsimFreezeAfterTicks=60;},{b:info.project.name.includes('webgl2')?'webgl2':'webgpu',shared});
  await page.setViewportSize({width:1365,height:800});await page.goto('/#/gel');
 });
 test('persistent loupe frame, three drag modes, resize and keyboard ownership',async({page})=>{
@@ -21,6 +22,9 @@ test('persistent loupe frame, three drag modes, resize and keyboard ownership',a
   const r=(await canvas.boundingBox())!;
   return page.screenshot({clip:{x:Math.ceil(r.x+2),y:Math.ceil(r.y+2),width:Math.floor(r.width-4),height:Math.floor(r.height-4)}});
  };
+ // Compare the same idle pointer state before and after the move: native
+ // anchor hover also shades the body, even outside the particle canvas.
+ await page.mouse.move(0,0);
  const before=await contentScreenshot();
  // Body moves only the frame; seed/content remain unchanged.
  await page.mouse.move(f.x+10,f.y+155);await page.mouse.down();await page.mouse.move(f.x+40,f.y+175);await page.mouse.up();await page.mouse.move(0,0);
@@ -59,7 +63,8 @@ test('loupe particles remain paused without the screenshot freeze hook',async({p
  await expect.poll(async()=>Number(await canvas.getAttribute('data-alive-count'))).toBeGreaterThan(0);
  const frames=()=>page.evaluate(()=>new Promise<void>(resolve=>{let n=0;const tick=()=>{if(++n===45)resolve();else requestAnimationFrame(tick);};requestAnimationFrame(tick);}));
  await frames();const before=await canvas.screenshot();await frames();expect(await canvas.screenshot()).toEqual(before);
- await expect(page).toHaveScreenshot('persistent-loupe.png',{maxDiffPixels:20});
+ // Shared chrome has independent exact native references in shared-loupe-native.
+ if(!shared)await expect(page).toHaveScreenshot('persistent-loupe.png',{maxDiffPixels:20});
 });
 test('losing creation capture and canceling frame drag release ownership',async({page})=>{
  const overlay=page.getByTestId('gel-overlay'),g=(await overlay.boundingBox())!;const x=g.x+300,y=g.y+300;
@@ -97,4 +102,6 @@ test('an anchor inside its frame keeps priority over frame dragging',async({page
  await page.mouse.down();await page.mouse.move(inside.x+20,inside.y+10);await page.mouse.up();
  expect((await frame.boundingBox())!.x).toBeCloseTo(f.x,1);expect((await frame.boundingBox())!.y).toBeCloseTo(f.y,1);
  const a=(await anchor.boundingBox())!;expect(a.x+a.width/2).toBeCloseTo(inside.x+20,1);expect(a.y+a.height/2).toBeCloseTo(inside.y+10,1);
+});
+
 });

@@ -1,0 +1,20 @@
+{
+  "base": "50931e3",
+  "sha256": {
+    "ts/src/components/gel/Loupe.tsx": "4387a28b3af0857ee34e5a5e74bb553b43e50108c865ef5d7919c3de5dfc7520",
+    "ts/src/components/sample/SampleSimCanvas.tsx": "dd194becdd29b25dd1cec69215f48948a1c3e20cb9d3b88a21ba1b34349f6415",
+    "ts/src/lib/gel/loupeChrome.ts": "8317139fabb8c70580c6eed8b856d55debc4f92b0ee0ad23bb07d9f518a24939",
+    "ts/tests/visual/shared-loupe-native.spec.ts": "a544fe6adb40e2c4b31a206c459de2ca3536dde6606837193fb076e936eec092",
+    "ts/tests/visual/shared-loupe.spec.ts": "7749e7a731631f15eb1f256a09f4c1e56736c086d6196f11e17b28fff877419f",
+    "ts/tests/visual/loupe-interactions.spec.ts": "9661d4d3730d3ca2e8ce90be3a6e43d9c3155c51aa8ed896400d35fd6929cdcc",
+    "ts/tests/visual/shared-scene-lifecycle.spec.ts": "4ca70ab01f6598b1f2423cf6b7387654ec66246a1b9e85bf936eceac7c206877",
+    "reference/native/modern/shared-loupe-scenes/manifest.json": "17672a2dfb1e441ae4d65ee7a7c91b7215ff6d7a9e399f76675ab3e9470a6e48",
+    "reference/native/modern/shared-loupe-scenes/geometry-provenance.json": "293ddd517b513b5107c6162ec15d61a8fcfd08921807a755897c8208214b8bd8",
+    "reference/native/modern/shared-loupe-scenes/capture.py": "6e2c210255e67968b1a279d0870a2496f7d997643fd529c98eca6e84b64812d2",
+    "reference/native/modern/shared-loupe-scenes/build_geometry.py": "8f731c239b1b04745e5d84499f6949831e4a37ff11e551bb48293c6b3b1619ba"
+  },
+  "exactNativeComparisons": 24,
+  "limits": [
+    "Shared rendering remains development-only; original full GUI, images and remaining UI paint are not certified by these fixtures."
+  ]
+}

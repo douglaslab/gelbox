@@ -1,0 +1,102 @@
+{
+  "ringGeometrySha256": "ef1525f37d7aa0afca53afb8af20691e7712b97365b77f497ddd6d1cc392bd40",
+  "ringProvenanceSha256": "293ddd517b513b5107c6162ec15d61a8fcfd08921807a755897c8208214b8bd8",
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "sourceSha256": {
+    "src/SampleView.cpp": "c69251430da6eedbf1b73cf9fdbf0c5eedc4f4f19a172be935661238e2ac555a",
+    "src/FragmentView.cpp": "d9345eda3ae73104684344f99676588e22f7369e93ff1d3e5ab7d1e95e035b02",
+    "src/View.cpp": "779407bb1a374f55a3b54afc5bbe82c3b73d87633f3a955b0c93a1da5c7cefae",
+    "src/GelboxApp.cpp": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+    "src/MolecularSim.cpp": "7816bdebddb3aea6933bd7be028c76cd09295e918edacd45494b8b0e4c198dcd",
+    "include/Layout.h": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c"
+  },
+  "numericalProvenanceSha256": "4b9e14f5bab81cc9cf113c7a4ec45593792e54f9f414532ac6119f224b3d2cc9",
+  "geometrySha256": "9710fb2fda8703f99f0fe003d548704c58a1170427567138b6cfbff91f09e1de",
+  "geometryProvenanceSha256": "2523ea37c3d27360280f11dd4c61f3316a62169aff60d2ea082e6f688d73a910",
+  "casesSha256": "82239a9137d0ca35b66f8a52124fea0a8cf82ecef5c10058d4e464729bdfaf5e",
+  "meshSha256": "c4edc04d2a936e600092fadb5dbd68a39565d0311cae2933a9368c3060ad1dd0",
+  "driverSha256": "ab870f11103573ba10b9893bac96c00e44d08e20859f9aa5fc3e9967547ecb88",
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "executableSha256": "25d0bf299280dee14ffe6eea1441045360db6a030eaf1005cef15c8d33a91790",
+  "repeatCaptureIdentical": true,
+  "meshCaptureRepeated": true,
+  "cases": [
+    {
+      "id": "idle-1",
+      "scene": "idle",
+      "scale": 1,
+      "sha256": "33facaa97fc1d929046951b156809dff9257bbf66d6f31465f0ca5b2f5e05fcb"
+    },
+    {
+      "id": "idle-2",
+      "scene": "idle",
+      "scale": 2,
+      "sha256": "242faebc43f25a1fa16b53762a1a18522ed2a08afc716dd6de2fe14e3cb61014"
+    },
+    {
+      "id": "focused-1",
+      "scene": "focused",
+      "scale": 1,
+      "sha256": "e0de6bc53c3c69faaa27552023e4d7968e3e5650411a74d83b157bd26937317b"
+    },
+    {
+      "id": "focused-2",
+      "scene": "focused",
+      "scale": 2,
+      "sha256": "f89e674d89509f8df008cd0eb57df5b73abf7a6e3c19d39c3d1edb82f37a98f0"
+    },
+    {
+      "id": "transient-1",
+      "scene": "transient",
+      "scale": 1,
+      "sha256": "644b4403489b65c1fcb53b27c25753991806cd721fa663055e1e879e3b012621"
+    },
+    {
+      "id": "transient-2",
+      "scene": "transient",
+      "scale": 2,
+      "sha256": "6c5ed508f038217155d645c7c82d0c5b2e47da2c8a7043d0356f63e69159a9c6"
+    },
+    {
+      "id": "fragment-last-1",
+      "scene": "fragment-last",
+      "scale": 1,
+      "sha256": "10b4fd26a78cc657537cb0b593e8f1cc14b78eeda43dab01da2751ff1eeabb1a"
+    },
+    {
+      "id": "fragment-last-2",
+      "scene": "fragment-last",
+      "scale": 2,
+      "sha256": "225cddc8fabc2846a4205b27b5c280f4379bf909881706188d992cd4a04edff0"
+    },
+    {
+      "id": "inside-1",
+      "scene": "inside",
+      "scale": 1,
+      "sha256": "f66f80917464cb3b23dbf78ed1bdae5c7b99118dded9d292e62ee66096d033c0"
+    },
+    {
+      "id": "inside-2",
+      "scene": "inside",
+      "scale": 2,
+      "sha256": "41b7006623aa9aaa582fe86f8323ed5d6cf65afd0cce176537d07248e52e87bb"
+    },
+    {
+      "id": "anchor-hover-1",
+      "scene": "anchor-hover",
+      "scale": 1,
+      "sha256": "3a272a1e1bb32e58632c6e5fab3da1971c8ce626379726e11a29b8b4b846d7b5"
+    },
+    {
+      "id": "anchor-hover-2",
+      "scene": "anchor-hover",
+      "scale": 2,
+      "sha256": "4aa3e4471995a62e2ec9fe8a2f24314997a9d283cba4a900dcd64ddcad5377d0"
+    }
+  ],
+  "limits": [
+    "Static pinned-native particle meshes on standalone CGL RGBA8 MSAA4; not original GUI output.",
+    "Loupe ring/callout/shadow/clipped particles/focus/frame, plus fragment well/representative in both view orders.",
+    "No ordinary sample header, brace, control or text paint; other UI contributions remain Task4."
+  ]
+}

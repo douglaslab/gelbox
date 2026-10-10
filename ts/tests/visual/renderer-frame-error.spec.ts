@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 test('draw exceptions recover without stopping application frames',async({page},info)=>{
  const backend=info.project.name.endsWith('webgl2')?'webgl2':'webgpu';
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- await page.route('**/src/components/sample/SampleSimCanvas.tsx',async route=>{
+ await page.route('**/src/components/sample/SampleSimCanvas.tsx*',async route=>{
   const response=await route.fetch();const body=(await response.text()).replace('const store = useGelStore();','const store = useGelStore(); globalThis.__frameStore = store;');
   await route.fulfill({response,body});
  });

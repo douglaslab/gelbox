@@ -1,0 +1,356 @@
+[
+  {
+    "id": "idle",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 140.25,
+      "top": 50.75,
+      "width": 171,
+      "height": 171
+    },
+    "fragmentOrigin": {
+      "x": 110,
+      "y": 10
+    },
+    "sampleLast": true,
+    "focused": false,
+    "transient": false,
+    "anchor": {
+      "x": 80.5,
+      "y": 130.25
+    },
+    "hover": false
+  },
+  {
+    "id": "focused",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 140.25,
+      "top": 50.75,
+      "width": 171,
+      "height": 171
+    },
+    "fragmentOrigin": {
+      "x": 110,
+      "y": 10
+    },
+    "sampleLast": true,
+    "focused": true,
+    "transient": false,
+    "anchor": {
+      "x": 80.5,
+      "y": 130.25
+    },
+    "hover": false
+  },
+  {
+    "id": "transient",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 140.25,
+      "top": 50.75,
+      "width": 171,
+      "height": 171
+    },
+    "fragmentOrigin": {
+      "x": 110,
+      "y": 10
+    },
+    "sampleLast": true,
+    "focused": false,
+    "transient": true,
+    "anchor": {
+      "x": 80.5,
+      "y": 130.25
+    },
+    "hover": false
+  },
+  {
+    "id": "fragment-last",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 140.25,
+      "top": 50.75,
+      "width": 171,
+      "height": 171
+    },
+    "fragmentOrigin": {
+      "x": 110,
+      "y": 10
+    },
+    "sampleLast": false,
+    "focused": true,
+    "transient": false,
+    "anchor": {
+      "x": 80.5,
+      "y": 130.25
+    },
+    "hover": false
+  },
+  {
+    "id": "inside",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 140.25,
+      "top": 50.75,
+      "width": 171,
+      "height": 171
+    },
+    "fragmentOrigin": {
+      "x": 110,
+      "y": 10
+    },
+    "sampleLast": true,
+    "focused": true,
+    "transient": false,
+    "anchor": {
+      "x": 200.5,
+      "y": 130.25
+    },
+    "hover": false
+  },
+  {
+    "id": "anchor-hover",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 140.25,
+      "top": 50.75,
+      "width": 171,
+      "height": 171
+    },
+    "fragmentOrigin": {
+      "x": 110,
+      "y": 10
+    },
+    "sampleLast": true,
+    "focused": false,
+    "transient": false,
+    "anchor": {
+      "x": 80.5,
+      "y": 130.25
+    },
+    "hover": true
+  }
+]

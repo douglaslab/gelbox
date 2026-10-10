@@ -91,8 +91,10 @@ resources use existing recovery behavior. Keep a development-only migration swit
 In progress: effects gel and direct bands use the shared surface behind the
 existing development flag. Scientific resource ownership, render invalidation,
 startup native pixels, repeated mode switching and mixed gel/sample/fragment
-overlaps are verified in focused checks. Loupes, images, all transforms and their
-composed workflows remain open; these increments do not close Task3.
+overlaps are verified. Loupes now register anchor/callout/frame paint around their
+shared particle body, with24 exact native comparisons and shared interaction/
+recovery coverage. Reference images, remaining transforms and combined workflows
+remain open; these increments do not close Task3.
 
 Files: `GelCanvas.tsx`, `DirectBandCanvas.tsx`, `Loupe.tsx`,
 `ReferenceImageLayer.tsx`, scene registry and presentation asset owner.

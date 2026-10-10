@@ -30,6 +30,9 @@ import type { Mesh } from '../../lib/gel/mesh';
 export interface SampleSimCanvasProps {
   view: MolecularView;
   viewKey: string;
+  presentationKey?: string;
+  /** Native loupe rollover includes its anchor and callout outside the canvas. */
+  readBackgroundHighlight?:(canvasDown:boolean)=>0|1|2;
   /** Draw one representative from this existing engine; never create or tick another. */
   representativeFragment?: number;
   representativeCenter?: {x:number;y:number};
@@ -67,6 +70,8 @@ const MESH_TUNING: MeshBuildTuning = {
 export function SampleSimCanvas({
   view,
   viewKey,
+  presentationKey,
+  readBackgroundHighlight,
   representativeFragment,
   representativeCenter,
   representativeUnderlay,
@@ -82,7 +87,7 @@ export function SampleSimCanvas({
   const store = useGelStore();
   const sim = view.sim;
   const registry=useSharedPresentation();
-  const shared=registry&&(viewKey==='sample'||viewKey==='fragment-preview');
+  const shared=registry!==null;
   const composite = representativeUnderlay !== undefined;
   const transparent = representativeFragment !== undefined && !composite;
   const handleRef = useRef<RenderHandle | null>(null);
@@ -240,21 +245,22 @@ export function SampleSimCanvas({
 
   useLayoutEffect(()=>{
     if(!shared)return;
-    return registry!.register(viewKey==='fragment-preview'?'inspector-fragment':'sample',frame=>{
+    return registry!.register(presentationKey??(viewKey==='fragment-preview'?'inspector-fragment':viewKey),frame=>{
       const canvas=canvasRef.current;if(!canvas||!view.alive)return [];
+      canvas.dataset.sharedReady='1';
       const rect=canvas.getBoundingClientRect();
       const {selected,rollover}=store.getMolecularHighlights(view);
       const mesh=representativeFragment===undefined?buildMoleculesMesh(sim.parts,selected,rollover,MESH_TUNING)
         :buildRepresentativeMesh(sim.parts,representativeFragment,representativeCenter??{x:width/2,y:height/2},MESH_TUNING);
       const transform=[1,0,0,1,rect.left,rect.top] as const;
       if(representativeFragment!==undefined)return [...(representativeUnderlay??[]),{mesh}].map(op=>({...op,transform}));
-      const highlight:0|1|2=downRef.current?2:hoverRef.current?1:0;
+      const highlight:0|1|2=readBackgroundHighlight?.(downRef.current)??(downRef.current?2:hoverRef.current?1:0);
       const bg=computeBackgroundColor(dyeMassesFromSample(view.sample),highlight);
-      const focused=canvas.closest('[data-testid="sample-view"]')?.contains(document.activeElement);
+      const focused=canvas.closest('[data-testid="sample-view"], [data-loupe-frame]')?.contains(document.activeElement);
       return [solidSceneRect(2,4,width-2,height+4,[0,0,0,focused ? .25 : .15]),solidSceneRect(0,0,width,height,bg),
         {mesh,scissor:nativeViewScissor(rect,frame.height,frame.scale)}].map(op=>({...op,transform}));
     });
-  },[shared,registry,viewKey,view,store,sim,representativeFragment,representativeCenter,representativeUnderlay,width,height]);
+  },[shared,registry,viewKey,presentationKey,readBackgroundHighlight,view,store,sim,representativeFragment,representativeCenter,representativeUnderlay,width,height]);
 
   // Draw after the application frame; acquiring a GPU never gates simulation.
   useEffect(() => store.subscribeFrame(() => {
