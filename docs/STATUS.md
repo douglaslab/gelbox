@@ -1660,3 +1660,29 @@ Verification: **2,872 unit tests, 451 browser tests and 4 production checks
 passed**, with one intentional duplicate browser skip. Production included fresh
 build/TypeScript checks. No goldens or tolerances changed. Native raster, broader
 interaction and remaining release gates stay open.
+
+
+## Extended resource lifecycle and retained-heap observations
+
+The lifecycle test now accepts an explicit cycle count (default ten) and optional
+Chromium post-GC heap observations. [Retained 100- and 500-cycle runs](../reference/web/performance/lifecycle-soak/README.md)
+passed on both renderers, followed by a passing default ten-cycle run without
+heap profiling. Each cycle opens a sample/Species preview and two persistent
+loupes, then closes them and checks exact resource-count return to baseline.
+Route unmount reaches zero tracked resources, followed by successful remount.
+
+At 500 cycles, WebGPU's baseline was 59 resource objects and WebGL2's 19. The
+last 200 cycles changed post-GC used heap by −9,256 bytes and +32,984 bytes,
+respectively, after larger early warmup growth. These finite development-build
+measurements support near-level retained JS heap for this workload, not driver
+resident memory, long wall-clock use, hidden-tab recovery or a release budget.
+No product code changed; the affected test passed twice at extended counts and
+once with default settings. The prior full unit/browser/production gate remains
+2,872 / 451 / 4; it was not repeated for this test-only instrumentation.
+
+Lossless native capture remains unresolved. The macOS screenshot toolbar became
+accessible, but neither selected-window nor entire-screen actions produced a
+Desktop file. The screenshot service subsequently exited and failed to reopen;
+no screenshot process remained. This attempt produced no pixel reference and
+does not advance native raster certification. Existing JPEG observations and the
+user-provided lossless startup PNG retain their previously documented limits.

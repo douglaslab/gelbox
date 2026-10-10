@@ -1,0 +1,44 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test renderer-lifecycle.spec.ts --workers=1 --output=/tmp/gel-lifecycle-soak
+
+[2m[WebServer] [22m(node:57146) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:57149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/100
+Lifecycle cycles completed: 20/100
+Lifecycle cycles completed: 30/100
+Lifecycle cycles completed: 40/100
+Lifecycle cycles completed: 50/100
+Lifecycle cycles completed: 60/100
+Lifecycle cycles completed: 70/100
+Lifecycle cycles completed: 80/100
+Lifecycle cycles completed: 90/100
+Lifecycle cycles completed: 100/100
+  ✓  1 [chromium-webgpu] › renderer-lifecycle.spec.ts:6:1 › repeated sample/loupe disposal and route remount release owned GPU resources (27.4s)
+(node:57177) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57177) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/100
+Lifecycle cycles completed: 20/100
+Lifecycle cycles completed: 30/100
+Lifecycle cycles completed: 40/100
+Lifecycle cycles completed: 50/100
+Lifecycle cycles completed: 60/100
+Lifecycle cycles completed: 70/100
+Lifecycle cycles completed: 80/100
+Lifecycle cycles completed: 90/100
+Lifecycle cycles completed: 100/100
+  ✓  2 [chromium-webgl2] › renderer-lifecycle.spec.ts:6:1 › repeated sample/loupe disposal and route remount release owned GPU resources (27.0s)
+
+  Slow test file: [chromium-webgpu] › renderer-lifecycle.spec.ts (27.4s)
+  Slow test file: [chromium-webgl2] › renderer-lifecycle.spec.ts (27.0s)
+  Consider splitting slow test files to speed up parallel execution
+  2 passed (56.0s)

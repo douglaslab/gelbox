@@ -1,6 +1,14 @@
 import {test,expect} from '@playwright/test';
+import {writeFile} from 'node:fs/promises';
+const cycles=Number(process.env.GEL_LIFECYCLE_CYCLES??10);
+if(!Number.isInteger(cycles)||cycles<1||cycles>1000)throw new Error('GEL_LIFECYCLE_CYCLES must be an integer from 1 to 1000');
 test.use({viewport:{width:1365,height:768}});
 test('repeated sample/loupe disposal and route remount release owned GPU resources',async({page},info)=>{
+ test.setTimeout(Math.max(30000,cycles*3000));
+ const started=Date.now();
+ const heap=process.env.GEL_LIFECYCLE_MEASURE_HEAP==='1'?await page.context().newCDPSession(page):null;
+ const memory:unknown[]=[];
+ const measure=async(cycle:number)=>{if(!heap)return;await heap.send('HeapProfiler.collectGarbage');memory.push({cycle,...await heap.send('Runtime.getHeapUsage')});};
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(backend=>{
   localStorage.setItem('gelBackend',backend);
@@ -44,10 +52,12 @@ test('repeated sample/loupe disposal and route remount release owned GPU resourc
   return peak;
  };
  await cycle();const baseline=await count();expect(baseline).toBeGreaterThan(0);
+ await measure(0);
  const peaks:number[]=[];
- for(let i=0;i<10;i++){
+ for(let i=0;i<cycles;i++){
   const peak=await cycle();peaks.push(peak);expect(peak).toBeGreaterThan(baseline);
   await expect.poll(count).toBe(baseline);
+  if((i+1)%10===0){await measure(i+1);console.log(`Lifecycle cycles completed: ${i+1}/${cycles}`);}
  }
  // Hash navigation retains this page and its resource ledger.
  await page.evaluate(()=>{location.hash='/dev/slider';});
@@ -57,5 +67,9 @@ test('repeated sample/loupe disposal and route remount release owned GPU resourc
  await page.getByTestId('band-0').click();
  await expect.poll(async()=>Number(await page.getByTestId('molecular-sim-canvas').getAttribute('data-alive-count'))).toBeGreaterThan(0);
  await expect(page.getByRole('alert')).toHaveCount(0);expect(errors).toEqual([]);
- await info.attach('resource-lifecycle',{body:JSON.stringify({baseline,peaks,closedCycleCounts:peaks.map(()=>baseline),afterRouteUnmount:0,scope:'Explicit buffer/texture and GL object destruction; not browser/driver memory usage.'},null,2),contentType:'application/json'});
+ await measure(cycles+1);
+ const report={backend:info.project.name,cycles,elapsedMs:Date.now()-started,baseline,peaks,closedCycleCounts:peaks.map(()=>baseline),afterRouteUnmount:0,memory,scope:'Explicit buffer/texture and GL object destruction. Optional CDP heap samples follow forced GC; final sample is after route remount. Heap observations are not a driver-memory or release-budget assertion.'};
+ await writeFile(info.outputPath('resource-lifecycle.json'),JSON.stringify(report,null,2));
+ await info.attach('resource-lifecycle',{body:JSON.stringify(report,null,2),contentType:'application/json'});
+ await heap?.detach();
 });
