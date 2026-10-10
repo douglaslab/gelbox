@@ -75,3 +75,25 @@ it.each([{}, { Samples: null }])('loads native gels without sample children: %j'
   expect(r.samples).toEqual(Array(7).fill(null));
   expect(r.ctx).toMatchObject({ time: 1, voltage: 0, wellDamage: 0 });
 });
+
+it('recovers the original release writer object form in native child order', () => {
+  const text = readFileSync('../reference/native/files/interop/gel/release/reread.json', 'utf8');
+  const doc = JSON.parse(text);
+  for (const Samples of [doc.Gel.Samples, { Sample: doc.Gel.Samples.Sample, '': null }]) {
+    const r = deserializeFile(JSON.stringify({ ...doc, Gel: { ...doc.Gel, Samples } }));
+    if (r.kind !== 'state') throw Error('expected gel');
+    expect(r.numLanes).toBe(7);
+    expect(r.samples.map(s => s?.name ?? null)).toEqual([null, 'Last lane', null, null, null, null, null]);
+    expect(r.samples[1]?.id).toBe(17);
+    expect(r.samples[1]?.fragments).toHaveLength(6);
+    expect(r.ctx).toMatchObject({ time: .625, voltage: 83.5, wellDamage: .125 });
+  }
+});
+it('loads the native object form with no empty lane key', () => {
+  const r = deserializeFile(JSON.stringify({ Gelbox: { version: '1.0', type: 'gel' }, Gel: { Samples: { Sample: { name: 'Only surviving sample' } } } }));
+  if (r.kind !== 'state') throw Error('expected gel');
+  expect(r.samples.map(s => s?.name ?? null)).toEqual(['Only surviving sample', null, null, null, null, null, null]);
+});
+it.each([true, 3, 'bad', { Sample: 4 }])('rejects malformed native lane collections %j', Samples => {
+  expect(() => deserializeFile(JSON.stringify({ Gelbox: { version: '1.0', type: 'gel' }, Gel: { Samples } }))).toThrow(/Invalid native/);
+});

@@ -30,10 +30,11 @@
     "No native GUI/application dispatch; Gel header layout initialization adaptation required. Absent Samples is not executed.",
     "Retained Cinder JsonTree coercion may differ from modern compatibility shim or original release toolchain.",
     "Unsafe XML aggregate indices are not executed; broader numeric token/entity/writer cases remain unverified.",
-    "Retained Gel writer collapses array entries when last lane is occupied; raw writer output is retained separately from loaded model state. Original-release equivalence unproven."
+    "Retained Gel writer collapse is now confirmed in the original release GUI; the web importer recovers surviving object children while web export deliberately preserves arrays."
   ],
   "nativeReaderExtension": "XML and Gel constructors; original Sample captures and rereads regenerated unchanged",
   "nativeXmlCaptures": "xml/captures.json",
   "nativeGelCaptures": "gel/captures.json",
-  "nativeGelRoundtrip": "gel/roundtrip-results.json"
+  "nativeGelRoundtrip": "gel/roundtrip-results.json",
+  "originalReleaseReplay": "gel/release/manifest.json"
 }

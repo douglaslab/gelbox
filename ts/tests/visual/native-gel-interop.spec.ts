@@ -41,3 +41,15 @@ test('whole Gel edit/save preserves other lanes, metadata and simulation setting
  expect(restored).toEqual(input);
  await fs.writeFile(info.outputPath('edited-native-gel.json'),JSON.stringify(exported,null,2));
 });
+
+test('original release object-form file recovers and saves surviving lanes',async({page},info)=>{
+ const expected=JSON.parse(await fs.readFile(path.join(root,'release/loaded-state.json'),'utf8'));
+ await page.getByTestId('file-input').setInputFiles(path.resolve(root,'release/reread.json'));
+ await expect(page.getByTestId('microtube-1')).toBeVisible();
+ await page.getByRole('button',{name:'Application settings'}).click();
+ const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+ const download=await pending;const exported=JSON.parse(await fs.readFile((await download.path())!,'utf8'));
+ expect(exported).toEqual({Gelbox:{version:'1.0',type:'gel'},Gel:{Samples:expected.samples,
+  Buffer:expected.buffer,Time:expected.time,Voltage:expected.voltage,WellDamage:expected.wellDamage}});
+ await fs.writeFile(info.outputPath('recovered-release-gel.json'),JSON.stringify(exported,null,2));
+});

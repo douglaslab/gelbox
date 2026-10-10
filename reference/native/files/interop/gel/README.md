@@ -44,12 +44,14 @@ The retained Cinder JsonTree::pushBack changes an array into an object when its
 last child has a key. Native Sample::toJson returns a child keyed `Sample`.
 Consequently, the mixed fixture's original Gel writer emits Samples as an
 object; duplicate keys collapse lanes. Raw `*-native.json` artifacts preserve
-this observation. They are not used as valid array fixtures or imported into
-the browser. `captures.json` distinguishes writer entry count/type from actual
+this observation. They are not used as valid array fixtures. Subsequent
+[original-release replay](release/README.md) confirms the defect, and the web
+now imports the surviving object children in native order. `captures.json` distinguishes writer entry count/type from actual
 visible lanes and retained slots. The web continues exporting all visible lanes
-as an array. Do not reproduce this observed data loss without establishing its
-behavior in the original executable/toolchain.
+as an array. The original-release replay confirms this data loss. It remains an explicit
+export parity exception: web saves preserve all visible lanes.
 
 This finite corpus does not certify original-release equivalence, native GUI
-file dispatch/dialogs, missing-Samples construction, malformed coercions, or
+file dispatch/dialogs beyond the linked release replay, missing-Samples
+construction, malformed coercions, or
 save/reload after all composed editing workflows.

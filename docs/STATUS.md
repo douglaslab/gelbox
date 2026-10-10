@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include the application runtime integration.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,857 passed |
-| Browser suite across WebGPU/WebGL2 | 421 passed; one intentional duplicate skipped |
+| Unit suite | 2,863 passed |
+| Browser suite across WebGPU/WebGL2 | 423 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
 | Production build and TypeScript checks | Passed |
@@ -1402,3 +1402,27 @@ Verification: **2,857 unit tests, 421 browser tests and 4 production checks
 passed**, with one intentional duplicate browser skip. Production included a
 fresh build and TypeScript checks. This increment adds independent evidence
 and regression coverage; no product behavior, goldens or tolerances changed.
+
+
+## Original-release keyed Samples import
+
+The [official release GUI replay](../reference/native/files/interop/gel/release/README.md)
+resolves the preceding writer uncertainty. The unmodified original app opens
+all twelve lanes of the web export, but its Save Gel produces an object that
+retains only the last sample. Reopening shows that sample in lane two of seven.
+Raw original outputs and screenshots are retained. The web previously rejected
+this native-generated object form; it now imports the surviving children in
+native member order. Two unit tests failed before the correction. Invalid
+scalar/child data remains rejected. Both browser recovery exports match the
+original release's recovered seven-lane export exactly.
+
+Web saves continue preserving all visible lanes as arrays; reproducing native
+file data loss is an explicit export parity exception. Lost samples cannot be
+reconstructed from the corrupted native output. Original GUI dispatch is now
+verified for this sequence, not all file workflows. An open native gel buffer
+panel retained stale labels across document loading although saved buffer data
+was correct; that separate composed-panel observation remains unresolved.
+
+Verification: **2,863 unit tests, 423 browser tests and 4 production checks
+passed**, with one intentional duplicate browser skip. Production included a
+fresh build and TypeScript checks. No goldens or tolerances changed.

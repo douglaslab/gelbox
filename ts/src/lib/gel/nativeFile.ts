@@ -35,6 +35,16 @@ function array(value: unknown, path: string): unknown[] {
 function collection(value: unknown, path: string): unknown[] {
   return value === null ? [] : array(value, path);
 }
+// The original release can write Samples as an object when its final lane is
+// occupied. Recover the surviving children in JsonTree/jsoncpp member order.
+// Missing lanes cannot be reconstructed; exports still preserve full arrays.
+function sampleCollection(value: unknown): unknown[] {
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    const children = value as ObjectValue;
+    return Object.keys(children).sort().map(key => children[key]);
+  }
+  return collection(value, 'Gel.Samples');
+}
 function buffer(value: unknown, path: string): Buffer {
   if (value === undefined) return { ...BUFFER_TBE };
   const b = object(value, path);
@@ -80,7 +90,7 @@ export function deserializeNativeFile(value: unknown): DeserializedFile {
   if (header.type === 'sample') return { kind: 'sample', sample: sample(root.Sample, 'Sample') };
   if (header.type !== 'gel') return invalid('Gelbox.type');
   const gel = object(root.Gel, 'Gel');
-  const samples = collection(gel.Samples ?? [], 'Gel.Samples').map((s, i) => s === null || (typeof s === 'object' && !Array.isArray(s) && Object.keys(s).length === 0) ? null : sample(s, `Gel.Samples[${i}]`));
+  const samples = sampleCollection(gel.Samples ?? []).map((s, i) => s === null || (typeof s === 'object' && !Array.isArray(s) && Object.keys(s).length === 0) ? null : sample(s, `Gel.Samples[${i}]`));
   // Gel::constrainNumLanesToSliderMinMax retains hidden sample storage.
   const numLanes = Math.min(20, Math.max(7, samples.length));
   while (samples.length < numLanes) samples.push(null);
