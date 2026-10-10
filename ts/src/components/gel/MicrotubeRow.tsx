@@ -1,4 +1,6 @@
 import { useRef } from 'react';
+import { tubeGeometry } from '../../lib/layout/tubeGeometry';
+import type { Rect } from '../../lib/sim/band';
 import { sampleKeyAction } from '../../lib/gel/sampleKeyboard';
 import { useGelState, useGelDispatch } from './GelContext';
 import { resolveAssetUrl, dprFallbackOnError } from '../../lib/layout/assets';
@@ -14,15 +16,19 @@ export function MicrotubeRow() {
   const dispatch = useGelDispatch();
   const rowRef = useRef<HTMLDivElement>(null);
 
+  const geometry = Array.from({ length: state.numLanes }, (_, i) =>
+    tubeGeometry(state.gelSize.width, state.gelSize.height, state.numLanes, i));
+  const rowTop = geometry[0].well.y1;
+  const rectStyle = (r: Rect) => ({ left: r.x1, top: r.y1 - rowTop,
+    width: r.x2 - r.x1, height: r.y2 - r.y1 });
   const pointer = useRef<{ id: number; lane: number; x: number; y: number; selected: boolean } | null>(null);
 
   function laneAtPoint(x: number, y: number): number {
     const rect = rowRef.current?.getBoundingClientRect();
     if (!rect || y < rect.top || y > rect.bottom || x < rect.left || x >= rect.right) return -1;
-    const width = rect.width / state.numLanes;
-    const lane = Math.floor((x - rect.left) / width);
-    const center = rect.left + width * (lane + .5);
-    return Math.abs(x - center) <= Math.min(20, width * .4) ? lane : -1;
+    const px = (x - rect.left) * state.gelSize.width / rect.width;
+    const py = (y - rect.top) * (-rowTop) / rect.height + rowTop;
+    return geometry.findIndex(({ hit }) => px >= hit.x1 && px <= hit.x2 && py >= hit.y1 && py <= hit.y2);
   }
 
   function onTubePointerDown(laneIndex: number, e: React.PointerEvent<HTMLButtonElement>) {
@@ -47,7 +53,7 @@ export function MicrotubeRow() {
 
   return (
     <div className={styles.row} ref={rowRef} data-testid="microtube-row" tabIndex={-1}
-      style={{ outline: 'none', touchAction: 'none' }}
+      style={{ top: rowTop, height: -rowTop, outline: 'none', touchAction: 'none' }}
       onPointerMove={e => {
         if (pointer.current?.id === e.pointerId) dispatch({ type: 'UPDATE_SAMPLE_DRAG', laneIndex: laneAtPoint(e.clientX, e.clientY) });
       }}
@@ -61,6 +67,7 @@ export function MicrotubeRow() {
     >
       {Array.from({ length: state.numLanes }, (_, i) => {
         const isSelected = state.lastSampleLane === i;
+        const g = geometry[i];
         const hasSample  = state.samples[i] !== null;
         return (
           <div
@@ -69,7 +76,7 @@ export function MicrotubeRow() {
             data-selected={isSelected || undefined}
             data-loaded={hasSample || undefined}
           >
-            <div className={styles.underlay} />
+            <div className={styles.underlay} style={{ ...rectStyle(g.background), borderRadius: g.radius }} />
             <button
               type="button"
               aria-label={`Lane ${i + 1}${hasSample ? " sample" : " empty"}`}
@@ -79,7 +86,7 @@ export function MicrotubeRow() {
               data-selected={isSelected || undefined}
               data-empty={!hasSample || undefined}
               onPointerDown={(e) => onTubePointerDown(i, e)}
-              style={{ width: Math.min(40, state.gelSize.width / state.numLanes * .8) }}
+              style={rectStyle(g.hit)}
               onClick={e => {
                 // Browser keyboard activation has no pointer sequence.
                 if (e.detail === 0) dispatch(state.lastSampleLane === i
@@ -90,6 +97,8 @@ export function MicrotubeRow() {
                 src={resolveAssetUrl('/assets/microtube1500ul.png')}
                 alt={`lane ${i + 1}`}
                 className={styles.icon}
+                style={{ left: g.icon.x1 - g.hit.x1, top: g.icon.y1 - g.hit.y1,
+                  width: g.icon.x2 - g.icon.x1, height: g.icon.y2 - g.icon.y1 }}
                 data-empty={!hasSample || undefined}
                 onError={dprFallbackOnError}
               />}

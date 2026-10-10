@@ -1,0 +1,33 @@
+{
+  "capturedOn": "2026-10-09",
+  "viewport": [
+    1365,
+    768
+  ],
+  "displayScale": 1,
+  "backend": "webgl2",
+  "captures": [
+    {
+      "lanes": 7,
+      "capture": "captures/tubes-7.png",
+      "sha256": "8dc068d521c16f172b4ef515ddd9f93f85e1f2174459307b54c92a18da185add"
+    },
+    {
+      "lanes": 20,
+      "capture": "captures/tubes-20.png",
+      "sha256": "37f751723089eeec51b787e6a56a66bde7670e73c0d70505601a6dbb9df17d2f"
+    }
+  ],
+  "reference": "5f51097 GelView::calcMicrotubeWellRect/calcMicrotubeIconRect/drawMicrotubes/pickMicrotube and View::snapToPixel",
+  "verified": [
+    "7 and 20 lane DOM well/icon/hit coordinates match source-derived geometry",
+    "Hit rectangle extends to gel top; narrow lane picking no longer uses fixed 50px height",
+    "PNG asset retains native fitted size and rounds upper-left only"
+  ],
+  "limitations": [
+    "Source-derived geometry and inspected web captures; not native pixel certification",
+    "Native captures use DPR2, these use DPR1",
+    "WebGPU geometry verified by browser test; captures recorded on WebGL2 only",
+    "Off-row drag image and wider application rendering parity remain open"
+  ]
+}

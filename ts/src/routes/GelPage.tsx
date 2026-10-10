@@ -92,20 +92,9 @@ function GelInner() {
   // Left panel: microtube row floats above the gel rect (in the same vertical
   // band as the Sample/Gel panel headers). The gel canvas + overlay fill the
   // panel, and the time slider sits below.
-  const MICROTUBE_ROW_H = 50;
   const leftPanel = (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-      <div
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          top: -MICROTUBE_ROW_H,
-          height: MICROTUBE_ROW_H,
-        }}
-      >
-        <MicrotubeRow />
-      </div>
+      <MicrotubeRow />
       <div
         style={{
           position: 'absolute', inset: 0,

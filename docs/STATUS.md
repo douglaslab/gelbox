@@ -100,3 +100,9 @@ Tube movement now updates continuously under pointer capture. The gesture remove
 Keyboard selection and edits made while holding a tube now survive later movement. Pointer cancellation or unexpected capture loss ends the gesture without allowing a later click to move the old sample. Fresh review exposed stale keyboard selection snapshots; failing-then-passing tests cover that fix, deletion during dragging, and lost pointer capture.
 
 Verification: **328 unit tests, 154 browser tests across WebGPU/WebGL2, and production build/TypeScript checks pass**. Browser cases verify continuous movement, leave/re-enter, occupied drops, mouse-down Alt, short-click closing, actual saved documents, mid-drag edits and capture loss. No screenshot baselines changed. Native source `5f51097` is the behavioral reference; exact lane-dependent native tube geometry (the web still uses a 50px row), full stable identity/loupe ancestry, and native GUI replay remain open parity requirements.
+
+## Native tube geometry
+
+Tube wells, backgrounds, icons and hit rectangles now use the native lane-dependent formulas. Icon fitting preserves the 47×89 asset ratio and rounds only its upper-left corner. The former fixed 50px row and 36px icon height are removed; 20-lane hit areas shrink with the displayed tubes, including the native gaps and extension down to the gel top.
+
+Verification: **330 unit tests, 156 browser tests across both GPU backends, and production build/TypeScript checks pass**. Fresh review found no actionable regressions. The geometry test checks explicit 7/20-lane coordinates and pointer hits. Reviewed WebGL2 captures at native client dimensions are recorded in [reference/web/tubes.json](../reference/web/tubes.json). No regression goldens changed. These are source-backed geometry checks and web captures, not a native pixel-parity certificate. Off-row drag imagery, cross-loupe identity, independent numerical outputs and broader visual certification remain open.

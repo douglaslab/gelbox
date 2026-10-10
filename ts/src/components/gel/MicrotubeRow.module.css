@@ -1,71 +1,23 @@
 .row {
-  display: flex;
+  position: absolute;
+  left: 0;
   width: 100%;
-  height: 100%;
   user-select: none;
 }
-
-.cell {
-  flex: 1 1 0;
-  height: 100%;
-  position: relative;
-}
-
-/*
- * Rounded background tab behind each tube. C++ Gelbox draws this from
- * `wellRect.y1 + mGelMicrotubeBkgndTopInsetFromIcon` (16px from the tube
- * top) down to the gel bottom. We mimic by anchoring the underlay to the
- * row top with a 16px offset and to the row bottom (which aligns with
- * the gel top). The tube image is layered on top of the underlay, so the
- * portion of the underlay BEHIND the tube body and the portion BELOW the
- * tube (between the tube bottom and the gel) are both visible as a
- * single connected "tab".
- */
+.cell { position: absolute; inset: 0; pointer-events: none; }
 .underlay {
   position: absolute;
-  left: 50%;
-  top: 14px;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 40px;
-  border-radius: 20px 20px 0 0;
   background: #E8F2F3;
   pointer-events: none;
-  z-index: 0;
 }
-
-.cell[data-selected="true"] .underlay {
-  background: #A1D6FF;
-}
-
+.cell[data-selected="true"] .underlay { background: #A1D6FF; }
 .tube {
   position: absolute;
-  top: 0;
-  width: 40px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  left: 50%;
-  transform: translateX(-50%);
   background: transparent;
   border: 0;
   padding: 0;
   cursor: pointer;
-  z-index: 1;
+  pointer-events: auto;
 }
-
 .tube:active { cursor: grabbing; }
-.tube[data-dragging="true"] { opacity: 0.5; }
-
-/*
- * Setting only `height` with `width: auto` lets the browser preserve the
- * natural 47:89 aspect ratio of microtube1500ul.png. Never set both.
- */
-.icon {
-  display: block;
-  height: 36px;
-  width: auto;
-  pointer-events: none;
-  user-select: none;
-}
+.icon { position: absolute; display: block; pointer-events: none; user-select: none; }
