@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Latest verification: 2026-10-10 · native well presentation and render invalidation · native reference `5f51097`._
+_Latest verification: 2026-10-10 · direct-band multisample parity · native reference `5f51097`._
 
 ## Direction
 
@@ -16,12 +16,12 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest recorded verification
 
-On macOS with Node 22: these checks include native well presentation, terminal-failure cleanup, and scientific render invalidation. The well-presentation review’s Important cleanup finding and previously deferred redundant-redraw finding are now fixed. Details and scope remain in the records below.
+On macOS with Node 22: these checks include native well presentation, terminal-failure cleanup, scientific render invalidation, and direct-band multisample composition. The well-presentation review’s Important cleanup finding and previously deferred redundant-redraw finding are now fixed. Details and scope remain in the records below.
 
 | Check | Result |
 |---|---|
 | Unit suite | 2,872 passed |
-| Browser suite across WebGPU/WebGL2 | 481 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 489 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -1815,3 +1815,34 @@ production cases passed. Native GUI access was retried and still returned
 `cgWindowNotFound`; source-backed work can continue, but that does not certify
 composed original-release GUI workflows. The previous goal turn and this turn
 both made verified product/evidence progress; the full app goal remains active.
+
+## Render-off band edges share native samples with wells
+
+The [56-case direct-band raster matrix](../reference/native/modern/direct-band-scenes/README.md)
+uses meshes emitted by unchanged pinned native `GelView::drawBands`, then native
+CGL four-sample rasterization. It independently covers fourteen mesh cases at
+DPR1/2 with and without crossing well outlines. Initial web comparisons exposed
+fractional-edge differences up to 88 channel levels on both backends: bands had
+been rasterized into a single-sample intermediate before well presentation.
+
+DirectBandCanvas now draws its existing mesh into the same four-sample surface
+as the wells. It retains additive band blending, source-over wells, display
+opacity and native orientation. The intermediate texture and separate mesh
+batch are removed; effects mode retains its image presentation. Direct programs
+and vertex buffers are lazy, reused and released through existing recovery.
+All 56 native RGB cases now match exactly on each backend, including fractional
+clipping and well/band intersections. Native repeat capture verifies all 56;
+the separate well oracle still reproduces 16 window and 32 colored references.
+
+Added band-pipeline/allocation failure tests verify alternate-backend recovery
+and zero retained objects after unmount. Final full gates: 2,872 units, 489
+browser cases (one intentional skip), four production cases and typecheck/build
+passed. No preexisting fixture or tolerance changed. The oracle uses modern
+CGL and captured native meshes; original-release GUI output, other hardware and
+fractional display scales, full control/particle/loupe scenes and release
+performance requirements remain open.
+
+Independent review of the direct-band correction found no Critical, Important or
+Minor issues; its pending-test condition is satisfied by the final checks above.
+The [review record](superpowers/reports/2026-10-10-direct-band-presentation.md)
+retains its scope and open requirements.

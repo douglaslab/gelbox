@@ -535,3 +535,15 @@ changes; actual timeline and lane edits retain verified redraws. Fresh gates:
 This closes the bounded startup-composition discrepancy and redraw regression,
 not full P0–P5 gates, direct-band raster, controls/text/particle/loupe scenes,
 composed native GUI acceptance or the outstanding platform/release requirements.
+
+### Render-off multisample composition corrected
+
+A 56-case native CGL matrix based on unchanged native drawBands meshes exposed
+and corrected fractional-edge raster differences in both web backends. Direct
+bands now share the wells' four-sample surface rather than passing through a
+single-sample texture. All 56 RGB cases match per backend at DPR1/2, including
+crossing wells, clipping, gradients and overlap. Full checks: 2,872 units, 489
+browser cases plus one intentional skip, four production cases. See
+[reference scope](../reference/native/modern/direct-band-scenes/README.md).
+Full original-release GUI, other hardware/scales, remaining app scenes and
+P0–P5 completion gates remain open.
