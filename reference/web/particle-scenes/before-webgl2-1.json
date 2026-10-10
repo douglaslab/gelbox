@@ -1,0 +1,898 @@
+[
+  {
+    "id": "whole-0-select-False-hover-False-1",
+    "source": "native",
+    "differentChannels": 84,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 2565
+  },
+  {
+    "id": "whole-0-select-False-hover-False-1",
+    "source": "web",
+    "differentChannels": 84,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 2565
+  },
+  {
+    "id": "whole-0-select-True-hover-False-1",
+    "source": "native",
+    "differentChannels": 117,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 4800
+  },
+  {
+    "id": "whole-0-select-True-hover-False-1",
+    "source": "web",
+    "differentChannels": 117,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 4800
+  },
+  {
+    "id": "whole-0-select-False-hover-True-1",
+    "source": "native",
+    "differentChannels": 117,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 3394
+  },
+  {
+    "id": "whole-0-select-False-hover-True-1",
+    "source": "web",
+    "differentChannels": 117,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 3394
+  },
+  {
+    "id": "whole-0-select-True-hover-True-1",
+    "source": "native",
+    "differentChannels": 117,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 4010
+  },
+  {
+    "id": "whole-0-select-True-hover-True-1",
+    "source": "web",
+    "differentChannels": 117,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 4010
+  },
+  {
+    "id": "whole-0.01-select-False-hover-False-1",
+    "source": "native",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "whole-0.01-select-False-hover-False-1",
+    "source": "web",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "whole-0.01-select-True-hover-False-1",
+    "source": "native",
+    "differentChannels": 33,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 2235
+  },
+  {
+    "id": "whole-0.01-select-True-hover-False-1",
+    "source": "web",
+    "differentChannels": 33,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 2235
+  },
+  {
+    "id": "whole-0.01-select-False-hover-True-1",
+    "source": "native",
+    "differentChannels": 33,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 829
+  },
+  {
+    "id": "whole-0.01-select-False-hover-True-1",
+    "source": "web",
+    "differentChannels": 33,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 829
+  },
+  {
+    "id": "whole-0.01-select-True-hover-True-1",
+    "source": "native",
+    "differentChannels": 33,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1445
+  },
+  {
+    "id": "whole-0.01-select-True-hover-True-1",
+    "source": "web",
+    "differentChannels": 33,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1445
+  },
+  {
+    "id": "whole-0.1-select-False-hover-False-1",
+    "source": "native",
+    "differentChannels": 6,
+    "maxChannelDifference": 31,
+    "absoluteChannelDifference": 134
+  },
+  {
+    "id": "whole-0.1-select-False-hover-False-1",
+    "source": "web",
+    "differentChannels": 6,
+    "maxChannelDifference": 31,
+    "absoluteChannelDifference": 134
+  },
+  {
+    "id": "whole-0.1-select-True-hover-False-1",
+    "source": "native",
+    "differentChannels": 75,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 3855
+  },
+  {
+    "id": "whole-0.1-select-True-hover-False-1",
+    "source": "web",
+    "differentChannels": 75,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 3855
+  },
+  {
+    "id": "whole-0.1-select-False-hover-True-1",
+    "source": "native",
+    "differentChannels": 75,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1505
+  },
+  {
+    "id": "whole-0.1-select-False-hover-True-1",
+    "source": "web",
+    "differentChannels": 75,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1505
+  },
+  {
+    "id": "whole-0.1-select-True-hover-True-1",
+    "source": "native",
+    "differentChannels": 75,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 2533
+  },
+  {
+    "id": "whole-0.1-select-True-hover-True-1",
+    "source": "web",
+    "differentChannels": 75,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 2533
+  },
+  {
+    "id": "whole-0.25-select-False-hover-False-1",
+    "source": "native",
+    "differentChannels": 27,
+    "maxChannelDifference": 61,
+    "absoluteChannelDifference": 671
+  },
+  {
+    "id": "whole-0.25-select-False-hover-False-1",
+    "source": "web",
+    "differentChannels": 27,
+    "maxChannelDifference": 61,
+    "absoluteChannelDifference": 671
+  },
+  {
+    "id": "whole-0.25-select-True-hover-False-1",
+    "source": "native",
+    "differentChannels": 96,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 4707
+  },
+  {
+    "id": "whole-0.25-select-True-hover-False-1",
+    "source": "web",
+    "differentChannels": 96,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 4707
+  },
+  {
+    "id": "whole-0.25-select-False-hover-True-1",
+    "source": "native",
+    "differentChannels": 96,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 2366
+  },
+  {
+    "id": "whole-0.25-select-False-hover-True-1",
+    "source": "web",
+    "differentChannels": 96,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 2366
+  },
+  {
+    "id": "whole-0.25-select-True-hover-True-1",
+    "source": "native",
+    "differentChannels": 90,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 3008
+  },
+  {
+    "id": "whole-0.25-select-True-hover-True-1",
+    "source": "web",
+    "differentChannels": 90,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 3008
+  },
+  {
+    "id": "whole-0.5-select-False-hover-False-1",
+    "source": "native",
+    "differentChannels": 24,
+    "maxChannelDifference": 61,
+    "absoluteChannelDifference": 741
+  },
+  {
+    "id": "whole-0.5-select-False-hover-False-1",
+    "source": "web",
+    "differentChannels": 24,
+    "maxChannelDifference": 61,
+    "absoluteChannelDifference": 741
+  },
+  {
+    "id": "whole-0.5-select-True-hover-False-1",
+    "source": "native",
+    "differentChannels": 96,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 4441
+  },
+  {
+    "id": "whole-0.5-select-True-hover-False-1",
+    "source": "web",
+    "differentChannels": 96,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 4441
+  },
+  {
+    "id": "whole-0.5-select-False-hover-True-1",
+    "source": "native",
+    "differentChannels": 96,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 2302
+  },
+  {
+    "id": "whole-0.5-select-False-hover-True-1",
+    "source": "web",
+    "differentChannels": 96,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 2302
+  },
+  {
+    "id": "whole-0.5-select-True-hover-True-1",
+    "source": "native",
+    "differentChannels": 96,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 3172
+  },
+  {
+    "id": "whole-0.5-select-True-hover-True-1",
+    "source": "web",
+    "differentChannels": 96,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 3172
+  },
+  {
+    "id": "whole-0.7071067811865476-select-False-hover-False-1",
+    "source": "native",
+    "differentChannels": 42,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 1282
+  },
+  {
+    "id": "whole-0.7071067811865476-select-False-hover-False-1",
+    "source": "web",
+    "differentChannels": 42,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 1282
+  },
+  {
+    "id": "whole-0.7071067811865476-select-True-hover-False-1",
+    "source": "native",
+    "differentChannels": 132,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 5413
+  },
+  {
+    "id": "whole-0.7071067811865476-select-True-hover-False-1",
+    "source": "web",
+    "differentChannels": 132,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 5413
+  },
+  {
+    "id": "whole-0.7071067811865476-select-False-hover-True-1",
+    "source": "native",
+    "differentChannels": 132,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 3140
+  },
+  {
+    "id": "whole-0.7071067811865476-select-False-hover-True-1",
+    "source": "web",
+    "differentChannels": 132,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 3140
+  },
+  {
+    "id": "whole-0.7071067811865476-select-True-hover-True-1",
+    "source": "native",
+    "differentChannels": 132,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 4021
+  },
+  {
+    "id": "whole-0.7071067811865476-select-True-hover-True-1",
+    "source": "web",
+    "differentChannels": 132,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 4021
+  },
+  {
+    "id": "whole-0.9-select-False-hover-False-1",
+    "source": "native",
+    "differentChannels": 90,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 2493
+  },
+  {
+    "id": "whole-0.9-select-False-hover-False-1",
+    "source": "web",
+    "differentChannels": 90,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 2493
+  },
+  {
+    "id": "whole-0.9-select-True-hover-False-1",
+    "source": "native",
+    "differentChannels": 255,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 9749
+  },
+  {
+    "id": "whole-0.9-select-True-hover-False-1",
+    "source": "web",
+    "differentChannels": 255,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 9749
+  },
+  {
+    "id": "whole-0.9-select-False-hover-True-1",
+    "source": "native",
+    "differentChannels": 255,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 5826
+  },
+  {
+    "id": "whole-0.9-select-False-hover-True-1",
+    "source": "web",
+    "differentChannels": 255,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 5826
+  },
+  {
+    "id": "whole-0.9-select-True-hover-True-1",
+    "source": "native",
+    "differentChannels": 255,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 7315
+  },
+  {
+    "id": "whole-0.9-select-True-hover-True-1",
+    "source": "web",
+    "differentChannels": 255,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 7315
+  },
+  {
+    "id": "whole-0.9999-select-False-hover-False-1",
+    "source": "native",
+    "differentChannels": 84,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 2565
+  },
+  {
+    "id": "whole-0.9999-select-False-hover-False-1",
+    "source": "web",
+    "differentChannels": 84,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 2565
+  },
+  {
+    "id": "whole-0.9999-select-True-hover-False-1",
+    "source": "native",
+    "differentChannels": 240,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 9660
+  },
+  {
+    "id": "whole-0.9999-select-True-hover-False-1",
+    "source": "web",
+    "differentChannels": 240,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 9660
+  },
+  {
+    "id": "whole-0.9999-select-False-hover-True-1",
+    "source": "native",
+    "differentChannels": 240,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 5854
+  },
+  {
+    "id": "whole-0.9999-select-False-hover-True-1",
+    "source": "web",
+    "differentChannels": 240,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 5854
+  },
+  {
+    "id": "whole-0.9999-select-True-hover-True-1",
+    "source": "native",
+    "differentChannels": 240,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 7286
+  },
+  {
+    "id": "whole-0.9999-select-True-hover-True-1",
+    "source": "web",
+    "differentChannels": 240,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 7286
+  },
+  {
+    "id": "whole-1-select-False-hover-False-1",
+    "source": "native",
+    "differentChannels": 84,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 2565
+  },
+  {
+    "id": "whole-1-select-False-hover-False-1",
+    "source": "web",
+    "differentChannels": 84,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 2565
+  },
+  {
+    "id": "whole-1-select-True-hover-False-1",
+    "source": "native",
+    "differentChannels": 240,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 9660
+  },
+  {
+    "id": "whole-1-select-True-hover-False-1",
+    "source": "web",
+    "differentChannels": 240,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 9660
+  },
+  {
+    "id": "whole-1-select-False-hover-True-1",
+    "source": "native",
+    "differentChannels": 240,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 5854
+  },
+  {
+    "id": "whole-1-select-False-hover-True-1",
+    "source": "web",
+    "differentChannels": 240,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 5854
+  },
+  {
+    "id": "whole-1-select-True-hover-True-1",
+    "source": "native",
+    "differentChannels": 240,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 7286
+  },
+  {
+    "id": "whole-1-select-True-hover-True-1",
+    "source": "web",
+    "differentChannels": 240,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 7286
+  },
+  {
+    "id": "multi-1-1-whole-0-1",
+    "source": "native",
+    "differentChannels": 102,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 3928
+  },
+  {
+    "id": "multi-1-1-whole-0-1",
+    "source": "web",
+    "differentChannels": 102,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 3928
+  },
+  {
+    "id": "multi-1-1-whole-0.1-1",
+    "source": "native",
+    "differentChannels": 87,
+    "maxChannelDifference": 92,
+    "absoluteChannelDifference": 3976
+  },
+  {
+    "id": "multi-1-1-whole-0.1-1",
+    "source": "web",
+    "differentChannels": 87,
+    "maxChannelDifference": 92,
+    "absoluteChannelDifference": 3976
+  },
+  {
+    "id": "multi-1-1-whole-0.5-1",
+    "source": "native",
+    "differentChannels": 114,
+    "maxChannelDifference": 118,
+    "absoluteChannelDifference": 4721
+  },
+  {
+    "id": "multi-1-1-whole-0.5-1",
+    "source": "web",
+    "differentChannels": 114,
+    "maxChannelDifference": 118,
+    "absoluteChannelDifference": 4721
+  },
+  {
+    "id": "multi-1-1-whole-1-1",
+    "source": "native",
+    "differentChannels": 141,
+    "maxChannelDifference": 118,
+    "absoluteChannelDifference": 5768
+  },
+  {
+    "id": "multi-1-1-whole-1-1",
+    "source": "web",
+    "differentChannels": 141,
+    "maxChannelDifference": 118,
+    "absoluteChannelDifference": 5768
+  },
+  {
+    "id": "multi-25-3-whole-0-1",
+    "source": "native",
+    "differentChannels": 516,
+    "maxChannelDifference": 118,
+    "absoluteChannelDifference": 16879
+  },
+  {
+    "id": "multi-25-3-whole-0-1",
+    "source": "web",
+    "differentChannels": 516,
+    "maxChannelDifference": 118,
+    "absoluteChannelDifference": 16879
+  },
+  {
+    "id": "multi-25-3-whole-0.1-1",
+    "source": "native",
+    "differentChannels": 90,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 4687
+  },
+  {
+    "id": "multi-25-3-whole-0.1-1",
+    "source": "web",
+    "differentChannels": 90,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 4687
+  },
+  {
+    "id": "multi-25-3-whole-0.5-1",
+    "source": "native",
+    "differentChannels": 372,
+    "maxChannelDifference": 157,
+    "absoluteChannelDifference": 12450
+  },
+  {
+    "id": "multi-25-3-whole-0.5-1",
+    "source": "web",
+    "differentChannels": 372,
+    "maxChannelDifference": 157,
+    "absoluteChannelDifference": 12450
+  },
+  {
+    "id": "multi-25-3-whole-1-1",
+    "source": "native",
+    "differentChannels": 960,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 26214
+  },
+  {
+    "id": "multi-25-3-whole-1-1",
+    "source": "web",
+    "differentChannels": 960,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 26214
+  },
+  {
+    "id": "multi-3-25-whole-0-1",
+    "source": "native",
+    "differentChannels": 777,
+    "maxChannelDifference": 140,
+    "absoluteChannelDifference": 28062
+  },
+  {
+    "id": "multi-3-25-whole-0-1",
+    "source": "web",
+    "differentChannels": 777,
+    "maxChannelDifference": 140,
+    "absoluteChannelDifference": 28062
+  },
+  {
+    "id": "multi-3-25-whole-0.1-1",
+    "source": "native",
+    "differentChannels": 447,
+    "maxChannelDifference": 99,
+    "absoluteChannelDifference": 21729
+  },
+  {
+    "id": "multi-3-25-whole-0.1-1",
+    "source": "web",
+    "differentChannels": 447,
+    "maxChannelDifference": 99,
+    "absoluteChannelDifference": 21729
+  },
+  {
+    "id": "multi-3-25-whole-0.5-1",
+    "source": "native",
+    "differentChannels": 840,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 26382
+  },
+  {
+    "id": "multi-3-25-whole-0.5-1",
+    "source": "web",
+    "differentChannels": 840,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 26382
+  },
+  {
+    "id": "multi-3-25-whole-1-1",
+    "source": "native",
+    "differentChannels": 956,
+    "maxChannelDifference": 92,
+    "absoluteChannelDifference": 26401
+  },
+  {
+    "id": "multi-3-25-whole-1-1",
+    "source": "web",
+    "differentChannels": 956,
+    "maxChannelDifference": 92,
+    "absoluteChannelDifference": 26401
+  },
+  {
+    "id": "narrow-1-1-whole-0.0001-select-False-1",
+    "source": "native",
+    "differentChannels": 12,
+    "maxChannelDifference": 31,
+    "absoluteChannelDifference": 269
+  },
+  {
+    "id": "narrow-1-1-whole-0.0001-select-False-1",
+    "source": "web",
+    "differentChannels": 12,
+    "maxChannelDifference": 31,
+    "absoluteChannelDifference": 269
+  },
+  {
+    "id": "narrow-1-1-whole-0.0001-select-True-1",
+    "source": "native",
+    "differentChannels": 42,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1913
+  },
+  {
+    "id": "narrow-1-1-whole-0.0001-select-True-1",
+    "source": "web",
+    "differentChannels": 42,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1913
+  },
+  {
+    "id": "narrow-1-1-whole-0.0002-select-False-1",
+    "source": "native",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-1-1-whole-0.0002-select-False-1",
+    "source": "web",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-1-1-whole-0.0002-select-True-1",
+    "source": "native",
+    "differentChannels": 30,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1644
+  },
+  {
+    "id": "narrow-1-1-whole-0.0002-select-True-1",
+    "source": "web",
+    "differentChannels": 30,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1644
+  },
+  {
+    "id": "narrow-1-1-whole-0.0003-select-False-1",
+    "source": "native",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-1-1-whole-0.0003-select-False-1",
+    "source": "web",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-1-1-whole-0.0003-select-True-1",
+    "source": "native",
+    "differentChannels": 30,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1644
+  },
+  {
+    "id": "narrow-1-1-whole-0.0003-select-True-1",
+    "source": "web",
+    "differentChannels": 30,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1644
+  },
+  {
+    "id": "narrow-1-1-whole-0.001-select-False-1",
+    "source": "native",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-1-1-whole-0.001-select-False-1",
+    "source": "web",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-1-1-whole-0.001-select-True-1",
+    "source": "native",
+    "differentChannels": 30,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1644
+  },
+  {
+    "id": "narrow-1-1-whole-0.001-select-True-1",
+    "source": "web",
+    "differentChannels": 30,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1644
+  },
+  {
+    "id": "narrow-25-3-whole-0.0001-select-False-1",
+    "source": "native",
+    "differentChannels": 192,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 5679
+  },
+  {
+    "id": "narrow-25-3-whole-0.0001-select-False-1",
+    "source": "web",
+    "differentChannels": 192,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 5679
+  },
+  {
+    "id": "narrow-25-3-whole-0.0001-select-True-1",
+    "source": "native",
+    "differentChannels": 222,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 7086
+  },
+  {
+    "id": "narrow-25-3-whole-0.0001-select-True-1",
+    "source": "web",
+    "differentChannels": 222,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 7086
+  },
+  {
+    "id": "narrow-25-3-whole-0.0002-select-False-1",
+    "source": "native",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-25-3-whole-0.0002-select-False-1",
+    "source": "web",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-25-3-whole-0.0002-select-True-1",
+    "source": "native",
+    "differentChannels": 30,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1407
+  },
+  {
+    "id": "narrow-25-3-whole-0.0002-select-True-1",
+    "source": "web",
+    "differentChannels": 30,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1407
+  },
+  {
+    "id": "narrow-25-3-whole-0.0003-select-False-1",
+    "source": "native",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-25-3-whole-0.0003-select-False-1",
+    "source": "web",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-25-3-whole-0.0003-select-True-1",
+    "source": "native",
+    "differentChannels": 30,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1407
+  },
+  {
+    "id": "narrow-25-3-whole-0.0003-select-True-1",
+    "source": "web",
+    "differentChannels": 30,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1407
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-False-1",
+    "source": "native",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-False-1",
+    "source": "web",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-True-1",
+    "source": "native",
+    "differentChannels": 30,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1407
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-True-1",
+    "source": "web",
+    "differentChannels": 30,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 1407
+  }
+]

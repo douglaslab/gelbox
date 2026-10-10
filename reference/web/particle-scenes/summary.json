@@ -1,0 +1,44 @@
+{
+  "implementationCommit": "b024d9a",
+  "nativeManifestSha256": "b5445bac0b4593369bbdeb10a421de31f215dee33138b6e4d02558ebdcf2270e",
+  "auditResult": "4 failed parity assertions; measurement completed for all cases",
+  "groups": [
+    {
+      "backend": "webgl2",
+      "scale": 1,
+      "cases": 64,
+      "nativeAndWebMeshPixelsIdentical": 64,
+      "mismatchedNativeRasterCases": 57,
+      "maxChannelDifference": 157,
+      "differentChannels": 10337
+    },
+    {
+      "backend": "webgpu",
+      "scale": 1,
+      "cases": 64,
+      "nativeAndWebMeshPixelsIdentical": 64,
+      "mismatchedNativeRasterCases": 57,
+      "maxChannelDifference": 157,
+      "differentChannels": 10337
+    },
+    {
+      "backend": "webgl2",
+      "scale": 2,
+      "cases": 64,
+      "nativeAndWebMeshPixelsIdentical": 64,
+      "mismatchedNativeRasterCases": 57,
+      "maxChannelDifference": 157,
+      "differentChannels": 22212
+    },
+    {
+      "backend": "webgpu",
+      "scale": 2,
+      "cases": 64,
+      "nativeAndWebMeshPixelsIdentical": 64,
+      "mismatchedNativeRasterCases": 57,
+      "maxChannelDifference": 157,
+      "differentChannels": 22212
+    }
+  ],
+  "crossBackendPixelsIdentical": true
+}

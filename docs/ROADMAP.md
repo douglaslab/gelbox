@@ -582,3 +582,15 @@ and release-platform certification remain open.
 Validation: 2,909 unit tests, 503 browser cases with one intentional skip,
 and four production checks passed. Native particle raster and complete-app
 acceptance remain unproven.
+
+
+### Particle raster reference established; implementation gap measured
+
+A reproducible 128-image native CGL reference and dedicated exact-pixel audit
+now identify a single-sample particle raster mismatch on both web backends.
+57/64 scenes fail at each DPR, while captured native and web-generated meshes
+produce identical browser pixels. The four acceptance tests remain failing.
+[Evidence and implementation sequence](../reference/web/particle-scenes/README.md):
+add native MSAA4/source-over/resolve, verify generated meshes, integrate opaque
+sample/loupe and transparent representative paths, then verify lifecycle and
+composed native GUI behavior. Full P0–P5 gates remain open.

@@ -1935,3 +1935,28 @@ Vite builds. No image baselines or tolerances changed. Logs:
 an overbroad test fault affecting the gel pipeline; injection now starts after
 the gel initializes. Both isolated initialization cases were rechecked against
 the old implementation and failed at the expected context-cleanup assertions.
+
+
+## Particle raster audit — confirmed open discrepancy
+
+Added [128 native particle images](../reference/native/modern/particle-scenes/README.md)
+from the 64 existing independent mesh captures at DPR1/2. Both native mesh output
+and CGL pixel captures repeat identically, and a separate verification run
+matches all retained images. The native driver uses the application's MSAA4 and
+Cinder's default straight-alpha source-over settings on opaque #F1F1F2.
+
+The [dedicated browser audit](../reference/web/particle-scenes/README.md)
+measures captured-native and web-generated meshes through the existing particle
+batch renderers. For each backend and each DPR, 57/64 cases fail exact native
+RGB comparison; maximum channel error is 157. All native/web mesh pairs produce
+identical browser pixels, and both web backends produce identical pixels. This
+isolates a rendering difference for these cases rather than a mesh-construction
+difference. The web molecular surfaces currently have one sample.
+
+All four dedicated audit tests intentionally remain failing parity gates; all
+512 case/source/backend/DPR measurements completed. No tolerance or existing
+image baseline was changed, and this increment changes no production renderer.
+The prior normal-suite/production results therefore do not imply particle parity.
+Next implement native multisampling/resolve with source-over, then certify shared
+sample/loupe integration and transparent representatives separately. Native full
+GUI, scheduling and composed-view acceptance remain open.
