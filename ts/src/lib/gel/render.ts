@@ -21,11 +21,13 @@ export interface GelRenderer {
   destroy(): void;
 }
 
+// Native Cinder FBOs use linear RGBA8. sRGB storage changes quantization
+// at every blur/warp pass, even though sampling decodes back to linear.
 function createGelRendererImpl(
   device: GPUDevice,
   gelSize: { width: number; height: number },
   pixelsPerUnit: number,
-  format: GPUTextureFormat = 'rgba8unorm-srgb'
+  format: GPUTextureFormat = 'rgba8unorm'
 ): GelRenderer {
   const outputW = nativeOutputExtent(gelSize.width, pixelsPerUnit);
   const outputH = nativeOutputExtent(gelSize.height, pixelsPerUnit);
@@ -141,7 +143,7 @@ function createGelRendererImpl(
 
 export function createGelRenderer(
   device:GPUDevice,gelSize:{width:number;height:number},pixelsPerUnit:number,
-  format:GPUTextureFormat='rgba8unorm-srgb',
+  format:GPUTextureFormat='rgba8unorm',
 ):GelRenderer {
   return withAllocationRollback(device,()=>createGelRendererImpl(device,gelSize,pixelsPerUnit,format));
 }

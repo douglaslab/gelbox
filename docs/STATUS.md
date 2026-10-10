@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,853 passed |
-| Browser suite across WebGPU/WebGL2 | 387 full baseline plus 4 new lifecycle checks passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 395 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
 | Production build and TypeScript checks | Passed |
@@ -1228,3 +1228,26 @@ fell from 19 to 18. Most of the mismatch remains. Product rendering and goldens
 are unchanged. Next diagnostic: compare offscreen gel outputs before final
 window scaling and verify native runtime texture formats. This is evidence
 for narrowing the investigation, not native raster certification.
+
+## Native startup gel storage and display filtering correction
+
+The [offscreen capture](../reference/native/modern/lossless-probe/offscreen/README.md)
+localized two remaining startup-band differences. Native reports linear RGBA8
+band/composite textures at 390×520 and one pixel per gel unit. Changing the web
+gel targets to linear RGBA8 produces an exact RGB match to that entire native
+texture on both backends. The previous sRGB path introduced per-pass
+quantization differences. The remaining displayed mismatch came from the
+canvas's explicit `image-rendering: pixelated`: nearest-neighbor enlargement
+reproduced the old band screenshot exactly. Using normal linear filtering
+also matches the native DPR-2 band crop exactly.
+
+New independent-native regressions check full offscreen RGB bytes and displayed
+startup band bytes, with zero tolerance. Modern native build provenance and
+full-scene limitations remain explicit. Other gel states, wells, glyphs, other
+DPRs and composed workflows still require certification.
+
+Verification for this correction: **395 browser tests passed**, one intentional
+duplicate skipped; **4 built-app root/subpath checks passed**, including a fresh
+production build and TypeScript checks. All four new native texture/display
+cases failed at their respective pre-fix stages and passed after correction.
+No existing screenshot goldens or tolerances changed.

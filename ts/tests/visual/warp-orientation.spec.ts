@@ -36,7 +36,7 @@ test('native smile direction and cross-backend warp coordinates', async ({ page 
                 const b = new Uint8Array(width * height * 4);
                 gl.bindFramebuffer(gl.FRAMEBUFFER, webgl.output.framebuffer);
                 gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, b);
-                // Compare column brightness centroids using matching sRGB target formats.
+                // Compare column brightness centroids using matching linear RGBA8 target formats.
                 const centers = (data: Uint8Array, flip: boolean) => Array.from({ length: width }, (_, x) => { let sum = 0, total = 0; for (let y = 0; y < height; y++) {
                     const v = data[((flip ? height - 1 - y : y) * width + x) * 4];
                     sum += (y + .5) * v;

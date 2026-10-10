@@ -1,0 +1,32 @@
+{
+  "base": "../manifest.json",
+  "additionalPatch": "capture.patch",
+  "sourceSha256": "969534be74bbf99cc49400c9b238aa285067fbe1680e40d3cdc28566fd5b0e5a",
+  "executableSha256": "6c084d61d9973dc97acffc2d9b3054fa01d139bbebdcb5d65ba155904c5affe4",
+  "nativePngSha256": "c5d26ed969e2277bb403f3c87c63cba59a9c43d26bed6d40cef29b8a3abf38c6",
+  "runtime": {
+    "bandInternalFormat": 32856,
+    "compositeInternalFormat": 32856,
+    "formatName": "GL_RGBA8",
+    "width": 390,
+    "height": 520,
+    "pixelsPerUnit": 1
+  },
+  "webBeforeFix": "38a7726",
+  "comparison": {
+    "linearTreatment": {
+      "differentRgbPixels": 0,
+      "maximumChannelError": 0
+    },
+    "srgbDecodedRoundedToLinear8": {
+      "differentRgbPixels": 2045,
+      "maximumChannelError": 3,
+      "absoluteRgbDifferenceSum": 6327
+    }
+  },
+  "limitations": [
+    "Modern compatibility build; not original executable equivalence.",
+    "Startup ladder only.",
+    "Compares offscreen RGB, not full UI, alpha semantics, display scaling or other gel states."
+  ]
+}

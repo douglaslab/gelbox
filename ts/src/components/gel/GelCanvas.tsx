@@ -229,7 +229,8 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
         height: `${gelSize.height * pixelsPerUnit}px`,
         display: 'block',
         border: 0,
-        imageRendering: 'pixelated',
+        // Native gl::draw enlarges the non-HD gel texture with linear filtering.
+        imageRendering: 'auto',
       }}
     />
     {failed&&<GraphicsFailure testId="gel-canvas-error"

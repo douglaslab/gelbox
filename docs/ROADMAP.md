@@ -458,3 +458,16 @@ and unchanged tracked object counts in this run. Raw reports/fixture provenance
 are under reference/web/performance; `test:performance` reproduces the workload.
 Both cases/build pass. Dense/longer workloads, driver memory, GPU/presentation
 timing and matching native measurements remain open; no release budget is claimed.
+
+### Startup band raster gate narrowed
+
+The lossless modern native startup now has exact web matches for its full
+390×520 offscreen RGB gel texture and DPR-2 displayed band crop, on both
+WebGPU and WebGL2. Native linear RGBA8 storage and linear enlargement replace
+web sRGB intermediate storage and pixelated canvas enlargement. Independent
+native regression fixtures failed before their respective fixes and pass after.
+Full browser suite: 395 passed, one intentional duplicate skipped; built-app
+root/subpath: 4 passed with fresh build/type checks. No web goldens changed.
+See [capture and scope](../reference/native/modern/lossless-probe/offscreen/README.md).
+This closes the measured startup-band discrepancy, not other gel states,
+DPRs, wells, typography, loupes or full native workflow certification.

@@ -1,0 +1,26 @@
+--- a/src/GelRender.cpp
++++ b/src/GelRender.cpp
+@@ -7,6 +7,8 @@
+ //
+ 
+ #include "GelRender.h"
++#include "cinder/ImageIo.h"
++#include <fstream>
+ #include "GelboxApp.h" // for FileWatch
+ 
+ using namespace ci;
+@@ -204,6 +206,14 @@
+ 	overcook( mCompositeFBO, mCompositeFBOTemp,
+ 		mGlobalWarp.mH2ODistort ? kTuning.mH2ODistort.mOvercook : 0.f,
+ 		mGlobalWarp.mRandSeed );
++    if (!mBands.empty()) {
++        writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/offscreen.png"), mCompositeFBO->getColorTexture()->createSource());
++        std::ofstream report("/tmp/gel-native-lossless-probe/formats.txt");
++        report << "band=" << mBandFBO->getColorTexture()->getInternalFormat()
++            << " composite=" << mCompositeFBO->getColorTexture()->getInternalFormat()
++            << " width=" << mOutputSize.x << " height=" << mOutputSize.y
++            << " pixelsPerUnit=" << mPixelsPerUnit << std::endl;
++    }
+ }
+ 
+ void GelRender::drawSmear ( ci::Rectf ir, float direction, float thickness, ColorA cclose, ColorA cfar ) const

@@ -8,9 +8,10 @@ export interface GlRenderTarget {
 }
 
 /**
- * Allocate a WebGL2 render target: SRGB8_ALPHA8 texture + framebuffer with
+ * Allocate a WebGL2 render target: linear RGBA8 texture + framebuffer with
  * the texture as COLOR_ATTACHMENT0. No depth/stencil — this app never needs them.
  *
+ * Native GelRender uses Cinder RGBA8 targets; preserve its per-pass quantization.
  * The texture is initialized with linear filtering and clamp-to-edge, matching
  * the WebGPU sampler defaults.
  */
@@ -23,7 +24,7 @@ export function createGlRenderTarget(
   const texture = gl.createTexture();
   if (!texture) throw new Error(`createTexture failed${label ? ` (${label})` : ''}`);
   gl.bindTexture(gl.TEXTURE_2D, texture);
-  gl.texStorage2D(gl.TEXTURE_2D, 1, gl.SRGB8_ALPHA8, width, height);
+  gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA8, width, height);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
