@@ -810,3 +810,16 @@ passes22 cases with216 exact native RGB comparisons unchanged. No product change
 [Evidence and limits](../reference/web/compatibility/compiled-workflows/README.md).
 Broader histories, shipping-browser lifecycle, monitor/resource checks, native
 performance comparison/release budget and full parity acceptance remain open.
+
+
+### Compiled repeated view disposal and resize verified
+
+The compiled app passes100 measured sample/two-loupe open/close and resize cycles
+per backend. Tracked resources return exactly to baseline after every cycle
+(WebGPU66, WebGL2 37 including samplers), and to zero on route exit. Remount
+starts the sample successfully with no page errors. Forced-GC heap growth slows
+after warm-up; this is observational evidence, not a resident-memory budget.
+Both cases pass; independent review found no Critical or Important issue.
+No product code changed. [Reports and scope](../reference/web/performance/shared-view-churn/README.md).
+Native performance comparison/release budgets, long-duration and driver-memory
+stress, physical-monitor transitions and final parity acceptance remain open.

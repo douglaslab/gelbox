@@ -2355,3 +2355,16 @@ skipped), four production checks and TypeScript/Vite build pass**. Shared-
 composition Task2 is implemented and verified; final whole-branch review remains
 at the end of Task4. Task3 migrates gel/loupe/image graphics, and Task4 migrates
 ordered chrome/text/frame paint before production changes. Full parity remains open.
+
+
+### Compiled repeated view disposal and resize verified
+
+The compiled app passes100 measured sample/two-loupe open/close and resize cycles
+per backend. Tracked resources return exactly to baseline after every cycle
+(WebGPU66, WebGL2 37 including samplers), and to zero on route exit. Remount
+starts the sample successfully with no page errors. Forced-GC heap growth slows
+after warm-up; this is observational evidence, not a resident-memory budget.
+Both cases pass; independent review found no Critical or Important issue.
+No product code changed. [Reports and scope](../reference/web/performance/shared-view-churn/README.md).
+Native performance comparison/release budgets, long-duration and driver-memory
+stress, physical-monitor transitions and final parity acceptance remain open.
