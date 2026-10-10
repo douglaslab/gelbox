@@ -85,12 +85,18 @@ export function SampleSimCanvas({
     if (!canvas) return;
     let cancelled = false;
     let lost = false;
+    const cleanup:(()=>void)[]=[];
+    const dispose=()=>{
+      handleRef.current?.destroy();
+      handleRef.current=null;
+      for(const release of cleanup.splice(0).reverse())release();
+    };
     const handleLoss=(backend:Backend, restartCycle=true)=>{
       if(cancelled||lost)return;
       lost=true;
+      dispose();
       if(restartCycle)onLoss(backend);else onFailure(backend);
     };
-    const cleanup:(()=>void)[]=[];
     const resize=()=>{
       if(cancelled||lost)return;
       const dpr=window.devicePixelRatio||1;
@@ -123,7 +129,7 @@ export function SampleSimCanvas({
           if (cancelled || lost) return;
           const { gl } = configureGl2Context(canvas);
           cleanup.push(watchGlLoss(canvas,()=>handleLoss('webgl2')));
-          cleanup.push(()=>{if(!canvas.isConnected)gl.getExtension('WEBGL_lose_context')?.loseContext();});
+          cleanup.push(()=>{if(lost||!canvas.isConnected)gl.getExtension('WEBGL_lose_context')?.loseContext();});
           const batch = createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' });
           handleRef.current = {
             fail,
@@ -169,15 +175,15 @@ export function SampleSimCanvas({
       } catch (err) {
         if (cancelled || lost) return;
         console.error('SampleSimCanvas graphics initialization failed:', err);
+        lost=true;
+        dispose();
         onFailure(backend);
       }
     })();
 
     return () => {
       cancelled = true;
-      handleRef.current?.destroy();
-      handleRef.current = null;
-      for(const dispose of cleanup.reverse())dispose();
+      dispose();
     };
   }, [width, height, attempt, forcedBackend, onFailure, onLoss, onSuccess]);
 

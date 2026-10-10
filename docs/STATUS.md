@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include native well presentation, terminal-f
 | Check | Result |
 |---|---|
 | Unit suite | 2,909 passed |
-| Browser suite across WebGPU/WebGL2 | 499 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 503 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -1905,3 +1905,33 @@ intentional duplicate skipped), and all four production checks passed, including
 the TypeScript build. The full browser run includes both new color and saved
 zero-entry scenarios on WebGPU and WebGL2. Logs: `/tmp/gel-dye-controls-unit.log`,
 `/tmp/gel-dye-controls-full.log`, `/tmp/gel-dye-controls-production.log`.
+
+
+## Molecular terminal-failure cleanup
+
+Failure injection confirmed that the shared molecular canvas retained resources
+when both backends failed: frame failures left explicit graphics objects alive;
+initialization failures left a configured WebGPU canvas or a live WebGL context.
+The terminal error state does not remount the effect, so relying on effect
+cleanup was insufficient. SampleSimCanvas now disposes immediately on loss,
+frame failure and initialization failure. The same idempotent cleanup is used
+on unmount; failed WebGL contexts are explicitly retired.
+
+Four browser cases cover initialization/frame failure with each preferred
+backend. They require the terminal error panel, return to the gel-only explicit
+resource/configuration baseline before retry, retirement of failed GL contexts,
+working retry, unchanged saved sample content, and zero tracked resources after
+route exit. Both frame cases and both initialization cases failed against the
+old implementation. Existing repeated sample/loupe lifecycle tests also pass.
+This measures explicit resource ownership and canvas configuration, not driver
+resident memory. Multi-view concurrent failure, native particle-edge rendering
+and the remaining complete-app acceptance gates remain open.
+
+Final validation: 2,909 units, 503 browser cases (one intentional duplicate
+skipped), and four production cases passed; production includes TypeScript and
+Vite builds. No image baselines or tolerances changed. Logs:
+`/tmp/gel-molecular-terminal-unit.log`, `/tmp/gel-molecular-terminal-full2.log`,
+`/tmp/gel-molecular-terminal-production.log`. The first full browser run exposed
+an overbroad test fault affecting the gel pipeline; injection now starts after
+the gel initializes. Both isolated initialization cases were rechecked against
+the old implementation and failed at the expected context-cleanup assertions.

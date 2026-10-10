@@ -569,3 +569,16 @@ complete control raster certification remains open. Next investigate molecular
 renderer terminal-failure cleanup and native particle raster differences.
 Validation: 2,909 unit tests, 499 browser tests with one intentional skip,
 and four production checks passed. No existing image baseline or tolerance changed.
+
+
+### Molecular failure cleanup corrected
+
+SampleSimCanvas now releases owned resources and retires canvas configurations
+immediately when recovery reaches a failure, including terminal errors on the
+second backend. Initialization and frame-failure browser tests check cleanup
+before retry, saved sample preservation, and complete release after route exit.
+Next prioritize native particle raster comparison; full composed-view failure
+and release-platform certification remain open.
+Validation: 2,909 unit tests, 503 browser cases with one intentional skip,
+and four production checks passed. Native particle raster and complete-app
+acceptance remain unproven.
