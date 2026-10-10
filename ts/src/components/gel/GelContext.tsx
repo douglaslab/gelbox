@@ -1,3 +1,4 @@
+import {FileLoadProvider} from './FileLoadProvider';
 import {ViewOrderProvider} from './useViewLayer';
 import {ReferenceImageProvider} from './ReferenceImageLayer';
 import { flushSync } from 'react-dom';
@@ -28,7 +29,7 @@ export function GelProvider({ children }: { children: ReactNode }) {
   return (
     <StateCtx.Provider value={state}>
       <DispatchCtx.Provider value={dispatch}>
-        <ViewOrderProvider><ReferenceImageProvider>{children}</ReferenceImageProvider></ViewOrderProvider>
+        <ViewOrderProvider><ReferenceImageProvider><FileLoadProvider>{children}</FileLoadProvider></ReferenceImageProvider></ViewOrderProvider>
       </DispatchCtx.Provider>
     </StateCtx.Provider>
   );

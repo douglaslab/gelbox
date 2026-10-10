@@ -1,10 +1,11 @@
+import {useFileLoadQueue} from '../components/gel/FileLoadProvider';
 import {tubeGeometry} from '../lib/layout/tubeGeometry';
 import {flushSync} from 'react-dom';
 import {ReferenceImageLayer,useReferenceImages} from '../components/gel/ReferenceImageLayer';
 import {isReferenceImage} from '../lib/gel/referenceImages';
 import { sameSample } from '../lib/gel/sampleFragRef';
 import { FileControls } from '../components/chrome/FileControls';
-import { useMemo, useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { useMemo, useState, useRef, useLayoutEffect } from 'react';
 import { GelProvider, useGelState, useGelDispatch } from '../components/gel/GelContext';
 import { GelCanvas } from '../components/gel/GelCanvas';
 import { GelOverlay, type BandLaneFragment } from '../components/gel/GelOverlay';
@@ -26,9 +27,8 @@ function GelInner() {
   const state = useGelState();
   const dispatch = useGelDispatch();
   const images=useReferenceImages();
-  const current=useRef(state),dropQueue=useRef(Promise.resolve()),generation=useRef(0);
+  const current=useRef(state),fileQueue=useFileLoadQueue();
   useLayoutEffect(()=>{current.current=state;},[state]);
-  useEffect(()=>()=>{++generation.current;},[]);
   const [dropError, setDropError] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
 
@@ -65,18 +65,17 @@ function GelInner() {
   function onDrop(e: React.DragEvent<HTMLElement>) {
     e.preventDefault();setDropError(null);setIsDragOver(false);
     const files=Array.from(e.dataTransfer.files),point={x:e.clientX,y:e.clientY};
-    const epoch=generation.current;
     const workspace=e.currentTarget;
     // Native handles dropped files synchronously in input order. Serialize async
     // browser reads/decodes, including a second drop while the first is loading.
-    dropQueue.current=dropQueue.current.then(async()=>{
+    void fileQueue.run(async isCurrent=>{
       const errors:string[]=[];
       for(const file of files){
-        if(epoch!==generation.current)return;
+        if(!isCurrent())return;
         try {
           if(isReferenceImage(file.name)){await images.load(file,point);continue;}
           const result=deserializeFile(await file.text());
-          if(epoch!==generation.current)return;
+          if(!isCurrent())return;
           if(result.kind==='sample'){
             const state=current.current;
             if(state.samples.slice(0,state.numLanes).every(Boolean))throw new Error('No empty lane available');
@@ -96,7 +95,7 @@ function GelInner() {
           }else flushSync(()=>dispatch({type:'LOAD_GEL_STATE',samples:result.samples,numLanes:result.numLanes,ctx:result.ctx}));
         }catch(err){errors.push(`${file.name}: ${(err as Error).message}`);}
       }
-      if(epoch===generation.current)setDropError(errors.length?`Drop failed: ${errors.join('; ')}`:null);
+      if(isCurrent())setDropError(errors.length?`Drop failed: ${errors.join('; ')}`:null);
     });
   }
 

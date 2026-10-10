@@ -123,3 +123,36 @@ test('a mixed file batch picks sample placement using the newly loaded gel layou
  await expect(page.getByTestId('microtube-5')).toHaveAttribute('aria-label','Lane 6 sample');
  await expect(page.getByTestId('microtube-0')).toHaveAttribute('data-empty','true');
 });
+
+test('Open waits for an earlier pending drop before replacing its document',async({page})=>{
+ await page.evaluate(()=>{
+  const original=window.createImageBitmap.bind(window);
+  window.createImageBitmap=(async(file:File)=>{
+   await new Promise<void>(resolve=>{(window as any).finishDecode=resolve;});
+   return original(file);
+  }) as typeof createImageBitmap;
+ });
+ const native=JSON.parse(await readFile('../reference/native/files/ladder-after-selection.gel.json','utf8'));
+ native.Gel.Samples=Array(20).fill(null);
+ await drop(page,[{name:'slow.png'},{name:'older.json',text:JSON.stringify(native)}]);
+ await expect.poll(()=>page.evaluate(()=>typeof (window as any).finishDecode)).toBe('function');
+ native.Gel.Samples=Array(7).fill(null);
+ await page.getByTestId('file-input').setInputFiles({name:'newer.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(native))});
+ await page.evaluate(()=>(window as any).finishDecode());
+ await expect(page.getByTestId('reference-image-1')).toBeVisible();
+ await expect(page.getByTestId(/^microtube-\d+$/)).toHaveCount(7);
+ await expect(page.getByTestId('microtube-0')).toHaveAttribute('data-empty','true');
+});
+
+test('application settings preserves image keyboard ownership until a sample takes focus',async({page})=>{
+ await drop(page,[{name:'a.png'}]);
+ const image=page.getByTestId('reference-image-1');await expect(image).toBeFocused();
+ await page.getByRole('button',{name:'Application settings'}).click();
+ await expect(image).toBeFocused();await expect(image).toHaveCSS('outline-color','rgb(255, 255, 128)');
+ await page.keyboard.press('Backspace');await expect(image).toHaveCount(0);
+ await drop(page,[{name:'b.png'}],1200,650);const second=page.getByTestId('reference-image-2');await expect(second).toBeFocused();
+ await page.getByTestId('microtube-0').click();
+ await page.getByTestId('sample-view').click({position:{x:30,y:100}});
+ await expect(second).not.toBeFocused();
+ await page.keyboard.press('Backspace');await expect(second).toBeVisible();
+});

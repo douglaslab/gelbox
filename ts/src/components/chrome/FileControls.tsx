@@ -1,8 +1,10 @@
+import {flushSync} from 'react-dom';
+import {useFileLoadQueue} from '../gel/FileLoadProvider';
 import {useViewLayer,useViewZIndex} from '../gel/useViewLayer';
 import type {ReactNode} from 'react';
 import styles from './FileControls.module.css';
 import { resolveAssetUrl } from '../../lib/layout/assets';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useGelState, useGelDispatch } from '../gel/GelContext';
 import { serializeSample, serializeGelState, deserializeFile } from '../../lib/gel/serialize';
 
@@ -34,6 +36,9 @@ export function FileControls() {
   }, [open]);
   const state = useGelState();
   const dispatch = useGelDispatch();
+  const fileQueue = useFileLoadQueue();
+  const current = useRef(state);
+  useLayoutEffect(() => { current.current = state; }, [state]);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -66,32 +71,33 @@ export function FileControls() {
   async function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    try {
-      const text = await file.text();
-      const result = deserializeFile(text);
-      if (result.kind === 'sample') {
-        if (state.samples.slice(0, state.numLanes).every(Boolean)) throw new Error('No empty lane available');
-        dispatch({ type: 'IMPORT_SAMPLE', sample: result.sample });
-      } else {
-        dispatch({
-          type: 'LOAD_GEL_STATE',
-          samples: result.samples,
-          numLanes: result.numLanes,
-          ctx: result.ctx,
-        });
+    // Snapshot and clear the input immediately, even while another load waits.
+    e.target.value = '';
+    await fileQueue.run(async isCurrent => {
+      try {
+        const text = await file.text();
+        if (!isCurrent()) return;
+        const result = deserializeFile(text);
+        if (result.kind === 'sample') {
+          const state = current.current;
+          if (state.samples.slice(0, state.numLanes).every(Boolean)) throw new Error('No empty lane available');
+          flushSync(() => dispatch({ type: 'IMPORT_SAMPLE', sample: result.sample }));
+        } else {
+          flushSync(() => dispatch({
+            type: 'LOAD_GEL_STATE', samples: result.samples,
+            numLanes: result.numLanes, ctx: result.ctx,
+          }));
+        }
+        setError(null);
+        setOpen(false);
+      } catch (err) {
+        if (isCurrent()) setError(`Open failed: ${(err as Error).message}`);
       }
-      setError(null);
-      setOpen(false);
-    } catch (err) {
-      setError(`Open failed: ${(err as Error).message}`);
-    } finally {
-      // Reset so the same file can be opened twice in a row
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    }
+    });
   }
 
   return (
-    <section ref={menuRef} data-testid="file-controls" style={{display:'contents'}}>
+    <section onPointerDownCapture={e => e.preventDefault()} ref={menuRef} data-testid="file-controls" style={{display:'contents'}}>
       {open && <ApplicationMenu>
         <button data-testid="open-btn" onClick={onOpenClick}>Open…</button>
         <button data-testid="save-gel-btn" onClick={onSaveGel}>Save Gel…</button>

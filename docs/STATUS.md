@@ -20,8 +20,8 @@ On macOS with Node 22, after reference-image integration:
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,792 passed |
-| Browser suite across WebGPU/WebGL2 | 245 passed; one intentional duplicate invocation skipped |
+| Unit suite | 2,794 passed |
+| Browser suite across WebGPU/WebGL2 | 249 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; reliable fresh native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -441,3 +441,10 @@ tests (one intentional duplicate skip), production build and TypeScript checks
 pass.** Independent review is pending. This does not certify original native image decoding,
 orientation/color management, GPU mipmap sampling, native GUI event history,
 original executable raster equivalence or all release platforms.
+
+
+## Reference-image final review fixes
+
+Open and Drop now share a disposable FIFO, so a held image decode followed by an older dropped gel cannot overwrite a subsequently opened document. Each import uses current application state when its turn executes; disposal invalidates queued and late work. Application-settings mouse controls retain the current native view's keyboard ownership, including image focus outline and Backspace deletion; clicking a sample transfers focus normally.
+
+Both review findings reproduced in failing browser tests before the fixes. Verification: **2,794 units, 249 browser tests across WebGPU/WebGL2 (one intentional duplicate skip), and production build/TypeScript checks pass**. No additional screenshot baselines changed. The full run initially exposed a species-editing test helper that sent Escape after Save had already closed its menu; it now asserts menu closure without sending an unrelated sample-close command. No Minor review findings deferred. Original native image decoding/raster and broader composed focus certification remain open. Decisions and review boundaries are preserved in [the implementation plan](superpowers/plans/2026-10-09-reference-images.md).

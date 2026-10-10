@@ -12,7 +12,7 @@ async function saveSample(page: import('@playwright/test').Page) {
   const pending = page.waitForEvent('download');
   await page.getByTestId('save-sample-btn').click();
   const doc = JSON.parse(await readFile((await (await pending).path())!, 'utf8'));
-  await page.keyboard.press('Escape');
+  await expect(page.getByTestId('save-sample-btn')).toHaveCount(0);
   return doc.Sample;
 }
 
