@@ -25005,6 +25005,102 @@
     ]
   },
   {
+    "id": "overloaded-H2O",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 175,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "ctx": {
+      "voltage": 70,
+      "time": 1,
+      "ySpaceScale": 468.85714285714283,
+      "wellDamage": 0,
+      "gelBuffer": {
+        "tris": 0,
+        "borate": 0,
+        "acetate": 0,
+        "edta": 0
+      },
+      "sampleBuffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      }
+    },
+    "wellRect": {
+      "x1": 13.928571428571429,
+      "y1": 17.214285714285715,
+      "x2": 41.785714285714285,
+      "y2": 22.785714285714285
+    },
+    "lane": 0,
+    "fragment": 0,
+    "solverTargets": [
+      {
+        "targetY": -200,
+        "aggregate": 1
+      },
+      {
+        "targetY": 0,
+        "aggregate": 1
+      },
+      {
+        "targetY": 75.9,
+        "aggregate": 1
+      },
+      {
+        "targetY": 250,
+        "aggregate": 1
+      },
+      {
+        "targetY": 600,
+        "aggregate": 1
+      },
+      {
+        "targetY": -200,
+        "aggregate": 2
+      },
+      {
+        "targetY": 0,
+        "aggregate": 2
+      },
+      {
+        "targetY": 75.9,
+        "aggregate": 2
+      },
+      {
+        "targetY": 250,
+        "aggregate": 2
+      },
+      {
+        "targetY": 600,
+        "aggregate": 2
+      }
+    ]
+  },
+  {
     "id": "boundary-bp1-y30",
     "sample": {
       "buffer": {

@@ -26,8 +26,7 @@ test('inspector panel transitions: empty → tube → fragment → gear → empt
   await openSampleSettings(page);
 
   // Click a band: switches to Species.
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-0"]').click({ force: true });
   await expect(page.getByTestId('inspector-panel')).toHaveAttribute('data-view', 'fragment');
 
   // Press the gear: gel-settings wins regardless.

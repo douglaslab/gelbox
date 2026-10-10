@@ -27,9 +27,9 @@ describe('bandUIRect', () => {
     expect(r.y2).toBe(120 + 20 + 4);
   });
 
-  it('uses max(smearAbove, flameHeight) for the top extent', () => {
+  it('adds flame height after smear and blur', () => {
     const r = bandUIRect(band({ flameHeight: 30, smearAbove: 10 }));
-    expect(r.y1).toBe(100 - 30 - 4);   // flame (30) wins over smearAbove (10), then blur (4)
+    expect(r.y1).toBe(100 - 10 - 4 - 30);   // native adds flame after constructing the smear/blur rect
   });
 });
 

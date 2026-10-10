@@ -11,7 +11,11 @@ for (const tied of [false,true]) for (const clone of [false,true]) test(`multime
   await expect(page.locator('[data-testid^="band-"]')).toHaveCount(3);
   const native=JSON.parse(await readFile(root+'numerical/outputs.json','utf8')).find((r:any)=>r.id===(tied?'tied-aggregate-tops':'aggregate-3'));
   const band=native.bands.find((b:any)=>b.aggregate===(clone ? 1 : 3));
-  const reference=clone ? native.bands.reduce((a:any,b:any)=>b.rect.y1<a.rect.y1?b:a) : band;
+  // Native picks the smallest UI height and first tie at the actual mouse point.
+  const hitIndices=native.nativeMetadata.map((m:any,i:number)=>({r:m.uiRect,i}))
+    .filter(({r}:any)=>27.85>=r.x1 && 27.85<=r.x2 && band.rect.y1+5>=r.y1 && band.rect.y1+5<=r.y2);
+  const picked=native.bands[hitIndices.reduce((a:any,b:any)=>(b.r.y2-b.r.y1)<(a.r.y2-a.r.y1)?b:a).i];
+  const reference=clone ? native.bands.reduce((a:any,b:any)=>b.rect.y1<a.rect.y1?b:a) : picked;
   const expected=native.solved.find((s:any)=>s.aggregate===reference.aggregate && s.targetY===250).bases;
   const gel=(await page.getByTestId('gel-overlay').boundingBox())!;
   if(clone) await page.keyboard.down('Alt');

@@ -9,8 +9,7 @@ test('Species panel renders with header + well + palette + 5 sliders', async ({ 
   await page.goto('/#/gel');
 
   // Select a fragment by clicking a band on the gel.
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-0"]').click({ force: true });
 
   await expect(page.getByTestId('fragment-view')).toBeVisible();
   await expect(page.getByText('Species', { exact: true })).toBeVisible();
@@ -33,8 +32,7 @@ test('Inspector shows Species view after a fragment is selected', async ({ page 
   await expect(page.getByTestId('inspector-panel')).toHaveCount(0);
 
   // Selecting a fragment swaps the inspector to "Species".
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-0"]').click({ force: true });
 
   const inspector = page.getByTestId('inspector-panel');
   await expect(inspector).toBeVisible();
@@ -47,8 +45,7 @@ test('Clicking a palette swatch updates the fragment color', async ({ page }) =>
   await page.goto('/#/gel');
 
   // Open Species first.
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-0"]').click({ force: true });
 
   await page.getByTestId('fragment-palette-swatch-1').click();
   await expect(page.getByTestId('fragment-palette-swatch-1')).toHaveAttribute('aria-pressed', 'true');
@@ -59,8 +56,7 @@ test('Settings gear button switches inspector to "Gel" view', async ({ page }) =
   await page.goto('/#/gel');
 
   // Open Species so we have a non-empty inspector to swap from.
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-0"]').click({ force: true });
   await expect(page.getByTestId('fragment-view')).toBeVisible();
 
   await page.getByTestId('settings-button').click();

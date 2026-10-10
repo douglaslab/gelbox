@@ -45,8 +45,7 @@ test('Clicking a dot in SampleView selects that fragment in the inspector', asyn
   await page.goto('/#/gel');
   // Open the sample by clicking the loaded tube + a band so the inspector
   // has a known starting fragment selection.
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-0"]').click({ force: true });
   await expect(page.getByTestId('selection-info')).toContainText('fragment 0');
 
   // Read the deterministic dot layout from the page's React state via

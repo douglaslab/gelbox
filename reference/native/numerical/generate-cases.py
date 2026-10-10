@@ -24,6 +24,7 @@ native=json.loads((root.parent/'files/ladder-after-selection.gel.json').read_tex
 for i,f in enumerate(native['Fragments']):
  c=copy.deepcopy(base);c['id']=f'startup-fragment-{i}';c['sample']['fragments']=[dict(bases=f['Bases'],mass=f['Mass'],degrade=f['Degrade'],dye=-1,aspectRatio=f['AspectRatio'],aggregate=f['Aggregate'],color=f['Color'])];cases.append(c)
 c=copy.deepcopy(base);c['id']='tied-aggregate-tops';c['sample']['fragments'][0].update(bases=14000,aggregate=[1,1,1]);cases.append(c)
+c=copy.deepcopy(base);c['id']='overloaded-H2O';c['sample']['fragments'][0]['mass']=175;c['ctx']['gelBuffer']=buffers['H2O'];cases.append(c)
 for c in cases:
  tiers=[i+1 for i,w in enumerate(c['sample']['fragments'][c['fragment']]['aggregate']) if w>0] or [1]
  c['solverTargets']=[dict(targetY=y,aggregate=tier) for tier in sorted(set(tiers+[2])) for y in [-200,0,75.9,250,600]]

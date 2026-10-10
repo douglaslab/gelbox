@@ -14,20 +14,14 @@ export type DegradeFilter = Map<number, number>;
 
 export interface PickedBand { band: Band; index: number }
 
-/**
- * The hit-test rect: body expanded by blur (all sides), max(smearAbove,
- * flameHeight) above, smearBelow below. Including the flame extent keeps the
- * visible flame clickable; a pick that lands in the flame zone (above the
- * smear) falls through to makeSampleFromGel's blur-distance branch and yields
- * ~zero mass, which is the intended falloff.
- */
+/** Native GelSim constructs mUIRect from smear and blur, then adds flames. */
 export function bandUIRect(b: Band): Rect {
-  const upExt = Math.max(b.smearAbove, b.flameHeight);
+  const f = Math.fround;
   return {
-    x1: b.rect.x1 - b.blur,
-    x2: b.rect.x2 + b.blur,
-    y1: b.rect.y1 - upExt - b.blur,
-    y2: b.rect.y2 + b.smearBelow + b.blur,
+    x1: f(b.rect.x1 - b.blur),
+    x2: f(b.rect.x2 + b.blur),
+    y1: f(f(f(b.rect.y1 - Math.max(b.smearAbove, 0)) - b.blur) - f(b.flameHeight)),
+    y2: f(f(b.rect.y2 + b.smearBelow) + b.blur),
   };
 }
 
@@ -41,6 +35,18 @@ export function pickBands(p: Vec2, bands: readonly Band[]): PickedBand[] {
     if (rectContains(bandUIRect(bands[i]), p)) out.push({ band: bands[i], index: i });
   }
   return out;
+}
+
+/** GelView::pickBand: minimum hit height; preserve the first equal minimum. */
+export function pickBand(p: Vec2, bands: readonly Band[]): PickedBand | null {
+  let picked: PickedBand | null = null;
+  let smallest = Infinity;
+  for (const candidate of pickBands(p, bands)) {
+    const rect = bandUIRect(candidate.band);
+    const height = Math.fround(rect.y2 - rect.y1);
+    if (height < smallest) { picked = candidate; smallest = height; }
+  }
+  return picked;
 }
 
 /** 0 at body top edge → 1 at far smear edge; 0 if not above the body within the smear. */

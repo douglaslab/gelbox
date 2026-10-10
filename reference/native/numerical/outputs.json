@@ -30212,6 +30212,124 @@
     "bands": [
       {
         "aggregate": 1,
+        "blur": 2,
+        "brightness": 1.0,
+        "color": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "flameHeight": 16.71429443359375,
+        "mass": 175.0,
+        "randSeed": 15981,
+        "rect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 231.36090087890625,
+          "y2": 239.71804809570313
+        },
+        "smearAbove": 50.14288330078125,
+        "smearBelow": -1.392852783203125,
+        "smearBrightnessAbove": [
+          1.0,
+          0.0
+        ],
+        "smearBrightnessBelow": [
+          0.0,
+          0.0
+        ],
+        "smileExp": 4.0,
+        "smileHeight": 2.925001382827759,
+        "wellDamage": 0.0,
+        "wellDamageRandSeed": 0
+      }
+    ],
+    "id": "overloaded-H2O",
+    "nativeMetadata": [
+      {
+        "aspectRatio": 1.0,
+        "bases": 3001,
+        "degradeHi": 1,
+        "degradeLo": 1,
+        "dye": -1,
+        "focusColor": [
+          0.20000000298023224,
+          0.4000000059604645,
+          0.800000011920929
+        ],
+        "fragment": 0,
+        "lane": 0,
+        "uiRect": {
+          "x1": 11.928571701049805,
+          "x2": 43.78571319580078,
+          "y1": 162.50372314453125,
+          "y2": 240.3251953125
+        },
+        "wellRect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 17.214284896850586,
+          "y2": 22.785715103149414
+        }
+      }
+    ],
+    "solved": [
+      {
+        "aggregate": 1,
+        "bases": 14000,
+        "targetY": -200
+      },
+      {
+        "aggregate": 1,
+        "bases": 14000,
+        "targetY": 0
+      },
+      {
+        "aggregate": 1,
+        "bases": 7001,
+        "targetY": 75.9
+      },
+      {
+        "aggregate": 1,
+        "bases": 2719,
+        "targetY": 250
+      },
+      {
+        "aggregate": 1,
+        "bases": 1,
+        "targetY": 600
+      },
+      {
+        "aggregate": 2,
+        "bases": 1,
+        "targetY": -200
+      },
+      {
+        "aggregate": 2,
+        "bases": 1,
+        "targetY": 0
+      },
+      {
+        "aggregate": 2,
+        "bases": 1,
+        "targetY": 75.9
+      },
+      {
+        "aggregate": 2,
+        "bases": 1,
+        "targetY": 250
+      },
+      {
+        "aggregate": 2,
+        "bases": 1,
+        "targetY": 600
+      }
+    ]
+  },
+  {
+    "bands": [
+      {
+        "aggregate": 1,
         "blur": 1,
         "brightness": 0.8814587593078613,
         "color": [

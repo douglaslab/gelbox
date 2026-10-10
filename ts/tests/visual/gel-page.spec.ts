@@ -29,8 +29,7 @@ test('frag-size SliderView is interactive once a fragment is selected', async ({
   }
   await page.goto('/#/gel');
   // After M18, FragmentView only mounts when a fragment is selected.
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-0"]').click({ force: true });
   await expect(page.getByTestId('frag-size')).toBeVisible();
 });
 
@@ -43,8 +42,7 @@ test('clicking a band selects its fragment (selection-info updates)', async ({ p
   const before = await getSelectionText(page);
   expect(before).toMatch(/lane \d+: \d+ fragments/);
   // Click band-1 to select fragment 1.
-  await page.locator('[data-testid="band-1"]').dispatchEvent('pointerdown', { button: 0 });
-  await page.locator('[data-testid="band-1"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-1"]').click({ force: true });
   const after = await getSelectionText(page);
   expect(after).toMatch(/lane \d+ fragment \d+/);
 });
@@ -55,8 +53,7 @@ test('Tab key cycles selection forward', async ({ page }, testInfo) => {
   }
   await page.goto('/#/gel');
   // First select fragment 0 by clicking band-0 — Tab cycles within the lane.
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0 });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-0"]').click({ force: true });
   await page.getByTestId('gel-overlay').focus();
   await page.keyboard.press('Tab');
   await expect(page.getByTestId('selection-info')).toContainText('fragment 1');
@@ -73,8 +70,7 @@ test('alt+pointer-down clones the fragment (band count grows)', async ({ page },
   await page.goto('/#/gel');
   const rects = page.locator('[data-testid^="band-"]');
   await expect(rects).toHaveCount(LADDER_FRAGMENT_COUNT);
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0, altKey: true });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-0"]').click({ force: true, modifiers: ['Alt'] });
   await expect(rects).toHaveCount(LADDER_FRAGMENT_COUNT + 1);
 });
 
@@ -163,8 +159,7 @@ test('cmd+click on a band opens a loupe popover', async ({ page }, testInfo) => 
   await page.goto('/#/gel');
   await expect(page.locator('[data-testid="band-0"]')).toBeVisible();
   await expect(page.locator('[data-testid^="loupe-"]')).toHaveCount(0);
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0, metaKey: true });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-0"]').click({ force: true, modifiers: ['Meta'] });
   await expect(page.locator('[data-loupe-id]')).toHaveCount(1);
   await expect(page.locator('[data-testid="loupe-canvas-1"]')).toBeVisible();
 });
@@ -174,8 +169,7 @@ test('loupe close button removes the loupe', async ({ page }, testInfo) => {
     test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
   }
   await page.goto('/#/gel');
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0, metaKey: true });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-0"]').click({ force: true, modifiers: ['Meta'] });
   await expect(page.locator('[data-loupe-id]')).toHaveCount(1);
   await page.getByTestId('loupe-close-1').click();
   await expect(page.locator('[data-loupe-id]')).toHaveCount(0);
@@ -186,9 +180,7 @@ test('multiple cmd+clicks open multiple loupes', async ({ page }, testInfo) => {
     test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
   }
   await page.goto('/#/gel');
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerdown', { button: 0, metaKey: true });
-  await page.locator('[data-testid="band-0"]').dispatchEvent('pointerup');
-  await page.locator('[data-testid="band-1"]').dispatchEvent('pointerdown', { button: 0, metaKey: true });
-  await page.locator('[data-testid="band-1"]').dispatchEvent('pointerup');
+  await page.locator('[data-testid="band-0"]').click({ force: true, modifiers: ['Meta'] });
+  await page.locator('[data-testid="band-10"]').click({ force: true, modifiers: ['Meta'] });
   await expect(page.locator('[data-loupe-id]')).toHaveCount(2);
 });

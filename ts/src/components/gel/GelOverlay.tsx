@@ -6,7 +6,7 @@ import { useGelState, useGelDispatch } from './GelContext';
 import { solveBasesForY } from '../../lib/sim/solver';
 import { BUFFER_TBE } from '../../lib/sim/buffer';
 import { LAYOUT } from '../../lib/layout/layout';
-import type { BandLaneFragment } from '../../lib/sim/sampleFromGel';
+import { bandUIRect, pickBand, type BandLaneFragment } from '../../lib/sim/sampleFromGel';
 
 export type { BandLaneFragment } from '../../lib/sim/sampleFromGel';
 
@@ -70,8 +70,17 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
     };
   }, [state.drag, onPointerMove, onPointerUp]);
 
-  function onBandPointerDown(bandIdx: number, e: React.PointerEvent<SVGRectElement>) {
+  function gelPoint(e: { clientX: number; clientY: number }) {
+    const rect = svgRef.current!.getBoundingClientRect();
+    return { x: (e.clientX - rect.left) / rect.width * state.gelSize.width,
+      y: (e.clientY - rect.top) / rect.height * state.gelSize.height };
+  }
+
+  function onBandPointerDown(e: React.PointerEvent<SVGSVGElement>) {
     if (e.button !== 0) return;
+    const picked = pickBand(gelPoint(e), bands);
+    if (!picked) { onBackgroundPointerDown(e); return; }
+    const bandIdx = picked.index;
     e.preventDefault();
     svgRef.current?.focus();
     const { lane, fragment } = bandToLaneFragment[bandIdx];
@@ -109,8 +118,8 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
   }
 
   function onBackgroundPointerDown(e: React.PointerEvent<SVGSVGElement>) {
-    // Only fire when the click landed on the SVG background itself, not on
-    // a band rect (those stop the propagation via their own handler).
+    // This path runs only when coordinate-based picking found no band.
+    // A stroke-edge hit on a rectangle is not a background click.
     if (e.target !== e.currentTarget) return;
     if (state.selectedFragmentIndex !== null) {
       dispatch({ type: 'CLEAR_FRAGMENT_SELECTION' });
@@ -137,7 +146,13 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
         dispatch({ type: 'ADD_FRAGMENT', laneIndex: lane, fragment });
         e.currentTarget.focus();
       }}
-      onPointerDown={onBackgroundPointerDown}
+      onPointerDown={onBandPointerDown}
+      onPointerMove={e => {
+        const picked = pickBand(gelPoint(e), bands);
+        const source = picked ? bandToLaneFragment[picked.index] : null;
+        dispatch({ type: 'SET_ROLLOVER', ref: source ? { lane: source.lane, fragmentIndex: source.fragment } : null });
+      }}
+      onPointerLeave={() => dispatch({ type: 'SET_ROLLOVER', ref: null })}
       viewBox={`0 0 ${state.gelSize.width} ${state.gelSize.height}`}
       style={{
         position: 'absolute',
@@ -154,11 +169,8 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
           fill="none" stroke="rgba(204,204,204,0.8)" strokeWidth={1} pointerEvents="none" />
       ))}
       {bands.map((b, i) => {
-        const upExt = Math.max(b.smearAbove, b.flameHeight);
-        const x = b.rect.x1 - b.blur;
-        const w = (b.rect.x2 - b.rect.x1) + 2 * b.blur;
-        const y = b.rect.y1 - upExt - b.blur;
-        const h = (b.rect.y2 - b.rect.y1) + upExt + b.smearBelow + 2 * b.blur;
+        const hit = bandUIRect(b);
+        const x = hit.x1, y = hit.y1, w = hit.x2 - hit.x1, h = hit.y2 - hit.y1;
         const lf = bandToLaneFragment[i];
         const selected = state.selectedLane === lf.lane && state.selectedFragmentIndex === lf.fragment;
         const hovered  = state.rollover?.lane === lf.lane && state.rollover?.fragmentIndex === lf.fragment;
@@ -178,9 +190,6 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
                 : (hovered ? LAYOUT.sampleViewFragHoverColor : 'transparent')
             }
             strokeWidth={LAYOUT.sampleViewFragOutlineWidth}
-            onPointerDown={(e) => onBandPointerDown(i, e)}
-            onPointerEnter={() => dispatch({ type: 'SET_ROLLOVER', ref: { lane: lf.lane, fragmentIndex: lf.fragment } })}
-            onPointerLeave={() => dispatch({ type: 'SET_ROLLOVER', ref: null })}
             style={{ cursor: 'ns-resize' }}
           />
         );

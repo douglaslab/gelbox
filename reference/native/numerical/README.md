@@ -12,7 +12,7 @@ Requires CMake, Xcode C++ tools, the Gelbox Git repository containing `5f51097`,
 python3 reference/native/numerical/generate-cases.py
 python3 reference/native/numerical/build.py --gelbox /absolute/path/gelbox --cinder /absolute/path/Cinder --capture
 cd ts
-npm run test:unit -- tests/unit/nativeNumerical.test.ts tests/unit/nativeSolver.test.ts
+npm run test:unit -- tests/unit/nativeNumerical.test.ts tests/unit/nativeSolver.test.ts tests/unit/nativePicking.test.ts
 ```
 
 `build.py` extracts pinned source via `git show` into `/tmp/gel-native-numerical` (override with `--build`). It does not read edited Gelbox source or modify either sibling repository. It refuses a different or dirty Cinder checkout. The only extra Sample implementation is `Sample::clearDyes`, extracted verbatim from the pinned source to satisfy the constructor. A forced prefix header supplies native-style fundamental Cinder types and its legacy JSON declarations; no simulation algorithm is rewritten. The inverse solver method `GelView::solveBasePairForY` is also extracted verbatim, with pinned `Config` defaults and a minimal adapter supplying the input well rectangle and the native inline band-top reference. Its optional cache is not exercised.
@@ -21,9 +21,9 @@ npm run test:unit -- tests/unit/nativeNumerical.test.ts tests/unit/nativeSolver.
 
 ## Coverage and comparisons
 
-504 cases cover combinations of TBE/TAE/H2O, voltage -300/0/70/300, time 0/.25/1 and degradation 0/.5/1/1.5/2, plus base/mass/aspect extremes, empty/zero/mixed/high aggregates, all four dyes, well damage, nonzero lane/fragment indices, differing sample buffer, all startup species, and fractional input regressions found during review. This includes tied aggregate tops and 244 inputs constructed near integer pixel boundaries. The 2,849 inverse solver requests compare exact base counts across target Y, chosen/missing aggregate tiers, and the same simulation matrix. This finite matrix is not exhaustive.
+505 cases cover combinations of TBE/TAE/H2O, voltage -300/0/70/300, time 0/.25/1 and degradation 0/.5/1/1.5/2, plus base/mass/aspect extremes, empty/zero/mixed/high aggregates, all four dyes, well damage, nonzero lane/fragment indices, differing sample buffer, all startup species, and fractional input regressions found during review. This includes an overloaded H2O band (combined smear/flames), tied aggregate tops and 244 inputs constructed near integer pixel boundaries. The 2,859 inverse solver requests compare exact base counts across target Y, chosen/missing aggregate tiers, and the same simulation matrix. This finite matrix is not exhaustive.
 
-The Vitest test compares all fields common to native `Band` and web `Band`: rectangles, smears and brightness ramps, flames, smiles, blur, brightness, color, random seeds, well damage, mass and aggregate tier. Additional native UI/source metadata is recorded but not yet asserted against the web model. Web `degrade` is carried from input and has no direct native `Band` counterpart.
+The Vitest test compares all fields common to native `Band` and web `Band`: rectangles, smears and brightness ramps, flames, smiles, blur, brightness, color, random seeds, well damage, mass and aggregate tier. Native UI rectangles are compared by `nativePicking.test.ts` against the shared web hit geometry. Additional native source metadata is recorded but not yet asserted against the web model. Web `degrade` is carried from input and has no direct native `Band` counterpart.
 
 - Band count, blur and aggregate tier are exact. Random seeds compare exact 32-bit patterns (native signed `int`, web unsigned integer). Non-finite, missing or fractional integer outputs fail validation.
 - Spatial values allow `max(0.0003, 12 × 2^-23 × max_abs_native_rect_coordinate)` gel-space pixels. Native float32 subtracts translated endpoints and multiplies the resulting height by up to 6 for H2O smearing; the coordinate-based bound accounts for that cancellation. This is a numerical tolerance, not a pixel-difference threshold.
