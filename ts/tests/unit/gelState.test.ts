@@ -86,10 +86,10 @@ describe('gelReducer (multi-lane)', () => {
   });
   it('BEGIN_SAMPLE_DRAG / END_SAMPLE_DRAG', () => {
     const begun = gelReducer(STARTING, { type: 'BEGIN_SAMPLE_DRAG', laneIndex: 0 });
-    expect(begun.drag).toEqual({ type: 'sample', laneIndex: 0 });
+    expect(begun.drag).toMatchObject({ type: 'sample', laneIndex: 0, sample: STARTING.samples[0] });
     expect(gelReducer(begun, { type: 'END_SAMPLE_DRAG' }).drag).toBeNull();
   });
-  it('MOVE_SAMPLE swaps two lanes', () => {
+  it('MOVE_SAMPLE transfers to an empty lane', () => {
     const next = gelReducer(STARTING, { type: 'MOVE_SAMPLE', from: 0, to: 3 });
     expect(next.samples[0]).toBeNull();
     expect(next.samples[3]).toEqual(STARTING.samples[0]);

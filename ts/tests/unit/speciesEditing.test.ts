@@ -59,13 +59,12 @@ it('clears shared and legacy selection together when a band is deselected', () =
   expect(cleared.selection).toEqual({ lane: 0, fragmentIndex: null });
 });
 
-it.each(['MOVE_SAMPLE', 'CLONE_SAMPLE_TO_LANE'] as const)('Delete follows the visible species after unrelated %s', (type) => {
+it.each(['MOVE_SAMPLE', 'CLONE_SAMPLE_TO_LANE'] as const)('moving another tube clears stale species before %s', (type) => {
   const loaded = gelReducer(initial, { type: 'CLONE_SAMPLE_TO_LANE', from: 0, to: 1 });
   const selected = gelReducer(loaded, { type: 'SET_SELECTED', laneIndex: 0, index: 0 });
   const moved = gelReducer(selected, { type, from: 1, to: 2 });
-  const action = sampleKeyAction('Delete', false, moved);
-  expect(action).toEqual({ type: 'DELETE_FRAGMENT', laneIndex: 0, index: 0 });
-  const deleted = gelReducer(moved, action!);
-  expect(deleted.samples[2]).toBe(moved.samples[2]);
-  expect(deleted.samples[0]!.fragments).toHaveLength(selected.samples[0]!.fragments.length - 1);
+  expect(moved.lastSampleLane).toBe(2);
+  expect(moved.selectedFragmentIndex).toBeNull();
+  expect(sampleKeyAction('Delete', false, moved)).toBeNull();
+  expect(moved.samples[0]).toBe(selected.samples[0]);
 });

@@ -28,6 +28,10 @@ export interface BandDrag {
 export interface SampleDrag {
   type:      'sample';
   laneIndex: number;
+  sample: Sample;
+  fragmentIndex: number | null;
+  sourceSelection: SampleFragRef | null;
+  rolloverIndex: number | null;
 }
 export type DragState = BandDrag | SampleDrag;
 
@@ -83,7 +87,8 @@ export type Action =
   | { type: 'SELECT_PREV' }
   | { type: 'BEGIN_DRAG';         laneIndex: number; fragmentIndex: number; startY: number }
   | { type: 'END_DRAG' }
-  | { type: 'BEGIN_SAMPLE_DRAG';  laneIndex: number }
+  | { type: 'BEGIN_SAMPLE_DRAG';  laneIndex: number; clone?: boolean }
+  | { type: 'UPDATE_SAMPLE_DRAG'; laneIndex: number }
   | { type: 'END_SAMPLE_DRAG' }
   | { type: 'MOVE_SAMPLE';        from: number; to: number }
   | { type: 'CLONE_SAMPLE_TO_LANE'; from: number; to: number }
@@ -231,6 +236,23 @@ function selectFragment(state: GelState, lane: number, index: number | null): Ge
 }
 
 export function gelReducer(state: GelState, action: Action): GelState {
+  const next = reduceGelState(state, action);
+  const drag = next.drag;
+  if (drag?.type !== 'sample' || action.type === 'BEGIN_SAMPLE_DRAG' || action.type === 'UPDATE_SAMPLE_DRAG') return next;
+  // Native keeps a mutable SampleRef and shared selection during the gesture.
+  // Refresh the retained payload when React edits replace that sample immutably.
+  const sample = drag.laneIndex < 0 ? null : next.samples[drag.laneIndex];
+  return { ...next, drag: { ...drag,
+    sample: sample ?? drag.sample,
+    fragmentIndex: sample && next.lastSampleLane === drag.laneIndex ? next.selectedFragmentIndex : drag.fragmentIndex,
+    rolloverIndex: sample ? (next.rollover?.lane === drag.laneIndex ? next.rollover.fragmentIndex : null) : drag.rolloverIndex,
+    sourceSelection: drag.sourceSelection
+      ? (next.selection?.lane === drag.sourceSelection.lane && next.selection.fragmentIndex !== null ? next.selection : null)
+      : null,
+  } };
+}
+
+function reduceGelState(state: GelState, action: Action): GelState {
   switch (action.type) {
     case 'SET_VOLTAGE':
       return { ...state, ctx: { ...state.ctx, voltage: action.value } };
@@ -378,7 +400,7 @@ export function gelReducer(state: GelState, action: Action): GelState {
         : state.selectedFragmentIndex === action.index ? null
         : state.selectedFragmentIndex === last ? action.index : state.selectedFragmentIndex;
       return { ...state, samples, selectedFragmentIndex, selection: remap(state.selection),
-        rollover: remap(state.rollover), drag: null,
+        rollover: remap(state.rollover), drag: state.drag?.type === 'sample' ? state.drag : null,
         inspectorMode: selectedFragmentIndex === null && state.inspectorMode === 'fragment' ? 'default' : state.inspectorMode };
     }
     case 'BEGIN_DRAG': {
@@ -405,25 +427,52 @@ export function gelReducer(state: GelState, action: Action): GelState {
     }
     case 'END_DRAG':
       return { ...state, drag: null };
-    case 'BEGIN_SAMPLE_DRAG':
-      return { ...state, drag: { type: 'sample', laneIndex: action.laneIndex } };
+    case 'BEGIN_SAMPLE_DRAG': {
+      const lane = action.laneIndex;
+      if (lane < 0 || lane >= state.numLanes) return state;
+      const opened = gelReducer(state, { type: 'SET_SELECTED_LANE', laneIndex: lane });
+      const sample = opened.samples[lane]!;
+      const index = state.selection?.lane === lane ? state.selection.fragmentIndex : null;
+      const selected = selectFragment(opened, lane, index);
+      const clone = action.clone && state.samples[lane] !== null;
+      return { ...selected, drag: { type: 'sample', laneIndex: clone ? -1 : lane,
+        sample: clone ? { ...sample, buffer: { ...sample.buffer }, fragments: sample.fragments.map(f =>
+          ({ ...f, color: [...f.color], aggregate: [...f.aggregate] })) } : sample,
+        fragmentIndex: clone ? null : index,
+        sourceSelection: clone && index !== null ? { lane, fragmentIndex: index } : null,
+        rolloverIndex: !clone && state.rollover?.lane === lane ? state.rollover.fragmentIndex : null,
+      } };
+    }
+    case 'UPDATE_SAMPLE_DRAG': {
+      const drag = state.drag;
+      if (drag?.type !== 'sample') return state;
+      const target = action.laneIndex >= 0 && action.laneIndex < state.numLanes ? action.laneIndex : -1;
+      if (target === drag.laneIndex) return state;
+      const samples = state.samples.slice();
+      if (drag.laneIndex !== -1) samples[drag.laneIndex] = null;
+      const lane = target !== -1 && samples[target] === null ? target : -1;
+      if (lane !== -1) samples[lane] = drag.sample;
+      const nextDrag = { ...drag, laneIndex: lane };
+      let next: GelState = { ...state, samples, drag: nextDrag, selection: null,
+        selectedFragmentIndex: null, lastSampleLane: null, inspectorMode: 'default',
+        rollover: state.rollover?.lane === drag.laneIndex ? null : state.rollover };
+      if (lane !== -1) {
+        next = selectFragment(next, lane, drag.fragmentIndex);
+        if (drag.rolloverIndex !== null) next.rollover = { lane, fragmentIndex: drag.rolloverIndex };
+      }
+      // Native shared selection still points at the original when Alt creates a clone.
+      if (drag.sourceSelection) next = selectFragment(next, drag.sourceSelection.lane, drag.sourceSelection.fragmentIndex);
+      return next;
+    }
     case 'END_SAMPLE_DRAG':
       return { ...state, drag: null };
-    case 'MOVE_SAMPLE': {
-      if (action.from === action.to) return state;
-      const samples = state.samples.slice();
-      const tmp = samples[action.from];
-      samples[action.from] = samples[action.to];
-      samples[action.to] = tmp;
-      return { ...state, samples, selectedLane: action.to, drag: null };
-    }
+    case 'MOVE_SAMPLE':
     case 'CLONE_SAMPLE_TO_LANE': {
-      if (action.from === action.to) return state;
-      const src = state.samples[action.from];
-      if (!src) return state;
-      const samples = state.samples.slice();
-      samples[action.to] = { ...src, fragments: src.fragments.map((f) => ({ ...f })) };
-      return { ...state, samples, selectedLane: action.to, drag: null };
+      if (action.from === action.to || !state.samples[action.from]) return state;
+      const begun = gelReducer(state, { type: 'BEGIN_SAMPLE_DRAG', laneIndex: action.from,
+        clone: action.type === 'CLONE_SAMPLE_TO_LANE' });
+      const moved = gelReducer(begun, { type: 'UPDATE_SAMPLE_DRAG', laneIndex: action.to });
+      return gelReducer(moved, { type: 'END_SAMPLE_DRAG' });
     }
     case 'CLONE_FRAGMENT': {
       const sample = state.samples[action.laneIndex];

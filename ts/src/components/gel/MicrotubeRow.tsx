@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useRef } from 'react';
+import { sampleKeyAction } from '../../lib/gel/sampleKeyboard';
 import { useGelState, useGelDispatch } from './GelContext';
 import { resolveAssetUrl, dprFallbackOnError } from '../../lib/layout/assets';
 import styles from './MicrotubeRow.module.css';
@@ -13,53 +14,54 @@ export function MicrotubeRow() {
   const dispatch = useGelDispatch();
   const rowRef = useRef<HTMLDivElement>(null);
 
-  const laneAtClientX = useCallback((clientX: number): number => {
-    if (!rowRef.current) return state.selectedLane;
-    const rect = rowRef.current.getBoundingClientRect();
-    const x = (clientX - rect.left) / rect.width;
-    const idx = Math.floor(x * state.numLanes);
-    return Math.max(0, Math.min(state.numLanes - 1, idx));
-  }, [state.numLanes, state.selectedLane]);
+  const pointer = useRef<{ id: number; lane: number; x: number; y: number; selected: boolean } | null>(null);
 
-  const onPointerUp = useCallback((e: PointerEvent) => {
-    if (!state.drag || state.drag.type !== 'sample') return;
-    const targetLane = laneAtClientX(e.clientX);
-    if (targetLane === state.drag.laneIndex) {
-      dispatch({ type: 'END_SAMPLE_DRAG' });
-      return;
-    }
-    if (e.altKey) {
-      dispatch({ type: 'CLONE_SAMPLE_TO_LANE', from: state.drag.laneIndex, to: targetLane });
-    } else {
-      dispatch({ type: 'MOVE_SAMPLE', from: state.drag.laneIndex, to: targetLane });
-    }
-  }, [state.drag, laneAtClientX, dispatch]);
-
-  useEffect(() => {
-    if (!state.drag || state.drag.type !== 'sample') return;
-    window.addEventListener('pointerup', onPointerUp);
-    return () => { window.removeEventListener('pointerup', onPointerUp); };
-  }, [state.drag, onPointerUp]);
-
-  function onTubePointerDown(laneIndex: number, e: React.PointerEvent<HTMLButtonElement>) {
-    if (state.samples[laneIndex] === null) {
-      dispatch({ type: 'SET_SELECTED_LANE', laneIndex });
-      return;
-    }
-    e.preventDefault();
-    dispatch({ type: 'BEGIN_SAMPLE_DRAG', laneIndex });
+  function laneAtPoint(x: number, y: number): number {
+    const rect = rowRef.current?.getBoundingClientRect();
+    if (!rect || y < rect.top || y > rect.bottom || x < rect.left || x >= rect.right) return -1;
+    const width = rect.width / state.numLanes;
+    const lane = Math.floor((x - rect.left) / width);
+    const center = rect.left + width * (lane + .5);
+    return Math.abs(x - center) <= Math.min(20, width * .4) ? lane : -1;
   }
 
-  function onTubeClick(laneIndex: number) {
-    dispatch({ type: 'SET_SELECTED_LANE', laneIndex });
+  function onTubePointerDown(laneIndex: number, e: React.PointerEvent<HTMLButtonElement>) {
+    if (e.button !== 0 || pointer.current) return;
+    e.preventDefault();
+    pointer.current = { id: e.pointerId, lane: laneIndex, x: e.clientX, y: e.clientY,
+      selected: state.lastSampleLane === laneIndex };
+    rowRef.current?.setPointerCapture(e.pointerId);
+    rowRef.current?.focus({ preventScroll: true });
+    dispatch({ type: 'BEGIN_SAMPLE_DRAG', laneIndex, clone: e.altKey });
+  }
+
+  function endPointer(e: React.PointerEvent<HTMLDivElement>, cancel = false) {
+    const down = pointer.current;
+    if (!down || down.id !== e.pointerId) return;
+    pointer.current = null;
+    dispatch({ type: 'END_SAMPLE_DRAG' });
+    if (!cancel && down.selected && state.lastSampleLane === down.lane &&
+        Math.hypot(e.clientX - down.x, e.clientY - down.y) < 3) dispatch({ type: 'CLOSE_SAMPLE' });
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
   }
 
   return (
-    <div className={styles.row} ref={rowRef} data-testid="microtube-row">
+    <div className={styles.row} ref={rowRef} data-testid="microtube-row" tabIndex={-1}
+      style={{ outline: 'none', touchAction: 'none' }}
+      onPointerMove={e => {
+        if (pointer.current?.id === e.pointerId) dispatch({ type: 'UPDATE_SAMPLE_DRAG', laneIndex: laneAtPoint(e.clientX, e.clientY) });
+      }}
+      onPointerUp={e => endPointer(e)}
+      onPointerCancel={e => endPointer(e, true)}
+      onLostPointerCapture={e => endPointer(e, true)}
+      onKeyDown={e => {
+        const action = sampleKeyAction(e.key, e.shiftKey, state);
+        if (action) { e.preventDefault(); dispatch(action); }
+      }}
+    >
       {Array.from({ length: state.numLanes }, (_, i) => {
-        const isSelected = state.lastSampleLane !== null && state.selectedLane === i;
+        const isSelected = state.lastSampleLane === i;
         const hasSample  = state.samples[i] !== null;
-        const dragging   = state.drag?.type === 'sample' && state.drag.laneIndex === i;
         return (
           <div
             className={styles.cell}
@@ -76,9 +78,13 @@ export function MicrotubeRow() {
               data-lane-index={i}
               data-selected={isSelected || undefined}
               data-empty={!hasSample || undefined}
-              data-dragging={dragging || undefined}
               onPointerDown={(e) => onTubePointerDown(i, e)}
-              onClick={() => onTubeClick(i)}
+              style={{ width: Math.min(40, state.gelSize.width / state.numLanes * .8) }}
+              onClick={e => {
+                // Browser keyboard activation has no pointer sequence.
+                if (e.detail === 0) dispatch(state.lastSampleLane === i
+                  ? { type: 'CLOSE_SAMPLE' } : { type: 'SET_SELECTED_LANE', laneIndex: i });
+              }}
             >
               {hasSample && <img
                 src={resolveAssetUrl('/assets/microtube1500ul.png')}
