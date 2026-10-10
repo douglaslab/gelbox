@@ -36,3 +36,24 @@ test('aggregate cancellation prevents further painting until a new down',async({
  await page.mouse.move(r.x+r.width*4.5/7,r.y+r.height*.35);await page.mouse.up();
  expect(await weights(page)).toEqual([.5,0,0,0,0,0,0]);
 });
+
+for(const imported of [[0,1],[.0001,1],[1,.2,.3,.4,.5,.6,.7,.8,.9],[]])
+test(`aggregate inspector preserves imported distribution ${JSON.stringify(imported)}`,async({page})=>{
+ const document=JSON.parse(await readFile('../reference/native/files/ladder-after-selection.gel.json','utf8'));
+ document.Gel.Samples[0].Fragments=document.Gel.Samples[0].Fragments.slice(0,1);
+ document.Gel.Samples[0].Fragments[0].Aggregate=imported;
+ document.Gel.Samples[0].Fragments[0].Bases=1000;
+ await page.getByTestId('file-input').setInputFiles({name:'aggregate.gel.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(document))});
+ await page.getByTestId('band-0').click();await page.mouse.move(0,0);
+ const columns=page.locator('[data-testid^="frag-aggregate-col-"]');
+ await expect(columns).toHaveCount(Math.max(7,imported.length));
+ // Merely opening the inspector must not rewrite the source array.
+ // Native JSON omits the Aggregate field when its vector is empty.
+ expect(await weights(page)).toEqual(imported.length?imported:undefined);
+ const graph=page.getByTestId('frag-aggregate-col-0').locator('..'),r=(await graph.boundingBox())!;
+ const expected=imported.length?[...imported]:[1];
+ while(expected.length<7)expected.push(0);
+ await page.mouse.click(r.x+r.width*2.5/expected.length,r.y+r.height/2);
+ expected[2]=.5;
+ expect(await weights(page)).toEqual(expected);
+});

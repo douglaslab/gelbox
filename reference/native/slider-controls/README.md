@@ -83,5 +83,9 @@ across multiple columns, using both endpoint icons, and cancelling before furthe
 motion. All six backend/scenario combinations failed before correction and pass
 afterward. This does not certify native graph raster/layout or all input cases.
 Native's getter pads short distributions without changing existing weights and
-retains longer ones; the web inspector's separate padding/conversion discrepancy
-is recorded in STATUS for the next correction.
+retains longer ones. The inspector now follows this padding-only conversion,
+including zero and sub-0.001 first weights and arrays longer than seven. Empty
+arrays display a monomer default; opening the inspector does not rewrite the
+document. Sample.cpp::toJson omits an empty Aggregate vector, which the web
+serializer already matches. Four additional import/edit/save cases per backend
+verify these boundaries against downloaded native-format JSON.

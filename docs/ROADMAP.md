@@ -250,3 +250,11 @@ Six JSON-validating browser regressions pass, with 303 passing full-suite cases
 (one intentional duplicate skipped) and a passing build. Next: preserve short
 zero-leading and longer-than-seven imported distributions in the inspector, then
 finish graph/control visual comparison. Native GUI and P5 gates remain open.
+
+
+Aggregate import update: inspector padding now preserves zero/sub-0.001 weights
+and distributions longer than seven entries; empty-array default display and
+native empty-field export remain intact. Eight new import/edit/save checks bring
+the passing browser suite to 311 (one intentional duplicate skipped); production
+build passes. The recorded conversion defect is closed. Remaining control visual,
+composed native workflow and P5 release gates remain open.

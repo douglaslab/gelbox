@@ -210,10 +210,9 @@ export function FragmentView() {
 }
 
 function aggregateToColumns(agg: readonly number[], n: number): number[] {
-  const out = new Array<number>(n).fill(0);
-  out[0] = agg.length > 0 ? Math.max(0.001, agg[0]) : 1;
-  for (let i = 1; i < n; i++) {
-    out[i] = i < agg.length ? agg[i] : 0;
-  }
+  // Native pads to the minimum number of columns without changing existing
+  // weights or truncating longer imported distributions. Empty means monomer.
+  const out = agg.length ? [...agg] : [1];
+  while(out.length<n)out.push(0);
   return out;
 }

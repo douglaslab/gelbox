@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 303 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 311 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -643,3 +643,23 @@ inspector import defect: aggregateToColumns clamps a zero first weight to 0.001
 and truncates distributions longer than seven columns, unlike native's padding-only
 getter. Correct and verify that preservation boundary next. All broader native
 visual/workflow and P5 release gates remain open.
+
+
+## Imported aggregate distribution preservation
+
+The inspector now pads short aggregate arrays without raising zero or very small
+first weights and retains arrays longer than seven columns. Empty arrays still
+display native's monomer default. Opening the inspector alone leaves the document
+unchanged; editing writes the padded/current vector. Native-format export continues
+to omit an empty Aggregate field, matching Sample.cpp's writer.
+
+Four new import/edit/save cases per backend check zero-leading, sub-0.001,
+nine-entry and empty distributions. The six nonempty backend/case combinations
+failed before the conversion correction; the empty cases verify existing default
+and export behavior. All check actual downloaded sample JSON before and after an
+edit. Fresh verification: **311 browser tests passed, one intentional duplicate
+skipped; production build and TypeScript checks passed**. No goldens changed; the
+previous unchanged-model unit baseline remains 2,845 passed. This closes the
+inspector conversion defect recorded above, not full native GUI/file certification.
+Next: remaining control layout/raster and typography, composed native workflows,
+and P5 lifecycle/platform/release validation.
