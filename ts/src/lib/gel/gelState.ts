@@ -1,9 +1,11 @@
+import { solveBasesForY } from '../sim/solver';
+import { GEL_SIM_TUNING } from '../../data/tuning';
 import type { Sample, Fragment } from '../sim/sample';
 import type { SimContext } from '../sim/gelSim';
 import type { Rect } from '../sim/band';
 import type { Buffer } from '../sim/buffer';
 import { BUFFER_TBE, BUFFER_TAE, BUFFER_H2O } from '../sim/buffer';
-import { DYE_COLORS } from '../sim/dye';
+import { DYE_COLORS, DYE_MAX_MASS, DYE_BP_LO } from '../sim/dye';
 import type { SampleFragRef } from './sampleFragRef';
 import { sampleFragRefEq } from './sampleFragRef';
 import ladder from '../../../fixtures/states/ladder-1kb.json';
@@ -26,6 +28,7 @@ export interface BandDrag {
   referenceY:    number;
   aggregate:     number;
   startBases:    number;
+  temporaryLane: number | null;
 }
 export interface SampleDrag {
   type:      'sample';
@@ -88,6 +91,7 @@ export type Action =
   | { type: 'SELECT_NEXT' }
   | { type: 'SELECT_PREV' }
   | { type: 'BEGIN_DRAG';         laneIndex: number; fragmentIndex: number; startY: number; referenceY?: number; aggregate?: number }
+  | { type: 'UPDATE_BAND_DRAG'; x: number; y: number; shift: boolean }
   | { type: 'END_DRAG' }
   | { type: 'BEGIN_SAMPLE_DRAG';  laneIndex: number; clone?: boolean }
   | { type: 'UPDATE_SAMPLE_DRAG'; laneIndex: number }
@@ -419,8 +423,10 @@ function reduceGelState(state: GelState, action: Action): GelState {
           startY: action.startY,
           referenceY: action.referenceY ?? action.startY,
           aggregate: action.aggregate ?? 1,
-          startBases: frag.bases,
+          startBases: frag.dye >= 0 ? DYE_BP_LO[frag.dye] : frag.bases,
+          temporaryLane: null,
         },
+        ctx: { ...state.ctx, sampleBuffer: sample.buffer },
         selectedLane: action.laneIndex,
         selectedFragmentIndex: action.fragmentIndex,
         lastSampleLane: action.laneIndex,
@@ -429,8 +435,74 @@ function reduceGelState(state: GelState, action: Action): GelState {
         inspectorMode: frag.dye >= 0 ? 'sample-settings' : 'fragment',
       };
     }
-    case 'END_DRAG':
-      return { ...state, drag: null };
+    case 'UPDATE_BAND_DRAG': {
+      const drag = state.drag;
+      if (drag?.type !== 'band') return state;
+      const sample = state.samples[drag.laneIndex];
+      const frag = sample?.fragments[drag.fragmentIndex];
+      if (!sample || !frag) return { ...state, drag: null };
+      const bases = action.shift ? drag.startBases : frag.dye >= 0 ? frag.bases
+        : clamp(solveBasesForY({ targetY: action.y + drag.referenceY - drag.startY,
+            aggregate: drag.aggregate, frag, lane: drag.laneIndex,
+            ctx: { ...state.ctx, sampleBuffer: sample.buffer }, wellRect: state.wellRects[drag.laneIndex] }),
+          1, GEL_SIM_TUNING.baseCountHigh);
+      const moved = { ...frag, bases };
+      const samples = state.samples.slice();
+      let lane = drag.laneIndex, index = drag.fragmentIndex, temporaryLane = drag.temporaryLane;
+      // Native uses the well width for lane picking, with full-height gutters.
+      const target = Math.min(state.numLanes - 1, Math.floor(action.x / state.gelSize.width * state.numLanes));
+      const well = state.wellRects[target];
+      const inside = action.y >= 0 && action.y <= state.gelSize.height && well
+        && action.x >= well.x1 && action.x <= well.x2;
+      if (inside && target !== lane) {
+        if (temporaryLane === lane) samples[lane] = null;
+        else {
+          const fragments = sample.fragments.slice();
+          fragments[index] = fragments[fragments.length - 1];
+          fragments.pop();
+          samples[lane] = { ...sample, fragments };
+        }
+        temporaryLane = samples[target] ? null : target;
+        const destination = samples[target] ?? { buffer: { ...BUFFER_TBE }, fragments: [] };
+        index = destination.fragments.length;
+        samples[target] = { ...destination, fragments: [...destination.fragments, moved] };
+        lane = target;
+      } else {
+        const fragments = sample.fragments.slice();
+        fragments[index] = moved;
+        samples[lane] = { ...sample, fragments };
+      }
+      const next = { ...state, samples,
+        drag: { ...drag, laneIndex: lane, fragmentIndex: index, temporaryLane } };
+      return lane === drag.laneIndex ? next : selectFragment({ ...next, rollover: null }, lane, index);
+    }
+    case 'END_DRAG': {
+      const drag = state.drag;
+      if (drag?.type !== 'band') return { ...state, drag: null };
+      const sample = state.samples[drag.laneIndex];
+      if (!sample) return { ...state, drag: null };
+      // Sample::mergeDuplicateDyes keeps the earliest entry and its metadata.
+      const fragments: Fragment[] = [];
+      const dyes = new Map<number, number>();
+      for (const frag of sample.fragments) {
+        if (frag.dye < 0) { fragments.push(frag); continue; }
+        const first = dyes.get(frag.dye);
+        if (first === undefined) {
+          dyes.set(frag.dye, fragments.length);
+          fragments.push({ ...frag, mass: Math.fround(frag.mass) });
+        } else fragments[first] = { ...fragments[first], mass: Math.fround(fragments[first].mass + Math.fround(frag.mass)) };
+      }
+      for (const i of dyes.values()) fragments[i] = { ...fragments[i], mass: Math.min(DYE_MAX_MASS, fragments[i].mass) };
+      const samples = state.samples.slice();
+      samples[drag.laneIndex] = { ...sample, fragments };
+      const next = { ...state, samples, drag: null };
+      // Native retains indices; a culled trailing dye no longer has valid focus.
+      if (state.selectedLane === drag.laneIndex && state.selectedFragmentIndex !== null
+        && !fragments[state.selectedFragmentIndex]) {
+        return { ...next, selectedFragmentIndex: null, selection: null, rollover: null };
+      }
+      return next;
+    }
     case 'BEGIN_SAMPLE_DRAG': {
       const lane = action.laneIndex;
       if (lane < 0 || lane >= state.numLanes) return state;

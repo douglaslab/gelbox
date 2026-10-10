@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef } from 'react';
 import type { Band } from '../../lib/sim/band';
 import { useGelState, useGelDispatch } from './GelContext';
 import { solveBasesForY } from '../../lib/sim/solver';
-import { GEL_SIM_TUNING } from '../../data/tuning';
 import { BUFFER_TBE } from '../../lib/sim/buffer';
 import { LAYOUT } from '../../lib/layout/layout';
 import type { BandLaneFragment } from '../../lib/sim/sampleFromGel';
@@ -48,38 +47,12 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
 
   const onPointerMove = useCallback((e: PointerEvent) => {
     if (!state.drag || state.drag.type !== 'band' || !svgRef.current) return;
-    if (e.shiftKey) {
-      dispatch({
-        type: 'SET_FRAGMENT_BASES',
-        laneIndex: state.drag.laneIndex,
-        index: state.drag.fragmentIndex,
-        bases: state.drag.startBases,
-      });
-      return;
-    }
     const rect = svgRef.current.getBoundingClientRect();
-    const y = ((e.clientY - rect.top) / rect.height) * state.gelSize.height;
-    const sample = state.samples[state.drag.laneIndex];
-    if (!sample) return;
-    const frag = sample.fragments[state.drag.fragmentIndex];
-    if (!frag) return;
-    const newBases = solveBasesForY({
-      targetY: y + state.drag.referenceY - state.drag.startY,
-      aggregate: state.drag.aggregate,
-      frag,
-      lane:    state.drag.laneIndex,
-      ctx:     { ...state.ctx, sampleBuffer: sample.buffer },
-      wellRect: state.wellRects[state.drag.laneIndex],
-    });
-    if (newBases !== frag.bases) {
-      dispatch({
-        type: 'SET_FRAGMENT_BASES',
-        laneIndex: state.drag.laneIndex,
-        index: state.drag.fragmentIndex,
-        bases: Math.max(1, Math.min(GEL_SIM_TUNING.baseCountHigh, newBases)),
-      });
-    }
-  }, [state.drag, state.modifiers.shift, state.samples, state.ctx, state.wellRects, state.gelSize.height, dispatch]);
+    dispatch({ type: 'UPDATE_BAND_DRAG',
+      x: ((e.clientX - rect.left) / rect.width) * state.gelSize.width,
+      y: ((e.clientY - rect.top) / rect.height) * state.gelSize.height,
+      shift: e.shiftKey });
+  }, [state.drag, state.gelSize, dispatch]);
 
   const onPointerUp = useCallback(() => {
     if (state.drag && state.drag.type === 'band') dispatch({ type: 'END_DRAG' });
@@ -89,9 +62,11 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
     if (!state.drag || state.drag.type !== 'band') return;
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
     return () => {
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
     };
   }, [state.drag, onPointerMove, onPointerUp]);
 
@@ -111,10 +86,10 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
       dispatch({ type: 'ADD_LOUPE', anchor, screen: { x: e.clientX, y: e.clientY } });
       return;
     }
-    const source = state.samples[lane]!.fragments[fragment];
-    if (source.dye >= 0) {
-      dispatch({ type: 'SET_SELECTED', laneIndex: lane, index: fragment });
-      return;
+    try { svgRef.current?.setPointerCapture(e.pointerId); }
+    catch (error) {
+      // The pointer may already be inactive; window listeners still end the drag.
+      if (!(error instanceof DOMException) || error.name !== 'NotFoundError') throw error;
     }
     if (e.altKey) {
       dispatch({ type: 'CLONE_FRAGMENT', laneIndex: lane, sourceIndex: fragment, color: randomFragmentColor() });
@@ -148,6 +123,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
       data-testid="gel-overlay"
       tabIndex={0}
       onKeyDown={onKeyDown}
+      onLostPointerCapture={onPointerUp}
       onContextMenu={e => {
         e.preventDefault();
         const rect = e.currentTarget.getBoundingClientRect();
