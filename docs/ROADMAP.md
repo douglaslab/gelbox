@@ -312,3 +312,11 @@ Buffer text's half-pixel baseline error is corrected; regular slider baselines
 already match. Full suite: 341 passed, one intentional duplicate skipped; build
 passes. Native text raster weight and horizontal text snapping remain unresolved,
 alongside full visual/workflow and P5 gates.
+
+
+Font smoothing update: remove the dev shell's forced antialiased mode from the
+parity workspace. CoreGraphics probes and browser captures explain the weight
+difference without substituting faces; four existing font checks cover the fix.
+Full browser suite remains 341 passed, one intentional duplicate skipped; build
+passes. Native atlas coverage and per-glyph snapping still require comparison;
+full visual/workflow and P5 release gates remain open.

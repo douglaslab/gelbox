@@ -783,3 +783,23 @@ skipped; production build and TypeScript checks passed**. Reviewed after-capture
 no goldens changed. Unchanged model unit baseline remains 2,845. Native text raster,
 horizontal text snapping, graph/buffer stroke raster, complete composed workflow
 replay and P5 release gates remain open.
+
+
+## Native font smoothing
+
+The remaining text-weight investigation found that the dev shell's forced
+antialiased mode disabled native-like font smoothing in the parity workspace.
+The workspace now uses auto smoothing without changing faces, sizes or weights.
+Controlled CoreGraphics probes demonstrate distinct coverage for the same
+Avenir-Medium face with smoothing off/on and black/white atlas drawing. Browser
+auto and subpixel-antialiased outputs were identical in the captured experiment;
+the former override was visibly thinner. See the
+[smoothing investigation](../reference/native/fonts/smoothing/README.md).
+
+Four existing backend/DPR font checks now assert effective smoothing; they failed
+before correction. Fresh full verification: **341 browser tests passed, one
+intentional duplicate skipped; production build and TypeScript checks passed**.
+Reviewed equal-scale after capture; no golden updates. Unit baseline remains 2,845.
+This resolves the forced grayscale rendering difference, not every glyph's native
+raster: color-dependent atlas coverage, per-glyph snapping, platform fonts, full
+native workflow replay and P5 release checks remain open.

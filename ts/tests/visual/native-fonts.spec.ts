@@ -22,7 +22,7 @@ for(const scale of [1,2])test.describe(`native fonts at ${scale}x`,()=>{
     const range=document.createRange();range.selectNodeContents(node);
     node.parentElement!.setAttribute('data-font-probe','current');
     const style=getComputedStyle(node.parentElement!);
-    return {width:range.getBoundingClientRect().width,adjust:style.fontSizeAdjust,font:style.font};
+    return {width:range.getBoundingClientRect().width,adjust:style.fontSizeAdjust,smoothing:style.getPropertyValue('-webkit-font-smoothing'),font:style.font};
    }
    throw new Error('Text node missing');
   },text);
@@ -35,6 +35,7 @@ for(const scale of [1,2])test.describe(`native fonts at ${scale}x`,()=>{
  await info.attach('font-metrics',{body:JSON.stringify(results,null,2),contentType:'application/json'});
  for(const result of results){
   expect(result.metrics.adjust).toBe('none');
+  expect(result.metrics.smoothing).toBe('auto');
   expect(result.metrics.width).toBeCloseTo(result.expected.width,1);
   expect(result.fonts.fonts.some(font=>font.postScriptName===result.expected.face&&font.glyphCount>0)).toBe(true);
  }

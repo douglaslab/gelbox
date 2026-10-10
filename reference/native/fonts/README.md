@@ -46,3 +46,10 @@ correct face selection and advances do not establish native text raster parity.
 Regular slider baselines match the source; buffer baselines required a half-pixel
 correction. Native release text remains heavier in equal-scale captures. Preserve
 this distinction when evaluating font substitutions or visual tolerances.
+
+
+The [smoothing investigation](smoothing/README.md) identifies a source of the
+remaining weight mismatch: the web root forced antialiased mode. Native-workspace
+auto smoothing restores heavier coverage while preserving the same faces and
+advances. CoreGraphics atlas color and per-glyph snapping still differ from DOM
+text, so this correction does not imply full glyph raster equivalence.

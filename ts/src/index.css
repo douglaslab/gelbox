@@ -45,6 +45,9 @@ body {
 
 /* The parity workspace has a fixed native palette, independent of dev theme. */
 .native-workspace {
+  /* Native CoreGraphics text uses smoothing; don't inherit the dev shell override. */
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
   --color-ink: #1f2933;
   --color-ink-muted: #5a6573;
   --color-surface: #ffffff;
