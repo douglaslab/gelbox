@@ -1,0 +1,28 @@
+{
+  "base": "b5288ba",
+  "sha256": {
+    "ts/src/lib/gel/nativeUiText.ts": "f5bd86d8ded98348d99b6c7a649d5e22b68d5450ee8019f590fed88d96c9dad1",
+    "ts/src/lib/layout/nativeUiFont.json": "67592db915085faa5ffbee9696866658a6ff5d285124d6f091ef3d1af0e109c0",
+    "ts/tests/unit/nativeUiText.test.ts": "22770384c66932f23a020834131d9e62201bc94ecd739a232d884f45ef24acb3",
+    "ts/tests/visual/native-ui-text.spec.ts": "c6daadde396bf36e7e52cbb594d4547c474c1e7938915c2f1ddcfdc01d5195f3",
+    "reference/native/modern/ui-text/manifest.json": "7524961f1fefb81f1f554aef3cf1b9c6f80dcf6d3e30ebd27f15bb7cebcdb5c4",
+    "reference/native/modern/ui-text/capture.py": "ce55461e3212e80ce564da5c4f196c45487571a82659f1cffa0487e0248ee258"
+  },
+  "exactNativeComparisons": 8,
+  "verification": {
+    "unitTests": 2920,
+    "browserTests": 721,
+    "intentionalSkips": 1,
+    "productionTests": 4,
+    "build": "passed",
+    "independentNativeStringLayouts": 2048,
+    "nativeRepeatedScenes": 4,
+    "nativeRepeatedAtlases": 2
+  },
+  "limits": [
+    "Printable ASCII single-line native numeric UI text, not general Unicode shaping.",
+    "Reusable font foundation; no Slider component integration in this increment.",
+    "Modern pinned Cinder/macOS, not original-release full GUI certification.",
+    "Shared composition remains development-only."
+  ]
+}

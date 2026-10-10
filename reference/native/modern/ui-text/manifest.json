@@ -1,0 +1,53 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "layoutSha256": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+  "appSha256": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+  "cinderSources": {
+    "src/cinder/gl/TextureFont.cpp": "16475206151425243935cb2eb5d293118f9d98996f824b2d2c0ffca14d538082",
+    "src/cinder/Text.cpp": "1a6a5e015e2660cb4f3b55f3e96e8bca11d0db17592929c35989a554a2e31e00",
+    "src/cinder/cocoa/CinderCocoa.mm": "bbb68b63f01ca5222c5dfef5a4f526438eca0649c642113998e73beb77fe09bb",
+    "include/cinder/gl/TextureFont.h": "89767240b9cb30250cc3236abcaa714bf224ad76e8e2deea827dc994c011da77"
+  },
+  "inputs": {
+    "driver.cpp": "b7f08a84f20ed61e871ac050eff7d03418072a1b61ec72b23a8a359ebd1e0ee9",
+    "capture.py": "ce55461e3212e80ce564da5c4f196c45487571a82659f1cffa0487e0248ee258",
+    "metrics.json": "67592db915085faa5ffbee9696866658a6ff5d285124d6f091ef3d1af0e109c0",
+    "oracle.json": "833e79e5f46b8436d27292ac6de0db34f30e9e3e2737d8f619a159f73af9a1da",
+    "labels.json": "6da1b7bfa7500ec25499bde9f297fbe059f3aee03f0f44478f9f0b6ba3907d9c"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "files": [
+    {
+      "file": "atlas-1-0.png",
+      "sha256": "9916d927ea1630f004466217d602e843667aa7d08bad2d223e6b460fd8c196b3"
+    },
+    {
+      "file": "front-1.png",
+      "sha256": "d1297acfe2b9c342c5734993b10dafba3274077d050616184e10378d6dffe385"
+    },
+    {
+      "file": "behind-1.png",
+      "sha256": "cd2e6fe09534c7e292956b2f74b5c40d24f0d44db9d3e9937d7112c77a366c6a"
+    },
+    {
+      "file": "atlas-2-0.png",
+      "sha256": "d78f5663c95531ccce3f90b2f5aab210fa79cd006de7861de5070f6ac4784297"
+    },
+    {
+      "file": "front-2.png",
+      "sha256": "b9ac387d34990d0776f781be9ab83acaac6d6e476ea044a83aa539ace856a34a"
+    },
+    {
+      "file": "behind-2.png",
+      "sha256": "7c59fe3043cee955d142a57d58c75a8c448160e0388d3b2ccc9f83d4f015c592"
+    }
+  ],
+  "limits": [
+    "Actual Cinder TextureFont created exactly as GelboxApp UIFont; printable ASCII character/pair metrics captured through matching CoreText attributes.",
+    "Independent actual TextureFont::measureString/getGlyphPlacements oracle for 23 representative labels and 1000 seeded ASCII strings per scale.",
+    "Atlas canonical RGBA reconstructs sampled native RG swizzle; one linear-filtered level, straight alpha.",
+    "Modern Cinder/macOS, raw RGBA8 MSAA4; no complete Slider draw or original-release GUI certification."
+  ]
+}

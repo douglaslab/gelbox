@@ -162,8 +162,13 @@ now use captured native text extents and ordered line paint. Twenty-four exact
 comparisons cover DPR1/2 and later/earlier translucent views; real panel switches
 and imported-image covering/removal verify integration. Native integer texture
 size division is preserved, including the 2x heading width and subhead height.
-Buffer child labels, dynamic slider values, menus and remaining control paint
-stay open.
+The dynamic UIFont foundation now uses the native Avenir Medium12/24 atlas,
+CoreText advances/kerning and Cinder local pixel snapping. All 2,048 independent
+string measurements/placements match; eight exact RGB comparisons cover
+fractional translation, alpha tint and earlier/later translucent geometry on
+both backends at DPR1/2. This is single-line printable ASCII for native numeric
+values, not a general Unicode shaper. Slider integration, Buffer child labels,
+menus and remaining control paint stay open.
 
 
 
