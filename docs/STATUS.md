@@ -1215,3 +1215,16 @@ comparison and a justified release performance budget remain required.
 **Final build/type checks and both measurement cases passed.** Product code is
 unchanged; no full regression rerun was needed. These are baseline measurements,
 not an invented FPS acceptance threshold or a closed performance/release gate.
+
+## Startup band texture-format investigation
+
+A controlled [texture-format experiment](../reference/native/modern/lossless-probe/texture-format/README.md)
+compared the retained lossless modern native startup with current web rendering
+and a linear-RGBA8 treatment. Source defaults show native linear RGBA8 versus
+web sRGB targets. Four browser captures passed twice. Both backends produced
+identical measurements: linear storage reduced absolute RGB difference in the
+fixed band crop from 303,975 to 300,963 (about 0.99%); maximum channel error
+fell from 19 to 18. Most of the mismatch remains. Product rendering and goldens
+are unchanged. Next diagnostic: compare offscreen gel outputs before final
+window scaling and verify native runtime texture formats. This is evidence
+for narrowing the investigation, not native raster certification.

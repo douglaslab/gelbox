@@ -1,0 +1,34 @@
+{
+  "cropPhysicalPixels": [
+    430,
+    310,
+    520,
+    1230
+  ],
+  "results": {
+    "webgpu-srgb": {
+      "differentPixels": 23645,
+      "absoluteRgbDifferenceSum": 303975,
+      "maximumChannelDifference": 19,
+      "captureSha256": "503dc25dbd8414b0b18ec170fa27188280b9b4cf989b142be498bcee42257d71"
+    },
+    "webgpu-linear": {
+      "differentPixels": 23134,
+      "absoluteRgbDifferenceSum": 300963,
+      "maximumChannelDifference": 18,
+      "captureSha256": "edfd9a5973eaf0a2701ef3f82dbc007ad4a470488a82450ea43c844649b15eec"
+    },
+    "webgl2-srgb": {
+      "differentPixels": 23645,
+      "absoluteRgbDifferenceSum": 303975,
+      "maximumChannelDifference": 19,
+      "captureSha256": "503dc25dbd8414b0b18ec170fa27188280b9b4cf989b142be498bcee42257d71"
+    },
+    "webgl2-linear": {
+      "differentPixels": 23134,
+      "absoluteRgbDifferenceSum": 300963,
+      "maximumChannelDifference": 18,
+      "captureSha256": "edfd9a5973eaf0a2701ef3f82dbc007ad4a470488a82450ea43c844649b15eec"
+    }
+  }
+}
