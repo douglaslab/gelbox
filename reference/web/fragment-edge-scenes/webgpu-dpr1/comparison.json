@@ -1,0 +1,20 @@
+[
+  {
+    "id": "empty-1-diagonal",
+    "differentChannels": 9,
+    "maxChannelDifference": 24,
+    "absoluteChannelDifference": 33
+  },
+  {
+    "id": "large-crossing-1-diagonal",
+    "differentChannels": 722,
+    "maxChannelDifference": 24,
+    "absoluteChannelDifference": 746
+  },
+  {
+    "id": "large-round-1-diagonal",
+    "differentChannels": 3862,
+    "maxChannelDifference": 9,
+    "absoluteChannelDifference": 3870
+  }
+]

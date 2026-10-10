@@ -36,11 +36,12 @@ for(const scale of [1,2])test.describe(`inspector layers DPR${scale}`,()=>{
    const d=ctx.getImageData(0,0,c.width,c.height).data;
    for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++){
     const i=(y*c.width+x)*4,wx=bounds.x+(x+.5)/scale,wy=bounds.y+(y+.5)/scale;
-    if(d[i]<230&&d[i+1]<230&&d[i+2]<230&&Math.hypot(wx-panel.x-117,wy-panel.y-111)<160)return {x:wx,y:wy};
+    if(d[i]<230&&d[i+1]<230&&d[i+2]<230&&Math.hypot(wx-panel.x-117,wy-panel.y-111)<160)return {x:wx,y:wy,underlay:Array.from(d.slice(i,i+3))};
    }
    throw Error('No visible brace pixel within the molecule');
   },{png:before.toString('base64'),scale,bounds,panel});
-  await page.evaluate(()=>(window as any).__layerView.sim.parts[0].fade=1);
+  for (const fade of [.5,1]) {
+  await page.evaluate(fade=>(window as any).__layerView.sim.parts[0].fade=fade,fade);
   await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
   const after=await page.screenshot();
   const color=await page.evaluate(async({png,point,scale})=>{
@@ -48,6 +49,13 @@ for(const scale of [1,2])test.describe(`inspector layers DPR${scale}`,()=>{
    const c=document.createElement('canvas');c.width=im.width;c.height=im.height;const ctx=c.getContext('2d')!;ctx.drawImage(im,0,0);
    return Array.from(ctx.getImageData(Math.floor(point.x*scale),Math.floor(point.y*scale),1,1).data);
   },{png:after.toString('base64'),point,scale});
-  expect(color).toEqual([51,102,153,255]);
+  if(fade===1)expect(color).toEqual([51,102,153,255]);
+  else {
+   // Native source-over: earlier brace remains visible through the molecule.
+   const expected=point.underlay.map((v,i)=>(v+[51,102,153][i])/2);
+   color.slice(0,3).forEach((v,i)=>expect(Math.abs(v-expected[i])).toBeLessThanOrEqual(1));
+   expect(color[3]).toBe(255);
+  }
+  }
  });
 });

@@ -160,9 +160,9 @@ export function SampleSimCanvas({
           cleanup.push(watchGlLoss(canvas,()=>handleLoss('webgl2')));
           cleanup.push(()=>{if(lost||!canvas.isConnected)gl.getExtension('WEBGL_lose_context')?.loseContext();});
           // Standalone transparent meshes remain available; fragment wells use
-          // the shared native underlay and coverage presentation.
+          // the shared native underlay and transparent MSAA presentation.
           const batch = transparent ? createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' }) : null;
-          const makePresentation = () => createGlGelPresentation(gl, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', cutout: composite });
+          const makePresentation = () => createGlGelPresentation(gl, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', transparent: composite });
           let presentation = transparent ? null : makePresentation();
           handleRef.current = {
             fail,
@@ -193,7 +193,7 @@ export function SampleSimCanvas({
           const { context, format } = configureContext(canvas, device);
           cleanup.push(()=>context.unconfigure());
           const batch = transparent ? createMeshBatch(device, { viewport: { width, height }, blend: 'over', format }) : null;
-          const makePresentation = () => createGelPresentation(device, format, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', cutout: composite });
+          const makePresentation = () => createGelPresentation(device, format, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', transparent: composite });
           let presentation = transparent ? null : makePresentation();
           handleRef.current = {
             fail,
@@ -247,7 +247,7 @@ export function SampleSimCanvas({
       const highlight:0|1|2=downRef.current?2:hoverRef.current?1:0;
       try { handle.draw(mesh,representativeFragment === undefined
         ? computeBackgroundColor(dyeMassesFromSample(view.sample),highlight)
-        : composite ? [1,1,1] : [0,0,0], representativeFragment === undefined ? 1 : 0); }
+        : [0,0,0], representativeFragment === undefined ? 1 : 0); }
       catch(error) { handle.fail(error); }
     }
     setTick(t=>(t+1)%1_000_000);

@@ -28,6 +28,16 @@ On macOS with Node 22: these checks include native well presentation, terminal-f
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
 
+## Current rendering limitation: overlapping multisample edges
+
+The fragment inspector now uses real premultiplied transparency, removing white
+patches over earlier braces and images. Solid-background native probes are
+within 2/255 RGB levels, but a new intersecting-edge probe differs by up to
+24/255 because separate canvases resolve their samples before composition.
+**Strict native composition is still open.** Both exact audits intentionally fail;
+the normal regression suite passing does not close this requirement.
+See the [transparency and edge report](superpowers/reports/2026-10-10-fragment-transparency.md).
+
 ## Remaining completion work
 
 The [composed native runtime reference](../reference/native/runtime/README.md) covers sixteen sequences and eight contracts for constructors, local/global random draws, species generation, loupe preroll, ordered ticks and collection lifetimes. The matching TypeScript runtime is now connected to the live app through a synchronous command store and one application frame driver. Canvases draw existing engines; GPU readiness and React effect replay do not own simulation. Native species generation, intermediate tube/loupe notifications, inspector timing and right-pointer creation/drag are implemented. Twelve store tests and eight new browser checks supplement the reference tests. The review fix is verified; these scripted references and browser checks do not certify full native GUI history or raster parity.

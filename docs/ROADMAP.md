@@ -39,6 +39,31 @@ Keep TypeScript, React, Vite, the pure simulation modules, existing assets, mesh
 
 Refactor the document/state and interaction boundaries incrementally. Preserve behavior with reference fixtures as each boundary changes. Do not introduce a general-purpose graphics engine, application framework, or sweeping renderer abstraction before a measured need.
 
+### Measured need: shared composition for overlapping graphics
+
+The fragment transparency work exposed a concrete limit of independent canvases:
+shared native MSAA edge samples become independently averaged browser layers.
+The [intersecting-edge audit](../reference/web/fragment-edge-scenes/README.md)
+measures up to 24/255 RGB error, even with an exact native underlay image.
+The 1–2/255 solid-background result cannot justify a general tolerance waiver.
+The white-cutout workaround is removed; real transparency improves visible
+behavior, while exact composition remains an open requirement.
+
+Next rendering increment:
+
+1. Prototype two existing overlapping scene contributions on one ordered MSAA
+   surface and require the intersecting-edge reference to match. Reuse existing
+   native-derived geometry, meshes and both presentation backends.
+2. Inventory view order, window transforms, opaque scene backgrounds, images,
+   braces, text and control interleaving before deciding how far the shared
+   surface must extend. Preserve hit testing and simulation ownership.
+3. Integrate the necessary composition boundary incrementally. Do not equate
+   graphics composition with a need to replace React, TypeScript, simulation,
+   file workflows, or introduce Rust.
+4. Re-run solid and intersecting-edge audits, real overlapping view workflows,
+   graphics recovery, DPR/resize and resource/performance checks. Exact failures
+   remain open unless resolved or explicitly accepted by Shawn.
+
 ## Parity rules
 
 1. **Observe before implementing.** Each capability has a native scenario, expected state/result, and matching web scenario. Source confirms the algorithm; a native run confirms the effective configuration and visible behavior.

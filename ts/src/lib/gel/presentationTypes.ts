@@ -25,9 +25,9 @@ export interface DirectPresentationBase {
 }
 export interface PresentationOptions {
   meshBlend?:'additive'|'over';
-  /** Resolve covered pixels opaquely, leaving untouched pixels transparent.
-   * The caller must supply the actual opaque underlay color. */
-  cutout?:boolean;
+  /** Composite direct geometry into a transparent premultiplied surface.
+   * Uses source-over blending and ignores the opaque background color. */
+  transparent?:boolean;
 }
 export function physicalBandVertices(base:DirectPresentationBase,scale:number):Float32Array {
   const data=base.mesh.data.slice();

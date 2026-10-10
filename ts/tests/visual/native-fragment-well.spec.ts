@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import fs from 'node:fs';
-const root = '../reference/native/modern/fragment-well-scenes/';
+const root = '../reference/native/modern/fragment-background-scenes/';
 const cases = JSON.parse(fs.readFileSync(root + 'cases.json', 'utf8'));
 const scenes = JSON.parse(fs.readFileSync(root + 'manifest.json', 'utf8')).cases;
 
@@ -36,7 +36,7 @@ for (const scale of [1, 2]) test.describe(`fragment well compositor DPR${scale}`
       };
       const host = document.createElement('div'); host.style.cssText = 'position:fixed;left:0;top:0;z-index:999;width:303px;height:520px;background:white'; document.body.append(host);
       createRoot(host).render(React.createElement(GelProvider, null, React.createElement(Fixture)));
-      (window as any).__particleBackground = () => { host.style.background = 'rgb(255,0,255)'; };
+      (window as any).__particleBackground = (rgb = [255,0,255]) => { host.style.background = `rgb(${rgb.join(',')})`; };
       (window as any).__particleScene = (next: any) => { view.sim.parts = [next.part]; };
     });
     const canvas = page.getByTestId('fragment-representative');
@@ -44,8 +44,8 @@ for (const scale of [1, 2]) test.describe(`fragment well compositor DPR${scale}`
     await expect(canvas).toHaveAttribute('data-probe-context', backend);
     const results = [];
     for (const scene of scenes.filter((s: any) => s.scale === scale)) {
-      const { id, mesh } = scene;
-      await page.evaluate(scene => (window as any).__particleScene(scene), cases.find((c: any) => c.id === mesh));
+      const { id, mesh, background } = scene;
+      await page.evaluate(({scene,background}) => { (window as any).__particleScene(scene); (window as any).__particleBackground(background); }, {scene:cases.find((c: any) => c.id === mesh),background});
       await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
       await expect(page.getByRole('alert')).toHaveCount(0);
       const png = await page.screenshot({ clip: { x: 0, y: 0, width: 303, height: 520 } });
@@ -69,10 +69,12 @@ for (const scale of [1, 2]) test.describe(`fragment well compositor DPR${scale}`
       await expect(canvas).toHaveAttribute('data-probe-context', backend);
     }
     await fs.promises.writeFile(info.outputPath('comparison.json'), JSON.stringify(results, null, 2));
-    expect(results.filter(r => r.differentChannels)).toEqual([]);
-    // The white native underlay applies only where geometry covers the panel.
-    // A contrasting host exposes accidental opaque full-panel output. The
-    // subquantum particle still covers white outside the well despite tiny fade.
+    // Regression bound for the separate premultiplied RGBA8 browser surface.
+    // This is NOT exact native certification: the dedicated background audit
+    // retains its zero-difference assertion. See fragment-background-scenes.
+    expect(results.filter(r => r.maxChannelDifference > 2)).toEqual([]);
+    // A nearly invisible particle must not erase the content behind it.
+    // This specifically catches the former white geometric-coverage cutout.
     await page.evaluate(scene => {
       (window as any).__particleScene(scene);(window as any).__particleBackground();
     }, cases.find((c:any)=>c.id==='large-subquantum'));
@@ -84,6 +86,6 @@ for (const scale of [1, 2]) test.describe(`fragment well compositor DPR${scale}`
       const ctx=c.getContext('2d')!;ctx.drawImage(im,0,0);
       return [[10,10],[117,111],[170,130]].map(([x,y])=>Array.from(ctx.getImageData(x*scale,y*scale,1,1).data));
     },{png:png.toString('base64'),scale});
-    expect(pixels).toEqual([[255,0,255,255],[241,241,241,255],[255,255,255,255]]);
+    expect(pixels).toEqual([[255,0,255,255],[241,241,241,255],[255,0,255,255]]);
   });
 });

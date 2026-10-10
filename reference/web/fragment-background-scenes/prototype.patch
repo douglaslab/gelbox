@@ -1,0 +1,101 @@
+diff --git a/ts/src/components/sample/SampleSimCanvas.tsx b/ts/src/components/sample/SampleSimCanvas.tsx
+index f2f1842..87743f9 100644
+--- a/ts/src/components/sample/SampleSimCanvas.tsx
++++ b/ts/src/components/sample/SampleSimCanvas.tsx
+@@ -162,7 +162,7 @@ export function SampleSimCanvas({
+           // Standalone transparent meshes remain available; fragment wells use
+           // the shared native underlay and coverage presentation.
+           const batch = transparent ? createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' }) : null;
+-          const makePresentation = () => createGlGelPresentation(gl, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', cutout: composite });
++          const makePresentation = () => createGlGelPresentation(gl, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', cutout: false, transparent: composite });
+           let presentation = transparent ? null : makePresentation();
+           handleRef.current = {
+             fail,
+@@ -193,7 +193,7 @@ export function SampleSimCanvas({
+           const { context, format } = configureContext(canvas, device);
+           cleanup.push(()=>context.unconfigure());
+           const batch = transparent ? createMeshBatch(device, { viewport: { width, height }, blend: 'over', format }) : null;
+-          const makePresentation = () => createGelPresentation(device, format, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', cutout: composite });
++          const makePresentation = () => createGelPresentation(device, format, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', cutout: false, transparent: composite });
+           let presentation = transparent ? null : makePresentation();
+           handleRef.current = {
+             fail,
+@@ -247,7 +247,7 @@ export function SampleSimCanvas({
+       const highlight:0|1|2=downRef.current?2:hoverRef.current?1:0;
+       try { handle.draw(mesh,representativeFragment === undefined
+         ? computeBackgroundColor(dyeMassesFromSample(view.sample),highlight)
+-        : composite ? [1,1,1] : [0,0,0], representativeFragment === undefined ? 1 : 0); }
++        : [0,0,0], representativeFragment === undefined ? 1 : 0); }
+       catch(error) { handle.fail(error); }
+     }
+     setTick(t=>(t+1)%1_000_000);
+diff --git a/ts/src/lib/gel/present-gl.ts b/ts/src/lib/gel/present-gl.ts
+index efff62f..c6935a6 100644
+--- a/ts/src/lib/gel/present-gl.ts
++++ b/ts/src/lib/gel/present-gl.ts
+@@ -47,7 +47,7 @@ export function createGlGelPresentation(gl:WebGL2RenderingContext,size:Presentat
+         gl.bindFramebuffer(gl.FRAMEBUFFER,msaa);gl.viewport(0,0,width,height);
+         gl.disable(gl.SCISSOR_TEST);gl.disable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);gl.disable(gl.BLEND);
+         const background='mesh' in base?(base.background??[0,0,0]):[0,0,0];
+-        gl.colorMask(true,true,true,true);gl.clearColor(background[0],background[1],background[2],options.cutout?0:1);gl.clear(gl.COLOR_BUFFER_BIT);
++        gl.colorMask(true,true,true,true);gl.clearColor(background[0],background[1],background[2],(options.cutout||options.transparent)?0:1);gl.clear(gl.COLOR_BUFFER_BIT);
+         gl.bindVertexArray(vao);
+         if('mesh' in base){
+           if(!bandProgram){
+@@ -65,7 +65,7 @@ export function createGlGelPresentation(gl:WebGL2RenderingContext,size:Presentat
+             gl.bufferSubData(gl.ARRAY_BUFFER,0,data);gl.useProgram(bandProgram.program);
+             const p=bandProgram.attrib('p'),c=bandProgram.attrib('c');gl.enableVertexAttribArray(p);gl.enableVertexAttribArray(c);
+             gl.vertexAttribPointer(p,2,gl.FLOAT,false,24,0);gl.vertexAttribPointer(c,4,gl.FLOAT,false,24,8);
+-            gl.enable(gl.BLEND);gl.blendEquation(gl.FUNC_ADD);gl.blendFuncSeparate(gl.SRC_ALPHA,options.meshBlend==='over'?gl.ONE_MINUS_SRC_ALPHA:gl.ONE,gl.ZERO,gl.ONE);
++            gl.enable(gl.BLEND);gl.blendEquation(gl.FUNC_ADD);gl.blendFuncSeparate(gl.SRC_ALPHA,options.meshBlend==='over'?gl.ONE_MINUS_SRC_ALPHA:gl.ONE,options.transparent?gl.ONE:gl.ZERO,options.transparent?gl.ONE_MINUS_SRC_ALPHA:gl.ONE);
+             gl.uniform1i(bandProgram.uniform('coverage'),0);gl.lineWidth(1);
+             for(const draw of draws)gl.drawArrays(draw.topology==='line-list'?gl.LINES:gl.TRIANGLES,draw.first,draw.count);
+             if(options.cutout){
+diff --git a/ts/src/lib/gel/present.ts b/ts/src/lib/gel/present.ts
+index 57be05c..bae5512 100644
+--- a/ts/src/lib/gel/present.ts
++++ b/ts/src/lib/gel/present.ts
+@@ -35,10 +35,10 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
+     const resolveModule=device.createShaderModule({label:'gel-presentation-resolve',code:fullVertex+`
+       @group(0) @binding(0) var src:texture_multisampled_2d<f32>;
+       @fragment fn fs(@builtin(position) pos:vec4f)->@location(0) vec4f {
+-        let p=vec2i(pos.xy);var sum=vec3f(0.);var covered=false;
+-        for(var i=0;i<4;i++){let sample=textureLoad(src,p,i);sum+=sample.rgb;covered=covered||sample.a>0.;}
++        let p=vec2i(pos.xy);var sum=vec4f(0.);var covered=false;
++        for(var i=0;i<4;i++){let sample=textureLoad(src,p,i);sum+=sample;covered=covered||sample.a>0.;}
+         ${options.cutout?'if(!covered){return vec4f(0.);}':''}
+-        return vec4f(sum*.25,1.);
++        ${options.transparent?'return sum*.25;':'return vec4f(sum.rgb*.25,1.);'}
+       }`});
+     const resolvePipeline=device.createRenderPipeline({label:'gel-presentation-resolve',layout:'auto',vertex:{module:resolveModule,entryPoint:'vs'},fragment:{module:resolveModule,entryPoint:'fs',targets:[{format}]}});
+     const resolveGroup=device.createBindGroup({layout:resolvePipeline.getBindGroupLayout(0),entries:[{binding:0,resource:sampleView}]});
+@@ -69,7 +69,7 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
+               label:mask?'gel-presentation-coverage':'gel-presentation-bands',layout:'auto',
+               vertex:{module,entryPoint:'vs',buffers:[{arrayStride:24,attributes:[{shaderLocation:0,offset:0,format:'float32x2'},{shaderLocation:1,offset:8,format:'float32x4'}]}]},
+               fragment:{module,entryPoint:mask?'mask':'fs',targets:[{format:'rgba8unorm',
+-                ...(mask?{writeMask:GPUColorWrite.ALPHA}:{blend:{color:{srcFactor:'src-alpha' as const,dstFactor:options.meshBlend==='over'?'one-minus-src-alpha' as const:'one' as const},alpha:{srcFactor:'zero' as const,dstFactor:'one' as const}}})}]},
++                ...(mask?{writeMask:GPUColorWrite.ALPHA}:{blend:{color:{srcFactor:'src-alpha' as const,dstFactor:options.meshBlend==='over'?'one-minus-src-alpha' as const:'one' as const},alpha:{srcFactor:options.transparent?'one' as const:'zero' as const,dstFactor:options.transparent?'one-minus-src-alpha' as const:'one' as const}}})}]},
+               primitive:{topology},multisample:{count:4}});
+             bandPipeline=pipeline('triangle-list');bandLines=pipeline('line-list');
+             if(options.cutout){coverageTriangles=pipeline('triangle-list',true);coverageLines=pipeline('line-list',true);}
+@@ -84,7 +84,7 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
+           if(data.byteLength)device.queue.writeBuffer(bandVertices!,0,data);
+         }
+         const background=direct?(base.background??[0,0,0]):[0,0,0];
+-        const pass=encoder.beginRenderPass({label:'gel-presentation',colorAttachments:[{view:sampleView,loadOp:'clear',storeOp:'store',clearValue:{r:background[0],g:background[1],b:background[2],a:options.cutout?0:1}}]});
++        const pass=encoder.beginRenderPass({label:'gel-presentation',colorAttachments:[{view:sampleView,loadOp:'clear',storeOp:'store',clearValue:{r:background[0],g:background[1],b:background[2],a:(options.cutout||options.transparent)?0:1}}]});
+         if(direct){
+           if(geometry!.data.length){
+             pass.setVertexBuffer(0,bandVertices!);
+diff --git a/ts/src/lib/gel/presentationTypes.ts b/ts/src/lib/gel/presentationTypes.ts
+index 82b553d..9210d85 100644
+--- a/ts/src/lib/gel/presentationTypes.ts
++++ b/ts/src/lib/gel/presentationTypes.ts
+@@ -28,6 +28,7 @@ export interface PresentationOptions {
+   /** Resolve covered pixels opaquely, leaving untouched pixels transparent.
+    * The caller must supply the actual opaque underlay color. */
+   cutout?:boolean;
++  transparent?:boolean;
+ }
+ export function physicalBandVertices(base:DirectPresentationBase,scale:number):Float32Array {
+   const data=base.mesh.data.slice();

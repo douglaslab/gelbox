@@ -1,0 +1,272 @@
+[
+  {
+    "id": "whole-1-select-False-hover-False-2-white",
+    "differentChannels": 36,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 36
+  },
+  {
+    "id": "whole-1-select-False-hover-False-2-rose",
+    "differentChannels": 8,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 8
+  },
+  {
+    "id": "whole-1-select-False-hover-False-2-navy",
+    "differentChannels": 29,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 29
+  },
+  {
+    "id": "whole-0.5-select-False-hover-False-2-white",
+    "differentChannels": 36,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 36
+  },
+  {
+    "id": "whole-0.5-select-False-hover-False-2-rose",
+    "differentChannels": 8,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 8
+  },
+  {
+    "id": "whole-0.5-select-False-hover-False-2-navy",
+    "differentChannels": 29,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 29
+  },
+  {
+    "id": "multi-25-3-whole-0.5-2-white",
+    "differentChannels": 36,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 36
+  },
+  {
+    "id": "multi-25-3-whole-0.5-2-rose",
+    "differentChannels": 8,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 8
+  },
+  {
+    "id": "multi-25-3-whole-0.5-2-navy",
+    "differentChannels": 29,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 29
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-False-2-white",
+    "differentChannels": 36,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 36
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-False-2-rose",
+    "differentChannels": 8,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 8
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-False-2-navy",
+    "differentChannels": 29,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 29
+  },
+  {
+    "id": "fade-0.01-2-white",
+    "differentChannels": 36,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 36
+  },
+  {
+    "id": "fade-0.01-2-rose",
+    "differentChannels": 8,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 8
+  },
+  {
+    "id": "fade-0.01-2-navy",
+    "differentChannels": 29,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 29
+  },
+  {
+    "id": "fade-0.25-2-white",
+    "differentChannels": 36,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 36
+  },
+  {
+    "id": "fade-0.25-2-rose",
+    "differentChannels": 8,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 8
+  },
+  {
+    "id": "fade-0.25-2-navy",
+    "differentChannels": 29,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 29
+  },
+  {
+    "id": "fade-0.5-2-white",
+    "differentChannels": 36,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 36
+  },
+  {
+    "id": "fade-0.5-2-rose",
+    "differentChannels": 8,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 8
+  },
+  {
+    "id": "fade-0.5-2-navy",
+    "differentChannels": 29,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 29
+  },
+  {
+    "id": "fade-0.999-2-white",
+    "differentChannels": 36,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 36
+  },
+  {
+    "id": "fade-0.999-2-rose",
+    "differentChannels": 8,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 8
+  },
+  {
+    "id": "fade-0.999-2-navy",
+    "differentChannels": 29,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 29
+  },
+  {
+    "id": "fade-1-2-white",
+    "differentChannels": 36,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 36
+  },
+  {
+    "id": "fade-1-2-rose",
+    "differentChannels": 8,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 8
+  },
+  {
+    "id": "fade-1-2-navy",
+    "differentChannels": 29,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 29
+  },
+  {
+    "id": "empty-2-white",
+    "differentChannels": 36,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 36
+  },
+  {
+    "id": "empty-2-rose",
+    "differentChannels": 8,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 8
+  },
+  {
+    "id": "empty-2-navy",
+    "differentChannels": 29,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 29
+  },
+  {
+    "id": "large-crossing-2-white",
+    "differentChannels": 8475,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 8475
+  },
+  {
+    "id": "large-crossing-2-rose",
+    "differentChannels": 4397,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 4397
+  },
+  {
+    "id": "large-crossing-2-navy",
+    "differentChannels": 554,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 554
+  },
+  {
+    "id": "large-faint-2-white",
+    "differentChannels": 674,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 674
+  },
+  {
+    "id": "large-faint-2-rose",
+    "differentChannels": 4400,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 4400
+  },
+  {
+    "id": "large-faint-2-navy",
+    "differentChannels": 4269,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 4269
+  },
+  {
+    "id": "large-subquantum-2-white",
+    "differentChannels": 36,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 36
+  },
+  {
+    "id": "large-subquantum-2-rose",
+    "differentChannels": 8,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 8
+  },
+  {
+    "id": "large-subquantum-2-navy",
+    "differentChannels": 29,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 29
+  },
+  {
+    "id": "large-opaque-2-white",
+    "differentChannels": 123,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 123
+  },
+  {
+    "id": "large-opaque-2-rose",
+    "differentChannels": 223,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 223
+  },
+  {
+    "id": "large-opaque-2-navy",
+    "differentChannels": 141,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 141
+  },
+  {
+    "id": "large-round-2-white",
+    "differentChannels": 49348,
+    "maxChannelDifference": 2,
+    "absoluteChannelDifference": 49496
+  },
+  {
+    "id": "large-round-2-rose",
+    "differentChannels": 25196,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 25196
+  },
+  {
+    "id": "large-round-2-navy",
+    "differentChannels": 1706,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 1706
+  }
+]
