@@ -1,0 +1,39 @@
+{
+  "baseManifestSha256": "123992ba39525246a08f5a947c4df8c8e243db60f360f4cacb055fa83fbd4d0d",
+  "probeSha256": "afc849ec0808593f86a6a4d13352b113808ed52998d8fba0815c24c5656e0cff",
+  "instrumentSha256": "48c76c6805d5f2a88beaee44fe33ae142e04968d5ed97182ea8826ad918d36ca",
+  "changes": {
+    "src/GelboxApp.cpp": {
+      "before": "facccd186b9e275ecc9a752e3eb5190e4a9b120be01e40a49e4449be52351d31",
+      "after": "f393331a13d5e2c3ddb719b4890b7ab285cae713c727bcecafd5ddf674af9e5e"
+    },
+    "proj/cmake/CMakeLists.txt": {
+      "before": "0d490cf54e9070a56fe84046584457492761759d1a64d5361b052ddf087745ce",
+      "after": "34ba7284f6716622a85aa07f139e4bbf22ff960a616624a439228233f053f2e5"
+    }
+  },
+  "window": [
+    1365,
+    768
+  ],
+  "scale": 2,
+  "repeat": {
+    "allFilesByteIdentical": true,
+    "files": 12
+  },
+  "executableSha256": "ba1784876e680fb9b5196f794f46a645f5ca109ef8f75324f01863cd328e9b6b",
+  "captures": {
+    "menu-direct.json": "a7f07a3fedf9c140c900813155b1c969cc14ced70f15feace1e46e9de53f97f5",
+    "menu-direct.png": "ca515f5b2f2badff77a4298bf3bea25ee5dc3328c97e0b5838a34cd1647d153d",
+    "menu-effects.json": "089adc509a91f9491495bec1066213325cd18f01e56afc4a39b572c304510a2c",
+    "menu-effects.png": "2fe4e94de8a8ba70cac60f55ef02cdba9e3ba1a18fddaff4593b432a322dcd12",
+    "settings-effects.json": "96ab9bc4b2469da4062268917229f606535d6f27a8055d52dc27cc3e2b2371b6",
+    "settings-effects.png": "dc26970ead8f9e07f23a35b6d705a3f2ea4fd872f7aa84c9c28e9d4a4ea1797a",
+    "settings-menu-direct.json": "703fbcc80dd498f8d9554ea1e5f32ca80a357771d5901fc4176ca4169c461b8c",
+    "settings-menu-direct.png": "bb0a5ae9abcab17d525ed1c1ae678af4fb03e1a091e8cb6b9dc98d5ce8d27532",
+    "settings-menu-effects.json": "8b5fc0dff783367468c1b8ea6847bc4c8ed1a0a42440e8dbd3b0cc3879a0e9aa",
+    "settings-menu-effects.png": "bc4f765422767d03703a71ff383e352c0fb1fd1862970afa22bd225cc27575ea",
+    "startup.json": "820c70019c9f38d6d4bb8e4ae2e623c647d934174de421706bd88465039d7309",
+    "startup.png": "80693c47b37b9073beb319f66853b65d194aea8a024c32baea95b4d48b3e84d9"
+  }
+}

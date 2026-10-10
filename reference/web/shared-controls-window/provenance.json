@@ -1,0 +1,189 @@
+{
+  "sourceCommit": "9ce09b521474a2ca0124ff88f98aa933e5e1b565",
+  "testFile": "ts/tests/visual/shared-controls-window.spec.ts",
+  "testSha256": "6d1f0a9b66634654f51b09decdc5e59ec4de4568a48af827d63af1794673f947",
+  "nativeManifest": "reference/native/modern/full-window-controls/manifest.json",
+  "nativeManifestSha256": "bb1de682ac4dbf2152f940d9f7141feac152cc371cc6046ee4b5fff4ce32caa6",
+  "viewport": {
+    "width": 1365,
+    "height": 768,
+    "deviceScaleFactor": 2
+  },
+  "captures": [
+    {
+      "backend": "webgpu",
+      "scene": "settings-effects",
+      "file": "webgpu-settings-effects.png",
+      "sha256": "a07909c9b6acdd535c1bd980a8f50c929f7293d4107744859a29a3c66245b961",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "settings-menu-effects",
+      "file": "webgpu-settings-menu-effects.png",
+      "sha256": "b3417465c2e1f91bd0663b0384bcdba8a8f0f927f1f55e604d83afd405e785d4",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "settings-menu-direct",
+      "file": "webgpu-settings-menu-direct.png",
+      "sha256": "449563cd5cf9650aae0692392b89d05a3af1f8b07a4a1532a0e3a83776cd19f4",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "menu-direct",
+      "file": "webgpu-menu-direct.png",
+      "sha256": "2e0c2bac1219973e8e94d3dfbc48dda1781d2d89cab9ce4d9c655cad424cae89",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "menu-effects",
+      "file": "webgpu-menu-effects.png",
+      "sha256": "385fa6b0846298c0d317bbb9a2423a6aab70984ce9953215b39894038de425fb",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "settings-effects",
+      "file": "webgl2-settings-effects.png",
+      "sha256": "a07909c9b6acdd535c1bd980a8f50c929f7293d4107744859a29a3c66245b961",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "settings-menu-effects",
+      "file": "webgl2-settings-menu-effects.png",
+      "sha256": "b3417465c2e1f91bd0663b0384bcdba8a8f0f927f1f55e604d83afd405e785d4",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "settings-menu-direct",
+      "file": "webgl2-settings-menu-direct.png",
+      "sha256": "449563cd5cf9650aae0692392b89d05a3af1f8b07a4a1532a0e3a83776cd19f4",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "menu-direct",
+      "file": "webgl2-menu-direct.png",
+      "sha256": "2e0c2bac1219973e8e94d3dfbc48dda1781d2d89cab9ce4d9c655cad424cae89",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "menu-effects",
+      "file": "webgl2-menu-effects.png",
+      "sha256": "385fa6b0846298c0d317bbb9a2423a6aab70984ce9953215b39894038de425fb",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    }
+  ],
+  "limits": [
+    "Modern compatibility-build native reference, not original-release complete GUI",
+    "Five states in one settings/menu/Render workflow, without sample particles or loupes/images",
+    "Shared rendering still development-only; broader browser/platform/performance gates remain"
+  ]
+}

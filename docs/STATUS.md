@@ -57,7 +57,7 @@ The complete startup client window now matches the native framebuffer with zero
 RGB differences on both backends at 1365×768 / DPR2. The user screenshot agrees
 after accounting for title bar and rounded window transparency; no application
 pixels are excluded. See [full-window evidence](../reference/web/shared-gel-startup/README.md).
-Populated/overlapping full-window acceptance still gates production enablement;
+Overlapping full-window and interaction-history acceptance still gate production enablement;
 existing built-app deployment checks cover the legacy compositor.
 
 Complete sample and species windows now also match all RGB channels on both
@@ -74,10 +74,20 @@ The complete regression run passes 949 browser tests with one intentional duplic
 skipped; units, production build and four legacy deployment checks also pass.
 See [retained web comparisons](../reference/web/shared-full-window-scenes/README.md).
 
+A subsequent test-only increment verifies the complete gel-settings/application-menu
+workflow: opening both panels, switching Render off, closing settings and reopening
+the menu, then switching Render on. All five states match native exactly on both
+backends (ten full-window comparisons in two passing tests). Twelve native capture
+files repeat byte-for-byte across independent launches; portable instrumentation
+reproduces the compiled inputs. No application change was needed. See
+[settings/menu evidence](../reference/web/shared-controls-window/README.md).
+
+
 | Check | Result |
 |---|---|
 | Unit suite | 2,924 passed |
 | Browser suite across WebGPU/WebGL2 | 949 passed; one intentional duplicate skipped |
+| New full-window settings/menu workflow | 2 passed; 10 exact native frame comparisons |
 | Built-app legacy root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |

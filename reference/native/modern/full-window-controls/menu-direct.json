@@ -1,0 +1,197 @@
+{
+  "frame": 150,
+  "gel": {
+    "Buffer": {
+      "Acetate": 0.0,
+      "Borate": 44.5,
+      "EDTA": 1.0,
+      "Tris": 44.5
+    },
+    "Samples": [
+      {
+        "Buffer": {
+          "Acetate": 0.0,
+          "Borate": 44.5,
+          "EDTA": 1.0,
+          "Tris": 44.5
+        },
+        "Fragments": [
+          {
+            "Aggregate": [
+              1.0
+            ],
+            "AspectRatio": 1.0,
+            "Bases": 10002,
+            "Color": [
+              0.2,
+              0.2,
+              0.2
+            ],
+            "Degrade": 0.0,
+            "Mass": 42.0
+          },
+          {
+            "Aggregate": [
+              1.0
+            ],
+            "AspectRatio": 1.0,
+            "Bases": 8001,
+            "Color": [
+              0.0,
+              0.4,
+              0.8
+            ],
+            "Degrade": 0.0,
+            "Mass": 42.0
+          },
+          {
+            "Aggregate": [
+              1.0
+            ],
+            "AspectRatio": 1.0,
+            "Bases": 6001,
+            "Color": [
+              0.8,
+              0.0,
+              0.0
+            ],
+            "Degrade": 0.0,
+            "Mass": 50.0
+          },
+          {
+            "Aggregate": [
+              1.0
+            ],
+            "AspectRatio": 1.0,
+            "Bases": 5001,
+            "Color": [
+              0.968627,
+              0.262745,
+              0.0313726
+            ],
+            "Degrade": 0.0,
+            "Mass": 42.0
+          },
+          {
+            "Aggregate": [
+              1.0
+            ],
+            "AspectRatio": 1.0,
+            "Bases": 4001,
+            "Color": [
+              0.968627,
+              0.576471,
+              0.117647
+            ],
+            "Degrade": 0.0,
+            "Mass": 33.0
+          },
+          {
+            "Aggregate": [
+              1.0
+            ],
+            "AspectRatio": 1.0,
+            "Bases": 3001,
+            "Color": [
+              0.666667,
+              0.666667,
+              0.0
+            ],
+            "Degrade": 0.0,
+            "Mass": 125.0
+          },
+          {
+            "Aggregate": [
+              1.0
+            ],
+            "AspectRatio": 1.0,
+            "Bases": 2000,
+            "Color": [
+              0.341176,
+              0.733333,
+              0.0
+            ],
+            "Degrade": 0.0,
+            "Mass": 48.0
+          },
+          {
+            "Aggregate": [
+              1.0
+            ],
+            "AspectRatio": 1.0,
+            "Bases": 1500,
+            "Color": [
+              0.0,
+              0.447059,
+              0.0
+            ],
+            "Degrade": 0.0,
+            "Mass": 36.0
+          },
+          {
+            "Aggregate": [
+              1.0
+            ],
+            "AspectRatio": 1.0,
+            "Bases": 1000,
+            "Color": [
+              0.0117647,
+              0.713726,
+              0.635294
+            ],
+            "Degrade": 0.0,
+            "Mass": 42.0
+          },
+          {
+            "Aggregate": [
+              1.0
+            ],
+            "AspectRatio": 1.0,
+            "Bases": 517,
+            "Color": [
+              0.0901961,
+              0.0,
+              0.870588
+            ],
+            "Degrade": 0.0,
+            "Mass": 21.0
+          },
+          {
+            "Aggregate": [
+              1.0
+            ],
+            "AspectRatio": 1.0,
+            "Bases": 500,
+            "Color": [
+              0.721569,
+              0.0196078,
+              0.423529
+            ],
+            "Degrade": 0.0,
+            "Mass": 21.0
+          }
+        ],
+        "icon": "microtube1500ul.png",
+        "iconScale": 0.5,
+        "id": -1,
+        "name": "1kb ladder"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "Time": 1.0,
+    "Voltage": 70.0,
+    "WellDamage": 0.0
+  },
+  "menu": true,
+  "render": false,
+  "scale": 2.0,
+  "window": [
+    1365,
+    768
+  ]
+}

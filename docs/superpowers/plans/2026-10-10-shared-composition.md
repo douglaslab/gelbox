@@ -360,3 +360,22 @@ while current independent native browser comparisons cover the behavior.
 Verification: 949 browser cases pass (one intentional duplicate skipped), 2,924
 units pass, production build and four legacy root/subpath checks pass. Retained
 web output and source hashes: `reference/web/shared-full-window-scenes`.
+
+
+### Integrated settings/menu workflow acceptance
+
+The actual application follows the native settings/menu/Render sequence at
+1365×768/DPR2: settings alone, settings with menu, both with Render off, menu after
+closing settings, then menu with Render on again. Five complete RGB captures per
+backend match exactly. No implementation or tolerance change was required.
+
+Native `full-window-controls` probe uses real mouse events after completed frames,
+without changing drawing methods. Twelve PNG/state files repeat byte-identically.
+The portable instrument reproduces the compiled source from the original hashed
+inputs. Retained web evidence is `reference/web/shared-controls-window`.
+
+Validation: two new workflow tests pass, comprising ten exact comparisons. The
+preceding 949/one-skip full suite, 2,924 units and build/four legacy deployment
+checks remain the latest broader verification; runtime source is unchanged.
+Remaining integrated acceptance includes overlapping images/loupes/representatives,
+particle and input histories, then the production and platform gates above.
