@@ -235,3 +235,9 @@ to index zero in `include/cinder/ImageIo.h`, and the Quartz decoder calls
 `src/cinder/ImageSourceFileQuartz.cpp`. This supports static first-frame intent
 for GIF imports. It is not a decoder/output fixture or proof of the release
 binary's linked dependency, orientation, color management or browser equivalence.
+
+### Render-off direct bands
+
+`python3 build-direct-bands.py` compiles the entire unchanged `GelView::drawBands()` method and original `Band.h` from `5f51097`, using the pinned Cinder TriMesh, Rect and Color implementation. A gel adapter supplies bands; a GL adapter verifies SRC_ALPHA/ONE and captures the mesh without rasterizing it. Fourteen cases cover body, blur, both smears, flames/equality, negative extents, fractional float32 arithmetic, zero brightness, and overlapping colored bands. Two executions must be byte-identical. `python3 test_direct_bands.py` checks independent literal geometry/color expectations and pinned source/extraction/geometry provenance. The TS differential tests compare every float exactly.
+
+This is a pre-raster reference: no native framebuffer, GL context, GUI or original-executable equivalence is certified. Modern Cinder/library provenance has the same toolchain qualification as the other captures. In particular, native upper smear uses **Below** brightness values; equality chooses the flame branch. These quirks are retained.
