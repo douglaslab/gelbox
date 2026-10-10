@@ -1,0 +1,110 @@
+[
+  {
+    "id": "whole-1-select-False-hover-False-2-241",
+    "differentChannels": 2254,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 2254
+  },
+  {
+    "id": "whole-1-select-False-hover-False-2-255",
+    "differentChannels": 1517,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 1517
+  },
+  {
+    "id": "whole-0.5-select-False-hover-False-2-241",
+    "differentChannels": 437,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 437
+  },
+  {
+    "id": "whole-0.5-select-False-hover-False-2-255",
+    "differentChannels": 299,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 299
+  },
+  {
+    "id": "multi-25-3-whole-0.5-2-241",
+    "differentChannels": 1120,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 1120
+  },
+  {
+    "id": "multi-25-3-whole-0.5-2-255",
+    "differentChannels": 762,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 762
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-False-2-241",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-False-2-255",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "fade-0.01-2-241",
+    "differentChannels": 830,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 830
+  },
+  {
+    "id": "fade-0.01-2-255",
+    "differentChannels": 138,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 138
+  },
+  {
+    "id": "fade-0.25-2-241",
+    "differentChannels": 1557,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 1557
+  },
+  {
+    "id": "fade-0.25-2-255",
+    "differentChannels": 74,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 74
+  },
+  {
+    "id": "fade-0.5-2-241",
+    "differentChannels": 119,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 119
+  },
+  {
+    "id": "fade-0.5-2-255",
+    "differentChannels": 50,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 50
+  },
+  {
+    "id": "fade-0.999-2-241",
+    "differentChannels": 61,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 61
+  },
+  {
+    "id": "fade-0.999-2-255",
+    "differentChannels": 41,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 41
+  },
+  {
+    "id": "fade-1-2-241",
+    "differentChannels": 61,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 61
+  },
+  {
+    "id": "fade-1-2-255",
+    "differentChannels": 41,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 41
+  }
+]

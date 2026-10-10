@@ -1,0 +1,96 @@
+diff --git a/ts/src/components/sample/SampleSimCanvas.tsx b/ts/src/components/sample/SampleSimCanvas.tsx
+index 03a71d8..ec65079 100644
+--- a/ts/src/components/sample/SampleSimCanvas.tsx
++++ b/ts/src/components/sample/SampleSimCanvas.tsx
+@@ -135,8 +135,8 @@ export function SampleSimCanvas({
+           // Transparent representatives retain their existing compositor until
+           // the native panel-compositing reference is established.
+           const batch = transparent ? createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' }) : null;
+-          const makePresentation = () => createGlGelPresentation(gl, { width: canvas.width, height: canvas.height }, { meshBlend: 'over' });
+-          let presentation = transparent ? null : makePresentation();
++          const makePresentation = () => createGlGelPresentation(gl, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', transparent });
++          let presentation = makePresentation();
+           handleRef.current = {
+             fail,
+             resize: (wp, hp, wc, hc) => {
+@@ -166,8 +166,8 @@ export function SampleSimCanvas({
+           const { context, format } = configureContext(canvas, device);
+           cleanup.push(()=>context.unconfigure());
+           const batch = transparent ? createMeshBatch(device, { viewport: { width, height }, blend: 'over', format }) : null;
+-          const makePresentation = () => createGelPresentation(device, format, { width: canvas.width, height: canvas.height }, { meshBlend: 'over' });
+-          let presentation = transparent ? null : makePresentation();
++          const makePresentation = () => createGelPresentation(device, format, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', transparent });
++          let presentation = makePresentation();
+           handleRef.current = {
+             fail,
+             resize: (_wp, _hp, wc, hc) => {
+diff --git a/ts/src/lib/gel/present-gl.ts b/ts/src/lib/gel/present-gl.ts
+index 462ab6b..79319a7 100644
+--- a/ts/src/lib/gel/present-gl.ts
++++ b/ts/src/lib/gel/present-gl.ts
+@@ -38,7 +38,7 @@ export function createGlGelPresentation(gl:WebGL2RenderingContext,size:Presentat
+         gl.bindFramebuffer(gl.FRAMEBUFFER,msaa);gl.viewport(0,0,width,height);
+         gl.disable(gl.SCISSOR_TEST);gl.disable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);gl.disable(gl.BLEND);
+         const background='mesh' in base?(base.background??[0,0,0]):[0,0,0];
+-        gl.colorMask(true,true,true,true);gl.clearColor(background[0],background[1],background[2],1);gl.clear(gl.COLOR_BUFFER_BIT);
++        gl.colorMask(true,true,true,true);gl.clearColor(background[0],background[1],background[2],options.transparent?0:1);gl.clear(gl.COLOR_BUFFER_BIT);
+         gl.bindVertexArray(vao);
+         if('mesh' in base){
+           if(!bandProgram){
+@@ -56,7 +56,7 @@ export function createGlGelPresentation(gl:WebGL2RenderingContext,size:Presentat
+             gl.bufferSubData(gl.ARRAY_BUFFER,0,data);gl.useProgram(bandProgram.program);
+             const p=bandProgram.attrib('p'),c=bandProgram.attrib('c');gl.enableVertexAttribArray(p);gl.enableVertexAttribArray(c);
+             gl.vertexAttribPointer(p,2,gl.FLOAT,false,24,0);gl.vertexAttribPointer(c,4,gl.FLOAT,false,24,8);
+-            gl.enable(gl.BLEND);gl.blendEquation(gl.FUNC_ADD);gl.blendFuncSeparate(gl.SRC_ALPHA,options.meshBlend==='over'?gl.ONE_MINUS_SRC_ALPHA:gl.ONE,gl.ZERO,gl.ONE);
++            gl.enable(gl.BLEND);gl.blendEquation(gl.FUNC_ADD);gl.blendFuncSeparate(gl.SRC_ALPHA,options.meshBlend==='over'?gl.ONE_MINUS_SRC_ALPHA:gl.ONE,options.transparent?gl.ONE:gl.ZERO,options.transparent?gl.ONE_MINUS_SRC_ALPHA:gl.ONE);
+             gl.drawArrays(gl.TRIANGLES,0,base.mesh.vertexCount);gl.disableVertexAttribArray(p);gl.disableVertexAttribArray(c);
+           }
+         }else{
+diff --git a/ts/src/lib/gel/present.ts b/ts/src/lib/gel/present.ts
+index cc2e5e9..e343ee0 100644
+--- a/ts/src/lib/gel/present.ts
++++ b/ts/src/lib/gel/present.ts
+@@ -34,9 +34,9 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
+     const resolveModule=device.createShaderModule({label:'gel-presentation-resolve',code:fullVertex+`
+       @group(0) @binding(0) var src:texture_multisampled_2d<f32>;
+       @fragment fn fs(@builtin(position) pos:vec4f)->@location(0) vec4f {
+-        let p=vec2i(pos.xy);var sum=vec3f(0.);
+-        for(var i=0;i<4;i++){sum+=textureLoad(src,p,i).rgb;}
+-        return vec4f(sum*.25,1.);
++        let p=vec2i(pos.xy);var sum=vec4f(0.);
++        for(var i=0;i<4;i++){sum+=textureLoad(src,p,i);}
++        return ${options.transparent?'sum*.25':'vec4f(sum.rgb*.25,1.)'};
+       }`});
+     const resolvePipeline=device.createRenderPipeline({label:'gel-presentation-resolve',layout:'auto',vertex:{module:resolveModule,entryPoint:'vs'},fragment:{module:resolveModule,entryPoint:'fs',targets:[{format}]}});
+     const resolveGroup=device.createBindGroup({layout:resolvePipeline.getBindGroupLayout(0),entries:[{binding:0,resource:sampleView}]});
+@@ -61,7 +61,7 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
+                 var o:Out;o.p=vec4f(p.x/${width}.*2.-1.,1.-p.y/${height}.*2.,0.,1.);o.color=color;return o;
+               }
+               @fragment fn fs(o:Out)->@location(0) vec4f {return o.color;}`});
+-            bandPipeline=device.createRenderPipeline({label:'gel-presentation-bands',layout:'auto',vertex:{module,entryPoint:'vs',buffers:[{arrayStride:24,attributes:[{shaderLocation:0,offset:0,format:'float32x2'},{shaderLocation:1,offset:8,format:'float32x4'}]}]},fragment:{module,entryPoint:'fs',targets:[{format:'rgba8unorm',blend:{color:{srcFactor:'src-alpha',dstFactor:options.meshBlend==='over'?'one-minus-src-alpha':'one'},alpha:{srcFactor:'zero',dstFactor:'one'}}}]},multisample:{count:4}});
++            bandPipeline=device.createRenderPipeline({label:'gel-presentation-bands',layout:'auto',vertex:{module,entryPoint:'vs',buffers:[{arrayStride:24,attributes:[{shaderLocation:0,offset:0,format:'float32x2'},{shaderLocation:1,offset:8,format:'float32x4'}]}]},fragment:{module,entryPoint:'fs',targets:[{format:'rgba8unorm',blend:{color:{srcFactor:'src-alpha',dstFactor:options.meshBlend==='over'?'one-minus-src-alpha':'one'},alpha:{srcFactor:options.transparent?'one':'zero',dstFactor:options.transparent?'one-minus-src-alpha':'one'}}}]},multisample:{count:4}});
+           }
+           const data=physicalBandVertices(base,scale);
+           if(data.byteLength>bandCapacity){
+@@ -72,7 +72,7 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
+           if(data.byteLength)device.queue.writeBuffer(bandVertices!,0,data);
+         }
+         const background=direct?(base.background??[0,0,0]):[0,0,0];
+-        const pass=encoder.beginRenderPass({label:'gel-presentation',colorAttachments:[{view:sampleView,loadOp:'clear',storeOp:'store',clearValue:{r:background[0],g:background[1],b:background[2],a:1}}]});
++        const pass=encoder.beginRenderPass({label:'gel-presentation',colorAttachments:[{view:sampleView,loadOp:'clear',storeOp:'store',clearValue:{r:background[0],g:background[1],b:background[2],a:options.transparent?0:1}}]});
+         if(direct){if(base.mesh.vertexCount){pass.setPipeline(bandPipeline!);pass.setVertexBuffer(0,bandVertices!);pass.draw(base.mesh.vertexCount);}}
+         else{pass.setPipeline(basePipeline);pass.setBindGroup(0,baseGroup!);pass.draw(3);}
+         if(wells.length){pass.setPipeline(linePipeline);pass.setVertexBuffer(0,vertices!);for(let i=0;i<wells.length;i++)pass.draw(5,1,i*5);}
+diff --git a/ts/src/lib/gel/presentationTypes.ts b/ts/src/lib/gel/presentationTypes.ts
+index a102cc9..b3e6402 100644
+--- a/ts/src/lib/gel/presentationTypes.ts
++++ b/ts/src/lib/gel/presentationTypes.ts
+@@ -20,7 +20,7 @@ export interface DirectPresentationBase {
+   /** Opaque native display-domain background; defaults to gel black. */
+   background?:readonly [number,number,number];
+ }
+-export interface PresentationOptions { meshBlend?:'additive'|'over' }
++export interface PresentationOptions { meshBlend?:'additive'|'over';transparent?:boolean }
+ export function physicalBandVertices(base:DirectPresentationBase,scale:number):Float32Array {
+   const data=base.mesh.data.slice();
+   for(let i=0;i<data.length;i+=6){data[i]*=scale;data[i+1]*=scale;}

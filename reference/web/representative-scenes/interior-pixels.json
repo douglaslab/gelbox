@@ -1,0 +1,70 @@
+[
+  {
+    "image": "fade-0.01-1-241.png",
+    "pixel": [
+      32,
+      32
+    ],
+    "native": [
+      239,
+      240,
+      240
+    ],
+    "transparentMsaaPrototype": [
+      239,
+      239,
+      240
+    ]
+  },
+  {
+    "image": "fade-0.25-1-241.png",
+    "pixel": [
+      32,
+      32
+    ],
+    "native": [
+      193,
+      206,
+      219
+    ],
+    "transparentMsaaPrototype": [
+      194,
+      207,
+      219
+    ]
+  },
+  {
+    "image": "whole-1-select-False-hover-False-1-241.png",
+    "pixel": [
+      32,
+      32
+    ],
+    "native": [
+      118,
+      151,
+      184
+    ],
+    "transparentMsaaPrototype": [
+      117,
+      150,
+      183
+    ]
+  },
+  {
+    "image": "whole-1-select-False-hover-False-1-255.png",
+    "pixel": [
+      32,
+      32
+    ],
+    "native": [
+      122,
+      156,
+      189
+    ],
+    "transparentMsaaPrototype": [
+      122,
+      155,
+      188
+    ]
+  }
+]

@@ -607,3 +607,16 @@ release performance remain open. See the particle reference README for evidence
 and the two justified degraded-snapshot updates.
 Final gates for this increment: 2,909 units, 511 browser cases (one intentional
 skip), and four production checks passed. Full P0–P5 exit gates remain open.
+
+
+### Representative compositor strategy refined by measurement
+
+The actual transparent representative component fails 16/18 native well/panel
+color comparisons per backend/DPR (maximum channel error 102). A temporary MSAA
+prototype reduces error to 1 but does not pass exact parity; it was reverted.
+The [reference and audit](../reference/web/representative-scenes/README.md)
+now direct implementation toward one native-style well/representative surface
+with a coverage cutout, rather than another transparent RGBA8 composition step.
+Capture rounded well geometry and boundary-crossing particles before integrating;
+preserve heading/child ordering and verify overflow explicitly. This audit changes
+no production behavior and does not close the representative or full UI gate.

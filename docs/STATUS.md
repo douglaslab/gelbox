@@ -1996,3 +1996,29 @@ resource lifecycle, DPR, background colors and bounded failure recovery.
 Logs: `/tmp/gel-particle-final-unit.log`, `/tmp/gel-particle-final-full.log`,
 `/tmp/gel-particle-final-production.log`. The [review record](superpowers/reports/2026-10-10-particle-presentation.md)
 retains scope and limitations.
+
+
+## Representative compositor audit — architectural follow-up
+
+Added [36 independent native representative-body images](../reference/native/modern/representative-scenes/README.md)
+over the native gray well fill and white window background. Meshes and CGL pixels
+repeat identically; a second invocation verifies retained pixels. Four dedicated
+component audit tests finish all 72 comparisons, then fail exact parity: 16/18
+cases differ per backend/DPR, maximum channel error 102.
+
+An experimental transparent RGBA8 MSAA path reduces that maximum to 1 but still
+fails 16/18 cases. It was reverted; [reports and the reproducible prototype patch](../reference/web/representative-scenes/README.md)
+retain the evidence. No production renderer or tolerance changed. The successful
+opaque particle correction therefore cannot simply be applied as a transparent
+layer and claimed to have native compositing parity.
+
+Next render the well underlay and representative on one native-style surface,
+resolve once, and preserve transparency only where that native drawing contributes
+nothing. This requires native rounded-fill/stroke/shadow and boundary-crossing
+captures plus correct heading/child draw order. Native original GUI and complete
+panel overlap/overflow remain open, alongside the other full release gates.
+Validation for this reference increment: all 36 native images verified after
+repeat mesh and CGL captures; baseline and prototype each completed 72 browser
+comparisons and failed all four exact-parity tests as reported. After reverting
+the prototype, all 2,909 unit tests passed. Production source matches `8d577da`;
+no new full normal-browser/production result is claimed for this audit-only work.
