@@ -9,6 +9,12 @@
   color: #777777;
 }
 
+.iconSlot {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+}
+
 .icon {
   display: block;
   flex: 0 0 auto;

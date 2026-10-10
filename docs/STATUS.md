@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 281 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 285 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -566,3 +566,29 @@ last full unit baseline remains **2,845 passed**; it was not rerun for these UI
 changes. No screenshot goldens were changed. The reviewed web menu screenshot
 and source-backed geometry do not certify native text rasterization or complete
 application visual parity. Broader native workflow, raster, and P5 gates remain open.
+
+
+## Native slider icons and timeline bounds
+
+Fresh native gel-settings inspection confirmed that regular slider icons keep
+natural logical asset dimensions inside common 26×26 notional slots. Web icons
+now decode at 1×/2×, retain their natural size, and pixel-snap around those slots;
+small icons keep the full slot's clickable area and large icons extend it. Bar
+and graph sizing remain unchanged pending their own comparison. The timeline
+now follows native GelboxApp's 16px left inset and default 316px notional width
+for the 390px gel (58px right inset). See
+[slider geometry evidence](../reference/native/slider-controls/README.md).
+
+New browser cases failed before the icon and timeline corrections, then passed
+at both display scales on both renderers. They check the 8×8 size icon's full
+26×26 click slot as well as oversized lane and clock/voltage icons. The two
+persistent-loupe full-page goldens were updated after inspecting diffs confined
+to timeline pixels. These are web regression baselines, not native goldens.
+
+Fresh verification: **285 browser tests passed, one intentional duplicate skipped;
+production build and TypeScript checks passed**. The unchanged model's previous
+unit baseline remains 2,845 passed. Remaining control work includes native handle
+styling, notches, label raster/baselines, buffer and graph geometry, and gesture
+semantics. Source inspection specifically identifies handle-relative dragging:
+native retains its mouse-down offset, while the web currently maps the pointer
+absolutely. Full native visual/workflow and P5 certification remain open.

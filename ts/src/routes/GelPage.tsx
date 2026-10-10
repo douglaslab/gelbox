@@ -1,3 +1,4 @@
+import {LAYOUT} from '../lib/layout/layout';
 import {DirectBandCanvas} from '../components/gel/DirectBandCanvas';
 import {useFileLoadQueue} from '../components/gel/FileLoadProvider';
 import {tubeGeometry} from '../lib/layout/tubeGeometry';
@@ -132,10 +133,11 @@ function GelInner() {
       <div
         style={{
           position: 'absolute',
-          left: 0,
-          right: 48,
+          left: LAYOUT.btnGutter,
+          right: LAYOUT.gelSettingsBtnRightOfGel ? LAYOUT.btnGutter
+            : LAYOUT.fragViewSliderIconNotionalSize.x + 2 * LAYOUT.btnGutter,
           top: '100%',
-          marginTop: 16,
+          marginTop: LAYOUT.btnGutter,
         }}
       >
         <TimelineSlider />

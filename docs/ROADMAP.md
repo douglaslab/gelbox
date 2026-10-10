@@ -224,3 +224,12 @@ it. The current suite passes 281 browser cases, with one intentional duplicate
 skip, and the production build passes. Complete native typography/raster and
 composed workflow certification remain next, followed by P5 reliability/platform
 checks. See STATUS and reference/native/menu for evidence and limits.
+
+
+Slider-control update: regular slider icons now retain natural logical size and
+native notional hit slots at 1×/2×; timeline bounds now follow GelboxApp's inset
+and width formulas. Source-backed geometry and reviewed web diff evidence are in
+reference/native/slider-controls. Full browser verification passes 285 cases,
+with one intentional duplicate skip, and the production build passes. Next
+control correction: native handle-relative drag semantics, followed by remaining
+handle/notch/text, graph and buffer-bar comparisons. Full phase gates remain open.

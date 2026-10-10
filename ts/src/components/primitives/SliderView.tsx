@@ -1,4 +1,4 @@
-import { useCallback, useRef, type CSSProperties } from 'react';
+import { useCallback, useRef, useState, type CSSProperties } from 'react';
 import {
   type SliderConfig,
   applyNotchSnap,
@@ -132,14 +132,13 @@ export function SliderView({
       aria-disabled={!enabled || undefined}
     >
       {iconLo && (
-        <img
-          src={resolveAssetUrl(iconLo)}
-          alt=""
-          width={iconSize.x}
-          height={iconSize.y}
-          className={styles.icon}
+        <SliderIcon
+          path={iconLo}
+          slot={iconSize}
+          natural={config.style === 'slider'}
+          high={false}
           onClick={() => onIconClick('lo')}
-          data-testid={testId ? `${testId}-icon-lo` : undefined}
+          testId={testId ? `${testId}-icon-lo` : undefined}
         />
       )}
 
@@ -227,16 +226,39 @@ export function SliderView({
       {iconHi && <div style={{ width: iconGutter, flex: '0 0 auto' }} />}
 
       {iconHi && (
-        <img
-          src={resolveAssetUrl(iconHi)}
-          alt=""
-          width={iconSize.x}
-          height={iconSize.y}
-          className={styles.icon}
+        <SliderIcon
+          path={iconHi}
+          slot={iconSize}
+          natural={config.style === 'slider'}
+          high={true}
           onClick={() => onIconClick('hi')}
-          data-testid={testId ? `${testId}-icon-hi` : undefined}
+          testId={testId ? `${testId}-icon-hi` : undefined}
         />
       )}
     </div>
   );
+}
+
+
+/** Native Slider::doLayoutInWidth keeps image size separate from its pick slot. */
+function SliderIcon({path,slot,natural,high,onClick,testId}:{
+  path:string;slot:{x:number;y:number};natural:boolean;high:boolean;
+  onClick:()=>void;testId?:string;
+}) {
+  const src=resolveAssetUrl(path);
+  const [decoded,setDecoded]=useState<{src:string;x:number;y:number}|null>(null);
+  const size=natural&&decoded?.src===src?decoded:slot;
+  // Native roundf snaps absolute positions. The low icon starts at x=0;
+  // the high icon starts at a positive integer position within the slider.
+  const round=(v:number)=>Math.sign(v)*Math.round(Math.abs(v));
+  const dx=(slot.x-size.x)/2,dy=(slot.y-size.y)/2;
+  return <span className={styles.iconSlot} style={{width:slot.x,height:slot.y}} onClick={onClick}>
+    <img src={src} alt="" className={styles.icon} data-testid={testId}
+      onLoad={e=>{
+        const img=e.currentTarget,scale=src.endsWith('@2x.png')?2:1;
+        setDecoded({src,x:img.naturalWidth/scale,y:img.naturalHeight/scale});
+      }}
+      style={{position:'absolute',left:high?Math.round(dx):round(dx),top:round(dy),
+        width:size.x,height:size.y,maxWidth:'none'}}/>
+  </span>;
 }
