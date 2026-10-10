@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,853 passed |
-| Browser suite across WebGPU/WebGL2 | 385 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 387 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
 | Production build and TypeScript checks | Passed |
@@ -1082,3 +1082,32 @@ unchanged, so existing unit/Chromium verification remains the preceding record.
 Next resolve the Firefox runner/environment or use a validated current browser
 runner, then exercise actual Safari and broader workflows. No Firefox support or
 full browser/release gate is claimed.
+
+
+## Live molecular display-scale changes
+
+Sample/loupe canvases previously read devicePixelRatio only when their renderer
+mounted. Changing display scale without changing CSS dimensions left their backing
+buffers at the old resolution. They now resize the existing surface on resolution/
+resize notifications and check dimensions before drawing. The draw-time check also
+covers DPR changes without a dispatched resize/media event. Resize failures enter
+the existing bounded graphics recovery path. View engines and canvas nodes are
+retained; no simulation reset is introduced.
+
+Two browser regressions failed with old buffers before the fix. Both now pass live
+1× → 2× → 1× CDP transitions with fixed CSS dimensions, correct physical buffers,
+visible particle pixels, the same two live sample/loupe view objects and connected
+original canvas nodes. Transient hover views are excluded after their normal
+disposal, rather than incorrectly counted as persistent views.
+
+Fresh verification: **387 browser tests passed, one intentional duplicate skipped;
+four production root/subpath cases, build and TypeScript checks passed**. Unit
+code is unchanged; the last unit verification remains 2,853 passed. These are
+emulated display-scale transitions, not physical multi-monitor certification.
+No goldens changed. Broader lifecycle stress, platform and native parity gates
+remain open.
+
+Firefox follow-up: the pinned Firefox132 runner also failed in headed mode before
+app navigation, with the same profile/sandbox-extension errors. This rules out a
+headless-only workaround in this environment; current Firefox/Safari verification
+still requires a working browser runner. No security settings were changed.

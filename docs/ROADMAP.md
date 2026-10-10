@@ -417,3 +417,11 @@ fails at browser launch (profile sandbox/framebuffer errors), including with `/t
 profiles; failures remain visible and bounded to 15 seconds. macOS27.0.1 / M5Max.
 Shipping Safari/current Firefox and full platform gates remain open. Product source
 and established Chromium production gate are unchanged.
+
+
+P5 DPR update: sample/loupe backing buffers now follow live display-scale changes
+without replacing simulation views. Both renderers pass fixed-CSS-size 1×/2×/1×
+transitions with visible particles and preserved objects/nodes. Full checks: 387
+browser cases, one intentional skip; four production cases, build/type checks
+pass. Physical multi-monitor and broader lifecycle certification remain open.
+Pinned Firefox launch also fails headed; environment limitation remains explicit.

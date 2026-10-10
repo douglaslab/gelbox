@@ -86,11 +86,23 @@ export function SampleSimCanvas({
       if(restartCycle)onLoss(backend);else onFailure(backend);
     };
     const cleanup:(()=>void)[]=[];
-    const dpr = (typeof window !== 'undefined' ? window.devicePixelRatio : 1) || 1;
-    const wpx = Math.round(width * dpr);
-    const hpx = Math.round(height * dpr);
-    canvas.width = wpx;
-    canvas.height = hpx;
+    const resize=()=>{
+      if(cancelled||lost)return;
+      const dpr=window.devicePixelRatio||1;
+      const wpx=Math.max(1,Math.round(width*dpr)),hpx=Math.max(1,Math.round(height*dpr));
+      if(canvas.width===wpx&&canvas.height===hpx)return;
+      canvas.width=wpx;canvas.height=hpx;
+      try {handleRef.current?.resize(wpx,hpx,width,height);}
+      catch(error){handleRef.current?.fail(error);}
+    };
+    let resolution:MediaQueryList;
+    const watchResolution=()=>{
+      resolution?.removeEventListener('change',watchResolution);
+      resize();resolution=matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+      resolution.addEventListener('change',watchResolution);
+    };
+    watchResolution();window.addEventListener('resize',resize);
+    cleanup.push(()=>{resolution.removeEventListener('change',watchResolution);window.removeEventListener('resize',resize);});
 
     (async () => {
       let backend:Backend|null=null;
@@ -112,7 +124,7 @@ export function SampleSimCanvas({
             fail,
             resize: (wp, hp, wc, hc) => { canvas.width = wp; canvas.height = hp; batch.setViewport(wc, hc); },
             draw: (mesh, bg) => {
-              if(lost)return;
+              resize();if(lost)return;
               batch.draw(
                 { framebuffer: null, width: canvas.width, height: canvas.height },
                 mesh,
@@ -136,7 +148,7 @@ export function SampleSimCanvas({
             fail,
             resize: (_wp, _hp, wc, hc) => { batch.setViewport(wc, hc); },
             draw: (mesh, bg) => {
-              if(lost)return;
+              resize();if(lost)return;
               const enc = device.createCommandEncoder({ label: 'molsim' });
               batch.draw(enc, context.getCurrentTexture().createView(), mesh, {
                 clear: true,
