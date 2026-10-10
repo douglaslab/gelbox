@@ -547,3 +547,14 @@ browser cases plus one intentional skip, four production cases. See
 [reference scope](../reference/native/modern/direct-band-scenes/README.md).
 Full original-release GUI, other hardware/scales, remaining app scenes and
 P0–P5 completion gates remain open.
+
+### Native imported-dye background corrected
+
+Independent unchanged C++ getDyes/drawBackground captures exposed imported-mass
+clamping and last-entry-wins duplicate handling in the molecular canvas. Both
+are corrected with exact native float32 arithmetic. Thirty-six numeric cases
+and six real-browser import/highlight/save scenarios pass, with native CGL RGB
+checks. Full gates: 2,908 units, 495 browser cases plus one intentional skip,
+four production cases. [Reference and limits](../reference/native/numerical/background/README.md).
+Remaining dye control color/default-entry discrepancies are recorded in STATUS;
+particle-edge raster and full P0–P5 acceptance remain open.

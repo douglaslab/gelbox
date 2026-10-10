@@ -289,7 +289,7 @@ export function SampleSimCanvas({
 }
 
 /**
- * Map a sample's dye fragments into a length-DYE_COUNT mass array, indexed by
+ * Sum dye fragments like native Sample::getDyes (including duplicates), indexed by
  * the fragment's dye index. `Fragment.dye` is the dye index per src/lib/sim/
  * sample.ts (-1 = not a dye; 0..3 = dye index); `isDyeFragment` gates non-dyes.
  */
@@ -297,7 +297,7 @@ function dyeMassesFromSample(sample: Sample | null): number[] {
   const out = new Array<number>(DYE_COUNT).fill(0);
   if (!sample) return out;
   for (const f of sample.fragments) {
-    if (isDyeFragment(f) && f.dye >= 0 && f.dye < DYE_COUNT) out[f.dye] = f.mass;
+    if (isDyeFragment(f) && f.dye >= 0 && f.dye < DYE_COUNT) out[f.dye] = Math.fround(out[f.dye] + Math.fround(f.mass));
   }
   return out;
 }

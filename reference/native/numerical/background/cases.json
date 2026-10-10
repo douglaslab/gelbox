@@ -1,0 +1,446 @@
+[
+  {
+    "id": "h0-0-0-0-0",
+    "highlight": 0,
+    "dyes": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "h0-125-0-0-0",
+    "highlight": 0,
+    "dyes": [
+      125,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "h0-999-0-0-0",
+    "highlight": 0,
+    "dyes": [
+      999,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "h0-0-500-0-0",
+    "highlight": 0,
+    "dyes": [
+      0,
+      500,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "h0-0-0-1000-0",
+    "highlight": 0,
+    "dyes": [
+      0,
+      0,
+      1000,
+      0
+    ]
+  },
+  {
+    "id": "h0-0-0-0-250",
+    "highlight": 0,
+    "dyes": [
+      0,
+      0,
+      0,
+      250
+    ]
+  },
+  {
+    "id": "h0-125-250-500-1000",
+    "highlight": 0,
+    "dyes": [
+      125,
+      250,
+      500,
+      1000
+    ]
+  },
+  {
+    "id": "h0-0.25-17.12345-3.5-0.1",
+    "highlight": 0,
+    "dyes": [
+      0.25,
+      17.12345,
+      3.5,
+      0.1
+    ]
+  },
+  {
+    "id": "h1-0-0-0-0",
+    "highlight": 1,
+    "dyes": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "h1-125-0-0-0",
+    "highlight": 1,
+    "dyes": [
+      125,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "h1-999-0-0-0",
+    "highlight": 1,
+    "dyes": [
+      999,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "h1-0-500-0-0",
+    "highlight": 1,
+    "dyes": [
+      0,
+      500,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "h1-0-0-1000-0",
+    "highlight": 1,
+    "dyes": [
+      0,
+      0,
+      1000,
+      0
+    ]
+  },
+  {
+    "id": "h1-0-0-0-250",
+    "highlight": 1,
+    "dyes": [
+      0,
+      0,
+      0,
+      250
+    ]
+  },
+  {
+    "id": "h1-125-250-500-1000",
+    "highlight": 1,
+    "dyes": [
+      125,
+      250,
+      500,
+      1000
+    ]
+  },
+  {
+    "id": "h1-0.25-17.12345-3.5-0.1",
+    "highlight": 1,
+    "dyes": [
+      0.25,
+      17.12345,
+      3.5,
+      0.1
+    ]
+  },
+  {
+    "id": "h2-0-0-0-0",
+    "highlight": 2,
+    "dyes": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "h2-125-0-0-0",
+    "highlight": 2,
+    "dyes": [
+      125,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "h2-999-0-0-0",
+    "highlight": 2,
+    "dyes": [
+      999,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "h2-0-500-0-0",
+    "highlight": 2,
+    "dyes": [
+      0,
+      500,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "h2-0-0-1000-0",
+    "highlight": 2,
+    "dyes": [
+      0,
+      0,
+      1000,
+      0
+    ]
+  },
+  {
+    "id": "h2-0-0-0-250",
+    "highlight": 2,
+    "dyes": [
+      0,
+      0,
+      0,
+      250
+    ]
+  },
+  {
+    "id": "h2-125-250-500-1000",
+    "highlight": 2,
+    "dyes": [
+      125,
+      250,
+      500,
+      1000
+    ]
+  },
+  {
+    "id": "h2-0.25-17.12345-3.5-0.1",
+    "highlight": 2,
+    "dyes": [
+      0.25,
+      17.12345,
+      3.5,
+      0.1
+    ]
+  },
+  {
+    "id": "h0-duplicate",
+    "highlight": 0,
+    "fragments": [
+      {
+        "dye": 0,
+        "mass": 62.5
+      },
+      {
+        "dye": 0,
+        "mass": 62.5
+      }
+    ]
+  },
+  {
+    "id": "h0-duplicate-over",
+    "highlight": 0,
+    "fragments": [
+      {
+        "dye": 0,
+        "mass": 499
+      },
+      {
+        "dye": 0,
+        "mass": 500
+      }
+    ]
+  },
+  {
+    "id": "h0-duplicate-fractional",
+    "highlight": 0,
+    "fragments": [
+      {
+        "dye": 2,
+        "mass": 0.1
+      },
+      {
+        "dye": 2,
+        "mass": 0.2
+      },
+      {
+        "dye": 2,
+        "mass": 0.3
+      }
+    ]
+  },
+  {
+    "id": "h0-mixed-with-dna",
+    "highlight": 0,
+    "fragments": [
+      {
+        "dye": -1,
+        "mass": 99999
+      },
+      {
+        "dye": 1,
+        "mass": 250
+      },
+      {
+        "dye": 1,
+        "mass": 250
+      },
+      {
+        "dye": 3,
+        "mass": 10
+      }
+    ]
+  },
+  {
+    "id": "h1-duplicate",
+    "highlight": 1,
+    "fragments": [
+      {
+        "dye": 0,
+        "mass": 62.5
+      },
+      {
+        "dye": 0,
+        "mass": 62.5
+      }
+    ]
+  },
+  {
+    "id": "h1-duplicate-over",
+    "highlight": 1,
+    "fragments": [
+      {
+        "dye": 0,
+        "mass": 499
+      },
+      {
+        "dye": 0,
+        "mass": 500
+      }
+    ]
+  },
+  {
+    "id": "h1-duplicate-fractional",
+    "highlight": 1,
+    "fragments": [
+      {
+        "dye": 2,
+        "mass": 0.1
+      },
+      {
+        "dye": 2,
+        "mass": 0.2
+      },
+      {
+        "dye": 2,
+        "mass": 0.3
+      }
+    ]
+  },
+  {
+    "id": "h1-mixed-with-dna",
+    "highlight": 1,
+    "fragments": [
+      {
+        "dye": -1,
+        "mass": 99999
+      },
+      {
+        "dye": 1,
+        "mass": 250
+      },
+      {
+        "dye": 1,
+        "mass": 250
+      },
+      {
+        "dye": 3,
+        "mass": 10
+      }
+    ]
+  },
+  {
+    "id": "h2-duplicate",
+    "highlight": 2,
+    "fragments": [
+      {
+        "dye": 0,
+        "mass": 62.5
+      },
+      {
+        "dye": 0,
+        "mass": 62.5
+      }
+    ]
+  },
+  {
+    "id": "h2-duplicate-over",
+    "highlight": 2,
+    "fragments": [
+      {
+        "dye": 0,
+        "mass": 499
+      },
+      {
+        "dye": 0,
+        "mass": 500
+      }
+    ]
+  },
+  {
+    "id": "h2-duplicate-fractional",
+    "highlight": 2,
+    "fragments": [
+      {
+        "dye": 2,
+        "mass": 0.1
+      },
+      {
+        "dye": 2,
+        "mass": 0.2
+      },
+      {
+        "dye": 2,
+        "mass": 0.3
+      }
+    ]
+  },
+  {
+    "id": "h2-mixed-with-dna",
+    "highlight": 2,
+    "fragments": [
+      {
+        "dye": -1,
+        "mass": 99999
+      },
+      {
+        "dye": 1,
+        "mass": 250
+      },
+      {
+        "dye": 1,
+        "mass": 250
+      },
+      {
+        "dye": 3,
+        "mass": 10
+      }
+    ]
+  }
+]

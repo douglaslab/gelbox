@@ -14,22 +14,20 @@ export function computeBackgroundColor(
   dyeMasses: readonly number[],
   highlight: 0 | 1 | 2,
 ): [number, number, number] {
-  const s = HIGHLIGHT_SCALE[highlight];
-  let r = BKGND[0] * s;
-  let g = BKGND[1] * s;
-  let b = BKGND[2] * s;
+  const f = Math.fround;
+  const s = f(HIGHLIGHT_SCALE[highlight]);
+  let r = f(f(BKGND[0]) * s);
+  let g = f(f(BKGND[1]) * s);
+  let b = f(f(BKGND[2]) * s);
   let w = 1;
   for (let i = 0; i < DYE_COLORS.length; i++) {
-    // DYE_MAX_MASS (125 ng) = C++ GelSim::kTuning.mSliderDyeMassMax (= Dye::kMaxMass).
-    // C++ drawBackground doesn't clamp norm; we clamp defensively. The dye-mass
-    // slider caps at DYE_MAX_MASS, so in practice norm never exceeds 1 and this
-    // stays faithful to the C++ result.
-    const norm = Math.max(0, Math.min(1, (dyeMasses[i] ?? 0) / DYE_MAX_MASS));
-    if (norm <= 0) continue;
-    r += DYE_COLORS[i][0] * norm;
-    g += DYE_COLORS[i][1] * norm;
-    b += DYE_COLORS[i][2] * norm;
-    w += norm;
+    // The slider limit is a normalization factor, not an import clamp.
+    // Native Sample::getDyes can exceed it, including through duplicate dyes.
+    const norm = f(f(dyeMasses[i] ?? 0) / DYE_MAX_MASS);
+    r = f(r + f(f(DYE_COLORS[i][0]) * norm));
+    g = f(g + f(f(DYE_COLORS[i][1]) * norm));
+    b = f(b + f(f(DYE_COLORS[i][2]) * norm));
+    w = f(w + norm);
   }
-  return [r / w, g / w, b / w];
+  return [f(r / w), f(g / w), f(b / w)];
 }

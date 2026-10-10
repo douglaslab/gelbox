@@ -1,0 +1,38 @@
+{
+  "nativeCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceHashes": {
+    "src/MolecularSim.cpp": "7816bdebddb3aea6933bd7be028c76cd09295e918edacd45494b8b0e4c198dcd",
+    "src/Sample.cpp": "58fe12e7b766ac6064b22e5c3f729dcc9674f915f1f089d8d8e1e8222b1f87e6",
+    "include/Dye.h": "2f79d16e2da24ab3822ef9d817cbb18c4a94ed0dc295d4c2cf06c473b30c26df",
+    "include/Layout.h": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+    "include/GelSim.h": "e7bbc0bd7ec5bac4b6803b5236de49934d0926cac858b6c053a3ee460d3c6c42"
+  },
+  "extractedHashes": {
+    "background.inc": "f6374370f566a92df9bf9399710f36d37385fc46db99f0926240757193988013",
+    "get-dyes.inc": "113f9bdadd8522250eb398c758d455105e3b9294b644864820bb4e85614ce430"
+  },
+  "colorHeaderSha256": "75a6c44ec63534e242da1226edadcc93262648d01b2c6a79d2caed078f5704cb",
+  "driverSha256": "063649480c6431fa32c74e26f5fdc288b1a12e22f7621b8a6ffec8a260d5debb",
+  "casesSha256": "54b4c183804af96522c28943ef0dafeef24e5230e805bd04640ed771ce9743d4",
+  "outputsSha256": "fdb9e080882afe4f6b5674c8f79513c4ff526122a126b0f6062a04658b3fc40d",
+  "executableSha256": "669f51363c434059d397e06fd0a90a716b3d5b558053252560cf41c384a9998b",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+  "command": [
+    "clang++",
+    "-std=c++17",
+    "-Wno-deprecated-literal-operator",
+    "-I/Users/shawn/code/Cinder/include",
+    "-I/tmp/gel-background-reference",
+    "/Users/shawn/.codex/worktrees/3f9f/gel/reference/native/numerical/background/driver.cpp",
+    "-o",
+    "/tmp/gel-background-reference/capture"
+  ],
+  "repeatIdentical": true,
+  "pixelDriverSha256": "07602db380fef5544712e0a8e28440fe0b9251ea28bc7658c988cf6989d06f50",
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "limits": [
+    "Adapter supplies parsed fragments and effective default background/slider mass constants. Original getDyes and drawBackground bodies are unchanged.",
+    "GL calls capture computed Color; this is numeric output, not native GUI/raster certification."
+  ]
+}

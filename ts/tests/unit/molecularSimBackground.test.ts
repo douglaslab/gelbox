@@ -28,9 +28,9 @@ describe('computeBackgroundColor (sRGB-domain, matches C++ drawBackground)', () 
     expect(c[2]).toBeCloseTo((BASE[2] + dye[2]) / 2, 5);
   });
 
-  it('clamps mass norm at 1 (over-max behaves like max)', () => {
+  it('uses imported mass above the slider maximum', () => {
     const atMax  = computeBackgroundColor([125, 0, 0, 0], 0);
     const overMax = computeBackgroundColor([999, 0, 0, 0], 0);
-    expect(overMax[0]).toBeCloseTo(atMax[0], 5);
+    expect(overMax[0]).toBeLessThan(atMax[0]);
   });
 });

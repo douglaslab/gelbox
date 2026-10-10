@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Latest verification: 2026-10-10 · direct-band multisample parity · native reference `5f51097`._
+_Latest verification: 2026-10-10 · native dye-background parity · native reference `5f51097`._
 
 ## Direction
 
@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include native well presentation, terminal-f
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,872 passed |
-| Browser suite across WebGPU/WebGL2 | 489 passed; one intentional duplicate skipped |
+| Unit suite | 2,908 passed |
+| Browser suite across WebGPU/WebGL2 | 495 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -1846,3 +1846,31 @@ Independent review of the direct-band correction found no Critical, Important or
 Minor issues; its pending-test condition is satisfied by the final checks above.
 The [review record](superpowers/reports/2026-10-10-direct-band-presentation.md)
 retains its scope and open requirements.
+
+## Native dye backgrounds, including imports and duplicate entries
+
+The [native background harness](../reference/native/numerical/background/README.md)
+executes unchanged pinned `Sample::getDyes` and `MolecularSim::drawBackground`
+with actual Cinder Color math. Thirty-six cases cover idle/hover/down, individual
+and mixed dyes, fractional values, imported masses above 125 ng and duplicates.
+A separate native CGL RGBA8 probe records the solid-background RGB conversion.
+Both numeric output and RGB conversion repeat identically.
+
+Fixed two native differences: the background no longer clamps imported mass to
+the slider maximum, and the shared sample/loupe canvas sums duplicate dye
+fragments instead of taking the last entry. Background arithmetic now follows
+native float32 operations exactly. The 36 numeric tests failed before and pass
+after. Six browser scenarios also failed before; they now match exact native
+RGB for excess/duplicate dye imports in idle/hover/down on both backends, and
+saving retains all original dye entries/masses. No tolerance or existing image
+baseline changed. Fresh gates: 2,908 units, 495 browser cases (one intentional
+skip), and four production cases passed.
+
+This closes the measured background calculation/import discrepancy, not native
+particle-edge raster or composed loupe GUI certification. Next concrete dye
+control issues identified by source comparison: DyeRow applies linear-to-sRGB
+conversion to already native-domain colors; SET_DYE_MASS suppresses a missing
+zero-mass entry and initializes new dye metadata differently from native
+Sample::setDye/Fragment defaults. Native getDye (singular) intentionally uses the
+first matching entry for its slider, whereas getDyes sums for the background;
+that distinction must be retained when correcting those remaining controls.
