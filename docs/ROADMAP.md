@@ -289,3 +289,10 @@ full browser suite 329 passed, one intentional duplicate skipped; build passes.
 Sampled controls already reset inherited font-size-adjust. Continue native text
 baselines/raster and control stroke/handle comparison, then composed workflows
 and P5 release checks. This does not close the full visual parity gate.
+
+
+Handle update: restore snapped/inset native fill, solid shadow, translucent
+outline and disabled colors; preserve gesture hit geometry. Full browser suite:
+333 passed, one intentional duplicate skipped; production build passed. No golden
+updates. Remaining control work includes native raster comparisons, line/notch
+styling and text baselines; composed workflow and P5 gates remain open.

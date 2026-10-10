@@ -184,11 +184,8 @@ export function SliderView({
           {(config.notchAction !== 'none') && (config.notches ?? []).map((n, i) => (
             <div key={i} className={styles.notch} style={{ left: `${n * 100}%` }} />
           ))}
-          <div
-            className={styles.handle}
-            style={{ left: `calc(${normalized * 100}% - 8px)` }}
-            data-testid={testId ? `${testId}-handle` : undefined}
-          />
+          <SliderHandle normalized={normalized} enabled={enabled}
+            testId={testId ? `${testId}-handle` : undefined} />
           {labelStr && (
             <div className={styles.sliderLabel} style={{ left: `${normalized * 100}%` }}>
               {labelStr}
@@ -294,4 +291,40 @@ function SliderIcon({path,slot,natural,high,onClick,testId}:{
       style={{position:'absolute',left:high?Math.round(dx):round(dx),top:round(dy),
         width:size.x,height:size.y,maxWidth:'none'}}/>
   </span>;
+}
+
+/** Keep native drawing bounds separate from the unsnapped gesture hit rectangle. */
+function SliderHandle({normalized,enabled,testId}:{normalized:number;enabled:boolean;testId?:string}) {
+  const ref=useRef<HTMLDivElement>(null);
+  const [surface,setSurface]=useState({width:0,dpr:1});
+  useLayoutEffect(()=>{
+    const track=ref.current!.parentElement!;
+    const measure=()=>setSurface(previous=>{
+      const width=track.getBoundingClientRect().width,dpr=window.devicePixelRatio||1;
+      return previous.width===width&&previous.dpr===dpr?previous:{width,dpr};
+    });
+    const observer=new ResizeObserver(measure);observer.observe(track);
+    let resolution:MediaQueryList;
+    const watchResolution=()=>{
+      resolution?.removeEventListener('change',watchResolution);
+      measure();resolution=matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+      resolution.addEventListener('change',watchResolution);
+    };
+    watchResolution();window.addEventListener('resize',measure);
+    return ()=>{observer.disconnect();resolution.removeEventListener('change',watchResolution);
+      window.removeEventListener('resize',measure);};
+  },[]);
+  const color=enabled?[73,144,226]:[164,199.5,240.5];
+  return <div ref={ref} className={styles.handle} data-testid={testId}
+    style={{left:Math.round(normalized*surface.width-8)}}>
+    <svg width="16" height="20" style={{overflow:'visible',pointerEvents:'none'}} aria-hidden="true">
+      {enabled&&<rect data-part="shadow" x="0.5" y="3.5" width="15" height="19" rx="4"
+        fill="black" fillOpacity="0.15" />}
+      <rect data-part="fill" x="0.5" y="0.5" width="15" height="19" rx="4"
+        fill={`rgb(${color.join(',')})`} />
+      <rect data-part="outline" x="0.5" y="0.5" width="15" height="19" rx="4"
+        fill="none" stroke={`rgb(${color.map(c=>c*.5).join(',')})`}
+        strokeOpacity="0.5" strokeWidth={1/surface.dpr} />
+    </svg>
+  </div>;
 }

@@ -53,19 +53,14 @@
   position: absolute;
   width: 16px;
   height: 20px;
-  background: #4990E2;
-  border-radius: 4px;
   top: 0;
   cursor: grab;
-  box-shadow: 0 3px 4px rgba(0,0,0,0.15);
 }
 
 .handle:active { cursor: grabbing; }
 
 .disabled .handle {
-  background: #A4C8F0;
   cursor: default;
-  box-shadow: none;
 }
 
 .bar {

@@ -141,3 +141,31 @@ and reopens the view to verify that a custom initial buffer has no markers.
 Six backend/scenario combinations failed before implementation and pass after.
 The stroke uses fill color × 0.8 at disabled alpha 0.5. Exact native pixel-width
 and antialiasing comparison at Retina scale remains part of raster certification.
+
+
+## Handle drawing restoration
+
+Pinned `src/Slider.cpp::draw` and `calcHandleRect` define a 16×20 hit rectangle.
+Drawing snaps its upper-left in logical coordinates, then insets each edge by
+0.5: a 15×19 fill with radius 4. Enabled handles draw a separate solid black
+rectangle at y+3, alpha 0.15, before the fill. There is no blur. Both enabled and
+disabled handles then draw an outline using `ColorA * 0.5`, which halves RGB
+and alpha. Disabled fill is the enabled RGB mixed halfway toward white.
+`ColorAT::operator*(T)` in the pinned Cinder header confirms alpha multiplication.
+Cinder's stroked rounded rectangle uses GL line geometry; Gelbox does not override
+the default one-device-pixel line width.
+
+The web now represents these layers as SVG rectangles inside the existing handle
+hit area, with a 1/DPR logical-pixel outline. Track measurement and resolution
+listeners update snapped placement and stroke width; listeners/observer are
+removed on unmount. Drag membership continues to use the unsnapped native hit
+rectangle, independent of the rendered SVG.
+
+Four display-scale/backend regressions initially failed on the missing drawing
+structure. They now cover snapped positions, inset bounds, outline alpha/width,
+and enabled/disabled shadows. Twelve existing gesture cases also passed.
+Fresh full suite: 333 passed, one intentional duplicate skipped; production build
+and TypeScript checks passed. Reviewed web screenshot artifacts show the solid
+shadow and outline. No screenshot baselines changed. This is source-backed drawing
+restoration: native GL tessellation/antialiasing versus SVG raster differences,
+composed native screenshots, and lifecycle stress certification remain open.

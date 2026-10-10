@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 329 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 333 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -737,3 +737,17 @@ The unchanged model's last full unit baseline remains 2,845 passed. See the
 [font reference](../reference/native/fonts/README.md) for reproduction and limits.
 Native glyph rasterization/baselines, remaining control strokes/handles, composed
 native workflows and P5 reliability/release gates remain open.
+
+
+## Native slider handle drawing
+
+Handles now use native snapped/inset drawing bounds, a solid offset shadow,
+and a translucent dark outline, including the disabled handle. SVG drawing is
+separate from the existing unsnapped gesture hit area. Four 1×/2× backend cases
+verify drawing structure/geometry; existing gesture regressions remain green.
+Fresh full verification: **333 browser tests passed, one intentional duplicate
+skipped; production build and TypeScript checks passed**. Reviewed web captures;
+no goldens changed. Unit baseline remains 2,845 for the unchanged model.
+See [slider reference](../reference/native/slider-controls/README.md). Native
+GL/SVG raster differences, line/notch appearance, text baselines, composed native
+workflows and P5 reliability/release certification remain open.
