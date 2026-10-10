@@ -1,0 +1,66 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.production.config.ts file-workflow.spec.ts --output=/tmp/gel-file-workflow-complete
+
+
+Running 4 tests using 4 workers
+
+(node:2366) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2366) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2367) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2367) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2365) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2365) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2364) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2364) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [chromium-webgpu] › file-workflow.spec.ts:61:1 › compiled queued mixed drops use the new layout and preserve occupied or full lanes (482ms)
+  ✓  3 [chromium-webgl2] › file-workflow.spec.ts:61:1 › compiled queued mixed drops use the new layout and preserve occupied or full lanes (542ms)
+  ✓  2 [chromium-webgl2] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen (1.1s)
+  ✘  1 [chromium-webgpu] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen (30.0s)
+
+
+  1) [chromium-webgpu] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForEvent: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for event "download"
+    ============================================================
+
+       8 |  const menu=page.getByRole('button',{name:'Application settings'});
+       9 |  if(await menu.getAttribute('aria-expanded')!=='true')await menu.click();
+    > 10 |  const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+         |                     ^
+      11 |  const doc=JSON.parse(await readFile((await (await pending).path())!,'utf8'));
+      12 |  await page.keyboard.press('Escape');return doc;
+      13 | }
+        at save (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/file-workflow.spec.ts:10:21)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/file-workflow.spec.ts:57:10
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByTestId('save-gel-btn')[22m
+
+
+       8 |  const menu=page.getByRole('button',{name:'Application settings'});
+       9 |  if(await menu.getAttribute('aria-expanded')!=='true')await menu.click();
+    > 10 |  const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+         |                                                                                     ^
+      11 |  const doc=JSON.parse(await readFile((await (await pending).path())!,'utf8'));
+      12 |  await page.keyboard.press('Escape');return doc;
+      13 | }
+        at save (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/file-workflow.spec.ts:10:85)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/file-workflow.spec.ts:57:10
+
+  1 failed
+    [chromium-webgpu] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen 
+  3 passed (30.4s)

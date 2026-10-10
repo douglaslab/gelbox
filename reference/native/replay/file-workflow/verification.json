@@ -1,0 +1,14 @@
+{
+  "sameBackendDocuments": true,
+  "nativeRereadMatchesExceptExactFloat32Mass": true,
+  "originalMass": 35.125,
+  "webMass": 117.57998083587876,
+  "nativeMass": 117.5799789428711,
+  "files": {
+    "manifest.json": "329453e5571bdecaa11472f215b1b8427112c781d346108ac2e7417d7dc48d3f",
+    "native-input.json": "744d758185f8a67ae88f3481084653bd289f019cce81b74a68c9d9157bd7b981",
+    "native-reread-webgpu.json": "267e0d481807b2dc8698ea0f34a6cd132c3a44401c9123319424e99f2fa8b774",
+    "webgl2-edited.json": "573550c32a6de48ee4caf10752aaf5a556772877b04518db48ddea6acf57c5ce",
+    "webgpu-edited.json": "573550c32a6de48ee4caf10752aaf5a556772877b04518db48ddea6acf57c5ce"
+  }
+}

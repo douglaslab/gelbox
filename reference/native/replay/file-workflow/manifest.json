@@ -1,0 +1,18 @@
+{
+  "productRevision": "893e6fc",
+  "files": {
+    "reference/native/replay/file-workflow/test-import-race.log": "4cdd7baa432b879ae66b345509f08d8b7e9b8cd1ba839abd49cb79c1e8b65385",
+    "reference/native/replay/file-workflow/compiled.log": "8cd9fe8b666bbb0228a69f665d4a5c1f40e65b3d42e2aced94bd21ca35a351c6",
+    "reference/native/replay/file-workflow/native-input.json": "744d758185f8a67ae88f3481084653bd289f019cce81b74a68c9d9157bd7b981",
+    "reference/native/replay/file-workflow/webgl2-edited.json": "573550c32a6de48ee4caf10752aaf5a556772877b04518db48ddea6acf57c5ce",
+    "reference/native/replay/file-workflow/README.md": "da9d0f626c34d068852272bd60814369780a8833df8ece468a9fbac051da90da",
+    "reference/native/replay/file-workflow/webgpu-edited.json": "573550c32a6de48ee4caf10752aaf5a556772877b04518db48ddea6acf57c5ce",
+    "reference/native/replay/file-workflow/native-reread-webgpu.json": "267e0d481807b2dc8698ea0f34a6cd132c3a44401c9123319424e99f2fa8b774",
+    "reference/native/replay/file-workflow/webgpu-edited.png": "5df77393e248abadd7fdb0d6df648c37c1399e2b7179630688fd72ce4a279f1b",
+    "reference/native/replay/file-workflow/webgl2-edited.png": "ad84cf962fd97b6827be19b47e0555f6ccfc729211ad2ff35288bb113b4e4056",
+    "reference/native/replay/file-workflow/verification.json": "cd34422d7e678af5fa1798f76a98485050d2139d7fa320f2c046c70c7a411dca",
+    "reference/native/replay/file-workflow/verify.py": "0e88b98c5f78216056ae319b92917f6d40c95b285c15b653ccb26ac9fb44d78f",
+    "reference/native/replay/file-workflow/test-svg-target-failure.log": "91c696bfac2dd7ad9643878640063127b79ebcc84883ba6c82f9fe71a300ce0a",
+    "ts/tests/production/file-workflow.spec.ts": "087e2bee982e3fa17fee858540f7b575786f671bea8ac0c34d2dbae9fef3ec90"
+  }
+}

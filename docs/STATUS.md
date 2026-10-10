@@ -29,6 +29,13 @@ current-document binding remains an explicit pending exception (D04).
 [Evidence and fresh checks](../reference/native/files/interop/gel/stale-buffer/README.md):
 2,943 units and26 compiled cases passed after this panel-lifetime correction.
 
+The [original-native → compiled edit/save → native reopen workflow](../reference/native/replay/file-workflow/README.md)
+now preserves the mixed document, with only exact native float32 conversion of
+the edited mass. Both backend exports are identical and reopen in web without
+further changes. Four focused compiled cases cover that chain and queued mixed,
+occupied and full-lane drops. Native composed drop replay and D01/D04 decisions
+remain open; this does not close W01.
+
 The ledger reconciles all37 original audit rows and preserves all five roadmap
 high-risk workflows. Remaining packages are paired file/edit/save, shared-state
 editing, hidden lanes, difficult band dragging, integrated recovery, native image
