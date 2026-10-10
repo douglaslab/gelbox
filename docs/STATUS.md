@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,867 passed |
-| Browser suite across WebGPU/WebGL2 | 433 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 437 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -1500,3 +1500,25 @@ Fresh build/type checks and two current WebKit production cases passed. No new
 full unit/browser suite run was needed for this evidence-only change. Shipping
 Safari and Firefox, broader cross-browser workflows and all remaining native
 parity/release gates remain open.
+
+
+## Sample keyboard ownership through band and palette clicks
+
+Pinned native `GelView.cpp:542` gives the opened SampleView keyboard focus after
+band selection. `ColorPaletteView::mouseDown` changes color without changing the
+ViewCollection keyboard owner. The web app previously focused its SVG gel after
+band selection and then moved DOM focus to a clicked palette button.
+
+Band selection now focuses the mounted sample after dispatch, matching the
+existing tube behavior. Pointer palette clicks preserve that owner; explicit
+keyboard focus and Space activation of color buttons still work. Regression
+checks on both backends prove sample focus before/after the color click, deletion
+of the selected species, and exact complete-document preservation of all other
+data. The expected deletion follows native MolecularSim's swap-with-last removal
+(`MolecularSim.cpp:219–249`). The focus assertions failed before their respective
+fixes. No native GUI replay is claimed for this increment.
+
+Verification: **2,867 unit tests, 437 browser tests and 4 production checks
+passed**, with one intentional duplicate browser skip. Production included fresh
+build/TypeScript checks. No goldens or tolerances changed. Focus interactions
+with other panels, native palette drag behavior and full visual parity remain open.

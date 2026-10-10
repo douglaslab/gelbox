@@ -35,3 +35,25 @@ test('native sample header tube width and baseline',async({page})=>{
 test('native degradation control has no numeric label',async({page})=>{
  await expect(page.getByTestId('frag-degrade')).toHaveText('');
 });
+test('pointer color edit retains native sample keyboard ownership',async({page})=>{
+ const sample=page.getByTestId('sample-view');
+ await expect(sample).toBeFocused();
+ await page.getByTestId('fragment-palette-swatch-1').click();
+ await expect(page.getByTestId('fragment-palette-swatch-1')).toHaveAttribute('aria-pressed','true');
+ await expect(sample).toBeFocused();
+ await page.keyboard.press('Delete');
+ await page.getByRole('button',{name:'Application settings'}).click();
+ const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+ const doc=JSON.parse(await fs.readFile((await(await pending).path())!,'utf8'));
+ const expected=JSON.parse(await fs.readFile(input,'utf8'));
+ const fragments=expected.Gel.Samples[1].Fragments;
+ fragments[0]=fragments.pop();
+ expect(doc).toEqual(expected);
+ await expect(page.getByTestId('fragment-view')).toHaveCount(0);
+});
+test('palette retains explicit keyboard activation',async({page})=>{
+ const swatch=page.getByTestId('fragment-palette-swatch-1');
+ await swatch.focus();await page.keyboard.press('Space');
+ await expect(swatch).toBeFocused();
+ await expect(swatch).toHaveAttribute('aria-pressed','true');
+});

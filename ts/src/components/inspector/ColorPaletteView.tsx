@@ -23,6 +23,9 @@ export function ColorPaletteView({ value, onChange, testId }: ColorPaletteViewPr
             className={styles.swatch}
             data-selected={selected || undefined}
             data-testid={testId ? `${testId}-swatch-${i}` : undefined}
+            // Native palette clicks edit color without taking sample keyboard focus.
+            // Explicit keyboard focus/activation of these buttons remains available.
+            onPointerDown={e => e.preventDefault()}
             onClick={() => onChange(hexToRgb(hex))}
             aria-label={`Color ${i + 1}: ${hex}`}
             aria-pressed={selected}

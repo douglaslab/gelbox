@@ -123,7 +123,6 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
     if (!picked) { onBackgroundPointerDown(e); return; }
     const bandIdx = picked.index;
     e.preventDefault();
-    svgRef.current?.focus();
     const { lane, fragment } = bandToLaneFragment[bandIdx];
     try { svgRef.current?.setPointerCapture(e.pointerId); }
     catch (error) {
@@ -145,6 +144,9 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
       dispatch({ type: 'BEGIN_DRAG', laneIndex: lane, fragmentIndex: fragment, startY: y,
         referenceY: bands[bandIdx].rect.y1, aggregate: bands[bandIdx].aggregate });
     }
+    // Queue after dispatch so the newly opened sample has mounted before focus.
+    // Native GelView::mouseDown gives this sample keyboard ownership.
+    queueMicrotask(()=>document.querySelector<HTMLElement>('[data-testid="sample-view"]')?.focus({preventScroll:true}));
   }
 
   function onBackgroundPointerDown(e: React.PointerEvent<SVGSVGElement>) {
