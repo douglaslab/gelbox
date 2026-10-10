@@ -58,6 +58,15 @@ points to both presentation factories; keep legacy draw signatures as adapters.
 
 ## Task 2: Frame registry and two real view contributions
 
+In progress: development-only shared registry, post-commit frame presentation,
+sample body/shadow/clip and fragment well/representative are implemented. The
+production FragmentWell passes12 native edge comparisons with a registered
+geometric underlay. Same-frame mount/removal and RNG/tick invariants, movement,
+scroll/DPR/resize, initialization fallback and late-import retirement are covered.
+Still required: native real sample/fragment overlap fixture, full SampleView
+first-commit measurement coverage, loss/recovery and bounded-allocation gates.
+Mixed overlaps with unmigrated gel/DOM chrome remain explicitly unaccepted.
+
 Files: create `ts/src/lib/gel/scenePresentation.ts`; provider under `ts/src/components/gel/ScenePresentation.tsx`;
 modify `GelContext.tsx`, `Stage.tsx`, `SampleSimCanvas.tsx`, `FragmentWell.tsx`.
 

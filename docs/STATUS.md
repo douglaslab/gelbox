@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Latest verification: 2026-10-10 · ordered shared presentation API · native reference `5f51097`._
+_Latest verification: 2026-10-10 · first shared app view contributions · native reference `5f51097`._
 
 ## Direction
 
@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include native well presentation, terminal-f
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,913 passed |
-| Browser suite across WebGPU/WebGL2 | 537 passed; one intentional duplicate skipped |
+| Unit suite | 2,916 passed |
+| Browser suite across WebGPU/WebGL2 | 549 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -2184,3 +2184,30 @@ Final verification for this increment: **2,913 units, 537 normal browser cases
 build pass**. The shared-surface proof retains all 32 exact comparisons. Task 1's
 ordered API is implemented and verified; Tasks 2–4 and final whole-branch review
 remain. No original GUI, platform or full parity gate closes from these results.
+
+## Shared composition: first app view contributions (development only)
+
+The live sample body/shadow/particles and fragment well/representative now
+contribute ordered geometry to one window canvas behind an internal development
+switch. Their existing DOM input elements remain; these views no longer acquire
+separate graphics contexts in shared mode. Presentation runs after the existing
+React `flushSync` commit and reads current root coordinates and store view order.
+Production builds explicitly ignore the migration flag.
+
+The actual FragmentWell component matches12 native edge comparisons exactly
+with a registered geometric underlay. Same-frame open/remove tests verify the
+committed DOM and unchanged molecular parts/ticks/local seed/global RNG; moving
+presentation before commit makes both backend tests fail. Movement, scrolling,
+DPR/resize, initialization fallback and late-import retirement also pass.
+[Evidence and limitations](../reference/web/shared-view-scenes/README.md).
+
+Task2 remains open: certify real sample/fragment native overlap, full SampleView
+first-open measurement, loss/recovery and bounded allocations. Gel, loupes,
+images, text, controls and frames have not yet migrated. A moved sample crossing
+the old gel canvas still demonstrates incorrect mixed-boundary ordering. Neither
+these component comparisons nor the development switch close production parity.
+
+Verified for this development integration increment: **2,916 units, 549 browser
+cases (one intentional duplicate skipped), four production checks, and
+TypeScript/Vite build pass**. No native references or tolerances were changed.
+Task2 and the full parity/release gates remain open.

@@ -1,3 +1,5 @@
+import {ScenePresentationRegistry} from '../../lib/gel/scenePresentation';
+import {ScenePresentationProvider} from './ScenePresentation';
 import {FileLoadProvider} from './FileLoadProvider';
 import {ViewOrderProvider} from './useViewLayer';
 import {ReferenceImageProvider} from './ReferenceImageLayer';
@@ -12,6 +14,7 @@ const DispatchCtx = createContext<Dispatch<Action> | null>(null);
 
 export function GelProvider({ children }: { children: ReactNode }) {
   const [store] = useState(() => new GelStore());
+  const [presentation] = useState(()=>import.meta.env.DEV&&localStorage.getItem('gelSharedPresentation')==='1'?new ScenePresentationRegistry():null);
   const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
   const state = snapshot.gel, dispatch = store.dispatch;
   useEffect(() => {
@@ -29,17 +32,18 @@ export function GelProvider({ children }: { children: ReactNode }) {
     const tick = () => {
       const freeze = (window as unknown as {__molsimFreezeAfterTicks?:number}).__molsimFreezeAfterTicks;
       flushSync(() => store.tick(freeze));
+      presentation?.present(store.getSnapshot().order,{width:window.innerWidth,height:window.innerHeight,scale:window.devicePixelRatio||1});
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [store]);
+  }, [store,presentation]);
   return (
-    <StoreCtx.Provider value={store}><StateCtx.Provider value={state}>
+    <ScenePresentationProvider registry={presentation}><StoreCtx.Provider value={store}><StateCtx.Provider value={state}>
       <DispatchCtx.Provider value={dispatch}>
         <ViewOrderProvider value={{order:snapshot.order,add:store.registerLayer,remove:store.unregisterLayer,raise:store.raiseLayer}}><ReferenceImageProvider><FileLoadProvider>{children}</FileLoadProvider></ReferenceImageProvider></ViewOrderProvider>
       </DispatchCtx.Provider>
-    </StateCtx.Provider></StoreCtx.Provider>
+    </StateCtx.Provider></StoreCtx.Provider></ScenePresentationProvider>
   );
 }
 

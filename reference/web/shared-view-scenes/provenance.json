@@ -1,0 +1,30 @@
+{
+  "baseCommit": "e1748ac41f928699d1dd27ac09c9e066960c7803",
+  "nativeManifestSha256": "7546860b161c9be494fe6deff507b2cb2aacae01f72ce288bd5b859dc3ac9f34",
+  "sourceSha256": {
+    "ts/src/lib/gel/scenePresentation.ts": "7eab29badfb428fa69f4c68675ef95714aad150d8a87950011b0172c71bd40f7",
+    "ts/src/components/gel/ScenePresentation.tsx": "ad81a9ca4a534961ec799eb5d3addcaf8e7c25c494317f14b9e029cdcbf2b355",
+    "ts/src/components/gel/GelContext.tsx": "c1a06d0cf993bcb9a0cadb5d58e79a699935984912726a2038574a746c2876d4",
+    "ts/src/components/sample/SampleSimCanvas.tsx": "1e674f97cdcabeedfb0ded9ea2fb5274fe2051848bcda385c1ec7fa2fdc42e4b",
+    "ts/src/components/sample/SampleView.tsx": "2a399a6af30ad512cdff1fae8f123d4fe9f8f73529fda10497a4ccf5efc658b4",
+    "ts/src/components/stage/Stage.tsx": "00ca013f8c372ef5a2172e30c5bc5af51126ddb9e6ae7a432bfe3607ad72d640",
+    "ts/src/routes/GelPage.tsx": "a095bbac59eb1ebd0c60659106f7a268c897cf89ae8c0d43eb2234ca8094a2e0",
+    "ts/tests/visual/shared-fragment-edge.spec.ts": "a52c8ccb6183ec7faf790a99816490f51087dc61773d34bd621dadb3aedb8c77",
+    "ts/tests/visual/shared-scene.spec.ts": "9b0a13dd81d55b384cbad9081c4fc339a239541ce7cbc8b42466c44c9af2f1ae",
+    "ts/tests/production/deployment.spec.ts": "567d250f482bbc3bc7cecd9e676a64d7d1705e264ed6458e5447e65504fc2b4d"
+  },
+  "comparisons": 12,
+  "exactMismatches": 0,
+  "verification": {
+    "unit": 2916,
+    "browser": 549,
+    "intentionalSkips": 1,
+    "production": 4,
+    "build": true
+  },
+  "limits": [
+    "Development migration only; production ignores switch.",
+    "Geometric underlay plus production FragmentWell, not native complete sample/fragment application replay.",
+    "Full SampleView first-open measurement, loss/recovery and allocation gates remain; gel/loupe/image/control/text migration still pending."
+  ]
+}

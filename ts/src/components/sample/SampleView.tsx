@@ -1,3 +1,4 @@
+import {useSharedPresentation} from '../gel/ScenePresentation';
 import { useEffect, useRef, useState } from 'react';
 import { LAYOUT } from '../../lib/layout/layout';
 import { sampleKeyAction } from '../../lib/gel/sampleKeyboard';
@@ -15,6 +16,7 @@ import { MolecularSimCanvas } from './MolecularSimCanvas';
  * with the canvas filling it.
  */
 export function SampleView() {
+  const shared=useSharedPresentation();
   const state = useGelState();
   const dispatch = useGelDispatch();
   const store = useGelStore();
@@ -122,7 +124,7 @@ export function SampleView() {
 
       {/* Native square frame: inset shadow, thin border and focus rings. */}
       <div aria-hidden style={{position:'absolute',left:2,top:4,right:2,height:'100%',
-        background:`rgba(0,0,0,${focused ? .25 : .15})`}}/>
+        background:shared?'transparent':`rgba(0,0,0,${focused ? .25 : .15})`}}/>
       <div
         ref={innerRef}
         data-testid="sample-frame"
@@ -130,7 +132,7 @@ export function SampleView() {
         style={{
           position: 'absolute',
           inset: 0,
-          background: LAYOUT.molecularSimBkgndColor,
+          background: shared?'transparent':LAYOUT.molecularSimBkgndColor,
           borderRadius: 0,
           overflow: 'hidden',
         }}

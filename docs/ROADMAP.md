@@ -722,3 +722,14 @@ Verification of the ordered API increment: 2,913 units, 537 normal browser cases
 (one intentional duplicate skipped), four built-app checks and build pass.
 The shared32 proof remains exact. Task 1 is ready for app integration; final
 whole-branch review remains after the view/control migration.
+
+### Shared app migration started, production unchanged
+
+The development registry now receives real sample and fragment contributions
+after each React commit. FragmentWell passes12 exact native edge comparisons;
+frame tests preserve molecular state/RNG and catch pre-commit drawing. Position,
+DPR/resize, fresh-canvas fallback and late-import retirement have focused coverage.
+Task2 still needs a real sample/fragment native overlap reference, full SampleView
+first-commit measurement, device/context-loss and bounded-allocation checks.
+Mixed overlaps with the old gel/DOM paint remain visibly incorrect; Tasks3–4
+must migrate those layers before production can use the shared surface.

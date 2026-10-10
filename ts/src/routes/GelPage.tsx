@@ -1,3 +1,4 @@
+import {useSharedPresentation} from '../components/gel/ScenePresentation';
 import {LAYOUT} from '../lib/layout/layout';
 import {DirectBandCanvas} from '../components/gel/DirectBandCanvas';
 import {useFileLoadQueue} from '../components/gel/FileLoadProvider';
@@ -26,6 +27,7 @@ import { deserializeFile } from '../lib/gel/serialize';
 import { getVisibleSampleLane, isInspectorVisible, selectInspectorView } from '../lib/gel/gelState';
 
 function GelInner() {
+  const shared=useSharedPresentation();
   const state = useGelState();
   const dispatch = useGelDispatch();
   const images=useReferenceImages();
@@ -158,7 +160,7 @@ function GelInner() {
       onDragEnter={onDragEnter}
       onDragLeave={onDragLeave}
       onDrop={onDrop}
-      style={{ height: '100dvh', overflow: 'auto', position: 'relative', background: '#fff', color: '#000', fontFamily: 'Avenir, sans-serif', fontSizeAdjust: 'none' }}
+      style={{ height: '100dvh', overflow: 'auto', position: 'relative', background: shared?'transparent':'#fff', color: '#000', fontFamily: 'Avenir, sans-serif', fontSizeAdjust: 'none' }}
     >
       {isDragOver && (
         <div

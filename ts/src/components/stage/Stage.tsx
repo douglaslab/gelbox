@@ -1,3 +1,4 @@
+import {useSharedPresentation} from '../gel/ScenePresentation';
 import {useViewLayer,useViewZIndex} from '../gel/useViewLayer';
 import { useEffect, useState, type ReactNode } from 'react';
 import { LAYOUT } from '../../lib/layout/layout';
@@ -14,6 +15,7 @@ export interface StageProps {
 
 /** Native fixed-size view layout, including GelboxApp's window-resize offsets. */
 export function Stage({ left, middle, right, brace, inspectorBesideGel = false, inspectorKind = 'fragment' }: StageProps) {
+  const shared=useSharedPresentation();
   const [viewport, setViewport] = useState(() => ({ width: window.innerWidth, height: window.innerHeight }));
   useEffect(() => {
     const resize = () => setViewport({ width: window.innerWidth, height: window.innerHeight });
@@ -31,7 +33,7 @@ export function Stage({ left, middle, right, brace, inspectorBesideGel = false, 
   const slot = (left: number, width: number) => ({ left, top: y, width, height: LAYOUT.gelSize.y });
 
   return (
-    <div className={styles.stage} data-testid="stage" style={{ width: Math.max(viewport.width, rightEdge + 8), height: Math.max(viewport.height, y + LAYOUT.gelSize.y + 112) }}>
+    <div className={styles.stage} data-testid="stage" style={{ background:shared?'transparent':undefined,width: Math.max(viewport.width, rightEdge + 8), height: Math.max(viewport.height, y + LAYOUT.gelSize.y + 112) }}>
       <div className={styles.slot} style={slot(x, LAYOUT.gelSize.x)} data-testid="stage-left">{left}</div>
       {middle && <LayerSlot name="sample" above="gel" style={slot(middleX, LAYOUT.sampleSize.x)} testId="stage-middle">{middle}</LayerSlot>}
       {brace && <BraceLayer name={`inspector-${inspectorKind}`} left={inspectorX} top={y + Math.round((LAYOUT.gelSize.y - LAYOUT.braceSize.y) / 2)}>{brace}</BraceLayer>}

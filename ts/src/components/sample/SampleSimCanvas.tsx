@@ -1,9 +1,11 @@
+import {useSharedPresentation} from '../gel/ScenePresentation';
+import {nativeViewScissor,solidSceneRect} from '../../lib/gel/scenePresentation';
 import { watchDeviceLoss, watchDeviceErrors, watchGlLoss } from '../../lib/gpu/loss';
 import { useRendererRecovery } from '../../lib/gpu/useRendererRecovery';
 import { GraphicsFailure } from '../primitives/GraphicsFailure';
 import type {MolecularView} from '../../lib/gel/molecularRuntime';
 import {useGelStore} from '../gel/GelContext';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { LAYOUT } from '../../lib/layout/layout';
 import { MOLECULAR_SIM_TUNING } from '../../lib/sim/molecularSimEngine';
 import { buildRepresentativeMesh, buildMoleculesMesh, type MeshBuildTuning } from '../../lib/sim/molecularSimMesh';
@@ -79,6 +81,8 @@ export function SampleSimCanvas({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const store = useGelStore();
   const sim = view.sim;
+  const registry=useSharedPresentation();
+  const shared=registry&&(viewKey==='sample'||viewKey==='fragment-preview');
   const composite = representativeUnderlay !== undefined;
   const transparent = representativeFragment !== undefined && !composite;
   const handleRef = useRef<RenderHandle | null>(null);
@@ -88,7 +92,7 @@ export function SampleSimCanvas({
   // GPU surface mount; retry replaces only the drawing canvas, not the live engine.
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || shared) return;
     let cancelled = false;
     let lost = false;
     let viewport={x:0,y:0,width,height};
@@ -232,7 +236,25 @@ export function SampleSimCanvas({
       cancelled = true;
       dispose();
     };
-  }, [width, height, transparent, composite, representativeUnderlay, attempt, forcedBackend, onFailure, onLoss, onSuccess]);
+  }, [shared, width, height, transparent, composite, representativeUnderlay, attempt, forcedBackend, onFailure, onLoss, onSuccess]);
+
+  useLayoutEffect(()=>{
+    if(!shared)return;
+    return registry!.register(viewKey==='fragment-preview'?'inspector-fragment':'sample',frame=>{
+      const canvas=canvasRef.current;if(!canvas||!view.alive)return [];
+      const rect=canvas.getBoundingClientRect();
+      const {selected,rollover}=store.getMolecularHighlights(view);
+      const mesh=representativeFragment===undefined?buildMoleculesMesh(sim.parts,selected,rollover,MESH_TUNING)
+        :buildRepresentativeMesh(sim.parts,representativeFragment,representativeCenter??{x:width/2,y:height/2},MESH_TUNING);
+      const transform=[1,0,0,1,rect.left,rect.top] as const;
+      if(representativeFragment!==undefined)return [...(representativeUnderlay??[]),{mesh}].map(op=>({...op,transform}));
+      const highlight:0|1|2=downRef.current?2:hoverRef.current?1:0;
+      const bg=computeBackgroundColor(dyeMassesFromSample(view.sample),highlight);
+      const focused=canvas.closest('[data-testid="sample-view"]')?.contains(document.activeElement);
+      return [solidSceneRect(2,4,width-2,height+4,[0,0,0,focused ? .25 : .15]),solidSceneRect(0,0,width,height,bg),
+        {mesh,scissor:nativeViewScissor(rect,frame.height,frame.scale)}].map(op=>({...op,transform}));
+    });
+  },[shared,registry,viewKey,view,store,sim,representativeFragment,representativeCenter,representativeUnderlay,width,height]);
 
   // Draw after the application frame; acquiring a GPU never gates simulation.
   useEffect(() => store.subscribeFrame(() => {
@@ -328,6 +350,7 @@ export function SampleSimCanvas({
       onPointerUp={onPointerUp}
       onPointerCancel={() => { downRef.current = false; onPointerLeave(); }}
       style={{
+        opacity: shared ? 0 : undefined,
         width:  `${width}px`,
         height: `${height}px`,
         display: 'block',

@@ -21,11 +21,13 @@ for(const prefix of ['/','/gelbox/'])test(`built app at ${prefix} loads controls
   const backend=info.project.name.endsWith('webgl2')?'webgl2':'webgpu';
   await page.addInitScript(b=>{
    localStorage.setItem('gelBackend',b);
+   localStorage.setItem('gelSharedPresentation','1'); // Migration is development-only.
    const get=HTMLCanvasElement.prototype.getContext;
    HTMLCanvasElement.prototype.getContext=function(type:any,options:any){const c=get.call(this,type,options);if(c)this.setAttribute('data-test-context',type);return c;} as typeof get;
   },backend);
   await page.goto(`http://127.0.0.1:${port}${prefix}#/gel`);
   await expect(page.getByTestId('band-0')).toBeVisible();
+  await expect(page.getByTestId('shared-scene')).toHaveCount(0);
   await expect(page.getByTestId('gel-canvas')).toHaveAttribute('data-test-context',backend);
   const checkImages=async()=>{
    await expect.poll(()=>page.locator('img').evaluateAll(imgs=>imgs.filter(i=>!i.complete||i.naturalWidth===0).map(i=>i.getAttribute('src')))).toEqual([]);
