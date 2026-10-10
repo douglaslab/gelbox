@@ -62,8 +62,9 @@ changed to impose this old reader's numeric rounding.
 ## Limits
 
 This is finite sample interchange evidence, not full native application replay.
-It does not execute Gel construction, application dispatch, XML import, native
-file dialogs, or save/reload after broader composed edits. Modern compiler and
+It does not execute Gel construction, application dispatch, native file
+dialogs, or save/reload after broader composed edits. A separate [XML corpus](xml/README.md)
+now exercises the pinned XML constructor through the same driver. Modern compiler and
 retained Cinder library behavior do not prove original-release equivalence.
 Malformed-data coercions and numeric precision across native toolchains remain
 explicit boundaries for the final interoperability review.

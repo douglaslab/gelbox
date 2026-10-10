@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,857 passed |
-| Browser suite across WebGPU/WebGL2 | 401 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 411 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
 | Production build and TypeScript checks | Passed |
@@ -1355,3 +1355,25 @@ precision behavior.
 Verification: **2,857 unit tests, 401 browser tests and 4 production checks
 passed**, with one intentional duplicate browser skip. Production verification
 included a fresh build and TypeScript checks. No goldens or tolerances changed.
+
+
+## Native XML constructor corpus
+
+The independent native reader now also executes pinned Sample's XML
+constructor. Four [safe XML fixtures](../reference/native/files/interop/xml/README.md)
+cover metadata/entities, defaults, colors, filtered children, empty samples,
+and native-ignored ID/buffer/dye/aspect fields. Captures repeat identically.
+The corpus exposed rejection of native-supported `0x` colors; the web now
+accepts optional prefixes, uppercase forms and surrounding whitespace for
+24-bit hexadecimal colors. The comparison failed before correction.
+
+Ten browser checks cover the four native fixture comparisons on both backends,
+external-DTD no-request behavior, and unsafe aggregate index rejection. The
+native XML resize-then-index memory error is explicitly excluded; JSON remains
+the multimer path. Partial-token numeric coercions and broader XML writer/
+entity/application behavior remain uncertified. The JSON fixtures and native
+edit/save rereads were regenerated with the extended driver and still verify.
+
+Verification: **2,857 unit tests, 411 browser tests and 4 production checks
+passed**, with one intentional duplicate browser skip; production included a
+fresh build and TypeScript checks. No goldens or tolerances changed.

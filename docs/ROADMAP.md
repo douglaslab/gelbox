@@ -513,3 +513,13 @@ preserved. Fixed rejected native null collections and absent/null Samples.
 Reader numeric quantization is recorded explicitly. This narrows the sample
 interchange gap; full Gel constructor/GUI/XML and broader edit sequences remain
 open. See [interop evidence](../reference/native/files/interop/README.md).
+
+### Legacy XML constructor evidence
+
+Four native XML constructor exports now cover supported fields, defaults,
+ignored children, empty samples and hexadecimal colors. Restored native `0x`
+color prefixes/case/whitespace. Browser tests retain explicit unsafe-index
+rejection and show no external-DTD request for the tested declaration. Native
+aggregate memory corruption is not emulated; partial-token numeric coercions,
+XML writer round trips and broader parser/GUI behavior remain open. See the
+[XML scope and boundaries](../reference/native/files/interop/xml/README.md).

@@ -11,10 +11,10 @@
     "src/Buffer.cpp": "e4c6bfda31962864060a27dcc5c6c303e61b5b583c705c2cb536334a148c11c3"
   },
   "bufferExtractSha256": "9cb4f12588caa718913808c8852ce8d42b442b97954b6d1fccf074a625f73e48",
-  "executableSha256": "0d4734625d4c573a3a364c209805554fee76a1cb5b99cc574f9b0edb73bd1954",
+  "executableSha256": "b11fc321be3cf9c7a653346c72525ed2522223c62afc15705200f26472f177ce",
   "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
   "limitations": [
-    "Sample JSON constructor and writer only; does not run Gel constructor or application file dispatch.",
+    "Sample JSON/XML constructors and JSON writer only; does not run Gel constructor or application file dispatch.",
     "Uses retained Cinder JsonTree/jsoncpp source with modern compiler and prebuilt Cinder library; not original executable equivalence.",
     "Buffer GUI icon loader excluded; native serialization functions extracted verbatim."
   ]

@@ -1,0 +1,58 @@
+{
+  "Sample": {
+    "Buffer": {
+      "Acetate": 0,
+      "Borate": 44.5,
+      "EDTA": 1,
+      "Tris": 44.5
+    },
+    "Fragments": [
+      {
+        "Aggregate": [
+          2
+        ],
+        "AspectRatio": 1,
+        "Bases": 2500,
+        "Color": [
+          0.25098,
+          0.501961,
+          0.752941
+        ],
+        "Degrade": 0.375,
+        "Mass": 19.5
+      },
+      {
+        "Aggregate": [
+          1
+        ],
+        "AspectRatio": 1,
+        "Bases": 700,
+        "Color": [
+          0.0705882,
+          0.203922,
+          0.337255
+        ],
+        "Degrade": 0,
+        "Mass": 8.25
+      },
+      {
+        "Aggregate": [
+          1
+        ],
+        "AspectRatio": 1,
+        "Bases": 400,
+        "Color": [
+          0.670588,
+          0.803922,
+          0.937255
+        ],
+        "Degrade": 0,
+        "Mass": 5
+      }
+    ],
+    "icon": "microtube1500ul.png",
+    "iconScale": 0.625,
+    "id": -1,
+    "name": "A & B β"
+  }
+}

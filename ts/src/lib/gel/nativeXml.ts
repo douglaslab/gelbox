@@ -19,8 +19,9 @@ export function deserializeNativeXml(text: string): DeserializedFile {
     const colorNode = child('Color');
     let Color = [0.5, 0.5, 0.5];
     if (colorNode) {
-      const hex = colorNode.getAttribute('value') ?? '000000';
-      if (!/^[0-9a-f]{1,6}$/i.test(hex)) throw new Error('Invalid XML color');
+      // Native strtoul(..., 16) accepts conventional 0x prefixes and whitespace.
+      const hex = (colorNode.getAttribute('value') ?? '000000').trim();
+      if (!/^(?:0x)?[0-9a-f]{1,6}$/i.test(hex)) throw new Error('Invalid XML color');
       const rgb = parseInt(hex, 16);
       Color = [(rgb >> 16 & 255) / 255, (rgb >> 8 & 255) / 255, (rgb & 255) / 255];
     }

@@ -1,0 +1,34 @@
+[
+  {
+    "input": "defaults.xml",
+    "inputSha256": "217b3dd8bb2166cbd621baf210966d08cd1c6e0b29f113b47b69acc236c6674f",
+    "output": "defaults.native.json",
+    "outputSha256": "f816827a6c06893b9df63178dc214930f57ff8aedee1495d86b730eb5a612dd9",
+    "stderr": "ERROR Sample::loadXml malformed <Aggregate> node; needs Size and Weight attributes.\n",
+    "repeatedIdentically": true
+  },
+  {
+    "input": "empty.xml",
+    "inputSha256": "771cbe5ac84df2fc755571d87ee31cd00d5dade230be50626103197409f56b5c",
+    "output": "empty.native.json",
+    "outputSha256": "04745e0f95bf94ef408c44c48801b6f0d94e0815724414279196d15bec42ee8d",
+    "stderr": "",
+    "repeatedIdentically": true
+  },
+  {
+    "input": "fields.xml",
+    "inputSha256": "c9a25544cc75df5f1d918756abd8f88987cda1d7ab82f1ee95b861a09c3ab02f",
+    "output": "fields.native.json",
+    "outputSha256": "e7dcdc4939dfefa8ec08629254c31fb386e2ddc8ddbfdf908ad3fd40d1377a96",
+    "stderr": "",
+    "repeatedIdentically": true
+  },
+  {
+    "input": "ignored-children.xml",
+    "inputSha256": "fc274daa19af30dacf2f5de12e017a2f11cd69ba7aa03fe4b46e9e5514a841e6",
+    "output": "ignored-children.native.json",
+    "outputSha256": "7e579d41a87d2c5c7fac34ecb85d7836bb9922f25964f81eac4e247df158a353",
+    "stderr": "",
+    "repeatedIdentically": true
+  }
+]

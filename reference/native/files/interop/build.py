@@ -1,4 +1,4 @@
-"""Build pinned native sample JSON reader/writer without GUI or replacement JSON adapters."""
+"""Build pinned native sample JSON/XML reader and JSON writer without GUI or replacement JSON adapters."""
 from pathlib import Path
 import subprocess,hashlib,json
 root=Path(__file__).resolve().parent
@@ -27,4 +27,4 @@ target_link_libraries(gel-file-interop PRIVATE cinder)
 subprocess.run(['cmake','-S',str(out),'-B',str(out/'build'),'-DCMAKE_BUILD_TYPE=Release'],check=True)
 subprocess.run(['cmake','--build',str(out/'build'),'-j','4'],check=True)
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
-(root/'build-provenance.json').write_text(json.dumps({'nativeCommit':'5f5109705279085fcf6bcac6c8be1c9806b6d3d6','cinderCommit':'f90f332d1a4d453282c76435f3401271f25922f9','sources':hashes,'bufferExtractSha256':sha(out/'buffer-serialization.cpp'),'executableSha256':sha(out/'build/gel-file-interop'),'compiler':subprocess.check_output(['clang++','--version']).decode(),'limitations':['Sample JSON constructor and writer only; does not run Gel constructor or application file dispatch.','Uses retained Cinder JsonTree/jsoncpp source with modern compiler and prebuilt Cinder library; not original executable equivalence.','Buffer GUI icon loader excluded; native serialization functions extracted verbatim.']},indent=2)+'\n')
+(root/'build-provenance.json').write_text(json.dumps({'nativeCommit':'5f5109705279085fcf6bcac6c8be1c9806b6d3d6','cinderCommit':'f90f332d1a4d453282c76435f3401271f25922f9','sources':hashes,'bufferExtractSha256':sha(out/'buffer-serialization.cpp'),'executableSha256':sha(out/'build/gel-file-interop'),'compiler':subprocess.check_output(['clang++','--version']).decode(),'limitations':['Sample JSON/XML constructors and JSON writer only; does not run Gel constructor or application file dispatch.','Uses retained Cinder JsonTree/jsoncpp source with modern compiler and prebuilt Cinder library; not original executable equivalence.','Buffer GUI icon loader excluded; native serialization functions extracted verbatim.']},indent=2)+'\n')
