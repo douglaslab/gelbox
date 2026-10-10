@@ -1,0 +1,195 @@
+
+> @douglaslab/gel@0.0.1 test:unit
+> vitest run legacyFile.test.ts
+
+[?25l
+ RUN  v3.0.0 /Users/shawn/.codex/worktrees/3f9f/gel/ts
+
+ ❯ tests/unit/legacyFile.test.ts (19 tests | 19 failed) 7ms
+   × legacy web import boundary > normalizes visible native lanes and geometry without losing hidden samples or scientific fields 3ms
+     → expected 1 to be 7 // Object.is equality
+   × legacy web import boundary > caps visible lanes while retaining extra sample storage 0ms
+     → expected 22 to be 20 // Object.is equality
+   × legacy web import boundary > preserves optional sample metadata without importing runtime ancestry 1ms
+     → expected { kind: 'sample', sample: { …(2) } } to deeply equal { kind: 'sample', sample: { …(6) } }
+   × legacy web import boundary > rejects malformed samples before dispatch 1ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed sample before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed fragments before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed fragment before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed buffer before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed mass before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed bases before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed dye before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed color before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed aggregate before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed metadata before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed lane count before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed context before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed time before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed gel buffer before dispatch 0ms
+     → expected [Function] to throw an error
+   × legacy web import boundary > rejects malformed legacy sample files too 0ms
+     → expected [Function] to throw an error
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 19 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > normalizes visible native lanes and geometry without losing hidden samples or scientific fields
+AssertionError: expected 1 to be 7 // Object.is equality
+
+- Expected
++ Received
+
+- 7
++ 1
+
+ ❯ tests/unit/legacyFile.test.ts:10:24
+      8|  it('normalizes visible native lanes and geometry without losing hidde…
+      9|   const input=state(),out=decode(input);expect(out.kind).toBe('state')…
+     10|   expect(out.numLanes).toBe(7);expect(out.samples).toEqual([...input.s…
+       |                        ^
+     11|   expect(out.ctx).toEqual({...input.ctx,sampleBuffer:buffer,ySpaceScal…
+     12|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/19]⎯
+
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > caps visible lanes while retaining extra sample storage
+AssertionError: expected 22 to be 20 // Object.is equality
+
+- Expected
++ Received
+
+- 20
++ 22
+
+ ❯ tests/unit/legacyFile.test.ts:15:44
+     13|  it('caps visible lanes while retaining extra sample storage',()=>{
+     14|   const input=state();input.numLanes=22;input.samples=Array.from({leng…
+     15|   expect(out.kind==='state'&&out.numLanes).toBe(20);expect(out.kind===…
+       |                                            ^
+     16|  });
+     17|  it('preserves optional sample metadata without importing runtime ance…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/19]⎯
+
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > preserves optional sample metadata without importing runtime ancestry
+AssertionError: expected { kind: 'sample', sample: { …(2) } } to deeply equal { kind: 'sample', sample: { …(6) } }
+
+- Expected
++ Received
+
+  {
+    "kind": "sample",
+    "sample": {
+      "buffer": {
+        "acetate": 0,
+        "borate": 44.5,
+        "edta": 1,
+        "tris": 44.5,
+      },
+      "fragments": [
+        {
+          "aggregate": [
+            1,
+          ],
+          "aspectRatio": 1,
+          "bases": 1000,
+          "color": [
+            0.2,
+            0.4,
+            0.6,
+          ],
+          "degrade": 0,
+          "dye": -1,
+          "mass": 50,
+        },
+      ],
+-     "icon": "tube.png",
+-     "iconScale": 0.5,
+-     "id": 4,
+-     "name": "Old sample",
+    },
+  }
+
+ ❯ tests/unit/legacyFile.test.ts:19:25
+     17|  it('preserves optional sample metadata without importing runtime ance…
+     18|   const input={schema:'gel-sample-v0',...sample(),originSample:{bad:tr…
+     19|   expect(decode(input)).toEqual({kind:'sample',sample:sample()});
+       |                         ^
+     20|  });
+     21|  for(const [name,mutate] of [
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/19]⎯
+
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed samples before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed sample before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed fragments before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed fragment before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed buffer before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed mass before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed bases before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed dye before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed color before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed aggregate before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed metadata before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed lane count before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed context before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed time before dispatch
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed gel buffer before dispatch
+AssertionError: expected [Function] to throw an error
+
+- Expected: 
+null
+
++ Received: 
+undefined
+
+ ❯ tests/unit/legacyFile.test.ts:29:113
+     27|   ['metadata',(v:any)=>v.samples[0].id=1.5],['lane count',(v:any)=>v.n…
+     28|   ['context',(v:any)=>v.ctx=null],['time',(v:any)=>v.ctx.time='1'],['g…
+     29|  ] as const)it(`rejects malformed ${name} before dispatch`,()=>{const …
+       |                                                                                                                 ^
+     30|  it('rejects malformed legacy sample files too',()=>expect(()=>decode(…
+     31| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/19]⎯
+
+ FAIL  tests/unit/legacyFile.test.ts > legacy web import boundary > rejects malformed legacy sample files too
+AssertionError: expected [Function] to throw an error
+
+- Expected: 
+null
+
++ Received: 
+undefined
+
+ ❯ tests/unit/legacyFile.test.ts:30:120
+     28|   ['context',(v:any)=>v.ctx=null],['time',(v:any)=>v.ctx.time='1'],['g…
+     29|  ] as const)it(`rejects malformed ${name} before dispatch`,()=>{const …
+     30|  it('rejects malformed legacy sample files too',()=>expect(()=>decode(…
+       |                                                                                                                        ^
+     31| });
+     32| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/19]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  19 failed (19)
+   Start at  11:48:38
+   Duration  220ms (transform 27ms, setup 0ms, collect 28ms, tests 7ms, environment 0ms, prepare 31ms)
+
+[?25h

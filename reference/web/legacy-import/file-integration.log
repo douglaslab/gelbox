@@ -1,0 +1,147 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test files.spec.ts reference-images.spec.ts --output=/tmp/gel-legacy-file-integration
+
+
+Running 66 tests using 9 workers
+
+(node:99830) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99830) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99831) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99831) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99833) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99833) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99836) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99836) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99835) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99835) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99829) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99829) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99834) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99832) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99834) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99832) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium-webgpu] › files.spec.ts:72:1 › unselected startup has no Save Selected Sample command (427ms)
+  ✓  3 [chromium-webgpu] › files.spec.ts:22:1 › Open native XML, reject malformed XML, then save unchanged sample (602ms)
+  ✓  6 [chromium-webgpu] › files.spec.ts:178:1 › startup Save Gel matches the independent native startup document (623ms)
+  ✓  4 [chromium-webgpu] › files.spec.ts:55:1 › XML import matches native supported fields and reports unsafe aggregates (627ms)
+  ✓  8 [chromium-webgpu] › files.spec.ts:77:1 › dropping a sample into an empty lane preserves the occupied ladder (696ms)
+  ✓  5 [chromium-webgpu] › files.spec.ts:11:1 › Open native JSON and Save Gel preserves the native document (704ms)
+  ✓  2 [chromium-webgpu] › files.spec.ts:41:1 › Open invokes a file chooser and settings dismiss with Escape (804ms)
+  ✓  10 [chromium-webgpu] › reference-images.spec.ts:24:1 › shared:false › PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position (549ms)
+  ✓  12 [chromium-webgpu] › reference-images.spec.ts:50:1 › shared:false › multi-file errors preserve successes, document replacement retains images and saves exclude them (397ms)
+  ✓  13 [chromium-webgpu] › reference-images.spec.ts:60:1 › shared:false › fully off-window release deletes; capture loss ends drag without later movement (401ms)
+  ✓  15 [chromium-webgpu] › reference-images.spec.ts:77:1 › shared:false › deletion and route unmount each release the owned bitmap exactly once (330ms)
+  ✓  14 [chromium-webgpu] › reference-images.spec.ts:68:1 › shared:false › images and loupes share insertion order; only clicking a loupe raises it (358ms)
+  ✓  9 [chromium-webgpu] › files.spec.ts:95:1 › lane reduction hides retained samples and saves only visible lanes (1.1s)
+  ✓  7 [chromium-webgpu] › files.spec.ts:138:1 › native disabled controls preserve imported off-preset buffer values (1.1s)
+  ✓  11 [chromium-webgpu] › reference-images.spec.ts:40:1 › shared:false › GIF uses static first frame, Escape preserves image and Delete owns only image focus (622ms)
+  ✓  16 [chromium-webgpu] › reference-images.spec.ts:91:1 › shared:false › later sample settings stay below images; later species inspectors append above them (478ms)
+  ✓  17 [chromium-webgpu] › reference-images.spec.ts:104:1 › shared:false › a second drop waits for the first decode, retaining arrival order (289ms)
+  ✓  18 [chromium-webgpu] › reference-images.spec.ts:122:1 › shared:false › a mixed file batch picks sample placement using the newly loaded gel layout (287ms)
+  ✓  19 [chromium-webgpu] › reference-images.spec.ts:133:1 › shared:false › Open waits for an earlier pending drop before replacing its document (367ms)
+  ✓  20 [chromium-webgpu] › reference-images.spec.ts:153:1 › shared:false › application settings preserves image keyboard ownership until a sample takes focus (547ms)
+  ✓  21 [chromium-webgpu] › reference-images.spec.ts:166:1 › shared:false › earlier reference image remains visible through empty Species panel space (636ms)
+  ✓  26 [chromium-webgpu] › reference-images.spec.ts:68:1 › shared:true › images and loupes share insertion order; only clicking a loupe raises it (474ms)
+  ✓  27 [chromium-webgpu] › reference-images.spec.ts:77:1 › shared:true › deletion and route unmount each release the owned bitmap exactly once (465ms)
+  ✓  24 [chromium-webgpu] › reference-images.spec.ts:50:1 › shared:true › multi-file errors preserve successes, document replacement retains images and saves exclude them (549ms)
+  ✓  22 [chromium-webgpu] › reference-images.spec.ts:24:1 › shared:true › PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position (706ms)
+  ✓  25 [chromium-webgpu] › reference-images.spec.ts:60:1 › shared:true › fully off-window release deletes; capture loss ends drag without later movement (529ms)
+  ✓  29 [chromium-webgpu] › reference-images.spec.ts:104:1 › shared:true › a second drop waits for the first decode, retaining arrival order (326ms)
+  ✓  23 [chromium-webgpu] › reference-images.spec.ts:40:1 › shared:true › GIF uses static first frame, Escape preserves image and Delete owns only image focus (831ms)
+  ✓  30 [chromium-webgpu] › reference-images.spec.ts:122:1 › shared:true › a mixed file batch picks sample placement using the newly loaded gel layout (274ms)
+  ✓  28 [chromium-webgpu] › reference-images.spec.ts:91:1 › shared:true › later sample settings stay below images; later species inspectors append above them (604ms)
+  ✓  31 [chromium-webgpu] › reference-images.spec.ts:133:1 › shared:true › Open waits for an earlier pending drop before replacing its document (286ms)
+(node:99909) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99909) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99910) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99910) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  32 [chromium-webgpu] › reference-images.spec.ts:153:1 › shared:true › application settings preserves image keyboard ownership until a sample takes focus (494ms)
+(node:99913) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99913) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99912) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99912) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99914) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99914) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99915) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99915) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  33 [chromium-webgpu] › reference-images.spec.ts:166:1 › shared:true › earlier reference image remains visible through empty Species panel space (585ms)
+(node:99918) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99918) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99921) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99921) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  34 [chromium-webgl2] › files.spec.ts:11:1 › Open native JSON and Save Gel preserves the native document (538ms)
+  ✓  35 [chromium-webgl2] › files.spec.ts:22:1 › Open native XML, reject malformed XML, then save unchanged sample (617ms)
+  ✓  37 [chromium-webgl2] › files.spec.ts:72:1 › unselected startup has no Save Selected Sample command (504ms)
+  ✓  39 [chromium-webgl2] › files.spec.ts:77:1 › dropping a sample into an empty lane preserves the occupied ladder (543ms)
+  ✓  38 [chromium-webgl2] › files.spec.ts:55:1 › XML import matches native supported fields and reports unsafe aggregates (730ms)
+  ✓  36 [chromium-webgl2] › files.spec.ts:41:1 › Open invokes a file chooser and settings dismiss with Escape (744ms)
+  ✓  43 [chromium-webgl2] › reference-images.spec.ts:24:1 › shared:false › PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position (624ms)
+  ✓  45 [chromium-webgl2] › reference-images.spec.ts:50:1 › shared:false › multi-file errors preserve successes, document replacement retains images and saves exclude them (535ms)
+  ✓  42 [chromium-webgl2] › files.spec.ts:178:1 › startup Save Gel matches the independent native startup document (493ms)
+  ✓  48 [chromium-webgl2] › reference-images.spec.ts:77:1 › shared:false › deletion and route unmount each release the owned bitmap exactly once (403ms)
+  ✓  40 [chromium-webgl2] › files.spec.ts:95:1 › lane reduction hides retained samples and saves only visible lanes (1.1s)
+  ✓  46 [chromium-webgl2] › reference-images.spec.ts:60:1 › shared:false › fully off-window release deletes; capture loss ends drag without later movement (512ms)
+  ✓  47 [chromium-webgl2] › reference-images.spec.ts:68:1 › shared:false › images and loupes share insertion order; only clicking a loupe raises it (448ms)
+  ✓  44 [chromium-webgl2] › reference-images.spec.ts:40:1 › shared:false › GIF uses static first frame, Escape preserves image and Delete owns only image focus (744ms)
+  ✓  50 [chromium-webgl2] › reference-images.spec.ts:104:1 › shared:false › a second drop waits for the first decode, retaining arrival order (301ms)
+  ✓  51 [chromium-webgl2] › reference-images.spec.ts:122:1 › shared:false › a mixed file batch picks sample placement using the newly loaded gel layout (353ms)
+  ✓  49 [chromium-webgl2] › reference-images.spec.ts:91:1 › shared:false › later sample settings stay below images; later species inspectors append above them (533ms)
+  ✓  52 [chromium-webgl2] › reference-images.spec.ts:133:1 › shared:false › Open waits for an earlier pending drop before replacing its document (419ms)
+  ✓  41 [chromium-webgl2] › files.spec.ts:138:1 › native disabled controls preserve imported off-preset buffer values (1.3s)
+  ✓  54 [chromium-webgl2] › reference-images.spec.ts:153:1 › shared:false › application settings preserves image keyboard ownership until a sample takes focus (699ms)
+  ✓  57 [chromium-webgl2] › reference-images.spec.ts:50:1 › shared:true › multi-file errors preserve successes, document replacement retains images and saves exclude them (601ms)
+  ✓  53 [chromium-webgl2] › reference-images.spec.ts:166:1 › shared:false › earlier reference image remains visible through empty Species panel space (798ms)
+  ✓  56 [chromium-webgl2] › reference-images.spec.ts:40:1 › shared:true › GIF uses static first frame, Escape preserves image and Delete owns only image focus (812ms)
+  ✓  59 [chromium-webgl2] › reference-images.spec.ts:68:1 › shared:true › images and loupes share insertion order; only clicking a loupe raises it (474ms)
+  ✓  55 [chromium-webgl2] › reference-images.spec.ts:24:1 › shared:true › PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position (831ms)
+  ✓  60 [chromium-webgl2] › reference-images.spec.ts:77:1 › shared:true › deletion and route unmount each release the owned bitmap exactly once (464ms)
+  ✓  58 [chromium-webgl2] › reference-images.spec.ts:60:1 › shared:true › fully off-window release deletes; capture loss ends drag without later movement (590ms)
+  ✓  62 [chromium-webgl2] › reference-images.spec.ts:104:1 › shared:true › a second drop waits for the first decode, retaining arrival order (362ms)
+  ✓  63 [chromium-webgl2] › reference-images.spec.ts:122:1 › shared:true › a mixed file batch picks sample placement using the newly loaded gel layout (315ms)
+  ✓  64 [chromium-webgl2] › reference-images.spec.ts:133:1 › shared:true › Open waits for an earlier pending drop before replacing its document (316ms)
+  ✓  61 [chromium-webgl2] › reference-images.spec.ts:91:1 › shared:true › later sample settings stay below images; later species inspectors append above them (622ms)
+  ✓  65 [chromium-webgl2] › reference-images.spec.ts:153:1 › shared:true › application settings preserves image keyboard ownership until a sample takes focus (467ms)
+  ✓  66 [chromium-webgl2] › reference-images.spec.ts:166:1 › shared:true › earlier reference image remains visible through empty Species panel space (538ms)
+
+  66 passed (5.8s)

@@ -1,3 +1,4 @@
+import { deserializeLegacyFile } from './legacyFile';
 import { deserializeNativeXml } from './nativeXml';
 import { deserializeNativeFile, nativeChild, nativeBuffer, nativeSample } from './nativeFile';
 import type { Sample } from '../sim/sample';
@@ -65,13 +66,6 @@ export function deserializeFile(text: string): DeserializedFile {
   }
   if (nativeChild(parsed as Record<string,unknown>, 'Gelbox') !== undefined) return deserializeNativeFile(parsed);
   const obj = parsed as { schema?: unknown };
-  if (obj.schema === 'gel-sample-v0') {
-    const s = parsed as SerializedSample;
-    return { kind: 'sample', sample: { buffer: s.buffer, fragments: s.fragments } };
-  }
-  if (obj.schema === 'gel-state-v0') {
-    const s = parsed as SerializedGelState;
-    return { kind: 'state', samples: s.samples, numLanes: s.numLanes, ctx: s.ctx };
-  }
+  if (obj.schema === 'gel-sample-v0' || obj.schema === 'gel-state-v0') return deserializeLegacyFile(parsed);
   throw new Error(`Unknown schema: ${String(obj.schema)}`);
 }

@@ -16,10 +16,11 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Current acceptance status
 
-The audit identified one concrete implementation gap: legacy web file imports still
-cast nested data without validation and retain stored layout-derived simulation
-context. Native JSON/XML checks do not cover those branches. Closing that gap is
-the next implementation priority (ledger R02).
+The legacy web import gap is fixed: nested scientific fields are validated before
+replacement, saved inputs and hidden sample slots are retained, and obsolete layout
+context is converted to native geometry. [Evidence](../reference/web/legacy-import/README.md)
+covers valid conversion and malformed-file preservation on both compiled backends.
+The remaining W01 priority is the paired original-native edit/save/reopen workflow.
 
 The ledger reconciles all37 original audit rows and preserves all five roadmap
 high-risk workflows. Remaining packages are paired file/edit/save, shared-state
@@ -28,12 +29,13 @@ decoding, physical-display/lifecycle checks, memory/capture reliability, and fin
 side-by-side acceptance. It distinguishes verified bounded evidence from missing
 native replay and decisions awaiting explicit acceptance.
 
-Latest recorded checks:955 broad browser passes/1 intentional duplicate skip;
-2,924 units;22 compiled Chromium cases with216 exact native RGB comparisons;
-10 compatibility cases per Firefox/WebKit runner;2 compiled hidden/frozen cases;
-100 view-churn cycles per backend;2 measured performance-budget cases and18 budget
-validator tests. Later evidence/configuration increments did not change product
-runtime. This documentation audit does not claim a new full test run.
+Fresh checks after the legacy decoder change:2,943 units, a successful production
+build,24 compiled Chromium cases (including216 exact native RGB comparisons), and
+66 relevant file/image browser cases. Earlier evidence remains955 broad browser
+passes/1 intentional duplicate skip;10 compatibility cases per Firefox/WebKit
+runner;2 compiled hidden/frozen cases;100 view-churn cycles per backend;2 measured
+performance-budget cases and18 budget validator tests. Those broader gates were
+not rerun for this bounded decoder change.
 
 The original-release writer's lane-loss defect, reference-build equivalence,
 and font/platform distribution remain explicit decision records. The preliminary

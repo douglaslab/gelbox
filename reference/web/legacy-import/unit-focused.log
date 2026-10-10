@@ -1,0 +1,16 @@
+
+> @douglaslab/gel@0.0.1 test:unit
+> vitest run legacyFile.test.ts serialize.test.ts
+
+[?25l
+ RUN  v3.0.0 /Users/shawn/.codex/worktrees/3f9f/gel/ts
+
+ ✓ tests/unit/serialize.test.ts (12 tests) 16ms
+ ✓ tests/unit/legacyFile.test.ts (19 tests) 28ms
+
+ Test Files  2 passed (2)
+      Tests  31 passed (31)
+   Start at  11:49:02
+   Duration  236ms (transform 42ms, setup 0ms, collect 63ms, tests 44ms, environment 0ms, prepare 65ms)
+
+[?25h

@@ -96,7 +96,7 @@ describe('native export contract', () => {
   });
   it('continues to read legacy web sample and gel documents', () => {
     expect(deserializeFile(JSON.stringify({ schema: 'gel-sample-v0', ...SAMPLE }))).toEqual({ kind: 'sample', sample: SAMPLE });
-    expect(deserializeFile(JSON.stringify({ schema: 'gel-state-v0', samples: [SAMPLE], numLanes: 1, ctx: CTX }))).toEqual({ kind: 'state', samples: [SAMPLE], numLanes: 1, ctx: CTX });
+    expect(deserializeFile(JSON.stringify({ schema: 'gel-state-v0', samples: [SAMPLE], numLanes: 1, ctx: CTX }))).toEqual({ kind: 'state', samples: [SAMPLE,null,null,null,null,null,null], numLanes: 7, ctx: {...CTX,ySpaceScale:480-78/7} });
   });
 });
 

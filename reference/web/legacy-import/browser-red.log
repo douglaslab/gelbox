@@ -1,0 +1,68 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.production.config.ts legacy-files.spec.ts --output=/tmp/gel-legacy-browser-red-final
+
+
+Running 2 tests using 2 workers
+
+(node:99040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99041) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99041) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-webgpu] › legacy-files.spec.ts:5:1 › compiled legacy imports normalize native geometry and reject malformed files without replacing the gel (5.2s)
+  ✘  1 [chromium-webgl2] › legacy-files.spec.ts:5:1 › compiled legacy imports normalize native geometry and reject malformed files without replacing the gel (5.2s)
+
+
+  1) [chromium-webgpu] › legacy-files.spec.ts:5:1 › compiled legacy imports normalize native geometry and reject malformed files without replacing the gel 
+
+    Error: [31mTimed out 5000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m
+
+    Locator: getByTestId(/^microtube-\d+$/)
+    Expected: [32m7[39m
+    Received: [31m1[39m
+    Call log:
+    [2m  - expect.toHaveCount with timeout 5000ms[22m
+    [2m  - waiting for getByTestId(/^microtube-\d+$/)[22m
+    [2m    9 × locator resolved to 1 element[22m
+    [2m      - unexpected value "1"[22m
+
+
+      26 |   const nativeBand=await page.getByTestId('band-0').boundingBox();
+      27 |   await open(legacy);await expect(settings).toHaveAttribute('aria-expanded','false');
+    > 28 |   await expect(page.getByTestId(/^microtube-\d+$/)).toHaveCount(7);
+         |                                                     ^
+      29 |   expect(await page.getByTestId('band-0').boundingBox()).toEqual(nativeBand);
+      30 |   expect(await save()).toEqual(native);
+      31 |   for(const invalid of [{...legacy,ctx:{...legacy.ctx,time:'wrong'}},{schema:'gel-sample-v0',buffer:b,fragments:null}]){
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/legacy-files.spec.ts:28:53
+
+  2) [chromium-webgl2] › legacy-files.spec.ts:5:1 › compiled legacy imports normalize native geometry and reject malformed files without replacing the gel 
+
+    Error: [31mTimed out 5000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m
+
+    Locator: getByTestId(/^microtube-\d+$/)
+    Expected: [32m7[39m
+    Received: [31m1[39m
+    Call log:
+    [2m  - expect.toHaveCount with timeout 5000ms[22m
+    [2m  - waiting for getByTestId(/^microtube-\d+$/)[22m
+    [2m    9 × locator resolved to 1 element[22m
+    [2m      - unexpected value "1"[22m
+
+
+      26 |   const nativeBand=await page.getByTestId('band-0').boundingBox();
+      27 |   await open(legacy);await expect(settings).toHaveAttribute('aria-expanded','false');
+    > 28 |   await expect(page.getByTestId(/^microtube-\d+$/)).toHaveCount(7);
+         |                                                     ^
+      29 |   expect(await page.getByTestId('band-0').boundingBox()).toEqual(nativeBand);
+      30 |   expect(await save()).toEqual(native);
+      31 |   for(const invalid of [{...legacy,ctx:{...legacy.ctx,time:'wrong'}},{schema:'gel-sample-v0',buffer:b,fragments:null}]){
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/legacy-files.spec.ts:28:53
+
+  2 failed
+    [chromium-webgpu] › legacy-files.spec.ts:5:1 › compiled legacy imports normalize native geometry and reject malformed files without replacing the gel 
+    [chromium-webgl2] › legacy-files.spec.ts:5:1 › compiled legacy imports normalize native geometry and reject malformed files without replacing the gel 
