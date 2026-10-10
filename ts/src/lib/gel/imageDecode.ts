@@ -1,3 +1,8 @@
+// Keep original PNG samples while a retained bitmap is reachable. A closed and
+// released image does not leave a strong entry in a global pixel cache.
+const straightPixels=new WeakMap<ImageBitmap,Uint8Array>();
+export function referenceImagePixels(bitmap:ImageBitmap):Uint8Array|undefined{return straightPixels.get(bitmap);}
+
 /**
  * Cinder's macOS loader decodes stored JPEG pixels without applying EXIF
  * orientation. Some browsers rotate/mirror JPEGs even with imageOrientation:none.
@@ -89,6 +94,7 @@ export async function decodeReferenceImage(file: File): Promise<ImageBitmap> {
   // Sniff the content, since native accepts a JPEG with a .png or .gif filename.
   const header = new Uint8Array(await file.slice(0, 8).arrayBuffer());
   let input = file;
+  let pngPixels:{width:number;height:number;rgba:Uint8Array}|undefined;
   const jpeg = header[0] === 0xff && header[1] === 0xd8;
   const png = header[0] === 137 && header[1] === 80;
   if (jpeg || png) {
@@ -96,8 +102,14 @@ export async function decodeReferenceImage(file: File): Promise<ImageBitmap> {
     if (jpeg && jpegColorComponents(bytes) === 4) {
       throw new Error('CMYK JPEG images are not supported. Convert the image to RGB and try again.');
     }
+    if(png){const {decodePngPixels}=await import('./pngPixels');pngPixels=decodePngPixels(bytes);}
     const normalized = jpeg ? jpegWithoutExif(bytes) : pngWithoutExif(bytes);
     if (normalized !== bytes) input = new File([normalized], file.name, {type:file.type,lastModified:file.lastModified});
   }
-  return createImageBitmap(input, {premultiplyAlpha:'none',colorSpaceConversion:'none',imageOrientation:'none'});
+  const bitmap=await createImageBitmap(input, {premultiplyAlpha:'none',colorSpaceConversion:'none',imageOrientation:'none'});
+  if(pngPixels){
+    if(bitmap.width!==pngPixels.width||bitmap.height!==pngPixels.height){bitmap.close();throw new Error('PNG decoder dimensions disagree');}
+    straightPixels.set(bitmap,pngPixels.rgba);
+  }
+  return bitmap;
 }

@@ -11,6 +11,8 @@ async function setup(page:Page,info:TestInfo){
   (window as any).__imageLive=new Set();const live=(window as any).__imageLive;
   const copy=GPUQueue.prototype.copyExternalImageToTexture;GPUQueue.prototype.copyExternalImageToTexture=function(...args){if((window as any).__imageFail)throw Error('Injected image upload failure');return copy.apply(this,args);};
   const upload=WebGL2RenderingContext.prototype.texImage2D;WebGL2RenderingContext.prototype.texImage2D=function(...args:any[]){if((window as any).__imageFail&&/sceneImageTexture/.test(new Error().stack??'')&&!/sceneAssets/.test(new Error().stack??''))throw Error('Injected image upload failure');return (upload as any).apply(this,args);};
+  const write=GPUQueue.prototype.writeTexture;
+  GPUQueue.prototype.writeTexture=function(...args){if((window as any).__imageFail&&live.has(args[0].texture))throw Error('Injected image upload failure');return write.apply(this,args);};
   const create=GPUDevice.prototype.createTexture;
   GPUDevice.prototype.createTexture=function(desc){const t=create.call(this,desc);if(desc.label==='scene-image'){live.add(t);const destroy=t.destroy.bind(t);t.destroy=()=>{live.delete(t);destroy();};}return t;};
   const gl=WebGL2RenderingContext.prototype,allocate=gl.createTexture,remove=gl.deleteTexture;

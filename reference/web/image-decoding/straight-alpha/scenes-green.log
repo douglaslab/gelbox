@@ -1,0 +1,39 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.image-compatibility.config.ts --output=/tmp/gel-alpha-scenes-all
+
+[2m[WebServer] [22m(node:22763) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 12 tests using 1 worker
+
+(node:22766) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22766) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium-webgpu] › shared-image-mips.spec.ts:5:1 › reference image decode and generated mip bytes match native Cinder textures (587ms)
+  ✓  2 [chromium-webgpu] › shared-image-native.spec.ts:7:2 › shared image DPR1 › native ImageView texture, focus and resize frame compose on one surface (956ms)
+  ✓  3 [chromium-webgpu] › shared-image-native.spec.ts:7:2 › shared image DPR2 › native ImageView texture, focus and resize frame compose on one surface (949ms)
+(node:22785) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22785) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [chromium-webgl2] › shared-image-mips.spec.ts:5:1 › reference image decode and generated mip bytes match native Cinder textures (486ms)
+  ✓  5 [chromium-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR1 › native ImageView texture, focus and resize frame compose on one surface (943ms)
+  ✓  6 [chromium-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR2 › native ImageView texture, focus and resize frame compose on one surface (1.0s)
+(node:22808) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22808) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  7 [firefox-webgl2] › shared-image-mips.spec.ts:5:1 › reference image decode and generated mip bytes match native Cinder textures (944ms)
+  ✓  8 [firefox-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR1 › native ImageView texture, focus and resize frame compose on one surface (758ms)
+  ✓  9 [firefox-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR2 › native ImageView texture, focus and resize frame compose on one surface (738ms)
+(node:22817) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22817) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [webkit-webgl2] › shared-image-mips.spec.ts:5:1 › reference image decode and generated mip bytes match native Cinder textures (617ms)
+  ✓  11 [webkit-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR1 › native ImageView texture, focus and resize frame compose on one surface (674ms)
+  ✓  12 [webkit-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR2 › native ImageView texture, focus and resize frame compose on one surface (752ms)
+
+  12 passed (11.7s)

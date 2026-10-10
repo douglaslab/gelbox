@@ -1,0 +1,217 @@
+[
+  {
+    "id": "native-focused-2",
+    "different": 18414,
+    "max": 64,
+    "first": [
+      {
+        "pixel": 80974,
+        "channel": 0,
+        "native": 197,
+        "web": 193
+      },
+      {
+        "pixel": 80974,
+        "channel": 2,
+        "native": 90,
+        "web": 88
+      },
+      {
+        "pixel": 80976,
+        "channel": 2,
+        "native": 93,
+        "web": 92
+      },
+      {
+        "pixel": 80978,
+        "channel": 1,
+        "native": 159,
+        "web": 158
+      },
+      {
+        "pixel": 80979,
+        "channel": 0,
+        "native": 200,
+        "web": 199
+      },
+      {
+        "pixel": 80984,
+        "channel": 0,
+        "native": 162,
+        "web": 161
+      }
+    ]
+  },
+  {
+    "id": "native-covered-2",
+    "different": 16252,
+    "max": 64,
+    "first": [
+      {
+        "pixel": 80974,
+        "channel": 0,
+        "native": 184,
+        "web": 183
+      },
+      {
+        "pixel": 80977,
+        "channel": 2,
+        "native": 55,
+        "web": 54
+      },
+      {
+        "pixel": 80981,
+        "channel": 2,
+        "native": 55,
+        "web": 56
+      },
+      {
+        "pixel": 80984,
+        "channel": 0,
+        "native": 162,
+        "web": 161
+      },
+      {
+        "pixel": 80986,
+        "channel": 0,
+        "native": 164,
+        "web": 163
+      },
+      {
+        "pixel": 80989,
+        "channel": 1,
+        "native": 158,
+        "web": 157
+      }
+    ]
+  },
+  {
+    "id": "magnified-2",
+    "different": 92086,
+    "max": 64,
+    "first": [
+      {
+        "pixel": 64147,
+        "channel": 0,
+        "native": 141,
+        "web": 140
+      },
+      {
+        "pixel": 64147,
+        "channel": 1,
+        "native": 68,
+        "web": 67
+      },
+      {
+        "pixel": 64147,
+        "channel": 2,
+        "native": 49,
+        "web": 48
+      },
+      {
+        "pixel": 64148,
+        "channel": 0,
+        "native": 141,
+        "web": 137
+      },
+      {
+        "pixel": 64148,
+        "channel": 1,
+        "native": 67,
+        "web": 66
+      },
+      {
+        "pixel": 64148,
+        "channel": 2,
+        "native": 49,
+        "web": 47
+      }
+    ]
+  },
+  {
+    "id": "minified-2",
+    "different": 1599,
+    "max": 58,
+    "first": [
+      {
+        "pixel": 97103,
+        "channel": 0,
+        "native": 143,
+        "web": 141
+      },
+      {
+        "pixel": 97103,
+        "channel": 1,
+        "native": 153,
+        "web": 152
+      },
+      {
+        "pixel": 97103,
+        "channel": 2,
+        "native": 108,
+        "web": 107
+      },
+      {
+        "pixel": 97104,
+        "channel": 0,
+        "native": 150,
+        "web": 147
+      },
+      {
+        "pixel": 97104,
+        "channel": 1,
+        "native": 153,
+        "web": 151
+      },
+      {
+        "pixel": 97104,
+        "channel": 2,
+        "native": 108,
+        "web": 107
+      }
+    ]
+  },
+  {
+    "id": "odd-minified-2",
+    "different": 880,
+    "max": 62,
+    "first": [
+      {
+        "pixel": 64973,
+        "channel": 0,
+        "native": 32,
+        "web": 28
+      },
+      {
+        "pixel": 64973,
+        "channel": 1,
+        "native": 50,
+        "web": 49
+      },
+      {
+        "pixel": 64973,
+        "channel": 2,
+        "native": 88,
+        "web": 86
+      },
+      {
+        "pixel": 64974,
+        "channel": 1,
+        "native": 50,
+        "web": 49
+      },
+      {
+        "pixel": 64977,
+        "channel": 1,
+        "native": 51,
+        "web": 52
+      },
+      {
+        "pixel": 64978,
+        "channel": 0,
+        "native": 48,
+        "web": 47
+      }
+    ]
+  }
+]

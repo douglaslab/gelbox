@@ -14,7 +14,11 @@ The native feature areas are substantially implemented, and the shared composito
 
 Implemented and checked areas include native JSON/XML file workflows and metadata, startup defaults, hidden-lane retention, sample/species controls, tube and band movement/cloning, reverse solving, picking, buffer effects, molecular lifecycle/meshes, persistent loupe gestures and source selection, temporary hover loupes, and reference-image views. Independent compiled native captures now cover 509 band/setup cases, 2,909 solver requests, particle/loupe behavior and meshes, and 137 exact-byte CPU warp cases. These are finite source-backed comparisons, not certification of the original executable's complete output.
 
-## Latest profile-decoding verification
+## Latest translucent-image fix
+
+WebKit lost hidden RGB before filtering, producing up to64 levels of visible error in retained native PNG scenes. PNG imports now retain straight RGBA samples and upload them directly. All40 cross-engine scene comparisons and56 mip comparisons match native exactly; 44 additional format fixtures match native decoding and actual compiled uploads. All3,051 unit tests,48 compiled production tests,18 compatibility tests and54 image interaction/lifecycle tests pass. [Evidence, regressions and limits](../reference/web/image-decoding/straight-alpha/README.md). No website review artifact changed.
+
+## Earlier profile-decoding verification
 
 Five Display P3/Adobe RGB fixtures extend the native codec corpus to 21. Four compiled production and four Firefox/WebKit image tests pass. Tagged opaque PNG pixels match exactly; JPEG and WebKit alpha retain the existing D06 differences. [Evidence and limits](../reference/web/image-decoding/wide-gamut/README.md). No product runtime or website snapshot changed; original-release visible replay and filtered alpha remain open.
 

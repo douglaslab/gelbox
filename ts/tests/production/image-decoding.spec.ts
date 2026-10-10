@@ -89,3 +89,47 @@ test('compiled image drops reject native-unsupported CMYK and continue the batch
   expect(await save()).toEqual(before);
  }finally{await app.close();}
 });
+
+test('compiled PNG uploads preserve native straight pixels across formats',async({page},info)=>{
+ const root=path.resolve('../reference/native/image-decoding/png-formats');
+ const corpus=JSON.parse(await readFile(path.join(root,'native.json'),'utf8'));
+ const app=await serveBuiltApp('/gelbox/');
+ try{
+  await page.addInitScript(backend=>{
+   localStorage.setItem('gelBackend',backend);const w=window as any;w.__pngUploads=[];
+   const gl=WebGL2RenderingContext.prototype,upload=gl.texImage2D;
+   gl.texImage2D=function(...args:any[]){
+    if(args.length===9&&args[3]===7&&args[4]===3&&args[8] instanceof Uint8Array)w.__pngUploads.push([...args[8]]);
+    return (upload as any).apply(this,args);
+   } as typeof upload;
+   if(typeof GPUQueue!=='undefined'){
+    const write=GPUQueue.prototype.writeTexture;
+    GPUQueue.prototype.writeTexture=function(...args:Parameters<GPUQueue['writeTexture']>){
+     const size=args[3] as GPUExtent3DDict;
+     if(size.width===7&&size.height===3&&args[1] instanceof Uint8Array)w.__pngUploads.push([...args[1]]);
+     return write.apply(this,args);
+    };
+   }
+  },info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.goto(`${app.url}#/gel`);await expect(page.getByTestId('band-0')).toBeVisible();
+  const report=[];
+  for(const [index,item] of corpus.entries()){
+   expect(item.exit,item.file+' native acceptance').toBe(0);
+   const bytes=[...await readFile(path.join(root,'inputs',item.file))];
+   await page.evaluate(({bytes,name})=>{
+    (window as any).__pngUploads=[];
+    const data=new DataTransfer();data.items.add(new File([new Uint8Array(bytes)],name));
+    document.querySelector('[data-testid="gel-page"]')!.dispatchEvent(new DragEvent('drop',{bubbles:true,clientX:1100,clientY:650,dataTransfer:data}));
+   },{bytes,name:item.file});
+   await expect(page.getByTestId(`reference-image-canvas-${index+1}`)).toHaveAttribute('data-shared-ready','1');
+   const uploads:number[][]=await page.evaluate(()=>(window as any).__pngUploads);
+   expect(uploads.length,item.file+' actual GPU upload').toBeGreaterThan(0);
+   const native=await readFile(path.join(root,'decoded',item.file+'.rgba'));
+   for(const actual of uploads)expect(Buffer.from(actual),item.file).toEqual(native);
+   report.push({file:item.file,uploads:uploads.length,exact:true});
+   await page.getByTestId(`reference-image-${index+1}`).focus();await page.keyboard.press('Delete');
+   await expect(page.getByTestId(`reference-image-${index+1}`)).toHaveCount(0);
+  }
+  await writeFile(info.outputPath('png-upload-comparison.json'),JSON.stringify(report,null,2));
+ }finally{await app.close();}
+});

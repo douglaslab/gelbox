@@ -1,0 +1,32 @@
+[
+  {
+    "id": "native-focused-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "native-covered-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "magnified-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "minified-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "odd-minified-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  }
+]

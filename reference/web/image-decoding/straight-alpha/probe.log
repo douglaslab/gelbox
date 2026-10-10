@@ -1,0 +1,17 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.image-compatibility.config.ts --project=webkit-webgl2 --output=/tmp/gel-alpha-raw-probe
+
+[2m[WebServer] [22m(node:21327) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:21330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [webkit-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR1 › native ImageView texture, focus and resize frame compose on one surface (878ms)
+  ✓  2 [webkit-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR2 › native ImageView texture, focus and resize frame compose on one surface (765ms)
+
+  2 passed (2.5s)
