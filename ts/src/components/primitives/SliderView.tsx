@@ -152,7 +152,7 @@ export function SliderView({
   return (
     <div
       className={`${styles.root} ${enabled ? '' : styles.disabled}`}
-      style={{ width, ...style }}
+      style={{ width, ...(config.style==='graph'?{height:iconSize.y}:{}), ...style }}
       data-testid={testId}
       aria-disabled={!enabled || undefined}
     >
@@ -160,7 +160,7 @@ export function SliderView({
         <SliderIcon
           path={iconLo}
           slot={iconSize}
-          natural={config.style === 'slider'}
+          natural={config.style !== 'bar'}
           high={false}
           onClick={() => onIconClick('lo')}
           testId={testId ? `${testId}-icon-lo` : undefined}
@@ -249,7 +249,7 @@ export function SliderView({
             <div
               key={i}
               className={styles.graphCol}
-              style={{ height: `${Math.max(1, v * 100)}%` }}
+              style={{ height: `${v * 100}%` }}
               data-testid={testId ? `${testId}-col-${i}` : undefined}
             />
           ))}
@@ -262,7 +262,7 @@ export function SliderView({
         <SliderIcon
           path={iconHi}
           slot={iconSize}
-          natural={config.style === 'slider'}
+          natural={config.style !== 'bar'}
           high={true}
           onClick={() => onIconClick('hi')}
           testId={testId ? `${testId}-icon-hi` : undefined}

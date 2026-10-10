@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 311 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 315 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -663,3 +663,22 @@ previous unchanged-model unit baseline remains 2,845 passed. This closes the
 inspector conversion defect recorded above, not full native GUI/file certification.
 Next: remaining control layout/raster and typography, composed native workflows,
 and P5 lifecycle/platform/release validation.
+
+
+## Native graph row geometry
+
+The aggregate graph now occupies a native 26px notional row with its 32px drawing
+area centered at y=13 (top -3, bottom 29). This also removes the former 6px shift
+of the following degradation control. Graph endpoint icons keep natural logical
+sizes; zero-weight bars have zero fill height, and all columns retain native
+baseline strokes. Cinder RectT's noncanonical bottom-up rectangle coordinates were
+checked explicitly to locate that stroke correctly. The maximum guide line uses
+the native pale color. See reference/native/slider-controls for the derivation.
+
+Four 1×/2× backend geometry cases failed before correction and pass afterward,
+including a separate failing-then-passing baseline-stroke assertion. Reviewed web
+captures show the corrected layout. Fresh verification: **315 browser tests passed,
+one intentional duplicate skipped; production build and TypeScript checks passed**.
+No screenshot baselines changed. The unchanged model's recorded full unit baseline
+remains 2,845 passed. Native line antialiasing/DPR raster, typography, handle and
+buffer styling, full composed workflows and P5 reliability/release gates remain open.

@@ -258,3 +258,11 @@ native empty-field export remain intact. Eight new import/edit/save checks bring
 the passing browser suite to 311 (one intentional duplicate skipped); production
 build passes. The recorded conversion defect is closed. Remaining control visual,
 composed native workflow and P5 release gates remain open.
+
+
+Graph layout update: native row alignment, natural icon sizes, zero-fill column
+heights and baseline strokes are restored with 1×/2× geometry regressions. The
+full browser suite passes 315 cases (one intentional duplicate skipped), and the
+production build passes. This is source-backed geometry and reviewed web rendering;
+native raster/DPR line treatment, typography, remaining controls, composed workflows
+and P5 release certification remain open.

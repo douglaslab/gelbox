@@ -89,3 +89,26 @@ arrays display a monomer default; opening the inspector does not rewrite the
 document. Sample.cpp::toJson omits an empty Aggregate vector, which the web
 serializer already matches. Four additional import/edit/save cases per backend
 verify these boundaries against downloaded native-format JSON.
+
+## Graph row and columns
+
+`Slider::doLayoutInWidth` places the common icon center at y=13, then adds
+half the graph height to the endpoints: graph bottom y=29, top y=-3. The
+web graph now keeps a 26px notional row with a 32px centered graph, so the
+following degradation slider retains its native 56px row offset. Graph icons
+now use decoded natural size like regular slider icons (11×11 and 28×32).
+
+Each native column spans track width / vector length, inset 1px at each side,
+with height exactly weight × 32; zero weights have no blue fill. The web
+minimum-height floor is removed. Native draws a gray per-column baseline and
+a pale maximum line. Beware `Rectf(ll, ll + (w,-h))`: Cinder's RectT::set does
+not canonicalize coordinates, and getUpperLeft returns (x1,y1), so the
+per-column stroke remains at the baseline rather than following bar height.
+This was checked against pinned Cinder's Rect.h and Rect.cpp.
+
+`graph-layout.spec.ts` checks all five row offsets, graph bounds, decoded icon
+bounds, exact zero/full column heights and baseline-stroke placement at 1×/2×
+on both web backends. Its geometry and stroke assertions failed before their
+respective corrections. Web screenshots are retained as test artifacts. Line
+antialiasing/display-scale rasterization and full native panel comparison still
+require certification; this geometry evidence does not close those gates.

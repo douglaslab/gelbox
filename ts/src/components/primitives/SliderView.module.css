@@ -111,20 +111,32 @@
 }
 
 .graphCol {
+  position: relative;
   flex: 1 1 0;
   background: #4990E2;
   margin: 0 1px;
-  min-height: 1px;
   cursor: ns-resize;
+}
+
+/* Native's bottom-up Rectf is not canonicalized: its stroke stays at baseline. */
+.graphCol::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.5px;
+  height: 1px;
+  background: #979797;
+  pointer-events: none;
 }
 
 .graphCap {
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  top: -0.5px;
   height: 1px;
-  background: #E5E5FF;
+  background: #E6E6FF;
   pointer-events: none;
 }
 
