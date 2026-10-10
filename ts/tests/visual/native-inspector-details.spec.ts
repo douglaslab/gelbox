@@ -57,3 +57,21 @@ test('palette retains explicit keyboard activation',async({page})=>{
  await expect(swatch).toBeFocused();
  await expect(swatch).toHaveAttribute('aria-pressed','true');
 });
+test('native palette drag edits on press, crosses cells and retains the last valid color outside',async({page})=>{
+ const sample=page.getByTestId('sample-view');
+ const swatch=(i:number)=>page.getByTestId(`fragment-palette-swatch-${i}`);
+ const a=(await swatch(1).boundingBox())!,b=(await swatch(6).boundingBox())!,c=(await swatch(10).boundingBox())!;
+ await page.mouse.move(a.x+a.width/2,a.y+a.height/2);await page.mouse.down();
+ await expect(swatch(1)).toHaveAttribute('aria-pressed','true');
+ await expect(sample).toBeFocused();
+ await page.mouse.move(b.x+b.width/2,b.y+b.height/2,{steps:4});
+ await expect(swatch(6)).toHaveAttribute('aria-pressed','true');
+ await page.mouse.move(1300,700);
+ await expect(swatch(6)).toHaveAttribute('aria-pressed','true');
+ await page.mouse.move(c.x+c.width/2,c.y+c.height/2);
+ await expect(swatch(10)).toHaveAttribute('aria-pressed','true');
+ await page.mouse.move(1300,700);await page.mouse.up();
+ await page.mouse.move(a.x+a.width/2,a.y+a.height/2);
+ await expect(swatch(10)).toHaveAttribute('aria-pressed','true');
+ await expect(sample).toBeFocused();
+});

@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,867 passed |
-| Browser suite across WebGPU/WebGL2 | 437 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 439 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -1522,3 +1522,25 @@ Verification: **2,867 unit tests, 437 browser tests and 4 production checks
 passed**, with one intentional duplicate browser skip. Production included fresh
 build/TypeScript checks. No goldens or tolerances changed. Focus interactions
 with other panels, native palette drag behavior and full visual parity remain open.
+
+
+## Native palette press and drag
+
+Pinned `ColorPaletteView.cpp:96–130` applies a color on mouse down, updates it
+on drag, and retains the last valid color while outside the palette. The web
+palette previously applied color only on click. It now handles primary pointer
+press and captured movement across complete swatch cells, including inset areas,
+retaining color outside and ending on release, cancellation or lost capture.
+Keyboard click activation remains available and pointer editing preserves sample
+keyboard focus. A trailing pointer click cannot overwrite the final drag color.
+
+The added composed browser case failed at the initial pressed-color assertion
+on both backends before implementation. It now checks press, cross-cell drag,
+exit, re-entry, outside release and subsequent hover without editing. Existing
+keyboard activation and exact post-edit deletion round trips also pass. This is
+source-backed behavior evidence; a matching native GUI drag replay remains open.
+
+Verification: **2,867 unit tests, 439 browser tests and 4 production checks
+passed**, with one intentional duplicate browser skip. Production included fresh
+build/TypeScript checks. No goldens or tolerances changed. Full native visual and
+interaction certification and the remaining release gates are still open.

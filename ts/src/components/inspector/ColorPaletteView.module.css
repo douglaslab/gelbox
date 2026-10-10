@@ -3,6 +3,7 @@
   grid-template-columns: repeat(4, 25px);
   gap: 0;
   user-select: none;
+  touch-action: none;
 }
 
 .swatch {
