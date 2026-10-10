@@ -1,0 +1,25 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceHashes": {
+    "src/MolecularSim.cpp": "7816bdebddb3aea6933bd7be028c76cd09295e918edacd45494b8b0e4c198dcd",
+    "src/SampleView.cpp": "c69251430da6eedbf1b73cf9fdbf0c5eedc4f4f19a172be935661238e2ac555a",
+    "include/SampleView.h": "4c6bd19a8dbad08e5f7820a5f237cc8213e118e7038e94ac20fa3480923a2c06",
+    "src/FragmentView.cpp": "d9345eda3ae73104684344f99676588e22f7369e93ff1d3e5ab7d1e95e035b02",
+    "src/ColorPaletteView.cpp": "3903d1b193d9ec0541f6bd2003f4032e569159d871fa4f8970d9802dbbc5ec1f",
+    "src/View.cpp": "779407bb1a374f55a3b54afc5bbe82c3b73d87633f3a955b0c93a1da5c7cefae",
+    "src/GelView.cpp": "20159d314759e38b6e2f626fba2c5a401eb4cbf894f15682c597c6145e96a3e6",
+    "src/GelboxApp.cpp": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+    "include/Config.h": "fd98c4bdd17876e22d0f4344150442c8c0763de42681830cc505e5152ad8ffd3",
+    "include/GelSim.h": "e7bbc0bd7ec5bac4b6803b5236de49934d0926cac858b6c053a3ee460d3c6c42"
+  },
+  "probeSha256": "cb684fa2ae4c92dc0612a35085d07b628ad401f43b3595de062df6fbffc6ac4d",
+  "outputSha256": "31d626a83d73ab7f2e7283ef6eea3977d9a3b1d4a87b00efef74692f093f38cb",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+  "repeatRunsIdentical": true,
+  "limitations": [
+    "Exploratory probe, not the composed native application or a permanent differential test.",
+    "Constructor and Palette::getRandomColor bodies extracted unchanged; setup and inspector draw counts are scripted.",
+    "Uses modern ARM64 Cinder; does not prove original executable/toolchain equivalence."
+  ]
+}
