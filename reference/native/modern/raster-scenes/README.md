@@ -56,3 +56,13 @@ The latter start with a rectangle edge exactly on a half-pixel (y=49.5); the
 same geometry matches at ppu 2. Source investigation of native versus WebGPU
 edge inclusion remains necessary. Water and combined failures are not waived
 as raster tolerance. Full native GUI and other scene/seed coverage remain open.
+
+## Subsequent water correction
+
+The [intermediate-texture investigation](water-debug/README.md) verified exact
+pre-warp/control values and exposed Cinder's vertical Surface upload flip.
+Corrected shader sampling now makes all sixteen WebGL2 scenes exact and eleven
+WebGPU scenes exact. `after-water-*.json` contains the newer complete results;
+the earlier `after-*.json` remains the historical blur/flame result. Only the
+five WebGPU ppu-1 half-pixel edge cases remain red in this matrix. Normal
+regressions now also include water-2 and combined-1/combined-2 on both backends.

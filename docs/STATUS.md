@@ -1274,3 +1274,29 @@ Verification: **2,853 unit tests, 397 browser tests and 4 production checks
 passed**, with one intentional duplicate browser skip; the production command
 included fresh build/TypeScript checks. Existing goldens and tolerances are
 unchanged.
+
+## Native water-control upload orientation
+
+The [water intermediate capture](../reference/native/modern/raster-scenes/water-debug/README.md)
+verified identical pre-warp RGB images and control values for all four
+water/combined scenes. Native tuning and render state were checked, and added
+instrumentation left all sixteen original scene exports byte-identical.
+Cinder flips Surface rows on texture upload; the web shader had sampled the
+control field in the opposite vertical direction. GLSL now mirrors control V
+and WGSL samples its already top-down control field directly. Displacement Y
+still follows each backend's framebuffer convention.
+
+All **16 WebGL2 scenes now match native exactly**; **11 WebGPU scenes match**.
+The five remaining WebGPU mismatches share the ppu-1 half-pixel primitive edge
+case (plain/blur/smile/damage/water). They remain recorded, unresolved failures.
+The normal zero-tolerance regressions now include water-2 and combined-1/2.
+The two 50-band overcook web goldens were inspected and updated because they
+encoded the reversed control sampling. Their existing tolerance was unchanged;
+these web goldens do not certify the 50-band scene against native.
+
+Verification for the water correction: **397 browser tests passed**, one
+intentional duplicate skipped; **4 production checks passed**, including fresh
+build and TypeScript checks. Two existing 50-band web goldens changed after
+inspection; no tolerance was relaxed. Unit implementation was unchanged in
+this shader-only correction; the preceding 2,853-unit result remains the unit
+baseline.

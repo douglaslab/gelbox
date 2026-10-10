@@ -483,3 +483,13 @@ regressions cover those corrected cases; full regression/production checks pass.
 The full diagnostic remains red for water/combined effects and WebGPU-only
 half-pixel edge cases. Investigate those failures next; do not infer complete
 gel-render parity from the startup or corrected effect cases.
+
+### Water sampling corrected; half-pixel WebGPU edges remain
+
+Native intermediate exports prove matching pre-warp RGB and displacement values.
+Corrected the missing Cinder Surface upload flip in the web warp shader sampling.
+The complete sixteen-scene comparison is now exact on WebGL2 and exact for
+11 scenes on WebGPU. The five remaining WebGPU ppu-1 failures all involve the
+half-pixel rectangle edge and its downstream effects. These remain an explicit
+completion gate, alongside broader scene/seed/GUI coverage. See the
+[water investigation](../reference/native/modern/raster-scenes/water-debug/README.md).

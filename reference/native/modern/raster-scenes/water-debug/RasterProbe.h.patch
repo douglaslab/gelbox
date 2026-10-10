@@ -1,0 +1,154 @@
+--- a/src/RasterProbe.h
++++ b/src/RasterProbe.h
+@@ -1,6 +1,7 @@
+ #pragma once
+ #include "GelRender.h"
+ #include "cinder/ImageIo.h"
++extern std::string rasterProbeCase;
+ inline void captureRasterScenes() {
+ static std::vector<std::shared_ptr<GelRender>> retained;
+ { auto renderer=std::make_shared<GelRender>();
+@@ -27,7 +28,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=false;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="plain-1";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/plain-1.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -54,7 +55,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=false;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="blur-1";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/blur-1.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -81,7 +82,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=false;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="smile-1";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/smile-1.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -108,7 +109,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=false;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="damage-1";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/damage-1.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -135,7 +136,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=false;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="smear-1";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/smear-1.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -162,7 +163,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=false;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="flames-1";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/flames-1.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -189,7 +190,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=true;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="water-1";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/water-1.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -216,7 +217,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=true;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="combined-1";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/combined-1.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -243,7 +244,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=false;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="plain-2";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/plain-2.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -270,7 +271,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=false;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="blur-2";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/blur-2.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -297,7 +298,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=false;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="smile-2";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/smile-2.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -324,7 +325,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=false;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="damage-2";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/damage-2.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -351,7 +352,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=false;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="smear-2";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/smear-2.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -378,7 +379,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=false;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="flames-2";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/flames-2.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -405,7 +406,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=true;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="water-2";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/water-2.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ { auto renderer=std::make_shared<GelRender>();
+@@ -432,7 +433,7 @@
+ renderer->setBands(bands);
+ GelRender::GlobalWarp warp;
+ warp.mH2ODistort=true;warp.mRandSeed=42;
+-renderer->setGlobalWarp(warp);renderer->render();
++rasterProbeCase="combined-2";renderer->setGlobalWarp(warp);renderer->render();
+ ci::writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/raster-scenes/combined-2.png"),renderer->getOutput()->createSource());
+ retained.push_back(renderer); }
+ }

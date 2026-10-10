@@ -1,0 +1,42 @@
+--- a/src/GelRender.cpp
++++ b/src/GelRender.cpp
+@@ -7,11 +7,14 @@
+ //
+ 
+ #include "GelRender.h"
++#include "cinder/ImageIo.h"
++#include <fstream>
+ #include "GelboxApp.h" // for FileWatch
+ 
+ using namespace ci;
+ using namespace ci::app; // loadAsset
+ using namespace std;
++std::string rasterProbeCase;
+ 
+ // RGB
+ // (One channel is harder to debug since we draw other colors to signal errors)
+@@ -204,6 +207,24 @@
+ 	overcook( mCompositeFBO, mCompositeFBOTemp,
+ 		mGlobalWarp.mH2ODistort ? kTuning.mH2ODistort.mOvercook : 0.f,
+ 		mGlobalWarp.mRandSeed );
++    if (mGlobalWarp.mH2ODistort && !rasterProbeCase.empty()) {
++        const std::string prefix="/tmp/gel-native-lossless-probe/water-debug/"+rasterProbeCase;
++        writeImage(ci::fs::path(prefix+"-before.png"),mCompositeFBOTemp->getColorTexture()->createSource());
++        writeImage(ci::fs::path(prefix+"-control.png"),m2dTex->createSource());
++        std::ofstream debug(prefix+"-state.txt");
++        debug << "scale=" << kTuning.mOvercook.mScale.x << "," << kTuning.mOvercook.mScale.y
++              << " amount=" << kTuning.mH2ODistort.mOvercook << " faint=" << kTuning.mH2ODistort.mFaint
++              << " blend=" << glIsEnabled(GL_BLEND) << " depth=" << glIsEnabled(GL_DEPTH_TEST)
++              << " scissor=" << glIsEnabled(GL_SCISSOR_TEST) << std::endl;
++    }
++    if (!mBands.empty()) {
++        writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/offscreen.png"), mCompositeFBO->getColorTexture()->createSource());
++        std::ofstream report("/tmp/gel-native-lossless-probe/formats.txt");
++        report << "band=" << mBandFBO->getColorTexture()->getInternalFormat()
++            << " composite=" << mCompositeFBO->getColorTexture()->getInternalFormat()
++            << " width=" << mOutputSize.x << " height=" << mOutputSize.y
++            << " pixelsPerUnit=" << mPixelsPerUnit << std::endl;
++    }
+ }
+ 
+ void GelRender::drawSmear ( ci::Rectf ir, float direction, float thickness, ColorA cclose, ColorA cfar ) const
