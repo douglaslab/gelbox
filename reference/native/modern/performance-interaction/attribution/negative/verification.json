@@ -1,0 +1,7 @@
+{
+  "result": "expected failure detected",
+  "removed": "sample",
+  "removed_tick": 211,
+  "guard_tick": 510,
+  "external_mutating_events": []
+}

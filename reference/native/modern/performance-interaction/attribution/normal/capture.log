@@ -1,0 +1,31 @@
+sandbox_extension_issue_file_to_process failed for /tmp/gel-native-perf-attribution-20261010/build/Gelbox.app: 1 (Operation not permitted)
+ERROR loading '"/tmp/gel-native-perf-attribution-20261010/build/assets/microtube1500ul@2x.png"'
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/passthrough.vert"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/blur5.frag"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/passthrough.vert"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/blur9.frag"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/passthrough.vert"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/blur13.frag"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/passthrough.vert"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/warp.frag"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/tuning/gel-render.json"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/tuning/molecular-sim.json"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/tuning/gel-sim.json"
+Verified json save file, version '1.0', type 'gel'
+Verified json save file, version '1.0', type 'gel'
+7
+Gel::Gel(json), sample 5 is malformed or null.
+Gel::Gel(json), sample 6 is malformed or null.
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/passthrough.vert"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/blur5.frag"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/passthrough.vert"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/blur9.frag"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/passthrough.vert"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/blur13.frag"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/passthrough.vert"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/shaders/warp.frag"
+FileWatch::doLoad "/tmp/gel-native-perf-attribution-20261010/build/assets/tuning/gel-render.json"
+ERROR loading '"/tmp/gel-native-perf-attribution-20261010/build/assets/microtube1500ul@2x.png"'
+ERROR loading '"/tmp/gel-native-perf-attribution-20261010/build/assets/microtube1500ul@2x.png"'
+ERROR loading '"/tmp/gel-native-perf-attribution-20261010/build/assets/microtube1500ul@2x.png"'
+ERROR loading '"/tmp/gel-native-perf-attribution-20261010/build/assets/microtube1500ul@2x.png"'

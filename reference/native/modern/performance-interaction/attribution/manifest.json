@@ -1,0 +1,28 @@
+{
+  "web_source_commit": "64762f852b79dbe7aeee6aaed991f2ed5ff0d172",
+  "macos": "27.0.1",
+  "architecture": "arm64",
+  "binary_sha256": "d217649b4c63748bd3deee29ddbc570868264b53a94e9b9b9f89eb1a42ba5483",
+  "fixture_sha256": "9837e59e56953d4a441b7032bdf89a6a78510047097c359ee4cead1cc2a39598",
+  "files": {
+    "README.md": "17668894fa1382d69b7056d963382998dc30748bd938b811fa7f4d621231621f",
+    "build.log": "dfddc3986084a2790bea49322dce7c5959d3d267d4a1abad9e60baab6fc3dc2a",
+    "instrument.py": "ff1826e47e8bd8e56d7e3e102a6e35a1bc5913e42be8b0356046b2757ce19900",
+    "instrumentation.json": "8adb30e143052a1fe2848d4c0e7bc7e9d0a39df8cd6ceb44af54fec4b0d9f8e3",
+    "negative/capture.log": "d3b323df85e9eb431c4cd024ce285a99d3c9adfda92f4ca7c655b9e09682b069",
+    "negative/events.jsonl": "4a48240113c04c7899c5e2fa7adf90f0eef304f969ca5a080d2ce3fe538873c8",
+    "negative/failed-interaction.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "negative/failed-workload.png": "4849916ce266f71d1906decb39e6a5546cb6e21e63ad4d4004a11f024dbd0c24",
+    "negative/failure.json": "a48736567647258f21efef88ac38283d1cfabf73939c86420d901e621447e3fa",
+    "negative/loaded.gel.json": "799de596cb0463b25155757784bc2c81df0cdf4009a25ef02a647aa4311a5751",
+    "negative/verification.json": "7cce7f92ed4278888848575197f652a7036ccb85707589600532efeab0bb31f6",
+    "negative/workload.png": "425f390d5a6e408702744f661f7e650688592af7fd1e4f2dbae14c9a76872a8b",
+    "normal/capture.log": "18b0368b4cda254e8bd0b87702271c7d2c338f74780e13727798f4bceb452200",
+    "normal/events.jsonl": "bc8a907718f6bb044878ebe06a12d8f957fb1aeb888584a00b89a71195778d7b",
+    "normal/loaded.gel.json": "799de596cb0463b25155757784bc2c81df0cdf4009a25ef02a647aa4311a5751",
+    "normal/performance.json": "c041fc78f6f7fecb71112b7c9835fe4cd73b0b1e41f3a6a62135470fb2e5a3f1",
+    "normal/verification.json": "008a9b58395accfb10d27517178c1da678d07563517e722c6db622644ea8d723",
+    "normal/workload.png": "425f390d5a6e408702744f661f7e650688592af7fd1e4f2dbae14c9a76872a8b",
+    "verify.py": "974a528d6c562a71da500f164ebf4d74867337b99f45514e23bea1d38848e413"
+  }
+}

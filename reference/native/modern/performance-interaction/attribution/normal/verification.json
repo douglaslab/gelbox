@@ -1,0 +1,13 @@
+{
+  "result": "complete capture",
+  "snapshots": 6,
+  "resources": {
+    "buffers": 4,
+    "fbos": 4,
+    "programs": 7,
+    "textures": 29,
+    "vaos": 3
+  },
+  "completion_tick": 1658,
+  "external_mutating_events": []
+}

@@ -14,6 +14,10 @@ The native feature areas are substantially implemented, and the shared composito
 
 Implemented and checked areas include native JSON/XML file workflows and metadata, startup defaults, hidden-lane retention, sample/species controls, tube and band movement/cloning, reverse solving, picking, buffer effects, molecular lifecycle/meshes, persistent loupe gestures and source selection, temporary hover loupes, and reference-image views. Independent compiled native captures now cover 509 band/setup cases, 2,909 solver requests, particle/loupe behavior and meshes, and 137 exact-byte CPU warp cases. These are finite source-backed comparisons, not certification of the original executable's complete output.
 
+## Latest native capture diagnostics
+
+The isolated native harness now records pointer/key event origin, tracked view identity and removal backtraces. A deliberate sample close triggers the existing guard with the expected identity; an ordinary full run retains all four views and stable resources across six checkpoints, with no external mutating pointer/key events. [Evidence and reproduction](../reference/native/modern/performance-interaction/attribution/README.md). The historical failure is still unattributed; W08 remains open. No app runtime or review artifact changed.
+
 ## Latest translucent-image fix
 
 WebKit lost hidden RGB before filtering, producing up to64 levels of visible error in retained native PNG scenes. PNG imports now retain straight RGBA samples and upload them directly. All40 cross-engine scene comparisons and56 mip comparisons match native exactly; 44 additional format fixtures match native decoding and actual compiled uploads. All3,051 unit tests,48 compiled production tests,18 compatibility tests and54 image interaction/lifecycle tests pass. [Evidence, regressions and limits](../reference/web/image-decoding/straight-alpha/README.md). No website review artifact changed.

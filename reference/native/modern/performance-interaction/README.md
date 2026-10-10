@@ -40,3 +40,5 @@ has not been attributed to a cause, and is not claimed fixed. Final instrumentat
 retains failure diagnostics and additionally asserts resource stability. This
 limits confidence in unattended capture reliability; it does not erase the
 successful measured runs or establish full native/web parity acceptance.
+
+[Event/removal attribution controls](attribution/README.md) now verify the failure diagnostics with an intentional sample close and a full normal run. The original failure remains unattributed; the new normal capture has stable resources and no external mutating pointer/key events.
