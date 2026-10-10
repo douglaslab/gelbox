@@ -61,3 +61,31 @@ test('compiled images retain native orientation and bounded codec pixel differen
   }
  }finally{await app.close();}
 });
+
+test('compiled image drops reject native-unsupported CMYK and continue the batch',async({page},info)=>{
+ const app=await serveBuiltApp('/gelbox/');
+ try{
+  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.goto(`${app.url}#/gel`);await expect(page.getByTestId('band-0')).toBeVisible();
+  const save=async()=>{
+   await page.getByRole('button',{name:'Application settings'}).click();
+   const download=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+   const doc=JSON.parse(await readFile((await (await download).path())!,'utf8'));
+   await expect(page.getByRole('button',{name:'Application settings'})).toHaveAttribute('aria-expanded','false');return doc;
+  };
+  const before=await save();
+  const drop=async(files:{name:string;source:string}[])=>{
+   const inputs=await Promise.all(files.map(async f=>({name:f.name,bytes:[...await readFile(path.resolve('../reference/native/image-decoding',f.source))]})));
+   await page.evaluate(inputs=>{const data=new DataTransfer();for(const f of inputs)data.items.add(new File([new Uint8Array(f.bytes)],f.name));document.querySelector('[data-testid="gel-page"]')!.dispatchEvent(new DragEvent('drop',{bubbles:true,clientX:1100,clientY:650,dataTransfer:data}));},inputs);
+  };
+  await drop([{name:'keep.png',source:'inputs/opaque.png'}]);await expect(page.getByTestId('reference-image-1')).toBeVisible();
+  await drop([{name:'cmyk.jpg',source:'color-models/inputs/cmyk.jpg'},{name:'renamed.png',source:'color-models/inputs/cmyk-progressive.jpg'},{name:'gray.jpg',source:'color-models/inputs/gray.jpg'}]);
+  await expect(page.getByTestId('drop-error')).toContainText('cmyk.jpg');
+  await expect(page.getByTestId('drop-error')).toContainText('renamed.png');
+  await expect(page.locator('[data-reference-image]')).toHaveCount(2);
+  await expect(page.getByTestId('reference-image-1')).toBeVisible();
+  await expect(page.getByTestId('reference-image-canvas-2')).toHaveAttribute('width','32');
+  await expect(page.getByTestId('reference-image-canvas-2')).toHaveAttribute('height','24');
+  expect(await save()).toEqual(before);
+ }finally{await app.close();}
+});

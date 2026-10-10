@@ -59,6 +59,32 @@ function omitRanges(bytes: Uint8Array, removed: [number, number][]): Uint8Array 
   return output;
 }
 
+/** Read the first JPEG frame header, never compressed scan data. Cinder's
+ * Quartz loader supports RGB/gray/indexed color models, but rejects CMYK. */
+export function jpegColorComponents(bytes: Uint8Array): number | null {
+  if (bytes[0] !== 0xff || bytes[1] !== 0xd8) return null;
+  let pos = 2;
+  while (pos < bytes.length) {
+    if (bytes[pos++] !== 0xff) return null;
+    while (bytes[pos] === 0xff) pos++;
+    const marker = bytes[pos++];
+    if (marker === undefined || marker === 0xda || marker === 0xd9) return null;
+    if (marker === 0x01 || (marker >= 0xd0 && marker <= 0xd7)) continue;
+    if (pos + 2 > bytes.length) return null;
+    const length = bytes[pos] * 256 + bytes[pos + 1];
+    if (length < 2 || pos + length > bytes.length) return null;
+    const frame = marker >= 0xc0 && marker <= 0xcf &&
+      marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc;
+    if (frame) {
+      if (length < 8) return null;
+      const components = bytes[pos + 7];
+      return components > 0 && length === 8 + 3 * components ? components : null;
+    }
+    pos += length;
+  }
+  return null;
+}
+
 export async function decodeReferenceImage(file: File): Promise<ImageBitmap> {
   // Sniff the content, since native accepts a JPEG with a .png or .gif filename.
   const header = new Uint8Array(await file.slice(0, 8).arrayBuffer());
@@ -67,6 +93,9 @@ export async function decodeReferenceImage(file: File): Promise<ImageBitmap> {
   const png = header[0] === 137 && header[1] === 80;
   if (jpeg || png) {
     const bytes = new Uint8Array(await file.arrayBuffer());
+    if (jpeg && jpegColorComponents(bytes) === 4) {
+      throw new Error('CMYK JPEG images are not supported. Convert the image to RGB and try again.');
+    }
     const normalized = jpeg ? jpegWithoutExif(bytes) : pngWithoutExif(bytes);
     if (normalized !== bytes) input = new File([normalized], file.name, {type:file.type,lastModified:file.lastModified});
   }

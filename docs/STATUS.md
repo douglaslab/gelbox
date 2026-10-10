@@ -14,7 +14,13 @@ The native feature areas are substantially implemented, and the shared composito
 
 Implemented and checked areas include native JSON/XML file workflows and metadata, startup defaults, hidden-lane retention, sample/species controls, tube and band movement/cloning, reverse solving, picking, buffer effects, molecular lifecycle/meshes, persistent loupe gestures and source selection, temporary hover loupes, and reference-image views. Independent compiled native captures now cover 509 band/setup cases, 2,909 solver requests, particle/loupe behavior and meshes, and 137 exact-byte CPU warp cases. These are finite source-backed comparisons, not certification of the original executable's complete output.
 
-## Latest resident-memory measurement
+## Latest local verification
+
+The [1,000-cycle memory repeat](../reference/web/performance/resident-memory/workload-controls/network-disabled-1000/README.md) passes resource recovery on both backends, but renderer RSS still grows by32.84/8.49MiB between early and late windows. W08 remains open.
+
+[CMYK JPEG rejection](../reference/native/image-decoding/color-models/README.md) now matches the source-backed native Quartz acceptance boundary; grayscale batch continuation is covered. Validation: 2,999 unit tests, 46 compiled production checks and 16 Firefox/WebKit compatibility checks passed. The website review snapshot remains at c4115b5 and no publication is authorized.
+
+## Earlier resident-memory measurement
 
 The compiled app passes300 view-churn cycles on both backends with exact resource
 recovery and successful remount. Controlled Metal runs initially show52–59MiB

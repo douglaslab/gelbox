@@ -1,0 +1,24 @@
+[
+  {
+    "file": "cmyk-progressive.jpg",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "Core Graphics unexpected data type\n",
+    "input_sha256": "d32a39fe045a0c480ed006e8833d8e34f31c8cad1b9f0632449237d1f4c487ed"
+  },
+  {
+    "file": "cmyk.jpg",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "Core Graphics unexpected data type\n",
+    "input_sha256": "67a22028325069ce60b64054753b7ed238f4ec96b0ccd1f2b1f0ca7a61636c69"
+  },
+  {
+    "file": "gray.jpg",
+    "exit": 0,
+    "stdout": "{\"width\":32,\"height\":24,\"decoder\":\"N6cinder21ImageSourceFileQuartzE\"}\n",
+    "stderr": "",
+    "input_sha256": "936a5ce6d15c32a2120b39919049c7b4c260fc337e21a4e581b2b98598aa5d22",
+    "rgba_sha256": "c93fa3af40fc106fc50d2dda02f8498619bfb4669f0450b06b4994abee7f38fd"
+  }
+]
