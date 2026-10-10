@@ -1,4 +1,5 @@
 import type { Dispatch } from 'react';
+import {resolveAssetUrl} from '../../lib/layout/assets';
 import { LAYOUT } from '../../lib/layout/layout';
 import { SliderView } from '../primitives/SliderView';
 import {
@@ -181,17 +182,20 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
               }}
               value={value}
               onChange={(v) => setParam(key, v)}
-              iconLo={undefined}
-              iconHi={BUFFER_PARAM_ICON_PATH[key]}
-              iconGutter={LAYOUT.bufferViewSlidersIconGutter}
-              iconSize={{ x: 26, y: 26 }}
               width={barW}
               barFillColor={LAYOUT.bufferViewSliderFillColor}
               barEmptyColor={LAYOUT.bufferViewSliderEmptyColor}
               barCornerRadius={LAYOUT.bufferViewSliderCornerRadius}
               barHeight={barH}
-              style={{ position: 'absolute', left: 100, top: 0, width: barW + 26 + LAYOUT.bufferViewSlidersIconGutter }}
+              style={{ position: 'absolute', left: 100, top: 0 }}
             />
+            {/* Native layoutFromBar anchors the bar, then fits the natural
+                28×26 molecule asset beside it; no notional icon slot. */}
+            <img src={resolveAssetUrl(BUFFER_PARAM_ICON_PATH[key])} alt=""
+              data-testid={`${testId}-${key}-icon-hi`} draggable={false}
+              style={{position:'absolute',left:100+barW+LAYOUT.bufferViewSlidersIconGutter,
+                top:-Math.round((26-barH)/2),width:28,height:26,maxWidth:'none',
+                filter:'brightness(0.85) opacity(0.5)'}}/>
           </div>
         );
       })}

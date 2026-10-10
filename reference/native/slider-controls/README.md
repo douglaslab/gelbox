@@ -112,3 +112,22 @@ on both web backends. Its geometry and stroke assertions failed before their
 respective corrections. Web screenshots are retained as test artifacts. Line
 antialiasing/display-scale rasterization and full native panel comparison still
 require certification; this geometry evidence does not close those gates.
+
+
+## Buffer layout from the bar
+
+Pinned BufferView::updateLayout calls layoutSlidersFromBar with a 135×23 bar,
+13px icon gutter, and 31px row spacing. Slider::doLayoutFromBar centers the
+natural image height on bar center y=11.5 and rounds its upper-left corner.
+All four bundled buffer molecule PNGs are 28×26 at 1× and 56×52 at 2×; their
+logical high-icon origin is (135+13, roundf(11.5-13)) = (148,-2).
+The bar origin is the configured buffer origin plus (66,41), without an
+additional icon-row offset. The web now follows this rule in gel and sample
+buffer panels, rendering the disabled image separately from the bar.
+
+buffer-layout.spec.ts checks all four bars/images in both panels at 1×/2× on
+both renderers. It failed before correction. Existing files.spec.ts additionally
+clicks disabled images/tracks and checks imported concentrations in saved JSON.
+This does not certify label texture metrics or native raster output. Native
+syncPresetToModel sets a vertical notch for the matched preset and retains old
+notches when no preset matches; those markings remain a separate open item.

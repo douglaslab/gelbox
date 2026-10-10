@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 315 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 319 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -682,3 +682,21 @@ one intentional duplicate skipped; production build and TypeScript checks passed
 No screenshot baselines changed. The unchanged model's recorded full unit baseline
 remains 2,845 passed. Native line antialiasing/DPR raster, typography, handle and
 buffer styling, full composed workflows and P5 reliability/release gates remain open.
+
+
+## Native buffer bar and molecule geometry
+
+Buffer bars now anchor their own 135×23 bounds rather than centering inside a
+26px icon row. The four molecule images use their natural 28×26 logical asset
+size, placed 13px beyond the bar and vertically snapped to -2px relative to its
+top. Both gel and sample panels use the native layoutFromBar rule. Concentration
+controls remain disabled, and image clicks preserve imported off-preset values.
+
+Four 1×/2× backend cases failed before correction and now check every bar/image
+rectangle in both panels. The 38-case focused suite includes actual disabled-control
+clicks and saved-file preservation. Reviewed web captures show the correction.
+Fresh complete verification: **319 browser tests passed, one intentional duplicate
+skipped; production build and TypeScript checks passed**. No goldens changed;
+2,845 remains the unchanged model's last full unit baseline. Preset notch marks,
+label typography/baselines, exact raster comparison, composed native workflows
+and P5 reliability/release validation remain open.

@@ -266,3 +266,11 @@ full browser suite passes 315 cases (one intentional duplicate skipped), and the
 production build passes. This is source-backed geometry and reviewed web rendering;
 native raster/DPR line treatment, typography, remaining controls, composed workflows
 and P5 release certification remain open.
+
+
+Buffer geometry update: gel and sample concentration bars now use native bar-anchored
+bounds and natural molecule-image sizes/offsets. Four display-scale/backend checks
+and existing saved-file tests verify geometry and disabled behavior. Full suite:
+319 passed, one intentional duplicate skipped; production build passed. Remaining
+buffer work includes preset notch marks and label typography/raster. Full native
+workflow and P5 gates remain open.
