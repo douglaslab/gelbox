@@ -1,0 +1,31 @@
+--- a/src/GelboxApp.cpp
++++ b/src/GelboxApp.cpp
+@@ -1,3 +1,4 @@
++#include "cinder/ImageIo.h"
+ #include "cinder/app/RendererGl.h"
+ #include "cinder/gl/gl.h"
+ 
+@@ -757,6 +758,12 @@
+ 	
+ 	//
+ 	if ( Interaction::get() ) Interaction::get()->draw();
++	// Reference-only probe: read the completed application framebuffer once.
++	static int captureFrame=0;
++	if (++captureFrame==30) {
++		writeImage(ci::fs::path("/tmp/gel-native-lossless-probe/startup.png"), copyWindowSurface());
++	}
++
+ }
+ 
+ void GelboxApp::prepareSettings( Settings *settings )
+--- a/proj/cmake/CMakeLists.txt
++++ b/proj/cmake/CMakeLists.txt
+@@ -49,7 +49,7 @@
+ if( APPLE )
+ 	set_target_properties( Gelbox PROPERTIES
+ 		MACOSX_BUNDLE_INFO_PLIST            "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in"
+-		MACOSX_BUNDLE_GUI_IDENTIFIER        "org.douglaslab.Gelbox"
++		MACOSX_BUNDLE_GUI_IDENTIFIER        "org.douglaslab.GelboxLosslessProbe"
+ 		MACOSX_BUNDLE_BUNDLE_NAME           "Gelbox"
+ 		MACOSX_BUNDLE_ICON_FILE             "Gelbox.icns"
+ 		MACOSX_BUNDLE_SHORT_VERSION_STRING  "1.0"
