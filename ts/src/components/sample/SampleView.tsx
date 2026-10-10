@@ -1,5 +1,5 @@
 import {useSharedPresentation} from '../gel/ScenePresentation';
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { LAYOUT } from '../../lib/layout/layout';
 import { sampleKeyAction } from '../../lib/gel/sampleKeyboard';
 import { useGelState, useGelDispatch, useGelStore } from '../gel/GelContext';
@@ -27,7 +27,7 @@ export function SampleView() {
   const innerRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState<{ w: number; h: number } | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = innerRef.current;
     if (!el) return;
     function update() {

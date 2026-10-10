@@ -58,14 +58,16 @@ points to both presentation factories; keep legacy draw signatures as adapters.
 
 ## Task 2: Frame registry and two real view contributions
 
-In progress: development-only shared registry, post-commit frame presentation,
-sample body/shadow/clip and fragment well/representative are implemented. The
-production FragmentWell passes12 native edge comparisons with a registered
-geometric underlay. Same-frame mount/removal and RNG/tick invariants, movement,
-scroll/DPR/resize, initialization fallback and late-import retirement are covered.
-Still required: native real sample/fragment overlap fixture, full SampleView
-first-commit measurement coverage, loss/recovery and bounded-allocation gates.
-Mixed overlaps with unmigrated gel/DOM chrome remain explicitly unaccepted.
+Implemented and verified: development-only registry and post-commit presentation,
+sample body/shadow/clip and fragment well/representative. The geometric-underlay
+edge fixture matches12 native comparisons; real sample/fragment body overlaps
+match20 including reversed order and fractional clipping. Full SampleView first-
+commit measurement is fixed with layout-phase measurement. Same-frame removal,
+RNG/tick invariants, move/scroll/resize/DPR, device/context loss, bounded owned
+resources, failure/retry and late device acquisition are covered. Regression:
+2,916 units,559 browser cases(one intentional skip),production4/build pass.
+Final independent review remains at the end of this inline plan. Mixed overlaps
+with unmigrated gel/DOM chrome remain explicitly unaccepted.
 
 Files: create `ts/src/lib/gel/scenePresentation.ts`; provider under `ts/src/components/gel/ScenePresentation.tsx`;
 modify `GelContext.tsx`, `Stage.tsx`, `SampleSimCanvas.tsx`, `FragmentWell.tsx`.
@@ -75,13 +77,14 @@ current transform; collection follows GelStore snapshot.order. Presentation
 runs after flushSync tick commit, never from simulation readiness. Renderer
 resources use existing recovery behavior. Keep a development-only migration switch.
 
-- [ ] Add a real sample/fragment overlap test using one shared canvas and the
+- [x] Add a real sample/fragment overlap test using one shared canvas and the
   independent native edge reference. Assert no extra simulation ticks/RNG draws.
-- [ ] Register existing sample and fragment meshes without remounting engines;
+- [x] Register existing sample and fragment meshes without remounting engines;
   include their backgrounds, clip and ordered fragment well. Preserve input DOM.
-- [ ] Test opening/removing a panel in the same tick, move/scroll/resize/DPR,
+- [x] Test opening/removing a panel in the same tick, move/scroll/resize/DPR,
   late acquisition after unmount, device/context loss and bounded allocation.
-- [ ] Keep missing chrome contributions explicitly unaccepted; review and commit.
+- [x] Keep missing chrome contributions explicitly unaccepted and commit. Independent
+  review covers the whole branch after Task4.
 
 ## Task 3: Gel, loupes, images and assets
 

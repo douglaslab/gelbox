@@ -42,7 +42,7 @@ test('shared presentation observes committed opens/removals without advancing mo
   const {default:{createRoot}}=await import('/node_modules/.vite/deps/react-dom_client.js');
   const {GelProvider,useGelStore,useGelState}=await import('/src/components/gel/GelContext.tsx');
   const {useSharedPresentation}=await import('/src/components/gel/ScenePresentation.tsx');
-  const {MolecularSimCanvas}=await import('/src/components/sample/MolecularSimCanvas.tsx');
+  const {SampleView}=await import('/src/components/sample/SampleView.tsx');
   const {FragmentWell}=await import('/src/components/inspector/FragmentWell.tsx');
   const host=document.createElement('div');host.style.cssText='position:fixed;inset:0;z-index:999';document.body.append(host);
   const results:any[]=[];(window as any).sharedResults=results;
@@ -61,7 +61,7 @@ test('shared presentation observes committed opens/removals without advancing mo
     return()=>{stop();off();};
    },[store,registry]);
    return React.createElement('div',{'data-selected':String(state.lastSampleLane)},state.lastSampleLane===null?null:[
-    React.createElement(MolecularSimCanvas,{key:'sample',laneIndex:0,width:303,height:520}),
+    React.createElement('div',{key:'sample',style:{position:'relative',width:362,height:520}},React.createElement(SampleView)),
     React.createElement('div',{key:'fragment',style:{position:'absolute',left:77,top:71}},React.createElement(FragmentWell,{fragmentIndex:0}))]);
   };
   createRoot(host).render(React.createElement(GelProvider,null,React.createElement(Fixture)));

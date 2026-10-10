@@ -40,12 +40,12 @@ the sample into the old gel canvas exposed a 10px incorrectly ordered strip;
 that mixed-boundary overlap remains unaccepted. The movement check keeps clear
 of the gel to isolate coordinate correctness; it does not waive this defect.
 
-Still required for shared-composition Task2: an independent native scene with
-real sample and fragment contributions together, full SampleView first-commit
-measurement coverage, device/context-loss recovery and bounded shared allocation
-checks. The current same-frame fixture uses MolecularSimCanvas with explicit
-bounds. Original GUI/font/asset and cross-browser acceptance remain separate
-roadmap gates. Do not enable this incomplete migration in production.
+The subsequent [overlap and lifecycle evidence](../shared-view-overlap/README.md)
+adds native sample/fragment body composition, fixes full SampleView first-commit
+measurement, and covers device/context loss and resource retirement. The source
+hashes and reports in this directory describe the initial f6e87f3 increment.
+Original GUI/font/asset and cross-browser acceptance remain separate roadmap
+gates. Do not enable the incomplete migration in production.
 
 Verification: 2,916 unit tests, 549 browser tests (one intentional duplicate
 skipped), four production root/subpath checks and the TypeScript/Vite build pass.

@@ -733,3 +733,18 @@ Task2 still needs a real sample/fragment native overlap reference, full SampleVi
 first-commit measurement, device/context-loss and bounded-allocation checks.
 Mixed overlaps with the old gel/DOM paint remain visibly incorrect; Tasks3–4
 must migrate those layers before production can use the shared surface.
+
+
+### Shared sample/fragment integration gates verified
+
+The full SampleView first-open gap is fixed with layout-phase measurement.
+Twenty native overlap comparisons now cover both body contributions, reverse
+order and fractional clipping. Repeated graphics loss, resize, allocation failure,
+retry and late device acquisition preserve engine identity and retire tracked
+resources. Next migrate gel/loupe/image graphics, then ordered chrome/text/frame
+paint. Production shared composition, original GUI and P0–P5 acceptance remain open.
+
+Shared-composition Task2 regression gates pass: 2,916 units, 559 browser cases
+(one intentional duplicate skipped), four production checks and build. Final
+whole-branch review remains after Task4. Continue Task3; the production switch
+must remain off until complete overlapping view and control paint is migrated.

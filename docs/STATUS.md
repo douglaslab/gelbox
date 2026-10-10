@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Latest verification: 2026-10-10 · first shared app view contributions · native reference `5f51097`._
+_Latest verification: 2026-10-10 · shared sample/fragment integration gates · native reference `5f51097`._
 
 ## Direction
 
@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include native well presentation, terminal-f
 | Check | Result |
 |---|---|
 | Unit suite | 2,916 passed |
-| Browser suite across WebGPU/WebGL2 | 549 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 559 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -44,9 +44,10 @@ diagnostic prototype, not app integration; production audits above still fail.
 The [design](superpowers/specs/2026-10-10-shared-composition.md) and
 [implementation sequence](superpowers/plans/2026-10-10-shared-composition.md)
 cover ordered graphics, clipping, textures, frame timing, and DOM interaction
-preservation. Ordered mesh and texture operations are implemented; next migrate real
-view contributions and draw them after the React commit. The production app still
-uses separate view canvases.
+preservation. Ordered mesh and texture operations are implemented. Development mode now draws
+sample and fragment bodies after the React commit on the shared surface. Next
+migrate gel, loupes and images, then ordered control/text/frame paint. The
+production app still uses separate view canvases.
 
 
 ## Remaining completion work
@@ -2211,3 +2212,30 @@ Verified for this development integration increment: **2,916 units, 549 browser
 cases (one intentional duplicate skipped), four production checks, and
 TypeScript/Vite build pass**. No native references or tolerances were changed.
 Task2 and the full parity/release gates remain open.
+
+
+## Shared sample/fragment first-frame and lifecycle gates
+
+Full SampleView coverage found that passive size measurement omitted its body
+from the first shared frame. Measuring during layout fixes the two failing
+backend cases, keeping sample and inspector contributions in the same committed
+frame without changing engines or random state.
+
+Five new static native sample/fragment overlap scenes at DPR1/2 cover clipped
+ordinary particles, the unclipped representative, fractional coordinates and
+both view orders. All20 WebGPU/WebGL2 RGB comparisons match exactly. Ten native
+captures were repeated and independently reverified. Source-backed CGL evidence
+covers these body contributions; it does not certify complete original GUI paint.
+
+Six lifecycle checks pass: repeated device/context loss preserves the engine and
+frozen image; resize maintains stable live resource counts; route exit retires
+owned resources to zero; allocation failure and retry preserve the engine; late
+device acquisition ignores a retired canvas. A deliberate cleanup omission makes
+both allocation checks fail. GPU driver-resident memory remains a release gate.
+[Reference and limits](../reference/web/shared-view-overlap/README.md).
+
+Final verification: **2,916 units, 559 browser cases (one intentional duplicate
+skipped), four production checks and TypeScript/Vite build pass**. Shared-
+composition Task2 is implemented and verified; final whole-branch review remains
+at the end of Task4. Task3 migrates gel/loupe/image graphics, and Task4 migrates
+ordered chrome/text/frame paint before production changes. Full parity remains open.
