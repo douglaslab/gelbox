@@ -64,7 +64,7 @@ describe('buildMoleculesMesh', () => {
     expect([v1[2], v1[3], v1[4]]).toEqual([1, 1, 0]);
   });
 
-  it('a fully-degraded part still emits geometry (sliceWidth floored)', () => {
+  it('zero-wholeness fill preserves native degenerate-rectangle behavior', () => {
     const m = buildMoleculesMesh([monomer({ wholeness: 0 })], null, null, TUNING);
     expect(m.vertexCount).toBeGreaterThan(0);
   });

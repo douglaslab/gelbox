@@ -23,10 +23,8 @@ function lerp3(a: RGB, b: RGB, t: number): RGB {
  * select/hover color) followed by a FILL sub-pass (part color at `fade` alpha).
  * Outline first so the fill sits on top → ring effect.
  *
- * Slice degradation (the only ported C++ mode) clips the unit ellipse to a
- * left-anchored rect of half-width `sliceHalfW = max(0.05, wholeness²)` in unit
- * space; we emit it as a triangle fan over the clipped contour. When wholeness
- * is 1 the contour is the full ellipse.
+ * Slice degradation intersects the native 32-point ellipse with its cut
+ * rectangle, then fans from the polygon centroid. No minimum slice is added.
  *
  * Output is interleaved [x, y, r, g, b, a] floats (VERTEX_STRIDE = 6), a flat
  * triangle list (3 verts per triangle, no indexing) so it drops straight into
@@ -74,65 +72,120 @@ function emitPart(
   alpha: number,
   t: MeshBuildTuning,
 ): void {
-  const N = t.numCirclePartVertices;
-  const minR = Math.min(p.radius.x, p.radius.y);
-  const locScale = (1 - t.multimerAdhereOverlapFrac) * 2;
-  // Area-preserving slice fraction, floored so fully-degraded parts stay
-  // visible/pickable. C++ makeDegradeIntersectShape uses wholeness² with no
-  // floor; the floor mirrors the pre-M24 canvas behaviour.
-  const wholeFrac = Math.max(0.05, p.wholeness * p.wholeness);
-  const cosA = Math.cos(p.angle);
-  const sinA = Math.sin(p.angle);
-
+  const f = Math.fround;
+  const rx = f(f(p.radius.x) + inflate), ry = f(f(p.radius.y) + inflate);
+  const pts: Array<[number, number]> = [];
+  const delta = f(f(f(1 / t.numCirclePartVertices) * 2) * f(3.14159));
+  let phase = 0;
+  for (let i = 0; i < t.numCirclePartVertices; i++) {
+    pts.push([f(f(Math.cos(phase)) * rx), f(f(Math.sin(phase)) * ry)]);
+    phase = f(phase + delta);
+  }
+  let contour = pts;
+  if (f(p.wholeness) < 1) {
+    const whole = f(p.wholeness);
+    const area = f(f(f(rx * ry) * 4) * f(whole * whole));
+    const width = f(area / f(ry * 2));
+    const right = f(f(-rx + width) + inflate);
+    // Legacy Boost intersection treats a zero-width rectangle as degenerate
+    // and returns the ellipse. Preserve this captured native behavior.
+    if (right !== -rx) contour = clipRight(pts, right, rx, ry);
+  }
+  if (contour.length < 3) return;
+  const center = centroid(contour);
+  const rootC = f(Math.cos(f(p.angle))), rootS = f(Math.sin(f(p.angle)));
   for (const m of p.multi) {
-    // Multimer slot centre in world space (radius units → px), rotated by part angle.
-    const offX = m.loc.x * minR * locScale;
-    const offY = m.loc.y * minR * locScale;
-    const cx = p.loc.x + (offX * cosA - offY * sinA);
-    const cy = p.loc.y + (offX * sinA + offY * cosA);
-    const a = p.angle + m.angle;
-    const ca = Math.cos(a);
-    const sa = Math.sin(a);
-    const rx = p.radius.x + inflate;
-    const ry = p.radius.y + inflate;
-
-    // Unit-space x of the left-anchored slice's right edge. Port of C++
-    // makeDegradeIntersectShape: in ellipse space the cut rect is
-    //   x ∈ [-radius.x, -radius.x + 2·radius.x·wholeness² + inflate],
-    // so in unit space (÷rx, with radius already inflated) the right edge is
-    //   (2·wholeness² − 1) + inflate/rx.
-    // The inflate term widens the outline pass's clip to match the inflated
-    // outline ellipse (C++ `f.x2 += inflateRadius`).
-    const sliceRight = (2 * wholeFrac - 1) + inflate / rx;
-
-    // Build the clipped unit contour (x ∈ [-1, sliceRight]) as N points, then
-    // fan from the centre. Clamping x to sliceRight folds the right arc onto a
-    // vertical edge — the points keep distinct y, so the fan stays non-degenerate
-    // and the result equals the ellipse ∩ {x ≤ right} that C++ calcIntersection
-    // and the pre-M24 ctx.clip() produced.
-    const pts: Array<[number, number]> = [];
-    for (let i = 0; i < N; i++) {
-      const th = (i / N) * Math.PI * 2;
-      let ux = Math.cos(th);
-      const uy = Math.sin(th);
-      if (ux > sliceRight) ux = sliceRight; // clip to left-anchored rect
-      // unit → ellipse → rotate → translate
-      const ex = ux * rx;
-      const ey = uy * ry;
-      pts.push([cx + (ex * ca - ey * sa), cy + (ex * sa + ey * ca)]);
-    }
-
-    // Fan centre = the clipped centroid x-bias midpoint at unit origin → ellipse.
-    const c0x = cx;
-    const c0y = cy;
-    for (let i = 0; i < N; i++) {
-      const a0 = pts[i];
-      const a1 = pts[(i + 1) % N];
-      pushV(out, c0x, c0y, color, alpha);
-      pushV(out, a0[0], a0[1], color, alpha);
-      pushV(out, a1[0], a1[1], color, alpha);
+    const minR = Math.min(f(p.radius.x), f(p.radius.y));
+    const overlap = f(1 - f(t.multimerAdhereOverlapFrac));
+    const ox = f(f(f(f(m.loc.x) * minR) * overlap) * 2);
+    const oy = f(f(f(f(m.loc.y) * minR) * overlap) * 2);
+    const c = f(Math.cos(f(m.angle))), s = f(Math.sin(f(m.angle)));
+    const transform = ([x,y]:[number,number]):[number,number] => {
+      const mx = f(f(f(c*x) - f(s*y)) + ox);
+      const my = f(f(f(s*x) + f(c*y)) + oy);
+      return [f(f(f(rootC*mx) - f(rootS*my)) + f(p.loc.x)),
+        f(f(f(rootS*mx) + f(rootC*my)) + f(p.loc.y))];
+    };
+    const origin = transform(center), rim = contour.map(transform);
+    for (let i=0;i<rim.length;i++) {
+      const next=rim[(i+1)%rim.length];
+      pushV(out,origin[0],origin[1],color,alpha);
+      pushV(out,rim[i][0],rim[i][1],color,alpha);
+      pushV(out,next[0],next[1],color,alpha);
     }
   }
+}
+
+function clipRight(points: Array<[number,number]>, right:number, rx:number, ry:number): Array<[number,number]> {
+  // Cinder 0.9 Boost.Geometry rescales to a 10-million-unit integer range.
+  // It corrects rings to clockwise, then reconstructs each crossing on the
+  // segment with the smaller intersection ratio. Preserve that quantization:
+  // exact floating half-plane intersections destabilize native tiny centroids.
+  const extent=Math.max(2*rx,2*ry,right+rx);
+  const scale=extent>=1e7?1:Math.trunc(.5+1e7/extent);
+  const ix=(x:number)=>Math.trunc(-5e6+(x+rx)*scale);
+  const iy=(y:number)=>Math.trunc(-5e6+(y+ry)*scale);
+  const edge=ix(right),top=iy(ry),bottom=iy(-ry);
+  const clockwise=[points[0],...points.slice(1).reverse()];
+  const out:Array<[number,number]>=[];
+  let previous=clockwise[clockwise.length-1];
+  for(const current of clockwise) {
+    const ax=ix(previous[0]),bx=ix(current[0]);
+    const inside=bx<=edge,wasInside=ax<=edge;
+    if(inside!==wasInside) {
+      const numerator=edge-ax,denominator=bx-ax;
+      const ay=iy(previous[1]),by=iy(current[1]);
+      const bn=(top-ay)*denominator-(by-ay)*numerator;
+      const bd=(top-bottom)*denominator;
+      const ra=numerator/denominator,rb=bn/bd;
+      if(ra<rb) out.push([
+        Math.fround(previous[0]+numerator*(current[0]-previous[0])/denominator),
+        Math.fround(previous[1]+numerator*(current[1]-previous[1])/denominator)]);
+      else out.push([right,Math.fround(ry+bn*(-2*ry)/bd)]);
+    }
+    if(inside) {
+      // The ellipse touches the rectangle's left edge. Boost resolves this
+      // touch on that edge using its integer ratio, so retain the snapped Y.
+      out.push(current[0]===-rx
+        ? [-rx,Math.fround(-ry+(iy(current[1])-bottom)*(2*ry)/(top-bottom))]
+        : current);
+    }
+    previous=current;
+  }
+  // Boost emits a closed ring. The repeated endpoint participates in the
+  // native centroid arithmetic (including its fused-product residual).
+  const left=out.findIndex(p=>p[0]===-rx);
+  const ring=left<0?out:[...out.slice(left),...out.slice(0,left)];
+  if(ring.length)ring.push(ring[0]);
+  return ring;
+}
+
+function centroid(points:Array<[number,number]>):[number,number] {
+  const f=Math.fround;
+  let x=0,y=0,area=0;
+  for(let i=0;i<points.length;i++) {
+    const a=points[i],b=points[(i+1)%points.length];
+    // The captured ARM64 native object fuses the first product/subtraction.
+    // Float32 inputs have exact products in JS double precision here.
+    const cross=f(a[0]*b[1]-f(b[0]*a[1]));
+    x+=f(a[0]+b[0])*cross;y+=f(a[1]+b[1])*cross;area+=cross;
+  }
+  if (area === 0) {
+    // A very thin contour can cancel in native-style float cross products.
+    // Translate before accumulating in double precision to keep the fan
+    // center finite and inside this convex polygon without widening the cut.
+    const origin=points[0];
+    x=0;y=0;area=0;
+    for(let i=0;i<points.length;i++) {
+      const a=[points[i][0]-origin[0],points[i][1]-origin[1]];
+      const next=points[(i+1)%points.length],b=[next[0]-origin[0],next[1]-origin[1]];
+      const cross=a[0]*b[1]-b[0]*a[1];
+      x+=(a[0]+b[0])*cross;y+=(a[1]+b[1])*cross;area+=cross;
+    }
+    if(area===0)return origin;
+    return [f(origin[0]+x/(area*3)),f(origin[1]+y/(area*3))];
+  }
+  return [f(x/(area*3)),f(y/(area*3))];
 }
 
 function pushV(out: number[], x: number, y: number, c: RGB, a: number): void {

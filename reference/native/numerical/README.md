@@ -6,14 +6,15 @@ The executable is a model reference, not the distributed Gelbox binary. Cinder i
 
 ## Reproduce on macOS
 
-Requires CMake, Xcode C++ tools, the Gelbox Git repository containing `5f51097`, and the stated Cinder checkout with its Release library/CMake config already built. From the web repository root:
+Requires the pinned Cinder-Boost checkout described below, CMake, Xcode C++ tools, the Gelbox Git repository containing `5f51097`, and the stated Cinder checkout with its Release library/CMake config already built. From the web repository root:
 
 ```sh
 python3 reference/native/numerical/generate-cases.py
 python3 reference/native/numerical/generate-particles.py
+python3 reference/native/numerical/generate-mesh.py
 python3 reference/native/numerical/build.py --gelbox /absolute/path/gelbox --cinder /absolute/path/Cinder --capture
 cd ts
-npm run test:unit -- tests/unit/nativeNumerical.test.ts tests/unit/nativeSolver.test.ts tests/unit/nativePicking.test.ts tests/unit/nativeLoupe.test.ts tests/unit/nativeMolecular.test.ts tests/unit/nativeParticles.test.ts
+npm run test:unit -- tests/unit/nativeNumerical.test.ts tests/unit/nativeSolver.test.ts tests/unit/nativePicking.test.ts tests/unit/nativeLoupe.test.ts tests/unit/nativeMolecular.test.ts tests/unit/nativeParticles.test.ts tests/unit/nativeMesh.test.ts
 ```
 
 `build.py` extracts pinned source via `git show` into `/tmp/gel-native-numerical` (override with `--build`). It does not read edited Gelbox source or modify either sibling repository. It refuses a different or dirty Cinder checkout. The only extra Sample implementation is `Sample::clearDyes`, extracted verbatim from the pinned source to satisfy the constructor. A forced prefix header supplies native-style fundamental Cinder types and its legacy JSON declarations; no simulation algorithm is rewritten. The inverse solver method `GelView::solveBasePairForY` is also extracted verbatim, with pinned `Config` defaults and a minimal adapter supplying the input well rectangle and the native inline band-top reference. Its optional cache is not exercised.
@@ -65,3 +66,21 @@ The particle executable also extracts native `pickPart`, `pickFragment`, `Part::
 The initial web comparison failed all three multimer scenes. Web picking now rotates multimer offsets with the root particle, inflates radii before calculating offsets, and uses native picking's `2 × minRadius` spacing without the rendering overlap factor. Reverse ordering and dead/faded hit eligibility are preserved. Native picking uses full ellipses even for degraded fragments; it is intentionally not clipped to the visible degraded mesh. Discrete pick indices/fragment indices compare exactly over this finite matrix; near-boundary floating-point equivalence on every input remains unproven. Drawing geometry remains a separate requirement.
 
 Fresh picking review exposed boundary differences from replacing the native matrix inverse with an inverse-rotation/division shortcut. Added 14,400 boundary probes reproduced failures in four scenes. The web now preserves float32 matrix cofactors, determinant, translation and matrix-vector multiplication, including rounding of the Z diagonal in GLM rotation. All 40,410 discrete probes pass. No deferred minors were reported. Mesh/native raster certification remains open.
+
+
+## Particle mesh reference
+
+`gel-mesh` extracts native circle/rectangle construction, polygon-to-mesh conversion, degradation clipping, Part mesh construction and mesh concatenation verbatim. It combines these with original Cinder 0.9.0 `PolyLine.h/.cpp` from commit `75f4821216a0e105075f3c55be1fbe38784a18c6` and its Boost submodule `15a1f17b2b63c0e8d1570fd78ed55366540abe21`. Prepare that separate, clean dependency before `build.py` (or pass another directory with `--boost`):
+
+```sh
+git clone --filter=blob:none --no-checkout https://github.com/cinder/Cinder-Boost.git /tmp/gel-native-boost
+git -C /tmp/gel-native-boost checkout 15a1f17b2b63c0e8d1570fd78ed55366540abe21
+```
+
+The legacy polygon object compiles separately as C++17, with libc++ compatibility declarations for removed `auto_ptr`/unary/binary functions. An isolated include overlay gives two Boost numeric classification enums explicit `int` underlying types so modern Clang accepts their unused MPL next/prior constants. The original Boost checkout stays clean; both source/compiled header hashes and compile flags are recorded. Polygon/mesh algorithms are unmodified. The rest still uses modern Cinder math/TriMesh/library; this is not original-release binary certification.
+
+64 cases cover whole/partial/zero/tiny-positive wholeness, selected/hovered/combined outlines, circle/elliptical radii, rotated multimers, and fade/color/pass ordering. `nativeMesh.test.ts` compares color/pass groups exactly, area/area-weighted centroid/bounds with `max(0.0002, abs(native) × 0.00001)`, and 361 coverage probes per case including overlapping triangles. Probes within `1e-6` barycentric distance of a triangle edge are excluded; bounds and area still constrain geometry. Equivalent triangulation and redundant zero-area triangles are allowed; raw triangle ordering/count is not certified. Numeric tolerance accounts for float32 transforms and polygon area calculations; it is not a screenshot threshold.
+
+The initial comparison failed 40 of 48 cases. Review added 16 narrow-slice cases, 12 of which failed from NaNs or centroid differences before correction. The web now uses the native accumulated circle phase, integer-rescaled clipping ratios and left-edge touch, closed clipped rings, polygon centroids and sequential float32 transforms. Captured ARM64 centroid code fuses a float product/subtraction; that arithmetic matters for tiny slices and is reproduced. A translated double-precision fallback keeps a zero-area centroid finite without widening its contour. Compiler/platform differences at these thresholds remain a limitation of the capture.
+
+A native quirk is preserved explicitly: the zero-width rectangle at zero wholeness returns the full fill ellipse through legacy Boost. This replaces the web's unrelated 0.05 minimum slice floor. Native’s ill-conditioned centroids can also extend the fan outside an extremely thin contour; captured behavior takes precedence over geometrical cleanup. Finite fixtures do not prove every tiny-slice threshold. Controlled original-release frame comparisons, complete scene selection identity and browser seed/timing integration remain required.

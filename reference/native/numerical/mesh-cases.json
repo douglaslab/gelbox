@@ -1,0 +1,2710 @@
+[
+  {
+    "id": "whole-0-select-False-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "whole-0-select-True-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "whole-0-select-False-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": true
+  },
+  {
+    "id": "whole-0-select-True-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.01-select-False-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.01,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.01-select-True-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.01,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.01-select-False-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.01,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.01-select-True-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.01,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.1-select-False-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.1-select-True-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.1-select-False-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.1-select-True-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.25-select-False-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.25,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.25-select-True-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.25,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.25-select-False-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.25,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.25-select-True-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.25,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.5-select-False-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.5,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.5-select-True-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.5,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.5-select-False-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.5,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.5-select-True-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.5,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.7071067811865476-select-False-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.7071067811865476,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.7071067811865476-select-True-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.7071067811865476,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.7071067811865476-select-False-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.7071067811865476,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.7071067811865476-select-True-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.7071067811865476,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.9-select-False-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.9,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.9-select-True-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.9,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.9-select-False-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.9,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.9-select-True-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.9,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.9999-select-False-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.9999,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.9999-select-True-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.9999,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.9999-select-False-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.9999,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": true
+  },
+  {
+    "id": "whole-0.9999-select-True-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.9999,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": true
+  },
+  {
+    "id": "whole-1-select-False-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "whole-1-select-True-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "whole-1-select-False-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": true
+  },
+  {
+    "id": "whole-1-select-True-hover-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": true
+  },
+  {
+    "id": "multi-1-1-whole-0",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 1,
+        "y": 1
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "multi-1-1-whole-0.1",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 1,
+        "y": 1
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "multi-1-1-whole-0.5",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 1,
+        "y": 1
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.5,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "multi-1-1-whole-1",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 1,
+        "y": 1
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "multi-25-3-whole-0",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "multi-25-3-whole-0.1",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "multi-25-3-whole-0.5",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.5,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "multi-25-3-whole-1",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "multi-3-25-whole-0",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 3,
+        "y": 25
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "multi-3-25-whole-0.1",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 3,
+        "y": 25
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "multi-3-25-whole-0.5",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 3,
+        "y": 25
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.5,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "multi-3-25-whole-1",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 3,
+        "y": 25
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "narrow-1-1-whole-0.0001-select-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 1,
+        "y": 1
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.0001,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "narrow-1-1-whole-0.0001-select-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 1,
+        "y": 1
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.0001,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "narrow-1-1-whole-0.0002-select-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 1,
+        "y": 1
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.0002,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "narrow-1-1-whole-0.0002-select-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 1,
+        "y": 1
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.0002,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "narrow-1-1-whole-0.0003-select-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 1,
+        "y": 1
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.0003,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "narrow-1-1-whole-0.0003-select-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 1,
+        "y": 1
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.0003,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "narrow-1-1-whole-0.001-select-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 1,
+        "y": 1
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.001,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "narrow-1-1-whole-0.001-select-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 1,
+        "y": 1
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.001,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "narrow-25-3-whole-0.0001-select-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.0001,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "narrow-25-3-whole-0.0001-select-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.0001,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "narrow-25-3-whole-0.0002-select-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.0002,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "narrow-25-3-whole-0.0002-select-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.0002,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "narrow-25-3-whole-0.0003-select-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.0003,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "narrow-25-3-whole-0.0003-select-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.0003,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.001,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-True",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 100,
+        "y": 100
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.001,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": true,
+    "rollover": false
+  }
+]

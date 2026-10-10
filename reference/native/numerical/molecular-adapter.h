@@ -34,3 +34,8 @@ MolecularSimTuning MolecularSim::gTuning;
 const MolecularSimTuning& MolecularSim::kTuning = MolecularSim::gTuning;
 const bool kVerbosePopCount = false;
 #include "molecular-functions.inc"
+
+#ifdef GEL_MESH_CAPTURE
+#include "cinder/PolyLine.h"
+#include "molecular-mesh.inc"
+#endif

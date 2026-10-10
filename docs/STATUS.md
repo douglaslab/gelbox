@@ -209,3 +209,16 @@ The independent harness now extracts native particle picking and transform funct
 Verification: **2,490 unit tests, 184 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. Existing browser screenshots pass unchanged. Native capture repeats byte-for-byte. The finite matrix does not certify every floating-point boundary. Particle mesh geometry and native raster comparison remain required separate work.
 
 Fresh picking review exposed boundary differences from replacing the native matrix inverse with an inverse-rotation/division shortcut. Added 14,400 boundary probes reproduced failures in four scenes. The web now preserves float32 matrix cofactors, determinant, translation and matrix-vector multiplication, including rounding of the Z diagonal in GLM rotation. All 40,410 discrete probes pass. No deferred minors were reported. Mesh/native raster certification remains open.
+
+
+## Native particle mesh geometry
+
+A third independent executable now captures native particle mesh methods with original Cinder 0.9.0 polygon clipping and its pinned Boost dependency. Reproduction records source hashes, two isolated enum compatibility declarations, compile flags and the modern-Cinder/ARM64 limitation. No sibling checkout was modified.
+
+The initial comparison failed 40/48 cases. The web now constructs the native polygon, clips using legacy integer-rescaled ratios, calculates its centroid and applies sequential float32 transforms. The unsupported minimum slice floor and projected-edge approximation are removed. Native zero-width clipping returning a full fill ellipse is deliberately preserved.
+
+Fresh review found NaN vertices for tiny positive wholeness. Sixteen added threshold cases exposed twelve failures; correcting clipping touches, closed rings and captured fused centroid arithmetic makes all **64 native mesh cases** pass. The tests constrain area, centroid, bounds, colors/pass ordering and sampled triangle coverage, while allowing equivalent triangulation. These finite modern-toolchain comparisons do not certify all thresholds or the original binary's raster output.
+
+New real-app degraded-particle screenshots exercise both GPU backends and assert that the requested context exists and colored particles are actually drawn. Both inspected PNGs contain 2,346 colored pixels; an apparently blank tool preview was a display artifact, not a WebGL rendering failure. Existing screenshots remain unchanged. No deferred review minors remain.
+
+Verification: **2,554 unit tests, 186 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. Final native double capture and all recorded harness/input/output hashes verify.
