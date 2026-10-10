@@ -82,8 +82,8 @@ void GelboxApp::setup()
 	makeHelpBtn();
 	
 	// ui assets
-	mUIFont   = gl::TextureFont::create( Font(kLayout.mUIFont,kLayout.mUIFontSize) );
-	mUIFont2x = gl::TextureFont::create( Font(kLayout.mUIFont,kLayout.mUIFontSize*2) );
+	mUIFont   = gl::TextureFont::create( kLayout.font(kLayout.mUIFont,kLayout.mUIFontSize) );
+	mUIFont2x = gl::TextureFont::create( kLayout.font(kLayout.mUIFont,kLayout.mUIFontSize*2) );
 	
 	// gel source palette
 	bool verbosePalette = true;

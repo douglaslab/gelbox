@@ -175,6 +175,9 @@ public:
 		
 	
 	// assets
+	// Prefer the named system font, falling back to the bundled OFL typeface.
+	ci::Font font( const std::string& name, float size ) const;
+
 	ci::gl::TextureRef uiImage( std::string name, int* scaleFactor=0 ) const;
 	ci::gl::TextureRef uiImage( ci::fs::path stem, std::string name, int* scaleFactor=0 ) const;
 	ci::gl::TextureRef uiImageWithPath( ci::fs::path assetPath, int scaleFactor=-1, int* oScaleFactor=0 ) const;

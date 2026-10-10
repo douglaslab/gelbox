@@ -30,7 +30,7 @@ void BufferView::setup()
 	mHeadingTex = kLayout.renderSubhead("Buffer",mTextContentScale);
 	
 	// preset labels
-	Font presetFont( kLayout.mBufferViewPresetsFont, kLayout.mBufferViewPresetsFontSize * mTextContentScale );
+	Font presetFont = kLayout.font( kLayout.mBufferViewPresetsFont, kLayout.mBufferViewPresetsFontSize * mTextContentScale );
 	mPresetLabel.resize(Gelbox::kBufferNumPresets,0);
 	for( int i=0; i<Gelbox::kBufferNumPresets; ++i )
 	{
@@ -53,7 +53,7 @@ void BufferView::makeSliders()
 
 	// buffer params
 	int  labelFontScale = ci::app::getWindowContentScale();
-	Font labelFont( kLayout.mBufferViewSliderLabelFont, kLayout.mBufferViewSliderLabelFontSize * labelFontScale );
+	Font labelFont = kLayout.font( kLayout.mBufferViewSliderLabelFont, kLayout.mBufferViewSliderLabelFontSize * labelFontScale );
 	
 	for( int param=0; param<Gelbox::Buffer::kNumParams; ++param )
 	{

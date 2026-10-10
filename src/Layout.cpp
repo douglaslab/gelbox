@@ -8,6 +8,7 @@
 
 #include "Layout.h"
 #include "Config.h"
+#include <algorithm>
 
 using namespace std;
 using namespace ci;
@@ -117,19 +118,41 @@ Rectf Layout::snapToPixel( Rectf r ) const
 	return Rectf( ul, ul + s );
 };
 
+ci::Font Layout::font( const std::string& name, float size ) const
+{
+	bool installed = true;
+#if defined( CINDER_MSW )
+	// GDI substitutes a missing face instead of throwing FontInvalidNameExc.
+	const auto& names = Font::getNames();
+	installed = std::find( names.begin(), names.end(), name ) != names.end();
+#endif
+	if ( installed )
+	{
+		try { return Font( name, size ); }
+		catch ( const FontInvalidNameExc& ) {}
+	}
+
+	const bool heavy = name.find("Heavy") != string::npos || name.find("Bold") != string::npos;
+	const char* file = heavy ? "fonts/SourceSans3-Bold.ttf" : "fonts/SourceSans3-Medium.ttf";
+	static map<string,DataSourceRef> cache;
+	auto i = cache.find(file);
+	if ( i == cache.end() ) i = cache.emplace( file, app::loadAsset(file) ).first;
+	return Font( i->second, size );
+}
+
 ci::gl::TextureRef Layout::renderSubhead( string str, int pixelScale ) const
 {
-	return renderText( str, Font(mSubheadFont,mSubheadFontSize*pixelScale), mSubheadFontColor );
+	return renderText( str, font(mSubheadFont,mSubheadFontSize*pixelScale), mSubheadFontColor );
 }
 
 ci::gl::TextureRef Layout::renderHead( string str, int pixelScale ) const
 {
-	return renderText( str, Font(mHeadFont,mHeadFontSize*pixelScale), mHeadFontColor );
+	return renderText( str, font(mHeadFont,mHeadFontSize*pixelScale), mHeadFontColor );
 }
 
 ci::gl::TextureRef Layout::renderUI( string str, int pixelScale ) const
 {
-	return renderText( str, Font(mUIFont,mUIFontSize*pixelScale), mUIFontColor );
+	return renderText( str, font(mUIFont,mUIFontSize*pixelScale), mUIFontColor );
 }
 
 ci::gl::TextureRef Layout::renderText ( std::string str, const ci::Font& font, ci::ColorA color ) const
@@ -150,7 +173,7 @@ ci::Rectf Layout::layoutHeadingText( ci::gl::TextureRef tex, ci::vec2 offsetFrom
 	
 	r += vec2( 0.f, -r.getSize().y );
 	r += offsetFromViewTopLeft;
-	r += vec2( 0.f, Font(kLayout.mHeadFont,kLayout.mHeadFontSize).getDescent() );
+	r += vec2( 0.f, font(mHeadFont,mHeadFontSize).getDescent() );
 	
 	r = snapToPixel( r );
 	

@@ -46,7 +46,7 @@ void SampleSettingsView::setup( SampleViewRef sampleView )
 void SampleSettingsView::makeSliders()
 {
 	int  labelFontScale = ci::app::getWindowContentScale();
-	Font labelFont( kLayout.mBufferViewSliderLabelFont, kLayout.mBufferViewSliderLabelFontSize * labelFontScale );
+	Font labelFont = kLayout.font( kLayout.mBufferViewSliderLabelFont, kLayout.mBufferViewSliderLabelFontSize * labelFontScale );
 
 	for( int dye=0; dye<Dye::kCount; ++dye )
 	{
