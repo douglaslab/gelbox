@@ -32,3 +32,7 @@ and LNK4006 duplicate import-descriptor warnings. No warnings were disabled.
 MSVC C2065 in ColorPaletteView, GelView, and Slider came from `MAXFLOAT`, a
 nonstandard platform macro. Use `<limits>` and `std::numeric_limits<float>::max()`
 for the nearest-item search sentinel on both platforms.
+
+MSVC C2926 rejects default member initializers in the anonymous struct
+inside Buffer’s union. The default constructor now zero-initializes `mValue`
+as a whole, preserving zero concentrations for default buffers and presets.

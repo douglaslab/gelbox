@@ -25,7 +25,7 @@ class Buffer
 {
 public:
 	
-	Buffer(){}
+	Buffer() : mValue{} {}
 	Buffer( const ci::JsonTree& );
 	
 	// params
@@ -42,10 +42,10 @@ public:
 	{
 		struct
 		{
-			float mTris		= 0.f; // 0..200 mM
-			float mBorate	= 0.f; // 0..200 mM
-			float mAcetate  = 0.f; // 0..200 mM
-			float mEDTA		= 0.f; // 0.. 10 mM
+			float mTris		; // 0..200 mM
+			float mBorate	; // 0..200 mM
+			float mAcetate  ; // 0..200 mM
+			float mEDTA		; // 0.. 10 mM
 		};
 		
 		float mValue[4];
