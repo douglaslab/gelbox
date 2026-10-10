@@ -1,3 +1,4 @@
+import {loupeSeed} from '../../lib/sim/loupeSeed';
 import {useEffect,useMemo,useRef} from 'react';
 import {type SampleFragRef} from '../../lib/gel/sampleFragRef';
 import type {BandLaneFragment} from '../../lib/sim/sampleFromGel';
@@ -64,7 +65,7 @@ export function Loupe({ loupe, sample, degradeFilter, origins }: LoupeProps) {
         prerollSample
         width={LOUPE_SIZE}
         height={LOUPE_SIZE}
-        seed={Math.floor(loupe.anchor.x) * 19 + Math.floor(loupe.anchor.y) * 1723}
+        seed={loupeSeed(loupe.anchor, state.ctx.time)}
         degradeFilter={degradeFilter}
         selectedFragment={selected}
         rolloverFragment={rollover}

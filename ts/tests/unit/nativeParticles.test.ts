@@ -1,6 +1,7 @@
 import {readFileSync} from 'node:fs';
 import {expect, it} from 'vitest';
 import {CinderRand} from '../../src/lib/sim/rng';
+import {loupeSeed} from '../../src/lib/sim/loupeSeed';
 import {MolecularSim} from '../../src/lib/sim/molecularSimEngine';
 const cases=JSON.parse(readFileSync('../reference/native/numerical/particle-cases.json','utf8'));
 const refs=JSON.parse(readFileSync('../reference/native/numerical/particle-outputs.json','utf8'));
@@ -18,9 +19,17 @@ function check(actual:any,expected:any,path:string) {
 }
 it.each(cases.map((c:any,i:number)=>[c.id,c,refs[i]]))('native particle lifecycle: %s',(_id,c,ref)=>{
   expect(c.id).toBe(ref.id);
+  if(c.seedProbes)expect(c.seedProbes.map((p:any)=>loupeSeed(p,p.time))).toEqual(ref.seedProbes);
   const sim = new MolecularSim({bounds:c.bounds,seed:c.seed,globalSeed:c.globalSeed});
   sim.setSample(c.sample);
   c.steps.forEach((step:any,i:number)=>{
+    if(step.loupe) {
+      const l=step.loupe;
+      const seed=loupeSeed(l,l.time);
+      expect(seed,`native detail seed ${c.id}/${i}`).toBe(ref.seeds[i]);
+      sim.setRand(seed);
+      sim.parts=[];
+    }
     if(step.sample)sim.setSample(step.sample);
     if(step.bounds)sim.setBounds(step.bounds);
     if(step.popDensityScale!==undefined)sim.popDensityScale=step.popDensityScale;

@@ -8,6 +8,7 @@ class MolecularSim {
 public:
 #include "molecular-frag.inc"
 #include "molecular-part.inc"
+#include "molecular-set-rand.inc"
   static MolecularSimTuning gTuning;
   static const MolecularSimTuning& kTuning;
   float calcTargetPop(float mass) const;

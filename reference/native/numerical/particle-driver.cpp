@@ -5,6 +5,7 @@
 using namespace std;
 using namespace ci;
 #include "molecular-adapter.h"
+#include "loupe-seed.inc"
 #include <fstream>
 #include <iostream>
 using J=nlohmann::json;
@@ -29,7 +30,10 @@ int main(int argc,char**argv){
  GelSim::gTuning.load(ci::JsonTree(ci::loadFile(argv[1])));MolecularSim::gTuning.load(ci::JsonTree(ci::loadFile(argv[3])));
  std::ifstream file(argv[2]);J cases;file>>cases;J output=J::array();
  for(auto c:cases){MolecularSim sim;sim.mRand.seed(c.at("seed").get<uint32_t>());sim.mRandSeed=c.at("seed").get<uint32_t>();ci::Rand::randSeed(c.at("globalSeed"));sim.setBounds(rect(c.at("bounds")));sim.setSample(sample(c.at("sample")));J frames=J::array(),picks=J::array();
+  J seeds=J::array();
   for(auto step:c.at("steps")){
+   if(step.contains("loupe")){auto l=step["loupe"];auto seed=nativeLoupeSeed(ci::vec2(l["x"],l["y"]),l["time"]);seeds.push_back(seed);sim.mParts.clear();sim.setRand(ci::Rand(seed));}
+   else seeds.push_back(nullptr);
    if(step.contains("sample"))sim.setSample(sample(step["sample"]));
    if(step.contains("bounds"))sim.setBounds(rect(step["bounds"]));
    if(step.contains("popDensityScale"))sim.mPopDensityScale=step["popDensityScale"];
@@ -45,7 +49,8 @@ int main(int argc,char**argv){
   ci::Rand rng(c.at("seed").get<uint32_t>());J uints=J::array(),floats=J::array();
   for(int i=0;i<700;i++)uints.push_back(rng.nextUint());
   rng.seed(c.at("seed").get<uint32_t>());for(int i=0;i<700;i++)floats.push_back(rng.nextFloat());
-  output.push_back({{"id",c.at("id")},{"frames",frames},{"picks",picks},{"uints",uints},{"floats",floats}});
+  J seedProbes=J::array();for(auto l:c.value("seedProbes",J::array()))seedProbes.push_back(nativeLoupeSeed(ci::vec2(l["x"],l["y"]),l["time"]));
+  output.push_back({{"id",c.at("id")},{"frames",frames},{"picks",picks},{"seeds",seeds},{"seedProbes",seedProbes},{"uints",uints},{"floats",floats}});
  }
  std::cout<<output.dump(2)<<std::endl;
 }

@@ -233,3 +233,14 @@ Fresh review found two integration gaps: deleting a selected species lost the sa
 Verification: **2,562 unit tests, 188 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. The two inspected loupe regression images now include the shared yellow source highlight. These are web regression images, not native visual certification. No deferred review minors remain.
 
 Stable document IDs, off-document sample retention, complete loupe frames/gestures/keyboard focus and constructor/seed integration remain required. Blank synthetic-loupe selection is currently represented by no shared source selection; its distinct synthetic view identity belongs to that remaining lifecycle work. Native per-tick versus web per-pointer rollover updates and controlled native raster comparisons were outside this increment's review and remain open. The original app and isolated native rebuild described above are available for the remaining visual replay work.
+
+
+## Native loupe seed derivation and refresh
+
+Loupe particle refresh now uses native float gel coordinates and gel time rather than floored coordinates alone. `MolecularSim::setRand` semantics are restored: the dynamic stream starts unconsumed, while the population stream uses the first integer draw as its seed. Refresh clears and reseeds the existing engine before applying content and preroll.
+
+The independent harness extracts the pinned seed expression and inline native `setRand`. Sixteen new scenarios cover repeated refresh, changed position/time and low-mass population dithering, bringing the particle matrix to 54 scenarios. Another 1,280 seed probes exercise integer truncation boundaries. All eight initial refresh scenarios failed before the change. Fresh review exposed missing fractional-population coverage; reverting the population seed deliberately made seven of the eight added low-mass cases fail. Restoring native semantics passes all cases. Native double capture is byte-identical and all recorded harness/fixture hashes verify.
+
+Verification: **2,594 unit tests, 188 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. Two loupe snapshots were inspected and refreshed for the new particle positions; their backend PNGs are byte-identical. No other browser baselines changed. Review found no production correctness defects or deferred minors after closing the coverage gap.
+
+Application-wide constructor/global RNG initialization, interleaved view scheduling, ordinary sample identity, full loupe gestures and native raster equivalence remain required. The finite modern-Cinder capture excludes undefined/out-of-range seed conversions and does not certify every platform's arithmetic. These web snapshots remain regression checks, not native visual certification.

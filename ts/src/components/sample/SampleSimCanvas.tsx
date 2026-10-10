@@ -87,6 +87,7 @@ export function SampleSimCanvas({
   // A new panel starts empty; the sample effect applies data once. Native
   // ordinary sample panels intentionally fade in, while detail views preroll.
   useEffect(() => {
+    if (prerollSample && simRef.current) return;
     simRef.current = new MolecularSim({
       bounds: { x1: 0, y1: 0, x2: width, y2: height },
       seed,
@@ -107,7 +108,10 @@ export function SampleSimCanvas({
   useEffect(() => {
     if (!simRef.current) return;
     // Native detail refresh clears particles and reseeds before applying content.
-    if (prerollSample) simRef.current = new MolecularSim({bounds: simRef.current.bounds, seed});
+    if (prerollSample) {
+      simRef.current.parts = [];
+      simRef.current.setRand(seed);
+    }
     simRef.current.setSample(sample ?? null, degradeFilter);
     if (sample && prerollSample) simRef.current.preroll();
     // Re-settle the freeze window after a sample change (e.g. dye applied) so a

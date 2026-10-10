@@ -19,6 +19,11 @@ for signature,name in [('SampleRef GelView::makeSampleFromGelPos(', 'loupe.inc')
  start=view.index(signature);end=view.index('\n}',start)+2
  (out/name).write_text(view[start:end]+'\n')
 molecular=(out/'pinned/include/MolecularSim.h').read_text()
+(out/'molecular-set-rand.inc').write_text(next(line for line in molecular.splitlines() if 'void setRand(' in line)+'\n')
+seed_start=view.index('view->setRand( ci::Rand(')+len('view->setRand( ci::Rand(')
+seed_end=view.index(') );',seed_start)
+(out/'loupe-seed.inc').write_text('uint32_t nativeLoupeSeed(ci::vec2 withSampleAtPos, float time) { struct Gel { float time; float getTime() { return time; } } gel{time}; auto mGel=&gel; return '+view[seed_start:seed_end]+'; }\n')
+
 (out/'degrade-filter.inc').write_text(next(line for line in molecular.splitlines() if line.startswith('class DegradeFilter :'))+'\n')
 molecular_cpp=(out/'pinned/src/MolecularSim.cpp').read_text()
 parts=[]

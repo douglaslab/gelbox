@@ -144,6 +144,14 @@ export class MolecularSim {
     this.recomputeSizeDensityScale();
   }
 
+  /** Native setRand(ci::Rand(seed)): copy before drawing the population seed.
+   * The dynamic stream must still start at its first draw. */
+  setRand(seed: number): void {
+    this.rand = new CinderRand(seed);
+    this.seed = new CinderRand(seed).nextInt();
+    this.popRand = new CinderRand(this.seed);
+  }
+
   private recomputeSizeDensityScale(): void {
     const w = this.bounds.x2 - this.bounds.x1;
     const h = this.bounds.y2 - this.bounds.y1;

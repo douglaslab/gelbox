@@ -50,4 +50,22 @@ for name,rx,ry,angle,multi in [
  front=copy.deepcopy(part);front.update(fragment=1,fade=0,alive=False)
  steps.append(dict(parts=[part,front],picks=points))
  out.append(dict(id=f'pick-{name}',sample=sample,seed=1,globalSeed=310,bounds=dict(x1=0,y1=0,x2=100,y2=100),steps=steps))
+# Native detail refresh seed and copied-stream population dithering.
+for i,(x,y,time) in enumerate([(0,0,0),(30.75,245.25,1),(30.75,245.25,.125),(30.99,245.99,.9999),(389.9,519.9,.75),(1.00001,.00001,.000419),(96.05,256.05,.33333),(171.125,2.625,.5)]):
+ steps=[dict(loupe=dict(x=x,y=y,time=time),preroll=True),dict(ticks=7),dict(loupe=dict(x=x,y=y,time=time),preroll=True),dict(loupe=dict(x=x+.125,y=y+.25,time=time+.0001),preroll=True)]
+ out.append(dict(id=f'loupe-refresh-{i}',sample=sample,seed=1,globalSeed=310,bounds=dict(x1=0,y1=0,x2=171,y2=171),steps=steps))
+# Sub-one particle targets exercise population RNG (integer targets do not).
+low_mass=copy.deepcopy(sample)
+low_mass['fragments'][0]['mass']=8
+for i in range(8):
+ steps=[dict(loupe=dict(x=i,y=0,time=0),preroll=True),dict(loupe=dict(x=i,y=0,time=.5),preroll=True)]
+ out.append(dict(id=f'loupe-dither-{i}',sample=low_mass,seed=1,globalSeed=310,bounds=dict(x1=0,y1=0,x2=171,y2=171),steps=steps))
+# Seeds near integer truncation boundaries; all final conversions are in range.
+probe_case=next(c for c in out if c['id']=='loupe-refresh-0')
+probe_case['seedProbes']=[]
+for n in range(256):
+ x=(n*73.12345)%440-20
+ y=(100000+n*1723-x*19)/1723
+ for epsilon in [-.00002,-.000001,0,.000001,.00002]:
+  probe_case['seedProbes'].append(dict(x=x,y=y+epsilon,time=(n%101)/100))
 (r/'particle-cases.json').write_text(json.dumps(out,indent=2)+'\n');print(len(out),'particle scenarios')
