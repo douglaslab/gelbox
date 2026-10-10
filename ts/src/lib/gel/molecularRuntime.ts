@@ -21,6 +21,7 @@ export class MolecularView {
   ticks=0;
   frozen=false;
   bulletTime=false;
+  beforeTick?:()=>void;
   afterTick?:()=>void;
 
   constructor(readonly id:string,globalRand:CinderRand,options:ViewOptions,
@@ -71,6 +72,8 @@ export class MolecularView {
   /** Only the owning application's frame driver calls this. */
   tick(freezeAfter?:number):void {
     if(!this.alive)return;
+    this.beforeTick?.();
+    if(!this.alive)return;
     if(freezeAfter===undefined||this.ticks<freezeAfter) {
       this.sim.tick(this.bulletTime);
       this.ticks++;
@@ -82,6 +85,7 @@ export class MolecularView {
     if(!this.alive)return;
     this.alive=false;
     this.inspectorOpen=false;
+    this.beforeTick=undefined;
     this.afterTick=undefined;
     this.onDispose?.(this);
     this.onDispose=undefined;
@@ -121,6 +125,15 @@ export class MolecularRuntime {
   raiseView(id:string):void {
     const view=this.byId.get(id);
     if(view&&this.ordered.at(-1)!==view)this.ordered=[...this.ordered.filter(v=>v!==view),view];
+  }
+  /** null represents the gel below all molecular views. */
+  moveViewAbove(id:string,above:string|null):void {
+    const view=this.byId.get(id);
+    if(!view||id===above)return;
+    const rest=this.ordered.filter(v=>v!==view);
+    const index=above===null?-1:rest.findIndex(v=>v.id===above);
+    if(above!==null&&index===-1)return;
+    this.ordered=[...rest.slice(0,index+1),view,...rest.slice(index+1)];
   }
   randomFragmentColor():[number,number,number] { return nativeFragmentColor(this.globalRand); }
   tick(beforeViews?:()=>void):void {

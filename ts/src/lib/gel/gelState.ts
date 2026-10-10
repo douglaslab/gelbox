@@ -93,7 +93,7 @@ export type Action =
   | { type: 'SET_SELECTED';       laneIndex: number; index: number | null }
   | { type: 'SELECT_NEXT' }
   | { type: 'SELECT_PREV' }
-  | { type: 'BEGIN_DRAG';         laneIndex: number; fragmentIndex: number; startY: number; referenceY?: number; aggregate?: number }
+  | { type: 'BEGIN_DRAG';         laneIndex: number; fragmentIndex: number; startY: number; referenceY?: number; aggregate?: number; temporaryLane?: number|null }
   | { type: 'UPDATE_BAND_DRAG'; x: number; y: number; shift: boolean }
   | { type: 'END_DRAG' }
   | { type: 'BEGIN_SAMPLE_DRAG';  laneIndex: number; clone?: boolean }
@@ -468,7 +468,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
           referenceY: action.referenceY ?? action.startY,
           aggregate: action.aggregate ?? 1,
           startBases: frag.dye >= 0 ? DYE_BP_LO[frag.dye] : frag.bases,
-          temporaryLane: null,
+          temporaryLane: action.temporaryLane ?? null,
         },
         ctx: { ...state.ctx, sampleBuffer: sample.buffer },
         selectedLane: action.laneIndex,
