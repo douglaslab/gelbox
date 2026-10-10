@@ -1,3 +1,4 @@
+import { allocateBuffer, withAllocationRollback } from './allocations';
 export interface UniformBuffer {
   buffer: GPUBuffer;
   cpu: ArrayBuffer;
@@ -6,14 +7,14 @@ export interface UniformBuffer {
   destroy(): void;
 }
 
-export function createUniformBuffer(
+function createUniformBufferImpl(
   device: GPUDevice,
   byteLength: number,
   label?: string
 ): UniformBuffer {
   // Round up to 16-byte alignment per WebGPU spec
   const size = Math.ceil(byteLength / 16) * 16;
-  const buffer = device.createBuffer({
+  const buffer = allocateBuffer(device, {
     label,
     size,
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
@@ -39,4 +40,8 @@ export function writeVec4(view: DataView, offset: number, x: number, y: number, 
   view.setFloat32(offset + 4, y, true);
   view.setFloat32(offset + 8, z, true);
   view.setFloat32(offset + 12, w, true);
+}
+
+export function createUniformBuffer(...args:Parameters<typeof createUniformBufferImpl>):UniformBuffer {
+  return withAllocationRollback(args[0],()=>createUniformBufferImpl(...args));
 }

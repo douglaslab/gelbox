@@ -356,3 +356,12 @@ identities and no page exceptions. Subscription unit checks cover retired views.
 Full verification: 2,847 units, 357 browser cases, one intentional duplicate skipped;
 build passes. Continue async validation/allocation rollback and lifecycle stress;
 real driver resets, platform/performance and native parity gates remain open.
+
+
+P5 allocation update: synchronous GPU constructor rollback now releases buffers and
+textures after partial setup, including nested passes and standalone helpers. Twelve
+real-GPU injected-failure cases and three ownership unit tests verify cleanup.
+Full verification: 2,850 units, 369 browser cases, one intentional duplicate skipped;
+build passes. Next address asynchronous validation and frame-time failure handling,
+then broader lifecycle/resource-growth/platform checks. Native parity and P5 gates
+remain open.

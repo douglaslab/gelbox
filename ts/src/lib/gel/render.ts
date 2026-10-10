@@ -1,3 +1,4 @@
+import { withAllocationRollback } from '../gpu/allocations';
 import { nativeOutputExtent } from './warpTexture';
 import { createPingPong, type RenderTarget } from '../gpu/target';
 import { createPrimitivePass } from './passes/primitives';
@@ -20,7 +21,7 @@ export interface GelRenderer {
   destroy(): void;
 }
 
-export function createGelRenderer(
+function createGelRendererImpl(
   device: GPUDevice,
   gelSize: { width: number; height: number },
   pixelsPerUnit: number,
@@ -136,4 +137,11 @@ export function createGelRenderer(
       composite.destroy();
     },
   };
+}
+
+export function createGelRenderer(
+  device:GPUDevice,gelSize:{width:number;height:number},pixelsPerUnit:number,
+  format:GPUTextureFormat='rgba8unorm-srgb',
+):GelRenderer {
+  return withAllocationRollback(device,()=>createGelRendererImpl(device,gelSize,pixelsPerUnit,format));
 }

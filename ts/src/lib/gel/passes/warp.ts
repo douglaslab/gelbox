@@ -1,3 +1,4 @@
+import { allocateTexture } from '../../gpu/allocations';
 import type { PingPong } from '../../gpu/target';
 import type { WarpTextureCpu } from '../warpTexture';
 import { createUniformBuffer, writeVec2, type UniformBuffer } from '../../gpu/uniforms';
@@ -85,7 +86,7 @@ export function createWarpPass(
       // Allocate a placeholder slot at the requested size — first use of
       // this slot. (We do not pre-allocate beyond what callers need.)
       pool.push({
-        tex: device.createTexture({
+        tex: allocateTexture(device, {
           label: `${label}[${pool.length}]`,
           size: { width, height },
           format: 'rgba8unorm',
@@ -99,7 +100,7 @@ export function createWarpPass(
     // Slot size mismatch — recreate. Destroying the old texture is safe per
     // WebGPU spec (pending commands referencing it complete normally).
     slot.tex.destroy();
-    slot.tex = device.createTexture({
+    slot.tex = allocateTexture(device, {
       label: `${label}[${callIdx}]`,
       size: { width, height },
       format: 'rgba8unorm',

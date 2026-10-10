@@ -1,3 +1,4 @@
+import { allocateBuffer, withAllocationRollback } from './allocations';
 export interface Quad {
   buffer: GPUBuffer;
   vertexCount: number;
@@ -13,8 +14,8 @@ const QUAD_DATA = new Float32Array([
   1, 1, 1, 1,
 ]);
 
-export function createQuad(device: GPUDevice): Quad {
-  const buffer = device.createBuffer({
+function createQuadImpl(device: GPUDevice): Quad {
+  const buffer = allocateBuffer(device, {
     label: 'fullscreen-quad',
     size: QUAD_DATA.byteLength,
     usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
@@ -33,4 +34,8 @@ export function createQuad(device: GPUDevice): Quad {
     },
     destroy() { buffer.destroy(); },
   };
+}
+
+export function createQuad(...args:Parameters<typeof createQuadImpl>):Quad {
+  return withAllocationRollback(args[0],()=>createQuadImpl(...args));
 }

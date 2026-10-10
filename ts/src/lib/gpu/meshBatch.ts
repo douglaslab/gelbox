@@ -1,3 +1,4 @@
+import { allocateBuffer, withAllocationRollback } from './allocations';
 import { createUniformBuffer, writeVec2 } from './uniforms';
 import { createShaderModule } from './shader';
 import { type Mesh, VERTEX_STRIDE } from '../gel/mesh';
@@ -42,7 +43,7 @@ function blendState(mode: BlendMode): GPUBlendState {
   };
 }
 
-export function createMeshBatch(
+function createMeshBatchImpl(
   device: GPUDevice,
   opts: {
     viewport: { width: number; height: number };
@@ -97,7 +98,7 @@ export function createMeshBatch(
   function ensureSlot(callIdx: number, byteLength: number): Slot {
     while (vbos.length <= callIdx) {
       vbos.push({
-        buffer: device.createBuffer({
+        buffer: allocateBuffer(device, {
           label: `meshBatch-vbo[${vbos.length}]`,
           size: INITIAL_VBO_BYTES,
           usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
@@ -111,7 +112,7 @@ export function createMeshBatch(
     let newSize = slot.size;
     while (newSize < byteLength) newSize *= 2;
     slot.size = newSize;
-    slot.buffer = device.createBuffer({
+    slot.buffer = allocateBuffer(device, {
       label: `meshBatch-vbo[${callIdx}]`,
       size: newSize,
       usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
@@ -163,4 +164,8 @@ export function createMeshBatch(
       ub.destroy();
     },
   };
+}
+
+export function createMeshBatch(device:GPUDevice,opts:Parameters<typeof createMeshBatchImpl>[1]):MeshBatch {
+  return withAllocationRollback(device,()=>createMeshBatchImpl(device,opts));
 }

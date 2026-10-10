@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include the application runtime integration.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,847 passed |
-| Browser suite across WebGPU/WebGL2 | 357 passed; one intentional duplicate invocation skipped |
+| Unit suite | 2,850 passed |
+| Browser suite across WebGPU/WebGL2 | 369 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -904,3 +904,31 @@ passed**. No goldens changed. This covers programmatic API loss, not physical dr
 reset certification. Async GPU validation, constructor allocation rollback,
 resize/DPR/hidden-tab and repeated-view stress, actual browser/hardware performance,
 and native visual/composed-workflow gates remain open.
+
+
+## GPU constructor allocation rollback
+
+GPU buffer/texture allocations now participate in synchronous constructor scopes.
+A throwing constructor destroys its allocations in reverse order. Successful nested
+constructors transfer their allocation records to the enclosing scope, so later
+failure in a gel pass also releases completed earlier passes. On successful outer
+construction, the normal returned renderer retains ownership; no scope is retained.
+Device-specific scopes do not intercept or replace GPUDevice objects.
+
+Gel and molecular mesh constructors, plus standalone quad, uniform, render-target
+and ping-pong helpers, use rollback. All direct buffer/texture creation in the GPU/
+gel libraries now goes through the allocation helpers, including warp/mesh pool
+creation; outside a constructor scope, normal runtime ownership remains unchanged.
+
+Twelve real-GPU browser cases failed before their respective fixes and now pass.
+They inject second-texture failure, nested blur-pipeline failure, molecular bind-group
+failure, quad upload failure, texture-view failure and standalone ping-pong failure,
+then inspect every allocated buffer/texture's destroy call. Three unit checks cover
+nested ownership, caught inner failure and isolation between devices.
+
+Fresh full verification: **2,850 unit tests and 369 browser tests passed, one
+intentional browser duplicate skipped; production build and TypeScript checks
+passed**. No goldens changed. This covers synchronous constructor exceptions, not
+async GPU validation errors, frame-time pool allocation failures, arbitrary GL
+constructor failures or broad memory/performance certification. Those checks and
+full native visual/workflow gates remain open.

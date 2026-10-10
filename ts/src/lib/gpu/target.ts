@@ -1,3 +1,4 @@
+import { allocateTexture, withAllocationRollback } from './allocations';
 export interface RenderTarget {
   texture: GPUTexture;
   view: GPUTextureView;
@@ -7,14 +8,14 @@ export interface RenderTarget {
   destroy(): void;
 }
 
-export function createRenderTarget(
+function createRenderTargetImpl(
   device: GPUDevice,
   width: number,
   height: number,
   format: GPUTextureFormat = 'rgba8unorm-srgb',
   label?: string
 ): RenderTarget {
-  const texture = device.createTexture({
+  const texture = allocateTexture(device, {
     label,
     size: { width, height },
     format,
@@ -40,7 +41,7 @@ export interface PingPong {
   destroy(): void;
 }
 
-export function createPingPong(
+function createPingPongImpl(
   device: GPUDevice,
   width: number,
   height: number,
@@ -55,4 +56,12 @@ export function createPingPong(
     swap() { const t = a; a = b; b = t; },
     destroy() { a.destroy(); b.destroy(); },
   };
+}
+
+export function createRenderTarget(...args:Parameters<typeof createRenderTargetImpl>):RenderTarget {
+  return withAllocationRollback(args[0],()=>createRenderTargetImpl(...args));
+}
+
+export function createPingPong(...args:Parameters<typeof createPingPongImpl>):PingPong {
+  return withAllocationRollback(args[0],()=>createPingPongImpl(...args));
 }
