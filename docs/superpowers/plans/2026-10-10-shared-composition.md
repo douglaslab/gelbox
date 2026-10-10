@@ -256,6 +256,11 @@ do not indiscriminately treat right-clicking a tube as a sample drag. Audit Meta
 input over the tube hit regions against native frame/pick bounds as well.
 
 `ButtonView::mouseUp` (line 105) activates its callback on an owned release inside
-for all buttons. Application menu controls already implement this; settings, new
-species and Help still need corresponding ownership/secondary-button checks.
+for all buttons. Application menu controls already implement this. Gel/application settings,
+new-species and Help icons now share `useNativeButton`: owned release inside for
+all buttons, release-outside/cancel/lost-capture cancellation, native held tint,
+and detail-zero keyboard activation. Help retains its anchor destination and
+opens it synchronously on activation. Twelve focused real-pointer workflows pass
+in both modes/backends; full verification passes 893 browser cases (one intentional
+duplicate skipped), 2,924 units, build and four production checks.
 Whole-GUI button chords and rollover histories remain integrated acceptance gates.

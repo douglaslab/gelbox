@@ -1,5 +1,5 @@
 import {SharedAssetPaint} from '../gel/SharedAssetPaint';
-import {useNativeButtonTint} from '../gel/useNativeButtonTint';
+import {useNativeButton} from '../gel/useNativeButton';
 import {useDisplayScale} from '../../lib/gpu/useDisplayScale';
 import {sampleFrame} from '../../lib/gel/sampleFrame';
 import {SampleHeader} from './SampleHeader';
@@ -21,7 +21,7 @@ import { MolecularSimCanvas } from './MolecularSimCanvas';
  * with the canvas filling it.
  */
 export function SampleView() {
-  const shared=useSharedPresentation(),newButton=useRef<HTMLButtonElement>(null),button=useNativeButtonTint();
+  const shared=useSharedPresentation(),newButton=useRef<HTMLButtonElement>(null);
   useDisplayScale();const newButtonUrl=resolveAssetUrl('/assets/new-btn.png');
   const state = useGelState();
   const dispatch = useGelDispatch();
@@ -30,6 +30,11 @@ export function SampleView() {
   const [hovered,setHovered] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const visibleLane = getVisibleSampleLane(state);
+  const button=useNativeButton(()=>{
+    if(visibleLane===null)return;
+    store.createSpecies(visibleLane);
+    rootRef.current?.focus({preventScroll:true});
+  });
   const innerRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState<{ w: number; h: number } | null>(null);
 
@@ -70,11 +75,6 @@ export function SampleView() {
       style={{ position: 'relative', width: '100%', height: '100%', outline: 'none' }}
     >
       <button ref={newButton} {...button.events} type="button" aria-label="New species" data-testid="new-species"
-        onClick={() => {
-          if (visibleLane === null) return;
-          store.createSpecies(visibleLane);
-          rootRef.current?.focus({ preventScroll: true });
-        }}
         style={{ position: 'absolute', right: 0, top: '100%', marginTop: LAYOUT.btnGutter,
           width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer',outline:shared?'none':undefined }}>
         <img src={newButtonUrl} onError={dprFallbackOnError} alt="" width={32} height={32} style={{opacity:shared?0:undefined}} />

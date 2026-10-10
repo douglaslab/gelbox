@@ -2,7 +2,7 @@ import {ApplicationMenuPaint} from './ApplicationMenuPaint';
 import menuText from '../../lib/layout/nativeMenuText.json';
 import {useSharedPresentation} from '../gel/ScenePresentation';
 import {SharedAssetPaint} from '../gel/SharedAssetPaint';
-import {useNativeButtonTint} from '../gel/useNativeButtonTint';
+import {useNativeButton} from '../gel/useNativeButton';
 import {useDisplayScale} from '../../lib/gpu/useDisplayScale';
 import {flushSync} from 'react-dom';
 import {useFileLoadQueue} from '../gel/FileLoadProvider';
@@ -28,10 +28,11 @@ function downloadJson(filename: string, text: string) {
 }
 
 export function FileControls() {
-  const registry=useSharedPresentation(),buttonElement=useRef<HTMLButtonElement>(null),button=useNativeButtonTint();
+  const registry=useSharedPresentation(),buttonElement=useRef<HTMLButtonElement>(null);
   useDisplayScale();const buttonUrl=resolveAssetUrl('/assets/settings.png');
   const buttonZ=useViewZIndex('app-button');
   const [open, setOpen] = useState(false);
+  const button=useNativeButton(()=>setOpen(value=>!value));
   const menuRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!open) return;
@@ -111,7 +112,7 @@ export function FileControls() {
         onOpen={onOpenClick} onSaveGel={onSaveGel} onSaveSample={onSaveSample}
         onHoverLoupe={value=>dispatch({type:'SET_HOVER_LOUPE_ENABLED',value})}
         onRender={value=>dispatch({type:'SET_RENDER_ENABLED',value})}/>}
-      <button ref={buttonElement} {...button.events} type="button" aria-label="Application settings" aria-expanded={open} aria-controls="application-file-menu" onClick={() => setOpen(!open)} style={{ position: 'fixed', left:16, bottom:16, zIndex:buttonZ, width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer',outline:registry?'none':undefined }}>
+      <button ref={buttonElement} {...button.events} type="button" aria-label="Application settings" aria-expanded={open} aria-controls="application-file-menu" style={{ position: 'fixed', left:16, bottom:16, zIndex:buttonZ, width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer',outline:registry?'none':undefined }}>
         <img src={buttonUrl} alt="" width={32} height={32} style={{opacity:registry?0:undefined}} />
         {registry&&<SharedAssetPaint registry={registry} viewKey="app-button" element={buttonElement} url={buttonUrl} tint={button.tint}/>}
       </button>

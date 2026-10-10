@@ -1,5 +1,5 @@
 import {useRef} from 'react';
-import {useNativeButtonTint} from './useNativeButtonTint';
+import {useNativeButton} from './useNativeButton';
 import {useSharedPresentation} from './ScenePresentation';
 import {SharedAssetPaint} from './SharedAssetPaint';
 import {useDisplayScale} from '../../lib/gpu/useDisplayScale';
@@ -13,7 +13,6 @@ import { useGelDispatch, useGelState } from './GelContext';
  */
 export function SettingsButton() {
   const registry=useSharedPresentation(),element=useRef<HTMLButtonElement>(null);
-  const button=useNativeButtonTint();
   useDisplayScale();
   const url=resolveAssetUrl('/assets/settings.png');
   const state    = useGelState();
@@ -28,12 +27,13 @@ export function SettingsButton() {
     });
   }
 
+  const button=useNativeButton(onClick);
+
   return (
     <button
       ref={element}
       {...button.events}
       type="button"
-      onClick={onClick}
       data-testid="settings-button"
       aria-label="Toggle gel settings"
       aria-pressed={active}
