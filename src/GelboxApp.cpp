@@ -1,5 +1,7 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
+#include "cinder/Utilities.h"
+#include "cinder/Url.h"
 
 #include "Gel.h"
 #include "GelView.h"
@@ -271,11 +273,7 @@ void GelboxApp::makeHelpBtn()
 	
 	mHelpBtn->mClickFunction = [this]()
 	{
-		string cmd = "open '";
-		cmd += kConfig.mHelpURL;
-		cmd += "'";
-		
-		::system(cmd.c_str());
+		launchWebBrowser( Url( kConfig.mHelpURL ) );
 	};
 
 	mViews.addView(mHelpBtn);
