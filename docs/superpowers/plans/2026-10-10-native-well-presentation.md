@@ -33,11 +33,11 @@
 
 **Interfaces:** `PresentationSize = {width:number;height:number}` uses physical integer pixels; `WellRect = {x1:number;y1:number;x2:number;y2:number}` uses gel units. `createGelPresentation(device:GPUDevice,format:GPUTextureFormat,size:PresentationSize)` returns `{draw(encoder:GPUCommandEncoder,base:GPUTextureView,target:GPUTextureView,wells:readonly WellRect[],scale:number):void;destroy():void}`. GL counterpart `createGlGelPresentation(gl:WebGL2RenderingContext,size:PresentationSize)` returns `{draw(base:WebGLTexture,wells:readonly WellRect[],scale:number):void;destroy():void}` and presents to the default framebuffer. `scale` is physical pixels per gel unit, including app scale and DPR. New instances own size-dependent targets; no allocation per normal draw.
 
-- [ ] Add 16-case-per-backend independent native RGB comparisons using these modules (black base texture), and verify they fail before implementation.
-- [ ] Implement native `.8,.8,.8,.8` one-physical-pixel line loops (closed five-vertex line strips for GPU). Derive vertices from passed geometry. Use the retained prototypes' orientation and four-sample RGBA8 targets. GPU resolve uses explicit integer ties-to-even; GL uses multisample framebuffer resolve then the necessary display flip.
-- [ ] Include the base image before lines in the same multisample target. Preserve linear enlargement of native gel textures. Never overlay a transparent raster of wells over separately browser-composited bands: rounding/blending would differ.
-- [ ] Extend native helper with a nonblack base and a band crossing a well, capture and retain independent references, and test source-over color output on both modules.
-- [ ] Run `npm --prefix ts run test:visual -- native-well-presentation.spec.ts`; require exact matches in all cases. Commit modules and their references/tests.
+- [x] Add 16-case-per-backend independent native RGB comparisons using these modules (black base texture), and verify they fail before implementation.
+- [x] Implement native `.8,.8,.8,.8` one-physical-pixel line loops (closed five-vertex line strips for GPU). Derive vertices from passed geometry. Use the retained prototypes' orientation and four-sample RGBA8 targets. GPU resolve sums normalized samples in float32 in sample-index order (the colored corpus supersedes the initial integer ties-to-even inference); GL uses multisample framebuffer resolve then the necessary display flip.
+- [x] Include the base image before lines in the same multisample target. Preserve linear enlargement of native gel textures. Never overlay a transparent raster of wells over separately browser-composited bands: rounding/blending would differ.
+- [x] Extend native helper with a nonblack base and a band crossing a well, capture and retain independent references, and test source-over color output on both modules.
+- [x] Run `npm --prefix ts run test:visual -- native-well-presentation.spec.ts`; require exact matches in all cases. Commit modules and their references/tests.
 
 ### Task 2: Integrate both gel canvas modes
 

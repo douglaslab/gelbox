@@ -1,0 +1,21 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test native-well-presentation.spec.ts --output=/tmp/gel-presentation-final
+
+[2m[WebServer] [22m(node:60011) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:60014) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:60015) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:60014) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:60015) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium-webgl2] › native-well-presentation.spec.ts:7:1 › presentation matches complete native well matrix (1.6s)
+  ✓  1 [chromium-webgpu] › native-well-presentation.spec.ts:7:1 › presentation matches complete native well matrix (2.4s)
+
+  2 passed (3.5s)

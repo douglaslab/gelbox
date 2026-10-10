@@ -70,3 +70,11 @@ own four-sample framebuffer, matching the application context constraint. Each
 probe reports all sixteen cases and asserts zero pixel differences. No product
 code changed. Integration must preserve gel compositing, both render modes,
 DPR/resize behavior, recovery and disposal; see the linked implementation plan.
+
+## Colored-scene follow-up
+
+The [32 additional compositing scenes](compositing/README.md) disprove the
+black-only integer tie-rule inference as a general resolve rule. Product code
+uses normalized float32 sample summation, which matches all 48 scenes exactly.
+The original prototype results above remain historical evidence, not the current
+resolve implementation. Application integration remains separate.

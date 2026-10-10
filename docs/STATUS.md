@@ -1723,3 +1723,19 @@ covers shared physical-resolution presentation, both effects/direct modes,
 nonblack compositing references, DPR, failures and cleanup. This establishes a
 measured strategy for the open well-edge correction, not application parity or
 release completion. Prior full-suite counts are unchanged and were not rerun.
+
+## Product well-presentation modules and colored raster references
+
+New WebGL2/WebGPU presentation modules combine linear base-texture enlargement
+and native well strokes in a four-sample physical-resolution target. Tests call
+these modules directly and match 48 independent native references per backend:
+the sixteen window-derived black scenes plus [32 colored/crossing-band cases](../reference/native/modern/well-scenes/compositing/README.md).
+The headless native GL extension first reproduced every original window case.
+
+The colored matrix invalidated the black-only integer nearest-even inference.
+Summing normalized float32 samples in sample-index order matches the full matrix;
+forced integer ties produced one-byte errors. Both failing and passing reports
+are retained. TypeScript checks pass, and both 48-scene browser cases pass. The
+modules preserve opaque output and own/dispose their presentation resources.
+They are **not yet wired into the application**; SVG wells remain visible until
+integration, lifecycle/recovery and full regression checks complete.
