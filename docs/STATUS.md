@@ -380,3 +380,22 @@ This increment restores the tested shared-reference paths; it does not certify
 original-native GUI frame timing or complete focus ownership, general cyclic
 ancestry, application-wide RNG/interleaving, original-native raster output or
 production release gates. Those remain explicit follow-up requirements.
+
+## Native reference-image interaction evidence
+
+A new compiled reference extracts five unchanged native ImageView methods and
+uses the pinned Cinder rectangle/vector implementation. **22 scenarios pass**
+explicit expected-value contracts, with identical output from two executions.
+Coverage includes drag/reentry, resize-handle boundaries, clamp-before-aspect
+minimum sizes, both limiting resize axes, native-size snap boundaries, all four
+window-edge contact/removal pairs, Delete/Backspace and Escape. Altering a resize
+result while updating its digest is still rejected by the expectation test.
+Provenance and reproduction are in `reference/native/numerical/README.md`.
+
+Source inspection also establishes image/loupe ordering, fixed root coordinates,
+retention across gel replacement and exclusion from gel saves. Native accepts
+lowercase .jpg/.png/.gif through drops; its Open picker filters JSON/XML. These
+are implementation contracts, not new web features: the image UI remains missing.
+The adapter capture does not run native GUI dispatch, image decoding or drawing;
+modern-toolchain and prebuilt Cinder library qualifications remain. Independent
+review is pending for this reference increment.

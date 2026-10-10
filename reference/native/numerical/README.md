@@ -158,3 +158,63 @@ output are outside this capture. In particular native keyboard Delete clears
 selection before deleting; the lower-level capture is not permission to retain
 that selected species in the UI. Modern clang/libc++ output is not certification
 of the original release executable. Web identity migration remains outstanding.
+
+## Native reference-image gesture capture
+
+`build-image.py` extracts five complete `ImageView.cpp` methods from Gelbox
+`5f51097`: mouseDown, mouseDrag, mouseUp, keyDown and calcResizeBox. It compiles
+these unchanged with real Rectf/vector math from clean Cinder
+`f90f332d1a4d453282c76435f3401271f25922f9`. The driver supplies event positions,
+texture dimensions, root-view coordinate identity and minimal view storage;
+collection methods only count focus requests and record removal. No GUI, decoder,
+texture sampling or drawing runs in this capture.
+
+```sh
+python3 reference/native/numerical/build-image.py
+python3 reference/native/numerical/test_image.py
+```
+
+The default local repositories can be overridden with `GELBOX_REFERENCE_REPO`
+and `CINDER_REFERENCE_REPO`. Cinder needs its Release library/configuration as
+for the warp reference above. Build files live in a temporary directory and are
+removed afterward. Two executable runs must match byte-for-byte. The manifest
+records native/source/extraction hashes, Cinder geometry/library hashes, compiler,
+flags, executable and input/output/test hashes. As with other captures, a clean
+Cinder source tree plus library hash records provenance but does not independently
+prove that the prebuilt library was compiled from those sources.
+
+The 22 named scenarios independently assert drag/reentry, handle boundaries,
+landscape/portrait clamp-before-aspect sizing, growth constrained by either axis,
+inside/outside native-size snapping, every window-edge contact/outside pair,
+Delete/Backspace and Escape. In particular, the 32×32 proposed-box minimum is
+applied **before** aspect fitting: landscape output can be 32×16. Window-edge
+contact counts as intersection. A mutation of that output to 32×32, even with an
+updated output digest, is rejected by the explicit expected-value contract.
+This finite matrix is not exhaustive, and does not establish native raster parity.
+
+Source-inspection contracts for the upcoming UI integration (not executed by the
+adapter capture):
+
+- `GelboxApp::load` accepts image extensions exactly `.jpg`, `.png`, `.gif`
+  (case-sensitive); native Open filters only JSON/XML. The intended image entry
+  path is file drop. It loops all dropped files in order. A loaded image starts
+  at natural size, centered on the drop point; without a drop point it starts
+  at the origin.
+- `ViewCollection::addView` appends, and `setKeyboardFocusView` does not reorder.
+  Image mouse-down focuses without raising; `SampleView::mouseDown` explicitly
+  raises loupes. Images and loupes therefore require a common ordering model,
+  not a permanently topmost image layer.
+- `ImageView::drawFrame` draws a 16×16 lower-right handle, gray .75 fill and .35
+  stroke. Focus draws a yellow (1,1,.5) stroke of width 4 around the frame inflated
+  by 2. Image content uses the natural texture mapped into the current bounds.
+- `ImageView` inherits the empty `View::resize`; changing the window does not
+  reposition or resize an image. Gesture mouse-up removes only fully disjoint
+  frames. Keyboard deletion removes the focused view; Escape is unhandled.
+- `GelView::setGel` closes loupes and sample panels, not independent images.
+  `GelboxApp::promptUserToSaveGel` serializes the Gel, and Save Sample serializes
+  the Sample; image views do not enter either save format.
+
+The original image decoder's frame/orientation/color handling, original GUI focus
+and stacking replay, image rendering and browser resource lifecycle still need
+verification. A browser animated GIF is not automatically equivalent to the
+native static texture produced by loadImage; do not assume equivalence.
