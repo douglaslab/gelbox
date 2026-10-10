@@ -7,7 +7,7 @@ expected_cinder='f90f332d1a4d453282c76435f3401271f25922f9'
 assert subprocess.check_output(['git','-C',a.cinder,'rev-parse','HEAD']).decode().strip()==expected_cinder, 'Cinder revision differs from reference'
 assert not subprocess.check_output(['git','-C',a.cinder,'status','--porcelain']).strip(), 'Cinder checkout must be clean'
 root=pathlib.Path(__file__).resolve().parent;out=pathlib.Path(a.build);out.mkdir(parents=True,exist_ok=True)
-files=['src/GelSim.cpp','include/GelSim.h','include/Sample.h','include/Buffer.h','include/Band.h','include/Dye.h','include/Aggregate.h','include/Config.h','include/GelView.h','src/GelView.cpp','assets/tuning/gel-sim.json']
+files=['src/GelSim.cpp','include/GelSim.h','include/Sample.h','include/Buffer.h','include/Band.h','include/Dye.h','include/Aggregate.h','include/Config.h','include/MolecularSim.h','include/GelView.h','src/GelView.cpp','assets/tuning/gel-sim.json']
 hashes={}
 for name in files:
  data=subprocess.check_output(['git','-C',a.gelbox,'show',f'5f51097:{name}']);dest=out/'pinned'/name;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(data);hashes[name]=hashlib.sha256(data).hexdigest()
@@ -15,6 +15,11 @@ sample_bytes=subprocess.check_output(['git','-C',a.gelbox,'show','5f51097:src/Sa
 (out/'sample-constructor.cpp').write_text('#include "Sample.h"\n'+sample[start:end]+'\n')
 view=(out/'pinned/src/GelView.cpp').read_text();start=view.index('int GelView::solveBasePairForY(');end=view.index('\n}',start)+2
 (out/'solver.inc').write_text(view[start:end]+'\n')
+for signature,name in [('SampleRef GelView::makeSampleFromGelPos(', 'loupe.inc'),('std::vector<Band> GelView::pickBands(', 'pick-bands.inc')]:
+ start=view.index(signature);end=view.index('\n}',start)+2
+ (out/name).write_text(view[start:end]+'\n')
+molecular=(out/'pinned/include/MolecularSim.h').read_text()
+(out/'degrade-filter.inc').write_text(next(line for line in molecular.splitlines() if line.startswith('class DegradeFilter :'))+'\n')
 # Force the same fundamental types as native's prefix header plus Cinder's retained legacy JSON API.
 (out/'prefix.h').write_text('#include "cinder/Cinder.h"\n#include "cinder/gl/gl.h"\n#include "cinder/JsonTree.h"\n')
 cmake=f'''cmake_minimum_required(VERSION 3.16)

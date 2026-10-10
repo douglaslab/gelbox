@@ -55,16 +55,16 @@ describe('pickBands', () => {
 });
 
 describe('pickSmearAbove / pickSmearBelow', () => {
-  it('pickSmearAbove is 0 at the body top edge and approaches 1 at the far smear edge', () => {
+  it('pickSmearAbove is 1 at the body top edge and approaches 0 at the far smear edge', () => {
     const b = band();
-    expect(pickSmearAbove(b, { x: 30, y: 100 })).toBe(0);
+    expect(pickSmearAbove(b, { x: 30, y: 100 })).toBe(1);
     expect(pickSmearAbove(b, { x: 30, y: 95 })).toBeCloseTo(0.5, 5);
     expect(pickSmearAbove(b, { x: 30, y: 110 })).toBe(0);
   });
 
-  it('pickSmearBelow is 0 at the body bottom edge and approaches 1 at the far smear edge', () => {
+  it('pickSmearBelow is 1 at the body bottom edge and approaches 0 at the far smear edge', () => {
     const b = band();
-    expect(pickSmearBelow(b, { x: 30, y: 120 })).toBe(0);
+    expect(pickSmearBelow(b, { x: 30, y: 120 })).toBe(1);
     expect(pickSmearBelow(b, { x: 30, y: 130 })).toBeCloseTo(0.5, 5);
     expect(pickSmearBelow(b, { x: 30, y: 110 })).toBe(0);
   });
@@ -139,16 +139,16 @@ describe('makeSampleFromGel', () => {
     const { sample, degradeFilter } = makeSampleFromGel({ x: 30, y: 130 }, [b], lf, samples, wellRects, CTX);
     expect(sample.fragments[0].mass).toBeCloseTo(100 * 0.4, 5);
     expect(degradeFilter.size).toBe(1);            // smear-below triggers reverse-solve
-    expect(degradeFilter.has(0)).toBe(true);       // keyed by output fragment index
+    expect(degradeFilter.has(0)).toBe(true);       // keyed by source fragment index
   });
 
   it('smear-above mass is brightest near the body and fades to zero at the far edge', () => {
     const { samples, wellRects } = setup();
     const b = band({ mass: 100, smearBrightnessAbove: [1, 0] }); // [near=1, far=0]
     const lf = [{ lane: 0, fragment: 0 }];
-    // near the body top (y=98 → above=0.2): massScale = lerp(1, 0, 0.2) = 0.8 → mass 80
+    // near the body top (y=98 → above=0.8): massScale = lerp(0, 1, 0.8) = 0.8 → mass 80
     const near = makeSampleFromGel({ x: 30, y: 98 }, [b], lf, samples, wellRects, CTX);
-    // far edge (y=92 → above=0.8): massScale = lerp(1, 0, 0.8) = 0.2 → mass 20
+    // far edge (y=92 → above=0.2): massScale = lerp(0, 1, 0.2) = 0.2 → mass 20
     const far = makeSampleFromGel({ x: 30, y: 92 }, [b], lf, samples, wellRects, CTX);
     expect(near.sample.fragments[0].mass).toBeCloseTo(80, 5);
     expect(far.sample.fragments[0].mass).toBeCloseTo(20, 5);

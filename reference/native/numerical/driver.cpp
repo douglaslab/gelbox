@@ -37,7 +37,28 @@ int main(int argc,char** argv) {
       solved.push_back({{"targetY",request.at("targetY")},{"aggregate",request.at("aggregate")},
         {"bases",view.solveBasePairForY(request.at("targetY").get<float>(),sample,fragment,lane,request.at("aggregate"),ctx)}});
     }
-    outputs.push_back({{"id",c.at("id")},{"bands",bands},{"nativeMetadata",metadata},{"solved",solved}});
+    J probes=J::array();
+    if(c.value("loupeProbes",false)) {
+      view.mGel->sample=std::make_shared<Sample>(sample);view.mGel->context=ctx;
+      view.mGel->bands=GelSim::fragToBands(sample,fragment,well,lane,ctx);
+      std::vector<ci::vec2> points{ci::vec2(-10000,-10000)};
+      for(const auto& b:view.mGel->bands) {
+        points.push_back(b.mRect.getCenter());
+        points.push_back(ci::vec2(b.mRect.getCenter().x,b.mRect.y1));
+        points.push_back(ci::vec2(b.mRect.getCenter().x,b.mRect.y2));
+        points.push_back(ci::vec2(b.mRect.getCenter().x,b.mRect.y1-b.mSmearAbove*.25f));
+        points.push_back(ci::vec2(b.mRect.getCenter().x,b.mRect.y2+b.mSmearBelow*.25f));
+        points.push_back(ci::vec2(b.mRect.x1-b.mBlur*.5f,b.mRect.y1-b.mSmearAbove*.25f));
+      }
+      for(const auto& point:points) {
+        DegradeFilter filter;auto derived=view.makeSampleFromGelPos(point,filter);J fragments=J::array(),values=J::array();
+        for(const auto& f:derived->mFragments) fragments.push_back({{"bases",f.mBases},{"mass",f.mMass},{"degrade",f.mDegrade},{"dye",f.mDye},{"aspectRatio",f.mAspectRatio},{"aggregate",f.mAggregate.get()},{"color",{f.mColor.r,f.mColor.g,f.mColor.b}},{"originFragment",f.mOriginSampleFrag}});
+        for(const auto& pair:filter)values.push_back({pair.first,pair.second});
+        auto b=derived->mBuffer;
+        probes.push_back({{"point",{{"x",point.x},{"y",point.y}}},{"fragments",fragments},{"filter",values},{"buffer",{{"tris",b.mTris},{"borate",b.mBorate},{"acetate",b.mAcetate},{"edta",b.mEDTA}}}});
+      }
+    }
+    outputs.push_back({{"id",c.at("id")},{"bands",bands},{"nativeMetadata",metadata},{"solved",solved},{"loupeProbes",probes}});
   }
   std::cout<<outputs.dump(2)<<std::endl;
 }

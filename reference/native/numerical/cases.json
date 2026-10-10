@@ -3933,7 +3933,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "TBE-V70-t1-d0.5",
@@ -4029,7 +4030,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "TBE-V70-t1-d1",
@@ -4125,7 +4127,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "TBE-V70-t1-d1.5",
@@ -4221,7 +4224,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "TBE-V70-t1-d2",
@@ -4317,7 +4321,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "TBE-V300-t0-d0",
@@ -9693,7 +9698,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "TAE-V70-t1-d0.5",
@@ -9789,7 +9795,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "TAE-V70-t1-d1",
@@ -9885,7 +9892,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "TAE-V70-t1-d1.5",
@@ -9981,7 +9989,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "TAE-V70-t1-d2",
@@ -10077,7 +10086,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "TAE-V300-t0-d0",
@@ -15453,7 +15463,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "H2O-V70-t1-d0.5",
@@ -15549,7 +15560,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "H2O-V70-t1-d1",
@@ -15645,7 +15657,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "H2O-V70-t1-d1.5",
@@ -15741,7 +15754,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "H2O-V70-t1-d2",
@@ -15837,7 +15851,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "H2O-V300-t0-d0",
@@ -17373,7 +17388,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "bases-1",
@@ -18045,7 +18061,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "mass-1",
@@ -19103,7 +19120,8 @@
         "targetY": 600,
         "aggregate": 3
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "aggregate-4",
@@ -19589,7 +19607,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "dye0-mass62.5-TAE",
@@ -19685,7 +19704,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "dye0-mass62.5-H2O",
@@ -19781,7 +19801,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "dye0-mass125-TBE",
@@ -23060,7 +23081,8 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
   },
   {
     "id": "fractional-bp90-d0.7",
@@ -25098,7 +25120,336 @@
         "targetY": 600,
         "aggregate": 2
       }
-    ]
+    ],
+    "loupeProbes": true
+  },
+  {
+    "id": "loupe-degraded-multimer",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 1.5,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1,
+            2,
+            3
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "ctx": {
+      "voltage": 70,
+      "time": 1,
+      "ySpaceScale": 468.85714285714283,
+      "wellDamage": 0,
+      "gelBuffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "sampleBuffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      }
+    },
+    "wellRect": {
+      "x1": 13.928571428571429,
+      "y1": 17.214285714285715,
+      "x2": 41.785714285714285,
+      "y2": 22.785714285714285
+    },
+    "lane": 0,
+    "fragment": 0,
+    "solverTargets": [
+      {
+        "targetY": -200,
+        "aggregate": 1
+      },
+      {
+        "targetY": 0,
+        "aggregate": 1
+      },
+      {
+        "targetY": 75.9,
+        "aggregate": 1
+      },
+      {
+        "targetY": 250,
+        "aggregate": 1
+      },
+      {
+        "targetY": 600,
+        "aggregate": 1
+      },
+      {
+        "targetY": -200,
+        "aggregate": 2
+      },
+      {
+        "targetY": 0,
+        "aggregate": 2
+      },
+      {
+        "targetY": 75.9,
+        "aggregate": 2
+      },
+      {
+        "targetY": 250,
+        "aggregate": 2
+      },
+      {
+        "targetY": 600,
+        "aggregate": 2
+      },
+      {
+        "targetY": -200,
+        "aggregate": 3
+      },
+      {
+        "targetY": 0,
+        "aggregate": 3
+      },
+      {
+        "targetY": 75.9,
+        "aggregate": 3
+      },
+      {
+        "targetY": 250,
+        "aggregate": 3
+      },
+      {
+        "targetY": 600,
+        "aggregate": 3
+      }
+    ],
+    "loupeProbes": true
+  },
+  {
+    "id": "loupe-source-index",
+    "sample": {
+      "buffer": {
+        "tris": 0,
+        "borate": 0,
+        "acetate": 0,
+        "edta": 0
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        },
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 1.2,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "ctx": {
+      "voltage": 70,
+      "time": 1,
+      "ySpaceScale": 468.85714285714283,
+      "wellDamage": 0,
+      "gelBuffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "sampleBuffer": {
+        "tris": 0,
+        "borate": 0,
+        "acetate": 0,
+        "edta": 0
+      }
+    },
+    "wellRect": {
+      "x1": 13.928571428571429,
+      "y1": 17.214285714285715,
+      "x2": 41.785714285714285,
+      "y2": 22.785714285714285
+    },
+    "lane": 3,
+    "fragment": 1,
+    "solverTargets": [
+      {
+        "targetY": -200,
+        "aggregate": 1
+      },
+      {
+        "targetY": 0,
+        "aggregate": 1
+      },
+      {
+        "targetY": 75.9,
+        "aggregate": 1
+      },
+      {
+        "targetY": 250,
+        "aggregate": 1
+      },
+      {
+        "targetY": 600,
+        "aggregate": 1
+      },
+      {
+        "targetY": -200,
+        "aggregate": 2
+      },
+      {
+        "targetY": 0,
+        "aggregate": 2
+      },
+      {
+        "targetY": 75.9,
+        "aggregate": 2
+      },
+      {
+        "targetY": 250,
+        "aggregate": 2
+      },
+      {
+        "targetY": 600,
+        "aggregate": 2
+      }
+    ],
+    "loupeProbes": true
+  },
+  {
+    "id": "loupe-degrade-boundary",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0.50000001,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "ctx": {
+      "voltage": 70,
+      "time": 1,
+      "ySpaceScale": 468.85714285714283,
+      "wellDamage": 0,
+      "gelBuffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "sampleBuffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      }
+    },
+    "wellRect": {
+      "x1": 13.928571428571429,
+      "y1": 17.214285714285715,
+      "x2": 41.785714285714285,
+      "y2": 22.785714285714285
+    },
+    "lane": 0,
+    "fragment": 0,
+    "solverTargets": [
+      {
+        "targetY": -200,
+        "aggregate": 1
+      },
+      {
+        "targetY": 0,
+        "aggregate": 1
+      },
+      {
+        "targetY": 75.9,
+        "aggregate": 1
+      },
+      {
+        "targetY": 250,
+        "aggregate": 1
+      },
+      {
+        "targetY": 600,
+        "aggregate": 1
+      },
+      {
+        "targetY": -200,
+        "aggregate": 2
+      },
+      {
+        "targetY": 0,
+        "aggregate": 2
+      },
+      {
+        "targetY": 75.9,
+        "aggregate": 2
+      },
+      {
+        "targetY": 250,
+        "aggregate": 2
+      },
+      {
+        "targetY": 600,
+        "aggregate": 2
+      }
+    ],
+    "loupeProbes": true
   },
   {
     "id": "boundary-bp1-y30",

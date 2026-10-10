@@ -25,6 +25,9 @@ for i,f in enumerate(native['Fragments']):
  c=copy.deepcopy(base);c['id']=f'startup-fragment-{i}';c['sample']['fragments']=[dict(bases=f['Bases'],mass=f['Mass'],degrade=f['Degrade'],dye=-1,aspectRatio=f['AspectRatio'],aggregate=f['Aggregate'],color=f['Color'])];cases.append(c)
 c=copy.deepcopy(base);c['id']='tied-aggregate-tops';c['sample']['fragments'][0].update(bases=14000,aggregate=[1,1,1]);cases.append(c)
 c=copy.deepcopy(base);c['id']='overloaded-H2O';c['sample']['fragments'][0]['mass']=175;c['ctx']['gelBuffer']=buffers['H2O'];cases.append(c)
+c=copy.deepcopy(base);c['id']='loupe-degraded-multimer';c['sample']['fragments'][0].update(aggregate=[1,2,3],degrade=1.5);cases.append(c)
+c=copy.deepcopy(next(c for c in cases if c['id']=='lane-index-sample-buffer'));c['id']='loupe-source-index';c['sample']['fragments'][1]['degrade']=1.2;cases.append(c)
+c=copy.deepcopy(base);c['id']='loupe-degrade-boundary';c['sample']['fragments'][0]['degrade']=.50000001;cases.append(c)
 for c in cases:
  tiers=[i+1 for i,w in enumerate(c['sample']['fragments'][c['fragment']]['aggregate']) if w>0] or [1]
  c['solverTargets']=[dict(targetY=y,aggregate=tier) for tier in sorted(set(tiers+[2])) for y in [-200,0,75.9,250,600]]
@@ -38,4 +41,7 @@ for bp in range(1,14000,1000):
   c['ctx']['time']=(target-c['wellRect']['y1'])/k
   if not 0<=c['ctx']['time']<=1: continue
   c['solverTargets']=[dict(targetY=target,aggregate=1)];cases.append(c)
+for c in cases:
+ if c['id'] in ['loupe-degrade-boundary','loupe-degraded-multimer','loupe-source-index','aggregate-3','lane-index-sample-buffer','overloaded-H2O','bases-0','mass-0'] or c['id'].startswith(('TBE-V70-t1-','TAE-V70-t1-','H2O-V70-t1-','dye0-mass62.5')):
+  c['loupeProbes']=True
 (root/'cases.json').write_text(json.dumps(cases,indent=2)+'\n');print(len(cases),'cases')
