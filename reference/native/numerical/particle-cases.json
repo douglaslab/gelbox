@@ -1,0 +1,2139 @@
+[
+  {
+    "id": "startup-fragment-0-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 10002,
+          "mass": 42,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.20000001788139343,
+            0.20000001788139343,
+            0.20000001788139343
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 310,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "startup-fragment-0-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 10002,
+          "mass": 42,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.20000001788139343,
+            0.20000001788139343,
+            0.20000001788139343
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 310,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 10002,
+              "mass": 0,
+              "degrade": 0,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                1
+              ],
+              "color": [
+                0.20000001788139343,
+                0.20000001788139343,
+                0.20000001788139343
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "startup-fragment-5-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.6666666865348816,
+            0.6666666865348816,
+            0
+          ]
+        }
+      ]
+    },
+    "seed": 42,
+    "globalSeed": 311,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "startup-fragment-5-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.6666666865348816,
+            0.6666666865348816,
+            0
+          ]
+        }
+      ]
+    },
+    "seed": 42,
+    "globalSeed": 311,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 0,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                1
+              ],
+              "color": [
+                0.6666666865348816,
+                0.6666666865348816,
+                0
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "mass-0-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 0,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 2147483648,
+    "globalSeed": 312,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mass-0-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 0,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 2147483648,
+    "globalSeed": 312,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 0,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                1
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "mass-1-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 1,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 4294967295,
+    "globalSeed": 313,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mass-1-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 1,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 4294967295,
+    "globalSeed": 313,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 0,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                1
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "mass-4-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 250,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 314,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mass-4-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 250,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 314,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 0,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                1
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "aspectRatio-2-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 16,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 42,
+    "globalSeed": 315,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aspectRatio-2-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 16,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 42,
+    "globalSeed": 315,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 0,
+              "dye": -1,
+              "aspectRatio": 16,
+              "aggregate": [
+                1
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "aggregate-2-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            0,
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 2147483648,
+    "globalSeed": 316,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aggregate-2-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            0,
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 2147483648,
+    "globalSeed": 316,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 0,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                0,
+                1
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "aggregate-3-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1,
+            2,
+            3
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 4294967295,
+    "globalSeed": 317,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aggregate-3-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1,
+            2,
+            3
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 4294967295,
+    "globalSeed": 317,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 0,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                1,
+                2,
+                3
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "aggregate-4-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 318,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aggregate-4-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 318,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 0,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "aggregate-degraded-first-max-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 14000,
+          "mass": 125,
+          "degrade": 1.5,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            2,
+            2,
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 42,
+    "globalSeed": 319,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aggregate-degraded-first-max-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 14000,
+          "mass": 125,
+          "degrade": 1.5,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            2,
+            2,
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 42,
+    "globalSeed": 319,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 14000,
+              "mass": 0,
+              "degrade": 1.5,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                2,
+                2,
+                1
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "loupe-degraded-multimer-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 1.5,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1,
+            2,
+            3
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 2147483648,
+    "globalSeed": 320,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "loupe-degraded-multimer-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 1.5,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1,
+            2,
+            3
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 2147483648,
+    "globalSeed": 320,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 1.5,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                1,
+                2,
+                3
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "loupe-source-index-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 0,
+        "borate": 0,
+        "acetate": 0,
+        "edta": 0
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        },
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 1.2,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 4294967295,
+    "globalSeed": 321,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "id": "loupe-source-index-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 0,
+        "borate": 0,
+        "acetate": 0,
+        "edta": 0
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        },
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 1.2,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 4294967295,
+    "globalSeed": 321,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 0,
+            "borate": 0,
+            "acetate": 0,
+            "edta": 0
+          },
+          "fragments": [
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 0,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                1
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            },
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 1.2,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                1
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "TBE-V70-t1-d2-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 2,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 322,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "TBE-V70-t1-d2-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 2,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 322,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 2,
+              "dye": -1,
+              "aspectRatio": 1,
+              "aggregate": [
+                1
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "dye0-mass125-TBE-spawn",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": 0,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 42,
+    "globalSeed": 323,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "spawn": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dye0-mass125-TBE-lifecycle",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 3001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": 0,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.2,
+            0.4,
+            0.8
+          ]
+        }
+      ]
+    },
+    "seed": 42,
+    "globalSeed": 323,
+    "bounds": {
+      "x1": 10,
+      "y1": 20,
+      "x2": 410,
+      "y2": 420
+    },
+    "steps": [
+      {
+        "ticks": 1
+      },
+      {
+        "ticks": 9
+      },
+      {
+        "ticks": 50,
+        "bulletTime": true
+      },
+      {
+        "ticks": 40
+      },
+      {
+        "sample": {
+          "buffer": {
+            "tris": 44.5,
+            "borate": 44.5,
+            "acetate": 0,
+            "edta": 1
+          },
+          "fragments": [
+            {
+              "bases": 3001,
+              "mass": 0,
+              "degrade": 0,
+              "dye": 0,
+              "aspectRatio": 1,
+              "aggregate": [
+                1
+              ],
+              "color": [
+                0.2,
+                0.4,
+                0.8
+              ]
+            }
+          ]
+        },
+        "ticks": 1
+      },
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "density-0.01",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 10002,
+          "mass": 42,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.20000001788139343,
+            0.20000001788139343,
+            0.20000001788139343
+          ]
+        }
+      ]
+    },
+    "seed": 73,
+    "globalSeed": 9,
+    "bounds": {
+      "x1": 0,
+      "y1": 0,
+      "x2": 171,
+      "y2": 171
+    },
+    "steps": [
+      {
+        "popDensityScale": 0.01,
+        "ticks": 20
+      },
+      {
+        "timeScale": 2,
+        "bulletTime": true,
+        "ticks": 10
+      },
+      {
+        "preroll": true
+      },
+      {
+        "bounds": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 20,
+          "y2": 20
+        },
+        "ticks": 30
+      }
+    ]
+  },
+  {
+    "id": "density-0.5",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 10002,
+          "mass": 42,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.20000001788139343,
+            0.20000001788139343,
+            0.20000001788139343
+          ]
+        }
+      ]
+    },
+    "seed": 73,
+    "globalSeed": 9,
+    "bounds": {
+      "x1": 0,
+      "y1": 0,
+      "x2": 171,
+      "y2": 171
+    },
+    "steps": [
+      {
+        "popDensityScale": 0.5,
+        "ticks": 20
+      },
+      {
+        "timeScale": 2,
+        "bulletTime": true,
+        "ticks": 10
+      },
+      {
+        "preroll": true
+      },
+      {
+        "bounds": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 20,
+          "y2": 20
+        },
+        "ticks": 30
+      }
+    ]
+  },
+  {
+    "id": "density-2",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 10002,
+          "mass": 42,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.20000001788139343,
+            0.20000001788139343,
+            0.20000001788139343
+          ]
+        }
+      ]
+    },
+    "seed": 73,
+    "globalSeed": 9,
+    "bounds": {
+      "x1": 0,
+      "y1": 0,
+      "x2": 171,
+      "y2": 171
+    },
+    "steps": [
+      {
+        "popDensityScale": 2,
+        "ticks": 20
+      },
+      {
+        "timeScale": 2,
+        "bulletTime": true,
+        "ticks": 10
+      },
+      {
+        "preroll": true
+      },
+      {
+        "bounds": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 20,
+          "y2": 20
+        },
+        "ticks": 30
+      }
+    ]
+  },
+  {
+    "id": "fractional-bounds-constructor",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 10002,
+          "mass": 1000,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [],
+          "color": [
+            0.20000001788139343,
+            0.20000001788139343,
+            0.20000001788139343
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 310,
+    "bounds": {
+      "x1": 96.05,
+      "y1": 0,
+      "x2": 256.05,
+      "y2": 400
+    },
+    "steps": [
+      {
+        "ticks": 20
+      }
+    ]
+  },
+  {
+    "id": "fractional-bounds-set-bounds",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 10002,
+          "mass": 1000,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [],
+          "color": [
+            0.20000001788139343,
+            0.20000001788139343,
+            0.20000001788139343
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 310,
+    "bounds": {
+      "x1": 0,
+      "y1": 0,
+      "x2": 400,
+      "y2": 400
+    },
+    "steps": [
+      {
+        "bounds": {
+          "x1": 96.05,
+          "y1": 0,
+          "x2": 256.05,
+          "y2": 400
+        },
+        "ticks": 20
+      }
+    ]
+  }
+]

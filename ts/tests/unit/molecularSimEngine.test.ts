@@ -193,6 +193,10 @@ describe('native molecular timing (5f51097 MolecularSim::tick/preroll)', () => {
   it('normal and bullet time scale age/motion, but leave fading at full speed', () => {
     const normal = running(), slow = running();
     normal.timeScale = slow.timeScale = 2;
+    // Compare time scaling near the origin; large coordinates lose small
+    // displacements when the native engine rounds each addition to float32.
+    normal.parts[0].loc = {x: 0, y: 0};
+    slow.parts[0].loc = {x: 0, y: 0};
     const start = {...normal.parts[0].loc};
     normal.tick(false); slow.tick(true);
     expect(normal.parts[0].age).toBe(2);

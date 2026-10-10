@@ -7,7 +7,8 @@
 // This file replaces the M15 `layoutDots` placeholder in M21 (when
 // MolecularSimCanvas wires up to a live engine instance).
 
-import { mulberry32, type Rng } from './rng';
+import { CinderRand } from './rng';
+const sharedGlobalRand = new CinderRand(310);
 import type { Sample } from './sample';
 import { isDyeFragment } from './sample';
 import { GEL_SIM_TUNING } from '../../data/tuning';
@@ -86,7 +87,13 @@ export interface Part {
 // Helpers
 
 function lerp(a: number, b: number, t: number): number {
-  return a + (b - a) * t;
+  return Math.fround(Math.fround(a) + Math.fround(Math.fround(Math.fround(b) - Math.fround(a)) * Math.fround(t)));
+}
+
+// Native Rectf rounds endpoints before width/height arithmetic.
+function floatRect(b: Rect): Rect {
+  return {x1: Math.fround(b.x1), y1: Math.fround(b.y1),
+    x2: Math.fround(b.x2), y2: Math.fround(b.y2)};
 }
 
 function clamp(v: number, lo: number, hi: number): number {
@@ -107,11 +114,14 @@ export interface MolecularSimOpts {
   bounds: Rect;
   /** Seed for the dynamic RNG. Using a stable seed makes tests deterministic. */
   seed?: number;
+  /** Explicit global Cinder stream seed for independent reference replay. */
+  globalSeed?: number;
 }
 
 export class MolecularSim {
-  private rand: Rng;
-  private popRand: Rng;
+  private rand: CinderRand;
+  private popRand: CinderRand;
+  private globalRand: CinderRand;
   bounds: Rect;
   fragments: FragState[] = [];
   parts:     Part[]      = [];
@@ -124,12 +134,13 @@ export class MolecularSim {
   private seed: number;
 
   constructor(opts: MolecularSimOpts) {
-    this.bounds = opts.bounds;
-    this.seed   = opts.seed ?? 1;
-    this.rand   = mulberry32(this.seed);
+    this.bounds = floatRect(opts.bounds);
+    this.globalRand = opts.globalSeed === undefined ? sharedGlobalRand : new CinderRand(opts.globalSeed);
+    this.seed   = opts.seed ?? this.globalRand.nextUint();
+    this.rand   = new CinderRand(this.seed);
     // popRand is reseeded each tick from `seed` so dithering is deterministic
     // across a fresh start of the same sample.
-    this.popRand = mulberry32(this.seed);
+    this.popRand = new CinderRand(this.seed);
     this.recomputeSizeDensityScale();
   }
 
@@ -137,11 +148,11 @@ export class MolecularSim {
     const w = this.bounds.x2 - this.bounds.x1;
     const h = this.bounds.y2 - this.bounds.y1;
     // Match C++ `MolecularSim::setBounds` normalization (default 400×400).
-    this.sizeDensityScale = (w * h) / (400 * 400);
+    this.sizeDensityScale = Math.fround(Math.fround(Math.fround(w) * Math.fround(h)) / (400 * 400));
   }
 
   setBounds(b: Rect): void {
-    this.bounds = b;
+    this.bounds = floatRect(b);
     this.recomputeSizeDensityScale();
   }
 
@@ -268,15 +279,16 @@ export class MolecularSim {
     }
 
     // Reseed the per-tick popRand so dithering is reproducible across runs.
-    this.popRand = mulberry32(this.seed);
-    const popDensityScale = this.sizeDensityScale * this.popDensityScale;
+    this.popRand = new CinderRand(this.seed);
+    const f32 = Math.fround;
+    const popDensityScale = f32(f32(this.sizeDensityScale) * f32(this.popDensityScale));
 
     for (let f = 0; f < this.fragments.length; f++) {
       const frag = this.fragments[f];
-      const targetPopFrac = frag.targetPop * popDensityScale;
-      let targetPop = Math.floor(targetPopFrac);
+      const targetPopFrac = f32(frag.targetPop * popDensityScale);
+      let targetPop = Math.trunc(targetPopFrac);
       if (targetPop === 0 && frag.targetPop > 0) {
-        if (this.popRand() < targetPopFrac) targetPop = 1;
+        if (this.popRand.nextFloat() < targetPopFrac) targetPop = 1;
       }
       if (frag.isDye) targetPop = 0;
 
@@ -287,16 +299,15 @@ export class MolecularSim {
         pop[f]++;
       }
       if (alivePop[f] > targetPop) {
-        cullChance[f] = (alivePop[f] - targetPop) / Math.max(1, targetPop);
+        cullChance[f] = f32((alivePop[f] - targetPop) / targetPop);
       }
       // Aggregate-tier cull bookkeeping
       for (let m = 0; m < frag.aggregate.length; m++) {
-        const targetMultiPop =
-          (frag.aggregate[m] / Math.max(1e-9, frag.aggregateWeightSum)) * targetPop;
+        const targetMultiPop = Math.trunc(f32(f32(f32(frag.aggregate[m]) / frag.aggregateWeightSum) * targetPop));
         if (aggregatePop[f][m] - cfg.aggregateCullPopEps > targetMultiPop) {
           aggregateCullChance[f][m] =
-            ((aggregatePop[f][m] - targetMultiPop) / Math.max(1, aggregatePop[f][m]))
-            * cfg.aggregateCullChanceScale;
+            f32(f32((aggregatePop[f][m] - targetMultiPop) / aggregatePop[f][m])
+            * f32(cfg.aggregateCullChanceScale));
         }
       }
     }
@@ -311,36 +322,32 @@ export class MolecularSim {
         ? this.fragments[p.fragment]
         : null;
 
-      p.age += dtScaled;
+      p.age = f32(p.age + dtScaled);
 
       if (p.alive) {
-        p.fade = Math.min(1, p.fade + cfg.fadeInStep * dtFadeIn);
+        p.fade = Math.min(1, f32(p.fade + f32(f32(cfg.fadeInStep) * dtFadeIn)));
         const oldAge =
           p.age > cfg.maxAge && cfg.partSimIsOldAgeDeathEnabled;
-        const aggCull =
-          p.age > cfg.maxAgeMisfitAggregate
-          && this.rand() < (aggregateCullChance[p.fragment]?.[Math.max(0, p.multi.length - 1)] ?? 0);
         if (
           !frag
           || oldAge
-          || this.rand() < (cullChance[p.fragment] ?? 0)
-          || aggCull
+          || this.rand.nextFloat() < (cullChance[p.fragment] ?? 0)
+          || (p.age > cfg.maxAgeMisfitAggregate
+              && this.rand.nextFloat() < (aggregateCullChance[p.fragment]?.[Math.max(0, p.multi.length - 1)] ?? 0))
         ) {
           p.alive = false;
         }
       } else {
-        p.fade = Math.max(0, p.fade - cfg.fadeOutStep * dtFadeOut);
+        p.fade = Math.max(0, f32(p.fade - f32(f32(cfg.fadeOutStep) * dtFadeOut)));
       }
 
-      // Move + jitter.
-      p.loc.x += p.vel.x * dtScaled;
-      p.loc.y += p.vel.y * dtScaled;
-      const jx = (this.rand() * 2 - 1);
-      const jy = (this.rand() * 2 - 1);
-      const jr = this.rand();
-      p.loc.x += jx * jr * cfg.jitter * dtScaled;
-      p.loc.y += jy * jr * cfg.jitter * dtScaled;
-      p.angle += p.angleVel * dtScaled;
+      // Native consumes a unit-vector angle, then a separate magnitude.
+      p.loc.x = f32(p.loc.x + f32(p.vel.x * dtScaled));
+      p.loc.y = f32(p.loc.y + f32(p.vel.y * dtScaled));
+      const jitter = this.rand.nextVec2(), magnitude = this.rand.nextFloat();
+      p.loc.x = f32(p.loc.x + f32(f32(f32(jitter.x * magnitude) * f32(cfg.jitter)) * dtScaled));
+      p.loc.y = f32(p.loc.y + f32(f32(f32(jitter.y * magnitude) * f32(cfg.jitter)) * dtScaled));
+      p.angle = f32(p.angle + f32(p.angleVel * dtScaled));
 
       // Out-of-bounds kill (inflated by max radius).
       const maxR = Math.max(p.radius.x, p.radius.y);
@@ -412,50 +419,37 @@ export class MolecularSim {
   // private
 
   private spawnPart(f: number): Part {
-    const frag = this.fragments[f];
-    const w = this.bounds.x2 - this.bounds.x1;
-    const h = this.bounds.y2 - this.bounds.y1;
-    const loc: Vec2 = {
-      x: this.bounds.x1 + this.rand() * w,
-      y: this.bounds.y1 + this.rand() * h,
-    };
-    const vel: Vec2 = { x: (this.rand() - 0.5) * 1, y: (this.rand() - 0.5) * 1 };
-    const part: Part = {
-      fragment: f,
-      loc,
-      vel,
-      radius: { ...frag.radius },
-      angle:    this.rand() * Math.PI * 2,
-      angleVel: (this.rand() - 0.5) * Math.PI * 0.004,
-      color:    frag.color,
-      age:      this.rand() * MOLECULAR_SIM_TUNING.maxAge, // staggered
-      fade:     0,
-      alive:    true,
-      degradeKey: this.rand(),
-      wholeness:  lerp(frag.wholenessLo, frag.wholenessHi, this.rand()),
-      multi: [{ loc: { x: 0, y: 0 }, angle: 0 }],
-    };
-    // Build multimer to the weighted aggregate size. C++ `mRand.nextVec2()`
-    // returns a uniform-direction UNIT vector (Cinder spec); we sample one
-    // by picking a random angle. Each new multimer attaches at parent + unit.
-    const aggregate = this.pickAggregateSize(frag);
-    while (part.multi.length < aggregate) {
-      const a = this.rand() * Math.PI * 2;
-      const parent = part.multi[Math.floor(this.rand() * part.multi.length)];
-      part.multi.push({
-        loc:   { x: parent.loc.x + Math.cos(a), y: parent.loc.y + Math.sin(a) },
-        angle: this.rand() * Math.PI * 2,
-      });
+    const frag = this.fragments[f], f32 = Math.fround;
+    const w = f32(this.bounds.x2 - this.bounds.x1), h = f32(this.bounds.y2 - this.bounds.y1);
+    const loc = {x:f32(f32(this.rand.nextFloat()*w)+f32(this.bounds.x1)),
+      y:f32(f32(this.rand.nextFloat()*h)+f32(this.bounds.y1))};
+    const direction = this.rand.nextVec2();
+    const vel = {x:f32(direction.x*0.5),y:f32(direction.y*0.5)};
+    const age = this.rand.nextInt(MOLECULAR_SIM_TUNING.maxAge);
+    const angle = f32(this.rand.nextFloat()*Math.PI*2);
+    const angleVel = f32(this.globalRand.nextFloat(-1,1)*Math.PI*f32(0.002));
+    const degradeKey = this.rand.nextFloat();
+    const part: Part = {fragment:f,loc,vel,radius:{...frag.radius},angle,angleVel,
+      color:frag.color,age,fade:0,alive:true,degradeKey,
+      wholeness:lerp(frag.wholenessLo,frag.wholenessHi,degradeKey),
+      multi:[{loc:{x:0,y:0},angle:0}]};
+    const aggregate=this.pickAggregateSize(frag);
+    while(part.multi.length<aggregate) {
+      const angle=f32(this.rand.nextFloat()*Math.PI*2);
+      // C++ signed nextInt converts to unsigned size_t before vector-size modulo.
+      const index=Number(BigInt.asUintN(64,BigInt(this.rand.nextInt())) % BigInt(part.multi.length));
+      const parent=part.multi[index], dir=this.rand.nextVec2();
+      part.multi.push({loc:{x:f32(parent.loc.x+dir.x),y:f32(parent.loc.y+dir.y)},angle});
     }
     return part;
   }
 
   private pickAggregateSize(frag: FragState): number {
     if (frag.aggregate.length === 0) return 1;
-    let r = this.rand() * frag.aggregateWeightSum;
+    let r = Math.fround(this.rand.nextFloat() * frag.aggregateWeightSum);
     for (let i = 0; i < frag.aggregate.length; i++) {
       if (r <= frag.aggregate[i]) return i + 1;
-      r -= frag.aggregate[i];
+      r = Math.fround(r - Math.fround(frag.aggregate[i]));
     }
     return 1;
   }

@@ -2,7 +2,7 @@
 
 This runs **unmodified `GelSim.cpp` from Gelbox `5f51097`**, with its pinned headers and effective `assets/tuning/gel-sim.json`. It uses real Cinder types/math and the retained legacy `JsonTree` implementation. It is independent of the TypeScript simulation.
 
-The executable is a model reference, not the distributed Gelbox binary. Cinder is the clean local checkout at `f90f332d1a4d453282c76435f3401271f25922f9`, rather than original Cinder 0.9.0. Its prebuilt library hash is recorded; correspondence between that library and its source revision is not independently established. Native molecular fragment setup runs in this harness; no GUI, GPU renderer or particle lifecycle runs.
+The executable is a model reference, not the distributed Gelbox binary. Cinder is the clean local checkout at `f90f332d1a4d453282c76435f3401271f25922f9`, rather than original Cinder 0.9.0. Its prebuilt library hash is recorded; correspondence between that library and its source revision is not independently established. Native molecular fragment setup and seeded particle lifecycle run in this harness; no GUI or GPU renderer runs.
 
 ## Reproduce on macOS
 
@@ -10,9 +10,10 @@ Requires CMake, Xcode C++ tools, the Gelbox Git repository containing `5f51097`,
 
 ```sh
 python3 reference/native/numerical/generate-cases.py
+python3 reference/native/numerical/generate-particles.py
 python3 reference/native/numerical/build.py --gelbox /absolute/path/gelbox --cinder /absolute/path/Cinder --capture
 cd ts
-npm run test:unit -- tests/unit/nativeNumerical.test.ts tests/unit/nativeSolver.test.ts tests/unit/nativePicking.test.ts tests/unit/nativeLoupe.test.ts tests/unit/nativeMolecular.test.ts
+npm run test:unit -- tests/unit/nativeNumerical.test.ts tests/unit/nativeSolver.test.ts tests/unit/nativePicking.test.ts tests/unit/nativeLoupe.test.ts tests/unit/nativeMolecular.test.ts tests/unit/nativeParticles.test.ts
 ```
 
 `build.py` extracts pinned source via `git show` into `/tmp/gel-native-numerical` (override with `--build`). It does not read edited Gelbox source or modify either sibling repository. It refuses a different or dirty Cinder checkout. The only extra Sample implementation is `Sample::clearDyes`, extracted verbatim from the pinned source to satisfy the constructor. A forced prefix header supplies native-style fundamental Cinder types and its legacy JSON declarations; no simulation algorithm is rewritten. The inverse solver method `GelView::solveBasePairForY` is also extracted verbatim, with pinned `Config` defaults and a minimal adapter supplying the input well rectangle and the native inline band-top reference. Its optional cache is not exercised.
@@ -35,7 +36,7 @@ The first comparison exposed real web errors: blur and degraded BP were rounded 
 
 The harness also extracts `GelView::makeSampleFromGelPos` and `pickBands` verbatim, plus the `DegradeFilter` declaration. The adapter supplies a single source sample, its lane/fragment bands, well rectangle and simulation context. Each of26 scenarios samples native-derived body centers/edges, quarter smears, lateral halos and misses:206 points total. Synthetic fragments, default buffer and degradation-filter keys/values are recorded. `nativeLoupe.test.ts` compares discrete fields/filter entries exactly and mass/degradation/aspect/color with small numeric tolerances.
 
-Coverage includes buffers, degradation, dyes, aggregates, overload, nonzero source index and the float32 degradation0.5 boundary. Native source-index filter keys (which can differ from output indices) and repeated-source overwrites are intentionally preserved. Original sample object identity is recorded only as source fragment metadata; web origin/identity integration remains open. The adapter does not establish cross-fragment/cross-lane overlap behavior. Source-buffer context is supplied correctly, but the existing disabled native chemistry experiment means these fixtures cannot distinguish all context-wiring mistakes. JavaScript halo distance/power retains double precision before final mass rounding; finite comparisons do not prove every numerical boundary or platform. No molecular particle simulation or native raster certification is implied.
+Coverage includes buffers, degradation, dyes, aggregates, overload, nonzero source index and the float32 degradation0.5 boundary. Native source-index filter keys (which can differ from output indices) and repeated-source overwrites are intentionally preserved. Original sample object identity is recorded only as source fragment metadata; web origin/identity integration remains open. The adapter does not establish cross-fragment/cross-lane overlap behavior. Source-buffer context is supplied correctly, but the existing disabled native chemistry experiment means these fixtures cannot distinguish all context-wiring mistakes. JavaScript halo distance/power retains double precision before final mass rounding; finite comparisons do not prove every numerical boundary or platform. These loupe extraction comparisons alone do not certify molecular particles or native raster output.
 
 ## Molecular fragment setup
 
@@ -43,4 +44,15 @@ The harness extracts `MolecularSim::setSample`, `calcTargetPop`, `basesToRadius`
 
 `nativeMolecular.test.ts` checks target population, aspect-adjusted radii, both wholeness endpoints, aggregate weight sums and dye flags for all 509 cases, 155 explicit filtered requests and 206 synthetic loupe probes. Numeric tolerance is `max(0.00001, abs(native) × 0.000003)`; dye flags compare exactly. The degraded `[2,2,1]` case distinguishes first-maximum aggregate selection from the last equal maximum or last vector slot; deliberately changing the tie comparison makes this regression fail.
 
-The differential comparison exposed the wrong population exponent, clamped radius extrapolation, collapsed degradation endpoints and approximate filter scaling. Native filtering performs integer demodulation by the first maximum-weight tier, maps the filtered radius into the endpoint interval without an extra clamp, then applies the radius floor. This validates fragment setup over the finite matrix. Particle spawning, RNG sequences, motion, lifetime, picking, mesh generation and native raster equivalence remain separate requirements.
+The differential comparison exposed the wrong population exponent, clamped radius extrapolation, collapsed degradation endpoints and approximate filter scaling. Native filtering performs integer demodulation by the first maximum-weight tier, maps the filtered radius into the endpoint interval without an extra clamp, then applies the radius floor. This validates fragment setup over the finite matrix. Seeded particle spawning and lifecycle are covered separately below. Picking, mesh generation and native raster equivalence remain separate requirements.
+
+
+## Seeded particle lifecycle
+
+The second executable, `gel-particles`, extracts native `Part`, `randomPart`, weighted aggregate selection, `tick`, `setBounds` and `preroll` verbatim. Its storage adapter explicitly initializes the dynamic RNG, population seed and global Cinder RNG. It bypasses the application constructor and `setRand`: application seed derivation, engine identity and interleaving between views remain unverified.
+
+33 scenarios cover direct spawning, multi-frame updates, normal/bullet time, time scale, density, bounds, degradation, multimers, dyes and mass changes. Each capture runs twice and must agree byte-for-byte. `particle-cases.json`, `particle-outputs.json`, executable and Cinder RNG source hashes are recorded in `provenance.json`. Each scenario also records 700 unsigned integers and 700 floats from independently reseeded Cinder streams, crossing the MT19937 twist boundary. The matrix uses four explicit dynamic seeds and per-scenario global seeds.
+
+`nativeParticles.test.ts` compares particle counts/order, ownership and alive flags exactly; numeric particle fields allow `max(0.0001, abs(native) × 0.000002)` for accumulated float32/trigonometric differences. The 700-word integer and float streams compare exactly. This finite macOS/modern-Cinder capture does not establish RNG mapping on every standard library or original-release raster equivalence.
+
+The initial comparison failed 28 of 31 lifecycle scenarios. Two additional translated fractional-bounds scenarios reproduced a review finding: native Rectf rounds endpoints before subtraction, which can change integer particle targets. Both constructor and setBounds now normalize endpoints before calculating density/spawn positions. Corrections restore Cinder's MT19937 stream, native draw order and separate global angular-velocity stream, integer initial ages, shared degradation key, multimer parent selection, unit-vector jitter, float32 motion/interpolation, integer aggregate targets and short-circuit culling. Cases deliberately avoid native undefined behavior from zero aggregate sums during ticking or shrinking live aggregate vectors below existing particle tiers. Null/deleted-sample transitions, cross-view seed lifecycle, particle picking/meshes and GUI replay remain required follow-up coverage.
