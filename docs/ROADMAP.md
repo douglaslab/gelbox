@@ -823,3 +823,18 @@ Both cases pass; independent review found no Critical or Important issue.
 No product code changed. [Reports and scope](../reference/web/performance/shared-view-churn/README.md).
 Native performance comparison/release budgets, long-duration and driver-memory
 stress, physical-monitor transitions and final parity acceptance remain open.
+
+
+### Native combined-workload baseline captured
+
+Two pinned compatibility-native runs now measure the same50-band, ordinary sample
+and three-loupe workload as the compiled web suite on M5 Max/macOS27.0.1. Both
+native runs and both web backend cases complete with matching particle populations.
+Web steady interval p95 is16.7–16.8ms; native draw-completion p95 is18.6–24.6ms.
+Timing boundaries differ, so this is not a CPU/GPU speed ratio. Web resources
+remain stable at236 GPU/51 GL objects (GL samplers now included).
+[Comparison, raw data and limitations](../reference/web/performance/native-comparison/README.md).
+The native probe's initial vector-index setup bug was corrected using lane/species
+identity; distinct-view and anchor guards pass. Product runtime is unchanged.
+Native interaction/resource-growth comparison and a measured release threshold
+remain open, along with the other full parity acceptance requirements.

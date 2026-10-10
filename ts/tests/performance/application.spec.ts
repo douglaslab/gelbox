@@ -24,7 +24,7 @@ test('measure built gel with fifty bands, sample and three loupes',async({page,b
     (GPUDevice.prototype as any)[key]=function(...args:any[]){const v=create.apply(this,args);live.add(v);return v;};
     prototype.destroy=function(){live.delete(this);return destroy.call(this as any);};
    }
-   for(const kind of ['Buffer','Texture','Framebuffer','Renderbuffer','Program','Shader','VertexArray']){
+   for(const kind of ['Buffer','Texture','Framebuffer','Renderbuffer','Program','Shader','VertexArray','Sampler']){
     const p=WebGL2RenderingContext.prototype as any,create=p['create'+kind],destroy=p['delete'+kind];
     p['create'+kind]=function(...args:any[]){const v=create.apply(this,args);if(v)live.add(v);return v;};
     p['delete'+kind]=function(v:any){live.delete(v);return destroy.call(this,v);};
@@ -41,6 +41,8 @@ test('measure built gel with fifty bands, sample and three loupes',async({page,b
   await expect(page.getByTestId('gel-canvas')).not.toHaveAttribute('data-context',/./);
   await page.getByTestId('band-0').click();
   for(const index of [0,5,9]){
+   await expect(page.getByTestId(`band-${index}`)).toHaveAttribute('data-lane-index','0');
+   await expect(page.getByTestId(`band-${index}`)).toHaveAttribute('data-fragment-index',String(index));
    const band=(await page.getByTestId(`band-${index}`).boundingBox())!;
    await page.keyboard.down('Meta');await page.mouse.click(band.x+band.width/2,band.y+band.height/2);await page.keyboard.up('Meta');await page.mouse.move(1300,50);
   }
@@ -52,6 +54,7 @@ test('measure built gel with fifty bands, sample and three loupes',async({page,b
   await page.waitForTimeout(3000);
   const snapshot=()=>page.evaluate(()=>({resources:(window as any).__appPerf.live.size,particles:[...document.querySelectorAll('[data-alive-count]')].map(c=>({view:c.getAttribute('data-testid'),count:Number(c.getAttribute('data-alive-count'))}))}));
   const baseline=await snapshot(),windows=[];
+  await page.screenshot({path:info.outputPath('workload.png')});
   for(let i=0;i<2;i++){
    await page.evaluate(()=>{(window as any).__appPerf.frames=[];(window as any).__appPerf.record=true;});
    await page.waitForTimeout(10000);

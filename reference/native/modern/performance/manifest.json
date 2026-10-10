@@ -1,0 +1,22 @@
+{
+  "recordedAt": "2026-10-10T18:31:49Z",
+  "sourceCommit": "cc96703fc12718d0d8f683db4af32762dbaef029",
+  "baseManifestSha256": "123992ba39525246a08f5a947c4df8c8e243db60f360f4cacb055fa83fbd4d0d",
+  "fixtureSha256": "9837e59e56953d4a441b7032bdf89a6a78510047097c359ee4cead1cc2a39598",
+  "binarySha256": "d8215079a83985313048e69e4d9d535c2931c73a8ea94adf861d9f5fe9499bc2",
+  "os": "27.0.1",
+  "hardware": "Mac17,14\nApple M5 Max",
+  "files": {
+    "instrumentation.json": "4c7f5ad5f45517ea3ba26d8b1e45278d95ad93d3d71125ac59c2852d4ad59ba5",
+    "instrument.py": "20f989b195f7e68a3bdad704f8cb7d95c86bbfaac47a98e176cb952c5920c9a6",
+    "probe.inc": "2126dba1d248d796beff4000e0c260fd9bb962f7e12f76c6fe0a4170a0a9cfa0",
+    "run2/capture.log": "344cfaf0bb1a19a6de3fe67d8ac7f3100d1c4900d04c4bb8397e6105a9ce5ed6",
+    "run2/workload.png": "425f390d5a6e408702744f661f7e650688592af7fd1e4f2dbae14c9a76872a8b",
+    "run2/performance.json": "cd37492cecb3cae0a5dac9c01a22ebdf68553695288fb331baa3ad26d565d891",
+    "run2/loaded.gel.json": "799de596cb0463b25155757784bc2c81df0cdf4009a25ef02a647aa4311a5751",
+    "run1/capture.log": "344cfaf0bb1a19a6de3fe67d8ac7f3100d1c4900d04c4bb8397e6105a9ce5ed6",
+    "run1/workload.png": "425f390d5a6e408702744f661f7e650688592af7fd1e4f2dbae14c9a76872a8b",
+    "run1/performance.json": "58cd1876b377d7ac25255e436f94668a32b8e919bce7935fe320418a22ddc957",
+    "run1/loaded.gel.json": "799de596cb0463b25155757784bc2c81df0cdf4009a25ef02a647aa4311a5751"
+  }
+}

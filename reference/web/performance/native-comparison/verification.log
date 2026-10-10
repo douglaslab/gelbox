@@ -1,0 +1,121 @@
+
+> @douglaslab/gel@0.0.1 test:performance
+> npm run build && playwright test -c playwright.performance.config.ts application.spec.ts --output=/tmp/gel-web-perf-native-comparison
+
+
+> @douglaslab/gel@0.0.1 build
+> tsc -b && vite build
+
+vite v5.4.11 building for production...
+transforming...
+✓ 210 modules transformed.
+rendering chunks...
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/sceneImageTexture.ts is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/SharedReferenceImage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/sceneAssets.ts, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/sim/gelSim.ts is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevSimPage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/gelScene.ts, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/sim/solver.ts, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/fixtures/states/ladder-1kb.json is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevSimPage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/gelState.ts, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gpu/device.ts is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/DirectBandCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/GelCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/ScenePresentation.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/sample/SampleSimCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/backend.ts, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevSimPage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevMultiPage.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevPage.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevPerfPage.tsx, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gpu/context.ts is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/DirectBandCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/GelCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/ScenePresentation.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/sample/SampleSimCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevSimPage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevMultiPage.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevPage.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevPerfPage.tsx, dynamic import will not move module into another chunk.
+
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+computing gzip size...
+dist/index.html                                             0.39 kB │ gzip:   0.26 kB
+dist/assets/inter-vietnamese-400-normal-DMkecbls.woff2      4.97 kB
+dist/assets/inter-vietnamese-700-normal-DlLaEgI2.woff2      5.10 kB
+dist/assets/inter-vietnamese-500-normal-DOriooB6.woff2      5.11 kB
+dist/assets/inter-greek-ext-400-normal-DGGRlc-M.woff2       5.26 kB
+dist/assets/inter-greek-ext-500-normal-C4iEst2y.woff2       5.43 kB
+dist/assets/inter-greek-ext-700-normal-qfdV9bQt.woff2       5.44 kB
+dist/assets/inter-vietnamese-400-normal-Bbgyi5SW.woff       6.50 kB
+dist/assets/inter-vietnamese-500-normal-mJboJaSs.woff       6.60 kB
+dist/assets/inter-vietnamese-700-normal-BZaoP0fm.woff       6.63 kB
+dist/assets/inter-greek-ext-400-normal-KugGGMne.woff        7.06 kB
+dist/assets/inter-greek-ext-500-normal-2j5mBUwD.woff        7.19 kB
+dist/assets/inter-greek-ext-700-normal-BoQ6DsYi.woff        7.22 kB
+dist/assets/inter-cyrillic-400-normal-obahsSVq.woff2        7.71 kB
+dist/assets/inter-greek-400-normal-B4URO6DV.woff2           7.78 kB
+dist/assets/inter-cyrillic-500-normal-BasfLYem.woff2        7.90 kB
+dist/assets/inter-cyrillic-700-normal-CjBOestx.woff2        7.90 kB
+dist/assets/inter-greek-500-normal-BIZE56-Y.woff2           7.92 kB
+dist/assets/inter-greek-700-normal-C3JjAnD8.woff2           7.92 kB
+dist/assets/inter-cyrillic-400-normal-HOLc17fK.woff         9.78 kB
+dist/assets/inter-cyrillic-700-normal-DrXBdSj3.woff         9.91 kB
+dist/assets/inter-greek-400-normal-q2sYcFCs.woff            9.92 kB
+dist/assets/inter-cyrillic-500-normal-CxZf_p3X.woff         9.94 kB
+dist/assets/inter-greek-500-normal-Xzm54t5V.woff            9.98 kB
+dist/assets/inter-greek-700-normal-BUv2fZ6O.woff            9.98 kB
+dist/assets/inter-cyrillic-ext-400-normal-BQZuk6qB.woff2   10.23 kB
+dist/assets/inter-cyrillic-ext-500-normal-B0yAr1jD.woff2   10.43 kB
+dist/assets/inter-cyrillic-ext-700-normal-BjwYoWNd.woff2   10.50 kB
+dist/assets/inter-cyrillic-ext-400-normal-DQukG94-.woff    13.34 kB
+dist/assets/inter-cyrillic-ext-700-normal-LO58E6JB.woff    13.41 kB
+dist/assets/inter-cyrillic-ext-500-normal-BmqWE9Dz.woff    13.45 kB
+dist/assets/inter-latin-400-normal-C38fXH4l.woff2          23.66 kB
+dist/assets/inter-latin-500-normal-Cerq10X2.woff2          24.27 kB
+dist/assets/inter-latin-700-normal-Yt3aPRUw.woff2          24.36 kB
+dist/assets/inter-latin-400-normal-CyCys3Eg.woff           30.70 kB
+dist/assets/inter-latin-500-normal-BL9OpVg8.woff           31.28 kB
+dist/assets/inter-latin-700-normal-BLAVimhd.woff           31.32 kB
+dist/assets/inter-latin-ext-400-normal-C1nco2VV.woff2      35.00 kB
+dist/assets/inter-latin-ext-500-normal-CV4jyFjo.woff2      36.02 kB
+dist/assets/inter-latin-ext-700-normal-Ca8adRJv.woff2      36.24 kB
+dist/assets/inter-latin-ext-400-normal-77YHD8bZ.woff       47.56 kB
+dist/assets/inter-latin-ext-500-normal-BxGbmqWO.woff       48.49 kB
+dist/assets/inter-latin-ext-700-normal-TidjK2hL.woff       48.63 kB
+dist/assets/index-aSZotJcw.css                             22.39 kB │ gzip:   5.11 kB
+dist/assets/shader-DOwDLr9M.js                              0.25 kB │ gzip:   0.20 kB │ map:     0.98 kB
+dist/assets/context-Bdp54W6L.js                             0.29 kB │ gzip:   0.24 kB │ map:     1.06 kB
+dist/assets/gel-passthrough.frag-C8CjQLHU.js                0.41 kB │ gzip:   0.28 kB │ map:     0.65 kB
+dist/assets/single-band-DjXVxAJG.js                         0.48 kB │ gzip:   0.34 kB │ map:     0.10 kB
+dist/assets/quad-5g-1u84H.js                                0.58 kB │ gzip:   0.41 kB │ map:     1.98 kB
+dist/assets/quad-0DRiqXI7.js                                0.63 kB │ gzip:   0.37 kB │ map:     2.39 kB
+dist/assets/uniforms-Dr-JRvkT.js                            0.63 kB │ gzip:   0.40 kB │ map:     2.58 kB
+dist/assets/passthrough.vert-C2lNNOhN.js                    0.63 kB │ gzip:   0.35 kB │ map:     0.90 kB
+dist/assets/passthrough.vert-Dpbd90Z0.js                    0.91 kB │ gzip:   0.48 kB │ map:     1.23 kB
+dist/assets/gel-passthrough.frag-Cs1BeiKx.js                1.19 kB │ gzip:   0.63 kB │ map:     1.48 kB
+dist/assets/program-DkyvT7kn.js                             1.30 kB │ gzip:   0.66 kB │ map:     4.98 kB
+dist/assets/meshBatch-CKoQDDtt.js                           1.86 kB │ gzip:   0.99 kB │ map:     6.47 kB
+dist/assets/presentationScene-DJs-6lmS.js                   3.41 kB │ gzip:   1.55 kB │ map:    14.88 kB
+dist/assets/meshBatch-DQvbT8iW.js                           3.64 kB │ gzip:   1.62 kB │ map:    10.90 kB
+dist/assets/globalWarp-DMDDHDLy.js                          3.69 kB │ gzip:   1.54 kB │ map:    19.54 kB
+dist/assets/present-gl-BV-nbbe4.js                          8.07 kB │ gzip:   2.63 kB │ map:    21.42 kB
+dist/assets/present-CydHRO3p.js                             8.17 kB │ gzip:   2.71 kB │ map:    21.63 kB
+dist/assets/render-gl-CZYSXfyw.js                           9.30 kB │ gzip:   2.71 kB │ map:    28.49 kB
+dist/assets/render-YcKCW4p0.js                             15.25 kB │ gzip:   4.05 kB │ map:    50.57 kB
+dist/assets/50-band-2vpD0nLZ.js                            21.40 kB │ gzip:   4.95 kB │ map:     0.10 kB
+dist/assets/index-Sr2otU9A.js                             405.67 kB │ gzip: 125.84 kB │ map: 1,448.55 kB
+✓ built in 756ms
+
+Running 2 tests using 1 worker
+
+(node:96007) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96007) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"recordedAt":"2026-10-10T18:31:24.989Z","backend":"webgpu","browser":"131.0.6778.33","productCommit":"cc96703fc12718d0d8f683db4af32762dbaef029","os":"27.0.1","hardware":"Mac17,14\nApple M5 Max","fixtureSha256":"9837e59e56953d4a441b7032bdf89a6a78510047097c359ee4cead1cc2a39598","viewport":{"width":1365,"height":768,"dpr":2},"warmupSeconds":3,"windowSeconds":10,"baseline":{"resources":236,"particles":[{"view":"loupe-canvas-1","count":1},{"view":"loupe-canvas-2","count":5},{"view":"loupe-canvas-3","count":1},{"view":"molecular-sim-canvas","count":160},{"view":"fragment-representative","count":160}]},"windows":[{"samples":599,"intervalMs":{"p50":16.699999999999818,"p95":16.700000000000728,"p99":16.800000000000182,"max":16.80000000000109},"callbackCpuMs":{"p50":0,"p95":2.699999988079071},"end":{"resources":236,"particles":[{"view":"loupe-canvas-1","count":1},{"view":"loupe-canvas-2","count":5},{"view":"loupe-canvas-3","count":1},{"view":"molecular-sim-canvas","count":160},{"view":"fragment-representative","count":160}]}},{"samples":600,"intervalMs":{"p50":16.700000000000728,"p95":16.700000000000728,"p99":16.799999999999272,"max":16.80000000000291},"callbackCpuMs":{"p50":0,"p95":2.600000023841858},"end":{"resources":236,"particles":[{"view":"loupe-canvas-1","count":1},{"view":"loupe-canvas-2","count":5},{"view":"loupe-canvas-3","count":1},{"view":"molecular-sim-canvas","count":160},{"view":"fragment-representative","count":160}]}}],"interaction":{"pointerMoves":60,"controllerInclusiveMs":1034.300000011921,"frameSamples":61,"intervalMs":{"p50":16.69999999999709,"p95":16.799999999999272,"p99":16.799999999999272,"max":16.799999999999272},"end":{"resources":236,"particles":[{"view":"loupe-canvas-1","count":1},{"view":"loupe-canvas-2","count":5},{"view":"loupe-canvas-3","count":1},{"view":"molecular-sim-canvas","count":160},{"view":"fragment-representative","count":160}]}},"limitations":"Steady windows use a static gel and moving molecular views; interaction drags the timeline through 60 pointer moves. Controller-inclusive gesture timing is not input-to-photon latency. rAF intervals and callback CPU time, not GPU timestamps or presentation latency. Instrumented resource-object counts, not resident memory. No native performance comparison or release threshold."}
+  ✓  1 [chromium-webgpu] › application.spec.ts:8:1 › measure built gel with fifty bands, sample and three loupes (24.7s)
+(node:96093) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96093) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"recordedAt":"2026-10-10T18:31:49.987Z","backend":"webgl2","browser":"131.0.6778.33","productCommit":"cc96703fc12718d0d8f683db4af32762dbaef029","os":"27.0.1","hardware":"Mac17,14\nApple M5 Max","fixtureSha256":"9837e59e56953d4a441b7032bdf89a6a78510047097c359ee4cead1cc2a39598","viewport":{"width":1365,"height":768,"dpr":2},"warmupSeconds":3,"windowSeconds":10,"baseline":{"resources":51,"particles":[{"view":"loupe-canvas-1","count":1},{"view":"loupe-canvas-2","count":5},{"view":"loupe-canvas-3","count":1},{"view":"molecular-sim-canvas","count":160},{"view":"fragment-representative","count":160}]},"windows":[{"samples":599,"intervalMs":{"p50":16.69999999999891,"p95":16.700000000000728,"p99":16.800000000000182,"max":16.80000000000109},"callbackCpuMs":{"p50":0,"p95":2.799999952316284},"end":{"resources":51,"particles":[{"view":"loupe-canvas-1","count":1},{"view":"loupe-canvas-2","count":5},{"view":"loupe-canvas-3","count":1},{"view":"molecular-sim-canvas","count":159},{"view":"fragment-representative","count":159}]}},{"samples":599,"intervalMs":{"p50":16.69999999999891,"p95":16.799999999999272,"p99":16.80000000000109,"max":16.80000000000291},"callbackCpuMs":{"p50":0,"p95":2.700000047683716},"end":{"resources":51,"particles":[{"view":"loupe-canvas-1","count":1},{"view":"loupe-canvas-2","count":5},{"view":"loupe-canvas-3","count":1},{"view":"molecular-sim-canvas","count":160},{"view":"fragment-representative","count":160}]}}],"interaction":{"pointerMoves":60,"controllerInclusiveMs":1033.199999988079,"frameSamples":61,"intervalMs":{"p50":16.69999999999709,"p95":16.700000000000728,"p99":16.799999999999272,"max":16.799999999999272},"end":{"resources":51,"particles":[{"view":"loupe-canvas-1","count":1},{"view":"loupe-canvas-2","count":5},{"view":"loupe-canvas-3","count":1},{"view":"molecular-sim-canvas","count":160},{"view":"fragment-representative","count":160}]}},"limitations":"Steady windows use a static gel and moving molecular views; interaction drags the timeline through 60 pointer moves. Controller-inclusive gesture timing is not input-to-photon latency. rAF intervals and callback CPU time, not GPU timestamps or presentation latency. Instrumented resource-object counts, not resident memory. No native performance comparison or release threshold."}
+  ✓  2 [chromium-webgl2] › application.spec.ts:8:1 › measure built gel with fifty bands, sample and three loupes (24.7s)
+
+  Slow test file: [chromium-webgpu] › application.spec.ts (24.7s)
+  Slow test file: [chromium-webgl2] › application.spec.ts (24.7s)
+  Consider splitting slow test files to speed up parallel execution
+  2 passed (50.0s)
