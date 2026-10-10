@@ -194,7 +194,12 @@ orders, both DPRs and both renderers. Real-app covering/removal, original-releas
 color exports and focus-preserving drag/Delete pass in both rendering modes.
 Original Cinder right/middle dispatch plus native palette methods prove all-button
 press/drag behavior; corresponding tests failed before removing the primary-only
-guard and now pass. The remaining Slider button-filter audit is still open.
+guard and now pass. Slider tracks, handles, graph edits and endpoint icons now
+accept native right/middle gestures; release-outside and cancellation preserve
+ownership. Gel background presses pick occupied lanes, clear fragment selection
+even on an expanded outline hit, and restore SampleView keyboard focus. Focused
+checks pass in both modes/backends; full verification passes 849 browser cases
+(one intentional duplicate skipped), 2,924 units, build and four production checks.
 Application menu buttons, checkboxes, divider and static text now contribute in
 native parent/child order. Forty-eight exact comparisons cover both menu layouts,
 checked/unchecked/hover/held states, both overlap orders, both scales and both
@@ -228,3 +233,24 @@ Files: `MicrotubeRow.tsx`, `GelOverlay.tsx`, `SampleView.tsx`, inspector views,
 
 Task 4 control migration is in progress alongside the remaining Task 3 integrated
 acceptance. Later work may be decomposed further without shrinking those gates.
+
+
+### Remaining input audit: source-backed findings
+
+Original Cinder Cocoa rightMouseDown/otherMouseDown and drag methods forward
+secondary buttons; Gelbox ViewCollection forwards them to the picked view.
+At native pin `5f51097`, `SampleView::mouseDown` (line 380) selects molecules or
+toggles ordinary sample settings, takes focus and chooses loupe anchor/wedge/frame
+drag without a button filter. Web `SampleSimCanvas` and `Loupe.begin` still reject
+non-primary presses. Add failing real-pointer selection/settings/drag checks
+before removing these guards, preserving transient-loupe behavior and cancellation.
+
+`GelView::mouseDown` has distinct Meta and right-button branches before ordinary
+tube selection. Middle-button tube selection/drag belongs to the ordinary branch;
+do not indiscriminately treat right-clicking a tube as a sample drag. Audit Meta
+input over the tube hit regions against native frame/pick bounds as well.
+
+`ButtonView::mouseUp` (line 105) activates its callback on an owned release inside
+for all buttons. Application menu controls already implement this; settings, new
+species and Help still need corresponding ownership/secondary-button checks.
+Whole-GUI button chords and rollover histories remain integrated acceptance gates.

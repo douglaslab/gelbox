@@ -3,7 +3,7 @@ import {useDisplayScale} from '../../lib/gpu/useDisplayScale';
 import {SliderScenePaint} from './SliderScenePaint';
 import {useSharedPresentation} from '../gel/ScenePresentation';
 import {useNativeButtonTint} from '../gel/useNativeButtonTint';
-import { useCallback, useRef, useState, useLayoutEffect, type CSSProperties } from 'react';
+import { useCallback, useRef, useState, useLayoutEffect, useEffect, type CSSProperties } from 'react';
 import {
   type SliderConfig,
   applyNotchSnap,
@@ -87,7 +87,7 @@ export function SliderView({
   },[config]);
 
   function onPointerDownTrack(e:React.PointerEvent<HTMLDivElement>) {
-    if(!enabled||e.button!==0||dragRef.current)return;
+    if(!enabled||dragRef.current)return;
     const r=e.currentTarget.getBoundingClientRect();
     const center=r.left+normalized*r.width;
     const handle=config.style==='slider'&&Math.abs(e.clientX-center)<=8&&
@@ -105,7 +105,7 @@ export function SliderView({
 
   function onPointerMoveTrack(e:React.PointerEvent<HTMLDivElement>) {
     const drag=dragRef.current;
-    if(!enabled||!drag||drag.pointerId!==e.pointerId||e.buttons!==1)return;
+    if(!enabled||!drag||drag.pointerId!==e.pointerId||e.buttons===0)return;
     if(!e.currentTarget.hasPointerCapture(e.pointerId)) {dragRef.current=null;return;}
     if(e.clientX===drag.lastX&&e.clientY===drag.lastY)return;
     e.preventDefault();drag.lastX=e.clientX;drag.lastY=e.clientY;
@@ -147,12 +147,12 @@ export function SliderView({
     graphLatest.current=next;onGraphChange(next);
   }
   function onGraphPointerDown(e:React.PointerEvent<HTMLDivElement>) {
-    if(!enabled||e.button!==0||graphPointer.current!==null||!onGraphChange)return;
+    if(!enabled||graphPointer.current!==null||!onGraphChange)return;
     e.preventDefault();graphPointer.current=e.pointerId;
     e.currentTarget.setPointerCapture(e.pointerId);updateGraph(e);
   }
   function onGraphPointerMove(e:React.PointerEvent<HTMLDivElement>) {
-    if(!enabled||graphPointer.current!==e.pointerId||e.buttons!==1)return;
+    if(!enabled||graphPointer.current!==e.pointerId||e.buttons===0)return;
     if(!e.currentTarget.hasPointerCapture(e.pointerId)){graphPointer.current=null;return;}
     e.preventDefault();updateGraph(e);
   }
@@ -167,6 +167,7 @@ export function SliderView({
   return (
     <div
       ref={element}
+      onContextMenu={e=>e.preventDefault()}
       className={`${styles.root} ${enabled ? '' : styles.disabled}`}
       style={{ width, ...(config.style==='graph'?{height:iconSize.y}:nativeBar?{height:barHeight??23}:{}), ...style, opacity:shared?0:style?.opacity }}
       data-testid={testId}
@@ -295,14 +296,28 @@ function SliderIcon({path,slot,natural,high,onClick,testId,bar}:{
   path:string;slot:{x:number;y:number};natural:boolean;high:boolean;
   onClick:()=>void;testId?:string;bar?:{width:number;height:number;gutter:number};
 }) {
-  const src=resolveAssetUrl(path),button=useNativeButtonTint();
+  const src=resolveAssetUrl(path),button=useNativeButtonTint(true);
+  const iconElement=useRef<HTMLSpanElement>(null),pointer=useRef<number|null>(null),activate=useRef(onClick);activate.current=onClick;
+  useEffect(()=>{
+    const release=(e:PointerEvent)=>{
+      if(pointer.current!==e.pointerId)return;pointer.current=null;
+      const r=iconElement.current?.getBoundingClientRect();
+      if(r&&e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom)activate.current();
+    };
+    const cancel=()=>{pointer.current=null;};
+    window.addEventListener('pointerup',release);window.addEventListener('pointercancel',cancel);
+    return()=>{window.removeEventListener('pointerup',release);window.removeEventListener('pointercancel',cancel);};
+  },[]);
   const [decoded,setDecoded]=useState<{src:string;x:number;y:number}|null>(null);
   const size=natural&&decoded?.src===src?decoded:slot;
   // Native roundf snaps absolute positions. The low icon starts at x=0;
   // the high icon starts at a positive integer position within the slider.
   const round=(v:number)=>Math.sign(v)*Math.round(Math.abs(v));
   const dx=(slot.x-size.x)/2,dy=(slot.y-size.y)/2;
-  return <span className={styles.iconSlot} style={bar?{position:'absolute',left:round(high?bar.width+bar.gutter:-bar.gutter-size.x),top:round((bar.height-size.y)/2),width:size.x,height:size.y}:{width:slot.x,height:slot.y}} onClick={onClick} {...button.events}>
+  return <span ref={iconElement} className={styles.iconSlot} style={bar?{position:'absolute',left:round(high?bar.width+bar.gutter:-bar.gutter-size.x),top:round((bar.height-size.y)/2),width:size.x,height:size.y}:{width:slot.x,height:slot.y}} {...button.events}
+    onPointerDown={e=>{if(pointer.current!==null)return;e.preventDefault();pointer.current=e.pointerId;button.events.onPointerDown(e);}}
+    onLostPointerCapture={()=>{pointer.current=null;button.events.onLostPointerCapture();}}
+    onClick={e=>{if(e.detail===0)onClick();}}>
     <img src={src} alt="" className={styles.icon} data-testid={testId} data-slider-icon={high?1:0} data-highlighted={button.tint[0]===.7} onError={dprFallbackOnError}
       onLoad={e=>{
         const img=e.currentTarget,scale=img.currentSrc.includes('@2x.')?2:1;

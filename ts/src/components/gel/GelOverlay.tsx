@@ -102,7 +102,6 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
   }
 
   function onBandPointerDown(e: React.PointerEvent<SVGSVGElement>) {
-    if (e.button !== 0 && e.button !== 2) return;
     if (e.metaKey || e.ctrlKey) {
       e.preventDefault();
       const anchor=gelPoint(e);
@@ -156,12 +155,16 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
   }
 
   function onBackgroundPointerDown(e: React.PointerEvent<SVGSVGElement>) {
-    // This path runs only when coordinate-based picking found no band.
-    // A stroke-edge hit on a rectangle is not a background click.
-    if (e.target !== e.currentTarget) return;
-    if (state.selection?.fragmentIndex != null) {
-      dispatch({ type: 'CLEAR_FRAGMENT_SELECTION' });
+    // GelView's no-band branch still picks an occupied lane, then clears
+    // fragment selection. An expanded focus-outline hit is also background.
+    e.preventDefault();
+    const p=gelPoint(e),f=Math.fround;
+    if(p.x>=0&&p.x<=state.gelSize.width&&p.y>=0&&p.y<=state.gelSize.height){
+      const lane=Math.max(0,Math.min(state.numLanes-1,Math.trunc(f(f(p.x)/f(f(state.gelSize.width)/state.numLanes)))));
+      if(state.samples[lane])dispatch({type:'SET_SELECTED_LANE',laneIndex:lane});
     }
+    dispatch({type:'CLEAR_FRAGMENT_SELECTION'});
+    queueMicrotask(()=>document.querySelector<HTMLElement>('[data-testid="sample-view"]')?.focus({preventScroll:true}));
   }
 
   return (

@@ -38,13 +38,18 @@ secondary-button/keyboard activation and image overlap are checked. See
 [menu evidence](../reference/web/shared-menu-scenes/README.md). Gel selection and
 hover paint now matches 88 native comparisons, clips to the gel and follows
 shared view order in effects/direct modes. See
-[focus evidence](../reference/web/shared-band-focus-scenes/README.md). Remaining
-input audits, integrated acceptance and review still gate production enablement.
+[focus evidence](../reference/web/shared-band-focus-scenes/README.md). Slider
+tracks, handles, graph edits and endpoint icons now accept native right/middle
+gestures, with release-outside and cancellation ownership checked. Gel background
+presses select occupied lanes, clear fragment selection even at expanded outline
+edges, and restore SampleView focus. Both modes/backends pass. Sample/loupe and
+remaining icon-button input audits, integrated acceptance and review still gate
+production enablement.
 
 | Check | Result |
 |---|---|
 | Unit suite | 2,924 passed |
-| Browser suite across WebGPU/WebGL2 | 821 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 849 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
