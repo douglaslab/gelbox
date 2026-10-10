@@ -1,51 +1,54 @@
 # Gelbox web port — current status
 
-_Last reviewed: 2026-10-09 · implementation baseline `2f3021d` · native reference `5f51097`._
+_Consolidated: 2026-10-09 · implementation through `1d20a9b` · native reference `5f51097`._
 
 ## Direction
 
 Shawn confirmed: **strict native behavior and visual parity first; improvements afterward. Finish the web app first; reconsider Rust/native only for a concrete need.**
 
-The replacement strategy is in [ROADMAP.md](ROADMAP.md). The source-backed gap inventory is in [PORT-AUDIT.md](PORT-AUDIT.md). The old M1–M27 plan is historical, not the current completion contract.
+The completion contract is [ROADMAP.md](ROADMAP.md). [PORT-AUDIT.md](PORT-AUDIT.md) records the initial audit; some findings have since been resolved by the increments below. The old M1–M27 plan is historical.
 
-## What exists
+## Big picture
 
-A working TypeScript/React application under `ts/`, with pure gel simulation, WebGPU and WebGL2 gel renderers, three-panel editing UI, live molecular simulation, and synthetic-sample loupes. Historical implementation milestones reached M26a in June 2026. This is substantial reusable work, but native parity is not complete or independently certified.
+The TypeScript/React app is substantially implemented, with working WebGPU and WebGL2 renderers. Targeted restoration remains the strategy: the current evidence does not justify another rewrite or a Rust migration. Completion still requires meaningful feature and shared-state work, followed by native visual certification and production reliability checks. It is not merely a polish pass.
 
-- Renderer/simulation: mobility, diffusion, smears, aggregation, dyes, well damage, mesh particles, and global-warp implementations exist. The main gel canvas now wires running-buffer global warp into both renderers; native numerical and raster certification remains open.
-- UI: sample/species/gel panels, many sliders, band resize/clone, tube move/clone, and cross-panel selection/hover exist. Missing native workflows and deliberate/accidental behavioral differences remain.
-- Molecular view: live engine, multimer clusters, slice meshes, dye backgrounds, and selection outlines are implemented. Degradation wholeness ranges/filtering still diverge from native.
-- Loupes: live synthetic content and multiple fixed popups exist. Native dragging, callout geometry, hover preview, source-selection ancestry, and full positioning behavior remain incomplete.
-- Files: native Gelbox JSON import/export now exists, preserving sample metadata and scientific fields. Legacy web formats remain readable. A native → web codec → native ladder roundtrip preserved every JSON field. Open/Save commands are mounted in a bottom-left popup; native XML palette import and targeted sample drops are implemented. Native shell geometry is implemented; render/hover settings and broader interchange coverage remain open.
+Implemented and checked areas include native JSON/XML file workflows and metadata, startup defaults, hidden-lane retention, sample/species controls, tube and band movement/cloning, reverse solving, picking, buffer effects, molecular lifecycle/meshes, persistent loupe gestures and source selection, and temporary hover loupes. Independent compiled native captures now cover 509 band/setup cases, 2,909 solver requests, particle/loupe behavior and meshes, and 137 exact-byte CPU warp cases. These are finite source-backed comparisons, not certification of the original executable's complete output.
 
-## Verification actually run
+## Latest recorded verification
 
-On macOS with Node 22 during the 2026-10-09 review, before these documentation changes:
+On macOS with Node 22, after the hover-loupe review fixes at `1d20a9b`:
 
 | Check | Result |
 |---|---|
-| `npm run typecheck` | Passed |
-| `npm run build` | Passed |
-| `npm run test:unit` | 35 files; 285 passed |
-| `npm run test:visual -- --project=chromium-webgl2 --workers=2` | 52 passed; 1 skipped |
-| `npm run test:visual -- --project=chromium-webgpu --workers=2` | 52 passed; 1 skipped |
+| Unit suite | 2,749 passed |
+| Browser suite across WebGPU/WebGL2 | 219 passed; one intentional duplicate invocation skipped |
+| Production build and TypeScript checks | Passed |
 
-The skipped test is narrow-screen reflow. These are implementation/regression tests, **not native differential tests**. The official native Gelbox 1.0 release now runs through Rosetta on this Mac. Six exploratory native screenshots and one native-exported gel document are recorded in [the reference manifest](../reference/native/manifest.json). All 96 bundled assets match the pinned source checkout. The binary’s exact source revision remains unverified; these captures are not yet certified pixel goldens. Xcode is selected locally; the sibling `cinder_0.9.0_mac` dependency expected for rebuilding is absent.
+These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; reliable fresh native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
 
-## Forward roadmap
+## Remaining completion work
 
-P0 reference work and P1 application/file compatibility are underway. Selected source-backed P2 layout and P3 rendering-integration fixes have landed; their full parity gates remain open.
+1. **Sample identity and shared view state.** Replace lane-based references where native sample-object identity is required; preserve selection/rollover/source ancestry through moves, cloning, removal and off-document references. Reconcile duplicated selection fields and panel ownership. Preserve native raw fragment-index semantics instead of silently improving deletion behavior. Verify application-wide RNG initialization and view scheduling.
+2. **Remaining native features and controls.** Implement PNG/JPEG/GIF reference-image views with native movement, resizing, aspect, stacking, focus, deletion and persistence boundaries. Implement the Render-off alternate band scene. Complete settings/help/menu geometry, shortcuts, focus and remaining interaction details, including the right-click creation/drag sequence.
+3. **Native visual certification.** Capture controlled matching native/web scenes for gel effects, blur/compositing, particles, loupes, selection and complete application layout. Resolve typography, asset proportions, resize/DPR behavior and justified raster tolerances. Decide cross-platform font handling and any browser layout adaptations explicitly.
+4. **Composed workflow verification.** Expand native → web edit/save → native roundtrips and replay move/clone/delete with loupes open, hidden-lane restoration, degraded multimer dragging, and buffer changes with resizing/failures. Resolve recorded XML safety and unsupported native import edge cases explicitly.
+5. **Browser lifecycle reliability.** Verify adapter failure and fallback, device/context loss, async unmount/disposal, route remount, resize/DPR, hidden-tab resume and repeated multi-view creation/removal. Provide a clear failure when no supported renderer works. Certify shortcuts that browser chrome may intercept.
+6. **Production and release validation.** Serve built artifacts at root and subpath; check assets, fonts, routing, files and errors. Establish actual Safari/Firefox compatibility after macOS Chromium certification on both renderers. Measure combined-app responsiveness and resource growth on named hardware. Resolve every parity-ledger row and complete Shawn's side-by-side/workflow review.
 
-| Increment | Deliverable | Current status |
-|---|---|---|
-| P0 | Runnable native reference, captures, effective configuration, parity ledger | In progress |
-| P1 | Native application shell and compatible file/edit/save workflow | In progress: native files and shell |
-| P2 | Native editing, identity/selection, panel and control behavior | In progress: control defaults and species editing; identity migration remains open |
-| P3 | Independently verified numerical and rendering fidelity | 259 pinned C++ band cases verified within recorded tolerances; full numerical/raster gates remain open |
-| P4 | Complete native loupes and reference images | Planned |
-| P5 | Browser reliability, production-build verification, parity release | Planned |
+## Roadmap state
 
-Continue P0 provenance and scenario coverage alongside source-backed P1/P2 workflow work. See ROADMAP for dependencies and exit gates. The original strategy review changed documentation; subsequent implementation increments are recorded below.
+| Increment | Current status |
+|---|---|
+| P0 — Native reference | Strong numerical/source evidence; full GUI replay and visual reference coverage remain open |
+| P1 — Application and files | Core files and shell implemented; complete controls and composed interchange gate remain open |
+| P2 — Editing and UI | Many interaction paths restored; sample identity, focus/panel details and native replay remain open |
+| P3 — Numerical and rendering fidelity | Extensive independent comparisons pass; global RNG scheduling, alternate scene and full native raster gate remain open |
+| P4 — Loupes and images | Persistent/hover loupes substantially restored; identity certification and reference-image views remain open |
+| P5 — Reliability and release | Production/platform/performance certification remains open |
+
+All six full exit gates remain open; that does not mean their implemented parts are untested. Next sequence: identity/state correctness, remaining native features, controlled visual/workflow replay, then production/platform release checks. Continue reference work alongside implementation. No evidence-based percentage or calendar completion estimate is available yet; visual replay and platform checks may expose additional defects.
+
+Rust/WASM/native packaging, redesign/mobile composition, undo/autosave, scientific-model improvements and cloud features remain outside this parity release.
 
 ## Historical records
 
