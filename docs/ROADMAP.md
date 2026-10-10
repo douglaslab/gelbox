@@ -798,3 +798,15 @@ approved local downloads; downloaded JSON exactly equals the imported native
 fixture. Remote automation remains disabled. [Evidence](../reference/web/safari-shipping-ui/README.md).
 Broader browser interactions, lifecycle, backend/console instrumentation in
 shipping Safari, native cross-engine pixel equivalence and full P0–P5 gates remain.
+
+
+### Compiled browser workflows expanded
+
+Species/color editing, H2O/TBE concentration changes, persistent loupe frame/anchor/
+wedge dragging with all three mouse buttons, Render pixel change/restoration,
+resize and Delete now pass in the actual compiled subpath app. Both pinned and
+newer Firefox/WebKit runners pass all 10 compatibility cases. Chromium production
+passes22 cases with216 exact native RGB comparisons unchanged. No product change.
+[Evidence and limits](../reference/web/compatibility/compiled-workflows/README.md).
+Broader histories, shipping-browser lifecycle, monitor/resource checks, native
+performance comparison/release budget and full parity acceptance remain open.

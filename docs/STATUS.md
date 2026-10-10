@@ -113,7 +113,7 @@ results remain the latest broader verification. See
 |---|---|
 | Unit suite | 2,924 passed |
 | Browser suite across WebGPU/WebGL2 | 955 passed; one intentional duplicate skipped |
-| Built shared-production suite | 16 Chromium passed; 216 exact native RGB comparisons |
+| Built shared-production suite | 22 Chromium passed; 216 exact native RGB comparisons |
 | Shared-production compatibility | Firefox 132/157 and WebKit: root/subpath deployment checks pass; shipping Safari UI and native JSON roundtrip verified |
 | Production build and TypeScript checks | Passed |
 
@@ -158,6 +158,13 @@ interaction/lifecycle, long-suspension and physical-monitor checks remain. The p
 entries below retain their original scope; earlier deployment/performance results
 were for separate canvases. Original-release/toolchain equivalence and the broader
 roadmap gates remain open.
+
+The compiled compatibility suite now also covers species/color edits, H2O/TBE
+changes, all three loupe drag modes with left/right/middle buttons, Render pixel
+change/restoration, resize and deletion. All 10 cases pass on both pinned and
+newer Firefox/WebKit runners; Chromium production now passes 22 tests and retains
+216 exact native comparisons. This test-only increment changes no product code.
+See [compiled workflow evidence](../reference/web/compatibility/compiled-workflows/README.md).
 
 ## Remaining completion work
 
