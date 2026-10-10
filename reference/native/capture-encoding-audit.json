@@ -1,0 +1,144 @@
+{
+  "purpose": "Audit actual encoding and color profiles before native/web raster comparisons; originals are preserved unchanged.",
+  "method": "Pillow Image.open on original bytes; embedded ICC read with ImageCms; SHA-256 of original bytes and profile.",
+  "findings": [
+    "All 11 raw native captures are JPEG with embedded Display ICC profiles. Ten have misleading .png extensions.",
+    "Normalize both comparison inputs into a declared common color space before comparing colors.",
+    "JPEG artifacts preclude exact-byte raster certification; existing captures remain exploratory layout/workflow evidence.",
+    "A lossless native capture path and documented display/color configuration are required before setting strict raster tolerances."
+  ],
+  "captures": [
+    {
+      "path": "captures/app-settings.png",
+      "sha256": "8df131a2bb1d9551f8587b77e225b6cc03b2cb46bff7bace4fe67b6efc005fa0",
+      "actualFormat": "JPEG",
+      "filenameExtensionMatches": false,
+      "pixelSize": [
+        2730,
+        1592
+      ],
+      "iccProfile": "Display",
+      "iccSha256": "34bcde669c4f31b757f74e398eefa5c245df7a5d2ec874ae55355596118fb26b"
+    },
+    {
+      "path": "captures/gel-h2o.png",
+      "sha256": "86931f4c5588f4db6a93892f44e19f1b4d7dce70afb7c6c3de1bfeece0f3c63f",
+      "actualFormat": "JPEG",
+      "filenameExtensionMatches": false,
+      "pixelSize": [
+        2730,
+        1592
+      ],
+      "iccProfile": "Display",
+      "iccSha256": "34bcde669c4f31b757f74e398eefa5c245df7a5d2ec874ae55355596118fb26b"
+    },
+    {
+      "path": "captures/gel-settings.png",
+      "sha256": "bfe5409a3a4b8cf12afcad1e7161eb52f81a033815306d88d42753ab1e1553a6",
+      "actualFormat": "JPEG",
+      "filenameExtensionMatches": false,
+      "pixelSize": [
+        2730,
+        1592
+      ],
+      "iccProfile": "Display",
+      "iccSha256": "34bcde669c4f31b757f74e398eefa5c245df7a5d2ec874ae55355596118fb26b"
+    },
+    {
+      "path": "captures/sample-selected.png",
+      "sha256": "94968d16ffea8c565f41ac6fe9158ffb3020d9af00d9814aeaccfe472ad305cf",
+      "actualFormat": "JPEG",
+      "filenameExtensionMatches": false,
+      "pixelSize": [
+        2730,
+        1592
+      ],
+      "iccProfile": "Display",
+      "iccSha256": "34bcde669c4f31b757f74e398eefa5c245df7a5d2ec874ae55355596118fb26b"
+    },
+    {
+      "path": "captures/species-selected.png",
+      "sha256": "c35c04c50ec7ea2ba4db8876d8b7261b7cc393283f2f9e4d7f1ad9e5f05334ee",
+      "actualFormat": "JPEG",
+      "filenameExtensionMatches": false,
+      "pixelSize": [
+        2730,
+        1592
+      ],
+      "iccProfile": "Display",
+      "iccSha256": "34bcde669c4f31b757f74e398eefa5c245df7a5d2ec874ae55355596118fb26b"
+    },
+    {
+      "path": "captures/startup.png",
+      "sha256": "fa4dadfedfba75f5e50b1c7f0a92c63cb1833034ca439f8714c13b3ebafe896e",
+      "actualFormat": "JPEG",
+      "filenameExtensionMatches": false,
+      "pixelSize": [
+        2730,
+        1592
+      ],
+      "iccProfile": "Display",
+      "iccSha256": "34bcde669c4f31b757f74e398eefa5c245df7a5d2ec874ae55355596118fb26b"
+    },
+    {
+      "path": "captures/web-roundtrip-opened.png",
+      "sha256": "201aea589bfca9e11e7b19ea7dc0a782c45b7058d74710af9633fd128a058db0",
+      "actualFormat": "JPEG",
+      "filenameExtensionMatches": false,
+      "pixelSize": [
+        2730,
+        1592
+      ],
+      "iccProfile": "Display",
+      "iccSha256": "34bcde669c4f31b757f74e398eefa5c245df7a5d2ec874ae55355596118fb26b"
+    },
+    {
+      "path": "replay/captures/sample-selected.png",
+      "sha256": "a6eb853f6d03953091cfd050c06de37f99c16ff125272390b8cc019165cb52a1",
+      "actualFormat": "JPEG",
+      "filenameExtensionMatches": false,
+      "pixelSize": [
+        2730,
+        1592
+      ],
+      "iccProfile": "Display",
+      "iccSha256": "34bcde669c4f31b757f74e398eefa5c245df7a5d2ec874ae55355596118fb26b"
+    },
+    {
+      "path": "replay/captures/species-selected.png",
+      "sha256": "d08703d02e1e1210e67d88b89ab3dd4e15a088d32e42bb92b8a5af31f2e110df",
+      "actualFormat": "JPEG",
+      "filenameExtensionMatches": false,
+      "pixelSize": [
+        2730,
+        1592
+      ],
+      "iccProfile": "Display",
+      "iccSha256": "34bcde669c4f31b757f74e398eefa5c245df7a5d2ec874ae55355596118fb26b"
+    },
+    {
+      "path": "modern/captures/startup.png",
+      "sha256": "5c6e5ccb9b0aba98d20e222874429b5a6406577a58f4747c50628d2db82ac269",
+      "actualFormat": "JPEG",
+      "filenameExtensionMatches": false,
+      "pixelSize": [
+        2730,
+        1600
+      ],
+      "iccProfile": "Display",
+      "iccSha256": "34bcde669c4f31b757f74e398eefa5c245df7a5d2ec874ae55355596118fb26b"
+    },
+    {
+      "path": "control-comparison/native-settings.jpg",
+      "sha256": "7fe9704019093fade13e50895e307fc1e966ad985fe6b66230a888831a41bafd",
+      "actualFormat": "JPEG",
+      "filenameExtensionMatches": true,
+      "pixelSize": [
+        2730,
+        1592
+      ],
+      "iccProfile": "Display",
+      "iccSha256": "34bcde669c4f31b757f74e398eefa5c245df7a5d2ec874ae55355596118fb26b"
+    }
+  ]
+}
