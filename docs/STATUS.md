@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,853 passed |
-| Browser suite across WebGPU/WebGL2 | 387 full baseline plus 2 new lifecycle checks passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 387 full baseline plus 4 new lifecycle checks passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
 | Production build and TypeScript checks | Passed |
@@ -1139,3 +1139,22 @@ passing cases now present. No full-suite rerun or build was needed for this
 test-only increment. This establishes explicit object cleanup over these finite
 cycles, not JS heap/driver residency, long-run resource growth, pending async setup
 cleanup or hidden-tab resume. Those and native/platform release gates remain open.
+
+
+## Pending renderer import cancellation
+
+Two new browser checks hold the actual backend mesh-module response while gel
+and sample views mount. They wait for gel context acquisition, leave through
+same-document hash navigation, then release and await the module. Previously
+acquired GL contexts are lost and GPU contexts unconfigured; no context is
+acquired for detached app canvases, and no GPU/GL buffer, texture or GL program
+is allocated by the retired setup after release. Returning to the gel initializes
+new resources and a live sample without page errors or graphics alerts.
+
+**Both new cases pass on the existing implementation.** This is a test-only
+increment; product/build/unit baselines remain unchanged. Together with the
+previous resource-cycle cases, four new lifecycle checks supplement the last
+387-case full browser run. This covers cancellation at a concrete module-await
+boundary after context acquisition, not every asynchronous adapter/device phase
+or arbitrary driver timing. Hidden-tab resume, long-running memory/performance,
+current browser/platform and complete native parity checks remain open.

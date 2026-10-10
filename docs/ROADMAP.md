@@ -433,3 +433,11 @@ document route unmount reaches zero owned objects and gel remount restores a liv
 sample. Two new real-browser checks pass; no product code changed. Long-run heap/
 driver memory, pending asynchronous setup/unmount and hidden-tab resume remain
 separate open requirements. Native parity and platform gates remain open.
+
+
+P5 pending-setup evidence: held mesh-module responses complete safely after gel/
+sample route exit on both renderers. Retired contexts are released and the late
+continuations allocate no graphics resources or contexts for detached canvases.
+Route return initializes new resources and a live sample. Two tests pass without
+product changes. Adapter/device-phase cancellation, hidden resume and remaining
+performance/platform/native parity gates still require evidence.
