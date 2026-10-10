@@ -66,3 +66,30 @@ WebGPU scenes exact. `after-water-*.json` contains the newer complete results;
 the earlier `after-*.json` remains the historical blur/flame result. Only the
 five WebGPU ppu-1 half-pixel edge cases remain red in this matrix. Normal
 regressions now also include water-2 and combined-1/combined-2 on both backends.
+
+## WebGPU horizontal edge coverage correction
+
+At a top rectangle edge y=49.5, native/WebGL coverage starts at pixel row 50;
+WebGPU's original top-down primitive pass includes row 49. Blur and warps then
+propagate that different input. This is the observed horizontal raster edge
+inclusion difference, not an error in the downstream effect formulas.
+
+The gel-only WebGPU primitive pipeline now reflects vertex Y before
+rasterization. An integer `textureLoad` pass flips the resulting pixels back
+into the normal top-down target. This preserves native edge inclusion without
+coordinate nudges, filtering or tolerance changes. It reuses the two existing
+band textures, adds one full-target pass per band, and preserves the renderer's
+output orientation. Molecular geometry keeps its original pipeline.
+
+All sixteen scene RGB outputs now match exactly on **both** backends; see
+`after-edge-*.json`. The normal regression now runs the entire matrix. The
+startup texture and DPR-2 displayed-band tests also remain exact. No screenshot
+goldens changed for this edge correction.
+
+Additional proposed cases for both horizontal edges, clipping and half-pixel
+smear boundaries could not yet be exported: the previously running native probe
+stopped exposing a window to the computer-use tool (`cgWindowNotFound`), and a
+separate probe bundle launch timed out without a live process. Those additional
+cases are not in this fixture set and are not claimed verified. No existing
+reference PNG was changed. Broader dimensions, seeds, gradients and GUI-state
+coverage remain necessary before full renderer certification.

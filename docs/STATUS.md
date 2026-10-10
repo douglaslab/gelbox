@@ -1300,3 +1300,33 @@ build and TypeScript checks. Two existing 50-band web goldens changed after
 inspection; no tolerance was relaxed. Unit implementation was unchanged in
 this shader-only correction; the preceding 2,853-unit result remains the unit
 baseline.
+
+## WebGPU primitive edge coverage
+
+The remaining five failures in the sixteen-scene matrix started with native
+excluding a top horizontal edge exactly on a pixel center while WebGPU included
+it. The WebGPU gel primitive pass now reflects vertex Y before rasterization,
+then flips texels back with integer loads into the normal output orientation.
+This uses the existing band ping-pong textures and adds one pass per band;
+it does not offset geometry or relax comparison tolerances. Molecular geometry
+keeps its existing pipeline.
+
+All **16 native effect scenes now match exactly on both backends**, as do the
+startup texture and displayed-band checks. The full matrix is now a normal
+regression, with no outstanding cases hidden outside that gate. The native
+reference remains a modern compatibility build, and sixteen synthetic scenes
+are not full native GUI/raster certification. Additional proposed boundary
+captures remain unverified because the native capture tool currently cannot
+access the probe window; existing reference PNGs are unchanged.
+
+Verification for the edge correction: **2,853 unit tests and 397 browser tests
+passed**, with one intentional duplicate skipped. The production performance
+command rebuilt successfully and both measurements passed. In the retained
+[application performance run](../reference/web/performance/native-edge/README.md),
+both backends had 16.7 ms p95 frame intervals during steady windows and timeline
+dragging; tracked object counts stayed 223 (WebGPU) and 27 (WebGL2). This shows
+no observed cadence regression in that workload, not isolated GPU pass cost or
+full performance certification. No goldens or tolerances changed.
+
+Built-app root/subpath verification also passed all **4 production checks**,
+including a fresh build and TypeScript checks.

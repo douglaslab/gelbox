@@ -1,11 +1,9 @@
 import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
 const root='../reference/native/modern/raster-scenes';
-// These regressions cover the corrected blur, flame primitives and water sampling.
-// The full diagnostic matrix (including unresolved half-pixel cases) is
-// retained in reference/native/modern/raster-scenes/diagnostic.spec.ts.
-const cases=JSON.parse(fs.readFileSync(`${root}/cases.json`,'utf8')).filter((c:any)=>['blur-2','flames-1','flames-2','water-2','combined-1','combined-2'].includes(c.id)).map((c:any)=>({...c,png:fs.readFileSync(`${root}/${c.id}.png`).toString('base64')}));
-test('blur, flames and water sampling match native exports',async({page},info)=>{
+// Full independent native scene matrix: exact RGB comparisons on both backends.
+const cases=JSON.parse(fs.readFileSync(`${root}/cases.json`,'utf8')).map((c:any)=>({...c,png:fs.readFileSync(`${root}/${c.id}.png`).toString('base64')}));
+test('all native effect scenes match on both backends',async({page},info)=>{
  await page.goto('/#/gel');
  const backend=info.project.name.endsWith('webgl2')?'webgl2':'webgpu';
  const results=await page.evaluate(async({cases,backend})=>{

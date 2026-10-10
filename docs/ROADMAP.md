@@ -493,3 +493,13 @@ The complete sixteen-scene comparison is now exact on WebGL2 and exact for
 half-pixel rectangle edge and its downstream effects. These remain an explicit
 completion gate, alongside broader scene/seed/GUI coverage. See the
 [water investigation](../reference/native/modern/raster-scenes/water-debug/README.md).
+
+### WebGPU half-pixel edge cases resolved for the reference matrix
+
+Mirrored primitive rasterization followed by an exact texel flip now reproduces
+native horizontal edge inclusion. All sixteen effect references pass with zero
+RGB differences on both backends, and the full matrix is included in normal
+regressions. No tolerances or goldens changed. The additional WebGPU pass reuses
+existing textures; performance is measured separately. This closes the five
+recorded matrix failures, not broader geometry/seed/DPR/GUI certification.
+Additional clipping/both-edge references remain pending native window access.

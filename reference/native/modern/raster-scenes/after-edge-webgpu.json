@@ -1,0 +1,98 @@
+[
+  {
+    "id": "plain-1",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "blur-1",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "smile-1",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "damage-1",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "smear-1",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "flames-1",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "water-1",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "combined-1",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "plain-2",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "blur-2",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "smile-2",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "damage-2",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "smear-2",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "flames-2",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "water-2",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "combined-2",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  }
+]

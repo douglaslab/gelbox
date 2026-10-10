@@ -1,5 +1,6 @@
 import type { Band } from '../../sim/band';
-import type { RenderTarget } from '../../gpu/target';
+import { createVerticalFlipPass } from './flip';
+import type { PingPong } from '../../gpu/target';
 import { type Mesh, VERTEX_STRIDE } from '../mesh';
 import { buildSmearMesh } from '../smear';
 import { buildBodyMesh } from '../body';
@@ -8,7 +9,7 @@ import { createMeshBatch } from '../../gpu/meshBatch';
 
 export interface PrimitivePass {
   /**
-   * Render band primitives (smears + body + flames) into `dst`. ALWAYS produces a
+   * Render band primitives into the ping-pong target. ALWAYS produces a
    * defined target: if the band has no visible geometry (smearAbove/smearBelow/
    * flameHeight all zero etc.), emits a clear-only pass so downstream passes
    * (warp, blur, composite) sample a clean RT. Callers MUST NOT skip this call
@@ -17,7 +18,7 @@ export interface PrimitivePass {
    * `callIdx` is forwarded to the underlying MeshBatch to select a per-call
    * VBO slot; pass a unique value per draw within a frame.
    */
-  draw(encoder: GPUCommandEncoder, dst: RenderTarget, band: Band, callIdx: number): void;
+  draw(encoder: GPUCommandEncoder, target: PingPong, band: Band, callIdx: number): void;
   destroy(): void;
 }
 
@@ -26,7 +27,9 @@ export function createPrimitivePass(
   gelSize: { width: number; height: number },
   format: GPUTextureFormat = 'rgba8unorm-srgb',
 ): PrimitivePass {
-  const batch = createMeshBatch(device, { viewport: gelSize, blend: 'over', format });
+  const batch = createMeshBatch(device, { viewport: gelSize, blend: 'over', format, flipY: true });
+
+  const flip = createVerticalFlipPass(device, format);
 
   function combine(meshes: Mesh[]): Mesh {
     let total = 0;
@@ -38,18 +41,21 @@ export function createPrimitivePass(
   }
 
   return {
-    draw(encoder, dst, band, callIdx) {
+    draw(encoder, target, band, callIdx) {
       const mesh = combine([
         buildSmearMesh(band),
         buildBodyMesh(band),
         buildFlamesMesh(band),
       ]);
       // Always clear (even when empty) so downstream passes sample a clean RT.
-      batch.draw(encoder, dst.view, mesh, {
+      // Reflect before rasterization to match native horizontal edge coverage,
+      // then restore normal texture orientation without changing pixel values.
+      batch.draw(encoder, target.next.view, mesh, {
         clear: true,
         clearColor: { r: 0, g: 0, b: 0, a: 1 },
         callIdx,
       });
+      flip.run(encoder, target.next, target.current);
     },
     destroy() { batch.destroy(); },
   };

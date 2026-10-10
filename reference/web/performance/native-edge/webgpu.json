@@ -1,0 +1,151 @@
+{
+  "recordedAt": "2026-10-10T07:38:54.829Z",
+  "backend": "webgpu",
+  "browser": "131.0.6778.33",
+  "productCommit": "1e2ad669a6fa31a51cc698f6e730b7d838fb0843",
+  "os": "27.0.1",
+  "hardware": "Mac17,14\nApple M5 Max",
+  "fixtureSha256": "9837e59e56953d4a441b7032bdf89a6a78510047097c359ee4cead1cc2a39598",
+  "viewport": {
+    "width": 1365,
+    "height": 768,
+    "dpr": 2
+  },
+  "warmupSeconds": 3,
+  "windowSeconds": 10,
+  "baseline": {
+    "resources": 223,
+    "particles": [
+      {
+        "view": "loupe-canvas-1",
+        "count": 1
+      },
+      {
+        "view": "loupe-canvas-2",
+        "count": 5
+      },
+      {
+        "view": "loupe-canvas-3",
+        "count": 1
+      },
+      {
+        "view": "molecular-sim-canvas",
+        "count": 160
+      }
+    ]
+  },
+  "windows": [
+    {
+      "samples": 599,
+      "intervalMs": {
+        "p50": 16.699999999999818,
+        "p95": 16.700000000000728,
+        "p99": 16.800000000000182,
+        "max": 16.80000000000109
+      },
+      "callbackCpuMs": {
+        "p50": 2,
+        "p95": 3.199999988079071
+      },
+      "end": {
+        "resources": 223,
+        "particles": [
+          {
+            "view": "loupe-canvas-1",
+            "count": 1
+          },
+          {
+            "view": "loupe-canvas-2",
+            "count": 5
+          },
+          {
+            "view": "loupe-canvas-3",
+            "count": 1
+          },
+          {
+            "view": "molecular-sim-canvas",
+            "count": 159
+          }
+        ]
+      }
+    },
+    {
+      "samples": 599,
+      "intervalMs": {
+        "p50": 16.69999999999891,
+        "p95": 16.700000000000728,
+        "p99": 16.799999999999272,
+        "max": 16.80000000000291
+      },
+      "callbackCpuMs": {
+        "p50": 2.100000023841858,
+        "p95": 3.399999976158142
+      },
+      "end": {
+        "resources": 223,
+        "particles": [
+          {
+            "view": "loupe-canvas-1",
+            "count": 1
+          },
+          {
+            "view": "loupe-canvas-2",
+            "count": 5
+          },
+          {
+            "view": "loupe-canvas-3",
+            "count": 1
+          },
+          {
+            "view": "molecular-sim-canvas",
+            "count": 160
+          }
+        ]
+      }
+    }
+  ],
+  "interaction": {
+    "pointerMoves": 60,
+    "controllerInclusiveMs": 1031.3999999761581,
+    "frameSamples": 61,
+    "intervalMs": {
+      "p50": 16.700000000000728,
+      "p95": 16.700000000000728,
+      "p99": 16.799999999999272,
+      "max": 16.799999999999272
+    },
+    "end": {
+      "resources": 223,
+      "particles": [
+        {
+          "view": "loupe-canvas-1",
+          "count": 1
+        },
+        {
+          "view": "loupe-canvas-2",
+          "count": 5
+        },
+        {
+          "view": "loupe-canvas-3",
+          "count": 1
+        },
+        {
+          "view": "molecular-sim-canvas",
+          "count": 160
+        }
+      ]
+    }
+  },
+  "limitations": "Steady windows use a static gel and moving molecular views; interaction drags the timeline through 60 pointer moves. Controller-inclusive gesture timing is not input-to-photon latency. rAF intervals and callback CPU time, not GPU timestamps or presentation latency. Instrumented resource-object counts, not resident memory. No native performance comparison or release threshold.",
+  "productWorkingTree": {
+    "baseCommit": "1e2ad669a6fa31a51cc698f6e730b7d838fb0843",
+    "change": "Uncommitted native primitive edge correction",
+    "sourceSha256": {
+      "ts/src/lib/gel/passes/flip.ts": "1292738e6f46592cedde2dd20b1310f68e1174f065ae2f20e9c357593ffb65e0",
+      "ts/src/lib/gel/passes/primitives.ts": "bbda1414f6cb592080d7d4cee3b8a036522db5a41fa551ade1e95cf27a28de94",
+      "ts/src/lib/gel/render.ts": "3096b4626a93bdec1424c81280ba05384fbfe4220212de9b93fd9834a4bb0814",
+      "ts/src/lib/gpu/meshBatch.ts": "9c77d19c0f87925b85036837e83c9b4f31adffcc8f460c670809a642182f8568",
+      "ts/src/shaders/geometry.vert.wgsl": "3f438c64e56f39571c9bf0089a8493095130d6d86da5c8a1912f17997bd791ff"
+    }
+  }
+}

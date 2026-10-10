@@ -49,6 +49,8 @@ function createMeshBatchImpl(
     viewport: { width: number; height: number };
     blend: BlendMode;
     format?: GPUTextureFormat;
+    /** Mirror geometry for native bottom-left raster edge inclusion. */
+    flipY?: boolean;
   },
 ): MeshBatch {
   const format = opts.format ?? 'rgba8unorm-srgb';
@@ -64,7 +66,7 @@ function createMeshBatchImpl(
     layout: device.createPipelineLayout({ bindGroupLayouts: [bgl] }),
     vertex: {
       module: vs,
-      entryPoint: 'vs_main',
+      entryPoint: opts.flipY ? 'vs_flipped' : 'vs_main',
       buffers: [{
         arrayStride: VERTEX_STRIDE * 4,
         stepMode: 'vertex',

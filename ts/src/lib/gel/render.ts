@@ -78,7 +78,7 @@ function createGelRendererImpl(
     bands.forEach((b, i) => {
       const banded = withFaint(b, brightScale);
       // 1. Primitives → band.current (always defined; clears even when empty)
-      primitives.draw(encoder, band.current, banded, i);
+      primitives.draw(encoder, band, banded, i);
 
       // 2. Smile warp
       const smile = buildSmileWarp({
