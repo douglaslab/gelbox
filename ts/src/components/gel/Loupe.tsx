@@ -1,3 +1,4 @@
+import {useViewLayer} from './useViewLayer';
 import {loupeSeed} from '../../lib/sim/loupeSeed';
 import {useEffect,useMemo,useRef,useState, type PointerEvent as ReactPointerEvent} from 'react';
 import {sampleFragRefEq, type SampleFragRef} from '../../lib/gel/sampleFragRef';
@@ -8,9 +9,10 @@ import type { LoupeRef } from '../../lib/gel/gelState';
 import type { Sample } from '../../lib/sim/sample';
 import { SampleSimCanvas } from '../sample/SampleSimCanvas';
 const SIZE=171, RADIUS=10.4;
-interface LoupeProps { transient?:boolean; stackIndex:number; loupe:LoupeRef; sample:Sample; sourceRefs:SampleFragRef[]; degradeFilter?:DegradeFilter; }
-export function Loupe({loupe,sample,degradeFilter,sourceRefs,stackIndex,transient=false}:LoupeProps) {
+interface LoupeProps { transient?:boolean; loupe:LoupeRef; sample:Sample; sourceRefs:SampleFragRef[]; degradeFilter?:DegradeFilter; }
+export function Loupe({loupe,sample,degradeFilter,sourceRefs,transient=false}:LoupeProps) {
  const dispatch=useGelDispatch(),state=useGelState();
+ const layer=useViewLayer(transient?`hover-${state.documentRevision}`:`loupe-${loupe.id}`);
  const root=useRef<HTMLDivElement>(null),frame=useRef<HTMLDivElement>(null);
  const [focused,setFocused]=useState(false),[hover,setHover]=useState(false),[anchorHover,setAnchorHover]=useState(false);
  const drag=useRef<{mode:'frame'|'anchor'|'both';x:number;y:number;pointerId:number}|null>(null);
@@ -22,7 +24,7 @@ export function Loupe({loupe,sample,degradeFilter,sourceRefs,stackIndex,transien
  const point=(e:{clientX:number;clientY:number})=>{const r=root.current!.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*state.gelSize.width,y:(e.clientY-r.top)/r.height*state.gelSize.height};};
  const begin=(e:ReactPointerEvent,mode:'frame'|'anchor'|'both')=>{
   if(transient||e.button!==0)return;
-  e.preventDefault();e.stopPropagation();frame.current?.focus();dispatch({type:'RAISE_LOUPE',id:loupe.id});
+  e.preventDefault();e.stopPropagation();frame.current?.focus();dispatch({type:'RAISE_LOUPE',id:loupe.id});layer.raise();
   if(mode!=='frame')dispatch({type:'SET_SELECTION',ref:null});
   const p=point(e);
   // Native pickLoupe wins even when the opaque frame covers its anchor.
@@ -43,7 +45,7 @@ export function Loupe({loupe,sample,degradeFilter,sourceRefs,stackIndex,transien
  return <div ref={root} data-testid={transient?"hover-loupe":`loupe-${loupe.id}`} data-loupe-id={transient?undefined:loupe.id}
   onLostPointerCapture={()=>{drag.current=null;}}
   onPointerEnter={()=>setHover(true)} onPointerLeave={()=>setHover(false)}
-  style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:30+stackIndex,userSelect:'none'}}>
+  style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:layer.zIndex,userSelect:'none'}}>
   <svg width="100%" height="100%" viewBox={`0 0 ${state.gelSize.width} ${state.gelSize.height}`} style={{position:'absolute',overflow:'visible',pointerEvents:'none'}}>
    <polygon data-testid={`loupe-wedge-${loupe.id}`} points={hull} fill="rgba(255,255,255,.25)" stroke="rgba(255,255,255,.15)" style={{pointerEvents:transient?'none':'auto',touchAction:'none'}} onPointerDown={e=>begin(e,'both')}/>
    {!transient&&<><circle cx={loupe.anchor.x} cy={loupe.anchor.y+2} r={RADIUS} fill="none" stroke={`rgba(0,0,0,${ringFocus ? .35 : .1})`} strokeWidth={ringFocus?1.5:1.1}/>

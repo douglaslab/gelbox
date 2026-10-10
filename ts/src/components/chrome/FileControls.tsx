@@ -1,3 +1,5 @@
+import {useViewLayer,useViewZIndex} from '../gel/useViewLayer';
+import type {ReactNode} from 'react';
 import styles from './FileControls.module.css';
 import { resolveAssetUrl } from '../../lib/layout/assets';
 import { useEffect, useRef, useState } from 'react';
@@ -17,6 +19,7 @@ function downloadJson(filename: string, text: string) {
 }
 
 export function FileControls() {
+  const buttonZ=useViewZIndex('app-button');
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -88,8 +91,8 @@ export function FileControls() {
   }
 
   return (
-    <section ref={menuRef} data-testid="file-controls" style={{ position: 'fixed', left: 16, bottom: 16, zIndex: 50 }}>
-      {open && <div id="application-file-menu" style={{ position: 'absolute', bottom: 48, left: 0, minWidth: 180, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 12, paddingBottom: 12, borderBottom: '1px solid #979797', background: '#fff' }}>
+    <section ref={menuRef} data-testid="file-controls" style={{display:'contents'}}>
+      {open && <ApplicationMenu>
         <button data-testid="open-btn" onClick={onOpenClick}>Open…</button>
         <button data-testid="save-gel-btn" onClick={onSaveGel}>Save Gel…</button>
         {selectedSample && <button data-testid="save-sample-btn" onClick={onSaveSample}>Save Selected Sample…</button>}
@@ -98,12 +101,17 @@ export function FileControls() {
             onChange={event => dispatch({ type: 'SET_HOVER_LOUPE_ENABLED', value: event.target.checked })} />
           Loupe on hover
         </label>
-      </div>}
-      <button type="button" aria-label="Application settings" aria-expanded={open} aria-controls="application-file-menu" onClick={() => setOpen(!open)} style={{ width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer' }}>
+      </ApplicationMenu>}
+      <button type="button" aria-label="Application settings" aria-expanded={open} aria-controls="application-file-menu" onClick={() => setOpen(!open)} style={{ position: 'fixed', left:16, bottom:16, zIndex:buttonZ, width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer' }}>
         <img src={resolveAssetUrl('/assets/settings.png')} alt="" width={32} height={32} />
       </button>
       <input ref={fileInputRef} data-testid="file-input" type="file" accept=".json,.xml,application/json,text/xml,application/xml" style={{ display: 'none' }} onChange={onFileChange} />
-      {error && <div role="alert" data-testid="file-error" style={{ position: 'absolute', bottom: 180, left: 0, width: 260, background: '#fff', color: '#c44', fontSize: 12 }}>{error}</div>}
+      {error && <div role="alert" data-testid="file-error" style={{ position: 'fixed', bottom: 180, left: 16, zIndex:100, width: 260, background: '#fff', color: '#c44', fontSize: 12 }}>{error}</div>}
     </section>
   );
+}
+
+function ApplicationMenu({children}:{children:ReactNode}){
+ const {zIndex}=useViewLayer('app-settings');
+ return <div id="application-file-menu" style={{position:'fixed',bottom:64,left:16,minWidth:180,display:'flex',flexDirection:'column',alignItems:'flex-start',gap:12,paddingBottom:12,borderBottom:'1px solid #979797',background:'#fff',zIndex}}>{children}</div>;
 }

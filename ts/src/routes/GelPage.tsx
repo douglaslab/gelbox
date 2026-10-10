@@ -1,6 +1,10 @@
+import {tubeGeometry} from '../lib/layout/tubeGeometry';
+import {flushSync} from 'react-dom';
+import {ReferenceImageLayer,useReferenceImages} from '../components/gel/ReferenceImageLayer';
+import {isReferenceImage} from '../lib/gel/referenceImages';
 import { sameSample } from '../lib/gel/sampleFragRef';
 import { FileControls } from '../components/chrome/FileControls';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { GelProvider, useGelState, useGelDispatch } from '../components/gel/GelContext';
 import { GelCanvas } from '../components/gel/GelCanvas';
 import { GelOverlay, type BandLaneFragment } from '../components/gel/GelOverlay';
@@ -15,12 +19,16 @@ import { InspectorPanel } from '../components/inspector/InspectorPanel';
 import { BUFFER_H2O, bufferEquals } from '../lib/sim/buffer';
 import { fragToBands } from '../lib/sim/gelSim';
 import { deserializeFile } from '../lib/gel/serialize';
-import { getVisibleSampleLane, isInspectorVisible } from '../lib/gel/gelState';
+import { getVisibleSampleLane, isInspectorVisible, selectInspectorView } from '../lib/gel/gelState';
 import type { Band } from '../lib/sim/band';
 
 function GelInner() {
   const state = useGelState();
   const dispatch = useGelDispatch();
+  const images=useReferenceImages();
+  const current=useRef(state),dropQueue=useRef(Promise.resolve()),generation=useRef(0);
+  useLayoutEffect(()=>{current.current=state;},[state]);
+  useEffect(()=>()=>{++generation.current;},[]);
   const [dropError, setDropError] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
 
@@ -54,32 +62,42 @@ function GelInner() {
     ? selectedSample.fragments[selectedIndex!]
     : null;
 
-  async function onDrop(e: React.DragEvent<HTMLElement>) {
-    e.preventDefault();
-    setDropError(null);
-    setIsDragOver(false);
-    const file = e.dataTransfer.files?.[0];
-    if (!file) return;
-    const target = e.target as Element;
-    const tube = target.closest('[data-testid^="microtube-"]');
-    const overlay = e.currentTarget.querySelector('[data-testid="gel-overlay"]')?.getBoundingClientRect();
-    let preferredLane: number | undefined;
-    if (tube) preferredLane = Number(tube.getAttribute('data-testid')?.replace('microtube-', ''));
-    else if (overlay && e.clientX >= overlay.left && e.clientX < overlay.right && e.clientY >= overlay.top && e.clientY <= overlay.bottom) {
-      preferredLane = Math.floor((e.clientX - overlay.left) / overlay.width * state.numLanes);
-    }
-    try {
-      const text = await file.text();
-      const result = deserializeFile(text);
-      if (result.kind === 'sample') {
-        if (state.samples.slice(0, state.numLanes).every(Boolean)) throw new Error('No empty lane available');
-        dispatch({ type: 'IMPORT_SAMPLE', sample: result.sample, preferredLane });
-      } else {
-        dispatch({ type: 'LOAD_GEL_STATE', samples: result.samples, numLanes: result.numLanes, ctx: result.ctx });
+  function onDrop(e: React.DragEvent<HTMLElement>) {
+    e.preventDefault();setDropError(null);setIsDragOver(false);
+    const files=Array.from(e.dataTransfer.files),point={x:e.clientX,y:e.clientY};
+    const epoch=generation.current;
+    const workspace=e.currentTarget;
+    // Native handles dropped files synchronously in input order. Serialize async
+    // browser reads/decodes, including a second drop while the first is loading.
+    dropQueue.current=dropQueue.current.then(async()=>{
+      const errors:string[]=[];
+      for(const file of files){
+        if(epoch!==generation.current)return;
+        try {
+          if(isReferenceImage(file.name)){await images.load(file,point);continue;}
+          const result=deserializeFile(await file.text());
+          if(epoch!==generation.current)return;
+          if(result.kind==='sample'){
+            const state=current.current;
+            if(state.samples.slice(0,state.numLanes).every(Boolean))throw new Error('No empty lane available');
+            const overlay=workspace.querySelector('[data-testid="gel-overlay"]')?.getBoundingClientRect();
+            let preferredLane:number|undefined;
+            if(overlay){
+              const x=(point.x-overlay.left)/overlay.width*state.gelSize.width;
+              const y=(point.y-overlay.top)/overlay.height*state.gelSize.height;
+              if(x>=0&&x<state.gelSize.width&&y>=0&&y<=state.gelSize.height)
+                preferredLane=Math.floor(x/state.gelSize.width*state.numLanes);
+              else for(let lane=0;lane<state.numLanes;lane++){
+                const {hit}=tubeGeometry(state.gelSize.width,state.gelSize.height,state.numLanes,lane);
+                if(x>=hit.x1&&x<=hit.x2&&y>=hit.y1&&y<=hit.y2){preferredLane=lane;break;}
+              }
+            }
+            flushSync(()=>dispatch({type:'IMPORT_SAMPLE',sample:result.sample,preferredLane}));
+          }else flushSync(()=>dispatch({type:'LOAD_GEL_STATE',samples:result.samples,numLanes:result.numLanes,ctx:result.ctx}));
+        }catch(err){errors.push(`${file.name}: ${(err as Error).message}`);}
       }
-    } catch (err) {
-      setDropError(`Drop failed: ${(err as Error).message}`);
-    }
+      if(epoch===generation.current)setDropError(errors.length?`Drop failed: ${errors.join('; ')}`:null);
+    });
   }
 
   function onDragEnter(e: React.DragEvent<HTMLElement>) {
@@ -168,7 +186,7 @@ function GelInner() {
             font: '500 16px Inter, system-ui, sans-serif',
           }}
         >
-          Drop a Gelbox JSON document or XML sample
+          Drop a Gelbox JSON document, XML sample or JPG/PNG/GIF image
         </div>
       )}
       <FileControls />
@@ -176,9 +194,11 @@ function GelInner() {
         left={leftPanel}
         middle={state.inspectorMode !== 'gel-settings' && getVisibleSampleLane(state) !== null ? <SampleView /> : null}
         inspectorBesideGel={state.inspectorMode === 'gel-settings'}
+        inspectorKind={selectInspectorView(state)}
         right={isInspectorVisible(state) ? <InspectorPanel /> : null}
         brace={isInspectorVisible(state) ? <Brace /> : null}
       />
+      <ReferenceImageLayer />
       <div
         hidden
         data-testid="selection-info"

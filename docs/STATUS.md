@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Consolidated: 2026-10-09 · implementation through the sample identity increment · native reference `5f51097`._
+_Consolidated: 2026-10-09 · implementation through reference-image views · native reference `5f51097`._
 
 ## Direction
 
@@ -12,16 +12,16 @@ The completion contract is [ROADMAP.md](ROADMAP.md). [PORT-AUDIT.md](PORT-AUDIT.
 
 The TypeScript/React app is substantially implemented, with working WebGPU and WebGL2 renderers. Targeted restoration remains the strategy: the current evidence does not justify another rewrite or a Rust migration. Completion still requires meaningful feature and shared-state work, followed by native visual certification and production reliability checks. It is not merely a polish pass.
 
-Implemented and checked areas include native JSON/XML file workflows and metadata, startup defaults, hidden-lane retention, sample/species controls, tube and band movement/cloning, reverse solving, picking, buffer effects, molecular lifecycle/meshes, persistent loupe gestures and source selection, and temporary hover loupes. Independent compiled native captures now cover 509 band/setup cases, 2,909 solver requests, particle/loupe behavior and meshes, and 137 exact-byte CPU warp cases. These are finite source-backed comparisons, not certification of the original executable's complete output.
+Implemented and checked areas include native JSON/XML file workflows and metadata, startup defaults, hidden-lane retention, sample/species controls, tube and band movement/cloning, reverse solving, picking, buffer effects, molecular lifecycle/meshes, persistent loupe gestures and source selection, temporary hover loupes, and reference-image views. Independent compiled native captures now cover 509 band/setup cases, 2,909 solver requests, particle/loupe behavior and meshes, and 137 exact-byte CPU warp cases. These are finite source-backed comparisons, not certification of the original executable's complete output.
 
 ## Latest recorded verification
 
-On macOS with Node 22, after the sample identity migration:
+On macOS with Node 22, after reference-image integration:
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,763 passed |
-| Browser suite across WebGPU/WebGL2 | 227 passed; one intentional duplicate invocation skipped |
+| Unit suite | 2,792 passed |
+| Browser suite across WebGPU/WebGL2 | 245 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; reliable fresh native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -29,7 +29,7 @@ These results combine regression coverage and independent native differential ch
 ## Remaining completion work
 
 1. **Cross-view certification and shared runtime.** Sample identity, off-document references, raw fragment indices and frame selection-following are now implemented and regression-tested. Complete composed native GUI replay of selection/focus/panel transitions, and verify application-wide RNG initialization and view scheduling.
-2. **Remaining native features and controls.** Implement PNG/JPEG/GIF reference-image views with native movement, resizing, aspect, stacking, focus, deletion and persistence boundaries. Implement the Render-off alternate band scene. Complete settings/help/menu geometry, shortcuts, focus and remaining interaction details, including the right-click creation/drag sequence.
+2. **Remaining native features and controls.** Reference-image views are now implemented with source-backed gestures and shared ordering; native image decoding/raster and composed GUI certification remain. Implement the Render-off alternate band scene. Complete settings/help/menu geometry, shortcuts, focus and remaining interaction details, including the right-click creation/drag sequence.
 3. **Native visual certification.** Capture controlled matching native/web scenes for gel effects, blur/compositing, particles, loupes, selection and complete application layout. Resolve typography, asset proportions, resize/DPR behavior and justified raster tolerances. Decide cross-platform font handling and any browser layout adaptations explicitly.
 4. **Composed workflow verification.** Expand native → web edit/save → native roundtrips and replay move/clone/delete with loupes open, hidden-lane restoration, degraded multimer dragging, and buffer changes with resizing/failures. Resolve recorded XML safety and unsupported native import edge cases explicitly.
 5. **Browser lifecycle reliability.** Verify adapter failure and fallback, device/context loss, async unmount/disposal, route remount, resize/DPR, hidden-tab resume and repeated multi-view creation/removal. Provide a clear failure when no supported renderer works. Certify shortcuts that browser chrome may intercept.
@@ -43,7 +43,7 @@ These results combine regression coverage and independent native differential ch
 | P1 — Application and files | Core files and shell implemented; complete controls and composed interchange gate remain open |
 | P2 — Editing and UI | Interaction paths and sample identity restored; complete focus/panel replay remains open |
 | P3 — Numerical and rendering fidelity | Extensive independent comparisons pass; global RNG scheduling, alternate scene and full native raster gate remain open |
-| P4 — Loupes and images | Persistent/hover loupes substantially restored; identity certification and reference-image views remain open |
+| P4 — Loupes and images | Persistent/hover loupes and reference images implemented; native composed GUI/raster certification remains open |
 | P5 — Reliability and release | Production/platform/performance certification remains open |
 
 All six full exit gates remain open; that does not mean their implemented parts are untested. Next sequence: remaining native features and shared runtime/RNG, controlled visual/workflow replay, then production/platform release checks. Continue reference work alongside implementation. No evidence-based percentage or calendar completion estimate is available yet; visual replay and platform checks may expose additional defects.
@@ -405,3 +405,39 @@ observation tests; the unchanged extracted native methods pass. No deferred
 minor findings. Native GUI dispatch/stacking, decoder behavior, rendering and web
 resource lifecycle remain outside this capture and required for implementation
 and final certification.
+
+
+## Reference-image views
+
+The app now accepts native `.jpg`, `.png`, `.gif` drops, including multiple files
+in arrival order. Images retain natural size and center on the drop point. They
+move and resize with the native 16px handle, clamp-before-aspect fitting, strict
+Euclidean natural-size snap, root-window positioning, focus outline and
+Delete/Backspace behavior. Escape preserves the image; mouse-up removes only
+fully off-window frames. Lost capture ends the gesture.
+
+Images, loupes and dynamic panels use one view-order context. Image focus does
+not raise it; loupe pointer-down does. Sample/gel-settings panels insert above
+the gel, sample settings above the sample, and new fragment/app-settings views
+append. DOM nodes stay in creation order to preserve pointer capture. The app
+settings button now sits exactly 16px from the window bottom: removing its old
+stacking wrapper exposed an inline-baseline gap of seven pixels. Pinned native
+Layout/GelboxApp and an explicit browser rectangle assertion support this fix;
+two inspected persistent-loupe web baselines were updated for that button only.
+
+A separate disposable image store owns ImageBitmaps, retaining images across gel
+replacement and excluding them from gel/sample files. GIF decoding is static:
+Cinder 0.9.0 selects image index zero, while the browser ImageBitmap contract uses
+the default/first frame. Bitmap deletion/unmount and late asynchronous completion
+are tested. Malformed image files preserve existing content and do not stop later
+files in a batch. Mixed gel/sample batches recompute placement from each newly
+loaded lane layout instead of retaining an obsolete drop target.
+
+The 24 pure geometry replays match compiled native outputs. Resource and ordering
+unit contracts, real-browser PNG/JPG/GIF inputs, hit testing across overlapping
+views, keyboard ownership, replacement/save equality, decode ordering, capture
+loss and bitmap cleanup cover application integration. **2,792 units, 245 browser
+tests (one intentional duplicate skip), production build and TypeScript checks
+pass.** Independent review is pending. This does not certify original native image decoding,
+orientation/color management, GPU mipmap sampling, native GUI event history,
+original executable raster equivalence or all release platforms.

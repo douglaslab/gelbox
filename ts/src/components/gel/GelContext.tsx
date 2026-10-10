@@ -1,3 +1,5 @@
+import {ViewOrderProvider} from './useViewLayer';
+import {ReferenceImageProvider} from './ReferenceImageLayer';
 import { flushSync } from 'react-dom';
 import { createContext, useContext, useEffect, useLayoutEffect, useRef, useReducer, type ReactNode, type Dispatch } from 'react';
 import { gelReducer, initialGelState, selectionViewTarget, type GelState, type Action } from '../../lib/gel/gelState';
@@ -26,7 +28,7 @@ export function GelProvider({ children }: { children: ReactNode }) {
   return (
     <StateCtx.Provider value={state}>
       <DispatchCtx.Provider value={dispatch}>
-        {children}
+        <ViewOrderProvider><ReferenceImageProvider>{children}</ReferenceImageProvider></ViewOrderProvider>
       </DispatchCtx.Provider>
     </StateCtx.Provider>
   );
