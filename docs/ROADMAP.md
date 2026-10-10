@@ -365,3 +365,12 @@ Full verification: 2,850 units, 369 browser cases, one intentional duplicate ski
 build passes. Next address asynchronous validation and frame-time failure handling,
 then broader lifecycle/resource-growth/platform checks. Native parity and P5 gates
 remain open.
+
+
+P5 validation update: asynchronous WebGPU device errors now trigger bounded full-
+renderer recovery. Actual invalid startup pipelines and runtime buffers recover;
+combined GPU/GL failure terminates after two attempts and supports manual retry.
+Full checks: 2,851 units, 375 browser cases, one intentional duplicate skipped;
+build passes after a type-only event-listener correction. Next: synchronous
+frame-time exceptions/pool allocation, then lifecycle/resource-growth/platform
+checks. Native parity and P5 release gates remain open.

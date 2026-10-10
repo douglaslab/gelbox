@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include the application runtime integration.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,850 passed |
-| Browser suite across WebGPU/WebGL2 | 369 passed; one intentional duplicate invocation skipped |
+| Unit suite | 2,851 passed |
+| Browser suite across WebGPU/WebGL2 | 375 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -932,3 +932,28 @@ passed**. No goldens changed. This covers synchronous constructor exceptions, no
 async GPU validation errors, frame-time pool allocation failures, arbitrary GL
 constructor failures or broad memory/performance certification. Those checks and
 full native visual/workflow gates remain open.
+
+
+## Asynchronous WebGPU validation recovery
+
+Active GPU views now subscribe to uncaptured device errors as well as device loss.
+An error stops drawing and uses the existing bounded alternate-renderer cycle;
+unlike a new physical/device loss, it does not reset the failed-backend history.
+Shared-device views all recover, while the diagnostic is logged once per event.
+Listeners are removed when their views retire.
+
+Four browser cases failed before the fix: actual invalid pipeline descriptors at
+startup and invalid buffer creation while gel/sample views run. They now verify
+WebGL2 recovery, visible band/particle pixels and no uncaught page exceptions.
+Two additional cases combine asynchronous GPU validation with GL shader failure;
+they verify exactly two automatic canvas attempts and exactly two more after manual
+retry, ending in the visible error instead of looping. A unit check covers shared
+notification, default-event handling and retired-listener cleanup.
+
+Verification: **2,851 unit tests and 375 browser tests passed, one intentional
+browser duplicate skipped; production build and TypeScript checks passed**. The
+initial build exposed an EventListener typing mismatch; an erased type-only
+correction fixed it and the build was rerun successfully. No goldens changed.
+Hardware OOM/driver failures, synchronous frame-time exceptions/pool allocation
+rollback, lifecycle/resource-growth/platform checks and full native visual/workflow
+certification remain open.

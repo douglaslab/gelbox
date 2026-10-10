@@ -1,4 +1,4 @@
-import { watchDeviceLoss, watchGlLoss } from '../../lib/gpu/loss';
+import { watchDeviceLoss, watchDeviceErrors, watchGlLoss } from '../../lib/gpu/loss';
 import { useRendererRecovery } from '../../lib/gpu/useRendererRecovery';
 import { GraphicsFailure } from '../primitives/GraphicsFailure';
 import { useEffect, useRef } from 'react';
@@ -34,11 +34,11 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
     if (!canvas) return;
     let cancelled = false;
     let lost = false;
-    const handleLoss=(backend:Backend)=>{
+    const handleLoss=(backend:Backend, restartCycle=true)=>{
       if(cancelled||lost)return;
       lost=true;
       stateRef.current.blitFn=null;
-      onLoss(backend);
+      if(restartCycle)onLoss(backend);else onFailure(backend);
     };
     const cleanup: (() => void)[] = [];
     canvas.width  = gelSize.width  * pixelsPerUnit;
@@ -106,6 +106,7 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
           const { device, queue } = await requestDevice();
           if (cancelled || lost) return;
           cleanup.push(watchDeviceLoss(device,()=>handleLoss('webgpu')));
+          cleanup.push(watchDeviceErrors(device,()=>handleLoss('webgpu',false)));
           const { context, format } = configureContext(canvas, device);
           cleanup.push(() => context.unconfigure());
           const [

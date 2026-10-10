@@ -24,3 +24,14 @@ export function watchGlLoss(canvas:HTMLCanvasElement,listener:()=>void):()=>void
   canvas.addEventListener('webglcontextlost',lost);
   return ()=>canvas.removeEventListener('webglcontextlost',lost);
 }
+
+/** Validation/OOM errors are asynchronous even when resource creation returns normally. */
+export function watchDeviceErrors(device:GPUDevice,listener:()=>void):()=>void {
+  const error=(event:Event)=>{
+    // Shared-device views all recover; record the diagnostic only once per event.
+    if(!event.defaultPrevented)console.error('WebGPU rendering error:',(event as GPUUncapturedErrorEvent).error.message);
+    event.preventDefault();listener();
+  };
+  device.addEventListener('uncapturederror',error);
+  return ()=>device.removeEventListener('uncapturederror',error);
+}
