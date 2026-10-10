@@ -137,6 +137,15 @@ retains decode across backend loss, releases late decode, and retries a failed l
 on a new graphics connection. This establishes a reusable asset path; other icons,
 control geometry, text/font evidence and the production switch remain open.
 
+Help/application button and inspector brace contributions follow next:40 exact
+native asset comparisons verify actual components and native tint/overlap at
+both scales/backends. Existing Help navigation/focus/resize and representative
+covering the brace now run in shared mode as well. Inspector brace paint uses
+its inspector key before body contents; application and Help keep separate keys.
+The shared asset path now serves both settings icons with one cached texture.
+Menu text/checkboxes, sliders, tube/sample icons and remaining paint stay open.
+
+
 
 Files: `MicrotubeRow.tsx`, `GelOverlay.tsx`, `SampleView.tsx`, inspector views,
 `Brace.tsx`, control primitives and the shared texture cache/registry.

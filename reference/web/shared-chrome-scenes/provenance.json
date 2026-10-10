@@ -1,0 +1,31 @@
+{
+  "base": "111e37c",
+  "sha256": {
+    "ts/src/components/chrome/HelpButton.tsx": "71fef56ee771bc766ed92076f80f1c58a656e5816062401bff61f28a19dbffaa",
+    "ts/src/components/chrome/FileControls.tsx": "17d2c4450caf831332447221751c822b0fda89bbdbcfd9d149f77c58566cfb5f",
+    "ts/src/components/stage/Brace.tsx": "92247cc5e256d53267822ab72c4bba2ad132cc58ad4cf1314c5a4475fe123547",
+    "ts/src/components/gel/SettingsButton.tsx": "e9c68e433aede1a12ff564ab1d9a212f292bb7eb58dc9206de016a806b73e95e",
+    "ts/src/components/gel/useNativeButtonTint.ts": "20e5f7817f65ab3190543e1fc4b0752b5d2ddae6464389420d794846f1caa7d4",
+    "ts/src/components/gel/SharedAssetPaint.tsx": "f07886ac42c20451aad047a52e5da5099cd26b1a912b3e3b28cdf9bde3084516",
+    "ts/src/lib/gel/sceneAssets.ts": "ec8f6c1a4f79498be537622dbcd7ea4449a65b0058d1ebd54a5b0d0c2bd5e60a",
+    "ts/tests/visual/shared-chrome-native.spec.ts": "1cf1ff1209f0e9288d946af20238f487914151188af392e73e9d2955dde986a3",
+    "ts/tests/visual/shared-chrome.spec.ts": "edec46f4cf5dd7e4fed746bd235adc910329f99cb539498a8a784e714ac9ad20",
+    "ts/tests/visual/help.spec.ts": "6294c67099800d43be0552fe00d882b27de057678ea1a476186d34ce2e5b0ed1",
+    "ts/tests/visual/inspector-layering.spec.ts": "1b822c5e6e2a7284bbff2eeab343961dec940acc3c2ccbee1242f55aea792095",
+    "reference/native/modern/shared-chrome-scenes/manifest.json": "ad96994169179e1b590ee9380dfdffc1da4c31dcfef79279d7cec8127eb97296",
+    "reference/native/modern/shared-chrome-scenes/capture.py": "c59c9dca6300c789e2c894f806ae27a04716a2d642d42376487f8bc027bf36a5"
+  },
+  "exactNativeComparisons": 40,
+  "limits": [
+    "Help/application icons and brace only; remaining controls/fonts/full GUI remain open.",
+    "Shared rendering remains development-only."
+  ],
+  "verification": {
+    "unitTests": 2917,
+    "browserTests": 665,
+    "intentionalSkips": 1,
+    "productionTests": 4,
+    "build": "passed",
+    "nativeRepeatedCaptures": 20
+  }
+}

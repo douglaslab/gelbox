@@ -1,3 +1,7 @@
+import {useSharedPresentation} from '../gel/ScenePresentation';
+import {SharedAssetPaint} from '../gel/SharedAssetPaint';
+import {useNativeButtonTint} from '../gel/useNativeButtonTint';
+import {useDisplayScale} from '../../lib/gpu/useDisplayScale';
 import {flushSync} from 'react-dom';
 import {useFileLoadQueue} from '../gel/FileLoadProvider';
 import {useViewLayer,useViewZIndex} from '../gel/useViewLayer';
@@ -22,6 +26,8 @@ function downloadJson(filename: string, text: string) {
 }
 
 export function FileControls() {
+  const registry=useSharedPresentation(),buttonElement=useRef<HTMLButtonElement>(null),button=useNativeButtonTint();
+  useDisplayScale();const buttonUrl=resolveAssetUrl('/assets/settings.png');
   const buttonZ=useViewZIndex('app-button');
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLElement>(null);
@@ -114,8 +120,9 @@ export function FileControls() {
           Render
         </label>
       </ApplicationMenu>}
-      <button type="button" aria-label="Application settings" aria-expanded={open} aria-controls="application-file-menu" onClick={() => setOpen(!open)} style={{ position: 'fixed', left:16, bottom:16, zIndex:buttonZ, width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer' }}>
-        <img src={resolveAssetUrl('/assets/settings.png')} alt="" width={32} height={32} />
+      <button ref={buttonElement} {...button.events} type="button" aria-label="Application settings" aria-expanded={open} aria-controls="application-file-menu" onClick={() => setOpen(!open)} style={{ position: 'fixed', left:16, bottom:16, zIndex:buttonZ, width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer',outline:registry?'none':undefined }}>
+        <img src={buttonUrl} alt="" width={32} height={32} style={{opacity:registry?0:undefined}} />
+        {registry&&<SharedAssetPaint registry={registry} viewKey="app-button" element={buttonElement} url={buttonUrl} tint={button.tint}/>}
       </button>
       <input ref={fileInputRef} data-testid="file-input" type="file" accept=".json,.xml,application/json,text/xml,application/xml" style={{ display: 'none' }} onChange={onFileChange} />
       {error && <div role="alert" data-testid="file-error" style={{ position: 'fixed', bottom: 180, left: 16, zIndex:100, width: 260, background: '#fff', color: '#c44', fontSize: 12 }}>{error}</div>}

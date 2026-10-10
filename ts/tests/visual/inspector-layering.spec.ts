@@ -1,10 +1,10 @@
 import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
 const part=JSON.parse(fs.readFileSync('../reference/native/modern/fragment-well-scenes/cases.json','utf8'))[0].part;
-for(const scale of [1,2])test.describe(`inspector layers DPR${scale}`,()=>{
+for(const shared of [false,true])for(const scale of [1,2])test.describe(`inspector layers shared:${shared} DPR${scale}`,()=>{
  test.use({viewport:{width:1365,height:768},deviceScaleFactor:scale});
  test('native brace paints before the representative',async({page},info)=>{
-  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.addInitScript(({backend,shared})=>{localStorage.setItem('gelBackend',backend);if(shared)localStorage.setItem('gelSharedPresentation','1');},{backend:info.project.name.endsWith('webgl2')?'webgl2':'webgpu',shared});
   await page.goto('/#/dev');
   await page.evaluate(async part=>{
    const {default:React}=await import('/node_modules/.vite/deps/react.js');

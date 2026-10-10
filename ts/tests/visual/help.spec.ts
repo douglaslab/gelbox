@@ -1,4 +1,6 @@
 import {test,expect} from '@playwright/test';
+for(const shared of [false,true])test.describe(`shared:${shared}`,()=>{
+test.beforeEach(async({page})=>{if(shared)await page.addInitScript(()=>localStorage.setItem('gelSharedPresentation','1'));});
 
 test('native Help icon follows the lower-right corner and opens documentation without replacing the gel',async({page,context},info)=>{
   await page.addInitScript(backend=>localStorage.setItem('gelBackend',backend),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
@@ -24,4 +26,6 @@ test('native Help icon follows the lower-right corner and opens documentation wi
   await expect(page.getByTestId('sample-view')).toBeFocused();
   await expect(page.getByTestId('gel-overlay')).toBeVisible();
   await opened.close();
+});
+
 });

@@ -1,4 +1,5 @@
-import {useEffect,useRef,useState} from 'react';
+import {useRef} from 'react';
+import {useNativeButtonTint} from './useNativeButtonTint';
 import {useSharedPresentation} from './ScenePresentation';
 import {SharedAssetPaint} from './SharedAssetPaint';
 import {useDisplayScale} from '../../lib/gpu/useDisplayScale';
@@ -12,10 +13,9 @@ import { useGelDispatch, useGelState } from './GelContext';
  */
 export function SettingsButton() {
   const registry=useSharedPresentation(),element=useRef<HTMLButtonElement>(null);
-  const [hover,setHover]=useState(false),[down,setDown]=useState(false);
+  const button=useNativeButtonTint();
   useDisplayScale();
-  useEffect(()=>{const release=()=>setDown(false);window.addEventListener('pointerup',release);window.addEventListener('pointercancel',release);return()=>{window.removeEventListener('pointerup',release);window.removeEventListener('pointercancel',release);};},[]);
-  const url=resolveAssetUrl('/assets/settings.png'),shade=down&&hover?0.7:hover?0.9:1;
+  const url=resolveAssetUrl('/assets/settings.png');
   const state    = useGelState();
   const dispatch = useGelDispatch();
 
@@ -31,9 +31,7 @@ export function SettingsButton() {
   return (
     <button
       ref={element}
-      onPointerEnter={()=>setHover(true)} onPointerLeave={()=>setHover(false)}
-      onPointerDown={event=>{if(event.button===0)setDown(true);}}
-      onPointerUp={()=>setDown(false)} onPointerCancel={()=>setDown(false)} onLostPointerCapture={()=>setDown(false)}
+      {...button.events}
       type="button"
       onClick={onClick}
       data-testid="settings-button"
@@ -57,7 +55,7 @@ export function SettingsButton() {
         height={LAYOUT.btnSize.y}
         style={{ display: 'block',opacity:registry?0:undefined }}
       />
-      {registry&&<SharedAssetPaint registry={registry} viewKey="gel" element={element} url={url} tint={[shade,shade,shade,1]} order={100}/>}
+      {registry&&<SharedAssetPaint registry={registry} viewKey="gel" element={element} url={url} tint={button.tint} order={100}/>}
     </button>
   );
 }
