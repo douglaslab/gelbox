@@ -1,3 +1,4 @@
+import styles from './FileControls.module.css';
 import { resolveAssetUrl } from '../../lib/layout/assets';
 import { useEffect, useRef, useState } from 'react';
 import { useGelState, useGelDispatch } from '../gel/GelContext';
@@ -92,6 +93,11 @@ export function FileControls() {
         <button data-testid="open-btn" onClick={onOpenClick}>Open…</button>
         <button data-testid="save-gel-btn" onClick={onSaveGel}>Save Gel…</button>
         {selectedSample && <button data-testid="save-sample-btn" onClick={onSaveSample}>Save Selected Sample…</button>}
+        <label className={styles.hoverToggle}>
+          <input type="checkbox" checked={state.hoverLoupeEnabled}
+            onChange={event => dispatch({ type: 'SET_HOVER_LOUPE_ENABLED', value: event.target.checked })} />
+          Loupe on hover
+        </label>
       </div>}
       <button type="button" aria-label="Application settings" aria-expanded={open} aria-controls="application-file-menu" onClick={() => setOpen(!open)} style={{ width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer' }}>
         <img src={resolveAssetUrl('/assets/settings.png')} alt="" width={32} height={32} />

@@ -49,6 +49,9 @@ export interface LoupeRef {
 export type InspectorMode = 'default' | 'gel-settings' | 'sample-settings' | 'fragment';
 
 export interface GelState {
+  /** Transient lifecycle signal; never part of a native document. */
+  documentRevision: number;
+  hoverLoupeEnabled: boolean;
   samples:               (Sample | null)[];
   numLanes:              number;
   ctx:                   SimContext;
@@ -110,6 +113,8 @@ export type Action =
   | { type: 'SET_FRAGMENT_DEGRADE';  laneIndex: number; index: number; degrade: number }
   | { type: 'SET_FRAGMENT_COLOR';    laneIndex: number; index: number; color: [number, number, number] }
   | { type: 'SET_MODIFIERS';      modifiers: { shift: boolean; alt: boolean; meta: boolean } }
+  | { type: 'SET_HOVER_LOUPE_ENABLED'; value: boolean }
+  | { type: 'TOGGLE_HOVER_LOUPE' }
   | { type: 'ADD_LOUPE'; anchor: { x: number; y: number } }
   | { type: 'MOVE_LOUPE'; id: number; mode: 'frame' | 'anchor' | 'both'; delta: {x:number;y:number} }
   | { type: 'RAISE_LOUPE'; id: number }
@@ -155,6 +160,8 @@ export function initialGelState(): GelState {
   const samples: (Sample | null)[] = new Array(NUM_LANES).fill(null);
   samples[0] = sample;
   return {
+    documentRevision: 0,
+    hoverLoupeEnabled: false,
     samples,
     numLanes: NUM_LANES,
     ctx: {
@@ -354,6 +361,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
       const wellRects = computeWellRects(action.numLanes, state.gelSize);
       return {
         ...state,
+        documentRevision: state.documentRevision + 1,
         samples: action.samples.slice(),
         numLanes: action.numLanes,
         ctx: action.ctx,
@@ -638,6 +646,10 @@ function reduceGelState(state: GelState, action: Action): GelState {
       samples[action.laneIndex] = { ...sample, fragments };
       return { ...state, samples };
     }
+    case 'SET_HOVER_LOUPE_ENABLED':
+      return { ...state, hoverLoupeEnabled: action.value };
+    case 'TOGGLE_HOVER_LOUPE':
+      return { ...state, hoverLoupeEnabled: !state.hoverLoupeEnabled };
     case 'SET_MODIFIERS':
       return { ...state, modifiers: action.modifiers };
     case 'ADD_LOUPE': {

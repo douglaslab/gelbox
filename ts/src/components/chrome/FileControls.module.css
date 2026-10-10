@@ -1,0 +1,19 @@
+.hoverToggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.hoverToggle input {
+  appearance: none;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border: 1px solid #979797;
+  padding: 1px;
+  background-clip: content-box;
+}
+.hoverToggle input:checked,
+.hoverToggle:active:hover input:not(:checked) { background-color: #979797; }
+.hoverToggle:active:hover input:checked { background-color: transparent; }
