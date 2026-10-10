@@ -781,3 +781,20 @@ product changes. Build and both lifecycle cases pass; source review found no
 Critical or Important issue. See [evidence](../reference/web/shared-resume/README.md).
 OS sleep/long suspension, physical-monitor transitions, resident-memory stress,
 shipping Safari/Firefox and the complete parity contracts remain open.
+
+
+### Firefox deployment and shipping Safari workflow evidence
+
+The repository compatibility command now passes all four Firefox132/WebKit
+root/subpath cases; an isolated Playwright1.64 runner also passes both on
+Firefox157. Firefox launch failure was resolved by providing a test-specific
+macOS app-data root, consistent with the upstream profile-location issue. No
+user-profile or security setting changed. Source review found no Critical or
+Important issue. [Logs and scope](../reference/web/compatibility/shared-isolated/README.md).
+
+Shipping Safari27.0.1 was exercised through native UI: startup/sample/species,
+color edits, H2O, Render toggling and native JSON import/save all worked. Shawn
+approved local downloads; downloaded JSON exactly equals the imported native
+fixture. Remote automation remains disabled. [Evidence](../reference/web/safari-shipping-ui/README.md).
+Broader browser interactions, lifecycle, backend/console instrumentation in
+shipping Safari, native cross-engine pixel equivalence and full P0–P5 gates remain.

@@ -114,7 +114,7 @@ results remain the latest broader verification. See
 | Unit suite | 2,924 passed |
 | Browser suite across WebGPU/WebGL2 | 955 passed; one intentional duplicate skipped |
 | Built shared-production suite | 16 Chromium passed; 216 exact native RGB comparisons |
-| Shared-production compatibility | WebKit: 2 deployment cases passed; Firefox blocked at launch; shipping Safari unverified |
+| Shared-production compatibility | Firefox 132/157 and WebKit: root/subpath deployment checks pass; shipping Safari UI and native JSON roundtrip verified |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -138,8 +138,12 @@ composition evidence, distinct from the unmodified full-window tests.
 
 Fresh units pass all 2,924 tests, and a clean full browser run passes955 tests
 with one intentional duplicate skipped. Independent source review found no Critical
-or Important cutover issues. Shared-build WebKit deployment passes two cases;
-Firefox still fails at browser launch before application evaluation. Both combined workload cases pass (50bands, sample and three loupes): steady
+or Important cutover issues. Shared-build deployment checks now pass on Firefox
+132/157 and WebKit. Isolating Firefox test app-data resolves the earlier macOS
+launch failure; the user profile and browser security settings are unchanged.
+See [compatibility evidence](../reference/web/compatibility/shared-isolated/README.md).
+Shipping Safari 27.0.1 also passes a manual UI sequence and exact native JSON
+import/save roundtrip; see [Safari evidence](../reference/web/safari-shipping-ui/README.md). Both combined workload cases pass (50bands, sample and three loupes): steady
 frame-interval p95 is16.7–16.8ms, with tracked resource counts flat at236/WebGPU
 and49/WebGL2 through two10-second windows and a60-move timeline drag. These
 are instrumented object counts and rAF intervals, not resident memory or
@@ -148,8 +152,8 @@ two real hidden/visible and freeze/resume cycles, stopped/resumed frames, retain
 view identities, interior particles, changing resumed paint and unchanged saved
 JSON. Playwright focus emulation had prevented earlier visibility checks; the
 fixture now disables it on the originating CDP session. No app fix was needed.
-See [recovery evidence](../reference/web/shared-resume/README.md). Shipping-browser,
-long-suspension and physical-monitor checks remain. The production switch is not yet fully accepted. See
+See [recovery evidence](../reference/web/shared-resume/README.md). Broader shipping-browser
+interaction/lifecycle, long-suspension and physical-monitor checks remain. The production switch is not yet fully accepted. See
 [retained production evidence](../reference/web/shared-production/README.md). Historical verification
 entries below retain their original scope; earlier deployment/performance results
 were for separate canvases. Original-release/toolchain equivalence and the broader

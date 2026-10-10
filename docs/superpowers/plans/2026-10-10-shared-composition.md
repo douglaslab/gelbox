@@ -493,3 +493,9 @@ real visibility/lifecycle events and resumed sample paint. Evidence is retained 
 `reference/web/shared-resume`. Broader platform, long-suspension and physical
 monitor/resource gates remain.
 Do not represent this increment as completed P0–P5 or release certification.
+
+Compatibility follow-up: repository build + four Firefox132/WebKit deployment
+cases pass with isolated macOS Firefox test app-data; Firefox157 passes both in
+the isolated1.64 runner. Shipping Safari UI and native JSON roundtrip also pass.
+No product change. Broader platform/release and original-native parity gates
+remain; the bounded results do not certify all browser behavior.
