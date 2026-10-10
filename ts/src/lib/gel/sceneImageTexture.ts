@@ -2,23 +2,23 @@ import type {SceneGraphics,SceneTexture} from './scenePresentation';
 import {withAllocationRollback,allocateTexture} from '../gpu/allocations';
 import {withGlAllocationRollback} from '../gpu/gl/allocations';
 export interface SceneImageTexture {texture:SceneTexture;destroy:()=>void}
-/** Native ImageView uses straight UNORM pixels with a complete linear mip chain. */
-export function createSceneImageTexture(graphics:SceneGraphics,bitmap:ImageBitmap,label='scene-image'):SceneImageTexture {
+/** Native images use straight UNORM pixels and a full mip chain; TextLayout textures use one level. */
+export function createSceneImageTexture(graphics:SceneGraphics,bitmap:ImageBitmap,label='scene-image',mipmaps=true):SceneImageTexture {
  const width=bitmap.width,height=bitmap.height;
  if(!width||!height)throw Error('Reference image bitmap has no pixels');
  if(graphics.backend==='webgl2')return withGlAllocationRollback(graphics.gl,()=>{
   const gl=graphics.gl,texture=gl.createTexture();if(!texture)throw Error('Could not allocate reference image texture');
   gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,texture);
   gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,gl.RGBA,gl.UNSIGNED_BYTE,bitmap);
-  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,mipmaps?gl.LINEAR_MIPMAP_LINEAR:gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
-  gl.generateMipmap(gl.TEXTURE_2D);
+  if(mipmaps)gl.generateMipmap(gl.TEXTURE_2D);
   return {texture:{backend:'webgl2',value:texture},destroy:()=>gl.deleteTexture(texture)};
  });
  const device=graphics.device;
  return withAllocationRollback(device,()=>{
-  const levels=Math.floor(Math.log2(Math.max(width,height)))+1;
+  const levels=mipmaps?Math.floor(Math.log2(Math.max(width,height)))+1:1;
   const texture=allocateTexture(device,{label,size:{width,height},format:'rgba8unorm',mipLevelCount:levels,
    usage:GPUTextureUsage.TEXTURE_BINDING|GPUTextureUsage.COPY_DST|GPUTextureUsage.RENDER_ATTACHMENT});
   device.queue.copyExternalImageToTexture({source:bitmap},{texture,premultipliedAlpha:false,colorSpace:'srgb'},{width,height});

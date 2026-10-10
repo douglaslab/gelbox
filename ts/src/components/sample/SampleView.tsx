@@ -1,3 +1,4 @@
+import {SampleHeader} from './SampleHeader';
 import {useSharedPresentation} from '../gel/ScenePresentation';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { LAYOUT } from '../../lib/layout/layout';
@@ -41,14 +42,6 @@ export function SampleView() {
     return () => ro.disconnect();
   }, []);
 
-  // Mirror C++ SampleView::drawHeader (SampleView.cpp:154):
-  //   - blue circle at upperLeft + (r, -r - gutter)
-  //   - microtube icon centered in the circle
-  //   - "Sample" heading at sampleViewHeaderBaselinePos
-  const r = LAYOUT.sampleViewMicrotubeBkgndRadius;          // 20
-  const gutter = LAYOUT.sampleViewMicrotubeBkgndGutter;     // 11
-  const circleSize = r * 2;                                  // 40
-  const circleTop  = -r - gutter - r;                        // = -2r - gutter (top edge of circle)
 
   return (
     <div
@@ -75,52 +68,7 @@ export function SampleView() {
           width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer' }}>
         <img src={resolveAssetUrl('/assets/new-btn.png')} onError={dprFallbackOnError} alt="" width={32} height={32} />
       </button>
-      {/* Selected-lane blue circle in upper-left of panel. */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          left: 0,
-          top:  circleTop,
-          width:  circleSize,
-          height: circleSize,
-          borderRadius: '50%',
-          background: LAYOUT.gelMicrotubeBkgndColorSelected,
-        }}
-      >
-        <img
-          data-testid="sample-header-tube"
-          src={resolveAssetUrl('/assets/microtube1500ul.png')}
-          alt=""
-          onError={dprFallbackOnError}
-          style={{
-            position: 'absolute',
-            left: r - LAYOUT.sampleViewMicrotubeWidth / 2,
-            bottom: LAYOUT.sampleViewMicrotubeGutter - LAYOUT.sampleViewMicrotubeBkgndGutter,
-            width: LAYOUT.sampleViewMicrotubeWidth,
-            height: 'auto',
-            display: 'block',
-            pointerEvents: 'none',
-            userSelect: 'none',
-          }}
-        />
-      </div>
-
-      {/* "Sample" heading text. */}
-      <h2
-        style={{
-          position: 'absolute',
-          left:     `${LAYOUT.sampleViewHeaderBaselinePos.x}px`,
-          top:      `${LAYOUT.sampleViewHeaderBaselinePos.y}px`,
-          margin:   0,
-          font:     `${LAYOUT.headFontWeight} ${LAYOUT.headFontSize}px ${LAYOUT.headFont}`,
-          color:    LAYOUT.headFontColor,
-          lineHeight: 1,
-          userSelect: 'none',
-        }}
-      >
-        {LAYOUT.sampleViewHeaderStr}
-      </h2>
+      <SampleHeader/>
 
       {/* Native square frame: inset shadow, thin border and focus rings. */}
       <div aria-hidden style={{position:'absolute',left:2,top:4,right:2,height:'100%',

@@ -148,7 +148,13 @@ mouse-down tube image after the gel when dragging outside lane hit regions. Twen
 native comparisons cover seven/twenty lanes and free/occupied dragging at DPR1/2.
 The legacy path gains the same previously missing floating image. Native 2x-to-1x
 asset fallback now also handles successful responses containing invalid image data.
-Menu text/checkboxes, sliders, sample-header icons and remaining paint stay open.
+The sample header now contributes its native circle, tube and captured Avenir Heavy
+text before the sample body. Eight exact RGB comparisons cover integer/fractional
+positions at DPR1/2 on both backends. Text uses one linear-filtered texture level,
+while ordinary UI images retain mipmaps. The accessible heading remains in the
+DOM. A later reference image covers all header paint in the real app and deleting
+it restores the original pixels. The new-species button, other headings, dynamic
+labels, menus, sliders and remaining paint stay open.
 
 
 

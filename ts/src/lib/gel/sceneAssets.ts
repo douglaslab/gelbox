@@ -4,11 +4,12 @@ interface Entry {users:number;bitmap:ImageBitmap|null;error:unknown;errorOn:Scen
 const caches=new WeakMap<ScenePresentationRegistry,Map<string,Entry>>();
 /** Native Layout caches UI images by resolved asset path. Keep that ownership
  * separate from document images, with backend resources retired by the scene. */
-export function acquireSceneAsset(registry:ScenePresentationRegistry,url:string){
+export function acquireSceneAsset(registry:ScenePresentationRegistry,url:string,mipmaps=true){
  let cache=caches.get(registry);if(!cache){cache=new Map();caches.set(registry,cache);}
- let entry=cache.get(url);
+ const key=`${mipmaps?'mips':'single'}:${url}`;
+ let entry=cache.get(key);
  if(!entry){
-  entry={users:0,bitmap:null,error:null,errorOn:null,abort:new AbortController(),graphics:null,resource:null};cache.set(url,entry);
+  entry={users:0,bitmap:null,error:null,errorOn:null,abort:new AbortController(),graphics:null,resource:null};cache.set(key,entry);
   load(entry,url);
  }
  entry.users++;const target=entry;let live=true;
@@ -24,13 +25,13 @@ export function acquireSceneAsset(registry:ScenePresentationRegistry,url:string)
    }
    if(!target.bitmap)return null;
    if(!target.resource||target.graphics!==graphics){
-    target.release?.();const resource=createSceneImageTexture(graphics,target.bitmap,'scene-asset');
+    target.release?.();const resource=createSceneImageTexture(graphics,target.bitmap,'scene-asset',mipmaps);
     target.resource=resource;target.graphics=graphics;
     target.release=registry.own(graphics,()=>{resource.destroy();if(target.resource===resource){target.resource=null;target.graphics=null;}});
    }
    return target.resource?.texture??null;
   },
-  release(){if(!live)return;live=false;if(--target.users)return;cache!.delete(url);target.abort.abort();target.release?.();target.bitmap?.close();target.bitmap=null;},
+  release(){if(!live)return;live=false;if(--target.users)return;cache!.delete(key);target.abort.abort();target.release?.();target.bitmap?.close();target.bitmap=null;},
  };
 }
 
