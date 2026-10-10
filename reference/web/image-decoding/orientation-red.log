@@ -1,0 +1,522 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.production.config.ts image-decoding.spec.ts
+
+
+Running 2 tests using 2 workers
+
+(node:9507) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9506) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9507) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9506) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-webgpu] › image-decoding.spec.ts:6:1 › compiled image imports match native codec dimensions and decoded pixels (362ms)
+  ✘  2 [chromium-webgl2] › image-decoding.spec.ts:6:1 › compiled image imports match native codec dimensions and decoded pixels (372ms)
+
+
+  1) [chromium-webgpu] › image-decoding.spec.ts:6:1 › compiled image imports match native codec dimensions and decoded pixels 
+
+    Error: orientation-1.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m1[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-2.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m222[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-3.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m186[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-4.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m223[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-5.jpg dimensions
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [32m-   32,[39m
+    [2m    24,[22m
+    [31m+   32,[39m
+    [2m  ][22m
+
+      45 |   await writeFile(info.outputPath('decode-comparison.json'),JSON.stringify(report,null,2));
+      46 |   for(const result of report){
+    > 47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+         |                                                          ^
+      48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+      49 |   }
+      50 |  }finally{await app.close();}
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:47:58
+
+    Error: orientation-5.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m222[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-6.jpg dimensions
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [32m-   32,[39m
+    [2m    24,[22m
+    [31m+   32,[39m
+    [2m  ][22m
+
+      45 |   await writeFile(info.outputPath('decode-comparison.json'),JSON.stringify(report,null,2));
+      46 |   for(const result of report){
+    > 47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+         |                                                          ^
+      48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+      49 |   }
+      50 |  }finally{await app.close();}
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:47:58
+
+    Error: orientation-6.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m222[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-7.jpg dimensions
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [32m-   32,[39m
+    [2m    24,[22m
+    [31m+   32,[39m
+    [2m  ][22m
+
+      45 |   await writeFile(info.outputPath('decode-comparison.json'),JSON.stringify(report,null,2));
+      46 |   for(const result of report){
+    > 47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+         |                                                          ^
+      48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+      49 |   }
+      50 |  }finally{await app.close();}
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:47:58
+
+    Error: orientation-7.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m223[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-8.jpg dimensions
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [32m-   32,[39m
+    [2m    24,[22m
+    [31m+   32,[39m
+    [2m  ][22m
+
+      45 |   await writeFile(info.outputPath('decode-comparison.json'),JSON.stringify(report,null,2));
+      46 |   for(const result of report){
+    > 47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+         |                                                          ^
+      48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+      49 |   }
+      50 |  }finally{await app.close();}
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:47:58
+
+    Error: orientation-8.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m223[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: plain.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m1[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: srgb.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m1[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+  2) [chromium-webgl2] › image-decoding.spec.ts:6:1 › compiled image imports match native codec dimensions and decoded pixels 
+
+    Error: orientation-1.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m1[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-2.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m222[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-3.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m186[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-4.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m223[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-5.jpg dimensions
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [32m-   32,[39m
+    [2m    24,[22m
+    [31m+   32,[39m
+    [2m  ][22m
+
+      45 |   await writeFile(info.outputPath('decode-comparison.json'),JSON.stringify(report,null,2));
+      46 |   for(const result of report){
+    > 47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+         |                                                          ^
+      48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+      49 |   }
+      50 |  }finally{await app.close();}
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:47:58
+
+    Error: orientation-5.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m222[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-6.jpg dimensions
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [32m-   32,[39m
+    [2m    24,[22m
+    [31m+   32,[39m
+    [2m  ][22m
+
+      45 |   await writeFile(info.outputPath('decode-comparison.json'),JSON.stringify(report,null,2));
+      46 |   for(const result of report){
+    > 47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+         |                                                          ^
+      48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+      49 |   }
+      50 |  }finally{await app.close();}
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:47:58
+
+    Error: orientation-6.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m222[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-7.jpg dimensions
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [32m-   32,[39m
+    [2m    24,[22m
+    [31m+   32,[39m
+    [2m  ][22m
+
+      45 |   await writeFile(info.outputPath('decode-comparison.json'),JSON.stringify(report,null,2));
+      46 |   for(const result of report){
+    > 47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+         |                                                          ^
+      48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+      49 |   }
+      50 |  }finally{await app.close();}
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:47:58
+
+    Error: orientation-7.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m223[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: orientation-8.jpg dimensions
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [32m-   32,[39m
+    [2m    24,[22m
+    [31m+   32,[39m
+    [2m  ][22m
+
+      45 |   await writeFile(info.outputPath('decode-comparison.json'),JSON.stringify(report,null,2));
+      46 |   for(const result of report){
+    > 47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+         |                                                          ^
+      48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+      49 |   }
+      50 |  }finally{await app.close();}
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:47:58
+
+    Error: orientation-8.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m223[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: plain.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m1[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+    Error: srgb.jpg raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m1[39m
+
+      46 |   for(const result of report){
+      47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+    > 48 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBe(0);
+         |                                                                  ^
+      49 |   }
+      50 |  }finally{await app.close();}
+      51 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:48:66
+
+  2 failed
+    [chromium-webgpu] › image-decoding.spec.ts:6:1 › compiled image imports match native codec dimensions and decoded pixels 
+    [chromium-webgl2] › image-decoding.spec.ts:6:1 › compiled image imports match native codec dimensions and decoded pixels 

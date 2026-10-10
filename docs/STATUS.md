@@ -14,6 +14,16 @@ The native feature areas are substantially implemented, and the shared composito
 
 Implemented and checked areas include native JSON/XML file workflows and metadata, startup defaults, hidden-lane retention, sample/species controls, tube and band movement/cloning, reverse solving, picking, buffer effects, molecular lifecycle/meshes, persistent loupe gestures and source selection, temporary hover loupes, and reference-image views. Independent compiled native captures now cover 509 band/setup cases, 2,909 solver requests, particle/loupe behavior and meshes, and 137 exact-byte CPU warp cases. These are finite source-backed comparisons, not certification of the original executable's complete output.
 
+## Latest image decoding fix
+
+Native codec comparison exposed JPEG orientation differences in Chromium and
+PNG orientation differences in WebKit. The decoder now strips EXIF orientation
+metadata without changing encoded pixels or color profiles. All orientation
+cases pass across Chromium, Firefox and WebKit. [Evidence and remaining codec boundaries](../reference/web/image-decoding/README.md)
+records one-level JPEG rounding and WebKit transparent RGB differences explicitly.
+Fresh gates: 2,986 units,44 production and14 compatibility cases. Website review
+artifacts are unchanged; W06 is not fully closed.
+
 ## Latest integrated recovery check
 
 Four compiled cases now pass buffer/loupe/selection → emulated resize/DPR →

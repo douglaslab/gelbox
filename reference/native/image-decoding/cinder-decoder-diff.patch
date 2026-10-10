@@ -1,0 +1,152 @@
+diff --git a/src/cinder/ImageSourceFileQuartz.cpp b/src/cinder/ImageSourceFileQuartz.cpp
+index 0b09f078f..67f3cf6d1 100644
+--- a/src/cinder/ImageSourceFileQuartz.cpp
++++ b/src/cinder/ImageSourceFileQuartz.cpp
+@@ -118,7 +118,7 @@ ImageSourceFileQuartzRef ImageSourceFileQuartz::createFileQuartzRef( DataSourceR
+ 	if( sourceRef ) {
+ 		imageRef = std::shared_ptr<CGImage>( ::CGImageSourceCreateImageAtIndex( sourceRef.get(), options.getIndex(), optionsDict.get() ), CGImageRelease );
+ 		if( ! imageRef )
+-			throw ImageIoExceptionFailedLoad( "Core Graphics coult not create image data." );
++			throw ImageIoExceptionFailedLoad( "Core Graphics could not create image data." );
+ 	}
+ 	else
+ 		throw ImageIoExceptionFailedLoad( "Failed to load CGImageSource." );
+@@ -146,4 +146,4 @@ CFDictionaryRef	ImageSourceFileQuartz::getQuartzIndexProperties() const
+ 	return mImageIndexProperties.get();
+ }
+ 
+-} // namespace cinder
+\ No newline at end of file
++} // namespace cinder
+diff --git a/src/cinder/app/cocoa/PlatformCocoa.cpp b/src/cinder/app/cocoa/PlatformCocoa.cpp
+index 9494116f6..03ad4b3f0 100644
+--- a/src/cinder/app/cocoa/PlatformCocoa.cpp
++++ b/src/cinder/app/cocoa/PlatformCocoa.cpp
+@@ -30,6 +30,8 @@
+ #include "cinder/ImageTargetFileQuartz.h"
+ #include "cinder/ImageSourceFileRadiance.h"
+ #include "cinder/ImageFileTinyExr.h"
++#include "cinder/ImageSourceFileQoi.h"
++#include "cinder/ImageTargetFileQoi.h"
+ 
+ #if defined( CINDER_MAC )
+ 	#import <Cocoa/Cocoa.h>
+@@ -40,6 +42,7 @@
+ #endif
+ #include <cxxabi.h>
+ #include <execinfo.h>
++#include <pthread.h>
+ 
+ using namespace std;
+ 
+@@ -51,19 +54,18 @@ PlatformCocoa::PlatformCocoa()
+ 	, mInsideModalLoop( false )
+ #endif
+ {
+-	mAutoReleasePool = [[NSAutoreleasePool alloc] init];
+-	
+ 	// This is necessary to force the linker not to strip these symbols from libboost_filesystem.a,
+ 	// which in turn would force users to explicitly link to that lib from their own apps.
+-	auto dummy = boost::filesystem::unique_path();
+ 	auto dummy2 = fs::temp_directory_path();
+ 
+ 	// register default ImageSources and ImageTargets
+ 	ImageSourceFileQuartz::registerSelf();
+-	ImageTargetFileQuartz::registerSelf();	
++	ImageTargetFileQuartz::registerSelf();
+ 	ImageSourceFileRadiance::registerSelf();
+ 	ImageSourceFileTinyExr::registerSelf();
+ 	ImageTargetFileTinyExr::registerSelf();
++	ImageSourceFileQoi::registerSelf();
++	ImageTargetFileQoi::registerSelf();
+ }
+ 
+ void PlatformCocoa::prepareLaunch()
+@@ -72,7 +74,6 @@ void PlatformCocoa::prepareLaunch()
+ 
+ void PlatformCocoa::cleanupLaunch()
+ {
+-	[mAutoReleasePool drain];
+ }
+ 
+ void PlatformCocoa::setBundle( NSBundle *bundle )
+@@ -123,6 +124,17 @@ DataSourceRef PlatformCocoa::loadResource( const fs::path &resourcePath )
+ 		return DataSourcePath::create( fullPath );
+ }
+ 
++void PlatformCocoa::setCommandLineArgs( int argc, char * const argv[] )
++{
++	// Xcode automatically adds a pair of command line args, `NSDocumentRevisionsDebugMode YES` if "Allow debugging when using document Versions Browser" is not explicitly unchecked.
++	// We strip this known flag here
++	for( int i = 0; i < argc; ++i )
++		if( ! strcmp( argv[i], "-NSDocumentRevisionsDebugMode" ) )
++			i += 2;
++		else
++			mCommandLineArgs.push_back( argv[i] );
++}
++
+ void PlatformCocoa::prepareAssetLoading()
+ {
+ 	// search for the assets folder inside the bundle's resources, and then the bundle's root
+@@ -363,6 +375,13 @@ vector<string> PlatformCocoa::stackTrace()
+ 	return result;
+ }
+ 
++void PlatformCocoa::setThreadName( const std::string &name )
++{
++	int result = pthread_setname_np( name.c_str() ); // under macOS, arbitrarily long strings appear to be acceptable
++	if( result != 0 )
++		CI_LOG_E( "setThreadName failed" );
++}
++
+ void PlatformCocoa::addDisplay( const DisplayRef &display )
+ {
+ 	mDisplays.push_back( display );
+@@ -525,7 +544,6 @@ const std::vector<DisplayRef>& app::PlatformCocoa::getDisplays()
+ 		size_t screenCount = [screens count];
+ 		for( size_t i = 0; i < screenCount; ++i ) {
+ 			::NSScreen *screen = [screens objectAtIndex:i];
+-			[screen retain]; // this is released in the destructor for Display
+ 
+ 			DisplayMac *newDisplay = new DisplayMac();
+ 
+diff --git a/src/cinder/cocoa/CinderCocoa.mm b/src/cinder/cocoa/CinderCocoa.mm
+index 1fc9eb533..77ad3da99 100644
+--- a/src/cinder/cocoa/CinderCocoa.mm
++++ b/src/cinder/cocoa/CinderCocoa.mm
+@@ -84,9 +84,6 @@
+ 
+ SafeNsAutoreleasePool::SafeNsAutoreleasePool()
+ {
+-#if defined( CINDER_MAC )
+-	objc_registerThreadWithCollector();
+-#endif	
+ 	[NSThread currentThread]; // register this thread with garbage collection
+ 	mPool = [[NSAutoreleasePool alloc] init];
+ }
+@@ -152,12 +149,14 @@ CGContextRef getWindowContext()
+ #if defined( CINDER_MAC )
+ Surface8uRef convertNsBitmapDataRep( const NSBitmapImageRep *rep, bool assumeOwnership )
+ {
+-	NSInteger bpp = [rep bitsPerPixel];
+ 	int32_t rowBytes = (int32_t)[rep bytesPerRow];
+ 	int32_t width = (int32_t)[rep pixelsWide];
+ 	int32_t height = (int32_t)[rep pixelsHigh];
+ 	uint8_t *data = [rep bitmapData];
+-	SurfaceChannelOrder co = ( bpp == 24 ) ? SurfaceChannelOrder::RGB : SurfaceChannelOrder::RGBA;
++	SurfaceChannelOrder co = SurfaceChannelOrder::RGB;
++	if( [rep bitsPerPixel] == 32 )
++		co = ( [rep bitmapFormat] & NSAlphaFirstBitmapFormat ) ? SurfaceChannelOrder::ARGB : SurfaceChannelOrder::RGBA;
++
+ 	// If requested, point the result's deallocator to the appropriate function. This will get called when the Surface::Obj is destroyed
+ 	if( assumeOwnership )
+ 		return Surface8uRef( new Surface8u( data, width, height, rowBytes, co ),
+@@ -667,7 +666,7 @@ Surface8uRef convertCVPixelBufferToSurface( CVPixelBufferRef pixelBufferRef )
+ 	return ( alpha ) ? SurfaceChannelOrder::RGBA : SurfaceChannelOrder::RGBX;
+ }
+ 
+-int32_t SurfaceConstraintsCgBitmapContext::getRowBytes( int requestedWidth, const SurfaceChannelOrder &sco, int elementSize ) const
++ptrdiff_t SurfaceConstraintsCgBitmapContext::getRowBytes( int32_t requestedWidth, const SurfaceChannelOrder &sco, int elementSize ) const
+ {
+ 	return requestedWidth * elementSize * 4;
+ }
