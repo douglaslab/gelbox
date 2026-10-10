@@ -46,9 +46,23 @@
 - [x] Implement the typed interfaces, six local draws with float32 arithmetic and unsigned modulo, injectable engine RNG, explicit view lifetimes and snapshot tick order. Preserve existing engine defaults for old reference callers.
 - [x] Run focused tests; expect all native cases and lifetime regressions to pass without modifying native outputs.
 - [ ] Run full `npm run test:unit` and `npm run build` with Node 22, native runtime Python contracts, and `git diff --check`; expect all passing. Product components are unchanged, so browser integration is explicitly not certified here.
-- [ ] Commit, record verification and obtain one fresh read-only final review. Fix Important findings using failing-then-passing regressions; retain worktree for application integration.
+- [x] Commit, record verification and obtain one fresh read-only final review. Fix Important findings using failing-then-passing regressions; retain worktree for application integration.
 
 ## Decisions
 
 - Continue inline under the active parity goal. This foundation is a dependency of the full runtime correction, not a substitute for integration or release gates.
 - Self-review: one task; no cross-task interface conflicts. Each review focus maps to an explicit focused test.
+
+## Verification and review
+
+Implemented in `4e02c63`. Both focused suites initially failed because the runtime module did not exist. After implementation: 16/16 native sequence comparisons and 7/7 ownership tests pass; full unit suite 2,832/2,832 in 61 files; production build/TypeScript checks pass; native Python contracts 8/8; diff check clean. Native captures and product components are unchanged. Browser integration was not claimed or tested in this foundation increment.
+
+Fresh read-only Astra review found no Critical, Important or Minor findings. Reviewer independently reran 23 focused tests and eight native contracts, checked the full diff and source context, and found no integration-blocking API defect. No fix pass or deferred minors. Keep this worktree for the active goal; no merge/push/publication.
+
+Rulings:
+
+1. Implement the foundation inline under existing parity authorization; it is a required dependency, not a substitute for app integration. Cost if wrong: revise unused foundation code before integration.
+2. Command/canvas integration, StrictMode, GPU readiness and application frame ownership remain required next. Cost if omitted: live application RNG/scheduling mismatches persist despite passing foundation tests.
+3. Original executable GUI/pixel parity remains unverified. Cost of treating headless comparison as sufficient: unsupported parity claims; retain native GUI/visual gates.
+4. Existing engine formulas were preserved; full unit/native suites cover regressions, but this review is not a new exhaustive certification of the numerical model. Cost if existing uncovered behavior differs: further native cases/fixes remain necessary.
+5. Species generation targets the pinned zero aspect/multimer probabilities. Nondefault configuration is outside this parity reference. Cost if configuration later changes: extend draw-count/field generation and native cases before enabling it.
