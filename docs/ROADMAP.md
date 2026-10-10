@@ -558,3 +558,14 @@ checks. Full gates: 2,908 units, 495 browser cases plus one intentional skip,
 four production cases. [Reference and limits](../reference/native/numerical/background/README.md).
 Remaining dye control color/default-entry discrepancies are recorded in STATUS;
 particle-edge raster and full P0–P5 acceptance remain open.
+
+
+### Native dye control colors and creation defaults corrected
+
+Dye sliders now use native display-domain colors. Newly created dye entries
+retain native Fragment/Aggregate defaults, including first writes at zero mass.
+Source-derived regression checks cover slider colors and saved file fields;
+complete control raster certification remains open. Next investigate molecular
+renderer terminal-failure cleanup and native particle raster differences.
+Validation: 2,909 unit tests, 499 browser tests with one intentional skip,
+and four production checks passed. No existing image baseline or tolerance changed.

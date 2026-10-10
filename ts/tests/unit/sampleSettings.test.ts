@@ -27,16 +27,20 @@ describe('SET_SAMPLE_BUFFER', () => {
 });
 
 describe('SET_DYE_MASS', () => {
-  it('lazy-creates a dye fragment on first non-zero write', () => {
+  it.each([0, 50, 125])('creates native fragment defaults when first writing %s ng', (mass) => {
     const s0 = initialGelState();
     const initialFragCount = s0.samples[0]!.fragments.length;
     expect(s0.samples[0]!.fragments.find((f) => f.dye === 0)).toBeUndefined();
 
-    const s1 = gelReducer(s0, { type: 'SET_DYE_MASS', laneIndex: 0, dye: 0, mass: 50 });
+    const s1 = gelReducer(s0, { type: 'SET_DYE_MASS', laneIndex: 0, dye: 0, mass });
     expect(s1.samples[0]!.fragments.length).toBe(initialFragCount + 1);
     const dyeFrag = s1.samples[0]!.fragments.find((f) => f.dye === 0);
     expect(dyeFrag).toBeDefined();
-    expect(dyeFrag?.mass).toBe(50);
+    // Sample::setDye constructs a default Fragment, then sets only dye and mass.
+    expect(dyeFrag).toEqual({
+      bases: 0, mass, degrade: 0, dye: 0, aggregate: [1],
+      aspectRatio: 1, color: [0.5, 0.5, 0.5],
+    });
   });
   it('updates an existing dye fragment in place', () => {
     const s0 = initialGelState();
@@ -49,11 +53,6 @@ describe('SET_DYE_MASS', () => {
     const s0 = initialGelState();
     expect(s0.samples[3]).toBeNull();
     const s1 = gelReducer(s0, { type: 'SET_DYE_MASS', laneIndex: 3, dye: 0, mass: 50 });
-    expect(s1).toBe(s0);
-  });
-  it('zero-mass write when fragment does not exist is a no-op', () => {
-    const s0 = initialGelState();
-    const s1 = gelReducer(s0, { type: 'SET_DYE_MASS', laneIndex: 0, dye: 2, mass: 0 });
     expect(s1).toBe(s0);
   });
   it('zero-mass write when fragment exists keeps fragment but sets mass=0', () => {

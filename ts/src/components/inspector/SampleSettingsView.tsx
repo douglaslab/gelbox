@@ -37,7 +37,7 @@ export function SampleSettingsView() {
   }
 
   // Find current per-dye mass: lookup the dye fragment, default to 0 if not
-  // present (lazy-create on first non-zero write — see SET_DYE_MASS).
+  // present (create on first write, including zero — see SET_DYE_MASS).
   const dyeMass = (dye: number): number => {
     const f = sample.fragments.find((f) => f.dye === dye);
     return f ? f.mass : 0;

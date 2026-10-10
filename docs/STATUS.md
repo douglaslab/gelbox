@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include native well presentation, terminal-f
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,908 passed |
-| Browser suite across WebGPU/WebGL2 | 495 passed; one intentional duplicate skipped |
+| Unit suite | 2,909 passed |
+| Browser suite across WebGPU/WebGL2 | 499 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -1874,3 +1874,34 @@ zero-mass entry and initializes new dye metadata differently from native
 Sample::setDye/Fragment defaults. Native getDye (singular) intentionally uses the
 first matching entry for its slider, whereas getDyes sums for the background;
 that distinction must be retained when correcting those remaining controls.
+
+
+## Native dye controls and saved defaults
+
+Source comparison against pinned Gelbox `5f51097` confirms that
+`SampleSettingsView::makeSliders` uses `Dye::kColors` directly. DyeRow now
+preserves those display-domain colors instead of applying linear-to-sRGB gamma
+conversion. Browser checks cover all four fill and empty-track CSS colors on
+both rendering backends. These are source-derived color checks, not a claim of
+complete native control-edge/font raster certification.
+
+`Sample::setDye` constructs a default Fragment even on the first zero-mass
+write. The reducer now does the same: bases 0, aggregate [1], neutral gray
+[0.5, 0.5, 0.5], aspect ratio 1 and degradation 0. Existing entries still update
+only the first matching fragment, consistent with native singular getDye.
+Three creation cases failed before the correction; the color browser check
+also failed on both backends before correction. A real UI zero-mass edit and
+Save Selected Sample check verifies the serialized fragment fields.
+
+No golden images or tolerances changed. The molecular renderer's terminal
+failure cleanup is the next source-identified reliability concern: unlike the
+corrected gel renderer, it releases resources on effect cleanup but not directly
+when the second backend fails. A failure-injection test is needed to establish
+its externally observable effect before a fix. Particle-edge/native composed
+GUI certification and all full P0–P5 gates remain open.
+
+Fresh validation for this increment: 2,909 unit tests, 499 browser tests (one
+intentional duplicate skipped), and all four production checks passed, including
+the TypeScript build. The full browser run includes both new color and saved
+zero-entry scenarios on WebGPU and WebGL2. Logs: `/tmp/gel-dye-controls-unit.log`,
+`/tmp/gel-dye-controls-full.log`, `/tmp/gel-dye-controls-production.log`.

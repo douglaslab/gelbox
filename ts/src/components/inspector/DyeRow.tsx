@@ -1,7 +1,6 @@
 import { LAYOUT } from '../../lib/layout/layout';
 import { SliderView } from '../primitives/SliderView';
 import { DYE_NAMES, DYE_COLORS, DYE_MAX_MASS } from '../../lib/sim/dye';
-import { linearRgbToSrgbHex } from '../../lib/sim/molecularSim';
 
 // One dye row: name label + Style::Bar slider with dye-color fill +
 // dye glyph icon at the high end. Mirrors the per-dye loop in
@@ -18,7 +17,9 @@ export interface DyeRowProps {
 }
 
 export function DyeRow({ dye, mass, onChange, width = LAYOUT.bufferViewSliderBarSize.x, testId }: DyeRowProps) {
-  const fillColor  = linearRgbToSrgbHex(DYE_COLORS[dye] as [number, number, number]);
+  // Dye::kColors are already in the native display color domain.
+  const fillColor = '#' + DYE_COLORS[dye]
+    .map(channel => Math.round(channel * 255).toString(16).padStart(2, '0')).join('');
   const emptyColor = mixHex(fillColor, '#FFFFFF', 0.8);
   const iconPath   = `/assets/molecules/${DYE_ICON_NAMES[dye]}.png`;
   const id = testId ?? `dye-row-${dye}`;

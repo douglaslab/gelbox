@@ -5,7 +5,7 @@ import type { SimContext } from '../sim/gelSim';
 import type { Rect } from '../sim/band';
 import type { Buffer } from '../sim/buffer';
 import { BUFFER_TBE, BUFFER_TAE, BUFFER_H2O } from '../sim/buffer';
-import { DYE_COLORS, DYE_MAX_MASS, DYE_BP_LO } from '../sim/dye';
+import { DYE_MAX_MASS, DYE_BP_LO } from '../sim/dye';
 import type { SampleFragRef } from './sampleFragRef';
 import { sampleFragRefEq, copySample, sameSample, reviseSample, refreshSampleRef, fragmentIndexIn } from './sampleFragRef';
 import ladder from '../../../fixtures/states/ladder-1kb.json';
@@ -329,22 +329,17 @@ function reduceGelState(state: GelState, action: Action): GelState {
       const i = sample.fragments.findIndex((f) => f.dye === action.dye);
       let fragments: Fragment[];
       if (i === -1) {
-        // Lazy-create dye fragment on first non-zero write — mirrors
-        // C++ Sample::setDye(dye, val) which pushes a new fragment when
-        // the dye isn't present. Zero-mass writes when no fragment exists
-        // are no-ops (don't pollute the fragment list).
-        if (action.mass <= 0) return state;
-        const color = DYE_COLORS[action.dye];
+        // Sample::setDye constructs Fragment defaults even for a zero-mass write.
         fragments = [
           ...sample.fragments,
           {
-            bases:       1,
+            bases:       0,
             mass:        action.mass,
             degrade:     0,
             dye:         action.dye,
-            aggregate:   [],
+            aggregate:   [1],
             aspectRatio: 1,
-            color:       [color[0], color[1], color[2]],
+            color:       [0.5, 0.5, 0.5],
           },
         ];
       } else {
