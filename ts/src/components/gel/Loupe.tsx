@@ -28,7 +28,7 @@ export function Loupe({loupe,sourceRefs,transient=false}:LoupeProps) {
  useEffect(()=>{if(!transient)frame.current?.focus();return()=>{if(hovered.current)dispatch({type:'CLEAR_ROLLOVER_IF',ref:hovered.current});};},[dispatch,transient]);
  const point=(e:{clientX:number;clientY:number})=>{const r=root.current!.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*state.gelSize.width,y:(e.clientY-r.top)/r.height*state.gelSize.height};};
  const begin=(e:ReactPointerEvent,mode:'frame'|'anchor'|'both')=>{
-  if(transient||e.button!==0)return;
+  if(transient)return;
   e.preventDefault();e.stopPropagation();frame.current?.focus();dispatch({type:'RAISE_LOUPE',id:loupe.id});layer.raise();
   if(mode!=='frame')dispatch({type:'SET_SELECTION',ref:null});
   const p=point(e);
@@ -59,6 +59,7 @@ export function Loupe({loupe,sourceRefs,transient=false}:LoupeProps) {
  },[registry,view,presentationKey,loupe.frame,loupe.anchor,hover,anchorHover,transient]);
  if(!view)return null;
  return <div ref={root} data-testid={transient?"hover-loupe":`loupe-${loupe.id}`} data-loupe-id={transient?undefined:loupe.id}
+  onContextMenu={e=>e.preventDefault()}
   onLostPointerCapture={()=>{drag.current=null;}}
   onPointerEnter={e=>{rememberPointer(e);setHover(true);}} onPointerMove={rememberPointer} onPointerLeave={()=>setHover(false)}
   style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:layer.zIndex,userSelect:'none'}}>

@@ -4,7 +4,7 @@ test.beforeEach(async({page},info)=>{
  await page.addInitScript(({b,shared})=>{localStorage.setItem('gelBackend',b);if(shared)localStorage.setItem('gelSharedPresentation','1');(window as any).__molsimFreezeAfterTicks=60;},{b:info.project.name.includes('webgl2')?'webgl2':'webgpu',shared});
  await page.setViewportSize({width:1365,height:800});await page.goto('/#/gel');
 });
-test('persistent loupe frame, three drag modes, resize and keyboard ownership',async({page})=>{
+for(const button of ['left','right','middle'] as const)test(`${button} persistent loupe frame, three drag modes, resize and keyboard ownership`,async({page})=>{
  await page.getByTestId('microtube-0').click();
  const gel=page.getByTestId('gel-overlay'),g=(await gel.boundingBox())!;
  const band=page.getByTestId('band-0'),b=(await band.boundingBox())!;
@@ -27,17 +27,17 @@ test('persistent loupe frame, three drag modes, resize and keyboard ownership',a
  await page.mouse.move(0,0);
  const before=await contentScreenshot();
  // Body moves only the frame; seed/content remain unchanged.
- await page.mouse.move(f.x+10,f.y+155);await page.mouse.down();await page.mouse.move(f.x+40,f.y+175);await page.mouse.up();await page.mouse.move(0,0);
+ await page.mouse.move(f.x+10,f.y+155);await page.mouse.down({button});await page.mouse.move(f.x+40,f.y+175);await page.mouse.up({button});await page.mouse.move(0,0);
  let moved=(await frame.boundingBox())!;expect(moved.x-f.x).toBeCloseTo(30,1);expect(moved.y-f.y).toBeCloseTo(20,1);
  expect(await contentScreenshot()).toEqual(before);
  let a=(await anchor.boundingBox())!;expect(a.x+a.width/2).toBeCloseTo(x,1);
  // Anchor moves independently.
- await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+12,y+10);await page.mouse.up();
+ await page.mouse.move(x,y);await page.mouse.down({button});await page.mouse.move(x+12,y+10);await page.mouse.up({button});
  expect((await frame.boundingBox())!.x).toBeCloseTo(moved.x,1);
  a=(await anchor.boundingBox())!;expect(a.x+a.width/2).toBeCloseTo(x+12,1);
  // Wedge translates anchor and frame together.
  const wx=(x+12+moved.x)/2,wy=y+10;
- await page.mouse.move(wx,wy);await page.mouse.down();await page.mouse.move(wx+18,wy+9);await page.mouse.up();
+ await page.mouse.move(wx,wy);await page.mouse.down({button});await page.mouse.move(wx+18,wy+9);await page.mouse.up({button});
  expect((await frame.boundingBox())!.x).toBeCloseTo(moved.x+18,1);
  a=(await anchor.boundingBox())!;expect(a.x+a.width/2).toBeCloseTo(x+30,1);
  const old=(await frame.boundingBox())!,oldGel=(await gel.boundingBox())!;
@@ -66,7 +66,7 @@ test('loupe particles remain paused without the screenshot freeze hook',async({p
  // Shared chrome has independent exact native references in shared-loupe-native.
  if(!shared)await expect(page).toHaveScreenshot('persistent-loupe.png',{maxDiffPixels:20});
 });
-test('losing creation capture and canceling frame drag release ownership',async({page})=>{
+for(const button of ['left','right','middle'] as const)test(`${button} losing creation capture and canceling frame drag release ownership`,async({page})=>{
  const overlay=page.getByTestId('gel-overlay'),g=(await overlay.boundingBox())!;const x=g.x+300,y=g.y+300;
  await page.keyboard.down('Meta');await page.mouse.move(x,y);await page.mouse.down();
  await expect.poll(()=>overlay.evaluate(el=>el.hasPointerCapture(1))).toBe(true);
@@ -74,9 +74,9 @@ test('losing creation capture and canceling frame drag release ownership',async(
  const frame=page.getByTestId('loupe-frame-1');const before=(await frame.boundingBox())!;
  await page.mouse.move(x+40,y+40);await page.mouse.up();await page.keyboard.up('Meta');
  expect((await frame.boundingBox())!.x).toBeCloseTo(before.x,1);
- await page.mouse.move(before.x+20,before.y+150);await page.mouse.down();await page.mouse.move(before.x+30,before.y+155);
+ await page.mouse.move(before.x+20,before.y+150);await page.mouse.down({button});await page.mouse.move(before.x+30,before.y+155);
  await page.evaluate(()=>window.dispatchEvent(new PointerEvent('pointercancel',{pointerId:1})));
- const stopped=(await frame.boundingBox())!;await page.mouse.move(before.x+70,before.y+155);await page.mouse.up();
+ const stopped=(await frame.boundingBox())!;await page.mouse.move(before.x+70,before.y+155);await page.mouse.up({button});
  expect((await frame.boundingBox())!.x).toBeCloseTo(stopped.x,1);
 });
 

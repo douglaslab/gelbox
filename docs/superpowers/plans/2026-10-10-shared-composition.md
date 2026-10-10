@@ -241,9 +241,14 @@ Original Cinder Cocoa rightMouseDown/otherMouseDown and drag methods forward
 secondary buttons; Gelbox ViewCollection forwards them to the picked view.
 At native pin `5f51097`, `SampleView::mouseDown` (line 380) selects molecules or
 toggles ordinary sample settings, takes focus and chooses loupe anchor/wedge/frame
-drag without a button filter. Web `SampleSimCanvas` and `Loupe.begin` still reject
-non-primary presses. Add failing real-pointer selection/settings/drag checks
-before removing these guards, preserving transient-loupe behavior and cancellation.
+drag without a button filter. These primary-only guards in `SampleSimCanvas` and
+`Loupe.begin` are now removed. Twenty-four failing real-pointer checks reproduced
+the gap before the fix. Sixty focused cases now pass: source-species selection and
+clearing, empty sample settings toggles, frame/anchor/wedge movement, retained
+particle pixels, resize and keyboard focus across buttons and both modes/backends.
+The full run additionally checks secondary-button drag cancellation. Transient
+loupes remain non-draggable. Full verification passes 881 browser cases (one
+intentional duplicate skipped), 2,924 units, build and four production checks.
 
 `GelView::mouseDown` has distinct Meta and right-button branches before ordinary
 tube selection. Middle-button tube selection/drag belongs to the ordinary branch;

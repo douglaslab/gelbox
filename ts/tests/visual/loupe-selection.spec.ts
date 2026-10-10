@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 for(const shared of [false,true])test.describe(`shared:${shared}`,()=>{
 test.beforeEach(async({page})=>{if(shared)await page.addInitScript(()=>localStorage.setItem('gelSharedPresentation','1'));});
-test('loupe hover and selection resolve to the source species in the open sample',async({page},info)=>{
+for(const button of ['left','right','middle'] as const)test(`${button} loupe hover and selection resolve to the source species in the open sample`,async({page},info)=>{
  await page.addInitScript(b=>{localStorage.setItem('gelBackend',b);(window as any).__molsimFreezeAfterTicks=60;},info.project.name.includes('webgl2')?'webgl2':'webgpu');
  await page.setViewportSize({width:1365,height:800});await page.goto('/#/gel');
  await page.getByTestId('microtube-0').click();
@@ -24,16 +24,16 @@ test('loupe hover and selection resolve to the source species in the open sample
  await page.mouse.move(x,y);
  await expect(page.getByTestId('fragment-view')).toBeVisible();
  await expect(band).not.toHaveAttribute('stroke','transparent');
- await page.mouse.click(x,y);await page.mouse.move(0,0);
+ await page.mouse.click(x,y,{button});await page.mouse.move(0,0);
  await expect(page.getByTestId('selection-info')).toContainText('lane 0 fragment 0');
  await expect(page.getByTestId('fragment-view')).toBeVisible();
  await expect(band).not.toHaveAttribute('stroke','transparent');
  // Empty loupe space clears source selection without changing the open panel.
- await page.mouse.click(bounds.x+10,bounds.y+bounds.height-10);await page.mouse.move(0,0);
+ await page.mouse.click(bounds.x+10,bounds.y+bounds.height-10,{button});await page.mouse.move(0,0);
  await expect(page.getByTestId('fragment-view')).toHaveCount(0);
  await expect(page.getByTestId('selection-info')).not.toContainText('fragment 0');
  await expect(page.getByTestId('molecular-sim-canvas')).toBeVisible();
- await page.mouse.click(x,y);await page.mouse.move(0,0);
+ await page.mouse.click(x,y,{button});await page.mouse.move(0,0);
  await expect(page.getByTestId('fragment-view')).toBeVisible();
  const gel=(await page.getByTestId('gel-overlay').boundingBox())!;
  await page.mouse.click(gel.x+gel.width*.95,gel.y+gel.height*.95);

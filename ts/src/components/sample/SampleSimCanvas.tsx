@@ -312,7 +312,8 @@ export function SampleSimCanvas({
   }, [onHoverFragment,store,viewKey]);
 
   const onPointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
-    if (e.button !== 0) return;
+    // SampleView::mouseDown selects/toggles for every mouse button.
+    e.preventDefault();
     downRef.current = true;
     const c = eventCoords(e);
     if (!c) return;
@@ -353,6 +354,7 @@ export function SampleSimCanvas({
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
       onPointerDown={onPointerDown}
+      onContextMenu={e => e.preventDefault()}
       onPointerUp={onPointerUp}
       onPointerCancel={() => { downRef.current = false; onPointerLeave(); }}
       style={{

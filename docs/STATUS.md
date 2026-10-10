@@ -42,14 +42,17 @@ shared view order in effects/direct modes. See
 tracks, handles, graph edits and endpoint icons now accept native right/middle
 gestures, with release-outside and cancellation ownership checked. Gel background
 presses select occupied lanes, clear fragment selection even at expanded outline
-edges, and restore SampleView focus. Both modes/backends pass. Sample/loupe and
-remaining icon-button input audits, integrated acceptance and review still gate
-production enablement.
+edges, and restore SampleView focus. Both modes/backends pass. Sample backgrounds and
+persistent loupes now accept native secondary-button presses: settings toggles,
+source-species selection/clearing, all three drag modes, cancellation, unchanged
+particle paint after frame movement, resize and keyboard ownership pass. Remaining
+icon-button and tube modifier input audits, integrated acceptance and review still
+gate production enablement.
 
 | Check | Result |
 |---|---|
 | Unit suite | 2,924 passed |
-| Browser suite across WebGPU/WebGL2 | 849 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 881 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
