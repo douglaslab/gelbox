@@ -1,0 +1,45 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.performance.config.ts view-churn.spec.ts --output=/tmp/gel-resident-diagnostic-final
+
+
+Running 2 tests using 1 worker
+
+(node:12281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/100
+Lifecycle cycles completed: 20/100
+Lifecycle cycles completed: 30/100
+Lifecycle cycles completed: 40/100
+Lifecycle cycles completed: 50/100
+Lifecycle cycles completed: 60/100
+Lifecycle cycles completed: 70/100
+Lifecycle cycles completed: 80/100
+Lifecycle cycles completed: 90/100
+Lifecycle cycles completed: 100/100
+  ✘  1 [chromium-webgpu] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources (2.1m)
+
+
+  1) [chromium-webgpu] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources 
+
+    Test was interrupted.
+
+    Error: cdpSession.send: Target page, context or browser has been closed
+
+      22 |  const memory:unknown[]=[],residentMemory:unknown[]=[],diagnosticErrors:string[]=[];
+      23 |  const measure=async(cycle:number)=>{
+    > 24 |   if(heap){await heap.send('HeapProfiler.collectGarbage');memory.push({cycle,...await heap.send('Runtime.getHeapUsage'),dom:await heap.send('Memory.getDOMCounters')});}
+         |                       ^
+      25 |   if(browserSession){
+      26 |    const {processInfo}=await browserSession.send('SystemInfo.getProcessInfo');
+      27 |    const ids=processInfo.map(p=>p.id);if(ids.some(id=>!Number.isInteger(id)||id<=0))throw Error('Invalid browser PID');
+        at measure (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/performance/view-churn.spec.ts:24:23)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/performance/view-churn.spec.ts:111:9
+
+  Slow test file: [chromium-webgpu] › view-churn.spec.ts (2.1m)
+  Consider splitting slow test files to speed up parallel execution
+  1 interrupted
+    [chromium-webgpu] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources 
+  1 did not run

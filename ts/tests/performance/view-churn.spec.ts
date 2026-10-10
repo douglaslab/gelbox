@@ -1,6 +1,9 @@
 import {test,expect} from '@playwright/test';
 import {serveBuiltApp} from '../production/built-app';
 import {writeFile} from 'node:fs/promises';
+import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
+const runFile=promisify(execFile);
 const cycles=Number(process.env.GEL_LIFECYCLE_CYCLES??10);
 if(!Number.isInteger(cycles)||cycles<1||cycles>1000)throw new Error('GEL_LIFECYCLE_CYCLES must be an integer from 1 to 1000');
 test.use({viewport:{width:1365,height:768}});
@@ -10,8 +13,23 @@ test('compiled repeated sample/loupe disposal and resize release owned GPU resou
  test.setTimeout(Math.max(30000,cycles*3000));
  const started=Date.now();
  const heap=process.env.GEL_LIFECYCLE_MEASURE_HEAP==='1'?await page.context().newCDPSession(page):null;
- const memory:unknown[]=[];
- const measure=async(cycle:number)=>{if(!heap)return;await heap.send('HeapProfiler.collectGarbage');memory.push({cycle,...await heap.send('Runtime.getHeapUsage')});};
+ const rss=process.env.GEL_LIFECYCLE_MEASURE_RSS==='1';
+ if(rss&&process.platform!=='darwin')throw Error('RSS sampler is scoped to macOS ps units');
+ const browserSession=rss?await browser.newBrowserCDPSession():null;
+ const memory:unknown[]=[],residentMemory:unknown[]=[];
+ const measure=async(cycle:number)=>{
+  if(heap){await heap.send('HeapProfiler.collectGarbage');memory.push({cycle,...await heap.send('Runtime.getHeapUsage'),dom:await heap.send('Memory.getDOMCounters')});}
+  if(browserSession){
+   const {processInfo}=await browserSession.send('SystemInfo.getProcessInfo');
+   const ids=processInfo.map(p=>p.id);if(ids.some(id=>!Number.isInteger(id)||id<=0))throw Error('Invalid browser PID');
+   const {stdout}=await runFile('/bin/ps',['-p',ids.join(','),'-o','pid=,rss=']);
+   const rows=new Map(stdout.trim().split('\n').map(line=>line.trim().split(/\s+/).map(Number)).map(([pid,rssKiB])=>[pid,rssKiB]));
+   const processes=processInfo.map(p=>({pid:p.id,type:p.type,rssKiB:rows.get(p.id)??null}));
+   if(processes.some(p=>p.rssKiB===null||!Number.isFinite(p.rssKiB)||p.rssKiB<=0))throw Error('Missing or invalid browser RSS sample');
+   residentMemory.push({cycle,elapsedMs:Date.now()-started,processes,totalRssKiB:processes.reduce((n,p)=>n+p.rssKiB!,0)});
+   await writeFile(info.outputPath('memory-checkpoints.json'),JSON.stringify({memory,residentMemory},null,2));
+  }
+ };
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(backend=>{
   localStorage.setItem('gelBackend',backend);
@@ -74,14 +92,16 @@ test('compiled repeated sample/loupe disposal and resize release owned GPU resou
  await page.evaluate(()=>{location.hash='/dev/slider';});
  await expect(page.getByTestId('gel-canvas')).toHaveCount(0);
  await expect.poll(count).toBe(0);
+ await measure(cycles+.5);
  await page.evaluate(()=>{location.hash='/gel';});
  await page.getByTestId('band-0').click();
  await expect.poll(async()=>Number(await page.getByTestId('molecular-sim-canvas').getAttribute('data-alive-count'))).toBeGreaterThan(0);
  await expect(page.getByRole('alert')).toHaveCount(0);expect(errors).toEqual([]);
  await measure(cycles+1);
- const report={backend:info.project.name,browser:browser.version(),cycles,elapsedMs:Date.now()-started,baseline,peaks,closedCycleCounts,afterRouteUnmount:0,memory,scope:'Explicit buffer/texture and GL object destruction. Optional CDP heap samples follow forced GC; final sample is after route remount. Heap observations are not a driver-memory or release-budget assertion.'};
+
+ const report={backend:info.project.name,browser:browser.version(),cycles,elapsedMs:Date.now()-started,baseline,peaks,closedCycleCounts,afterRouteUnmount:0,memory,residentMemory,scope:'Explicit buffer/texture and GL object destruction. Optional CDP heap samples follow forced GC; final sample is after route remount. Heap observations are not a driver-memory or release-budget assertion. Optional macOS RSS samples cover processes belonging to this test browser, including its GPU process. RSS includes shared pages/caches and is not isolated driver allocation accounting.'};
  await writeFile(info.outputPath('resource-lifecycle.json'),JSON.stringify(report,null,2));
  await info.attach('resource-lifecycle',{body:JSON.stringify(report,null,2),contentType:'application/json'});
- await heap?.detach();
+ await heap?.detach();await browserSession?.detach();
  }finally{await app.close();}
 });

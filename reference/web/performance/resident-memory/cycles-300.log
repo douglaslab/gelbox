@@ -1,0 +1,82 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.performance.config.ts view-churn.spec.ts --output=/tmp/gel-resident-memory
+
+
+Running 2 tests using 1 worker
+
+(node:11736) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11736) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/300
+Lifecycle cycles completed: 20/300
+Lifecycle cycles completed: 30/300
+Lifecycle cycles completed: 40/300
+Lifecycle cycles completed: 50/300
+Lifecycle cycles completed: 60/300
+Lifecycle cycles completed: 70/300
+Lifecycle cycles completed: 80/300
+Lifecycle cycles completed: 90/300
+Lifecycle cycles completed: 100/300
+Lifecycle cycles completed: 110/300
+Lifecycle cycles completed: 120/300
+Lifecycle cycles completed: 130/300
+Lifecycle cycles completed: 140/300
+Lifecycle cycles completed: 150/300
+Lifecycle cycles completed: 160/300
+Lifecycle cycles completed: 170/300
+Lifecycle cycles completed: 180/300
+Lifecycle cycles completed: 190/300
+Lifecycle cycles completed: 200/300
+Lifecycle cycles completed: 210/300
+Lifecycle cycles completed: 220/300
+Lifecycle cycles completed: 230/300
+Lifecycle cycles completed: 240/300
+Lifecycle cycles completed: 250/300
+Lifecycle cycles completed: 260/300
+Lifecycle cycles completed: 270/300
+Lifecycle cycles completed: 280/300
+Lifecycle cycles completed: 290/300
+Lifecycle cycles completed: 300/300
+  ✓  1 [chromium-webgpu] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources (2.4m)
+(node:11914) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11914) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/300
+Lifecycle cycles completed: 20/300
+Lifecycle cycles completed: 30/300
+Lifecycle cycles completed: 40/300
+Lifecycle cycles completed: 50/300
+Lifecycle cycles completed: 60/300
+Lifecycle cycles completed: 70/300
+Lifecycle cycles completed: 80/300
+Lifecycle cycles completed: 90/300
+Lifecycle cycles completed: 100/300
+Lifecycle cycles completed: 110/300
+Lifecycle cycles completed: 120/300
+Lifecycle cycles completed: 130/300
+Lifecycle cycles completed: 140/300
+Lifecycle cycles completed: 150/300
+Lifecycle cycles completed: 160/300
+Lifecycle cycles completed: 170/300
+Lifecycle cycles completed: 180/300
+Lifecycle cycles completed: 190/300
+Lifecycle cycles completed: 200/300
+Lifecycle cycles completed: 210/300
+Lifecycle cycles completed: 220/300
+Lifecycle cycles completed: 230/300
+Lifecycle cycles completed: 240/300
+Lifecycle cycles completed: 250/300
+Lifecycle cycles completed: 260/300
+Lifecycle cycles completed: 270/300
+Lifecycle cycles completed: 280/300
+Lifecycle cycles completed: 290/300
+Lifecycle cycles completed: 300/300
+  ✓  2 [chromium-webgl2] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources (2.4m)
+
+  Slow test file: [chromium-webgpu] › view-churn.spec.ts (2.4m)
+  Slow test file: [chromium-webgl2] › view-churn.spec.ts (2.4m)
+  Consider splitting slow test files to speed up parallel execution
+  2 passed (4.8m)
