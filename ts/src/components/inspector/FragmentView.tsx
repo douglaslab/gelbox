@@ -45,6 +45,18 @@ export function FragmentView() {
 
   return (
     <div className={styles.root} data-testid="fragment-view">
+      {fragment && (
+        <div
+          className={styles.well}
+          style={{
+            left: `${LAYOUT.fragViewWellTopLeft.x}px`,
+            top:  `${LAYOUT.fragViewWellTopLeft.y}px`,
+          }}
+        >
+          <FragmentWell fragmentIndex={fragIdx!} testId="fragment-well" />
+        </div>
+      )}
+
       <h2 className={styles.header} style={headerStyle}>
         {LAYOUT.fragViewHeaderStr}
       </h2>
@@ -57,16 +69,6 @@ export function FragmentView() {
 
       {fragment && (
         <>
-          <div
-            className={styles.well}
-            style={{
-              left: `${LAYOUT.fragViewWellTopLeft.x}px`,
-              top:  `${LAYOUT.fragViewWellTopLeft.y}px`,
-            }}
-          >
-            <FragmentWell fragmentIndex={fragIdx!} testId="fragment-well" />
-          </div>
-
           <div
             className={styles.palette}
             style={{

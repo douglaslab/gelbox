@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Latest verification: 2026-10-10 · native fragment-well composition · native reference `5f51097`._
+_Latest verification: 2026-10-10 · fragment preview overflow and heading order · native reference `5f51097`._
 
 ## Direction
 
@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include native well presentation, terminal-f
 | Check | Result |
 |---|---|
 | Unit suite | 2,909 passed |
-| Browser suite across WebGPU/WebGL2 | 515 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 519 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -2054,3 +2054,32 @@ certification, cross-platform raster and performance remain open. The old
 standalone transparent audit remains historical failing evidence of the rejected
 composition strategy, not a test of the production FragmentWell path. Full P0–P5
 gates remain open.
+
+
+## Fragment overflow and heading order
+
+Representatives now extend beyond the fragment panel, as native drawing permits.
+The composite canvas expands once to window extent, with a translated logical
+origin, and stays bounded to the window even for huge imported particle sizes.
+It retains its element and resizes its backing buffers on DPR changes. The
+heading now draws after the representative and before child controls.
+
+Four production-component browser cases verify outside-panel pixels, visible
+heading glyphs, stable bounded allocations, unchanged workspace scroll size,
+DPR changes, and an exact native well crop after restoring a normal particle on
+the expanded surface. The original panel clipping and old heading order each
+failed their regressions. Review found unwanted scroll overflow from the initial
+relative-positioned canvas; a failing scroll-size test led to absolute positioning
+and now passes. See the [review record](superpowers/reports/2026-10-10-fragment-overflow.md).
+
+Fresh checks: **2,909 unit tests, 519 browser cases (one intentional duplicate
+skip), and four built-app production checks pass**. TypeScript/Vite build passes;
+no reference pixels or screenshot goldens changed. Final logs:
+`/tmp/gel-fragment-overflow-final-unit.log`,
+`/tmp/gel-fragment-overflow-final.log`, and
+`/tmp/gel-fragment-overflow-final-production.log`.
+
+The white-underlay composition still needs correction/certification where a
+translucent representative overlaps earlier non-white content, including braces
+and other views. This increment proves overflow visibility and heading order,
+not complete cross-view compositing or native GUI parity. Full P0–P5 remain open.

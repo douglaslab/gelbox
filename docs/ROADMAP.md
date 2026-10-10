@@ -636,3 +636,18 @@ not changed. Full panel draw order/overflow, original GUI replay, platform and
 performance gates remain next; this increment does not close P0–P5. See the
 [fragment composition review](superpowers/reports/2026-10-10-fragment-composition.md)
 for the deferred unused cutout/separate-well-lines API limitation.
+
+
+### Fragment window overflow and heading order restored
+
+The preview no longer clips representatives to 303×520. It expands to a bounded
+window surface and translates its logical origin; later particle motion reuses
+that extent. The heading follows the representative. Four browser checks verify
+visible overflow, heading glyphs, bounded/stable backing sizes, live DPR changes,
+workspace scroll size and an exact native well crop after origin changes.
+An Important review finding about scroll overflow was reproduced and fixed.
+
+Final checks: 2,909 units, 519 browser cases (one intentional skip), and four
+production cases passed. Next resolve translucent representative composition over
+earlier non-white braces/views; white-underlay captures alone cannot certify
+that interaction. Original GUI replay and the other P0–P5 gates remain open.

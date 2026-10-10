@@ -91,6 +91,8 @@ export function SampleSimCanvas({
     if (!canvas) return;
     let cancelled = false;
     let lost = false;
+    let viewport={x:0,y:0,width,height};
+    let expanded=false;
     const cleanup:(()=>void)[]=[];
     const dispose=()=>{
       handleRef.current?.destroy();
@@ -106,11 +108,31 @@ export function SampleSimCanvas({
     const resize=()=>{
       if(cancelled||lost)return;
       const dpr=window.devicePixelRatio||1;
-      const wpx=Math.max(1,Math.round(width*dpr)),hpx=Math.max(1,Math.round(height*dpr));
+      const wpx=Math.max(1,Math.round(viewport.width*dpr)),hpx=Math.max(1,Math.round(viewport.height*dpr));
       if(canvas.width===wpx&&canvas.height===hpx)return;
       canvas.width=wpx;canvas.height=hpx;
-      try {handleRef.current?.resize(wpx,hpx,width,height);}
+      try {handleRef.current?.resize(wpx,hpx,viewport.width,viewport.height);}
       catch(error){handleRef.current?.fail(error);}
+    };
+    const fitRepresentative=(mesh:Mesh)=>{
+      if(!composite)return;
+      for(let i=0;i<mesh.vertexCount*6;i+=6){
+        const x=mesh.data[i],y=mesh.data[i+1];
+        if(x<1||y<1||x>width-1||y>height-1){expanded=true;break;}
+      }
+      // Once a molecule overflows, retain a window-sized surface. A tight
+      // rotating bound would repeatedly destroy/reallocate multisample buffers.
+      // The native window is also the allocation limit for huge imported parts.
+      const parent=canvas.parentElement!.getBoundingClientRect();
+      const x1=expanded?Math.floor(-parent.left):Math.max(0,Math.floor(-parent.left));
+      const y1=expanded?Math.floor(-parent.top):Math.max(0,Math.floor(-parent.top));
+      const x2=expanded?Math.ceil(window.innerWidth-parent.left):Math.min(width,Math.ceil(window.innerWidth-parent.left));
+      const y2=expanded?Math.ceil(window.innerHeight-parent.top):Math.min(height,Math.ceil(window.innerHeight-parent.top));
+      const next={x:x1,y:y1,width:Math.max(1,x2-x1),height:Math.max(1,y2-y1)};
+      if(next.x!==viewport.x||next.y!==viewport.y||next.width!==viewport.width||next.height!==viewport.height){
+        viewport=next;canvas.style.position='absolute';canvas.style.left=`${next.x}px`;canvas.style.top=`${next.y}px`;
+        canvas.style.width=`${next.width}px`;canvas.style.height=`${next.height}px`;
+      }
     };
     let resolution:MediaQueryList;
     const watchResolution=()=>{
@@ -149,8 +171,8 @@ export function SampleSimCanvas({
               if(presentation){presentation.destroy();presentation=makePresentation();}
             },
             draw: (mesh, bg, alpha=1) => {
-              resize();if(lost)return;
-              if(presentation){presentation.draw({mesh,background:bg,underlay:representativeUnderlay},[],window.devicePixelRatio||1);return;}
+              fitRepresentative(mesh);resize();if(lost)return;
+              if(presentation){presentation.draw({mesh,background:bg,underlay:representativeUnderlay,origin:viewport},[],window.devicePixelRatio||1);return;}
               batch!.draw(
                 { framebuffer: null, width: canvas.width, height: canvas.height },
                 mesh,
@@ -180,10 +202,10 @@ export function SampleSimCanvas({
               if(presentation){presentation.destroy();presentation=makePresentation();}
             },
             draw: (mesh, bg, alpha=1) => {
-              resize();if(lost)return;
+              fitRepresentative(mesh);resize();if(lost)return;
               const enc = device.createCommandEncoder({ label: 'molsim' });
               if(presentation){
-                presentation.draw(enc,{mesh,background:bg,underlay:representativeUnderlay},context.getCurrentTexture().createView(),[],window.devicePixelRatio||1);
+                presentation.draw(enc,{mesh,background:bg,underlay:representativeUnderlay,origin:viewport},context.getCurrentTexture().createView(),[],window.devicePixelRatio||1);
                 device.queue.submit([enc.finish()]);return;
               }
               batch!.draw(enc, context.getCurrentTexture().createView(), mesh, {

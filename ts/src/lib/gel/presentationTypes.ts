@@ -18,6 +18,8 @@ export function validatePresentationSize({width,height}:PresentationSize):void {
 export interface DirectPresentationBase {
   mesh:import('./mesh').Mesh;
   underlay?:readonly PresentationLayer[];
+  /** Logical coordinate at the presentation surface origin. */
+  origin?:{x:number;y:number};
   /** Opaque native display-domain background; defaults to gel black. */
   background?:readonly [number,number,number];
 }
@@ -48,6 +50,6 @@ export function directPresentationGeometry(base:DirectPresentationBase,scale:num
     data.set(mesh.data.subarray(0,mesh.vertexCount*6),first*6);
     const draw={first,count:mesh.vertexCount,topology};first+=mesh.vertexCount;return draw;
   });
-  for(let i=0;i<data.length;i+=6){data[i]*=scale;data[i+1]*=scale;}
+  for(let i=0;i<data.length;i+=6){data[i]=(data[i]-(base.origin?.x??0))*scale;data[i+1]=(data[i+1]-(base.origin?.y??0))*scale;}
   return {data,draws};
 }
