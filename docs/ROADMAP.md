@@ -441,3 +441,11 @@ continuations allocate no graphics resources or contexts for detached canvases.
 Route return initializes new resources and a live sample. Two tests pass without
 product changes. Adapter/device-phase cancellation, hidden resume and remaining
 performance/platform/native parity gates still require evidence.
+
+
+P5 suspension probe remains open: `test:suspension` requires real hidden/frozen
+state, stopped frames, resume, retained views, visible particles and unchanged
+native JSON. Current runner stays visible even after headed minimization; both
+cases fail the visibility precondition. No product workaround or weakened
+assertion was introduced. Resolve the runner/manual workflow before claiming
+hidden-tab resume coverage; the passing regression suite is unchanged.

@@ -1158,3 +1158,27 @@ previous resource-cycle cases, four new lifecycle checks supplement the last
 boundary after context acquisition, not every asynchronous adapter/device phase
 or arbitrary driver timing. Hidden-tab resume, long-running memory/performance,
 current browser/platform and complete native parity checks remain open.
+
+
+## Suspension probe: environment precondition not satisfied
+
+A separate `npm --prefix ts run test:suspension` probe opens sample/loupe views,
+records native JSON and runtime identities, and requires verified hidden state and
+stopped application frames before testing resume. It is intentionally outside
+the established visual regression suite and does not silently skip failed setup.
+
+Observed on the current macOS Chromium runner:
+- Sending Page.setWebLifecycleState(frozen) while visible did not stop the
+  application frame counter (it advanced during a 200ms observation).
+- Bringing a second page forward in headless and headed modes left the original
+  page's document.visibilityState as visible.
+- Headed, single-worker minimization via Browser.setWindowBounds, with the usual
+  anti-background-throttling flags removed, still reported visible. Both renderer
+  cases failed the hidden-state assertion before the suspension/resume assertions.
+
+The final probe/config is discoverable as two tests (`test:suspension -- --list`
+passes). The executed minimization probe failed both visibility preconditions;
+**no hidden-tab or freeze/resume certification is claimed**. No product code was
+changed in response to a browser control that did not establish the required
+state. A supported lifecycle runner or observed manual background/foreground
+workflow is needed. Existing graphics-loss, route and DPR evidence remains separate.

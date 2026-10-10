@@ -14,7 +14,8 @@
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
     "test:production": "npm run build && playwright test -c playwright.production.config.ts",
-    "test:compatibility": "npm run build && playwright test -c playwright.compatibility.config.ts"
+    "test:compatibility": "npm run build && playwright test -c playwright.compatibility.config.ts",
+    "test:suspension": "playwright test -c playwright.lifecycle.config.ts"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
