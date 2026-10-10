@@ -40,6 +40,8 @@ To work in Xcode, generate a project instead of makefiles: `cmake -S proj/cmake 
 
 ## Commands and Shortcuts
 
+On Windows, read Ctrl for the command key and Alt for option.
+
 |             Command          |             Meaning            |
 | :- | :- |
 | *Loupes* ||

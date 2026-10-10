@@ -424,7 +424,7 @@ void GelView::mouseDown( ci::app::MouseEvent e )
 	mMouseDownSelectedMicrotube = mSelectedMicrotube;
 	
 	// add loupe?
-	if ( e.isMetaDown() )
+	if ( e.isAccelDown() )
 	{
 		closeHoverGelDetailView(); // if we animate, we might want to transform one into the other so transition is less weird
 		
@@ -1170,7 +1170,7 @@ void GelView::updateHoverGelDetailView()
 {
 	if ( (    getHasRollover()
 		  || (getHasMouseDown() && kConfig.mHoverGelDetailViewOnBandDrag) )
-	    && (mIsLoupeOnHoverEnabled || GelboxApp::instance()->getModifierKeys() & app::KeyEvent::META_DOWN )
+	    && (mIsLoupeOnHoverEnabled || GelboxApp::instance()->getModifierKeys() & app::KeyEvent::ACCEL_DOWN )
 	    && pickLane(getMouseLoc()) != -1
 	   )
 	{

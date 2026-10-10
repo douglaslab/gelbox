@@ -655,7 +655,7 @@ void GelboxApp::keyDown  ( ci::app::KeyEvent event )
 {
 	mModifierKeys = getModifierKeys(event);
 	
-	if ( event.isMetaDown() )
+	if ( event.isAccelDown() )
 	{
 		switch(event.getCode())
 		{
