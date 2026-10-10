@@ -2383,3 +2383,23 @@ The native probe's initial vector-index setup bug was corrected using lane/speci
 identity; distinct-view and anchor guards pass. Product runtime is unchanged.
 Native interaction/resource-growth comparison and a measured release threshold
 remain open, along with the other full parity acceptance requirements.
+
+
+### Measured performance regression gate added
+
+`npm --prefix ts run test:performance:budget` now checks the compiled50-band/sample/
+three-loupe workload on the recorded M5 Max/macOS27.0.1 profile. Both backends pass:
+p95 interval≤26ms, p99≤34ms, steady callback p95≤4ms, zero tracked resource growth,
+and all four populated molecular views at every checkpoint.18 validator tests
+pass, including four missing/empty-view cases that reproduced a review finding
+before its fix. No product runtime changed.
+
+Two final native runs complete the60-event timeline gesture, verify time0.1→1,
+retain the views and keep Cinder texture/buffer/program/VAO/FBO counts stable.
+Native gesture p95 intervals are17.1–17.8ms; timing boundaries differ from web rAF.
+[Budget, rationale and evidence](../reference/web/performance/release-budget/README.md).
+One preliminary native run lost a view; diagnostics and three subsequent runs
+passed without an app behavior change, so its cause remains unresolved rather
+than declared fixed. The bounded performance gate is implemented; unattended
+native capture reliability, driver-memory/physical-monitor validation and full
+parity acceptance remain open.

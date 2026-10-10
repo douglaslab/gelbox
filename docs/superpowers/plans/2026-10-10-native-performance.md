@@ -35,6 +35,11 @@
 ## Task2: Comparable web measurements and budget
 
 - [x] Rerun compiled web workload on the same hardware and record matching scenario, resource scope and viewport.
-- [ ] Compare steady cadence, callback/update/draw time, interaction responsiveness and resource growth, identifying measurements that are not directly comparable.
-- [ ] Derive a hardware-specific repeatable regression budget from observed variability; keep input-to-photon and driver-memory claims out unless measured.
-- [ ] Independent review, verification, status/roadmap update and local commit. Full release acceptance stays open for other requirements.
+- [x] Compare steady cadence, callback/update/draw time, interaction responsiveness and resource growth, identifying measurements that are not directly comparable.
+- [x] Derive a hardware-specific repeatable regression budget from observed variability; keep input-to-photon and driver-memory claims out unless measured.
+- [x] Independent review, verification, status/roadmap update and local commit. Full release acceptance stays open for other requirements.
+
+Observed limitation: a preliminary native gesture capture failed its final view
+retention guard; diagnostic and two final runs passed. Cause remains unresolved.
+The measurement/budget deliverables are implemented; this does not close the
+whole release or certify unattended native capture reliability.

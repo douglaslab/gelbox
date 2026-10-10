@@ -1,9 +1,12 @@
+import {assertPerformanceBudget} from '../../scripts/performance-budget.mjs';
 import {test,expect} from '@playwright/test';
 import {createServer} from 'node:http';
 import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
+const profile=process.env.GEL_PERF_BUDGET;
+if(profile!==undefined&&profile!=='m5-max')throw new Error('Unknown GEL_PERF_BUDGET profile');
 const percentile=(a:number[],p:number)=>{const sorted=[...a].sort((a,b)=>a-b);return sorted[Math.min(sorted.length-1,Math.floor(sorted.length*p))];};
 test('measure built gel with fifty bands, sample and three loupes',async({page,browser},info)=>{
  const server=createServer(async(req,res)=>{
@@ -79,8 +82,9 @@ test('measure built gel with fifty bands, sample and three loupes',async({page,b
   const interaction={pointerMoves:60,controllerInclusiveMs:drag.end-started,frameSamples:dragIntervals.length,intervalMs:{p50:percentile(dragIntervals,.5),p95:percentile(dragIntervals,.95),p99:percentile(dragIntervals,.99),max:Math.max(...dragIntervals)},end:await snapshot()};
   await expect(page.locator('[data-loupe-id]')).toHaveCount(3);
   expect(errors).toEqual([]);await expect(page.getByRole('alert')).toHaveCount(0);
-  const report={recordedAt:new Date().toISOString(),backend,browser:browser.version(),productCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),os:execFileSync('sw_vers',['-productVersion'],{encoding:'utf8'}).trim(),hardware:execFileSync('sysctl',['-n','hw.model','machdep.cpu.brand_string'],{encoding:'utf8'}).trim(),fixtureSha256:createHash('sha256').update(fixture).digest('hex'),viewport:{width:1365,height:768,dpr:2},warmupSeconds:3,windowSeconds:10,baseline,windows,interaction,limitations:'Steady windows use a static gel and moving molecular views; interaction drags the timeline through 60 pointer moves. Controller-inclusive gesture timing is not input-to-photon latency. rAF intervals and callback CPU time, not GPU timestamps or presentation latency. Instrumented resource-object counts, not resident memory. No native performance comparison or release threshold.'};
+  const report={recordedAt:new Date().toISOString(),backend,browser:browser.version(),productCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),os:execFileSync('sw_vers',['-productVersion'],{encoding:'utf8'}).trim(),hardware:execFileSync('sysctl',['-n','hw.model','machdep.cpu.brand_string'],{encoding:'utf8'}).trim(),fixtureSha256:createHash('sha256').update(fixture).digest('hex'),viewport:{width:1365,height:768,dpr:2},warmupSeconds:3,windowSeconds:10,baseline,windows,interaction,limitations:'Steady windows use a static gel and moving molecular views; interaction drags the timeline through 60 pointer moves. Controller-inclusive gesture timing is not input-to-photon latency. rAF intervals and callback CPU time, not GPU timestamps or presentation latency. Instrumented resource-object counts, not resident memory. Native comparison is retained separately with different timing boundaries; optional GEL_PERF_BUDGET enforces the recorded hardware-specific regression budget.'};
   await writeFile(info.outputPath('application-performance.json'),JSON.stringify(report,null,2));
+  if(profile){const budget=assertPerformanceBudget(report);await writeFile(info.outputPath('budget.json'),JSON.stringify(budget,null,2));}
   console.log(JSON.stringify(report));
  }finally{server.closeAllConnections();await new Promise<void>(r=>server.close(()=>r()));}
 });
