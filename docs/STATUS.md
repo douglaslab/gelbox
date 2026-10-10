@@ -16,6 +16,8 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest original-native editing replay
 
+WebKit now has a dedicated compiled [engine-activity lifecycle check](../reference/web/lifecycle/webkit-activity/README.md): two inactive/active cycles retain sample/loupe identities, pause/resume frames, resume particle painting, and preserve the saved gel. This is explicit engine emulation, not physical sleep or shipping Safari coverage; Firefox forces activity in the test build and remains open.
+
 The original-native tube move into an empty lane, followed by release onto an occupied empty tube, now matches compiled saved documents on all four browser/backend configurations. The destination remains unchanged and the source is removed. [Evidence](../reference/native/replay/tube-movement/README.md). Off-gel and clone native replay remain open.
 
 The empty-tube → create/edit species → delete final species sequence now has actual original-release checkpoints and matching compiled checks on Chromium WebGPU/WebGL2, Firefox and WebKit. The edited sample matches exactly; the original app reopens the web-saved empty sample and reproduces the native checkpoint. [Evidence and encoding distinction](../reference/native/replay/empty-tube/README.md). This closes that W02 subscenario, not the remaining editing gestures or persistent-loupe replay. No product runtime or review artifact changed.

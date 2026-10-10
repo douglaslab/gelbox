@@ -1,0 +1,14 @@
+Playwright 1.49 WebKit wkPage.js lines 109–114:
+  async _initializePageProxySession() {
+    if (this._page._browserContext.isSettingStorageState()) return;
+    const promises = [this._pageProxySession.send('Dialog.enable'), this._pageProxySession.send('Emulation.setActiveAndFocused', {
+      active: true
+    })];
+    const contextOptions = this._browserContext._options;
+
+Firefox 1466 content/main.js lines 56–60:
+  // Enforce focused state for all top level documents.
+  docShell.overrideHasFocus = true;
+  docShell.forceActiveState = true;
+  docShell.disallowBFCache = true;
+  data.frameTree = new FrameTree(browsingContext);
