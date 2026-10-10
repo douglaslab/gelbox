@@ -1,0 +1,98 @@
+
+> @douglaslab/gel@0.0.1 build
+> tsc -b && vite build
+
+vite v5.4.11 building for production...
+transforming...
+✓ 225 modules transformed.
+rendering chunks...
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/sceneImageTexture.ts is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/SharedReferenceImage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/sceneAssets.ts, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/sim/gelSim.ts is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevSimPage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/gelScene.ts, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/sim/solver.ts, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/fixtures/states/ladder-1kb.json is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevSimPage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/gelState.ts, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gpu/device.ts is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/DirectBandCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/GelCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/ScenePresentation.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/sample/SampleSimCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/backend.ts, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevSimPage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevMultiPage.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevPage.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevPerfPage.tsx, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gpu/context.ts is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/DirectBandCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/GelCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/ScenePresentation.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/sample/SampleSimCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevSimPage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevMultiPage.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevPage.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevPerfPage.tsx, dynamic import will not move module into another chunk.
+
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+computing gzip size...
+dist/index.html                                             0.39 kB │ gzip:   0.27 kB
+dist/assets/inter-vietnamese-400-normal-DMkecbls.woff2      4.97 kB
+dist/assets/inter-vietnamese-700-normal-DlLaEgI2.woff2      5.10 kB
+dist/assets/inter-vietnamese-500-normal-DOriooB6.woff2      5.11 kB
+dist/assets/inter-greek-ext-400-normal-DGGRlc-M.woff2       5.26 kB
+dist/assets/inter-greek-ext-500-normal-C4iEst2y.woff2       5.43 kB
+dist/assets/inter-greek-ext-700-normal-qfdV9bQt.woff2       5.44 kB
+dist/assets/inter-vietnamese-400-normal-Bbgyi5SW.woff       6.50 kB
+dist/assets/inter-vietnamese-500-normal-mJboJaSs.woff       6.60 kB
+dist/assets/inter-vietnamese-700-normal-BZaoP0fm.woff       6.63 kB
+dist/assets/inter-greek-ext-400-normal-KugGGMne.woff        7.06 kB
+dist/assets/inter-greek-ext-500-normal-2j5mBUwD.woff        7.19 kB
+dist/assets/inter-greek-ext-700-normal-BoQ6DsYi.woff        7.22 kB
+dist/assets/inter-cyrillic-400-normal-obahsSVq.woff2        7.71 kB
+dist/assets/inter-greek-400-normal-B4URO6DV.woff2           7.78 kB
+dist/assets/inter-cyrillic-500-normal-BasfLYem.woff2        7.90 kB
+dist/assets/inter-cyrillic-700-normal-CjBOestx.woff2        7.90 kB
+dist/assets/inter-greek-500-normal-BIZE56-Y.woff2           7.92 kB
+dist/assets/inter-greek-700-normal-C3JjAnD8.woff2           7.92 kB
+dist/assets/inter-cyrillic-400-normal-HOLc17fK.woff         9.78 kB
+dist/assets/inter-cyrillic-700-normal-DrXBdSj3.woff         9.91 kB
+dist/assets/inter-greek-400-normal-q2sYcFCs.woff            9.92 kB
+dist/assets/inter-cyrillic-500-normal-CxZf_p3X.woff         9.94 kB
+dist/assets/inter-greek-500-normal-Xzm54t5V.woff            9.98 kB
+dist/assets/inter-greek-700-normal-BUv2fZ6O.woff            9.98 kB
+dist/assets/inter-cyrillic-ext-400-normal-BQZuk6qB.woff2   10.23 kB
+dist/assets/inter-cyrillic-ext-500-normal-B0yAr1jD.woff2   10.43 kB
+dist/assets/inter-cyrillic-ext-700-normal-BjwYoWNd.woff2   10.50 kB
+dist/assets/inter-cyrillic-ext-400-normal-DQukG94-.woff    13.34 kB
+dist/assets/inter-cyrillic-ext-700-normal-LO58E6JB.woff    13.41 kB
+dist/assets/inter-cyrillic-ext-500-normal-BmqWE9Dz.woff    13.45 kB
+dist/assets/inter-latin-400-normal-C38fXH4l.woff2          23.66 kB
+dist/assets/inter-latin-500-normal-Cerq10X2.woff2          24.27 kB
+dist/assets/inter-latin-700-normal-Yt3aPRUw.woff2          24.36 kB
+dist/assets/inter-latin-400-normal-CyCys3Eg.woff           30.70 kB
+dist/assets/inter-latin-500-normal-BL9OpVg8.woff           31.28 kB
+dist/assets/inter-latin-700-normal-BLAVimhd.woff           31.32 kB
+dist/assets/inter-latin-ext-400-normal-C1nco2VV.woff2      35.00 kB
+dist/assets/inter-latin-ext-500-normal-CV4jyFjo.woff2      36.02 kB
+dist/assets/inter-latin-ext-700-normal-Ca8adRJv.woff2      36.24 kB
+dist/assets/inter-latin-ext-400-normal-77YHD8bZ.woff       47.56 kB
+dist/assets/inter-latin-ext-500-normal-BxGbmqWO.woff       48.49 kB
+dist/assets/inter-latin-ext-700-normal-TidjK2hL.woff       48.63 kB
+dist/assets/index-aSZotJcw.css                             22.39 kB │ gzip:   5.11 kB
+dist/assets/shader-DOwDLr9M.js                              0.25 kB │ gzip:   0.20 kB │ map:     0.98 kB
+dist/assets/context-Bdp54W6L.js                             0.29 kB │ gzip:   0.24 kB │ map:     1.06 kB
+dist/assets/gel-passthrough.frag-C8CjQLHU.js                0.41 kB │ gzip:   0.28 kB │ map:     0.65 kB
+dist/assets/single-band-DjXVxAJG.js                         0.48 kB │ gzip:   0.34 kB │ map:     0.10 kB
+dist/assets/quad-Do98hYei.js                                0.58 kB │ gzip:   0.40 kB │ map:     1.98 kB
+dist/assets/quad-0DRiqXI7.js                                0.63 kB │ gzip:   0.37 kB │ map:     2.39 kB
+dist/assets/uniforms-D8CJtg8z.js                            0.63 kB │ gzip:   0.40 kB │ map:     2.58 kB
+dist/assets/passthrough.vert-C2lNNOhN.js                    0.63 kB │ gzip:   0.35 kB │ map:     0.90 kB
+dist/assets/passthrough.vert-Dpbd90Z0.js                    0.91 kB │ gzip:   0.48 kB │ map:     1.23 kB
+dist/assets/gel-passthrough.frag-Cs1BeiKx.js                1.19 kB │ gzip:   0.63 kB │ map:     1.48 kB
+dist/assets/program-DkyvT7kn.js                             1.30 kB │ gzip:   0.66 kB │ map:     4.98 kB
+dist/assets/meshBatch-DkHSB99V.js                           1.86 kB │ gzip:   1.00 kB │ map:     6.47 kB
+dist/assets/presentationScene-DJs-6lmS.js                   3.41 kB │ gzip:   1.55 kB │ map:    14.88 kB
+dist/assets/meshBatch-DkROLU87.js                           3.64 kB │ gzip:   1.62 kB │ map:    10.90 kB
+dist/assets/globalWarp-BPxVXlS3.js                          3.69 kB │ gzip:   1.54 kB │ map:    19.54 kB
+dist/assets/present-gl-BV-nbbe4.js                          8.07 kB │ gzip:   2.63 kB │ map:    21.42 kB
+dist/assets/present-CydHRO3p.js                             8.17 kB │ gzip:   2.71 kB │ map:    21.63 kB
+dist/assets/render-gl-6fXlfgC_.js                           9.30 kB │ gzip:   2.71 kB │ map:    28.49 kB
+dist/assets/render-YJiswTkg.js                             15.25 kB │ gzip:   4.04 kB │ map:    50.57 kB
+dist/assets/50-band-2vpD0nLZ.js                            21.40 kB │ gzip:   4.95 kB │ map:     0.10 kB
+dist/assets/pngPixels-DjZQBMa3.js                         231.53 kB │ gzip:  70.04 kB │ map: 1,007.32 kB
+dist/assets/index-BNfBla5D.js                             410.05 kB │ gzip: 127.34 kB │ map: 1,465.15 kB
+✓ built in 1.04s

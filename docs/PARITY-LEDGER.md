@@ -135,6 +135,10 @@ not by the old M1–M27 milestone queue.
   the distributable asset/font strategy and supported character/platform scope.
   Do not silently equate Inter/fallback rendering with native Avenir. Other OS
   support and publication targets are not yet advertised or chosen.
+  [Distribution inventory](../reference/web/font-distribution/README.md) now identifies
+  all46 shipped native text images and their exact native references, the95-character
+  dynamic ASCII scope, and local Avenir versus bundled Inter paths. The missing
+  Inter notice is included in the current build; this does not resolve Avenir rights.
 
 - **D04 — stale native buffer binding after loading.** The original release keeps an open gel buffer panel bound to the previous document, so preset edits do not reach the imported gel until settings is reopened. [Native saves/source and compiled regression](../reference/native/files/interop/gel/stale-buffer/README.md) prove the difference. The web now matches native panel lifetime and retains its existing current-document binding. Acceptance of the binding correction is pending; W01 is not closed.
 
