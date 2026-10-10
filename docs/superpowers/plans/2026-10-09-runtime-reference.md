@@ -43,10 +43,26 @@
 - [x] Implement extraction/build, driver adapters and explicit cases. Extract the constructor, complete `newFragment`, complete palette method and complete `ViewCollection::tick`; label setup/inspector statement extraction and scripted event callbacks. Use original sample fields and particle algorithms; inspect generated captures without treating them as automatic truth.
 - [x] Run `python3 reference/native/runtime/build.py --build /tmp/gel-native-runtime` and the unittest command; expect deterministic capture and all contracts passing. Add or correct assertions only from source/independent checks, not merely generated values.
 - [ ] Validate original source/extraction pins, byte-identical repeated output, unchanged existing numerical artifacts, and `git diff --check`. Document limitations and next runtime integration work.
-- [ ] Commit `test: capture native shared runtime sequences` and run the task contract. Obtain one fresh read-only review; address Important findings with regression tests.
+- [x] Commit `test: capture native shared runtime sequences` and run the task contract. Obtain one fresh read-only review; address Important findings with regression tests.
 
 ## Decisions
 
 - Continue inline under the existing goal and parity authorization; no additional permission gate for local reference work.
 - This is prerequisite evidence for the runtime correction, not a reduced definition of app completion.
 - Self-review: one task, no cross-task interfaces; each listed risk has an explicit contract above.
+
+## Verification and review
+
+Implemented in `2b8dbf9`; 16 scenarios captured twice identically and 8/8 Python contracts pass. A further fresh executable run matched, and the independent reviewer repeated two more executions with identical output. Twenty native source hashes, extracted blocks, generated includes, Cinder/library/executable hashes and diff cleanliness were verified. Existing numerical artifacts and product code are unchanged. The initially missing-output tests failed before capture; stale provenance and a missing composed edit scenario were also rejected before regeneration.
+
+Fresh read-only Astra review found no Critical, Important or Minor findings. No fix pass or deferred minors. Retain this worktree for continued web parity implementation; no merge, push or publication.
+
+Rulings carried from execution and review:
+
+1. Continue inline under existing goal authorization for reversible local reference work. Cost if wrong: revise this reference increment; no product behavior changed.
+2. Correct the paused-age test: native `randomPart` assigns a random initial age even when time scale is zero. Require ages to match after identical reseeding, rather than equal zero. Cost if wrong: a paused lifetime mismatch could be overlooked; the source assignment and full particle capture remain available.
+3. Native GUI event ordering, focus and panel lifecycle remain unverified by scripted adapters. Cost of treating this as complete would be incorrect application command ordering; require subsequent GUI replay.
+4. Original executable/raster equivalence remains unverified by modern Cinder/headless execution. Cost of overclaiming would be an unsupported visual parity declaration; retain the full native visual gate.
+5. Band-to-loupe extraction and degradation filtering remain under the existing independent numerical reference, unchanged here. Cost if these layers compose differently is a missed interaction; verify composed GUI/runtime behavior later.
+6. Web runtime integration, StrictMode and delayed GPU initialization remain required next implementation work. Cost if omitted: the confirmed runtime ordering mismatch persists despite the new reference passing.
+7. Other P0–P5 gates remain open. Cost of closing them from this increment would be premature app completion; the active goal remains unchanged.
