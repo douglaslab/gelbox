@@ -1,0 +1,242 @@
+[
+  {
+    "id": "direct-first",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 20,
+      "top": 30,
+      "width": 120,
+      "height": 180
+    },
+    "fragmentOrigin": {
+      "x": 40,
+      "y": 10
+    },
+    "sampleLast": false,
+    "gel": {
+      "left": 90.25,
+      "top": 70.75,
+      "width": 96,
+      "height": 128,
+      "last": false,
+      "mode": "direct"
+    }
+  },
+  {
+    "id": "direct-last",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 20,
+      "top": 30,
+      "width": 120,
+      "height": 180
+    },
+    "fragmentOrigin": {
+      "x": 40,
+      "y": 10
+    },
+    "sampleLast": false,
+    "gel": {
+      "left": 90.25,
+      "top": 70.75,
+      "width": 96,
+      "height": 128,
+      "last": true,
+      "mode": "direct"
+    }
+  },
+  {
+    "id": "effects-first",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 20,
+      "top": 30,
+      "width": 120,
+      "height": 180
+    },
+    "fragmentOrigin": {
+      "x": 40,
+      "y": 10
+    },
+    "sampleLast": false,
+    "gel": {
+      "left": 90.25,
+      "top": 70.75,
+      "width": 96,
+      "height": 128,
+      "last": false,
+      "mode": "effects"
+    }
+  },
+  {
+    "id": "effects-last",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 20,
+      "top": 30,
+      "width": 120,
+      "height": 180
+    },
+    "fragmentOrigin": {
+      "x": 40,
+      "y": 10
+    },
+    "sampleLast": false,
+    "gel": {
+      "left": 90.25,
+      "top": 70.75,
+      "width": 96,
+      "height": 128,
+      "last": true,
+      "mode": "effects"
+    }
+  }
+]

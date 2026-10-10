@@ -113,3 +113,23 @@ test('shared device acquisition finishing after route removal does not configure
  await page.evaluate(async()=>{(window as any).__releaseSharedDevice();const {requestDevice}=await import('/src/lib/gpu/device.ts');await requestDevice();await new Promise<void>(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>r())));});
  expect(await page.evaluate(()=>(window as any).__sharedLateContexts)).toBe(0);
 });
+
+test('effects/direct switching reuses the shared surface and retires scientific resources',async({page},info)=>{
+ const backend=info.project.name.endsWith('webgl2')?'webgl2':'webgpu';await setup(page,backend);
+ const scene=page.getByTestId('shared-scene'),gel=page.getByTestId('gel-canvas');
+ const node=await scene.elementHandle();
+ const sample=page.getByTestId('sample-frame'),before=await sample.screenshot();
+ const counts=new Map<string,number>();
+ for(let i=0;i<12;i++){
+  await page.keyboard.press('Meta+r');
+  const mode=i%2===0?'direct':'effects';
+  await expect(gel).toHaveAttribute('data-render-mode',mode);await expect(gel).toHaveAttribute('data-shared-ready','1');
+  await expect(scene).toHaveAttribute('data-context',backend);
+  expect(await scene.evaluate((canvas,original)=>canvas===original,node)).toBe(true);
+  const live=await count(page);if(counts.has(mode))expect(live).toBe(counts.get(mode));else counts.set(mode,live);
+  await unchanged(page);expect(await sample.screenshot()).toEqual(before);
+ }
+ expect(counts.get('direct')!).toBeLessThan(counts.get('effects')!);
+ await page.evaluate(()=>{location.hash='/dev';});await expect(scene).toHaveCount(0);
+ await expect.poll(()=>count(page)).toBe(0);
+});

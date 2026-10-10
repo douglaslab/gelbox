@@ -3,22 +3,26 @@ import fs from 'node:fs';
 const root='../reference/native/modern/direct-band-scenes/';
 const cases=JSON.parse(fs.readFileSync('../reference/native/numerical/direct-bands-cases.json','utf8'));
 const scenes=JSON.parse(fs.readFileSync(root+'manifest.json','utf8')).cases;
-for(const scale of [1,2])test.describe(`native direct bands DPR${scale}`,()=>{
+for(const shared of [false,true])for(const scale of [1,2])test.describe(`native direct bands DPR${scale} shared:${shared}`,()=>{
  test.use({viewport:{width:400,height:300},deviceScaleFactor:scale});
  test('complete component pixels match independently rasterized native meshes',async({page},info)=>{
   const backend=info.project.name.endsWith('webgl2')?'webgl2':'webgpu';
-  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),backend);
+  await fs.promises.writeFile(info.outputPath('case.json'),JSON.stringify({shared,scale,backend}));
+  await page.addInitScript(({backend,shared})=>{localStorage.setItem('gelBackend',backend);if(shared)localStorage.setItem('gelSharedPresentation','1');const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(...args:any[]){const context=original.apply(this,args as any);if(context)this.dataset.context=args[0];return context;} as any;},{backend,shared});
   await page.goto('/#/dev');
-  await page.evaluate(async()=>{
+  await page.evaluate(async shared=>{
    const {default:React}=await import('/node_modules/.vite/deps/react.js');
    const {default:{createRoot}}=await import('/node_modules/.vite/deps/react-dom_client.js');
    const {DirectBandCanvas}=await import('/src/components/gel/DirectBandCanvas.tsx');
+   const {GelProvider}=await import('/src/components/gel/GelContext.tsx');
    const host=document.createElement('div');host.style.cssText='position:fixed;left:0;top:0;z-index:999';document.body.append(host);
    const root=createRoot(host);
-   (window as any).__renderNativeDirect=(bands:any[],wells:boolean)=>root.render(React.createElement(DirectBandCanvas,{bands,gelSize:{width:96,height:64},wells:wells?[{x1:12.25,y1:29.75,x2:38.25,y2:34.25},{x1:.25,y1:2.75,x2:4.25,y2:5.25}]:[]}));
+   (window as any).__renderNativeDirect=(bands:any[],wells:boolean)=>{const canvas=React.createElement(DirectBandCanvas,{bands,gelSize:{width:96,height:64},wells:wells?[{x1:12.25,y1:29.75,x2:38.25,y2:34.25},{x1:.25,y1:2.75,x2:4.25,y2:5.25}]:[]});root.render(shared?React.createElement(GelProvider,null,canvas):canvas);};
    (window as any).__renderNativeDirect([],false);
-  });
-  const canvas=page.locator('[data-render-mode="direct"]');await expect(canvas).toHaveAttribute('width',String(96*scale));
+  },shared);
+  const canvas=page.locator('[data-render-mode="direct"]');
+  if(shared){await expect(canvas).toHaveAttribute('data-shared-ready','1');expect(await canvas.getAttribute('data-context')).toBeNull();await expect(page.getByTestId('shared-scene')).toHaveAttribute('data-context',backend);}
+  else await expect(canvas).toHaveAttribute('width',String(96*scale));
   const results=[];
   for(const scene of scenes.filter((s:any)=>s.scale===scale)){
    await page.evaluate(({bands,wells})=>(window as any).__renderNativeDirect(bands,wells),{bands:cases.find((c:any)=>c.id===scene.mesh).bands,wells:scene.wells});

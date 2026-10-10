@@ -1,4 +1,4 @@
-import {useEffect,useRef} from 'react';
+import {useEffect,useRef,useLayoutEffect,useMemo} from 'react';
 import type {Band} from '../../lib/sim/band';
 import type {WellRect} from '../../lib/gel/presentationTypes';
 import {buildDirectBandMesh} from '../../lib/gel/directBands';
@@ -7,9 +7,41 @@ import {useRendererRecovery} from '../../lib/gpu/useRendererRecovery';
 import {watchDeviceLoss,watchDeviceErrors,watchGlLoss} from '../../lib/gpu/loss';
 import {GraphicsFailure} from '../primitives/GraphicsFailure';
 import {useDisplayScale} from '../../lib/gpu/useDisplayScale';
+import {useSharedPresentation} from './ScenePresentation';
+import {nativeViewScissor,solidSceneRect,type ScenePresentationRegistry} from '../../lib/gel/scenePresentation';
+import type {PresentationLayer} from '../../lib/gel/presentationTypes';
+
+type DirectBandCanvasProps={bands:Band[];gelSize:{width:number;height:number};wells?:readonly WellRect[]};
+
+export function DirectBandCanvas(props:DirectBandCanvasProps) {
+  const registry=useSharedPresentation();
+  return registry?<SharedDirectBandCanvas {...props} registry={registry}/>:<StandaloneDirectBandCanvas {...props}/>;
+}
+
+function SharedDirectBandCanvas({bands,gelSize,wells=[],registry}:DirectBandCanvasProps&{registry:ScenePresentationRegistry}) {
+  const canvasRef=useRef<HTMLCanvasElement>(null);
+  const mesh=useMemo(()=>buildDirectBandMesh(bands),[bands]);
+  const latest=useRef({mesh,wells});latest.current={mesh,wells};
+  useLayoutEffect(()=>registry.register('gel',frame=>{
+    const canvas=canvasRef.current;if(!canvas)return [];
+    const rect=canvas.getBoundingClientRect(),transform=[1,0,0,1,rect.left,rect.top] as const;
+    const scissor=nativeViewScissor(rect,frame.height,frame.scale);
+    const commands:PresentationLayer[]=[
+      {...solidSceneRect(0,0,gelSize.width,gelSize.height,[0,0,0]),transform},
+      {mesh:latest.current.mesh,blend:'additive',transform,scissor},
+      ...latest.current.wells.map(({x1,y1,x2,y2}):PresentationLayer=>({
+        mesh:{data:new Float32Array([[x1,y1],[x2,y1],[x2,y2],[x1,y2],[x1,y1]].flatMap(p=>[...p,.8,.8,.8,.8])),vertexCount:5},
+        topology:'line-strip',transform,scissor,
+      })),
+    ];
+    canvas.dataset.sharedReady='1';return commands;
+  }),[registry,gelSize.width,gelSize.height]);
+  return <canvas ref={canvasRef} data-testid="gel-canvas" data-render-mode="direct" aria-hidden
+    style={{width:gelSize.width,height:gelSize.height,display:'block',opacity:0}}/>;
+}
 
 /** Native drawBands skips gel effects; wells still use native window presentation. */
-export function DirectBandCanvas({bands,gelSize,wells=[]}:{bands:Band[];gelSize:{width:number;height:number};wells?:readonly WellRect[]}) {
+function StandaloneDirectBandCanvas({bands,gelSize,wells=[]}:DirectBandCanvasProps) {
   const {failed,attempt,forcedBackend,onFailure,onLoss,onSuccess,onRetry}=useRendererRecovery();
   const dpr=useDisplayScale();
   const canvasRef=useRef<HTMLCanvasElement>(null),latest=useRef({bands,wells}),drawRef=useRef<(()=>void)|null>(null);

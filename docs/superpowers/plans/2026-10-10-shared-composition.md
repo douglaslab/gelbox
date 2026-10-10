@@ -88,6 +88,12 @@ resources use existing recovery behavior. Keep a development-only migration swit
 
 ## Task 3: Gel, loupes, images and assets
 
+In progress: effects gel and direct bands use the shared surface behind the
+existing development flag. Scientific resource ownership, render invalidation,
+startup native pixels, repeated mode switching and mixed gel/sample/fragment
+overlaps are verified in focused checks. Loupes, images, all transforms and their
+composed workflows remain open; these increments do not close Task3.
+
 Files: `GelCanvas.tsx`, `DirectBandCanvas.tsx`, `Loupe.tsx`,
 `ReferenceImageLayer.tsx`, scene registry and presentation asset owner.
 
@@ -118,5 +124,5 @@ Files: `MicrotubeRow.tsx`, `GelOverlay.tsx`, `SampleView.tsx`, inspector views,
   browser compatibility, lifecycle and combined performance checks. Record each
   remaining original-GUI/roadmap gate rather than marking the full app complete.
 
-Task 1 is the next implementation increment. Later tasks may be decomposed further
+Task 3 is the current implementation increment. Later work may be decomposed further
 when native texture/font evidence arrives; their acceptance scope must not shrink.
