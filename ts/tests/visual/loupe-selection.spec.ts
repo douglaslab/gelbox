@@ -1,4 +1,6 @@
 import {test,expect} from '@playwright/test';
+for(const shared of [false,true])test.describe(`shared:${shared}`,()=>{
+test.beforeEach(async({page})=>{if(shared)await page.addInitScript(()=>localStorage.setItem('gelSharedPresentation','1'));});
 test('loupe hover and selection resolve to the source species in the open sample',async({page},info)=>{
  await page.addInitScript(b=>{localStorage.setItem('gelBackend',b);(window as any).__molsimFreezeAfterTicks=60;},info.project.name.includes('webgl2')?'webgl2':'webgpu');
  await page.setViewportSize({width:1365,height:800});await page.goto('/#/gel');
@@ -93,4 +95,6 @@ test('leaving a loupe clears rollover acquired by a frame without a pointer even
  await page.mouse.move(0,0);
  await expect.poll(()=>page.evaluate(()=>(window as any).__observedGelStore.getSnapshot().gel.rollover)).toBeNull();
  await expect(page.getByTestId('fragment-view')).toHaveCount(0);
+});
+
 });

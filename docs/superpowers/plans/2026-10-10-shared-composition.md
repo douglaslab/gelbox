@@ -99,6 +99,20 @@ disposal, backend recovery and both-mode image interactions are covered. Remaini
 transforms, combined workflows and broader codec evidence remain open; these
 increments do not close Task3.
 
+Transform scope audit: native `View.cpp::getRectMappingAsMatrix` maps axis-aligned
+bounds to frames; `GelboxApp.cpp` window layout only translates the fixed-size
+gel, and `GelSettingsView.cpp` explicitly disables rotation without a callback.
+The web rotation control is likewise disabled. Arbitrary rotated gel presentation
+is not a native parity requirement. Reachable resizing, DPR, scrolling and
+frame/bounds mappings still require coverage; image scaling is covered above.
+
+Shared loupe source-selection/rollover tests now run beside legacy mode (12 cases
+across both backends). A combined hidden-lane/sample/loupe/image workflow verifies
+retained sample identity and molecular engines, keyboard cycling while hidden,
+image pixel stability and removal, lane restoration and loupe deletion (4 cases).
+These are behavior checks, not certification of remaining DOM chrome overlap.
+
+
 Files: `GelCanvas.tsx`, `DirectBandCanvas.tsx`, `Loupe.tsx`,
 `ReferenceImageLayer.tsx`, scene registry and presentation asset owner.
 
