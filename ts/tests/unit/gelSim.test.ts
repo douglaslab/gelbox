@@ -118,6 +118,18 @@ describe('fragToBands — dispatch', () => {
 });
 
 describe('fragToBands — band fields', () => {
+  it.each([-200, -70, -1, 0, 1, 70, 200])('curvature follows voltage polarity at %s V', voltage => {
+    const sample = makeSample({aggregate: [1, 1], degrade: .4});
+    const bands = fragToBands(sample, 0, WELL, 0, {...CTX_DEFAULT, voltage});
+    expect(bands).toHaveLength(2);
+    for (const band of bands) {
+      const strength = (band.rect.y2 - band.rect.y1) * .35;
+      expect(band.smileHeight).toBeCloseTo(strength * (voltage < 0 ? -1 : 1), 6);
+    }
+    const [dye] = fragToBands(makeSample({dye: 0}), 0, WELL, 0, {...CTX_DEFAULT, voltage});
+    expect(dye.smileHeight).toBe(0);
+  });
+
   it('monomer band has smile (smileHeight = rect.height × 0.35, smileExp = 4)', () => {
     const sample: Sample = {
       buffer: BUFFER_TBE,

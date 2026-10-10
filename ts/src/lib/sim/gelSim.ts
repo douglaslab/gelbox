@@ -86,7 +86,8 @@ function fragAggregateToBand(
   // Seeds + smile + flames depend on rect, computed AFTER calcBandGeometry
   const randSeed = calcRandSeed(lane, mass, ctx.voltage, geom.rect.y1);
   const wellDamageRandSeed = calcWellDamageRandSeed(lane);
-  const smileHeight = height * 0.35;
+  // Requested polarity behavior: reverse the native smile below zero volts.
+  const smileHeight = height * 0.35 * (ctx.voltage < 0 ? -1 : 1);
   const smileExp = 4;
   const flameHeight = height * calcFlames(mass);
 

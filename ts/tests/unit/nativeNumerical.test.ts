@@ -26,7 +26,12 @@ it.each(cases.map((c: any, i: number) => [c.id, c, outputs[i]]))('native C++ ban
   // Native float32 subtracts translated rectangle endpoints before multiplying H2O height by 6.
   // Bound that cancellation by 12 float32 relative epsilons at the coordinate scale.
   const scale = Math.max(1, ...reference.bands.flatMap((b: any) => Object.values(b.rect).map(v => Math.abs(v as number))));
-  compare(fragToBands(c.sample, c.fragment, c.wellRect, c.lane, c.ctx), reference.bands, c.id,
+  // Shawn requested reverse-voltage frowning on 2026-10-10. Keep the raw native
+  // corpus intact; only its curvature sign is intentionally superseded.
+  const expectedBands = c.ctx.voltage < 0
+    ? reference.bands.map((band: any) => ({...band, smileHeight: band.smileHeight === 0 ? 0 : -band.smileHeight}))
+    : reference.bands;
+  compare(fragToBands(c.sample, c.fragment, c.wellRect, c.lane, c.ctx), expectedBands, c.id,
     Math.max(3e-4, 12 * 2 ** -23 * scale));
 });
 it.each([undefined, null, NaN, .5])('does not coerce invalid seed %s into a matching zero', seed => {

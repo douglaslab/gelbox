@@ -12,7 +12,7 @@ export interface Band {
   smearBrightnessAbove: [number, number]; // [near, far] in 0..1
   smearBrightnessBelow: [number, number];
   flameHeight: number;                    // gel-space pixels above the band top
-  smileHeight: number;                    // gel-space pixels (peak peel-back)
+  smileHeight: number;                    // signed gel-space pixels (negative voltage reverses curvature)
   smileExp: number;                       // smile curve exponent
   blur: number;                           // distance in gel-space pixels (integer)
   brightness: number;                     // 0..1 — modulates the body alpha

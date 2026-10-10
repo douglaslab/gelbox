@@ -16,6 +16,12 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Current acceptance status
 
+Shawn's requested negative-voltage frown is implemented on both renderers.
+Positive voltage retains the smile, negative reverses it, and switching back
+restores the original pixels. [Evidence](../reference/web/voltage-curvature/README.md):
+2,950 unit tests and32 compiled tests passed. This is an explicitly requested
+change from native behavior (D05), separate from pending defect exceptions.
+
 The legacy web import gap is fixed: nested scientific fields are validated before
 replacement, saved inputs and hidden sample slots are retained, and obsolete layout
 context is converted to native geometry. [Evidence](../reference/web/legacy-import/README.md)

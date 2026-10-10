@@ -138,6 +138,14 @@ not by the old M1–M27 milestone queue.
 
 - **D04 — stale native buffer binding after loading.** The original release keeps an open gel buffer panel bound to the previous document, so preset edits do not reach the imported gel until settings is reopened. [Native saves/source and compiled regression](../reference/native/files/interop/gel/stale-buffer/README.md) prove the difference. The web now matches native panel lifetime and retains its existing current-document binding. Acceptance of the binding correction is pending; W01 is not closed.
 
+- **D05 — accepted voltage-dependent curvature.** Shawn explicitly requested on
+  2026-10-10 that negative voltage reverse smiling into frowning. Implemented by
+  changing only the sign of DNA-band curvature below zero volts; dyes retain zero
+  curvature and nonnegative behavior is unchanged. [Red/green unit and compiled
+  pixel evidence](../reference/web/voltage-curvature/README.md) records the exact
+  request. Raw native goldens are retained; numerical comparison identifies this
+  sign change explicitly.
+
 No accepted deviation is recorded here unless an explicit decision is linked.
 Browser dialogs/download mechanics and OS window borders are the boundary
 adaptations already identified by the roadmap; they do not waive application
@@ -145,8 +153,8 @@ state or client-area parity.
 
 ## Verification commands and evidence freshness
 
-Fresh checks after the legacy import and gel-settings lifetime corrections are
-2,943 unit passes and26 compiled Chromium passes with216 native RGB comparisons.
+Fresh checks after the legacy import, gel-settings lifetime and requested voltage-curvature changes are
+2,950 unit passes and32 compiled Chromium passes with216 native RGB comparisons.
 The latest targeted file/settings/buffer integration run has52 passes; the
 preceding legacy decoder increment also checked66 file/image cases. The earlier
 broad runtime run was955 browser passes/1 intentional duplicate skip. Other
