@@ -6,6 +6,7 @@ import {ReferenceImageLayer,useReferenceImages} from '../components/gel/Referenc
 import {isReferenceImage} from '../lib/gel/referenceImages';
 import { sameSample } from '../lib/gel/sampleFragRef';
 import { FileControls } from '../components/chrome/FileControls';
+import { HelpButton } from '../components/chrome/HelpButton';
 import { useMemo, useState, useRef, useLayoutEffect } from 'react';
 import { GelProvider, useGelState, useGelDispatch } from '../components/gel/GelContext';
 import { GelCanvas } from '../components/gel/GelCanvas';
@@ -175,6 +176,7 @@ function GelInner() {
         </div>
       )}
       <FileControls />
+      <HelpButton />
       <Stage
         left={leftPanel}
         middle={state.inspectorMode !== 'gel-settings' && getVisibleSampleLane(state) !== null ? <SampleView /> : null}

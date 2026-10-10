@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 273 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 275 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; reliable fresh native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -31,7 +31,7 @@ These results combine regression coverage and independent native differential ch
 The [composed native runtime reference](../reference/native/runtime/README.md) covers sixteen sequences and eight contracts for constructors, local/global random draws, species generation, loupe preroll, ordered ticks and collection lifetimes. The matching TypeScript runtime is now connected to the live app through a synchronous command store and one application frame driver. Canvases draw existing engines; GPU readiness and React effect replay do not own simulation. Native species generation, intermediate tube/loupe notifications, inspector timing and right-pointer creation/drag are implemented. Twelve store tests and eight new browser checks supplement the reference tests. The review fix is verified; these scripted references and browser checks do not certify full native GUI history or raster parity.
 
 1. **Cross-view certification and shared runtime.** Sample identity, off-document references, raw fragment indices and frame selection-following are now implemented and regression-tested. Complete composed native GUI replay of selection/focus/panel transitions, and extend verification of application-wide RNG initialization and view scheduling beyond the captured command sequences.
-2. **Remaining native features and controls.** Reference-image views are now implemented with source-backed gestures and shared ordering; native image decoding/raster and composed GUI certification remain. The Render-off alternate band scene is now implemented; native raster certification remains. Complete settings/help/menu geometry, shortcuts, focus and remaining interaction details, with composed native replay of the restored right-click creation/drag sequence.
+2. **Remaining native features and controls.** Reference-image views are now implemented with source-backed gestures and shared ordering; native image decoding/raster and composed GUI certification remain. The Render-off alternate band scene is now implemented; native raster certification remains. Complete settings/menu geometry, shortcuts, focus and remaining interaction details, with composed native replay of the restored right-click creation/drag sequence.
 3. **Native visual certification.** Capture controlled matching native/web scenes for gel effects, blur/compositing, particles, loupes, selection and complete application layout. Resolve typography, asset proportions, resize/DPR behavior and justified raster tolerances. Decide cross-platform font handling and any browser layout adaptations explicitly.
 4. **Composed workflow verification.** Expand native → web edit/save → native roundtrips and replay move/clone/delete with loupes open, hidden-lane restoration, degraded multimer dragging, and buffer changes with resizing/failures. Resolve recorded XML safety and unsupported native import edge cases explicitly.
 5. **Browser lifecycle reliability.** Verify adapter failure and fallback, device/context loss, async unmount/disposal, route remount, resize/DPR, hidden-tab resume and repeated multi-view creation/removal. Provide a clear failure when no supported renderer works. Certify shortcuts that browser chrome may intercept.
@@ -511,3 +511,29 @@ unchanged nonparity 2D fallback remain required later gates. Zero random aspect/
 multimer probabilities match the pinned native defaults; exposing other tuning
 requires new reference coverage. Work stays in the isolated worktree; no merge,
 push or publication was performed.
+
+
+## Native Help control
+
+The native Help icon is restored at the lower-right window corner: 32×32 logical
+pixels, 16px gutters, original 1×/2× assets, native hover/down tint and shared view
+ordering. It opens the pinned `Config::mHelpURL` in a new browser tab while retaining
+the gel document and prior sample focus. The original URL remains
+`http://douglaslab.org/gelbox/`; its live HTTPS destination was verified on 2026-10-09.
+Browser tab navigation is the counterpart of native opening the external browser.
+
+The two backend tests failed for the missing control before implementation and now
+verify size, resize placement, hover tint, actual new-window navigation and focus
+preservation. Final browser suite: **275 passed, one intentional duplicate skip**;
+production build/TypeScript passes. The model unit suite remains **2,845 passed**
+from the immediately preceding highlight correction (Help changes no model code).
+Two full-window loupe goldens changed only for Help; both diffs and a resized Help
+capture were inspected before updating. No particle goldens changed.
+
+Fresh CUA capture/input against the original Cocoa release is working again:
+1365×768 client, 2× pixels, 56px title bar; clicking screenshot `(64,1528)` opened
+the application menu. This is current interactive evidence, not binary/source
+or full raster certification. The native menu visibly uses the notched divider
+asset and 28px item offsets; the web menu still uses a CSS border/flex gap. That
+remaining menu geometry correction is next. Source contracts: native
+`GelboxApp::makeHelpBtn`, `Config.h`, `Layout.h`, `AppSettingsView::setup` at `5f51097`.
