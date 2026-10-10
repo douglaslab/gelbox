@@ -1,0 +1,21 @@
+{
+  "nativeCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sources": {
+    "include/Sample.h": "e580003d0e6c21c28d0166ab865251165e643b329f88016cff5ca8c3de894c3d",
+    "include/Buffer.h": "80ff6fe8a50aeb867055c7e1d1745f2d96b4e3737d2af803c901df68a9f0689e",
+    "include/Dye.h": "2f79d16e2da24ab3822ef9d817cbb18c4a94ed0dc295d4c2cf06c473b30c26df",
+    "include/Aggregate.h": "ec00f39c39239e9bf8596383a9efa9b9255b7c7238770c49ef1cf0885c5c3e97",
+    "include/Serialize.h": "9e095d922298e87d262207b5d0fe86265de213133a5b554bab153c2ac9a75364",
+    "src/Sample.cpp": "58fe12e7b766ac6064b22e5c3f729dcc9674f915f1f089d8d8e1e8222b1f87e6",
+    "src/Buffer.cpp": "e4c6bfda31962864060a27dcc5c6c303e61b5b583c705c2cb536334a148c11c3"
+  },
+  "bufferExtractSha256": "9cb4f12588caa718913808c8852ce8d42b442b97954b6d1fccf074a625f73e48",
+  "executableSha256": "0d4734625d4c573a3a364c209805554fee76a1cb5b99cc574f9b0edb73bd1954",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+  "limitations": [
+    "Sample JSON constructor and writer only; does not run Gel constructor or application file dispatch.",
+    "Uses retained Cinder JsonTree/jsoncpp source with modern compiler and prebuilt Cinder library; not original executable equivalence.",
+    "Buffer GUI icon loader excluded; native serialization functions extracted verbatim."
+  ]
+}

@@ -30,6 +30,11 @@ function array(value: unknown, path: string): unknown[] {
   if (!Array.isArray(value)) return invalid(path);
   return value;
 }
+// Cinder JsonTree serializes an empty array as null and iterates it as
+// zero children. Keep scalar/color validation separate from these collections.
+function collection(value: unknown, path: string): unknown[] {
+  return value === null ? [] : array(value, path);
+}
 function buffer(value: unknown, path: string): Buffer {
   if (value === undefined) return { ...BUFFER_TBE };
   const b = object(value, path);
@@ -52,7 +57,7 @@ function fragment(value: unknown, path: string): Fragment {
     aspectRatio: number(f.AspectRatio, 1, `${path}.AspectRatio`),
     color: color.map((v, i) => number(v, 0.5, `${path}.Color[${i}]`)) as Fragment['color'],
     dye: DYE_NAMES.findIndex(name => name === dye),
-    aggregate: f.Aggregate === undefined ? [1] : array(f.Aggregate, `${path}.Aggregate`).map((v, i) => number(v, 0, `${path}.Aggregate[${i}]`)),
+    aggregate: f.Aggregate === undefined ? [1] : collection(f.Aggregate, `${path}.Aggregate`).map((v, i) => number(v, 0, `${path}.Aggregate[${i}]`)),
   };
 }
 function sample(value: unknown, path: string): Sample {
@@ -63,7 +68,7 @@ function sample(value: unknown, path: string): Sample {
     iconScale: number(s.iconScale, 1, `${path}.iconScale`),
     id: integer(s.id, -1, `${path}.id`),
     buffer: buffer(s.Buffer, `${path}.Buffer`),
-    fragments: s.Fragments === undefined ? [] : array(s.Fragments, `${path}.Fragments`).map((f, i) => fragment(f, `${path}.Fragments[${i}]`)),
+    fragments: s.Fragments === undefined ? [] : collection(s.Fragments, `${path}.Fragments`).map((f, i) => fragment(f, `${path}.Fragments[${i}]`)),
   };
 }
 
@@ -75,7 +80,7 @@ export function deserializeNativeFile(value: unknown): DeserializedFile {
   if (header.type === 'sample') return { kind: 'sample', sample: sample(root.Sample, 'Sample') };
   if (header.type !== 'gel') return invalid('Gelbox.type');
   const gel = object(root.Gel, 'Gel');
-  const samples = array(gel.Samples, 'Gel.Samples').map((s, i) => s === null || (typeof s === 'object' && !Array.isArray(s) && Object.keys(s).length === 0) ? null : sample(s, `Gel.Samples[${i}]`));
+  const samples = collection(gel.Samples ?? [], 'Gel.Samples').map((s, i) => s === null || (typeof s === 'object' && !Array.isArray(s) && Object.keys(s).length === 0) ? null : sample(s, `Gel.Samples[${i}]`));
   // Gel::constrainNumLanesToSliderMinMax retains hidden sample storage.
   const numLanes = Math.min(20, Math.max(7, samples.length));
   while (samples.length < numLanes) samples.push(null);

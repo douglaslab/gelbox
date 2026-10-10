@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include the application runtime integration.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,853 passed |
-| Browser suite across WebGPU/WebGL2 | 397 passed; one intentional duplicate skipped |
+| Unit suite | 2,857 passed |
+| Browser suite across WebGPU/WebGL2 | 401 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
 | Production build and TypeScript checks | Passed |
@@ -1330,3 +1330,28 @@ full performance certification. No goldens or tolerances changed.
 
 Built-app root/subpath verification also passed all **4 production checks**,
 including a fresh build and TypeScript checks.
+
+
+## Native sample reader/writer interoperability
+
+A new [independent native sample harness](../reference/native/files/interop/README.md)
+compiles pinned Sample.cpp and native Buffer serialization with retained Cinder
+JsonTree/jsoncpp, without launching a GUI or using the web decoder. Its empty
+sample export contains `Fragments: null`, exposing a valid native file the web
+rejected. Native null fragment/aggregate collections and absent/null gel Samples
+are now accepted with the native empty/default distinction. Malformed field
+validation otherwise remains unchanged. Four unit regressions failed first.
+
+Browser checks import the native empty sample and perform a mass edit/save of
+a mixed DNA/dye sample with Unicode metadata, non-preset buffer and aggregate
+weights. Both exports were reread independently by the native harness, twice
+identically. Metadata and all unchanged fields match exactly. The retained
+native JsonTree reader itself rounds real numbers through six significant
+digits before float conversion; actual loaded mass and writer output are
+recorded separately, without disguising that conversion as a tolerance.
+This does not certify full Gel/GUI/XML round trips or original-toolchain
+precision behavior.
+
+Verification: **2,857 unit tests, 401 browser tests and 4 production checks
+passed**, with one intentional duplicate browser skip. Production verification
+included a fresh build and TypeScript checks. No goldens or tolerances changed.

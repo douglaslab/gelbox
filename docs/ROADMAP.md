@@ -503,3 +503,13 @@ regressions. No tolerances or goldens changed. The additional WebGPU pass reuses
 existing textures; performance is measured separately. This closes the five
 recorded matrix failures, not broader geometry/seed/DPR/GUI certification.
 Additional clipping/both-edge references remain pending native window access.
+
+### Sample interchange expanded; native empty collections restored
+
+Pinned native Sample/Buffer JSON code now runs independently of GUI capture.
+Native-generated empty and mixed DNA/dye samples pass web import/edit/save;
+both renderer exports are accepted by the native reader with unchanged fields
+preserved. Fixed rejected native null collections and absent/null Samples.
+Reader numeric quantization is recorded explicitly. This narrows the sample
+interchange gap; full Gel constructor/GUI/XML and broader edit sequences remain
+open. See [interop evidence](../reference/native/files/interop/README.md).

@@ -55,3 +55,23 @@ it.each([1000.5, 2147483648, -2147483649])('rejects non-native integer fields %s
   expect(() => deserializeFile(sampleFile({ id: value }))).toThrow(/Invalid native/);
   expect(() => deserializeFile(sampleFile({ Fragments: [{ Bases: value }] }))).toThrow(/Invalid native/);
 });
+
+it('imports a native-writer empty sample whose Fragments collection is null', () => {
+  const r = deserializeFile(readFileSync('../reference/native/files/interop/empty-native.json', 'utf8'));
+  expect(r).toEqual({ kind: 'sample', sample: {
+    name: 'Empty sample', icon: 'microtube1500ul.png', iconScale: .5, id: -1,
+    buffer: { tris: 0, borate: 0, acetate: 0, edta: 0 }, fragments: [],
+  } });
+});
+it('treats a native null Aggregate as an empty collection, not a missing default', () => {
+  const r = deserializeFile(sampleFile({ Fragments: [{ Aggregate: null }] }));
+  if (r.kind !== 'sample') throw Error('expected sample');
+  expect(r.sample.fragments[0].aggregate).toEqual([]);
+});
+it.each([{}, { Samples: null }])('loads native gels without sample children: %j', Gel => {
+  const r = deserializeFile(JSON.stringify({ Gelbox: { version: '1.0', type: 'gel' }, Gel }));
+  if (r.kind !== 'state') throw Error('expected gel');
+  expect(r.numLanes).toBe(7);
+  expect(r.samples).toEqual(Array(7).fill(null));
+  expect(r.ctx).toMatchObject({ time: 1, voltage: 0, wellDamage: 0 });
+});

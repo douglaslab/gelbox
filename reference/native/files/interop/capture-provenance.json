@@ -1,0 +1,31 @@
+{
+  "webBaseCommit": "1faeae7",
+  "webChange": "Native null/absent collection import correction (pending commit)",
+  "nativeBuild": "build-provenance.json",
+  "nativeCaptureRepeatedIdentically": true,
+  "files": {
+    "build-provenance.json": "0015b521c15b0f872dbbb5e5636c3975f763b99ca0a9838804dd3b0ff36122d3",
+    "build.py": "e834a22b194e0cbe1d9e537dc7d8325acc07dd4d6c7d98461756cbf0e0482410",
+    "capture.py": "46972fcb2271bf2146004a089a09d62941dd606d5f4d4a2cbfdc219f559e18ef",
+    "driver.cpp": "6a6fed5af718dab7de47ae9d7b10f0bdd9cf5461d42903573fcdfe0b5103e47d",
+    "empty-input.json": "ebd98a177cc27dbb893b7e0ab36523e8bcc357caec86d6905ae7979e44e964f0",
+    "empty-native.json": "bd1f845e6bb091a083b59dc7d52a864a1cb37ea8b39d49cd78509c566f173217",
+    "mixed-input.json": "a647ace2a62248b8e45bf13312e9e2bcee42e47e0ee0851d9836a731213fbd22",
+    "mixed-native.json": "1eaa27129457b18684b6b62959a389f56fdd1ddd99389c6f5c35691f0c86042d",
+    "roundtrip-results.json": "108b04863dd7c1d6d60964aa6aceee09f335658ed7cff705af1902d4f5dc76ae",
+    "verify-roundtrip.py": "5f13c9bf1a6704b56337255368460bd47536221511e401602f4c7578ff104194",
+    "webgl2-edited.json": "a16bd5923e9cf9d0196db01179aa0649337f0651ed24a5147eca13d50008acae",
+    "webgl2-native-reread.json": "570b12dfe16b8ed342304034f6e8150668ca12becb91185d3e493fd0d65b8a42",
+    "webgpu-edited.json": "a16bd5923e9cf9d0196db01179aa0649337f0651ed24a5147eca13d50008acae",
+    "webgpu-native-reread.json": "570b12dfe16b8ed342304034f6e8150668ca12becb91185d3e493fd0d65b8a42"
+  },
+  "nativeJsonSources": {
+    "/Users/shawn/code/Cinder/src/cinder/JsonTree.cpp": "10c0e33a0aa98a4f1dd4060a4e88ef06c76072f202102a1bf63e86387ac89c0b",
+    "/Users/shawn/code/Cinder/src/jsoncpp/jsoncpp.cpp": "84cd7683e0e402a4d1ca8012cd2d2ba48c931191de6435cff592eea1c42c5853"
+  },
+  "limits": [
+    "Only two valid sample shapes and one UI mass edit are exercised.",
+    "No native GUI, Gel constructor, native application file dispatch or XML parser in this harness.",
+    "Retained Cinder JsonTree coercion may differ from modern compatibility shim or original release toolchain."
+  ]
+}
