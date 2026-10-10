@@ -1,0 +1,22 @@
+--- maintained/view-churn.spec.ts
++++ network-disabled/view-churn.spec.ts
+@@ -59,6 +59,10 @@
+   }
+  },info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.goto(`${app.url}#/gel`);await expect(page.getByTestId('band-0')).toBeVisible();
++ // Attribution control: stop this runner session's inspector network retention.
++ // Browser fetches remain enabled; no app APIs are intercepted.
++ const runnerSession=(page as any)._connection.toImpl(page).delegate._mainFrameSession._client;
++ await runnerSession.send('Network.disable');
+  const count=()=>page.evaluate(()=>(window as any).__liveResources.size);
+  const cycle=async()=>{
+   await page.getByTestId('band-0').click();
+@@ -110,7 +114,7 @@
+  await expect(page.getByRole('alert')).toHaveCount(0);expect(errors).toEqual([]);
+  await measure(cycles+1);
+ 
+- const report={backend:info.project.name,browser:browser.version(),cycles,elapsedMs:Date.now()-started,baseline,peaks,closedCycleCounts,afterRouteUnmount:0,memory,residentMemory,networkResponseBufferBytes:networkBuffer===undefined?null:Number(networkBuffer),scope:'Explicit buffer/texture and GL object destruction. Optional CDP heap samples follow forced GC; final sample is after route remount. Heap observations are not a driver-memory or release-budget assertion. Optional macOS RSS samples cover processes belonging to this test browser, including its GPU process. RSS includes shared pages/caches and is not isolated driver allocation accounting.'};
++ const report={networkDomainEnabled:false,backend:info.project.name,browser:browser.version(),cycles,elapsedMs:Date.now()-started,baseline,peaks,closedCycleCounts,afterRouteUnmount:0,memory,residentMemory,networkResponseBufferBytes:networkBuffer===undefined?null:Number(networkBuffer),scope:'Explicit buffer/texture and GL object destruction. Optional CDP heap samples follow forced GC; final sample is after route remount. Heap observations are not a driver-memory or release-budget assertion. Optional macOS RSS samples cover processes belonging to this test browser, including its GPU process. RSS includes shared pages/caches and is not isolated driver allocation accounting.'};
+  await writeFile(info.outputPath('resource-lifecycle.json'),JSON.stringify(report,null,2));
+  await info.attach('resource-lifecycle',{body:JSON.stringify(report,null,2),contentType:'application/json'});
+  await heap?.detach();await browserSession?.detach();

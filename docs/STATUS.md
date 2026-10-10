@@ -16,22 +16,21 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest resident-memory measurement
 
-Both backends pass300 compiled view churn cycles with exact object-count recovery.
-Process measurements nevertheless show about47–48MiB renderer RSS growth between
-early/late windows, plus WebGL2 GPU-process growth. Heap and DOM counts largely
-settle; the cause is unproven. [Data, failed diagnostic attempts and next investigation](../reference/web/performance/resident-memory/README.md)
-are retained. W08 remains open; this is not a passing memory budget. No application
-source or website review build changed.
+The compiled app passes300 view-churn cycles on both backends with exact resource
+recovery and successful remount. Controlled Metal runs initially show52–59MiB
+renderer RSS growth. Removing viewport resizing reproduces similar growth.
+Disabling the runner's network inspection, while keeping browser fetches and the
+full resize workload, reduces early-to-late renderer growth to−6.84MiB WebGPU
+and+8.66MiB WebGL2. Both controlled cases pass; browser fetch efficacy is checked.
+[Workload/inspector controls and raw reports](../reference/web/performance/resident-memory/workload-controls/README.md)
+support a substantial test-instrumentation contribution, not an established app leak.
 
-Follow-up controls verify that inspector response eviction does not eliminate
-Chromium131 growth. The initial Chromium153 comparison was confounded by a
-different graphics path selected by its runner. Explicit Metal restores the
-Apple adapter, fixes blank-canvas errors, and passes100 compiled cycles on both
-backends without app changes. Both subsequent300-cycle runs also pass resource
-and behavior checks, but renderer RSS still grows52–59MiB between early/late
-windows. [Controlled comparison and limits](../reference/web/performance/resident-memory/metal-comparison/README.md)
-replace the earlier interpretation of an unresolved product device-loss defect.
-Memory attribution and final acceptance remain open.
+The earlier Chromium153 device-loss finding was isolated to its default test
+graphics configuration; explicit Metal restores the Apple adapter and passes
+both300-cycle cases without an app change. [Metal comparison](../reference/web/performance/resident-memory/metal-comparison/README.md).
+W08 remains open for longer repetition, a justified finite memory budget and the
+separate native capture failure. Process RSS is not isolated driver accounting.
+No application source or website review build changed.
 
 ## Latest image decoding fix
 
