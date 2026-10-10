@@ -6,15 +6,41 @@ _Latest verification: 2026-10-10 · shared production validation in progress · 
 
 Shawn confirmed: **strict native behavior and visual parity first; improvements afterward. Finish the web app first; reconsider Rust/native only for a concrete need.**
 
-The completion contract is [ROADMAP.md](ROADMAP.md). [PORT-AUDIT.md](PORT-AUDIT.md) records the initial audit; some findings have since been resolved by the increments below. The old M1–M27 plan is historical.
+The current requirement-by-requirement evidence and remaining work are in [PARITY-LEDGER.md](PARITY-LEDGER.md). The completion contract is [ROADMAP.md](ROADMAP.md). [PORT-AUDIT.md](PORT-AUDIT.md) records the initial audit; some findings have since been resolved by the increments below. The old M1–M27 plan is historical.
 
 ## Big picture
 
-The TypeScript/React app is substantially implemented, with working WebGPU and WebGL2 renderers. Targeted restoration remains the strategy: the current evidence does not justify another rewrite or a Rust migration. Completion still requires meaningful feature and shared-state work, followed by native visual certification and production reliability checks. It is not merely a polish pass.
+The native feature areas are substantially implemented, and the shared compositor is enabled in production builds on both WebGPU and WebGL2. Targeted restoration remains the strategy; the evidence does not justify another rewrite or a Rust migration. Completion now requires the specific paired workflows, reference decisions and platform checks in the current parity ledger. Passing isolated rendering or model comparisons does not close those gaps.
 
 Implemented and checked areas include native JSON/XML file workflows and metadata, startup defaults, hidden-lane retention, sample/species controls, tube and band movement/cloning, reverse solving, picking, buffer effects, molecular lifecycle/meshes, persistent loupe gestures and source selection, temporary hover loupes, and reference-image views. Independent compiled native captures now cover 509 band/setup cases, 2,909 solver requests, particle/loupe behavior and meshes, and 137 exact-byte CPU warp cases. These are finite source-backed comparisons, not certification of the original executable's complete output.
 
-## Latest recorded verification
+## Current acceptance status
+
+The audit identified one concrete implementation gap: legacy web file imports still
+cast nested data without validation and retain stored layout-derived simulation
+context. Native JSON/XML checks do not cover those branches. Closing that gap is
+the next implementation priority (ledger R02).
+
+The ledger reconciles all37 original audit rows and preserves all five roadmap
+high-risk workflows. Remaining packages are paired file/edit/save, shared-state
+editing, hidden lanes, difficult band dragging, integrated recovery, native image
+decoding, physical-display/lifecycle checks, memory/capture reliability, and final
+side-by-side acceptance. It distinguishes verified bounded evidence from missing
+native replay and decisions awaiting explicit acceptance.
+
+Latest recorded checks:955 broad browser passes/1 intentional duplicate skip;
+2,924 units;22 compiled Chromium cases with216 exact native RGB comparisons;
+10 compatibility cases per Firefox/WebKit runner;2 compiled hidden/frozen cases;
+100 view-churn cycles per backend;2 measured performance-budget cases and18 budget
+validator tests. Later evidence/configuration increments did not change product
+runtime. This documentation audit does not claim a new full test run.
+
+The original-release writer's lane-loss defect, reference-build equivalence,
+and font/platform distribution remain explicit decision records. The preliminary
+native benchmark missing-view failure is preserved and remains unexplained.
+See [the ledger](PARITY-LEDGER.md) for evidence links and stopping conditions.
+
+## Historical shared-compositor integration notes
 
 On macOS with Node 22, recent increments add complete Buffer, palette and application menu controls to the
 Dye, Timeline, Gel and Species controls in development shared composition. Dynamic UIFont

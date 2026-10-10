@@ -2,6 +2,8 @@
 
 _2026-10-09 · Source audit of `gel` `2f3021d` against `gelbox` `5f51097`._
 
+The current disposition of all37 inventory rows is in [PARITY-LEDGER.md](PARITY-LEDGER.md). Preserve this document as the original audit snapshot.
+
 This is the seed for the P0 parity ledger in [ROADMAP](ROADMAP.md), not a claim that the entire native application has been run or exhaustively characterized. Native behavior below is source-backed unless a runtime result is explicitly stated. Complete the native captures and scenario IDs in P0 before certifying strict parity.
 
 ## Existing verification

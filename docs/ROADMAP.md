@@ -2,6 +2,11 @@
 
 _2026-10-09 · Replacement roadmap · Product direction confirmed; native reference collection underway._
 
+Current execution evidence and the finite remaining acceptance packages are in
+[PARITY-LEDGER.md](PARITY-LEDGER.md). The problem statements below preserve the
+original audit context; later integration records are historical checkpoints.
+They do not supersede the current ledger or relax this completion contract.
+
 ## Goal and authority
 
 Deliver a browser version of Gelbox with **strict native behavior and visual parity first; improvements afterward**. Finish the web application before reconsidering Rust, a shared native engine, or desktop packaging. These priorities were explicitly confirmed by Shawn during this review.
