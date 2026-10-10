@@ -6,6 +6,7 @@
 //
 //
 
+#include <limits>
 #include "ColorPaletteView.h"
 
 using namespace ci;
@@ -147,7 +148,7 @@ void ColorPaletteView::pullValueFromGetter()
 	if (mGetter) c = mGetter();
 	
 	int closest = 0;
-	float bestdist = MAXFLOAT;
+	float bestdist = std::numeric_limits<float>::max();
 	
 	for( int i=0; i<mColors.size(); ++i )
 	{

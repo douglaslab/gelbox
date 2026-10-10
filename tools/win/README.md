@@ -28,3 +28,7 @@ lives one directory above it. A check for `<config>\cinder.lib` incorrectly
 reports failure after a successful build; the wrapper checks both real outputs.
 The initial Release build emitted upstream C4267 (ObjLoader), C4312 (FreeType),
 and LNK4006 duplicate import-descriptor warnings. No warnings were disabled.
+
+MSVC C2065 in ColorPaletteView, GelView, and Slider came from `MAXFLOAT`, a
+nonstandard platform macro. Use `<limits>` and `std::numeric_limits<float>::max()`
+for the nearest-item search sentinel on both platforms.

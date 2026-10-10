@@ -6,6 +6,7 @@
 //
 //
 
+#include <limits>
 #include "GelboxApp.h" // for getUIFont()
 #include "Gelbox.h"
 
@@ -440,7 +441,7 @@ float Slider::getNearestNotch( float toNormV ) const
 {
 	// assuming mNotches unsorted
 	
-	float d = MAXFLOAT;
+	float d = std::numeric_limits<float>::max();
 	float v = toNormV;
 	
 	for( int i=0; i<mNotches.size(); ++i )

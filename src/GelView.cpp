@@ -6,6 +6,7 @@
 //
 //
 
+#include <limits>
 #include "GelboxApp.h" // for modifier key
 #include "GelView.h"
 #include "SampleView.h"
@@ -1292,7 +1293,7 @@ bool GelView::pickBand( vec2 loc, Band& picked ) const
 	if (b.empty()) return false;
 	
 	// pick smallest
-	float smallest = MAXFLOAT; 
+	float smallest = std::numeric_limits<float>::max(); 
 	
 	for( auto x : b )
 	{
