@@ -372,7 +372,7 @@ void GelboxApp::load( ci::fs::path i, const vec2 *dropLoc, SampleRef *sampleOut 
 {
 	const vector<string>	imgExtensions = {".jpg",".png",".gif"};
 
-	auto doSample = [=]( SampleRef source )
+	auto doSample = [=, this]( SampleRef source )
 	{
 		if ( !source ) return;
 		
@@ -399,7 +399,7 @@ void GelboxApp::load( ci::fs::path i, const vec2 *dropLoc, SampleRef *sampleOut 
 		}		
 	};
 	
-	auto doGel = [=]( GelRef gel )
+	auto doGel = [=, this]( GelRef gel )
 	{
 		if (gel && mGelView) mGelView->setGel(gel);		
 	};

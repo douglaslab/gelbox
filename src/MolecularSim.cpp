@@ -9,6 +9,7 @@
 #include "GelSim.h"
 #include "Sample.h"
 #include "Layout.h"
+#include "PolyClip.h"
 
 using namespace std;
 using namespace ci;
@@ -790,13 +791,13 @@ void MolecularSim::Part::makeMesh_slice(
 	{
 		vector<PolyLine2> cutWith(1);
 		makeDegradeIntersectShape( radius, inflateRadius, mWholeness, r, cutWith[0] );
-		vector<PolyLine2> out = PolyLine2::calcIntersection( circle, cutWith );
+		PolyLine2 out = calcConvexIntersection( circle[0], cutWith[0] );
 
-		if ( out.empty() ) {
-			// calcIntersection might fail..., so fallback
-			out = cutWith;
+		if ( out.size() < 3 ) {
+			// clipping might fail..., so fallback
+			polylineToMesh( cutWith[0], color, mesh );
 		}
-		else polylineToMesh( out[0], color, mesh );
+		else polylineToMesh( out, color, mesh );
 	}
 	else
 	{

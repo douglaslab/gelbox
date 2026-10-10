@@ -6,7 +6,7 @@
 //
 //
 
-#include "cinder/ConvexHull.h"
+#include "ConvexHull.h"
 #include "cinder/Rand.h"
 
 #include "SampleView.h"

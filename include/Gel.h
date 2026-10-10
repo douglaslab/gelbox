@@ -13,7 +13,7 @@
 #include "glm/vec2.hpp"
 #include "cinder/Rand.h"
 #include "cinder/Color.h"
-#include "cinder/Json.h"
+#include "JsonTree.h"
 #include "Buffer.h"
 #include "GelSim.h"
 #include "GelRender.h"

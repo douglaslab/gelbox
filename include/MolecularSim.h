@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include "cinder/TriMesh.h"
+
 class DegradeFilter : public std::map<int,int> {}; // fragment => base pair size equiv
 
 class MolecularSimTuning

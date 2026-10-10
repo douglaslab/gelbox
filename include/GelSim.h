@@ -11,7 +11,7 @@
 #include "Buffer.h"
 #include "Band.h"
 #include "Dye.h"
-#include "cinder/Json.h"
+#include "JsonTree.h"
 
 class Sample;
 

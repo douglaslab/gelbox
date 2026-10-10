@@ -11,7 +11,7 @@
 #include <vector>
 #include "cinder/Rand.h"
 #include "cinder/Xml.h"
-#include "cinder/Json.h"
+#include "JsonTree.h"
 #include "Dye.h"
 #include "Buffer.h"
 #include "Aggregate.h"

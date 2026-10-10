@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "cinder/Font.h"
+
 #include <map>
 #include <string>
 

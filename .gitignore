@@ -1,4 +1,5 @@
-xcode/build/*
-/xcode/Gelbox.xcodeproj/project.xcworkspace/xcuserdata/chaim.xcuserdatad/UserInterfaceState.xcuserstate
-/xcode/Gelbox.xcodeproj/xcuserdata/chaim.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
 .DS_Store
+
+# CMake build output (see README)
+/build/
+/build-*/

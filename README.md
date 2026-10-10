@@ -9,12 +9,36 @@ http://www.douglaslab.org/gelbox/
 
 ## To build
 
-1. Install Xcode
-2. Download Gelbox repository
-3. Place libcinder 0.9.0 adjacent to Gelbox project directory (or a symbolic link to libcinder; aliases won't work)
-4. Build
+Gelbox is a [Cinder](https://libcinder.org) app and builds with CMake on macOS. It needs Xcode (for the command-line tools and SDK), CMake 3.16 or newer (`brew install cmake`), and a Cinder checkout next to this repository. Cinder's `master` branch is required; the last tagged release, v0.9.3, does not compile against current macOS SDKs. Cinder commit `f90f332d1` is known to work.
 
- ## Commands and Shortcuts
+1. Clone and build Cinder as a sibling of the Gelbox directory:
+
+   ```
+   cd ..
+   git clone https://github.com/cinder/Cinder.git
+   cd Cinder
+   cmake -S . -B build/Release -DCMAKE_BUILD_TYPE=Release
+   cmake --build build/Release -j
+   ```
+
+   For a debug build of Gelbox, also build Cinder's Debug configuration (`build/Debug` with `-DCMAKE_BUILD_TYPE=Debug`).
+
+2. Configure and build Gelbox:
+
+   ```
+   cd ../gelbox
+   cmake -S proj/cmake -B build -DCMAKE_BUILD_TYPE=Release
+   cmake --build build -j
+   open build/Gelbox.app
+   ```
+
+If Cinder lives somewhere else, pass `-DCINDER_PATH=/path/to/Cinder` to the first `cmake` command, or set `CINDER_PATH` in the environment.
+
+The build places a symlink to `assets/` next to `Gelbox.app`, so edits to tuning files and shaders in the repository are picked up live by the running app.
+
+To work in Xcode, generate a project instead of makefiles: `cmake -S proj/cmake -B build-xcode -G Xcode`, then open `build-xcode/Gelbox.xcodeproj`.
+
+## Commands and Shortcuts
 
 |             Command          |             Meaning            |
 | :- | :- |

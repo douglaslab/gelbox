@@ -10,14 +10,18 @@
 #define FileWatch_hpp
 
 #include "cinder/Xml.h"
-#include "cinder/Json.h"
+#include "JsonTree.h"
 #include "cinder/Filesystem.h"
+#include "cinder/gl/GlslProg.h"
+#include "cinder/DataSource.h"
 #include <ctime>
+#include <functional>
+#include <map>
+#include <vector>
 
 using namespace ci;
 using namespace ci::app;
 using namespace std;
-using namespace boost;
 
 class FileWatch
 {
@@ -48,7 +52,7 @@ private:
 	
 	void doLoad( fs::path, tCallback );
 	
-	map< fs::path, pair<time_t,tCallback> > mFileWatch ;
+	map< fs::path, pair<fs::file_time_type,tCallback> > mFileWatch ;
 
 	
 };

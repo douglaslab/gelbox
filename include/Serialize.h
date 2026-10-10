@@ -6,7 +6,7 @@
 //
 
 #include <string>
-#include "cinder/Json.h"
+#include "JsonTree.h"
 #include "cinder/Xml.h"
 #include "cinder/Color.h"
 

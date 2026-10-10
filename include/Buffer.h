@@ -11,7 +11,7 @@
 #include <memory>
 #include "cinder/gl/Texture.h"
 #include "cinder/Xml.h"
-#include "cinder/Json.h"
+#include "JsonTree.h"
 
 namespace Gelbox
 {

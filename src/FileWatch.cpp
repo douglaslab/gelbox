@@ -26,10 +26,10 @@ void FileWatch::scanFiles()
 {
 	for( auto &i : mFileWatch )
 	{
-		if ( boost::filesystem::exists(i.first) )
+		if ( fs::exists(i.first) )
 		{
-			time_t lastreadtime = i.second.first ;
-			time_t modtime = boost::filesystem::last_write_time(i.first);
+			fs::file_time_type lastreadtime = i.second.first ;
+			fs::file_time_type modtime = fs::last_write_time(i.first);
 			
 			if ( modtime > lastreadtime )
 			{
@@ -47,11 +47,11 @@ void FileWatch::load( fs::path path, tCallback func )
 	
 	doLoad(path,func);
 
-	time_t modtime = boost::filesystem::exists(path)
-						? boost::filesystem::last_write_time(path)
-						: (time_t)0; // epoch; not found, so keep trying...
+	fs::file_time_type modtime = fs::exists(path)
+						? fs::last_write_time(path)
+						: fs::file_time_type(); // epoch; not found, so keep trying...
 
-	mFileWatch[path] = pair<time_t,tCallback>(modtime,func) ;
+	mFileWatch[path] = pair<fs::file_time_type,tCallback>(modtime,func) ;
 }
 
 void FileWatch::load ( vector<fs::path> ps, tMultiCallback func )
@@ -141,7 +141,7 @@ void FileWatch::doLoad( fs::path path, tCallback func )
 {
 	cout << "FileWatch::doLoad " << path << endl;
 	
-	if ( boost::filesystem::exists(path) )
+	if ( fs::exists(path) )
 	{
 		func(path);
 	}
