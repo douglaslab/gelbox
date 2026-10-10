@@ -1,6 +1,6 @@
 # Shared runtime investigation
 
-Source audit and exploratory compiled probe, 2026-10-09. This is evidence for
+Source audit, exploratory probe and composed reference, 2026-10-09. This is evidence for
 the remaining runtime work, **not completed application parity**. Source pins
 and probe hashes are in `seed-probe-provenance.json`.
 
@@ -81,10 +81,59 @@ effect replay. Document state can remain in the existing reducer. Native
 creation, selection, inspector, preview-refresh and frame transitions must
 drive the runtime synchronously rather than be inferred from canvas mounts.
 
-Before committing that interface, extend the native reference to composed
-sequences covering ordinary view replacement, repeated local species creation,
-inspector opening/closing, Alt cloning, loupe refresh/preroll, and ordered
-ticks with view insertion/removal. Compare both visible/model results and
-terminal RNG state. Include delayed GPU initialization and React StrictMode
-in the web integration tests. Native GUI replay remains necessary to verify
-the scripted event sequences themselves.
+The composed reference below now supplies those lower-level sequences. Next,
+use them to define and test the web runtime's ordered operations, then connect
+native application commands to those operations. Include delayed GPU
+initialization and React StrictMode in the web integration tests. Native GUI
+replay remains necessary to verify the scripted event sequences themselves.
+
+## Maintained composed reference
+
+Run from the web repository root:
+
+```sh
+python3 reference/native/runtime/build.py --build /tmp/gel-native-runtime
+python3 -m unittest discover -s reference/native/runtime -p 'test_*.py'
+```
+
+The first command requires the pinned clean Cinder checkout/library and native
+Git objects. It writes only this directory's `outputs.json` and `provenance.json`
+plus isolated scratch build files. The second command verifies the committed
+capture without building native code. The eight contracts cover 16 scenarios:
+
+- Ordinary/loupe constructor ordering, with and without inspector draws.
+- Two consecutive local species generations, including exact float arithmetic
+  and six draws per species under zero aspect/multimer probabilities.
+- Global palette selection with a negative integer and palette draws between
+  ordinary and loupe creation (the RNG portion of Alt cloning).
+- Repeated paused loupe refresh/preroll with identical local seed/sample but
+  advancing global angular velocities. Initial particle age is randomized;
+  a paused view retains that initial age, rather than resetting it to zero.
+- Two molecular views ticking in forward and reversed order.
+- Collection insertion, destruction, retained removal and raising during a tick.
+- Ordinary view replacement, idempotent inspector opening, inspector reopening,
+  and a composed species edit/inspector/tick/loupe refresh/removal sequence.
+
+Captured fields include all particle fields, fragments, view and molecular
+seeds, non-consuming local-stream probes, ordered tick traces, species change
+notifications and the terminal global integer. Independent seeded traces
+verify draw counts. Literal constructor/global-palette expectations and a
+fixed digest of native source/extraction/Cinder hashes prevent regeneration
+from silently changing the reference contract. The reused molecular adapter
+has its own fixed hash. Two executions of each capture must agree byte-for-byte.
+
+The whole molecular constructor/algorithms, `SampleView::newFragment`, palette
+methods and `ViewCollection::tick` are extracted unchanged. View setup includes
+the original seed statement with a local observer that records its returned
+integer without an extra draw. Inspector setup includes only graph allocation
+and its random initialization loop. Member order matches native. The headless
+`View` adapter supplies ownership and a molecular tick; it does not execute
+the complete native `SampleView::tick` UI logic.
+
+`fragmentDidChange` records a notification; it does not implement native GUI
+callbacks. Loupe refresh is explicit and receives a supplied sample or a copy
+of a source view's current sample. Native band-to-loupe extraction remains
+covered by the separate numerical harness. These are composed algorithm and
+collection-lifetime references, **not native GUI workflow certification**.
+Modern Cinder/toolchain limitations also remain. Product code is unchanged by
+this reference increment.

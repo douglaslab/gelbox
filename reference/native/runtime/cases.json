@@ -1,0 +1,431 @@
+[
+  {
+    "id": "construct",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "b"
+      }
+    ]
+  },
+  {
+    "id": "inspector",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "inspector",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "b"
+      }
+    ]
+  },
+  {
+    "id": "species",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "species",
+        "id": "a"
+      },
+      {
+        "op": "species",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "b"
+      }
+    ]
+  },
+  {
+    "id": "global-palette",
+    "steps": [
+      {
+        "op": "global-color"
+      }
+    ]
+  },
+  {
+    "id": "clone-before-loupe",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "global-color"
+      },
+      {
+        "op": "create",
+        "id": "b"
+      }
+    ]
+  },
+  {
+    "id": "loupe-refresh",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "b",
+        "loupe": true
+      },
+      {
+        "op": "refresh",
+        "id": "b",
+        "anchor": [
+          19.5,
+          48.25
+        ],
+        "time": 0.375,
+        "sample": [
+          {
+            "bases": 1000,
+            "mass": 40,
+            "aggregate": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "op": "refresh",
+        "id": "b",
+        "anchor": [
+          19.5,
+          48.25
+        ],
+        "time": 0.375,
+        "sample": [
+          {
+            "bases": 1000,
+            "mass": 40,
+            "aggregate": [
+              1
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tick-forward",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a",
+        "sample": [
+          {
+            "bases": 1000,
+            "mass": 40,
+            "aggregate": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "op": "create",
+        "id": "b",
+        "sample": [
+          {
+            "bases": 1000,
+            "mass": 40,
+            "aggregate": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "op": "tick"
+      }
+    ]
+  },
+  {
+    "id": "tick-reverse",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a",
+        "sample": [
+          {
+            "bases": 1000,
+            "mass": 40,
+            "aggregate": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "op": "create",
+        "id": "b",
+        "sample": [
+          {
+            "bases": 1000,
+            "mass": 40,
+            "aggregate": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "op": "raise",
+        "id": "a"
+      },
+      {
+        "op": "tick"
+      }
+    ]
+  },
+  {
+    "id": "insert-during-tick",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "b"
+      },
+      {
+        "op": "during-tick",
+        "id": "a",
+        "action": {
+          "op": "create",
+          "id": "c"
+        }
+      },
+      {
+        "op": "tick"
+      },
+      {
+        "op": "tick"
+      }
+    ]
+  },
+  {
+    "id": "destroy-during-tick",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "b"
+      },
+      {
+        "op": "during-tick",
+        "id": "a",
+        "action": {
+          "op": "remove",
+          "id": "b"
+        }
+      },
+      {
+        "op": "tick"
+      }
+    ]
+  },
+  {
+    "id": "retain-during-tick",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "b"
+      },
+      {
+        "op": "during-tick",
+        "id": "a",
+        "action": {
+          "op": "remove",
+          "id": "b",
+          "retain": true
+        }
+      },
+      {
+        "op": "tick"
+      }
+    ]
+  },
+  {
+    "id": "raise-during-tick",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "b"
+      },
+      {
+        "op": "during-tick",
+        "id": "a",
+        "action": {
+          "op": "raise",
+          "id": "a"
+        }
+      },
+      {
+        "op": "tick"
+      },
+      {
+        "op": "tick"
+      }
+    ]
+  },
+  {
+    "id": "replace-view",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "b"
+      },
+      {
+        "op": "remove",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "a2"
+      }
+    ]
+  },
+  {
+    "id": "inspector-idempotent",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "inspector",
+        "id": "a"
+      },
+      {
+        "op": "inspector",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "b"
+      }
+    ]
+  },
+  {
+    "id": "inspector-reopen",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "inspector",
+        "id": "a"
+      },
+      {
+        "op": "close-inspector",
+        "id": "a"
+      },
+      {
+        "op": "inspector",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "b"
+      }
+    ]
+  },
+  {
+    "id": "edit-with-loupe",
+    "steps": [
+      {
+        "op": "create",
+        "id": "a"
+      },
+      {
+        "op": "create",
+        "id": "b",
+        "loupe": true
+      },
+      {
+        "op": "species",
+        "id": "a"
+      },
+      {
+        "op": "refresh",
+        "id": "b",
+        "anchor": [
+          19.5,
+          48.25
+        ],
+        "time": 0.375,
+        "from": "a"
+      },
+      {
+        "op": "inspector",
+        "id": "a"
+      },
+      {
+        "op": "tick"
+      },
+      {
+        "op": "species",
+        "id": "a"
+      },
+      {
+        "op": "refresh",
+        "id": "b",
+        "anchor": [
+          19.5,
+          48.25
+        ],
+        "time": 0.375,
+        "from": "a"
+      },
+      {
+        "op": "close-inspector",
+        "id": "a"
+      },
+      {
+        "op": "remove",
+        "id": "b"
+      },
+      {
+        "op": "create",
+        "id": "b2",
+        "loupe": true
+      }
+    ]
+  }
+]
