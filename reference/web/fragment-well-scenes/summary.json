@@ -1,0 +1,30 @@
+{
+  "baselineCommit": "d62c524",
+  "reports": [
+    {
+      "report": "before-webgl2-1.json",
+      "scenes": 15,
+      "mismatches": 15,
+      "maxChannelDifference": 108
+    },
+    {
+      "report": "before-webgpu-1.json",
+      "scenes": 15,
+      "mismatches": 15,
+      "maxChannelDifference": 108
+    },
+    {
+      "report": "before-webgl2-2.json",
+      "scenes": 15,
+      "mismatches": 15,
+      "maxChannelDifference": 102
+    },
+    {
+      "report": "before-webgpu-2.json",
+      "scenes": 15,
+      "mismatches": 15,
+      "maxChannelDifference": 102
+    }
+  ],
+  "nativeManifestSha256": "9a2321194b0fada14f8939e68f3fcd7eb63ae9a57a373dbd060dd65724720a5d"
+}

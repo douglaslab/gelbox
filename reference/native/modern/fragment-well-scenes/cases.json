@@ -1,0 +1,624 @@
+[
+  {
+    "id": "whole-1-select-False-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "whole-0.5-select-False-hover-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.5,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "multi-25-3-whole-0.5",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 1.2,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.5,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0.3
+        },
+        {
+          "loc": {
+            "x": 1,
+            "y": -0.7
+          },
+          "angle": -0.4
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-False",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 25,
+        "y": 3
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 0.001,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "fade-0.01",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.01,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "fade-0.25",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.25,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "fade-0.5",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.5,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "fade-0.999",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.999,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "fade-1",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 6
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 1,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "empty",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 24
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "large-crossing",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "large-faint",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.01,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "large-subquantum",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.0001,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "large-opaque",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 1,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  },
+  {
+    "id": "large-round",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 117,
+        "y": 111
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 64
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false
+  }
+]

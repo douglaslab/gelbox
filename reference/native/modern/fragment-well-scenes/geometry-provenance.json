@@ -1,0 +1,18 @@
+{
+  "legacyCinderCommit": "75f4821216a0e105075f3c55be1fbe38784a18c6",
+  "hostCinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "extractedSha256": "69d42be8b43d8547a3f8329753c991191caf503e93430e19fb90f0466ef5931e",
+  "sources": {
+    "include/cinder/GeomIo.h": "a2b3244d2d922a70ece45f1fc80c6c834c23b93747dbaf1a9317d2604a85b223",
+    "src/cinder/GeomIo.cpp": "fc532bbac1dd9c0293b130a6221a79a9a94f6c5778cd22ef1fc7ed0d1e7e3f8e",
+    "src/cinder/gl/draw.cpp": "e7af99001c613e050416232bce90f04625fb9435c7739672ac37460afa1ba347"
+  },
+  "driverSha256": "05635a3339d9af0adb4fd69dafaa5b9d362e5339546be8894d3a38e5969cb3d2",
+  "executableSha256": "060cc5efca9e69462ef21efa1905c516bcd14cd00958c1531c1d318fac5a5f61",
+  "geometrySha256": "9710fb2fda8703f99f0fe003d548704c58a1170427567138b6cfbff91f09e1de",
+  "repeatIdentical": true,
+  "limits": [
+    "Legacy class declarations and method bodies extracted verbatim into separate namespace; modern Cinder target/types/link support.",
+    "Geometry only; native drawing uses TRIANGLE_FAN for fills and LINES for the one-physical-pixel stroke."
+  ]
+}
