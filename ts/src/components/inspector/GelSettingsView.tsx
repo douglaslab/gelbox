@@ -106,7 +106,7 @@ export function GelSettingsView() {
   }
 
   return (
-    <div data-testid="gel-settings-view" style={{ position: 'relative', width: '100%', height: '100%', background: '#FFFFFF' }}>
+    <div data-testid="gel-settings-view" style={{ position: 'relative', width: '100%', height: '100%' }}>
       <h2
         style={{
           position: 'absolute',

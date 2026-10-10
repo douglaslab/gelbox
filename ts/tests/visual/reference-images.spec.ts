@@ -156,3 +156,22 @@ test('application settings preserves image keyboard ownership until a sample tak
  await expect(second).not.toBeFocused();
  await page.keyboard.press('Backspace');await expect(second).toBeVisible();
 });
+
+test('earlier reference image remains visible through empty Species panel space',async({page})=>{
+ await page.getByTestId('band-0').click();
+ const panel=(await page.getByTestId('fragment-view').boundingBox())!;
+ await openSampleSettings(page);await page.mouse.move(10,10);
+ await expect(page.getByTestId('sample-settings-view')).toBeVisible();
+ await expect(page.getByTestId('fragment-view')).toHaveCount(0);
+ const x=panel.x+60,y=panel.y+10;
+ await drop(page,[{name:'behind-species.png'}],x,y);
+ await page.getByTestId('band-0').click();await expect(page.getByTestId('fragment-view')).toBeVisible();
+ expect(await top(page,x,y)).not.toBe('reference-image-1');
+ const png=await page.screenshot({clip:{x,y,width:1,height:1}});
+ const rgba=await page.evaluate(async png=>{
+  const im=new Image();im.src='data:image/png;base64,'+png;await im.decode();
+  const c=document.createElement('canvas');c.width=im.width;c.height=im.height;const ctx=c.getContext('2d')!;ctx.drawImage(im,0,0);
+  return Array.from(ctx.getImageData(0,0,1,1).data);
+ },png.toString('base64'));
+ expect(rgba).toEqual([255,0,0,255]);
+});

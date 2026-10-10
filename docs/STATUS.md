@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Latest verification: 2026-10-10 · fragment preview overflow and heading order · native reference `5f51097`._
+_Latest verification: 2026-10-10 · inspector transparency and brace order · native reference `5f51097`._
 
 ## Direction
 
@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include native well presentation, terminal-f
 | Check | Result |
 |---|---|
 | Unit suite | 2,909 passed |
-| Browser suite across WebGPU/WebGL2 | 519 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 525 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -2083,3 +2083,26 @@ The white-underlay composition still needs correction/certification where a
 translucent representative overlaps earlier non-white content, including braces
 and other views. This increment proves overflow visibility and heading order,
 not complete cross-view compositing or native GUI parity. Full P0–P5 remain open.
+
+
+## Inspector transparency and brace stacking
+
+Removed opaque full-panel backgrounds from Species, Buffer + Dyes and gel
+settings, matching the pinned native draw methods. The brace now paints before
+the inspector contents at their existing shared z-index. Native view insertion,
+hit regions and keyboard ownership are unchanged.
+
+A real image-drop workflow now shows the earlier image through empty Species
+panel space while the panel still owns picking there. It failed with white pixels
+before the correction on both backends. Four Stage/FragmentView checks at DPR1/2
+also failed before the brace-order correction and now show exact opaque molecule
+RGB over a previously visible brace pixel. These source-backed checks are not a
+full native GUI or brace-sampling certification.
+
+Fresh checks: **2,909 units, 525 browser cases (one intentional duplicate skip),
+and four production checks pass**, including TypeScript/Vite build. Native and
+regression goldens are unchanged. Logs: `/tmp/gel-inspector-layering-unit.log`,
+`/tmp/gel-inspector-layering-final.log`, `/tmp/gel-inspector-layering-production.log`.
+The [scope record](superpowers/reports/2026-10-10-inspector-layering.md) retains
+limitations. Translucent representative composition over earlier non-white
+content remains open, along with full P0–P5 acceptance.

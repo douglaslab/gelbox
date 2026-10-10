@@ -651,3 +651,16 @@ Final checks: 2,909 units, 519 browser cases (one intentional skip), and four
 production cases passed. Next resolve translucent representative composition over
 earlier non-white braces/views; white-underlay captures alone cannot certify
 that interaction. Original GUI replay and the other P0–P5 gates remain open.
+
+
+### Inspector transparency and brace order restored
+
+Source-backed panel backgrounds and brace ordering are corrected: earlier images
+show through empty inspector space, and an opaque representative covers the brace
+as native drawing requires. Six new failed-then-passing browser cases cover these
+behaviors; the full suite passes 525 browser cases (one intentional skip), 2,909
+units and four production checks. No native or screenshot baseline changed.
+
+Translucent overlap still requires further compositor work; correcting DOM order
+and panel transparency does not establish native RGB over arbitrary earlier
+content. Full native GUI, platform/performance and P0–P5 acceptance remain open.

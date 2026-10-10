@@ -58,7 +58,7 @@ export function SampleSettingsView() {
   return (
     <div
       data-testid="sample-settings-view"
-      style={{ position: 'relative', width: '100%', height: '100%', background: '#FFFFFF' }}
+      style={{ position: 'relative', width: '100%', height: '100%' }}
     >
       <h2
         style={{

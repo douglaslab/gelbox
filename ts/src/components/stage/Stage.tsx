@@ -34,8 +34,8 @@ export function Stage({ left, middle, right, brace, inspectorBesideGel = false, 
     <div className={styles.stage} data-testid="stage" style={{ width: Math.max(viewport.width, rightEdge + 8), height: Math.max(viewport.height, y + LAYOUT.gelSize.y + 112) }}>
       <div className={styles.slot} style={slot(x, LAYOUT.gelSize.x)} data-testid="stage-left">{left}</div>
       {middle && <LayerSlot name="sample" above="gel" style={slot(middleX, LAYOUT.sampleSize.x)} testId="stage-middle">{middle}</LayerSlot>}
-      {right && <LayerSlot key={inspectorKind} name={`inspector-${inspectorKind}`} above={inspectorKind==='gel-settings'?'gel':inspectorKind==='sample-settings'?'sample':undefined} style={slot(inspectorX, LAYOUT.gelSettingsSize.x)} testId="stage-right">{right}</LayerSlot>}
       {brace && <BraceLayer name={`inspector-${inspectorKind}`} left={inspectorX} top={y + Math.round((LAYOUT.gelSize.y - LAYOUT.braceSize.y) / 2)}>{brace}</BraceLayer>}
+      {right && <LayerSlot key={inspectorKind} name={`inspector-${inspectorKind}`} above={inspectorKind==='gel-settings'?'gel':inspectorKind==='sample-settings'?'sample':undefined} style={slot(inspectorX, LAYOUT.gelSettingsSize.x)} testId="stage-right">{right}</LayerSlot>}
     </div>
   );
 }
