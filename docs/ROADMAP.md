@@ -338,3 +338,12 @@ and recovery of both canvases. Full suite: 351 passed, one intentional duplicate
 skipped; build passes. Next: automatic post-context/reverse fallback, partial
 resource cleanup, device/context loss and lifecycle certification. Full parity and
 release gates remain open.
+
+
+P5 setup recovery update: failed renderer setup now switches to the other backend
+on a fresh canvas, with bounded attempts and explicit context retirement. Four
+browser cases verify injected GPU configuration/GL shader failures, visible output
+on recovery, and released failed contexts. Full suite: 355 passed, one intentional
+duplicate skipped; build passes. Next: device/context loss after startup, async
+validation and partial GPU factory allocation cleanup, then lifecycle/platform/
+performance checks. Native parity and P5 release gates remain open.

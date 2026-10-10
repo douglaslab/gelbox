@@ -1,8 +1,9 @@
+import { useRendererRecovery } from '../../lib/gpu/useRendererRecovery';
 import { GraphicsFailure } from '../primitives/GraphicsFailure';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import type { GlobalWarp } from '../../lib/sim/globalWarp';
 import type { Band } from '../../lib/sim/band';
-import { resolveBackend } from '../../lib/gel/backend';
+import { resolveBackend, type Backend } from '../../lib/gel/backend';
 
 interface GelCanvasProps {
   bands:        Band[];
@@ -15,8 +16,7 @@ type GpuRenderer = ReturnType<typeof import('../../lib/gel/render').createGelRen
 type GlRenderer  = ReturnType<typeof import('../../lib/gel/render-gl').createGlGelRenderer>;
 
 export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanvasProps) {
-  const [failed,setFailed]=useState(false);
-  const [attempt,setAttempt]=useState(0);
+  const {failed,attempt,forcedBackend,onFailure,onSuccess,onRetry}=useRendererRecovery();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<{
     rendererGpu: GpuRenderer | null;
@@ -37,8 +37,9 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
     canvas.height = gelSize.height * pixelsPerUnit;
 
     (async () => {
+      let backend:Backend|null=null;
       try {
-        const backend = await resolveBackend();
+        backend = forcedBackend ?? await resolveBackend();
         if (cancelled) return;
         if (backend === 'webgl2') {
           const { configureGl2Context } = await import('../../lib/gpu/gl/context');
@@ -171,9 +172,9 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
           renderer.render();
           stateRef.current.blitFn(renderer);
         }
-        if (!cancelled) setFailed(false);
+        if (!cancelled) onSuccess();
       } catch (err) {
-        if (!cancelled) { console.error('GelCanvas mount failed:', err); setFailed(true); }
+        if (!cancelled) { console.error('GelCanvas mount failed:', err); onFailure(backend); }
       }
     })();
 
@@ -186,7 +187,7 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
       stateRef.current.blitFn = null;
       for (const dispose of cleanup.reverse()) dispose();
     };
-  }, [gelSize.width, gelSize.height, pixelsPerUnit, attempt]);
+  }, [gelSize.width, gelSize.height, pixelsPerUnit, attempt, forcedBackend, onFailure, onSuccess]);
 
   // Re-render whenever the scientific scene or global effects change
   useEffect(() => {
@@ -215,6 +216,6 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
     />
     {failed&&<GraphicsFailure testId="gel-canvas-error"
       width={gelSize.width*pixelsPerUnit} height={gelSize.height*pixelsPerUnit}
-      onRetry={()=>{setFailed(false);setAttempt(n=>n+1);}} />}
+      onRetry={onRetry} />}
   </>);
 }

@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 351 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 355 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -851,3 +851,28 @@ fallback, device/context loss, lifecycle stress, platform/performance certificat
 and full native visual/workflow parity remain open. This error state is a browser
 failure adaptation, not a replacement for automatic recovery where another renderer
 can work.
+
+
+## Recovery after renderer setup failure
+
+Gel and molecular canvases now share a bounded recovery cycle: after an identified
+backend fails, try the other full renderer once on a new canvas; if both fail,
+show the existing error. Manual retry starts a fresh cycle. The document and
+molecular engines remain outside this drawing-surface lifecycle.
+
+GPU canvas configuration now unconfigures its context if format/configuration
+setup throws. Molecular views register context cleanup before batch creation:
+retired WebGL contexts are explicitly lost, and GPU contexts are unconfigured.
+Four injected-failure browser cases failed before implementation and pass afterward.
+They throw after real GPU context configuration or during GL shader setup, verify
+both views recover to the other backend, inspect visible band/particle pixels,
+and confirm old canvases are disconnected and their contexts released. Existing
+acquisition and exhausted-renderer/manual-retry cases remain passing.
+
+Fresh full verification: **355 browser tests passed, one intentional duplicate
+skipped; production build and TypeScript checks passed**. No goldens changed;
+unchanged model unit baseline remains 2,845. These cases do not certify every
+constructor allocation failure: GPU resources allocated inside a throwing factory,
+asynchronous validation errors, device/context loss after successful startup,
+lifecycle stress and platform/performance release checks remain open, together
+with full native visual/workflow certification.

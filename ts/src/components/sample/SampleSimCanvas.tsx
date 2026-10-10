@@ -1,3 +1,4 @@
+import { useRendererRecovery } from '../../lib/gpu/useRendererRecovery';
 import { GraphicsFailure } from '../primitives/GraphicsFailure';
 import type {MolecularView} from '../../lib/gel/molecularRuntime';
 import {useGelStore} from '../gel/GelContext';
@@ -6,7 +7,7 @@ import { LAYOUT } from '../../lib/layout/layout';
 import { MOLECULAR_SIM_TUNING } from '../../lib/sim/molecularSimEngine';
 import { buildMoleculesMesh, type MeshBuildTuning } from '../../lib/sim/molecularSimMesh';
 import { computeBackgroundColor } from '../../lib/sim/molecularSimBackground';
-import { resolveBackend } from '../../lib/gel/backend';
+import { resolveBackend, type Backend } from '../../lib/gel/backend';
 import { hexToLinearRgb } from '../../lib/layout/color';
 import { isDyeFragment } from '../../lib/sim/sample';
 import type { Sample } from '../../lib/sim/sample';
@@ -63,8 +64,7 @@ export function SampleSimCanvas({
   onHoverFragment,
   'data-testid': testId = 'molecular-sim-canvas',
 }: SampleSimCanvasProps) {
-  const [failed,setFailed]=useState(false);
-  const [attempt,setAttempt]=useState(0);
+  const {failed,attempt,forcedBackend,onFailure,onSuccess,onRetry}=useRendererRecovery();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const store = useGelStore();
   const sim = view.sim;
@@ -77,6 +77,7 @@ export function SampleSimCanvas({
     const canvas = canvasRef.current;
     if (!canvas) return;
     let cancelled = false;
+    const cleanup:(()=>void)[]=[];
     const dpr = (typeof window !== 'undefined' ? window.devicePixelRatio : 1) || 1;
     const wpx = Math.round(width * dpr);
     const hpx = Math.round(height * dpr);
@@ -84,14 +85,16 @@ export function SampleSimCanvas({
     canvas.height = hpx;
 
     (async () => {
+      let backend:Backend|null=null;
       try {
-        const backend = await resolveBackend();
+        backend = forcedBackend ?? await resolveBackend();
         if (cancelled) return;
         if (backend === 'webgl2') {
           const { configureGl2Context } = await import('../../lib/gpu/gl/context');
           const { createGlMeshBatch } = await import('../../lib/gpu/gl/meshBatch');
           if (cancelled) return;
           const { gl } = configureGl2Context(canvas);
+          cleanup.push(()=>{if(!canvas.isConnected)gl.getExtension('WEBGL_lose_context')?.loseContext();});
           const batch = createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' });
           handleRef.current = {
             resize: (wp, hp, wc, hc) => { canvas.width = wp; canvas.height = hp; batch.setViewport(wc, hc); },
@@ -111,6 +114,7 @@ export function SampleSimCanvas({
           const { device } = await requestDevice();
           if (cancelled) return;
           const { context, format } = configureContext(canvas, device);
+          cleanup.push(()=>context.unconfigure());
           const batch = createMeshBatch(device, { viewport: { width, height }, blend: 'over', format });
           handleRef.current = {
             resize: (_wp, _hp, wc, hc) => { batch.setViewport(wc, hc); },
@@ -126,11 +130,11 @@ export function SampleSimCanvas({
             destroy: () => batch.destroy(),
           };
         }
-        if (!cancelled) setFailed(false);
+        if (!cancelled) onSuccess();
       } catch (err) {
         if (cancelled) return;
         console.error('SampleSimCanvas graphics initialization failed:', err);
-        setFailed(true);
+        onFailure(backend);
       }
     })();
 
@@ -138,8 +142,9 @@ export function SampleSimCanvas({
       cancelled = true;
       handleRef.current?.destroy();
       handleRef.current = null;
+      for(const dispose of cleanup.reverse())dispose();
     };
-  }, [width, height, attempt]);
+  }, [width, height, attempt, forcedBackend, onFailure, onSuccess]);
 
   // Draw after the application frame; acquiring a GPU never gates simulation.
   useEffect(() => store.subscribeFrame(() => {
@@ -238,7 +243,7 @@ export function SampleSimCanvas({
       }}
     />
     {failed&&<GraphicsFailure testId={`${testId}-error`} width={width} height={height}
-      onRetry={()=>{setFailed(false);setAttempt(n=>n+1);}} />}
+      onRetry={onRetry} />}
   </>);
 }
 
