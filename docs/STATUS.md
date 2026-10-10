@@ -14,6 +14,10 @@ The native feature areas are substantially implemented, and the shared composito
 
 Implemented and checked areas include native JSON/XML file workflows and metadata, startup defaults, hidden-lane retention, sample/species controls, tube and band movement/cloning, reverse solving, picking, buffer effects, molecular lifecycle/meshes, persistent loupe gestures and source selection, temporary hover loupes, and reference-image views. Independent compiled native captures now cover 509 band/setup cases, 2,909 solver requests, particle/loupe behavior and meshes, and 137 exact-byte CPU warp cases. These are finite source-backed comparisons, not certification of the original executable's complete output.
 
+## Latest original-native editing replay
+
+The empty-tube → create/edit species → delete final species sequence now has actual original-release checkpoints and matching compiled checks on Chromium WebGPU/WebGL2, Firefox and WebKit. The edited sample matches exactly; the original app reopens the web-saved empty sample and reproduces the native checkpoint. [Evidence and encoding distinction](../reference/native/replay/empty-tube/README.md). This closes that W02 subscenario, not the remaining editing gestures or persistent-loupe replay. No product runtime or review artifact changed.
+
 ## Latest native capture diagnostics
 
 The isolated native harness now records pointer/key event origin, tracked view identity and removal backtraces. A deliberate sample close triggers the existing guard with the expected identity; an ordinary full run retains all four views and stable resources across six checkpoints, with no external mutating pointer/key events. [Evidence and reproduction](../reference/native/modern/performance-interaction/attribution/README.md). The historical failure is still unattributed; W08 remains open. No app runtime or review artifact changed.
