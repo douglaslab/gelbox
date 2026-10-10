@@ -1,0 +1,78 @@
+[
+  {
+    "id": "tbe",
+    "values": [
+      44.5,
+      44.5,
+      0,
+      1
+    ],
+    "selected": 1,
+    "notches": [
+      44.5,
+      44.5,
+      0,
+      1
+    ]
+  },
+  {
+    "id": "custom-retained",
+    "values": [
+      13.25,
+      7,
+      2,
+      3
+    ],
+    "selected": -1,
+    "notches": [
+      44.5,
+      44.5,
+      0,
+      1
+    ]
+  },
+  {
+    "id": "h2o",
+    "values": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "selected": 0,
+    "notches": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "tae",
+    "values": [
+      40,
+      0,
+      20,
+      1
+    ],
+    "selected": 2,
+    "notches": [
+      40,
+      0,
+      20,
+      1
+    ]
+  },
+  {
+    "id": "custom-new",
+    "values": [
+      13.25,
+      7,
+      2,
+      3
+    ],
+    "selected": -1,
+    "notches": [],
+    "fresh": true
+  }
+]

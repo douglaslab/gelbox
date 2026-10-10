@@ -16,8 +16,8 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest recorded verification
 
-On macOS with Node 22, the latest increment adds complete Dye row paint to the
-Timeline, Gel and Species sliders in development shared composition. Dynamic UIFont
+On macOS with Node 22, the latest increment adds complete Buffer controls to the
+Dye, Timeline, Gel and Species controls in development shared composition. Dynamic UIFont
 metrics/placement match 2,048 independent native strings; 128 slider RGB
 comparisons match native methods exactly. Actual controls pass image covering,
 restoration, icon states and existing gesture checks in both rendering modes.
@@ -25,13 +25,16 @@ See [slider evidence](../reference/web/shared-slider-scenes/README.md) and
 [font evidence](../reference/web/native-ui-text/README.md). The actual DyeRow
 component now matches 24 native comparisons; bar width, labels, natural molecule
 icons, endpoint actions and native "mM" display are restored. See
-[Dye evidence](../reference/web/shared-dye-scenes/README.md). Buffer concentration
-rows, heading and presets remain open.
+[Dye evidence](../reference/web/shared-dye-scenes/README.md). Buffer headings,
+preset controls and disabled concentration rows now match 40 native comparisons;
+real-app mouse-down timing, custom notches and unchanged stored values are checked.
+See [Buffer evidence](../reference/web/shared-buffer-scenes/README.md). Menus,
+palette, checkboxes and overlays remain to migrate before production enablement.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,921 passed |
-| Browser suite across WebGPU/WebGL2 | 767 passed; one intentional duplicate skipped |
+| Unit suite | 2,922 passed |
+| Browser suite across WebGPU/WebGL2 | 785 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -56,8 +59,8 @@ The [design](superpowers/specs/2026-10-10-shared-composition.md) and
 cover ordered graphics, clipping, textures, frame timing, and DOM interaction
 preservation. Ordered mesh and texture operations are implemented. Development mode now draws
 sample/fragment bodies, gel, loupes, reference images, tube icons, sample chrome,
-inspector headings, standard/graph sliders and Dye row paint on the shared surface after
-the React commit. Remaining work includes Buffer controls, menus, palette,
+inspector headings, standard/graph sliders, Dye rows and Buffer controls on the shared surface after
+the React commit. Remaining work includes menus, palette,
 checkboxes, overlays and full integrated acceptance. The production app still
 uses separate view canvases; exact production composition remains open.
 

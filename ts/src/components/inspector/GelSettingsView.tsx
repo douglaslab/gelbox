@@ -112,6 +112,7 @@ export function GelSettingsView() {
 
       {/* Buffer panel for the GEL running buffer (presets re-used from M16). */}
       <BufferView
+        presentation={{viewKey:'inspector-gel-settings',order:10}}
         buffer={state.ctx.gelBuffer}
         onChange={setGelBuffer}
         topLeft={LAYOUT.gelViewBufferViewTopLeft}

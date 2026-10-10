@@ -68,7 +68,7 @@ export function SliderView({
 }: SliderViewProps) {
   const registry=useSharedPresentation(),element=useRef<HTMLDivElement>(null);
   const shared=Boolean(registry&&presentation&&(config.style!=='bar'||nativeBar));
-  useDisplayScale();
+  const displayScale=useDisplayScale();
   const enabled = config.enabled !== false;
   const trackRef = useRef<HTMLDivElement | null>(null);
 
@@ -216,6 +216,7 @@ export function SliderView({
           style={{
             background: enabled ? barEmptyColor : `color-mix(in srgb, ${barEmptyColor ?? '#E8EBF1'} 50%, transparent)`,
             borderRadius:  barCornerRadius ?? undefined,
+            overflow:nativeBar?'visible':undefined,
             height:        barHeight ?? undefined,
           }}
           onPointerDown={onPointerDownTrack}
@@ -234,7 +235,9 @@ export function SliderView({
           />
           {(config.notchAction === 'drawOnly' || config.notchAction === 'snap' || config.notchAction === 'nearest')
             && (config.notches ?? []).map((n, i) => (
-              <div key={i} className={styles.notch} style={{ left: `${n * 100}%` }} />
+              nativeBar?<div key={i} data-testid={testId?`${testId}-notch${i?`-${i}`:''}`:undefined} style={{position:'absolute',left:Math.round(n*width)-1,top:0,width:1,height:'100%',pointerEvents:'none'}}>
+                <svg width="1" height="100%" style={{overflow:'visible'}} aria-hidden="true"><line x1="0.5" x2="0.5" y1="0" y2="100%" stroke={`rgb(${barColors.fill.slice(0,3).map(c=>c*.8*255).join(',')})`} strokeOpacity={enabled?1:.5} strokeWidth={1/displayScale}/></svg>
+              </div>:<div key={i} className={styles.notch} style={{ left: `${n * 100}%` }} />
             ))}
           {labelStr && (
             <div

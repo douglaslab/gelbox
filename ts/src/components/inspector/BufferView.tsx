@@ -1,7 +1,8 @@
-import {useState, type Dispatch} from 'react';
-import {resolveAssetUrl} from '../../lib/layout/assets';
+import {useState,useRef, type Dispatch} from 'react';
+import {useSharedPresentation} from '../gel/ScenePresentation';
+import {BufferPresetPaint} from './BufferPresetPaint';
 import { LAYOUT } from '../../lib/layout/layout';
-import { SliderView } from '../primitives/SliderView';
+import { SliderView,type SliderViewProps } from '../primitives/SliderView';
 import {
   type Buffer,
   BUFFER_H2O,
@@ -68,9 +69,11 @@ export interface BufferViewProps {
   topLeft: { x: number; y: number };
   /** Test id prefix. Default 'buffer-view'. */
   testId?: string;
+  presentation?:SliderViewProps['presentation'];
 }
 
-export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }: BufferViewProps) {
+export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view',presentation }: BufferViewProps) {
+  const element=useRef<HTMLDivElement>(null),registry=useSharedPresentation(),shared=Boolean(registry&&presentation);
   const slidersTop = topLeft.y + LAYOUT.bufferViewSlidersTopLeft.y;
   const slidersLeft = topLeft.x + LAYOUT.bufferViewSlidersTopLeft.x;
   const presetsTop  = topLeft.y + LAYOUT.bufferViewPresetsTopLeft.y;
@@ -88,7 +91,8 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
   }
 
   return (
-    <div data-testid={testId} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+    <div ref={element} data-testid={testId} style={{ position: 'absolute', inset: 0, pointerEvents: 'none',opacity:shared?0:undefined }}>
+      {shared&&presentation&&<BufferPresetPaint element={element} viewKey={presentation.viewKey} order={presentation.order} selected={matched} topLeft={topLeft}/>}
       <h3 style={{ position: 'absolute', margin: 0,
         left: presetsLeft - 100, width: 100 - LAYOUT.bufferViewSlidersIconGutter,
         top: presetsTop + 5, textAlign: 'right', lineHeight: 1,
@@ -98,6 +102,16 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
       {/* Preset row */}
       <div
         data-testid={`${testId}-presets`}
+        onContextMenu={event=>event.preventDefault()}
+        onPointerDown={event=>{
+          // BufferView::mouseDown picks the inset native rectangle immediately;
+          // it does not filter mouse buttons or wait for mouse-up.
+          const r=event.currentTarget.getBoundingClientRect();
+          const x=event.clientX-r.left,y=event.clientY-r.top;
+          if(x<.5||x>r.width-.5||y<.5||y>r.height-.5)return;
+          const index=Math.max(0,Math.min(2,Math.trunc((x-.5)/(r.width-1)*3)));
+          onChange({...PRESETS[index].buffer});
+        }}
         style={{
           position: 'absolute',
           left:     presetsLeft,
@@ -122,7 +136,7 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
               type="button"
               data-testid={`${testId}-preset-${p.key}`}
               data-selected={selected || undefined}
-              onClick={() => onChange({ ...p.buffer })}
+              onClick={event => {if(event.detail===0)onChange({ ...p.buffer });}}
               style={{
                 flex: '1 1 0',
                 background: selected ? LAYOUT.bufferViewPresetsSelectColor : 'transparent',
@@ -157,33 +171,25 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
               pointerEvents: 'auto',
             }}
           >
-            <div
-              style={{
-                position: 'absolute',
-                left: 0,
-                top:  '50%',
-                transform: 'translateY(-50%)',
-                width: 100 - LAYOUT.bufferViewSlidersIconGutter,
-                filter: 'brightness(0.85) opacity(0.5)',
-                textAlign: 'right',
-                color: LAYOUT.bufferViewSliderTextLabelColor,
-                font: `500 ${LAYOUT.bufferViewSliderLabelFontSize}px ${LAYOUT.bufferViewSliderLabelFont}`,
-                pointerEvents: 'none',
-              }}
-            >
-              {BUFFER_PARAM_LABELS[key]}
-            </div>
+            <span style={{position:'absolute',opacity:0,pointerEvents:'none'}}>{BUFFER_PARAM_LABELS[key]}</span>
             <SliderView
               testId={`${testId}-${key}`}
+              nativeBar
+              presentation={presentation?{...presentation,order:presentation.order+1+i}:undefined}
+              iconLo={`/assets/native-text/buffer-label-${i}.png`}
+              iconHi={BUFFER_PARAM_ICON_PATH[key]}
+              iconGutter={LAYOUT.bufferViewSlidersIconGutter}
               config={{
                 style: 'bar',
                 enabled: false,
                 valueMin: 0,
                 valueMax: max,
                 quantize: 0.5,
-                formatValue: (v) => `${v.toFixed(1)} mM`,
+                notches:notchPreset===-1?[]:[PRESETS[notchPreset].buffer[key]/max],
+                notchAction:'snap',
+                formatValue: (v) => `${bufferValueLabel(v,max)} mM`,
               }}
-              value={value}
+              value={Math.fround(value)}
               onChange={(v) => setParam(key, v)}
               width={barW}
               barFillColor={LAYOUT.bufferViewSliderFillColor}
@@ -192,20 +198,17 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
               barHeight={barH}
               style={{ position: 'absolute', left: 100, top: 0 }}
             />
-            {notchPreset!==-1&&<div data-testid={`${testId}-${key}-notch`}
-              style={{position:'absolute',left:100+Math.round(PRESETS[notchPreset].buffer[key]/max*barW)-1,
-                top:0,width:1,height:barH,pointerEvents:'none',opacity:.5,
-                background:`color-mix(in srgb, ${LAYOUT.bufferViewSliderFillColor} 80%, black)`}}/>}
-            {/* Native layoutFromBar anchors the bar, then fits the natural
-                28×26 molecule asset beside it; no notional icon slot. */}
-            <img src={resolveAssetUrl(BUFFER_PARAM_ICON_PATH[key])} alt=""
-              data-testid={`${testId}-${key}-icon-hi`} draggable={false}
-              style={{position:'absolute',left:100+barW+LAYOUT.bufferViewSlidersIconGutter,
-                top:-Math.round((26-barH)/2),width:28,height:26,maxWidth:'none',
-                filter:'brightness(0.85) opacity(0.5)'}}/>
+
           </div>
         );
       })}
     </div>
   );
+}
+
+/** Slider maps back through float32 and quantizes before formatting its label. */
+function bufferValueLabel(value:number,max:number):string {
+ const f=Math.fround,mapped=f(f(f(value)/max)*max),steps=f(mapped/.5);
+ const rounded=Math.sign(steps)*Math.floor(Math.abs(steps)+.5)*.5;
+ return Math.max(0,Math.min(max,rounded)).toFixed(1);
 }

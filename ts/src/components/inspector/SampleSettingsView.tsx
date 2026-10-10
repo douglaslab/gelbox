@@ -64,6 +64,7 @@ export function SampleSettingsView() {
 
       {/* Buffer panel — its own absolute coords inside the SampleSettingsView. */}
       <BufferView
+        presentation={{viewKey:'inspector-sample-settings',order:0}}
         buffer={sample.buffer}
         onChange={setBuffer}
         topLeft={LAYOUT.sampleBufferViewTopLeft}

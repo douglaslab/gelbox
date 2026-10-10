@@ -1,0 +1,185 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceHashes": {
+    "include/Layout.h": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+    "include/Slider.h": "4724225c977d03012a21835b12e7e54029ff9d2b5da01d0891d2cde564f85f68",
+    "include/Gelbox.h": "607dd57d2bddf81f74744f25527c01a01afbe73104fcd08919ff009114774734",
+    "src/Slider.cpp": "34dcc77498366d0b3d7ad48298e4f08c97b02ca1b7fa2285b57dac4723ca01d5",
+    "src/GelboxApp.cpp": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+    "include/Buffer.h": "80ff6fe8a50aeb867055c7e1d1745f2d96b4e3737d2af803c901df68a9f0689e",
+    "src/BufferView.cpp": "e9b48902beb8e928443676b8f7ea59fc6796ce406528abf6bfdb36fe06b6e0eb",
+    "src/Layout.cpp": "5a01b7a13aa4438e9d28d46f84dedc79d4a9e96750f333ca79356bc704f1d814",
+    "src/SliderView.cpp": "0542e15ef7233b567021a4c1e4bb5f8232074dae290b373ba4b043efe250933f",
+    "include/Config.h": "fd98c4bdd17876e22d0f4344150442c8c0763de42681830cc505e5152ad8ffd3"
+  },
+  "methodSha256": "d2f37b9d6deacf9b76b1ee2ad7619d48398dcfa924eba3c3f79405e82feb78dc",
+  "inputs": {
+    "driver.cpp": "ffba68a5462aaafe217b7c38c925db309d1ea9753e86b3a432ec45576c1cdb69",
+    "capture.py": "4dab9ecdd37e243f809b810c1050430638ee7256093e5bf93f273eea09882be0",
+    "cases.json": "a2403a2b504aed24c31bf138147aaf22a962cbadd703c8bac35d718e88e76463",
+    "metrics.json": "eee612e89a4154f36842a8f59d444c96177b2756bb5020da3d65dee3a6f08d29",
+    "Borate@2x.png": "8b125d7ce6b023269e1da5e2a0aadae3e0c9a5ba8f97c4c7cc30ead1979f96ac",
+    "Acetate@2x.png": "ee10fb353e81ec445e23dbc12c3ae0bd1c0d2a9c546f2ff9d4f981fc449d783f",
+    "Acetate.png": "03798701c5d88ef1a4e5b5bccd4d4703bdf22eb09767e836c32adabd399402e5",
+    "EDTA.png": "2e53564834d7060ed029701d09dcea40da393dd26a52db66be4f6d51413abd24",
+    "EDTA@2x.png": "7dc22eef31aabdbab218701c42133615433e8824952277e30e3db5b2996a5187",
+    "Tris.png": "8411f92fa7b28c292c568144490d113bc15e927a8eb6f3dd7f45fab9bfcd2b15",
+    "Tris@2x.png": "cfac1f2056eef5a84085590efa4a72fc0a926f9ce31bdd18b9ebed346e39fb57",
+    "Borate.png": "260ddcef44a3d0728b5043648d204bd75ef899324169db77deba747efa25c7de"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "files": [
+    {
+      "file": "tbe-front-1.png",
+      "sha256": "b3878e6daaa8d69c6bedb76419cff0079231d085ffe26b1d38d0fe15e8a6a232"
+    },
+    {
+      "file": "tbe-behind-1.png",
+      "sha256": "8223226efb3a1f900043b3844dfd25d5abe28e953612e5fab54fdef93c92643a"
+    },
+    {
+      "file": "tbe-front-2.png",
+      "sha256": "f7326e847d387e565b4a8a6e251a172adbf0a74b948926f60082efdc59b12238"
+    },
+    {
+      "file": "tbe-behind-2.png",
+      "sha256": "5b02ac39340dc33292ea6961b9b1f263057bfa0ecb30febcb0b67c2c8bfcfd61"
+    },
+    {
+      "file": "custom-retained-front-1.png",
+      "sha256": "a1430aedcad2ba33dff275cd89ff13f0edfa05fd295c62fd9961cd74edcaadfb"
+    },
+    {
+      "file": "custom-retained-behind-1.png",
+      "sha256": "51af9cdf49d03783618e3d8c46a6fdab278fb30144bc03ab0c2b39454eb9f30d"
+    },
+    {
+      "file": "custom-retained-front-2.png",
+      "sha256": "802d7f4fa79e1344d6d6c56df8bc2b4a2cd22b5f37114a70ebbdf7100a9ab61b"
+    },
+    {
+      "file": "custom-retained-behind-2.png",
+      "sha256": "d924d5493e4bd00d24728cc1630a1335adc1cd6287212a66da13ebb5b223af77"
+    },
+    {
+      "file": "h2o-front-1.png",
+      "sha256": "aa3d5655d1ebdc83a0089b6b77cab5dcb0bfcfe88f15e66bc2513d7a3124945b"
+    },
+    {
+      "file": "h2o-behind-1.png",
+      "sha256": "75b06bf08d38c7bc3dfeddf2639ab0e4d476feff550b5871bd231cf47380a359"
+    },
+    {
+      "file": "h2o-front-2.png",
+      "sha256": "0cf4218e1e44c1e26c974e634a0dbcba9b1f17635c116378089ae93fbd3ec6ed"
+    },
+    {
+      "file": "h2o-behind-2.png",
+      "sha256": "c8b3f5aca005f0ff23557b8aab7325a84de65a606c682296fb7be21760bc6281"
+    },
+    {
+      "file": "tae-front-1.png",
+      "sha256": "320d66cf691f4b49f4992fdbe8e027a6f8eca28b31552b9ea6c644068b3e6a4a"
+    },
+    {
+      "file": "tae-behind-1.png",
+      "sha256": "f46995d6e025e14ff9821e172e695fb689220b99086be3e1a54fd8d6236215de"
+    },
+    {
+      "file": "tae-front-2.png",
+      "sha256": "e43dd1df6edf2fb3f71b54b7a71dbe64a6ff4855a18368eea0fb46c0c806cc5f"
+    },
+    {
+      "file": "tae-behind-2.png",
+      "sha256": "d06ce0bef7d68f5c550a69f1c0bb63e70859a12e0d4f138b319558cc196dce38"
+    },
+    {
+      "file": "custom-new-front-1.png",
+      "sha256": "7996eb3c615f090f2910e0c2b32277d16b9bbc4a107061e015d894f18e711721"
+    },
+    {
+      "file": "custom-new-behind-1.png",
+      "sha256": "37ef8d2b2c8add8e897ce3c4d629420bb59697078a84eb0be7d60af77b0419aa"
+    },
+    {
+      "file": "custom-new-front-2.png",
+      "sha256": "6598d7a0bf7ca7249fd97bb3dc1141d82642ea87e16eb91a625aa1d85f0bdeed"
+    },
+    {
+      "file": "custom-new-behind-2.png",
+      "sha256": "f27c7cfb2ff1865822524427a652a71b70f715cbc07f422e209fd8e44ffbffc0"
+    },
+    {
+      "file": "buffer-heading-1.png",
+      "sha256": "0db465c5fd204b31034e817142032166d00a48872c4010fa0b90232d9801962a"
+    },
+    {
+      "file": "buffer-preset-0-1.png",
+      "sha256": "0b3ec8f45ea2f14aac761ac1337d840baadc0b37b5c59956e96ffa9a4a963c14"
+    },
+    {
+      "file": "buffer-preset-1-1.png",
+      "sha256": "dea8d36afcbe6df98e610949115e49c868bf627bef76efac20e114db9bedeab5"
+    },
+    {
+      "file": "buffer-preset-2-1.png",
+      "sha256": "2863ceb6cd32aec3dcddd6e46a32d7b57b1f037ce99689f2d69407cd8aa05d44"
+    },
+    {
+      "file": "buffer-label-0-1.png",
+      "sha256": "18787b5466c8fbe23bdea1d5e12c7c7cfa1b65ec97c1b3be7e8ca2cdd1667504"
+    },
+    {
+      "file": "buffer-label-1-1.png",
+      "sha256": "9e8dd910e1abd6fc93f02dc068d1d56deed10f4b329c47b2f4e0f374adbc7646"
+    },
+    {
+      "file": "buffer-label-2-1.png",
+      "sha256": "34efda83c297f50e2b4eff6efb4d3cdd89144a56fe44223d9fa283ff8a08872c"
+    },
+    {
+      "file": "buffer-label-3-1.png",
+      "sha256": "28efec5075b6ef8963f2d780730176d244fea54709de6de85e7b4b98019bcbfc"
+    },
+    {
+      "file": "buffer-heading-2.png",
+      "sha256": "25669f3dff100a891b38e6e4be730a874b8d6e707cc4b58adc37512db5c549cb"
+    },
+    {
+      "file": "buffer-preset-0-2.png",
+      "sha256": "bc3653c0ae4b9e996a5981a1ab1bea21a0712326aa3f9d440b9486c64d518d11"
+    },
+    {
+      "file": "buffer-preset-1-2.png",
+      "sha256": "cbf603a15a1497e4f83d23e9746225c58ec22e668d701b57088013860b896fef"
+    },
+    {
+      "file": "buffer-preset-2-2.png",
+      "sha256": "8271e84a7cc092f926859b708031492ed0241400fa5002cd8f19f76b6d3d241b"
+    },
+    {
+      "file": "buffer-label-0-2.png",
+      "sha256": "8b599d95a44796e45073baaea8fe6b7a3fb945e0bac11f7d90694c6ddc0adc73"
+    },
+    {
+      "file": "buffer-label-1-2.png",
+      "sha256": "d26a32a7c8a4ef7606658764dec78029955813bb7dc66e6482567c5cc5bab1ea"
+    },
+    {
+      "file": "buffer-label-2-2.png",
+      "sha256": "aead4fe3ba03f9bcc0c0eba466789252ac870c14312b996413c51cde2f463d6f"
+    },
+    {
+      "file": "buffer-label-3-2.png",
+      "sha256": "feff6c469c1a25c9d652f5c9483d9992b99b3a0a8bafa87bf88f3b090854faa6"
+    }
+  ],
+  "limits": [
+    "Actual pinned BufferView draw/updateLayout, setup text/style/formatter blocks, Slider and SliderView layout methods.",
+    "Window/UIFont and translation-only View adapters; getters supply fixture values after setup. Native disabled-buffer config asserted.",
+    "Buffer preset selection and stale/empty notches supplied explicitly; actual interaction/model synchronization tested separately.",
+    "Modern Cinder/macOS RGBA8 MSAA4; not original-release full GUI certification."
+  ]
+}

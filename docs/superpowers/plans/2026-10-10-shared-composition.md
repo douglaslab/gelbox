@@ -180,8 +180,16 @@ label restores the native low-endpoint action. Bar width is 135 excluding icons,
 empty-color interpolation keeps native float precision, and displayed units are
 native "mM" (the former web "ng" label was an unapproved difference). Real-app
 endpoint edits, bar clicks, image covering/removal and save checks pass in both
-rendering modes. Buffer concentration rows, heading and presets still need full
-integration. Menus and other control paint stay open.
+rendering modes. Buffer headings, preset controls and concentration rows now also
+contribute in native child order. Forty exact comparisons of the actual BufferView
+cover all presets and custom compositions with retained/no prior notches. Static
+labels retain native transparent textures and integer retina dimensions; disabled
+controls remain disabled. Presets apply on native mouse-down (including secondary
+buttons), while keyboard activation remains available. Custom input values are
+preserved even when native float normalization/half-step rounding changes their
+displayed value. Real-app overlap, endpoint/track disabling and notch lifecycle
+checks cover both Gel and Sample buffers. Menus, palette, checkboxes and overlays
+remain to migrate; combined acceptance and production enablement stay open.
 
 
 

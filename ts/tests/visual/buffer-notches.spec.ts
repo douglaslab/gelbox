@@ -1,8 +1,10 @@
 import {test,expect} from '@playwright/test';
 import {openSampleSettings} from './sample-helpers';
+for(const shared of [false,true])test.describe(`shared:${shared}`,()=>{
 for(const scale of [1,2])test(`buffer preset notch positions at ${scale}x`,async({browser},info)=>{
  const context=await browser.newContext({viewport:{width:1365,height:800},deviceScaleFactor:scale});
  const page=await context.newPage();
+ await page.addInitScript(s=>localStorage.setItem('gelSharedPresentation',s?'1':'0'),shared);
  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
  try {
   await page.goto('/#/gel');await page.getByTestId('settings-button').click();
@@ -19,6 +21,7 @@ for(const scale of [1,2])test(`buffer preset notch positions at ${scale}x`,async
  } finally {await context.close();}
 });
 test('custom composition retains prior preset notches only for the existing buffer view',async({page},info)=>{
+ await page.addInitScript(s=>localStorage.setItem('gelSharedPresentation',s?'1':'0'),shared);
  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
  await page.route('**/src/components/sample/SampleSimCanvas.tsx*',async route=>{
   const response=await route.fetch(),body=await response.text();
@@ -29,11 +32,15 @@ test('custom composition retains prior preset notches only for the existing buff
  const notch=page.getByTestId('sample-buffer-view-tris-notch');
  await expect(notch).toBeVisible();const before=await notch.boundingBox();
  // Observe a model update on this same view, as native syncPresetToModel does.
- await page.evaluate(()=>{(window as any).__bufferStore.dispatch({type:'SET_SAMPLE_BUFFER',laneIndex:0,buffer:{tris:13,borate:7,acetate:2,edta:3}});});
+ await page.evaluate(()=>{(window as any).__bufferStore.dispatch({type:'SET_SAMPLE_BUFFER',laneIndex:0,buffer:{tris:13.25,borate:7,acetate:2,edta:3}});});
+ // Native float32 normalization maps 13.25 to 13.249999 before half-step rounding.
  await expect(page.getByTestId('sample-buffer-view-tris')).toContainText('13.0 mM');
+ expect(await page.evaluate(()=>(window as any).__bufferStore.getSnapshot().gel.samples[0].buffer.tris)).toBe(13.25);
  expect(await notch.boundingBox()).toEqual(before);
  await expect(page.locator('[data-testid^="sample-buffer-view-preset-"][data-selected]')).toHaveCount(0);
  // Closing/recreating the view with a custom buffer starts with no notches.
  await page.keyboard.press('Escape');await page.getByTestId('microtube-0').click();await openSampleSettings(page);
  await expect(notch).toHaveCount(0);
+});
+
 });
