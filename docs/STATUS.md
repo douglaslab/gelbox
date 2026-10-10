@@ -41,7 +41,7 @@ P0 reference work and P1 application/file compatibility are underway. Selected s
 | P0 | Runnable native reference, captures, effective configuration, parity ledger | In progress |
 | P1 | Native application shell and compatible file/edit/save workflow | In progress: native files and shell |
 | P2 | Native editing, identity/selection, panel and control behavior | In progress: control defaults and species editing; identity migration remains open |
-| P3 | Independently verified numerical and rendering fidelity | H2O app integration implemented; native certification pending |
+| P3 | Independently verified numerical and rendering fidelity | 259 pinned C++ band cases verified within recorded tolerances; full numerical/raster gates remain open |
 | P4 | Complete native loupes and reference images | Planned |
 | P5 | Browser reliability, production-build verification, parity release | Planned |
 
@@ -112,3 +112,11 @@ Verification: **330 unit tests, 156 browser tests across both GPU backends, and 
 The startup ladder now preserves the recorded native sample's raw RGB floats, `[1]` monomer weights, name, icon, icon scale and native ID. Its generator reads the recorded native startup export rather than recreating an obsolete synthetic ladder. A provenance sidecar records the source and generated-file hash; regeneration is byte-stable.
 
 Verification: **331 unit tests, 158 browser tests, and production build/TypeScript checks pass**. New unit and real-browser startup Save Gel comparisons failed before the correction and now match every field of the independent native document. Fresh review corroborated the fields against pinned XML/native constructors. Six inspected web particle snapshots were updated: correcting raw colors changes fills, and changing `[]` to native `[1]` consumes an RNG draw and changes particle placement. Gel-band calculations are unchanged. These are web regression baselines, not native raster certification; exact executable/source correspondence and broader numerical/visual gates remain open.
+
+## Independent native band reference
+
+A reproducible C++ executable now compiles unmodified `GelSim.cpp` and headers from native `5f51097`, with the pinned effective tuning. The build extracts Git objects into scratch storage and leaves sibling checkout edits untouched. Recorded provenance covers source, tuning, Cinder revision/library, compiler, harness, case inputs, executable and outputs. Two executions must produce identical output. See [the numerical reference](../reference/native/numerical/README.md) for reproduction and coverage.
+
+The differential suite contains **259 native cases**, including all startup species, buffers, voltage/time/degradation combinations, parameter extremes, aggregate distributions, dyes, well damage and fractional integer-boundary regressions. It exposed and corrected web rounding instead of native truncation for blur/degraded BP, plus an extra clamp on negative native smear. Native float32 evaluation is preserved at degradation/diffusion integer boundaries. Seed bits, band count, blur and aggregate tiers compare exactly; documented small float tolerances apply to other fields.
+
+Verification: **595 unit tests, 158 browser tests, and production build/TypeScript checks pass**. Fresh review found fractional discontinuities and seed-comparator/provenance gaps, all addressed with failed-then-passing regressions and recorded hashes. No regression snapshots changed. This is independent pinned-model evidence, not the full P0/P3 gate: the harness uses modern Cinder rather than original 0.9.0; prebuilt library/source correspondence is not independently certified. Native binary/raster equivalence, reverse solver, particle numerics, additional UI metadata comparison and broader boundary coverage remain open.

@@ -27,7 +27,7 @@ function dyeToBand(_lane: number, dye: number, mass: number, ctx: SimContext, we
   const aspectRatio = 1;
 
   // Dye bands diffuse like a 1bp fragment (max blur).
-  const blur = Math.round(calcBandDiffusion(1, 1, 1, ctx));
+  const blur = Math.trunc(calcBandDiffusion(1, 1, 1, ctx));
 
   // Mobility (uses dye's BP_LO as the position; no degrade)
   const deltaY = calcDeltaY(bases, aggregate, aspectRatio, ctx) * ctx.ySpaceScale;
@@ -65,7 +65,7 @@ function fragAggregateToBand(
 
   const mass = frag.mass * massScale;
   const { lo: degradeLo, hi: degradeHi } = calcDegradeAsBP(frag.degrade, frag.bases);
-  const blur = Math.round(calcBandDiffusion(frag.bases, aggregate, frag.aspectRatio, ctx));
+  const blur = Math.trunc(calcBandDiffusion(frag.bases, aggregate, frag.aspectRatio, ctx));
 
   // Mobility: y1 from (bases - degradeHi), y2 from (bases - degradeLo)
   const deltaY1 = calcDeltaY(frag.bases - degradeHi, aggregate, frag.aspectRatio, ctx) * ctx.ySpaceScale;

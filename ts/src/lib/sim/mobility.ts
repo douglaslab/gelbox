@@ -29,8 +29,9 @@ export interface DegradeBP   { lo: number; hi: number; }
  * As degrade goes 1..2, hi (band's y1 / upper end) grows toward 1.
  */
 export function calcDegradeAsFrac(degrade: number): DegradeFrac {
+  degrade = Math.fround(degrade);
   const lo = Math.min(1, degrade);
-  const hi = degrade > 1 ? Math.min(1, degrade - 1) : 0;
+  const hi = degrade > 1 ? Math.min(1, Math.fround(degrade - 1)) : 0;
   return { lo, hi };
 }
 
@@ -38,8 +39,8 @@ export function calcDegradeAsFrac(degrade: number): DegradeFrac {
 export function calcDegradeAsBP(degrade: number, bases: number): DegradeBP {
   const f = calcDegradeAsFrac(degrade);
   return {
-    lo: Math.max(1, Math.round(f.lo * bases)),
-    hi: Math.max(1, Math.round(f.hi * bases)),
+    lo: Math.max(1, Math.trunc(Math.fround(f.lo * Math.fround(bases)))),
+    hi: Math.max(1, Math.trunc(Math.fround(f.hi * Math.fround(bases)))),
   };
 }
 

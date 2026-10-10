@@ -55,7 +55,6 @@ export function calcBandGeometry(ctx: SimContext, input: GeometryInput): Geometr
 
   // Clip smear above with well bottom
   smearAbove = Math.min(smearAbove, rect.y1 - wellRect.y2);
-  smearAbove = Math.max(0, smearAbove);  // clip negative if band is above well (shouldn't happen normally)
 
   return { rect, smearAbove, smearBelow };
 }
