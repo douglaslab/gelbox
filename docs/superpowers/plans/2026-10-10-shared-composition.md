@@ -330,3 +330,33 @@ skipped). Final output pixels agree with both retained captures. The image file
 queue tests now isolate File decoding from unrelated UI asset Blobs, preserve
 bitmap decode options and deliberately exercise a concurrent Blob decode. No
 application code, reference pixels or tolerances changed in this increment.
+
+
+### Integrated sample and species window acceptance
+
+Complete sample and species windows now match controlled native captures exactly
+on both backends at 1365×768/DPR2. The test imports the captured gel document,
+opens the actual tube and replays captured particles. Native references and
+comparison tolerances are unchanged. Twelve native PNG/state/diagnostic files
+repeat byte-for-byte across independent launches; hashes are retained.
+
+Native MVP evidence required composing projection and view coefficients before
+vertex transformation. Mesh and texture operations now share that path when a
+logical window size is supplied; legacy callers retain their existing path.
+Logical viewport changes invalidate the projection even when the physical surface
+size is unchanged. Removing this invalidation makes both resize regressions fail.
+Native displayed slider values now use the float32 normalize/map/quantize path,
+including the custom buffer boundary, without changing stored model values.
+
+Modern Cinder palette conversion differs from independently captured original
+release values. Full captured-document replay makes inputs identical while
+preserving original-release web defaults. This acceptance covers controlled
+rendering, not RNG or interaction history. Settings/menu/loupes/images/overlap,
+production shared enablement, original-release GUI, platform and performance
+gates remain open. Independent review found no Critical or Important issue;
+direct numerical unit cases were suggested as an optional localization aid,
+while current independent native browser comparisons cover the behavior.
+
+Verification: 949 browser cases pass (one intentional duplicate skipped), 2,924
+units pass, production build and four legacy root/subpath checks pass. Retained
+web output and source hashes: `reference/web/shared-full-window-scenes`.

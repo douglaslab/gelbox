@@ -5,6 +5,7 @@ import {validatePresentationSize,wellVertices,clipPresentationScissor,presentati
 /** Native window presentation: image or direct triangles, then four-sample well lines. */
 export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,size:PresentationSize,options:PresentationOptions={}) {
   validatePresentationSize(size);
+  if(options.windowSize)validatePresentationSize(options.windowSize);
   const {width,height}=size;
   const owned:Array<{destroy():void}>=[];
   let vertices:GPUBuffer|undefined,capacity=0,destroyed=false;
@@ -53,7 +54,7 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
       bandModule=device.createShaderModule({label:'gel-presentation-bands',code:`
         struct Out {@builtin(position) p:vec4f,@location(0) color:vec4f};
         @vertex fn vs(@location(0) p:vec2f,@location(1) color:vec4f)->Out {
-          var o:Out;o.p=vec4f(p.x/${width}.*2.-1.,1.-p.y/${height}.*2.,0.,1.);o.color=color;return o;
+          var o:Out;o.p=${options.windowSize?'vec4f(p.x,p.y,0.,1.)':`vec4f(p.x/${width}.*2.-1.,1.-p.y/${height}.*2.,0.,1.)`};o.color=color;return o;
         }
         @fragment fn fs(o:Out)->@location(0) vec4f {return o.color;}`});
       }
@@ -78,7 +79,7 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
         if(data.byteLength)device.queue.writeBuffer(vertices!,0,data);
         const direct='mesh' in base||'commands' in base;
         if(!direct&&base!==previousBase){baseGroup=device.createBindGroup({layout:basePipeline.getBindGroupLayout(0),entries:[{binding:0,resource:base},{binding:1,resource:sampler}]});previousBase=base;}
-        const geometry=direct?presentationSceneGeometry(base,scale):null;
+        const geometry=direct?presentationSceneGeometry(base,scale,options.windowSize):null;
         if(direct){
           textures.upload(geometry!.textureData);
           const data=geometry!.data;

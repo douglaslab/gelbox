@@ -54,6 +54,20 @@ export function getMappedValue(normalized: number, cfg: Pick<SliderConfig, 'valu
   return v;
 }
 
+/** Native pullValueFromGetter -> getMappedValue, including float32 arithmetic.
+ * The displayed value is quantized without writing it back to the model. */
+export function getDisplayValue(value:number,cfg:Pick<SliderConfig,'valueMin'|'valueMax'|'quantize'>):number {
+  const f=Math.fround,lo=f(cfg.valueMin),hi=f(cfg.valueMax),span=f(hi-lo);
+  const normalized=span===0?0:f(f(f(value)-lo)/span);
+  let mapped=f(lo+f(span*normalized));
+  const step=f(cfg.quantize);
+  if(step>0){
+    const units=f(mapped/step);
+    mapped=f(Math.sign(units)*Math.floor(Math.abs(units)+.5)*step);
+  }
+  return clamp(mapped,lo,hi);
+}
+
 /** Returns the notch closest to v in absolute distance. Returns v if notches empty. */
 export function getNearestNotch(v: number, notches: number[]): number {
   if (notches.length === 0) return v;

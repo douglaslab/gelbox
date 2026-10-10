@@ -23,7 +23,7 @@ export function createPresentationTextures(device:GPUDevice,size:PresentationSiz
         const module=device.createShaderModule({label:'presentation-texture',code:`
           struct Out {@builtin(position) p:vec4f,@location(0) tint:vec4f,@location(1) uv:vec2f};
           @vertex fn vs(@location(0) p:vec2f,@location(1) tint:vec4f,@location(2) uv:vec2f)->Out {
-            var o:Out;o.p=vec4f(p.x/${size.width}.*2.-1.,1.-p.y/${size.height}.*2.,0.,1.);o.tint=tint;o.uv=uv;return o;
+            var o:Out;o.p=${options.windowSize?'vec4f(p.x,p.y,0.,1.)':`vec4f(p.x/${size.width}.*2.-1.,1.-p.y/${size.height}.*2.,0.,1.)`};o.tint=tint;o.uv=uv;return o;
           }
           @group(0) @binding(0) var image:texture_2d<f32>;
           @group(0) @binding(1) var imageSampler:sampler;

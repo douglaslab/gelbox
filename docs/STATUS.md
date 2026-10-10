@@ -60,10 +60,24 @@ pixels are excluded. See [full-window evidence](../reference/web/shared-gel-star
 Populated/overlapping full-window acceptance still gates production enablement;
 existing built-app deployment checks cover the legacy compositor.
 
+Complete sample and species windows now also match all RGB channels on both
+backends at 1365×768/DPR2. Tests import the captured native document and replay
+capture-time particles; this proves controlled-state rendering, not RNG/history
+parity. Native float32 label conversion and composed window projection are
+restored. Original-release palette defaults are preserved despite modern Cinder's
+one-step float conversion difference. Logical viewport changes now rebuild
+projection even when the physical surface dimensions remain unchanged, with a
+regression that fails when invalidation is removed. See
+[populated capture evidence](../reference/native/modern/full-window-scenes/README.md).
+Independent review found no Critical or Important issues in this increment.
+The complete regression run passes 949 browser tests with one intentional duplicate
+skipped; units, production build and four legacy deployment checks also pass.
+See [retained web comparisons](../reference/web/shared-full-window-scenes/README.md).
+
 | Check | Result |
 |---|---|
 | Unit suite | 2,924 passed |
-| Browser suite across WebGPU/WebGL2 | 943 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 949 passed; one intentional duplicate skipped |
 | Built-app legacy root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |

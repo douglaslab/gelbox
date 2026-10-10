@@ -7,6 +7,7 @@ import {validatePresentationSize,wellVertices,clipPresentationScissor,presentati
  * reflected MSAA raster into the canvas; changing that order changes corners. */
 export function createGlGelPresentation(gl:WebGL2RenderingContext,size:PresentationSize,options:PresentationOptions={}) {
   validatePresentationSize(size);
+  if(options.windowSize)validatePresentationSize(options.windowSize);
   const {width,height}=size,cleanup:Array<()=>void>=[];
   let destroyed=false,capacity=0;
   let bandProgram:ReturnType<typeof createGlProgram>|undefined,bandVertices:WebGLBuffer|undefined,bandCapacity=0;
@@ -49,11 +50,11 @@ export function createGlGelPresentation(gl:WebGL2RenderingContext,size:Presentat
           if(!bandProgram){
             bandProgram=createGlProgram(gl,`
               in vec2 p;in vec4 c;out vec4 tint;
-              void main(){gl_Position=vec4(p.x/${width}.*2.-1.,p.y/${height}.*2.-1.,0.,1.);tint=c;}`,`
+              void main(){gl_Position=${options.windowSize?'vec4(p.x,-p.y,0.,1.)':`vec4(p.x/${width}.*2.-1.,p.y/${height}.*2.-1.,0.,1.)`};tint=c;}`,`
               in vec4 tint;out vec4 color;void main(){color=tint;}`,'gel-presentation-bands');
             const program=bandProgram;cleanup.push(()=>program.destroy());
           }
-          const {data,textureData,draws}=presentationSceneGeometry(base,scale);
+          const {data,textureData,draws}=presentationSceneGeometry(base,scale,options.windowSize);
           textures.upload(textureData);
           if(data.byteLength){
             if(!bandVertices){bandVertices=required(gl.createBuffer(),'gel presentation bands');const buffer=bandVertices;cleanup.push(()=>gl.deleteBuffer(buffer));}

@@ -29,11 +29,11 @@ function SceneCanvas({registry}:{registry:ScenePresentationRegistry}){
      const {gl}=configureGl2Context(canvas);
      cleanup.push(()=>gl.getExtension('WEBGL_lose_context')?.loseContext());
      cleanup.push(watchGlLoss(canvas,()=>fail('webgl2',true)));
-     let presentation:ReturnType<typeof createGlGelPresentation>|undefined,w=0,h=0;
+     let presentation:ReturnType<typeof createGlGelPresentation>|undefined,w=0,h=0,logicalW=0,logicalH=0;
      cleanup.push(()=>presentation?.destroy());
      graphics={backend:'webgl2',gl,fail:error=>{console.error('Shared GL resource failed:',error);fail('webgl2');}};
      draw=(scene,scale)=>{
-      if(w!==canvas.width||h!==canvas.height){presentation?.destroy();presentation=undefined;w=canvas.width;h=canvas.height;presentation=createGlGelPresentation(gl,{width:w,height:h});}
+      if(w!==canvas.width||h!==canvas.height||logicalW!==window.innerWidth||logicalH!==window.innerHeight){presentation?.destroy();presentation=undefined;w=canvas.width;h=canvas.height;logicalW=window.innerWidth;logicalH=window.innerHeight;presentation=createGlGelPresentation(gl,{width:w,height:h},{windowSize:{width:logicalW,height:logicalH}});}
       presentation!.draw({...scene,commands:scene.commands.map(op=>{if(!('texture' in op))return op;if(op.texture.backend!=='webgl2')throw Error('Texture belongs to a different backend');return {...op,texture:op.texture.value};})},[],scale);
      };
     }else{
@@ -42,11 +42,11 @@ function SceneCanvas({registry}:{registry:ScenePresentationRegistry}){
      const {device}=await requestDevice();if(cancelled||lost)return;
      cleanup.push(watchDeviceLoss(device,()=>fail('webgpu',true)));cleanup.push(watchDeviceErrors(device,()=>fail('webgpu')));
      const {context,format}=configureContext(canvas,device);cleanup.push(()=>context.unconfigure());
-     let presentation:ReturnType<typeof createGelPresentation>|undefined,w=0,h=0;
+     let presentation:ReturnType<typeof createGelPresentation>|undefined,w=0,h=0,logicalW=0,logicalH=0;
      cleanup.push(()=>presentation?.destroy());
      graphics={backend:'webgpu',device,fail:error=>{console.error('Shared GPU resource failed:',error);fail('webgpu');}};
      draw=(scene,scale)=>{
-      if(w!==canvas.width||h!==canvas.height){presentation?.destroy();presentation=undefined;w=canvas.width;h=canvas.height;presentation=createGelPresentation(device,format,{width:w,height:h});}
+      if(w!==canvas.width||h!==canvas.height||logicalW!==window.innerWidth||logicalH!==window.innerHeight){presentation?.destroy();presentation=undefined;w=canvas.width;h=canvas.height;logicalW=window.innerWidth;logicalH=window.innerHeight;presentation=createGelPresentation(device,format,{width:w,height:h},{windowSize:{width:logicalW,height:logicalH}});}
       const encoder=device.createCommandEncoder({label:'shared-scene'});
       presentation!.draw(encoder,{...scene,commands:scene.commands.map(op=>{if(!('texture' in op))return op;if(op.texture.backend!=='webgpu')throw Error('Texture belongs to a different backend');return {...op,texture:op.texture.value};})},context.getCurrentTexture().createView(),[],scale);device.queue.submit([encoder.finish()]);
      };

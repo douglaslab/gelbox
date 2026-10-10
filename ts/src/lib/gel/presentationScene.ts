@@ -1,12 +1,12 @@
-import {directPresentationGeometry,type DirectPresentationBase,type PresentationScene,type PresentationTextureLayer,type PresentationLayer} from './presentationTypes';
+import {directPresentationGeometry,type DirectPresentationBase,type PresentationScene,type PresentationTextureLayer,type PresentationLayer,type PresentationSize} from './presentationTypes';
 
 /** Pack mesh and textured vertices independently, preserving the original command order. */
-export function presentationSceneGeometry<Texture>(base:DirectPresentationBase|PresentationScene<Texture>,scale:number){
+export function presentationSceneGeometry<Texture>(base:DirectPresentationBase|PresentationScene<Texture>,scale:number,windowSize?:PresentationSize){
   const commands='commands' in base?base.commands:[...(base.underlay??[]),{mesh:base.mesh}];
   const meshes=commands.filter((op):op is PresentationLayer=>'mesh' in op)
     .map(op=>'commands' in base?{...op,blend:op.blend??'over' as const}:op);
   const empty={data:new Float32Array(),vertexCount:0};
-  const geometry=directPresentationGeometry({mesh:empty,underlay:meshes,origin:base.origin},scale);
+  const geometry=directPresentationGeometry({mesh:empty,underlay:meshes,origin:base.origin},scale,windowSize);
   const textureData=new Float32Array((commands.length-meshes.length)*6*8);
   let meshIndex=0,textureFirst=0;
   const draws=commands.map(op=>{
@@ -17,7 +17,7 @@ export function presentationSceneGeometry<Texture>(base:DirectPresentationBase|P
     const points=[[x1,y1,uv.x1,uv.y1],[x2,y1,uv.x2,uv.y1],[x2,y2,uv.x2,uv.y2],
       [x1,y1,uv.x1,uv.y1],[x2,y2,uv.x2,uv.y2],[x1,y2,uv.x1,uv.y2]];
     const mesh={data:new Float32Array(points.flatMap(([x,y])=>[x,y,...tint])),vertexCount:6};
-    const packed=directPresentationGeometry({mesh:empty,underlay:[{mesh,transform:op.transform}],origin:base.origin},scale).data;
+    const packed=directPresentationGeometry({mesh:empty,underlay:[{mesh,transform:op.transform}],origin:base.origin},scale,windowSize).data;
     points.forEach((point,i)=>{
       textureData.set(packed.subarray(i*6,i*6+6),(textureFirst+i)*8);
       textureData.set(point.slice(2),(textureFirst+i)*8+6);

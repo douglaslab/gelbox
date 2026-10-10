@@ -9,6 +9,7 @@ import {
   applyNotchSnap,
   calcNormalizedValue,
   getMappedValue,
+  getDisplayValue,
 } from '../../lib/slider/slider';
 import { resolveAssetUrl,dprFallbackOnError } from '../../lib/layout/assets';
 import styles from './SliderView.module.css';
@@ -162,7 +163,9 @@ export function SliderView({
     if(e.currentTarget.hasPointerCapture(e.pointerId))e.currentTarget.releasePointerCapture(e.pointerId);
   }
 
-  const labelStr = config.formatValue?.(value);
+  // Native labels use getMappedValue(), including display quantization, while
+  // the handle and stored fragment retain the original getter value.
+  const labelStr = config.formatValue?.(getDisplayValue(value, config));
 
   return (
     <div

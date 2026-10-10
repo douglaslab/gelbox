@@ -1,0 +1,99 @@
+{
+  "baseCommit": "70c64fd79251399121d1e4be1a93c70a50e5bdac",
+  "sourceHashes": {
+    "ts/src/components/gel/ScenePresentation.tsx": "e90486f031a149ed3eb3a39c754ac5065eb66c1f0dcf1a1da6dc10f16dfacf40",
+    "ts/src/components/inspector/BufferView.tsx": "e29733318adab0ee5af1381fa116187c94ef11e56b8a950bdd0d5fce090b43cf",
+    "ts/src/components/primitives/SliderView.tsx": "c2de59b911e7ed4f70ae9b02502627b97d41a92a8c8fc3aeeb37847405562a87",
+    "ts/src/lib/gel/present-gl.ts": "072b74a5aea97aaa1394308c143fa334ac7129c6cdf6bc4d3b829d8e13fe2a49",
+    "ts/src/lib/gel/present.ts": "d90ad59a4661adcdd26d69869d3f38ee459ecbfee1adfcf6cd8949fadbcc0612",
+    "ts/src/lib/gel/presentationScene.ts": "cede84c3103172da96a3d1bf7caca6853b00cf3edc1c899bb7cd1339b72a71a1",
+    "ts/src/lib/gel/presentationTextures-gl.ts": "0afdc53b4f63ab688dade8b7a1a60378afcbb65d4d89976d7411199a510bac1a",
+    "ts/src/lib/gel/presentationTextures.ts": "3537011ae97466a0b753a5f1e762274b959c424335f5b41f77848339a33954ee",
+    "ts/src/lib/gel/presentationTypes.ts": "c10b63957743e8228994d25dba2eecf23b5f5a06b286ed71d664e86c462c9aa0",
+    "ts/src/lib/slider/slider.ts": "5b534da66c76d6630637379050353e7452c8fdce607faa59ddc995cd5d1340c5"
+  },
+  "testFile": "ts/tests/visual/shared-populated-window.spec.ts",
+  "testSha256": "3ab9dfd4336b0c55a342f3fdab3d57e663bbef62c2b6abe53977b87b4e9a1de3",
+  "nativeManifest": "reference/native/modern/full-window-scenes/manifest.json",
+  "nativeManifestSha256": "7574ab6b24cae4065ee38be7d1f2d398c13bc6deb941599c93ce4b34d53be236",
+  "viewport": {
+    "width": 1365,
+    "height": 768,
+    "deviceScaleFactor": 2
+  },
+  "captures": [
+    {
+      "backend": "webgpu",
+      "scene": "sample",
+      "file": "webgpu-sample.png",
+      "sha256": "5ccefbd2d282f4232bce1479d036f8b48a8adb39022af5e1a8badbd7fb9c280a",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "species",
+      "file": "webgpu-species.png",
+      "sha256": "c6dbbc89a71726c1467518ded8bad30d109f9fd9bb5ab91214c871e188e87a53",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "sample",
+      "file": "webgl2-sample.png",
+      "sha256": "5ccefbd2d282f4232bce1479d036f8b48a8adb39022af5e1a8badbd7fb9c280a",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "species",
+      "file": "webgl2-species.png",
+      "sha256": "c6dbbc89a71726c1467518ded8bad30d109f9fd9bb5ab91214c871e188e87a53",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    }
+  ],
+  "limits": [
+    "Captured native model plus particles replayed; not RNG/history parity",
+    "Modern compatibility build; not original-release full GUI certification",
+    "Development shared compositor only; production and broader browser/platform gates remain"
+  ]
+}

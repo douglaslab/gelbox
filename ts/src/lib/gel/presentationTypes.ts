@@ -25,6 +25,9 @@ export interface DirectPresentationBase {
 }
 export interface PresentationOptions {
   meshBlend?:'additive'|'over';
+  /** Logical native window dimensions. Compose projection with the view before
+   * transforming vertices, as Cinder's ciModelViewProjection does. */
+  windowSize?:PresentationSize;
   /** Composite direct geometry into a transparent premultiplied surface.
    * Uses source-over blending and ignores the opaque background color. */
   transparent?:boolean;
@@ -62,14 +65,24 @@ export function clipPresentationScissor(clip:PresentationScissor|undefined,size:
 }
 
 /** Pack ordered geometry into one upload; the main mesh follows its underlay. */
-export function directPresentationGeometry(base:DirectPresentationBase,scale:number) {
+export function directPresentationGeometry(base:DirectPresentationBase,scale:number,windowSize?:PresentationSize) {
   const layers=[...(base.underlay??[]),{mesh:base.mesh} as PresentationLayer];
   const count=layers.reduce((n,layer)=>n+layer.mesh.vertexCount,0);
   const data=new Float32Array(count*6);
   let first=0;
   const draws=layers.map(({mesh,topology='triangle-list',blend,transform,scissor})=>{
     data.set(mesh.data.subarray(0,mesh.vertexCount*6),first*6);
-    if(transform){
+    if(windowSize){
+      if(transform&&(transform.length!==6||!transform.every(Number.isFinite)))throw new Error('Presentation transform requires six finite coefficients');
+      const f=Math.fround,[a,b,c,d,tx,ty]=(transform??[1,0,0,1,0,0]).map(f);
+      const sx=f(2/windowSize.width),sy=f(-2/windowSize.height);
+      const ax=f(sx*a),cx=f(sx*c),by=f(sy*b),dy=f(sy*d);
+      const ox=f(f(sx*f(tx-(base.origin?.x??0)))-1),oy=f(f(sy*f(ty-(base.origin?.y??0)))+1);
+      for(let i=first*6;i<(first+mesh.vertexCount)*6;i+=6){
+        const x=data[i],y=data[i+1];
+        data[i]=f(f(f(ax*x)+f(cx*y))+ox);data[i+1]=f(f(f(by*x)+f(dy*y))+oy);
+      }
+    }else if(transform){
       if(transform.length!==6||!transform.every(Number.isFinite))throw new Error('Presentation transform requires six finite coefficients');
       const f=Math.fround,[a,b,c,d,tx,ty]=transform.map(f);
       for(let i=first*6;i<(first+mesh.vertexCount)*6;i+=6){
@@ -79,7 +92,7 @@ export function directPresentationGeometry(base:DirectPresentationBase,scale:num
     }
     const draw={first,count:mesh.vertexCount,topology,blend,scissor};first+=mesh.vertexCount;return draw;
   });
-  for(let i=0;i<data.length;i+=6){data[i]=(data[i]-(base.origin?.x??0))*scale;data[i+1]=(data[i+1]-(base.origin?.y??0))*scale;}
+  if(!windowSize)for(let i=0;i<data.length;i+=6){data[i]=(data[i]-(base.origin?.x??0))*scale;data[i+1]=(data[i+1]-(base.origin?.y??0))*scale;}
   return {data,draws};
 }
 

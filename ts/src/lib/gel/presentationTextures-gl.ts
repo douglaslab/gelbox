@@ -16,7 +16,7 @@ export function createGlPresentationTextures(gl:WebGL2RenderingContext,size:Pres
     draw(op:PresentationTextureLayer<WebGLTexture>,first:number,blend:PresentationBlend){
       if(!program)program=createGlProgram(gl,`
         in vec2 p;in vec4 c;in vec2 uv;out vec4 tint;out vec2 texcoord;
-        void main(){gl_Position=vec4(p.x/${size.width}.*2.-1.,p.y/${size.height}.*2.-1.,0.,1.);tint=c;texcoord=uv;}`,`
+        void main(){gl_Position=${options.windowSize?'vec4(p.x,-p.y,0.,1.)':`vec4(p.x/${size.width}.*2.-1.,p.y/${size.height}.*2.-1.,0.,1.)`};tint=c;texcoord=uv;}`,`
         in vec4 tint;in vec2 texcoord;uniform sampler2D image;uniform bool premultiplied;out vec4 color;
         void main(){color=texture(image,texcoord)*tint;if(premultiplied)color.rgb*=tint.a;}`,'presentation-texture');
       const key=presentationSamplingKey(op.sampling);let sampler=samplers.get(key);

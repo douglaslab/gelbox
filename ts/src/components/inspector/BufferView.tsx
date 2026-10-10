@@ -188,7 +188,7 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view',p
                 quantize: 0.5,
                 notches:notchPreset===-1?[]:[PRESETS[notchPreset].buffer[key]/max],
                 notchAction:'snap',
-                formatValue: (v) => `${bufferValueLabel(v,max)} mM`,
+                formatValue: (v) => `${v.toFixed(1)} mM`,
               }}
               value={Math.fround(value)}
               onChange={(v) => setParam(key, v)}
@@ -205,11 +205,4 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view',p
       })}
     </div>
   );
-}
-
-/** Slider maps back through float32 and quantizes before formatting its label. */
-function bufferValueLabel(value:number,max:number):string {
- const f=Math.fround,mapped=f(f(f(value)/max)*max),steps=f(mapped/.5);
- const rounded=Math.sign(steps)*Math.floor(Math.abs(steps)+.5)*.5;
- return Math.max(0,Math.min(max,rounded)).toFixed(1);
 }
