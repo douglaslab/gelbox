@@ -1,0 +1,170 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.production.config.ts integrated-recovery.spec.ts
+
+
+Running 4 tests using 4 workers
+
+(node:7920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7918) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7919) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7917) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7918) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7917) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7919) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-webgl2] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives allocation (30.0s)
+  ✘  3 [chromium-webgl2] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives loss (30.0s)
+  ✘  2 [chromium-webgpu] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives allocation (30.0s)
+  ✘  4 [chromium-webgpu] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives loss (30.0s)
+
+
+  1) [chromium-webgpu] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives loss 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForEvent: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for event "download"
+    ============================================================
+
+      48 |   const save=async()=>{
+      49 |    const menu=page.getByRole('button',{name:'Application settings'});await menu.click();
+    > 50 |    const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+         |                       ^
+      51 |    const doc=JSON.parse(await readFile((await(await pending).path())!,'utf8'));await menu.click();return doc;
+      52 |   };
+      53 |   const before=await save();
+        at save (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:50:23)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:82:10
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByTestId('save-gel-btn')[22m
+
+
+      48 |   const save=async()=>{
+      49 |    const menu=page.getByRole('button',{name:'Application settings'});await menu.click();
+    > 50 |    const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+         |                                                                                       ^
+      51 |    const doc=JSON.parse(await readFile((await(await pending).path())!,'utf8'));await menu.click();return doc;
+      52 |   };
+      53 |   const before=await save();
+        at save (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:50:87)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:82:10
+
+  2) [chromium-webgpu] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives allocation 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForEvent: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for event "download"
+    ============================================================
+
+      48 |   const save=async()=>{
+      49 |    const menu=page.getByRole('button',{name:'Application settings'});await menu.click();
+    > 50 |    const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+         |                       ^
+      51 |    const doc=JSON.parse(await readFile((await(await pending).path())!,'utf8'));await menu.click();return doc;
+      52 |   };
+      53 |   const before=await save();
+        at save (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:50:23)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:82:10
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByTestId('save-gel-btn')[22m
+
+
+      48 |   const save=async()=>{
+      49 |    const menu=page.getByRole('button',{name:'Application settings'});await menu.click();
+    > 50 |    const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+         |                                                                                       ^
+      51 |    const doc=JSON.parse(await readFile((await(await pending).path())!,'utf8'));await menu.click();return doc;
+      52 |   };
+      53 |   const before=await save();
+        at save (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:50:87)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:82:10
+
+  3) [chromium-webgl2] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives loss 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForEvent: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for event "download"
+    ============================================================
+
+      48 |   const save=async()=>{
+      49 |    const menu=page.getByRole('button',{name:'Application settings'});await menu.click();
+    > 50 |    const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+         |                       ^
+      51 |    const doc=JSON.parse(await readFile((await(await pending).path())!,'utf8'));await menu.click();return doc;
+      52 |   };
+      53 |   const before=await save();
+        at save (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:50:23)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:82:10
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByTestId('save-gel-btn')[22m
+
+
+      48 |   const save=async()=>{
+      49 |    const menu=page.getByRole('button',{name:'Application settings'});await menu.click();
+    > 50 |    const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+         |                                                                                       ^
+      51 |    const doc=JSON.parse(await readFile((await(await pending).path())!,'utf8'));await menu.click();return doc;
+      52 |   };
+      53 |   const before=await save();
+        at save (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:50:87)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:82:10
+
+  4) [chromium-webgl2] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives allocation 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForEvent: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for event "download"
+    ============================================================
+
+      48 |   const save=async()=>{
+      49 |    const menu=page.getByRole('button',{name:'Application settings'});await menu.click();
+    > 50 |    const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+         |                       ^
+      51 |    const doc=JSON.parse(await readFile((await(await pending).path())!,'utf8'));await menu.click();return doc;
+      52 |   };
+      53 |   const before=await save();
+        at save (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:50:23)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:82:10
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByTestId('save-gel-btn')[22m
+
+
+      48 |   const save=async()=>{
+      49 |    const menu=page.getByRole('button',{name:'Application settings'});await menu.click();
+    > 50 |    const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+         |                                                                                       ^
+      51 |    const doc=JSON.parse(await readFile((await(await pending).path())!,'utf8'));await menu.click();return doc;
+      52 |   };
+      53 |   const before=await save();
+        at save (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:50:87)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/integrated-recovery.spec.ts:82:10
+
+  4 failed
+    [chromium-webgpu] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives loss 
+    [chromium-webgpu] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives allocation 
+    [chromium-webgl2] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives loss 
+    [chromium-webgl2] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives allocation 

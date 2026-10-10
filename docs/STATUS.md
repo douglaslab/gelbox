@@ -14,6 +14,15 @@ The native feature areas are substantially implemented, and the shared composito
 
 Implemented and checked areas include native JSON/XML file workflows and metadata, startup defaults, hidden-lane retention, sample/species controls, tube and band movement/cloning, reverse solving, picking, buffer effects, molecular lifecycle/meshes, persistent loupe gestures and source selection, temporary hover loupes, and reference-image views. Independent compiled native captures now cover 509 band/setup cases, 2,909 solver requests, particle/loupe behavior and meshes, and 137 exact-byte CPU warp cases. These are finite source-backed comparisons, not certification of the original executable's complete output.
 
+## Latest integrated recovery check
+
+Four compiled cases now pass buffer/loupe/selection → emulated resize/DPR →
+graphics loss or terminal allocation failure → recovery. Both starting backends
+retain document, selection and molecular-view identity; recovered gel pixels
+match exactly and molecular paint resumes. [Evidence and limits](../reference/web/integrated-recovery/README.md).
+No product code or website review artifact changed. The matching original-native
+action trace and physical lifecycle checks remain open.
+
 ## Current acceptance status
 
 Shawn's requested curvature changes are implemented: flat at zero, a linear
