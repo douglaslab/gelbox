@@ -98,7 +98,7 @@ an actual discrepancy, fix it with a failing regression and rerun affected gates
 
 | Package | Ordered scenario / required artifact | Completion evidence |
 |---|---|---|
-| W01 — file workflow | Native mixed gel/sample → web Open/drop → edit species and buffer with panels open → Save → reopen in original native. R02 legacy validation/layout conversion is verified; include occupied/all-full sample drop and pending mixed-file batch. Start from retained interop fixtures. | Paired action/state logs, downloaded files, native reread/visible state and compiled web replay. Resolve stale imported-buffer panel observation and D01. |
+| W01 — file workflow | Native mixed gel/sample → web Open/drop → edit species and buffer with panels open → Save → reopen in original native. R02 legacy validation/layout conversion is verified; include occupied/all-full sample drop and pending mixed-file batch. Start from retained interop fixtures. | Paired action/state logs, downloaded files, native reread/visible state and compiled web replay. Stale imported-buffer binding is now reproduced and diagnosed; [evidence](../reference/native/files/interop/gel/stale-buffer/README.md). Current-document binding exception awaits acceptance (D04); D01 also remains open. |
 | W02 — editing and shared state | Empty tube → add/delete-final; selected sample + persistent loupes → tube move/Alt clone/occupied/off-gel; species/band clone/delete; dye merge; source/loupe selection and all three loupe drag modes; R01 slider/graph mappings, gestures, presets and focus. | Native handler/GUI traces with document, selection, focus, panel/view identities at each checkpoint; matching compiled web actions. Reuse existing lower-level cases rather than rewrite engines. |
 | W03 — hidden lanes | Populate lane12 → select species/open loupe → reduce to7 → edit hidden selected sample → save → restore12. | Native and compiled web action trace through actual lane controls; hidden state retained, saved visible lanes exact, restored view/document agreement. |
 | W04 — difficult band drag | Degraded multimer, non-first aggregate, unusual voltage/time, Shift/Alt, tied and unequal overlapping bands. | Native actual drag sequence and matching web sequence, picked source/tier/offset and resulting document checked against existing solver corpus; include zero/negative voltage cases where native defines behavior. |
@@ -133,6 +133,8 @@ not by the old M1–M27 milestone queue.
   Do not silently equate Inter/fallback rendering with native Avenir. Other OS
   support and publication targets are not yet advertised or chosen.
 
+- **D04 — stale native buffer binding after loading.** The original release keeps an open gel buffer panel bound to the previous document, so preset edits do not reach the imported gel until settings is reopened. [Native saves/source and compiled regression](../reference/native/files/interop/gel/stale-buffer/README.md) prove the difference. The web now matches native panel lifetime and retains its existing current-document binding. Acceptance of the binding correction is pending; W01 is not closed.
+
 No accepted deviation is recorded here unless an explicit decision is linked.
 Browser dialogs/download mechanics and OS window borders are the boundary
 adaptations already identified by the roadmap; they do not waive application
@@ -140,13 +142,15 @@ state or client-area parity.
 
 ## Verification commands and evidence freshness
 
-The latest broad runtime run is955 browser passes/1 intentional duplicate skip
-and2,924 unit passes from the production cutover. Subsequent commits changed
-tests/evidence/configuration, not product runtime. Later targeted evidence adds
-22 compiled Chromium passes with216 exact native RGB comparisons;10 compatibility
-cases per pinned/newer Firefox/WebKit runner;2 compiled recovery cases;100 churn
-cycles on each backend;2 performance-budget cases and18 validator tests. These
-are recorded results, not a claim that every suite ran anew during this audit.
+Fresh checks after the legacy import and gel-settings lifetime corrections are
+2,943 unit passes and26 compiled Chromium passes with216 native RGB comparisons.
+The latest targeted file/settings/buffer integration run has52 passes; the
+preceding legacy decoder increment also checked66 file/image cases. The earlier
+broad runtime run was955 browser passes/1 intentional duplicate skip. Other
+retained gates are10 compatibility cases per pinned/newer Firefox/WebKit runner,
+2 compiled recovery cases,100 churn cycles per backend,2 performance-budget cases
+and18 budget validator tests. Those broader gates have not yet been rerun after
+the latest bounded product changes; final W09 acceptance requires one revision.
 
 Use Node22 and the test configuration's required local server/environment:
 

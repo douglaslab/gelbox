@@ -385,7 +385,8 @@ function reduceGelState(state: GelState, action: Action): GelState {
         ctx: action.ctx,
         wellRects,
         lastSampleLane: null, selection: null, rollover: null, loupes: [],
-        inspectorMode: 'default',
+        // Native setGel closes sample/species views but leaves gel settings open.
+        inspectorMode: state.inspectorMode === 'gel-settings' ? 'gel-settings' : 'default',
         selectedLane: 0,
         selectedFragmentIndex: null,
         drag: null,

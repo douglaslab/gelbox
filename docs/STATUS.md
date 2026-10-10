@@ -22,6 +22,13 @@ context is converted to native geometry. [Evidence](../reference/web/legacy-impo
 covers valid conversion and malformed-file preservation on both compiled backends.
 The remaining W01 priority is the paired original-native edit/save/reopen workflow.
 
+A further W01 replay diagnosed the original stale buffer panel as an old-model
+binding: preset clicks after load do not edit the loaded gel until settings is
+reopened. The web now preserves the open settings panel on import; its existing
+current-document binding remains an explicit pending exception (D04).
+[Evidence and fresh checks](../reference/native/files/interop/gel/stale-buffer/README.md):
+2,943 units and26 compiled cases passed after this panel-lifetime correction.
+
 The ledger reconciles all37 original audit rows and preserves all five roadmap
 high-risk workflows. Remaining packages are paired file/edit/save, shared-state
 editing, hidden lanes, difficult band dragging, integrated recovery, native image

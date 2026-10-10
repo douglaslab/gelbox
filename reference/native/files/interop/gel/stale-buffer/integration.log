@@ -1,0 +1,133 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test files.spec.ts native-file-interop.spec.ts gel-settings.spec.ts shared-buffer.spec.ts buffer-notches.spec.ts --output=/tmp/gel-import-panel-integration
+
+
+Running 52 tests using 9 workers
+
+(node:1039) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1039) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1046) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1046) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1041) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1041) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1042) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1042) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1043) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1043) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1047) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1047) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1045) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1045) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  7 [chromium-webgpu] › files.spec.ts:11:1 › Open native JSON and Save Gel preserves the native document (576ms)
+  ✓  6 [chromium-webgpu] › files.spec.ts:22:1 › Open native XML, reject malformed XML, then save unchanged sample (690ms)
+  ✓  9 [chromium-webgpu] › files.spec.ts:41:1 › Open invokes a file chooser and settings dismiss with Escape (843ms)
+  ✓  3 [chromium-webgpu] › buffer-notches.spec.ts:4:26 › shared:false › buffer preset notch positions at 2x (875ms)
+  ✓  1 [chromium-webgpu] › buffer-notches.spec.ts:23:1 › shared:false › custom composition retains prior preset notches only for the existing buffer view (900ms)
+  ✓  2 [chromium-webgpu] › buffer-notches.spec.ts:23:1 › shared:true › custom composition retains prior preset notches only for the existing buffer view (930ms)
+  ✓  11 [chromium-webgpu] › files.spec.ts:72:1 › unselected startup has no Save Selected Sample command (230ms)
+  ✓  5 [chromium-webgpu] › buffer-notches.spec.ts:4:26 › shared:false › buffer preset notch positions at 1x (953ms)
+  ✓  4 [chromium-webgpu] › buffer-notches.spec.ts:4:26 › shared:true › buffer preset notch positions at 1x (991ms)
+  ✓  8 [chromium-webgpu] › buffer-notches.spec.ts:4:26 › shared:true › buffer preset notch positions at 2x (1.0s)
+  ✓  10 [chromium-webgpu] › files.spec.ts:55:1 › XML import matches native supported fields and reports unsafe aggregates (442ms)
+  ✓  12 [chromium-webgpu] › files.spec.ts:77:1 › dropping a sample into an empty lane preserves the occupied ladder (285ms)
+  ✓  16 [chromium-webgpu] › files.spec.ts:178:1 › startup Save Gel matches the independent native startup document (414ms)
+  ✓  17 [chromium-webgpu] › gel-settings.spec.ts:40:1 › Voltage slider drag updates state and re-runs sim (436ms)
+  ✓  15 [chromium-webgpu] › gel-settings.spec.ts:14:1 › Gear button opens GelSettingsView with native controls + buffer (479ms)
+  ✓  18 [chromium-webgpu] › gel-settings.spec.ts:58:1 › Lane count slider increases the microtube row count (469ms)
+  ✓  19 [chromium-webgpu] › gel-settings.spec.ts:78:1 › Gel buffer preset updates on click (462ms)
+  ✓  20 [chromium-webgpu] › gel-settings.spec.ts:90:1 › Gear button closes the panel on second click (465ms)
+  ✓  21 [chromium-webgpu] › native-file-interop.spec.ts:15:1 › native empty sample imports and can be saved (421ms)
+  ✓  13 [chromium-webgpu] › files.spec.ts:95:1 › lane reduction hides retained samples and saves only visible lanes (717ms)
+  ✓  22 [chromium-webgpu] › native-file-interop.spec.ts:22:1 › native mixed sample preserves metadata, dyes and aggregates through an edit/save (384ms)
+  ✓  14 [chromium-webgpu] › files.spec.ts:138:1 › native disabled controls preserve imported off-preset buffer values (851ms)
+(node:1119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1121) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1121) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1122) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1122) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1123) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1123) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  23 [chromium-webgpu] › shared-buffer.spec.ts:5:2 › Buffer DPR1 shared:false › presets apply on native mouse-down; concentration controls stay disabled and ordered (740ms)
+  ✓  25 [chromium-webgpu] › shared-buffer.spec.ts:5:2 › Buffer DPR2 shared:false › presets apply on native mouse-down; concentration controls stay disabled and ordered (721ms)
+(node:1142) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1142) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1143) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1143) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  29 [chromium-webgl2] › buffer-notches.spec.ts:23:1 › shared:false › custom composition retains prior preset notches only for the existing buffer view (572ms)
+  ✓  27 [chromium-webgl2] › buffer-notches.spec.ts:4:26 › shared:false › buffer preset notch positions at 1x (638ms)
+  ✓  28 [chromium-webgl2] › buffer-notches.spec.ts:4:26 › shared:false › buffer preset notch positions at 2x (628ms)
+  ✓  30 [chromium-webgl2] › buffer-notches.spec.ts:4:26 › shared:true › buffer preset notch positions at 1x (689ms)
+  ✓  24 [chromium-webgpu] › shared-buffer.spec.ts:5:2 › Buffer DPR1 shared:true › presets apply on native mouse-down; concentration controls stay disabled and ordered (1.6s)
+  ✓  31 [chromium-webgl2] › buffer-notches.spec.ts:4:26 › shared:true › buffer preset notch positions at 2x (708ms)
+  ✓  26 [chromium-webgpu] › shared-buffer.spec.ts:5:2 › Buffer DPR2 shared:true › presets apply on native mouse-down; concentration controls stay disabled and ordered (1.7s)
+  ✓  32 [chromium-webgl2] › files.spec.ts:22:1 › Open native XML, reject malformed XML, then save unchanged sample (436ms)
+  ✓  35 [chromium-webgl2] › files.spec.ts:55:1 › XML import matches native supported fields and reports unsafe aggregates (439ms)
+  ✓  33 [chromium-webgl2] › files.spec.ts:41:1 › Open invokes a file chooser and settings dismiss with Escape (507ms)
+  ✓  37 [chromium-webgl2] › files.spec.ts:72:1 › unselected startup has no Save Selected Sample command (263ms)
+  ✓  36 [chromium-webgl2] › files.spec.ts:11:1 › Open native JSON and Save Gel preserves the native document (446ms)
+(node:1173) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1173) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  39 [chromium-webgl2] › files.spec.ts:178:1 › startup Save Gel matches the independent native startup document (269ms)
+  ✓  34 [chromium-webgl2] › buffer-notches.spec.ts:23:1 › shared:true › custom composition retains prior preset notches only for the existing buffer view (631ms)
+(node:1177) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1177) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  41 [chromium-webgl2] › gel-settings.spec.ts:40:1 › Voltage slider drag updates state and re-runs sim (309ms)
+  ✓  40 [chromium-webgl2] › gel-settings.spec.ts:14:1 › Gear button opens GelSettingsView with native controls + buffer (369ms)
+  ✓  42 [chromium-webgl2] › gel-settings.spec.ts:58:1 › Lane count slider increases the microtube row count (335ms)
+  ✓  43 [chromium-webgl2] › gel-settings.spec.ts:78:1 › Gel buffer preset updates on click (316ms)
+  ✓  44 [chromium-webgl2] › gel-settings.spec.ts:90:1 › Gear button closes the panel on second click (312ms)
+  ✓  38 [chromium-webgl2] › files.spec.ts:95:1 › lane reduction hides retained samples and saves only visible lanes (759ms)
+  ✓  45 [chromium-webgl2] › native-file-interop.spec.ts:15:1 › native empty sample imports and can be saved (382ms)
+  ✓  46 [chromium-webgl2] › native-file-interop.spec.ts:22:1 › native mixed sample preserves metadata, dyes and aggregates through an edit/save (438ms)
+  ✓  49 [chromium-webgl2] › files.spec.ts:77:1 › dropping a sample into an empty lane preserves the occupied ladder (359ms)
+  ✓  47 [chromium-webgl2] › shared-buffer.spec.ts:5:2 › Buffer DPR1 shared:false › presets apply on native mouse-down; concentration controls stay disabled and ordered (774ms)
+  ✓  50 [chromium-webgl2] › shared-buffer.spec.ts:5:2 › Buffer DPR2 shared:false › presets apply on native mouse-down; concentration controls stay disabled and ordered (768ms)
+  ✓  52 [chromium-webgl2] › files.spec.ts:138:1 › native disabled controls preserve imported off-preset buffer values (662ms)
+  ✓  48 [chromium-webgl2] › shared-buffer.spec.ts:5:2 › Buffer DPR1 shared:true › presets apply on native mouse-down; concentration controls stay disabled and ordered (1.3s)
+  ✓  51 [chromium-webgl2] › shared-buffer.spec.ts:5:2 › Buffer DPR2 shared:true › presets apply on native mouse-down; concentration controls stay disabled and ordered (1.7s)
+
+  52 passed (6.0s)
