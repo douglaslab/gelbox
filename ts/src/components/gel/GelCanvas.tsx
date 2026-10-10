@@ -1,3 +1,4 @@
+import { watchDeviceLoss, watchGlLoss } from '../../lib/gpu/loss';
 import { useRendererRecovery } from '../../lib/gpu/useRendererRecovery';
 import { GraphicsFailure } from '../primitives/GraphicsFailure';
 import { useEffect, useRef } from 'react';
@@ -16,7 +17,7 @@ type GpuRenderer = ReturnType<typeof import('../../lib/gel/render').createGelRen
 type GlRenderer  = ReturnType<typeof import('../../lib/gel/render-gl').createGlGelRenderer>;
 
 export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanvasProps) {
-  const {failed,attempt,forcedBackend,onFailure,onSuccess,onRetry}=useRendererRecovery();
+  const {failed,attempt,forcedBackend,onFailure,onLoss,onSuccess,onRetry}=useRendererRecovery();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<{
     rendererGpu: GpuRenderer | null;
@@ -32,6 +33,13 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
     const canvas = canvasRef.current;
     if (!canvas) return;
     let cancelled = false;
+    let lost = false;
+    const handleLoss=(backend:Backend)=>{
+      if(cancelled||lost)return;
+      lost=true;
+      stateRef.current.blitFn=null;
+      onLoss(backend);
+    };
     const cleanup: (() => void)[] = [];
     canvas.width  = gelSize.width  * pixelsPerUnit;
     canvas.height = gelSize.height * pixelsPerUnit;
@@ -40,11 +48,12 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
       let backend:Backend|null=null;
       try {
         backend = forcedBackend ?? await resolveBackend();
-        if (cancelled) return;
+        if (cancelled || lost) return;
         if (backend === 'webgl2') {
           const { configureGl2Context } = await import('../../lib/gpu/gl/context');
-          if (cancelled) return;
+          if (cancelled || lost) return;
           const { gl } = configureGl2Context(canvas);
+          cleanup.push(watchGlLoss(canvas,()=>handleLoss('webgl2')));
           cleanup.push(() => {
             // A mode switch retires the canvas; resize/StrictMode reuse it.
             if (!canvas.isConnected) gl.getExtension('WEBGL_lose_context')?.loseContext();
@@ -61,7 +70,7 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
             import('../../shaders/passthrough.vert.glsl?raw'),
             import('../../shaders/gel-passthrough.frag.glsl?raw'),
           ]);
-          if (cancelled) return;
+          if (cancelled || lost) return;
           const renderer = createGlGelRenderer(gl, gelSize, pixelsPerUnit);
           stateRef.current.rendererGl = renderer;
           const blit = createGlProgram(gl, passVertSrc.default, gelPassthroughSrc.default, 'gl-blit');
@@ -93,9 +102,10 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
         } else {
           const { requestDevice } = await import('../../lib/gpu/device');
           const { configureContext } = await import('../../lib/gpu/context');
-          if (cancelled) return;
+          if (cancelled || lost) return;
           const { device, queue } = await requestDevice();
-          if (cancelled) return;
+          if (cancelled || lost) return;
+          cleanup.push(watchDeviceLoss(device,()=>handleLoss('webgpu')));
           const { context, format } = configureContext(canvas, device);
           cleanup.push(() => context.unconfigure());
           const [
@@ -112,7 +122,7 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
             import('../../shaders/passthrough.vert.wgsl?raw'),
             import('../../shaders/gel-passthrough.frag.wgsl?raw'),
           ]);
-          if (cancelled) return;
+          if (cancelled || lost) return;
           const renderer = createGelRenderer(device, gelSize, pixelsPerUnit);
           stateRef.current.rendererGpu = renderer;
           const quad = createQuad(device);
@@ -172,9 +182,9 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
           renderer.render();
           stateRef.current.blitFn(renderer);
         }
-        if (!cancelled) onSuccess();
+        if (!cancelled && !lost) onSuccess();
       } catch (err) {
-        if (!cancelled) { console.error('GelCanvas mount failed:', err); onFailure(backend); }
+        if (!cancelled && !lost) { console.error('GelCanvas mount failed:', err); onFailure(backend); }
       }
     })();
 
@@ -187,7 +197,7 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
       stateRef.current.blitFn = null;
       for (const dispose of cleanup.reverse()) dispose();
     };
-  }, [gelSize.width, gelSize.height, pixelsPerUnit, attempt, forcedBackend, onFailure, onSuccess]);
+  }, [gelSize.width, gelSize.height, pixelsPerUnit, attempt, forcedBackend, onFailure, onLoss, onSuccess]);
 
   // Re-render whenever the scientific scene or global effects change
   useEffect(() => {

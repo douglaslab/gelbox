@@ -1,3 +1,4 @@
+import { watchDeviceLoss, watchGlLoss } from '../../lib/gpu/loss';
 import { useRendererRecovery } from '../../lib/gpu/useRendererRecovery';
 import { GraphicsFailure } from '../primitives/GraphicsFailure';
 import type {MolecularView} from '../../lib/gel/molecularRuntime';
@@ -64,7 +65,7 @@ export function SampleSimCanvas({
   onHoverFragment,
   'data-testid': testId = 'molecular-sim-canvas',
 }: SampleSimCanvasProps) {
-  const {failed,attempt,forcedBackend,onFailure,onSuccess,onRetry}=useRendererRecovery();
+  const {failed,attempt,forcedBackend,onFailure,onLoss,onSuccess,onRetry}=useRendererRecovery();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const store = useGelStore();
   const sim = view.sim;
@@ -77,6 +78,12 @@ export function SampleSimCanvas({
     const canvas = canvasRef.current;
     if (!canvas) return;
     let cancelled = false;
+    let lost = false;
+    const handleLoss=(backend:Backend)=>{
+      if(cancelled||lost)return;
+      lost=true;
+      onLoss(backend);
+    };
     const cleanup:(()=>void)[]=[];
     const dpr = (typeof window !== 'undefined' ? window.devicePixelRatio : 1) || 1;
     const wpx = Math.round(width * dpr);
@@ -88,17 +95,19 @@ export function SampleSimCanvas({
       let backend:Backend|null=null;
       try {
         backend = forcedBackend ?? await resolveBackend();
-        if (cancelled) return;
+        if (cancelled || lost) return;
         if (backend === 'webgl2') {
           const { configureGl2Context } = await import('../../lib/gpu/gl/context');
           const { createGlMeshBatch } = await import('../../lib/gpu/gl/meshBatch');
-          if (cancelled) return;
+          if (cancelled || lost) return;
           const { gl } = configureGl2Context(canvas);
+          cleanup.push(watchGlLoss(canvas,()=>handleLoss('webgl2')));
           cleanup.push(()=>{if(!canvas.isConnected)gl.getExtension('WEBGL_lose_context')?.loseContext();});
           const batch = createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' });
           handleRef.current = {
             resize: (wp, hp, wc, hc) => { canvas.width = wp; canvas.height = hp; batch.setViewport(wc, hc); },
             draw: (mesh, bg) => {
+              if(lost)return;
               batch.draw(
                 { framebuffer: null, width: canvas.width, height: canvas.height },
                 mesh,
@@ -112,13 +121,15 @@ export function SampleSimCanvas({
           const { configureContext } = await import('../../lib/gpu/context');
           const { createMeshBatch } = await import('../../lib/gpu/meshBatch');
           const { device } = await requestDevice();
-          if (cancelled) return;
+          if (cancelled || lost) return;
+          cleanup.push(watchDeviceLoss(device,()=>handleLoss('webgpu')));
           const { context, format } = configureContext(canvas, device);
           cleanup.push(()=>context.unconfigure());
           const batch = createMeshBatch(device, { viewport: { width, height }, blend: 'over', format });
           handleRef.current = {
             resize: (_wp, _hp, wc, hc) => { batch.setViewport(wc, hc); },
             draw: (mesh, bg) => {
+              if(lost)return;
               const enc = device.createCommandEncoder({ label: 'molsim' });
               batch.draw(enc, context.getCurrentTexture().createView(), mesh, {
                 clear: true,
@@ -130,9 +141,9 @@ export function SampleSimCanvas({
             destroy: () => batch.destroy(),
           };
         }
-        if (!cancelled) onSuccess();
+        if (!cancelled && !lost) onSuccess();
       } catch (err) {
-        if (cancelled) return;
+        if (cancelled || lost) return;
         console.error('SampleSimCanvas graphics initialization failed:', err);
         onFailure(backend);
       }
@@ -144,7 +155,7 @@ export function SampleSimCanvas({
       handleRef.current = null;
       for(const dispose of cleanup.reverse())dispose();
     };
-  }, [width, height, attempt, forcedBackend, onFailure, onSuccess]);
+  }, [width, height, attempt, forcedBackend, onFailure, onLoss, onSuccess]);
 
   // Draw after the application frame; acquiring a GPU never gates simulation.
   useEffect(() => store.subscribeFrame(() => {

@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include the application runtime integration.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 355 passed; one intentional duplicate invocation skipped |
+| Unit suite | 2,847 passed |
+| Browser suite across WebGPU/WebGL2 | 357 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -876,3 +876,31 @@ constructor allocation failure: GPU resources allocated inside a throwing factor
 asynchronous validation errors, device/context loss after successful startup,
 lifecycle stress and platform/performance release checks remain open, together
 with full native visual/workflow certification.
+
+
+## Graphics loss with live views
+
+Gel, sample and loupe drawing surfaces now observe WebGPU device loss and WebGL
+context loss after startup. Loss stops drawing on the failed surface and starts a
+fresh bounded alternate-backend cycle. A subsequent loss can start another cycle;
+failed setup within that cycle still terminates at the visible error. In-flight
+initialization checks both cancellation and loss before continuing.
+
+Device subscriptions share one pending observer per device. Unmount removes view
+callbacks immediately, avoiding one retained device promise callback per retired
+view. GL listeners are removed during cleanup. Two unit checks cover unsubscribe,
+shared notification, already-lost devices and cancelling a queued notification.
+
+Two browser scenarios (one per starting backend) failed before implementation and
+pass afterward. They keep the gel, sample and persistent loupe open with simulation
+running, destroy the active GPU device or explicitly lose GL contexts, and repeat
+loss after recovery to the other backend. All three canvases are replaced; pixels
+show bands/particles after each recovery, view object identities remain unchanged,
+the species panel stays visible, and no uncaught page errors occur.
+
+Fresh full verification: **2,847 unit tests and 357 browser tests passed, one
+intentional browser duplicate skipped; production build and TypeScript checks
+passed**. No goldens changed. This covers programmatic API loss, not physical driver
+reset certification. Async GPU validation, constructor allocation rollback,
+resize/DPR/hidden-tab and repeated-view stress, actual browser/hardware performance,
+and native visual/composed-workflow gates remain open.

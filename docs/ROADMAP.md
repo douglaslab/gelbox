@@ -347,3 +347,12 @@ on recovery, and released failed contexts. Full suite: 355 passed, one intention
 duplicate skipped; build passes. Next: device/context loss after startup, async
 validation and partial GPU factory allocation cleanup, then lifecycle/platform/
 performance checks. Native parity and P5 release gates remain open.
+
+
+P5 loss recovery update: active gel/sample/loupe views now recover from programmatic
+WebGPU device and WebGL context loss, including a second loss after switching
+backends. Browser checks verify replaced canvases, visible pixels, preserved view
+identities and no page exceptions. Subscription unit checks cover retired views.
+Full verification: 2,847 units, 357 browser cases, one intentional duplicate skipped;
+build passes. Continue async validation/allocation rollback and lifecycle stress;
+real driver resets, platform/performance and native parity gates remain open.

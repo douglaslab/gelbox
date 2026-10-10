@@ -17,9 +17,12 @@ export function useRendererRecovery() {
     }
     setFailed(true);
   },[]);
+  const onLoss=useCallback((backend:Backend)=>{
+    rejected.current.clear();onFailure(backend);
+  },[onFailure]);
   const onSuccess=useCallback(()=>setFailed(false),[]);
   const onRetry=useCallback(()=>{
     rejected.current.clear();setFailed(false);setForcedBackend(null);setAttempt(n=>n+1);
   },[]);
-  return {failed,attempt,forcedBackend,onFailure,onSuccess,onRetry};
+  return {failed,attempt,forcedBackend,onFailure,onLoss,onSuccess,onRetry};
 }
