@@ -1,0 +1,19 @@
+{
+  "baseCommit": "0dd7219",
+  "nativeManifestSha256": "4dac59e3e72228d4355d1bdf7180b4b0e0f8e03f4b584a01ad6c97565a50cb89",
+  "sourceSha256": {
+    "ts/src/lib/gel/present.ts": "22d8bf973d605ac07db7fbf95db16d2d847259b62019f9d838df670e9933ec7a",
+    "ts/src/lib/gel/present-gl.ts": "da83f0af28e69d4388d7741b8cbe53396a95bffdd9278434fd8e043ec467f56f",
+    "ts/src/lib/gel/presentationTypes.ts": "69ecec3c95369c5bdc69ecc3f39f66c11477fc06bcb385e677382fedd7a5f1c5",
+    "ts/src/lib/gel/presentationScene.ts": "2bf4caf491640398777b64f864d20637a8b2df67ba76682f7d437fc39d064a6b",
+    "ts/src/lib/gel/presentationTextures.ts": "63b00df9432c872242d7aa084fb24d2f79bad9727c0acced88da93604d603f7d",
+    "ts/src/lib/gel/presentationTextures-gl.ts": "44848e0dfce8215fd942c138d740e763ead267935848ff4f5c3a8fac79b80817",
+    "ts/tests/visual/ordered-texture.spec.ts": "bbb648d121a081816565935a18c6b38961f8dc8854630df5f5c7cfd11130e1d9"
+  },
+  "comparisons": 20,
+  "exactMismatches": 0,
+  "limits": [
+    "Constructed native CGL texture-state references, not original GUI/decoder/font certification.",
+    "Diagnostic mip levels are supplied by the caller; mip generation is not tested."
+  ]
+}

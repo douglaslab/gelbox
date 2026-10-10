@@ -1,5 +1,7 @@
+import {presentationSceneGeometry} from './presentationScene';
+import {createGlPresentationTextures} from './presentationTextures-gl';
 import {createGlProgram} from '../gpu/gl/program';
-import {validatePresentationSize,wellVertices,directPresentationGeometry,clipPresentationScissor,presentationBlend,type DirectPresentationBase,type PresentationSize,type PresentationOptions,type WellRect} from './presentationTypes';
+import {validatePresentationSize,wellVertices,clipPresentationScissor,presentationBlend,type DirectPresentationBase,type PresentationScene,type PresentationSize,type PresentationOptions,type WellRect} from './presentationTypes';
 
 /** Direct triangles share the well multisample surface. GL input textures have their logical top at v=1. The final blit flips the
  * reflected MSAA raster into the canvas; changing that order changes corners. */
@@ -11,6 +13,7 @@ export function createGlGelPresentation(gl:WebGL2RenderingContext,size:Presentat
   const destroy=()=>{if(destroyed)return;destroyed=true;for(const dispose of cleanup.reverse())dispose();};
   const required=<T>(value:T|null,label:string):T=>{if(value===null)throw new Error('Could not allocate '+label);return value;};
   try {
+    const textures=createGlPresentationTextures(gl,size,options);cleanup.push(()=>textures.destroy());
     const msaa=required(gl.createFramebuffer(),'gel presentation framebuffer');cleanup.push(()=>gl.deleteFramebuffer(msaa));
     const color=required(gl.createRenderbuffer(),'gel presentation renderbuffer');cleanup.push(()=>gl.deleteRenderbuffer(color));
     gl.bindFramebuffer(gl.FRAMEBUFFER,msaa);gl.bindRenderbuffer(gl.RENDERBUFFER,color);
@@ -33,14 +36,16 @@ export function createGlGelPresentation(gl:WebGL2RenderingContext,size:Presentat
     const location=lines.attrib('p');
     gl.bindFramebuffer(gl.FRAMEBUFFER,null);
     return {
-      draw(base:WebGLTexture|DirectPresentationBase,wells:readonly WellRect[],scale:number) {
+      draw(base:WebGLTexture|DirectPresentationBase|PresentationScene<WebGLTexture>,wells:readonly WellRect[],scale:number) {
         if(destroyed)throw new Error('Gel presentation has been destroyed');
         gl.bindFramebuffer(gl.FRAMEBUFFER,msaa);gl.viewport(0,0,width,height);
         gl.disable(gl.SCISSOR_TEST);gl.disable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);gl.disable(gl.BLEND);
-        const background='mesh' in base&&!options.transparent?(base.background??[0,0,0]):[0,0,0];
+        const direct='mesh' in base||'commands' in base;
+        gl.bindSampler(0,null);
+        const background=direct&&!options.transparent?(base.background??[0,0,0]):[0,0,0];
         gl.colorMask(true,true,true,true);gl.clearColor(background[0],background[1],background[2],options.transparent?0:1);gl.clear(gl.COLOR_BUFFER_BIT);
         gl.bindVertexArray(vao);
-        if('mesh' in base){
+        if(direct){
           if(!bandProgram){
             bandProgram=createGlProgram(gl,`
               in vec2 p;in vec4 c;out vec4 tint;
@@ -48,27 +53,28 @@ export function createGlGelPresentation(gl:WebGL2RenderingContext,size:Presentat
               in vec4 tint;out vec4 color;void main(){color=tint;}`,'gel-presentation-bands');
             const program=bandProgram;cleanup.push(()=>program.destroy());
           }
-          const {data,draws}=directPresentationGeometry(base,scale);
+          const {data,textureData,draws}=presentationSceneGeometry(base,scale);
+          textures.upload(textureData);
           if(data.byteLength){
             if(!bandVertices){bandVertices=required(gl.createBuffer(),'gel presentation bands');const buffer=bandVertices;cleanup.push(()=>gl.deleteBuffer(buffer));}
             gl.bindBuffer(gl.ARRAY_BUFFER,bandVertices);
             if(data.byteLength>bandCapacity){bandCapacity=Math.max(1024,2**Math.ceil(Math.log2(data.byteLength)));gl.bufferData(gl.ARRAY_BUFFER,bandCapacity,gl.DYNAMIC_DRAW);}
-            gl.bufferSubData(gl.ARRAY_BUFFER,0,data);gl.useProgram(bandProgram.program);
+            gl.bufferSubData(gl.ARRAY_BUFFER,0,data);
+          }
+          for(const draw of draws){
+            if(!draw.count)continue;
+            const clip=clipPresentationScissor(draw.scissor,size);if(!clip)continue;
+            gl.enable(gl.SCISSOR_TEST);gl.scissor(clip.x,clip.y,clip.width,clip.height);
+            const blend=presentationBlend(draw.blend,options);
+            if(draw.texture){textures.draw(draw.texture,draw.first,blend);continue;}
+            gl.bindBuffer(gl.ARRAY_BUFFER,bandVertices!);gl.useProgram(bandProgram.program);
             const p=bandProgram.attrib('p'),c=bandProgram.attrib('c');gl.enableVertexAttribArray(p);gl.enableVertexAttribArray(c);
             gl.vertexAttribPointer(p,2,gl.FLOAT,false,24,0);gl.vertexAttribPointer(c,4,gl.FLOAT,false,24,8);
-            gl.enable(gl.BLEND);gl.blendEquation(gl.FUNC_ADD);
-            gl.lineWidth(1);
-            for(const draw of draws){
-              if(!draw.count)continue;
-              const clip=clipPresentationScissor(draw.scissor,size);if(!clip)continue;
-              gl.enable(gl.SCISSOR_TEST);gl.scissor(clip.x,clip.y,clip.width,clip.height);
-              const blend=presentationBlend(draw.blend,options);
-              gl.blendFuncSeparate(gl.SRC_ALPHA,blend==='over'?gl.ONE_MINUS_SRC_ALPHA:gl.ONE,options.transparent?gl.ONE:gl.ZERO,options.transparent?gl.ONE_MINUS_SRC_ALPHA:gl.ONE);
-              gl.drawArrays(draw.topology==='line-list'?gl.LINES:draw.topology==='line-strip'?gl.LINE_STRIP:gl.TRIANGLES,draw.first,draw.count);
-            }
-            gl.disable(gl.SCISSOR_TEST);
+            gl.enable(gl.BLEND);gl.blendEquation(gl.FUNC_ADD);gl.blendFuncSeparate(gl.SRC_ALPHA,blend==='over'?gl.ONE_MINUS_SRC_ALPHA:gl.ONE,options.transparent?gl.ONE:gl.ZERO,options.transparent?gl.ONE_MINUS_SRC_ALPHA:gl.ONE);gl.lineWidth(1);
+            gl.drawArrays(draw.topology==='line-list'?gl.LINES:draw.topology==='line-strip'?gl.LINE_STRIP:gl.TRIANGLES,draw.first,draw.count);
             gl.disableVertexAttribArray(p);gl.disableVertexAttribArray(c);
           }
+          gl.disable(gl.SCISSOR_TEST);gl.bindSampler(0,null);
         }else{
           gl.useProgram(baseProgram.program);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,base);gl.uniform1i(baseProgram.uniform('base'),0);gl.drawArrays(gl.TRIANGLES,0,3);
         }

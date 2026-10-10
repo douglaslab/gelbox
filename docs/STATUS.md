@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Latest verification: 2026-10-10 · inspector transparency and brace order · native reference `5f51097`._
+_Latest verification: 2026-10-10 · ordered shared presentation API · native reference `5f51097`._
 
 ## Direction
 
@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include native well presentation, terminal-f
 | Check | Result |
 |---|---|
 | Unit suite | 2,913 passed |
-| Browser suite across WebGPU/WebGL2 | 529 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 537 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -44,7 +44,9 @@ diagnostic prototype, not app integration; production audits above still fail.
 The [design](superpowers/specs/2026-10-10-shared-composition.md) and
 [implementation sequence](superpowers/plans/2026-10-10-shared-composition.md)
 cover ordered graphics, clipping, textures, frame timing, and DOM interaction
-preservation. Next implement ordered presentation operations before migrating views.
+preservation. Ordered mesh and texture operations are implemented; next migrate real
+view contributions and draw them after the React commit. The production app still
+uses separate view canvases.
 
 
 ## Remaining completion work
@@ -2152,3 +2154,33 @@ operations, ordered app registration and native control/text migration are still
 pending; the app continues to use separate view canvases. The earlier production
 edge/solid exact audits were not rerun here and remain open, not superseded by
 these API tests. Full P0–P5 acceptance is unchanged.
+
+
+## Shared composition: ordered texture operations
+
+The existing presentation APIs now accept an ordered scene containing meshes and
+borrowed textures, with explicit UVs, tint, straight/premultiplied alpha,
+filtering, mip selection, addressing and UNORM color interpretation. New scenes
+default to native source-over; legacy direct-band callers keep additive defaults.
+Both backends retain one MSAA surface and resolve, with cached draw resources and
+explicit caller ownership of input images.
+
+Ten repeated/reverified standalone native CGL images cover five texture scenes
+at DPR1/2. All 20 WebGPU/WebGL2 comparisons match exact RGB. Two lifecycle tests
+cover successful draws, sampler allocation failure, disposal and reuse of the
+borrowed image. Diagnostic mip levels are supplied inputs: these tests do not
+certify native image decoding, automatic mip generation or font rasterization.
+[Evidence and limits](../reference/web/ordered-texture-scenes/README.md).
+
+A full-suite failure exposed an ownership error in the cancellation test: it
+counted the replacement direct renderer's valid texture as cancelled effects
+work. Delaying the shared presentation import reproduced it. The corrected test
+covers both import timings; removing the production cancellation guards makes
+all four variants fail, and restoring them passes twelve repeated focused cases.
+No production lifecycle change was necessary.
+
+Final verification for this increment: **2,913 units, 537 normal browser cases
+(one intentional duplicate skipped), four built-app checks, and TypeScript/Vite
+build pass**. The shared-surface proof retains all 32 exact comparisons. Task 1's
+ordered API is implemented and verified; Tasks 2–4 and final whole-branch review
+remain. No original GUI, platform or full parity gate closes from these results.

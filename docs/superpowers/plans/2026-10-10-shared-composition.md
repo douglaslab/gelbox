@@ -30,10 +30,12 @@ continues to own semantics, input and simulation. Migrate drawing incrementally.
 
 ## Task 1: Ordered presentation operations
 
-Mesh portion implemented and verified: per-layer affine transforms, blend,
-scissor and line strips;20 native comparisons exact;2,913 unit/529 browser/four
-production checks pass. Texture operations and final ordered entry points remain
-unfinished. See reference/web/ordered-mesh-scenes. Do not mark this task complete.
+Implemented and verified: mesh transforms/blend/scissors/line strips and typed
+ordered texture operations. Twenty mesh comparisons and twenty texture
+comparisons match exact native RGB; the shared32 proof still passes. Unit2,913,
+browser537 (one intentional skip), production4 and build pass. See
+reference/web/ordered-{mesh,texture}-scenes. App migration follows in Task 2;
+whole-branch independent review remains at the end of this inline plan.
 
 Files: extend `ts/src/lib/gel/presentationTypes.ts`, `present.ts`, `present-gl.ts`;
 add focused geometry tests under `ts/tests/unit`, native reference/audit fixtures.
@@ -44,14 +46,15 @@ affine transform, physical scissor) and generic texture operation metadata
 addressing and color-space interpretation). Add ordered draw entry
 points to both presentation factories; keep legacy draw signatures as adapters.
 
-- [ ] Capture native sequences with translated/clipped mesh and mixed blend modes,
+- [x] Capture native sequences with translated/clipped mesh and mixed blend modes,
   textured underlay/overlay and intersecting edges. Verify repeated captures.
-- [ ] Write browser tests against those native pixels; prove missing per-operation
+- [x] Write browser tests against those native pixels; prove missing per-operation
   state fails. Include empty/scissor-outside-window and clip reset cases.
-- [ ] Implement ordered execution, one clear and one resolve. Reuse allocation,
+- [x] Implement ordered execution, one clear and one resolve. Reuse allocation,
   shader, reflection and cleanup logic rather than adding parallel renderers.
-- [ ] Verify legacy gel/particle/well callers and the exact shared32-case proof.
-  Run unit/browser/build checks; review and commit this independently testable API.
+- [x] Verify legacy gel/particle/well callers and the exact shared32-case proof.
+  Run unit/browser/build checks and commit this independently testable API.
+  Independent review covers the whole branch after Task 4.
 
 ## Task 2: Frame registry and two real view contributions
 

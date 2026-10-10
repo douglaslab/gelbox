@@ -82,3 +82,35 @@ export function directPresentationGeometry(base:DirectPresentationBase,scale:num
   for(let i=0;i<data.length;i+=6){data[i]=(data[i]-(base.origin?.x??0))*scale;data[i+1]=(data[i+1]-(base.origin?.y??0))*scale;}
   return {data,draws};
 }
+
+export interface PresentationSampling {
+  minFilter:'nearest'|'linear';
+  magFilter:'nearest'|'linear';
+  mipmapFilter:'none'|'nearest'|'linear';
+  addressModeU:'clamp-to-edge'|'repeat'|'mirror-repeat';
+  addressModeV:'clamp-to-edge'|'repeat'|'mirror-repeat';
+}
+export interface PresentationTextureLayer<Texture> {
+  texture:Texture;
+  rect:WellRect;
+  uv?:WellRect;
+  tint?:readonly [number,number,number,number];
+  alpha:'straight'|'premultiplied';
+  /** The supplied texture must use a display-domain UNORM format, not sRGB. */
+  colorSpace:'native-unorm';
+  sampling:PresentationSampling;
+  blend?:PresentationBlend;
+  transform?:PresentationTransform;
+  scissor?:PresentationScissor;
+}
+export type PresentationCommand<Texture>=PresentationLayer|PresentationTextureLayer<Texture>;
+/** Native window operations default to source-over; legacy direct scenes retain their factory blend default. */
+export interface PresentationScene<Texture> {
+  commands:readonly PresentationCommand<Texture>[];
+  origin?:{x:number;y:number};
+  /** The shared app supplies white; offscreen/reference callers choose explicitly. */
+  background:readonly [number,number,number];
+}
+export function presentationSamplingKey(s:PresentationSampling):string {
+  return [s.minFilter,s.magFilter,s.mipmapFilter,s.addressModeU,s.addressModeV].join(':');
+}

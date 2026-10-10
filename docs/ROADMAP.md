@@ -57,9 +57,9 @@ The probe establishes feasibility; the production view compositor is still open.
 
 Rendering integration sequence:
 
-1. Shared mesh-surface proof is verified. Extend it to ordered mesh/texture
-   operations with per-operation blend, transforms and native clipping; retain
-   existing native-derived geometry and both presentation backends.
+1. Shared mesh-surface proof and ordered mesh/texture operations are implemented.
+   Preserve their per-operation blend, transforms, clipping and sampling contracts
+   while migrating real views into both existing presentation backends.
 2. Inventory view order, window transforms, opaque scene backgrounds, images,
    braces, text and control interleaving before deciding how far the shared
    surface must extend. Preserve hit testing and simulation ownership.
@@ -705,3 +705,20 @@ constructed native mesh comparisons and the earlier 32-comparison shared-surface
 RGB. Fresh gates: 2,913 units, 529 browser cases (one intentional skip), four
 production checks and build passed. Continue Task 1 with texture operations and
 sampling references before app view migration; no full milestone closes here.
+
+
+### Shared presentation texture operations implemented
+
+Ordered mesh/texture scenes now preserve draw order, sampling, alpha convention,
+transforms, tint and clipping on both backends. Twenty constructed native texture
+comparisons match exact RGB, supplementing the mesh and shared-edge references.
+Native UI icons opt into mipmaps; native heading textures use straight alpha.
+Actual asset decode/mip generation and glyph raster still require their own
+reference evidence. The next integration boundary is the post-React-commit frame
+phase and real sample/fragment contributions. Production separate-canvas edge
+failures and all full milestone acceptance gates remain open.
+
+Verification of the ordered API increment: 2,913 units, 537 normal browser cases
+(one intentional duplicate skipped), four built-app checks and build pass.
+The shared32 proof remains exact. Task 1 is ready for app integration; final
+whole-branch review remains after the view/control migration.

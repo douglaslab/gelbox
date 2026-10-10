@@ -1,4 +1,6 @@
-import {validatePresentationSize,wellVertices,directPresentationGeometry,clipPresentationScissor,presentationBlend,type PresentationTopology,type PresentationBlend,type DirectPresentationBase,type PresentationSize,type PresentationOptions,type WellRect} from './presentationTypes';
+import {presentationSceneGeometry} from './presentationScene';
+import {createPresentationTextures} from './presentationTextures';
+import {validatePresentationSize,wellVertices,clipPresentationScissor,presentationBlend,type PresentationTopology,type PresentationBlend,type DirectPresentationBase,type PresentationScene,type PresentationSize,type PresentationOptions,type WellRect} from './presentationTypes';
 
 /** Native window presentation: image or direct triangles, then four-sample well lines. */
 export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,size:PresentationSize,options:PresentationOptions={}) {
@@ -11,6 +13,7 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
   const bandPipelines=new Map<string,GPURenderPipeline>();
   const destroy=()=>{if(destroyed)return;destroyed=true;vertices?.destroy();bandVertices?.destroy();bandPipelines.clear();bandModule=undefined;for(const resource of owned.reverse())resource.destroy();};
   try {
+    const textures=createPresentationTextures(device,size,options);owned.push(textures);
     const samples=device.createTexture({label:'gel-presentation-msaa',size:[width,height],format:'rgba8unorm',sampleCount:4,usage:GPUTextureUsage.RENDER_ATTACHMENT|GPUTextureUsage.TEXTURE_BINDING});owned.push(samples);
     const sampleView=samples.createView();
     const fullVertex=`@vertex fn vs(@builtin(vertex_index) i:u32)->@builtin(position) vec4f {
@@ -64,7 +67,7 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
       bandPipelines.set(key,pipeline);return pipeline;
     };
     return {
-      draw(encoder:GPUCommandEncoder,base:GPUTextureView|DirectPresentationBase,target:GPUTextureView,wells:readonly WellRect[],scale:number) {
+      draw(encoder:GPUCommandEncoder,base:GPUTextureView|DirectPresentationBase|PresentationScene<GPUTextureView>,target:GPUTextureView,wells:readonly WellRect[],scale:number) {
         if(destroyed)throw new Error('Gel presentation has been destroyed');
         const data=wellVertices(wells,scale);
         if(data.byteLength>capacity){
@@ -73,10 +76,11 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
           vertices?.destroy();vertices=next;capacity=nextCapacity;
         }
         if(data.byteLength)device.queue.writeBuffer(vertices!,0,data);
-        const direct='mesh' in base;
+        const direct='mesh' in base||'commands' in base;
         if(!direct&&base!==previousBase){baseGroup=device.createBindGroup({layout:basePipeline.getBindGroupLayout(0),entries:[{binding:0,resource:base},{binding:1,resource:sampler}]});previousBase=base;}
-        const geometry=direct?directPresentationGeometry(base,scale):null;
+        const geometry=direct?presentationSceneGeometry(base,scale):null;
         if(direct){
+          textures.upload(geometry!.textureData);
           const data=geometry!.data;
           if(data.byteLength>bandCapacity){
             const nextCapacity=Math.max(1024,2**Math.ceil(Math.log2(data.byteLength)));
@@ -88,13 +92,13 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
         const background=direct&&!options.transparent?(base.background??[0,0,0]):[0,0,0];
         const pass=encoder.beginRenderPass({label:'gel-presentation',colorAttachments:[{view:sampleView,loadOp:'clear',storeOp:'store',clearValue:{r:background[0],g:background[1],b:background[2],a:options.transparent?0:1}}]});
         if(direct){
-          if(geometry!.data.length){
-            pass.setVertexBuffer(0,bandVertices!);
+          if(geometry!.data.length||geometry!.textureData.length){
             for(const draw of geometry!.draws)if(draw.count){
               const clip=clipPresentationScissor(draw.scissor,size);if(!clip)continue;
               pass.setScissorRect(clip.x,clip.y,clip.width,clip.height);
-              pass.setPipeline(bandPipeline(draw.topology,presentationBlend(draw.blend,options)));
-              pass.draw(draw.count,1,draw.first);
+              const blend=presentationBlend(draw.blend,options);
+              if(draw.texture)textures.draw(pass,draw.texture,draw.first,blend);
+              else {pass.setVertexBuffer(0,bandVertices!);pass.setPipeline(bandPipeline(draw.topology,blend));pass.draw(draw.count,1,draw.first);}
             }
             pass.setScissorRect(0,0,width,height);
           }

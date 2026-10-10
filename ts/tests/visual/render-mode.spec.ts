@@ -83,23 +83,39 @@ test('repeated Render switching and route removal produce no late renderer error
  expect(errors).toEqual([]);
 });
 
-test('switching off while effects modules load prevents late texture allocation',async({page},info)=>{
+for(const delayPresentation of [false,true])test(`switching off while effects modules load prevents late effects allocation (presentation held: ${delayPresentation})`,async({page},info)=>{
  let release!:()=>void,arrived!:()=>void;
  const held=new Promise<void>(r=>{release=r;}),requested=new Promise<void>(r=>{arrived=r;});
  const module=info.project.name.endsWith('webgl2')?'render-gl.ts':'render.ts';
  await page.route(`**/src/lib/gel/${module}`,async route=>{arrived();await held;await route.continue();});
+ // Force the replacement direct renderer to initialize after cancellation too.
+ // Its presentation texture is valid; only the cancelled effects owner is forbidden.
+ if(delayPresentation)await page.route(`**/src/lib/gel/${module.replace('render','present')}`,async route=>{await held;await route.continue();});
  await page.addInitScript(()=>{
-  (window as any).lateTextures=0;(window as any).cancelledEffects=false;
+  (window as any).lateEffectsTextures=[];(window as any).directTextures=0;(window as any).cancelledEffects=false;
   const proto=navigator.gpu?GPUDevice.prototype:null;
-  if(proto){const original=proto.createTexture;proto.createTexture=function(...args){if((window as any).cancelledEffects)(window as any).lateTextures++;return original.apply(this,args);};}
+  if(proto){const original=proto.createTexture;proto.createTexture=function(...args){
+   if((window as any).cancelledEffects){
+    if(args[0].label==='gel-presentation-msaa')(window as any).directTextures++;
+    else (window as any).lateEffectsTextures.push(args[0].label??'(unlabelled)');
+   }
+   return original.apply(this,args);
+  };}
   const gl=WebGL2RenderingContext.prototype,original=gl.createTexture;
-  gl.createTexture=function(){if((window as any).cancelledEffects)(window as any).lateTextures++;return original.call(this);};
+  gl.createTexture=function(){
+   if((window as any).cancelledEffects){
+    if((this.canvas as HTMLCanvasElement).dataset.renderMode==='direct')(window as any).directTextures++;
+    else (window as any).lateEffectsTextures.push((this.canvas as HTMLCanvasElement).dataset.renderMode??'(unknown owner)');
+   }
+   return original.call(this);
+  };
  });
  await page.reload();await requested;
  await page.keyboard.press('Meta+r');await expect(page.getByTestId('gel-canvas')).toHaveAttribute('data-render-mode','direct');
  await page.evaluate(()=>{(window as any).cancelledEffects=true;});release();
  await page.evaluate(async module=>{await import(`/src/lib/gel/${module}`);await new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));},module);
- expect(await page.evaluate(()=>(window as any).lateTextures)).toBe(0);
+ if(delayPresentation)await expect.poll(()=>page.evaluate(()=>(window as any).directTextures)).toBeGreaterThan(0);
+ expect(await page.evaluate(()=>(window as any).lateEffectsTextures)).toEqual([]);
 });
 
 test('switching off releases effects canvas buffers and GL programs',async({page},info)=>{
