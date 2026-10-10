@@ -16,6 +16,8 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest original-native editing replay
 
+The [current compiled responsiveness budget](../reference/web/performance/current-budget/README.md) also passes on both backends at revision `7f37543`: roughly 16.7–16.8 ms frame-interval p95/p99 during steady views and timeline dragging, with constant tracked resource counts. Resident-memory acceptance and original-native/platform checks remain open.
+
 The [current broad regression gate](../reference/web/regression-gate/README.md) passes 3,051 unit tests, 955 browser tests (one intentional skip), 52 compiled-app tests and 22 Firefox/WebKit compatibility tests. The default visual gate now owns a fresh Vite server to prevent stale HMR fixture contexts; two image-order tests now wait for actual asynchronous loading stages. Product behavior and pixel baselines are unchanged. These results do not close the remaining native/platform acceptance packages.
 
 The [font distribution inventory](../reference/web/font-distribution/README.md) accounts for all 46 native text images and their native reference hashes. The production bundle now includes the previously omitted Inter license notice. Avenir asset distribution and platform/text scope remain D03 decisions; no glyph pixels or runtime behavior changed.

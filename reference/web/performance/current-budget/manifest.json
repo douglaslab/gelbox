@@ -1,0 +1,15 @@
+{
+  "source_commit": "7f37543",
+  "command": "npm run test:performance:budget -- --output=/tmp/gel-current-performance",
+  "passed": 2,
+  "files": {
+    "README.md": "f0895cedb05b1dab9dc96dbecac9033004db7f1dd70cdb912aa50ac2b4f815a9",
+    "verification.log.gz": "84a242d132862760bbb4ea8feaa863b5760c997015c292e7b94c308e040a93de",
+    "webgl2/application-performance.json": "d76a231f9f553bf11c6586c189f774c564c39ace307386e8df3150351f11f79f",
+    "webgl2/budget.json": "634b287aeba889ed85a23efddc245b8d19563d18cfcc316d2b3e1eb593fdf3e7",
+    "webgl2/workload.png": "93e52c26f11223dc846cfc78145d5f53e48d0ff74da102fceb71498994d33167",
+    "webgpu/application-performance.json": "196d98d86d85cc32ee16e69af80522ff48de6e07921be2b65a0416dfeff2c829",
+    "webgpu/budget.json": "634b287aeba889ed85a23efddc245b8d19563d18cfcc316d2b3e1eb593fdf3e7",
+    "webgpu/workload.png": "8a13769175beef19739e445160ac4bf188d826bef6f2225680c767318685a44c"
+  }
+}
