@@ -21,3 +21,10 @@ as `powershell -ExecutionPolicy Bypass -File <script>`.
 Verified on ndskpc1: Visual Studio Build Tools 17.14.41, MSVC 19.44.35229
 for x64, Windows SDK 10.0.26100, CMake 3.31.6-msvc6, Ninja 1.12.1, and
 Git 2.55.0.windows.5. Both winget installs returned 0; no reboot was needed.
+
+Cinder at this revision writes the library to
+`lib\msw\x64\<config>\v143\cinder.lib`, while `cinderConfig.cmake`
+lives one directory above it. A check for `<config>\cinder.lib` incorrectly
+reports failure after a successful build; the wrapper checks both real outputs.
+The initial Release build emitted upstream C4267 (ObjLoader), C4312 (FreeType),
+and LNK4006 duplicate import-descriptor warnings. No warnings were disabled.
