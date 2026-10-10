@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 333 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 337 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -751,3 +751,15 @@ no goldens changed. Unit baseline remains 2,845 for the unchanged model.
 See [slider reference](../reference/native/slider-controls/README.md). Native
 GL/SVG raster differences, line/notch appearance, text baselines, composed native
 workflows and P5 reliability/release certification remain open.
+
+
+## Native regular slider tracks and notches
+
+Track strokes now use the native half-pixel center offset and one-device-pixel
+width. Notch centers snap to logical pixels and use native opaque enabled/disabled
+colors. They share existing handle width/DPR measurement. Four new display-scale/
+backend checks and existing handle/gesture cases pass. Fresh complete verification:
+**337 browser tests passed, one intentional duplicate skipped; production build
+and TypeScript checks passed**. Reviewed screenshot artifacts; no goldens changed.
+The unchanged model unit baseline remains 2,845. Native raster replay, graph/buffer
+stroke treatment, label baselines, composed workflows and P5 gates remain open.

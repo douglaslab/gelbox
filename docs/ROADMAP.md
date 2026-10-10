@@ -296,3 +296,10 @@ outline and disabled colors; preserve gesture hit geometry. Full browser suite:
 333 passed, one intentional duplicate skipped; production build passed. No golden
 updates. Remaining control work includes native raster comparisons, line/notch
 styling and text baselines; composed workflow and P5 gates remain open.
+
+
+Regular track/notch update: restore source-defined line center/physical width,
+opaque dot colors and snapped centers. Full suite: 337 passed, one intentional
+duplicate skipped; production build passed. No golden updates. Next compare
+native label baselines and composed control captures; graph/buffer stroke raster,
+full workflow replay and P5 release certification remain open.

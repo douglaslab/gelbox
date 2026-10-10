@@ -180,11 +180,8 @@ export function SliderView({
           onLostPointerCapture={endTrackGesture}
           data-testid={testId ? `${testId}-track` : undefined}
         >
-          <div className={styles.line} />
-          {(config.notchAction !== 'none') && (config.notches ?? []).map((n, i) => (
-            <div key={i} className={styles.notch} style={{ left: `${n * 100}%` }} />
-          ))}
-          <SliderHandle normalized={normalized} enabled={enabled}
+          <SliderDrawing normalized={normalized} enabled={enabled}
+            notches={config.notchAction !== 'none' ? config.notches ?? [] : []}
             testId={testId ? `${testId}-handle` : undefined} />
           {labelStr && (
             <div className={styles.sliderLabel} style={{ left: `${normalized * 100}%` }}>
@@ -294,7 +291,7 @@ function SliderIcon({path,slot,natural,high,onClick,testId}:{
 }
 
 /** Keep native drawing bounds separate from the unsnapped gesture hit rectangle. */
-function SliderHandle({normalized,enabled,testId}:{normalized:number;enabled:boolean;testId?:string}) {
+function SliderDrawing({normalized,enabled,notches,testId}:{normalized:number;enabled:boolean;notches:number[];testId?:string}) {
   const ref=useRef<HTMLDivElement>(null);
   const [surface,setSurface]=useState({width:0,dpr:1});
   useLayoutEffect(()=>{
@@ -315,7 +312,12 @@ function SliderHandle({normalized,enabled,testId}:{normalized:number;enabled:boo
       window.removeEventListener('resize',measure);};
   },[]);
   const color=enabled?[73,144,226]:[164,199.5,240.5];
-  return <div ref={ref} className={styles.handle} data-testid={testId}
+  return <>
+    <div className={styles.line} style={{height:1/surface.dpr,
+      top:`calc(50% + ${.5-.5/surface.dpr}px)`}} />
+    {notches.map((n,i)=><div key={i} data-part="notch" className={styles.notch}
+      style={{left:Math.round(n*surface.width)}} />)}
+    <div ref={ref} className={styles.handle} data-testid={testId}
     style={{left:Math.round(normalized*surface.width-8)}}>
     <svg width="16" height="20" style={{overflow:'visible',pointerEvents:'none'}} aria-hidden="true">
       {enabled&&<rect data-part="shadow" x="0.5" y="3.5" width="15" height="19" rx="4"
@@ -326,5 +328,5 @@ function SliderHandle({normalized,enabled,testId}:{normalized:number;enabled:boo
         fill="none" stroke={`rgb(${color.map(c=>c*.5).join(',')})`}
         strokeOpacity="0.5" strokeWidth={1/surface.dpr} />
     </svg>
-  </div>;
+  </div></>;
 }

@@ -169,3 +169,22 @@ and TypeScript checks passed. Reviewed web screenshot artifacts show the solid
 shadow and outline. No screenshot baselines changed. This is source-backed drawing
 restoration: native GL tessellation/antialiasing versus SVG raster differences,
 composed native screenshots, and lifecycle stress certification remain open.
+
+
+## Regular track lines and notch dots
+
+`Slider::draw` draws a regular track at endpoint y + 0.5, with the default GL
+line width (one device pixel). `drawNotches` snaps each dot center to logical
+pixels and uses radius 2.5. Enabled notch color is opaque line RGB multiplied by
+0.5 (75.5 per channel), not line RGB with alpha 0.5. Disabled notch RGB is then
+mixed 75% toward white (210.125 per channel). The prior web rendering centered
+its track on the endpoint and used light translucent dots at fractional positions.
+
+Track drawing now shares the handle's measured width and DPR, uses a 1/DPR
+logical-pixel line centered at endpoint y + 0.5, and snaps opaque notch centers.
+Four new backend/display-scale cases failed before correction and pass afterward;
+20 focused drawing/gesture cases pass. Full suite: 337 passed, one intentional
+duplicate skipped; production build and TypeScript checks passed. Reviewed web
+capture artifacts; no golden updates. This establishes source-derived geometry
+and colors, not exact GL/CSS edge antialiasing. Native visual replay, graph/buffer
+stroke raster, and text label baseline comparison remain open.
