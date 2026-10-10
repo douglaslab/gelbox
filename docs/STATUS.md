@@ -314,3 +314,9 @@ follows the clone. These remain implementation gaps, not fixes delivered by the
 reference capture. The harness does not certify native GUI event ordering,
 dye compaction, RNG or pixels. No app code changed in this increment, so the
 2,749-unit/219-browser result above remains the latest app run, not a new run.
+
+Fresh read-only review found no actionable defects and independently reproduced
+the 28 observations, exact fixture bytes, source/extraction hashes and both
+Python checks. The reviewed boundary remains reference infrastructure: web
+identity migration, GUI ordering/focus/deletion, dye compaction, cyclic ancestry,
+RNG, raster parity and original-executable behavior are not certified by it.

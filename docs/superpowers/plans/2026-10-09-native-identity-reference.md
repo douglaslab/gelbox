@@ -32,12 +32,12 @@
 
 **Interfaces:** Driver emits a JSON map of named observations; Python verifies exact expected map and hashes. Extracted declarations/bodies are scratch-only compiler inputs.
 
-- [ ] Write a contract test requiring expected pointer/index/ownership observations and provenance.
-- [ ] Run `python3 reference/native/numerical/test_identity.py`: expected FAIL because capture is absent.
-- [ ] Implement extraction, adapter, scenario driver and double capture; record compiler/source/executable/fixture hashes.
-- [ ] Run build and test: expected repeat-identical output and exact contract match.
-- [ ] Probe test sensitivity by changing a captured observation in scratch and require rejection; do not leave fixture altered.
-- [ ] Document scope and source-backed web discrepancies; commit.
-- [ ] Complete task with `python3 reference/native/numerical/test_identity.py`.
+- [x] Write a contract test requiring expected pointer/index/ownership observations and provenance.
+- [x] Run `python3 reference/native/numerical/test_identity.py`: expected FAIL because capture is absent.
+- [x] Implement extraction, adapter, scenario driver and double capture; record compiler/source/executable/fixture hashes.
+- [x] Run build and test: expected repeat-identical output and exact contract match.
+- [x] Probe test sensitivity by changing a captured observation in scratch and require rejection; do not leave fixture altered.
+- [x] Document scope and source-backed web discrepancies; commit.
+- [x] Complete task with `python3 reference/native/numerical/test_identity.py`.
 
 Final fresh read-only review covers this increment's committed range. Fix important findings with reproducing tests; keep broader identity migration next in roadmap.
