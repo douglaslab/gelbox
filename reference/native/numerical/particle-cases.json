@@ -172024,5 +172024,285 @@
         "preroll": true
       }
     ]
+  },
+  {
+    "id": "loupe-paused-0",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 10002,
+          "mass": 42,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.20000001788139343,
+            0.20000001788139343,
+            0.20000001788139343
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 310,
+    "bounds": {
+      "x1": 0,
+      "y1": 0,
+      "x2": 171,
+      "y2": 171
+    },
+    "steps": [
+      {
+        "loupe": {
+          "x": 0,
+          "y": 0,
+          "time": 0
+        },
+        "preroll": true,
+        "timeScale": 0
+      },
+      {
+        "ticks": 7
+      },
+      {
+        "loupe": {
+          "x": 0,
+          "y": 0,
+          "time": 0
+        },
+        "preroll": true
+      },
+      {
+        "loupe": {
+          "x": 0.125,
+          "y": 0.25,
+          "time": 0.0001
+        },
+        "preroll": true
+      },
+      {
+        "ticks": 120,
+        "bulletTime": true
+      }
+    ]
+  },
+  {
+    "id": "loupe-paused-1",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 10002,
+          "mass": 42,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.20000001788139343,
+            0.20000001788139343,
+            0.20000001788139343
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 310,
+    "bounds": {
+      "x1": 0,
+      "y1": 0,
+      "x2": 171,
+      "y2": 171
+    },
+    "steps": [
+      {
+        "loupe": {
+          "x": 30.75,
+          "y": 245.25,
+          "time": 1
+        },
+        "preroll": true,
+        "timeScale": 0
+      },
+      {
+        "ticks": 7
+      },
+      {
+        "loupe": {
+          "x": 30.75,
+          "y": 245.25,
+          "time": 1
+        },
+        "preroll": true
+      },
+      {
+        "loupe": {
+          "x": 30.875,
+          "y": 245.5,
+          "time": 1.0001
+        },
+        "preroll": true
+      },
+      {
+        "ticks": 120,
+        "bulletTime": true
+      }
+    ]
+  },
+  {
+    "id": "loupe-paused-2",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 10002,
+          "mass": 42,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.20000001788139343,
+            0.20000001788139343,
+            0.20000001788139343
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 310,
+    "bounds": {
+      "x1": 0,
+      "y1": 0,
+      "x2": 171,
+      "y2": 171
+    },
+    "steps": [
+      {
+        "loupe": {
+          "x": 30.75,
+          "y": 245.25,
+          "time": 0.125
+        },
+        "preroll": true,
+        "timeScale": 0
+      },
+      {
+        "ticks": 7
+      },
+      {
+        "loupe": {
+          "x": 30.75,
+          "y": 245.25,
+          "time": 0.125
+        },
+        "preroll": true
+      },
+      {
+        "loupe": {
+          "x": 30.875,
+          "y": 245.5,
+          "time": 0.1251
+        },
+        "preroll": true
+      },
+      {
+        "ticks": 120,
+        "bulletTime": true
+      }
+    ]
+  },
+  {
+    "id": "loupe-paused-3",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 10002,
+          "mass": 42,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.20000001788139343,
+            0.20000001788139343,
+            0.20000001788139343
+          ]
+        }
+      ]
+    },
+    "seed": 1,
+    "globalSeed": 310,
+    "bounds": {
+      "x1": 0,
+      "y1": 0,
+      "x2": 171,
+      "y2": 171
+    },
+    "steps": [
+      {
+        "loupe": {
+          "x": 30.99,
+          "y": 245.99,
+          "time": 0.9999
+        },
+        "preroll": true,
+        "timeScale": 0
+      },
+      {
+        "ticks": 7
+      },
+      {
+        "loupe": {
+          "x": 30.99,
+          "y": 245.99,
+          "time": 0.9999
+        },
+        "preroll": true
+      },
+      {
+        "loupe": {
+          "x": 31.115,
+          "y": 246.24,
+          "time": 1.0
+        },
+        "preroll": true
+      },
+      {
+        "ticks": 120,
+        "bulletTime": true
+      }
+    ]
   }
 ]

@@ -244,3 +244,18 @@ The independent harness extracts the pinned seed expression and inline native `s
 Verification: **2,594 unit tests, 188 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. Two loupe snapshots were inspected and refreshed for the new particle positions; their backend PNGs are byte-identical. No other browser baselines changed. Review found no production correctness defects or deferred minors after closing the coverage gap.
 
 Application-wide constructor/global RNG initialization, interleaved view scheduling, ordinary sample identity, full loupe gestures and native raster equivalence remain required. The finite modern-Cinder capture excludes undefined/out-of-range seed conversions and does not certify every platform's arithmetic. These web snapshots remain regression checks, not native visual certification.
+
+
+## Persistent loupe frames, gestures and focus
+
+Persistent loupes now store frame and anchor in gel-local coordinates, start one frame width to the right of the sampled point, and follow gel movement during resize/scroll. The native convex-hull callout and anchor replace the rounded fixed popup. Body dragging moves only the frame, anchor dragging changes the sampled point, and wedge dragging moves both. Cmd/Ctrl creation also works on empty gel and starts combined dragging. The non-native close button is removed; focused loupes close with Delete, Backspace or Escape and retain native Tab ownership.
+
+Frame movement preserves anchor and synthetic-content identity. Raising an older loupe changes its stacking order without moving its DOM node, preserving pointer capture. Release, cancellation and lost/pending capture end gestures. Fresh review found that an anchor inside its own frame lost native picking priority; both backend regressions failed before coordinate-based anchor priority was restored, preserving preceding particle selection. Stale test descriptions were also corrected; no deferred review minors remain.
+
+Native `openGelDetailView` pauses the particle simulation before preroll. The web now does the same. Four new native capture scenarios bring the particle matrix to 58. Real browser tests without the freeze hook compare frames across 45 animation callbacks; restoring timeScale one deliberately fails both backends. All harness/fixture provenance hashes verify.
+
+Verification: **2,606 unit tests, 200 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. Coverage includes all three gestures, creation drag, empty-gel creation, frame/anchor overlap, keyboard ownership, resize, cancellation, raising an older view and paused rendering. Loupe-only backend images are byte-identical; two full-page captures were inspected as web regression evidence. Fresh native GUI capture was unavailable because CUA reported `cgWindowNotFound`; existing source and compiled reference evidence remain available, but no fresh native screenshot parity is claimed.
+
+**New open rendering defect:** the full-page captures visibly show opposite band curvature between WebGPU and WebGL2. Existing per-backend goldens accepted this divergence. Investigate shader/texture coordinate orientation and verify against native before claiming renderer parity. This is the next investigation, not an accepted deviation.
+
+Hover-preview lifetime/shortcut, stable and off-document source identity, application-wide RNG initialization and interleaving, broader rendering parity and release gates remain required. Rotation remains native-disabled; general transformed-layout support was outside this increment's review.

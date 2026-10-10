@@ -20,7 +20,7 @@
  * DOM hooks (M26a):
  *   [data-testid^="loupe-"]        — the loupe popup container
  *   [data-testid^="loupe-canvas-"] — the SampleSimCanvas inside the loupe
- *   [data-testid^="loupe-close-"]  — the close button
+ *   [data-testid^="loupe-frame-"]  — focus/keyboard/drag frame
  *   [data-loupe-id]                — alternate container selector used in gel-page.spec.ts
  *
  * snapshotPathTemplate (from playwright.config.ts):
@@ -115,14 +115,15 @@ test('cmd+click on a band opens a loupe showing live particles', async ({ page }
     .toBeGreaterThan(0);
 });
 
-test('loupe close button removes it', async ({ page }, testInfo) => {
+test('Escape closes the focused loupe', async ({ page }, testInfo) => {
   maybeSkipLinuxWebGPU(testInfo);
 
   await gotoGel(page);
   await openLoupe(page);
 
-  // Close the loupe via its close button (testid matches gel-page.spec.ts).
-  await page.getByTestId('loupe-close-1').click();
+  // Close the focused loupe with the native Escape key.
+  await page.getByTestId('loupe-frame-1').focus();
+  await page.keyboard.press('Escape');
   await expect(page.locator('[data-loupe-id]')).toHaveCount(0);
 });
 

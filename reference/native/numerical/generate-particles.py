@@ -60,6 +60,13 @@ low_mass['fragments'][0]['mass']=8
 for i in range(8):
  steps=[dict(loupe=dict(x=i,y=0,time=0),preroll=True),dict(loupe=dict(x=i,y=0,time=.5),preroll=True)]
  out.append(dict(id=f'loupe-dither-{i}',sample=low_mass,seed=1,globalSeed=310,bounds=dict(x1=0,y1=0,x2=171,y2=171),steps=steps))
+# GelView::openGelDetailView pauses before content and preroll.
+for i in range(4):
+ c=copy.deepcopy(next(c for c in out if c['id']==f'loupe-refresh-{i}'))
+ c['id']=f'loupe-paused-{i}'
+ c['steps'][0]['timeScale']=0
+ c['steps'].append(dict(ticks=120,bulletTime=True))
+ out.append(c)
 # Seeds near integer truncation boundaries; all final conversions are in range.
 probe_case=next(c for c in out if c['id']=='loupe-refresh-0')
 probe_case['seedProbes']=[]

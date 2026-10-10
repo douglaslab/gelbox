@@ -27,6 +27,13 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
   const state = useGelState();
   const dispatch = useGelDispatch();
   const svgRef = useRef<SVGSVGElement>(null);
+  const creatingLoupe=useRef<{id:number;x:number;y:number;pointerId:number}|null>(null);
+  useEffect(()=>{
+    const move=(e:PointerEvent)=>{const d=creatingLoupe.current;if(!d||d.pointerId!==e.pointerId||!svgRef.current)return;if(!svgRef.current.hasPointerCapture(e.pointerId)){creatingLoupe.current=null;return;}const r=svgRef.current.getBoundingClientRect();const p={x:(e.clientX-r.left)/r.width*state.gelSize.width,y:(e.clientY-r.top)/r.height*state.gelSize.height};dispatch({type:'MOVE_LOUPE',id:d.id,mode:'both',delta:{x:p.x-d.x,y:p.y-d.y}});creatingLoupe.current={...d,...p};};
+    const end=(e:PointerEvent)=>{if(creatingLoupe.current?.pointerId===e.pointerId)creatingLoupe.current=null;};
+    window.addEventListener('pointermove',move);window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end);
+    return()=>{window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',end);window.removeEventListener('pointercancel',end);};
+  },[dispatch,state.gelSize]);
 
   useEffect(() => {
     const update = (e: KeyboardEvent) => {
@@ -78,23 +85,20 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
 
   function onBandPointerDown(e: React.PointerEvent<SVGSVGElement>) {
     if (e.button !== 0) return;
+    if (e.metaKey || e.ctrlKey) {
+      e.preventDefault();
+      const anchor=gelPoint(e);
+      creatingLoupe.current={id:state.loupeNextId,...anchor,pointerId:e.pointerId};
+      svgRef.current?.setPointerCapture(e.pointerId);
+      dispatch({type:'ADD_LOUPE',anchor});
+      return;
+    }
     const picked = pickBand(gelPoint(e), bands);
     if (!picked) { onBackgroundPointerDown(e); return; }
     const bandIdx = picked.index;
     e.preventDefault();
     svgRef.current?.focus();
     const { lane, fragment } = bandToLaneFragment[bandIdx];
-    const isCmd = e.metaKey || e.ctrlKey;
-    if (isCmd) {
-      // Cmd/Ctrl-click → open a loupe at this gel pixel; do NOT start a drag.
-      const rect = svgRef.current!.getBoundingClientRect();
-      const anchor = {
-        x: ((e.clientX - rect.left) / rect.width)  * state.gelSize.width,
-        y: ((e.clientY - rect.top)  / rect.height) * state.gelSize.height,
-      };
-      dispatch({ type: 'ADD_LOUPE', anchor, screen: { x: e.clientX, y: e.clientY } });
-      return;
-    }
     try { svgRef.current?.setPointerCapture(e.pointerId); }
     catch (error) {
       // The pointer may already be inactive; window listeners still end the drag.
@@ -132,7 +136,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
       data-testid="gel-overlay"
       tabIndex={0}
       onKeyDown={onKeyDown}
-      onLostPointerCapture={onPointerUp}
+      onLostPointerCapture={() => {creatingLoupe.current=null;onPointerUp();}}
       onContextMenu={e => {
         e.preventDefault();
         const rect = e.currentTarget.getBoundingClientRect();

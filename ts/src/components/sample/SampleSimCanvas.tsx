@@ -27,6 +27,7 @@ export interface SampleSimCanvasProps {
   degradeFilter?: ReadonlyMap<number, number>;
   /** Native detail views preroll when their synthetic sample changes. */
   prerollSample?: boolean;
+  timeScale?: number;
   selectedFragment?: import('../../lib/sim/molecularSimMesh').FragmentHighlight;
   rolloverFragment?: import('../../lib/sim/molecularSimMesh').FragmentHighlight;
   /** Pointer-down on a particle → its fragment index (omit → non-interactive, e.g. loupe). */
@@ -62,6 +63,7 @@ export function SampleSimCanvas({
   seed,
   degradeFilter,
   prerollSample = false,
+  timeScale = 1,
   selectedFragment = null,
   rolloverFragment = null,
   onPickFragment,
@@ -112,6 +114,7 @@ export function SampleSimCanvas({
       simRef.current.parts = [];
       simRef.current.setRand(seed);
     }
+    simRef.current.timeScale = timeScale;
     simRef.current.setSample(sample ?? null, degradeFilter);
     if (sample && prerollSample) simRef.current.preroll();
     // Re-settle the freeze window after a sample change (e.g. dye applied) so a
@@ -120,7 +123,7 @@ export function SampleSimCanvas({
     frozenRef.current = false;
     setFrozen(false);
     setTick((t) => t + 1);
-  }, [sample, degradeFilter, seed, prerollSample]);
+  }, [sample, degradeFilter, seed, prerollSample, timeScale]);
 
   // GPU surface mount (mirrors GelCanvas.tsx). Falls back to 2D on throw.
   useEffect(() => {

@@ -106,6 +106,7 @@ function GelInner() {
       >
         <GelCanvas bands={bands} globalWarp={globalWarp} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} />
         <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
+        <LoupePortalLayer bands={bands} bandToLaneFragment={bandToLaneFragment} />
       </div>
       {/*
         C++ Gelbox places the gel-settings button at the gel's lower-right
@@ -216,7 +217,7 @@ function GelInner() {
           {dropError}
         </div>
       )}
-      <LoupePortalLayer bands={bands} bandToLaneFragment={bandToLaneFragment} />
+
     </div>
   );
 }

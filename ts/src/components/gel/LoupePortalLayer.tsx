@@ -1,31 +1,18 @@
 import { useMemo } from 'react';
 import { useGelState } from './GelContext';
 import { Loupe } from './Loupe';
+import type {LoupeRef} from '../../lib/gel/gelState';
 import { makeSampleFromGel, type BandLaneFragment } from '../../lib/sim/sampleFromGel';
 import type { Band } from '../../lib/sim/band';
-
-interface LoupePortalLayerProps {
-  bands: Band[];
-  bandToLaneFragment: BandLaneFragment[];
+interface Props { bands: Band[]; bandToLaneFragment: BandLaneFragment[]; }
+function DerivedLoupe({loupe,bands,bandToLaneFragment,stackIndex}:Props & {loupe:LoupeRef;stackIndex:number}) {
+ const {samples,wellRects,ctx}=useGelState();
+ // Moving only the frame or changing stacking order must not reroll content.
+ const content=useMemo(()=>makeSampleFromGel(loupe.anchor,bands,bandToLaneFragment,samples,wellRects,ctx),[loupe.anchor,bands,bandToLaneFragment,samples,wellRects,ctx]);
+ return <Loupe loupe={loupe} stackIndex={stackIndex} {...content}/>;
 }
-
-export function LoupePortalLayer({ bands, bandToLaneFragment }: LoupePortalLayerProps) {
-  const state = useGelState();
-  const { loupes, samples, wellRects, ctx } = state;
-
-  const derived = useMemo(
-    () => loupes.map((l) => ({
-      loupe: l,
-      ...makeSampleFromGel(l.anchor, bands, bandToLaneFragment, samples, wellRects, ctx),
-    })),
-    [loupes, bands, bandToLaneFragment, samples, wellRects, ctx],
-  );
-
-  return (
-    <>
-      {derived.map(({ loupe, sample, degradeFilter, origins }) => (
-        <Loupe key={loupe.id} loupe={loupe} sample={sample} degradeFilter={degradeFilter} origins={origins} />
-      ))}
-    </>
-  );
+export function LoupePortalLayer(props:Props) {
+ const {loupes}=useGelState();
+ // Keep DOM nodes in creation order: moving a captured node loses capture.
+ return <>{[...loupes].sort((a,b)=>a.id-b.id).map(loupe=><DerivedLoupe key={loupe.id} loupe={loupe} stackIndex={loupes.indexOf(loupe)} {...props}/>)}</>;
 }

@@ -164,14 +164,15 @@ test('cmd+click on a band opens a loupe popover', async ({ page }, testInfo) => 
   await expect(page.locator('[data-testid="loupe-canvas-1"]')).toBeVisible();
 });
 
-test('loupe close button removes the loupe', async ({ page }, testInfo) => {
+test('Escape removes the focused loupe', async ({ page }, testInfo) => {
   if (testInfo.project.name === 'chromium-webgpu' && process.platform === 'linux') {
     test.skip(true, 'WebGPU adapter not available on Linux GitHub runners');
   }
   await page.goto('/#/gel');
   await page.locator('[data-testid="band-0"]').click({ force: true, modifiers: ['Meta'] });
   await expect(page.locator('[data-loupe-id]')).toHaveCount(1);
-  await page.getByTestId('loupe-close-1').click();
+  await page.getByTestId('loupe-frame-1').focus();
+  await page.keyboard.press('Escape');
   await expect(page.locator('[data-loupe-id]')).toHaveCount(0);
 });
 

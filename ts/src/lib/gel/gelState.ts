@@ -43,7 +43,7 @@ export type DragState = BandDrag | SampleDrag;
 export interface LoupeRef {
   id:     number;
   anchor: { x: number; y: number };   // gel-space pixels (for synthetic-sample extraction)
-  screen: { x: number; y: number };   // viewport-page px (fixed popup position; M26b makes this gel-space + draggable)
+  frame: { x: number; y: number };    // top-left in gel-local pixels
 }
 
 export type InspectorMode = 'default' | 'gel-settings' | 'sample-settings' | 'fragment';
@@ -110,7 +110,9 @@ export type Action =
   | { type: 'SET_FRAGMENT_DEGRADE';  laneIndex: number; index: number; degrade: number }
   | { type: 'SET_FRAGMENT_COLOR';    laneIndex: number; index: number; color: [number, number, number] }
   | { type: 'SET_MODIFIERS';      modifiers: { shift: boolean; alt: boolean; meta: boolean } }
-  | { type: 'ADD_LOUPE';     anchor: { x: number; y: number }; screen: { x: number; y: number } }
+  | { type: 'ADD_LOUPE'; anchor: { x: number; y: number } }
+  | { type: 'MOVE_LOUPE'; id: number; mode: 'frame' | 'anchor' | 'both'; delta: {x:number;y:number} }
+  | { type: 'RAISE_LOUPE'; id: number }
   | { type: 'REMOVE_LOUPE';  id: number }
   | { type: 'CLEAR_LOUPES' }
   | { type: 'SET_SELECTION'; ref: SampleFragRef | null }
@@ -642,9 +644,19 @@ function reduceGelState(state: GelState, action: Action): GelState {
       const id = state.loupeNextId;
       return {
         ...state,
-        loupes: [...state.loupes, { id, anchor: action.anchor, screen: action.screen }],
+        loupes: [...state.loupes, { id, anchor: action.anchor, frame: {x:Math.fround(action.anchor.x+85.5),y:Math.fround(action.anchor.y-85.5)} }],
         loupeNextId: id + 1,
       };
+    }
+    case 'MOVE_LOUPE': {
+      const move=(p:{x:number;y:number})=>({x:Math.fround(p.x+action.delta.x),y:Math.fround(p.y+action.delta.y)});
+      return {...state,loupes:state.loupes.map(l=>l.id!==action.id?l:{...l,
+        anchor:action.mode==='frame'?l.anchor:move(l.anchor),
+        frame:action.mode==='anchor'?l.frame:move(l.frame)})};
+    }
+    case 'RAISE_LOUPE': {
+      const loupe=state.loupes.find(l=>l.id===action.id);
+      return !loupe || state.loupes.at(-1)===loupe ? state : {...state,loupes:[...state.loupes.filter(l=>l!==loupe),loupe]};
     }
     case 'REMOVE_LOUPE':
       return { ...state, loupes: state.loupes.filter((l) => l.id !== action.id) };

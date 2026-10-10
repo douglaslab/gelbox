@@ -93,3 +93,8 @@ Sixteen additional scenarios bring the particle matrix to **54 scenarios**. The 
 All eight initially failed against the old floored-anchor formula or missing reseed operation. Web seed derivation now includes native float arithmetic and truncated gel time. Engine reseeding copies the untouched dynamic stream and independently draws its population seed, preserving native by-value `setRand` semantics. Loupe refresh clears/reseeds the existing engine; it does not replace global angular RNG state. The native capture repeats byte-for-byte. These finite probes do not establish all compiler contraction/overflow behavior, app-wide constructor/random initialization, cross-view scheduling or original-release raster parity.
 
 Fresh review found the initial eight cases never used population dithering because their integer target population was two. Eight additional low-mass cases exercise sub-one targets at two times. Deliberately reverting to the raw population seed makes seven cases fail; restoring the native first-draw seed makes all cases pass. This tests both outcomes (particle present/absent), separately from the dynamic stream checks.
+
+
+## Paused detail views
+
+Four additional scenarios mirror `GelView::openGelDetailView` calling `simPause()` before content/preroll, bringing the particle matrix to **58 scenarios**. Each starts with timeScale zero, refreshes the sample, and continues through normal and hover ticks. These capture the native paused detail lifecycle, while retaining fade/population processing. The real browser loupe now uses zero timeScale; two backend tests run without the screenshot-freeze hook and compare frames separated by 45 animation callbacks. Temporarily restoring timeScale one makes both comparisons fail.

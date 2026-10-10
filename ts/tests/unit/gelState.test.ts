@@ -138,30 +138,30 @@ describe('gelReducer (multi-lane)', () => {
     // wellRects recomputed for the new lane count
     expect(next.wellRects.length).toBe(3);
   });
-  it('ADD_LOUPE appends a loupe with anchor + screen, auto-incrementing id', () => {
-    const next1 = gelReducer(STARTING, { type: 'ADD_LOUPE', anchor: { x: 120, y: 240 }, screen: { x: 300, y: 400 } });
+  it('ADD_LOUPE appends a loupe with anchor + native frame, auto-incrementing id', () => {
+    const next1 = gelReducer(STARTING, { type: 'ADD_LOUPE', anchor: { x: 120, y: 240 } });
     expect(next1.loupes.length).toBe(1);
-    expect(next1.loupes[0]).toEqual({ id: 1, anchor: { x: 120, y: 240 }, screen: { x: 300, y: 400 } });
+    expect(next1.loupes[0]).toEqual({ id: 1, anchor: { x: 120, y: 240 },frame:{x:205.5,y:154.5} });
     expect(next1.loupeNextId).toBe(2);
-    const next2 = gelReducer(next1, { type: 'ADD_LOUPE', anchor: { x: 50, y: 60 }, screen: { x: 100, y: 120 } });
+    const next2 = gelReducer(next1, { type: 'ADD_LOUPE', anchor: { x: 50, y: 60 } });
     expect(next2.loupes.length).toBe(2);
     expect(next2.loupes[0].id).toBe(1);
     expect(next2.loupes[1].id).toBe(2);
   });
   it('REMOVE_LOUPE removes by id', () => {
-    const a = gelReducer(STARTING, { type: 'ADD_LOUPE', anchor: { x: 10, y: 10 }, screen: { x: 1, y: 1 } });
-    const b = gelReducer(a,        { type: 'ADD_LOUPE', anchor: { x: 20, y: 20 }, screen: { x: 2, y: 2 } });
+    const a = gelReducer(STARTING, { type: 'ADD_LOUPE', anchor: { x: 10, y: 10 } });
+    const b = gelReducer(a,        { type: 'ADD_LOUPE', anchor: { x: 20, y: 20 } });
     expect(b.loupes.length).toBe(2);
     const removed = gelReducer(b, { type: 'REMOVE_LOUPE', id: 1 });
     expect(removed.loupes.length).toBe(1);
     expect(removed.loupes[0].id).toBe(2);
   });
   it('CLEAR_LOUPES empties the array and resets id counter so next ADD gets id 1', () => {
-    const a = gelReducer(STARTING, { type: 'ADD_LOUPE', anchor: { x: 10, y: 10 }, screen: { x: 1, y: 1 } });
+    const a = gelReducer(STARTING, { type: 'ADD_LOUPE', anchor: { x: 10, y: 10 } });
     const cleared = gelReducer(a, { type: 'CLEAR_LOUPES' });
     expect(cleared.loupes.length).toBe(0);
     expect(cleared.loupeNextId).toBe(1);
-    const after = gelReducer(cleared, { type: 'ADD_LOUPE', anchor: { x: 5, y: 5 }, screen: { x: 50, y: 50 } });
+    const after = gelReducer(cleared, { type: 'ADD_LOUPE', anchor: { x: 5, y: 5 } });
     expect(after.loupes[0].id).toBe(1);
   });
 });
