@@ -16,6 +16,8 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest original-native editing replay
 
+The [current broad regression gate](../reference/web/regression-gate/README.md) passes 3,051 unit tests, 955 browser tests (one intentional skip), 52 compiled-app tests and 22 Firefox/WebKit compatibility tests. The default visual gate now owns a fresh Vite server to prevent stale HMR fixture contexts; two image-order tests now wait for actual asynchronous loading stages. Product behavior and pixel baselines are unchanged. These results do not close the remaining native/platform acceptance packages.
+
 The [font distribution inventory](../reference/web/font-distribution/README.md) accounts for all 46 native text images and their native reference hashes. The production bundle now includes the previously omitted Inter license notice. Avenir asset distribution and platform/text scope remain D03 decisions; no glyph pixels or runtime behavior changed.
 
 WebKit now has a dedicated compiled [engine-activity lifecycle check](../reference/web/lifecycle/webkit-activity/README.md): two inactive/active cycles retain sample/loupe identities, pause/resume frames, resume particle painting, and preserve the saved gel. This is explicit engine emulation, not physical sleep or shipping Safari coverage; Firefox forces activity in the test build and remains open.

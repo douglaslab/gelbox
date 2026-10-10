@@ -31,6 +31,12 @@ Open `http://localhost:5173/#/gel` for the interactive app, or `/#/dev/{multi,pe
 | `npm run test:visual`      | Playwright (both backend projects) |
 | `npm run test:visual:update` | Update PNG goldens |
 
+The default visual gate starts its own fresh Vite server on `127.0.0.1:5187`
+with strict port ownership. It does not reuse a running development server: HMR
+module timestamps can split fixture contexts and bypass module interception.
+`GEL_BASE_URL` explicitly targets an already-running server for diagnostics;
+use a fresh server for acceptance runs.
+
 ## Backends
 
 The app ships two render backends:

@@ -1,0 +1,27 @@
+{
+  "base_source_commit": "1bd221c",
+  "results": {
+    "unit_passed": 3051,
+    "visual_passed": 955,
+    "visual_intentional_skip": 1,
+    "production_passed": 52,
+    "compatibility_passed": 22
+  },
+  "source_sha256": {
+    "ts/playwright.config.ts": "84247abf77f8cfc8d4061137ee9db3b7b32343d96d55030cae69aace7b008f8c",
+    "ts/tests/visual/reference-images.spec.ts": "549531ad6d89294a3b810f3b510d9c308d2148c33ef67c15e2b0ca42b80b1506",
+    "ts/package.json": "c22867553166482a31a09d5a8e4bd0601b355a125628435fbe476aec6fef3b92"
+  },
+  "files": {
+    "README.md": "4373ba2fc0400e7789a142486bc4ef7fcd4fbe9bc30ded9389177137582636d6",
+    "compatibility.log.gz": "1ac4d50fb0ba5c857215b50d4d0137d9d444c7dd7179cffa940aebb735d05f20",
+    "fixture-isolation.log.gz": "cf558d4d531afca2fc257ca391a535f61cbd337afa95d967a0553f415797f065",
+    "fresh-before-image-waits.log.gz": "059dedb5870b0d20bb21d4c6d895d4b893c10a643ba20db074dd4f685ed6f1ef",
+    "image-order-repeat.log.gz": "7b71a5e9fa99e8cbf7e96b64048db5731624c6489e3a9cde4b58b0110c596b45",
+    "initial-hmr-run.log.gz": "f3d241a419c0c0dd07e53a60ff97f713b290a9b1fceea1e7f107ebed55b40455",
+    "module-imports.txt": "3242779cead7ac899e2aafc902c956055b7709546169690177fa84c2de40bba2",
+    "production.log.gz": "a0556d9d5444704aa708d152cfd688e428785967979fe1d323b74a65d4b70c79",
+    "unit.log.gz": "f9330cb9944638c0e0f46b36ba4c9d89e4e8ba7cbdb6dc31405c4a7e5130d050",
+    "visual-final.log.gz": "aaac4c9ecf053ac57b01decd8fb2ed19302048e9b677221b927597470a60a3e1"
+  }
+}

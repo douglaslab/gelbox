@@ -115,7 +115,8 @@ test('a second drop waits for the first decode, retaining arrival order',async({
  // UI assets decode Blobs independently of the dropped File queue.
  await page.evaluate(async()=>{const c=new OffscreenCanvas(1,1);c.getContext('2d')!.fillRect(0,0,1,1);(await createImageBitmap(await c.convertToBlob())).close();});
  await drop(page,[{name:'slow.png'}]);await drop(page,[{name:'fast.png',color:'blue'}]);
- expect(await page.evaluate(()=>(window as any).decodeNames)).toEqual(['slow.png']);
+ // PNG byte decoding precedes createImageBitmap; wait until the held stage starts.
+ await expect.poll(()=>page.evaluate(()=>(window as any).decodeNames)).toEqual(['slow.png']);
  await page.evaluate(()=>(window as any).finishDecode());await expect(page.getByTestId('reference-image-2')).toBeFocused();
  expect(await pixel(page,1)).toEqual([255,0,0,255]);expect(await pixel(page,2)).toEqual([0,0,255,255]);
 });
@@ -171,6 +172,9 @@ test('earlier reference image remains visible through empty Species panel space'
  await expect(page.getByTestId('fragment-view')).toHaveCount(0);
  const x=panel.x+60,y=panel.y+10;
  await drop(page,[{name:'behind-species.png'}],x,y);
+ // Establish an earlier, loaded image before opening the later inspector.
+ await expect(page.getByTestId('reference-image-1')).toBeFocused();
+ if(shared)await expect(page.getByTestId('reference-image-canvas-1')).toHaveAttribute('data-shared-ready','1');
  await page.getByTestId('band-0').click();await expect(page.getByTestId('fragment-view')).toBeVisible();
  expect(await top(page,x,y)).not.toBe('reference-image-1');
  const png=await page.screenshot({clip:{x,y,width:1,height:1}});
