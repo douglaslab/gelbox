@@ -8,6 +8,7 @@ export interface SliderPaintInput {
  style:'slider'|'bar'|'graph';value:number;enabled:boolean;
  width:number;iconGutter:number;iconSize:Point;naturalIcons:readonly[Point,Point];
  barSize:Point;barGutter:number;barRadius:number;fill:Color;empty:Color;
+ iconMipmaps?:readonly boolean[];
  notches:readonly number[];graph:readonly number[];label:string;textColor:Color;highlight:number;
 }
 const f=Math.fround;
@@ -92,7 +93,7 @@ export function sliderPaint<T>(input:SliderPaintInput,textures:readonly(T|null)[
  icons.forEach((rect,i)=>{
   const texture=textures[i];if(!texture)return;
   const tint:Color=!enabled?[.85,.85,.85,.5]:i===input.highlight?[.5,.5,.5,1]:[1,1,1,1];
-  commands.push({texture,rect,tint,alpha:'straight',colorSpace:'native-unorm',sampling});
+  commands.push({texture,rect,tint,alpha:'straight',colorSpace:'native-unorm',sampling:input.iconMipmaps?.[i]===false?{...sampling,mipmapFilter:'none'}:sampling});
  });
  if(label){
   const size=f(shapeNativeUiText(label,scale).size[0]/scale);

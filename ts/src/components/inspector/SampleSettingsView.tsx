@@ -83,6 +83,7 @@ export function SampleSettingsView() {
         >
           <DyeRow
             dye={i}
+            presentation={{viewKey:'inspector-sample-settings',order:100+i}}
             mass={dyeMass(i)}
             onChange={(m) => setDyeMass(i, m)}
             width={LAYOUT.bufferViewSliderBarSize.x}

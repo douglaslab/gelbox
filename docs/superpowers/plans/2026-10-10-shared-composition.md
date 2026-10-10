@@ -173,9 +173,15 @@ endpoints, notches, text and earlier/later translucent geometry. The actual
 Timeline, Gel settings and Species standard/graph controls now contribute in
 native child order. Their DOM hit regions remain, including graph editing and
 handle drag ownership. Real image overlap/removal and held-icon cancellation
-are verified. Buffer/Dye bar integration still requires its complete parent
-layout, static labels, presets and molecule icons; the verified bar drawing
-foundation does not close that work. Menus and other control paint stay open.
+are verified. Dye rows now use native bar layout, captured static labels and natural molecule
+icons; 24 exact native comparisons exercise the actual DyeRow component at both
+scales/backends, with zero/mixed/full values and texture highlighting. The name
+label restores the native low-endpoint action. Bar width is 135 excluding icons,
+empty-color interpolation keeps native float precision, and displayed units are
+native "mM" (the former web "ng" label was an unapproved difference). Real-app
+endpoint edits, bar clicks, image covering/removal and save checks pass in both
+rendering modes. Buffer concentration rows, heading and presets still need full
+integration. Menus and other control paint stay open.
 
 
 

@@ -1,0 +1,134 @@
+{
+  "1": [
+    {
+      "iconSize": [
+        26.0,
+        26.0
+      ],
+      "id": "dye-label-0",
+      "labelSize": [
+        75.0,
+        17.0
+      ],
+      "size": [
+        75,
+        17
+      ],
+      "topDown": false
+    },
+    {
+      "iconSize": [
+        27.0,
+        26.0
+      ],
+      "id": "dye-label-1",
+      "labelSize": [
+        57.0,
+        17.0
+      ],
+      "size": [
+        57,
+        17
+      ],
+      "topDown": false
+    },
+    {
+      "iconSize": [
+        28.0,
+        26.0
+      ],
+      "id": "dye-label-2",
+      "labelSize": [
+        94.0,
+        17.0
+      ],
+      "size": [
+        94,
+        17
+      ],
+      "topDown": false
+    },
+    {
+      "iconSize": [
+        22.0,
+        26.0
+      ],
+      "id": "dye-label-3",
+      "labelSize": [
+        54.0,
+        17.0
+      ],
+      "size": [
+        54,
+        17
+      ],
+      "topDown": false
+    }
+  ],
+  "2": [
+    {
+      "iconSize": [
+        26.0,
+        26.0
+      ],
+      "id": "dye-label-0",
+      "labelSize": [
+        75.0,
+        16.0
+      ],
+      "size": [
+        150,
+        33
+      ],
+      "topDown": false
+    },
+    {
+      "iconSize": [
+        27.0,
+        26.0
+      ],
+      "id": "dye-label-1",
+      "labelSize": [
+        56.0,
+        16.0
+      ],
+      "size": [
+        113,
+        33
+      ],
+      "topDown": false
+    },
+    {
+      "iconSize": [
+        28.0,
+        26.0
+      ],
+      "id": "dye-label-2",
+      "labelSize": [
+        93.0,
+        16.0
+      ],
+      "size": [
+        187,
+        33
+      ],
+      "topDown": false
+    },
+    {
+      "iconSize": [
+        22.0,
+        26.0
+      ],
+      "id": "dye-label-3",
+      "labelSize": [
+        54.0,
+        16.0
+      ],
+      "size": [
+        108,
+        33
+      ],
+      "topDown": false
+    }
+  ]
+}

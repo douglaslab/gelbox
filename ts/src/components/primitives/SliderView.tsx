@@ -1,3 +1,5 @@
+import type {SliderPaintInput} from '../../lib/gel/sliderPaint';
+import {useDisplayScale} from '../../lib/gpu/useDisplayScale';
 import {SliderScenePaint} from './SliderScenePaint';
 import {useSharedPresentation} from '../gel/ScenePresentation';
 import {useNativeButtonTint} from '../gel/useNativeButtonTint';
@@ -8,7 +10,7 @@ import {
   calcNormalizedValue,
   getMappedValue,
 } from '../../lib/slider/slider';
-import { resolveAssetUrl } from '../../lib/layout/assets';
+import { resolveAssetUrl,dprFallbackOnError } from '../../lib/layout/assets';
 import styles from './SliderView.module.css';
 
 export interface SliderViewProps {
@@ -30,6 +32,9 @@ export interface SliderViewProps {
   barCornerRadius?: number;
   /** Bar style only — track height in px. Defaults to 23. */
   barHeight?: number;
+  /** Anchor native Bar layout at the bar itself; icons extend outside it. */
+  nativeBar?:boolean;
+  barColors?:Pick<SliderPaintInput,'fill'|'empty'|'textColor'>;
   style?: CSSProperties;
   testId?: string;
   presentation?: {viewKey:string;order:number};
@@ -55,12 +60,15 @@ export function SliderView({
   barEmptyColor,
   barCornerRadius,
   barHeight,
+  nativeBar=false,
+  barColors={fill:[174/255,182/255,195/255,1],empty:[232/255,235/255,241/255,1],textColor:[.2,.2,.2,1]},
   style,
   testId,
   presentation,
 }: SliderViewProps) {
   const registry=useSharedPresentation(),element=useRef<HTMLDivElement>(null);
-  const shared=Boolean(registry&&presentation&&config.style!=='bar');
+  const shared=Boolean(registry&&presentation&&(config.style!=='bar'||nativeBar));
+  useDisplayScale();
   const enabled = config.enabled !== false;
   const trackRef = useRef<HTMLDivElement | null>(null);
 
@@ -160,23 +168,24 @@ export function SliderView({
     <div
       ref={element}
       className={`${styles.root} ${enabled ? '' : styles.disabled}`}
-      style={{ width, ...(config.style==='graph'?{height:iconSize.y}:{}), ...style, opacity:shared?0:style?.opacity }}
+      style={{ width, ...(config.style==='graph'?{height:iconSize.y}:nativeBar?{height:barHeight??23}:{}), ...style, opacity:shared?0:style?.opacity }}
       data-testid={testId}
       aria-disabled={!enabled || undefined}
     >
-      {shared&&presentation&&<SliderScenePaint element={element} viewKey={presentation.viewKey} order={presentation.order} config={config} normalized={normalized} iconLo={iconLo} iconHi={iconHi} iconSize={iconSize} iconGutter={iconGutter} graphValues={graphValues} label={labelStr}/>}
+      {shared&&presentation&&<SliderScenePaint element={element} viewKey={presentation.viewKey} order={presentation.order} config={config} normalized={normalized} iconLo={iconLo} iconHi={iconHi} iconSize={iconSize} iconGutter={iconGutter} graphValues={graphValues} label={labelStr} barHeight={barHeight??23} barRadius={barCornerRadius??4} barColors={barColors}/>}
       {iconLo && (
         <SliderIcon
           path={iconLo}
           slot={iconSize}
-          natural={config.style !== 'bar'}
+          natural={config.style !== 'bar'||nativeBar}
+          bar={nativeBar?{width,height:barHeight??23,gutter:iconGutter}:undefined}
           high={false}
           onClick={() => onIconClick('lo')}
           testId={testId ? `${testId}-icon-lo` : undefined}
         />
       )}
 
-      {iconLo && <div style={{ width: iconGutter, flex: '0 0 auto' }} />}
+      {iconLo && !nativeBar && <div style={{ width: iconGutter, flex: '0 0 auto' }} />}
 
       {config.style === 'slider' && (
         <div
@@ -230,11 +239,12 @@ export function SliderView({
           {labelStr && (
             <div
               className={styles.barLabel}
-              style={
-                normalized > 0.5
+              style={{
+                ...(normalized > 0.5
                   ? { right: `calc(${(1 - normalized) * 100}% + 8px)` }
-                  : { left:  `calc(${normalized * 100}% + 8px)` }
-              }
+                  : { left:  `calc(${normalized * 100}% + 8px)` }),
+                color:nativeBar?`rgba(${barColors.textColor.slice(0,3).map(c=>c*255).join(',')},${barColors.textColor[3]})`:undefined,
+              }}
             >
               {labelStr}
             </div>
@@ -259,13 +269,14 @@ export function SliderView({
         </div>
       )}
 
-      {iconHi && <div style={{ width: iconGutter, flex: '0 0 auto' }} />}
+      {iconHi && !nativeBar && <div style={{ width: iconGutter, flex: '0 0 auto' }} />}
 
       {iconHi && (
         <SliderIcon
           path={iconHi}
           slot={iconSize}
-          natural={config.style !== 'bar'}
+          natural={config.style !== 'bar'||nativeBar}
+          bar={nativeBar?{width,height:barHeight??23,gutter:iconGutter}:undefined}
           high={true}
           onClick={() => onIconClick('hi')}
           testId={testId ? `${testId}-icon-hi` : undefined}
@@ -277,9 +288,9 @@ export function SliderView({
 
 
 /** Native Slider::doLayoutInWidth keeps image size separate from its pick slot. */
-function SliderIcon({path,slot,natural,high,onClick,testId}:{
+function SliderIcon({path,slot,natural,high,onClick,testId,bar}:{
   path:string;slot:{x:number;y:number};natural:boolean;high:boolean;
-  onClick:()=>void;testId?:string;
+  onClick:()=>void;testId?:string;bar?:{width:number;height:number;gutter:number};
 }) {
   const src=resolveAssetUrl(path),button=useNativeButtonTint();
   const [decoded,setDecoded]=useState<{src:string;x:number;y:number}|null>(null);
@@ -288,13 +299,13 @@ function SliderIcon({path,slot,natural,high,onClick,testId}:{
   // the high icon starts at a positive integer position within the slider.
   const round=(v:number)=>Math.sign(v)*Math.round(Math.abs(v));
   const dx=(slot.x-size.x)/2,dy=(slot.y-size.y)/2;
-  return <span className={styles.iconSlot} style={{width:slot.x,height:slot.y}} onClick={onClick} {...button.events}>
-    <img src={src} alt="" className={styles.icon} data-testid={testId} data-slider-icon={high?1:0} data-highlighted={button.tint[0]===.7}
+  return <span className={styles.iconSlot} style={bar?{position:'absolute',left:round(high?bar.width+bar.gutter:-bar.gutter-size.x),top:round((bar.height-size.y)/2),width:size.x,height:size.y}:{width:slot.x,height:slot.y}} onClick={onClick} {...button.events}>
+    <img src={src} alt="" className={styles.icon} data-testid={testId} data-slider-icon={high?1:0} data-highlighted={button.tint[0]===.7} onError={dprFallbackOnError}
       onLoad={e=>{
-        const img=e.currentTarget,scale=src.endsWith('@2x.png')?2:1;
-        setDecoded({src,x:img.naturalWidth/scale,y:img.naturalHeight/scale});
+        const img=e.currentTarget,scale=img.currentSrc.includes('@2x.')?2:1;
+        setDecoded({src,x:Math.trunc(img.naturalWidth/scale),y:Math.trunc(img.naturalHeight/scale)});
       }}
-      style={{position:'absolute',left:high?Math.round(dx):round(dx),top:round(dy),
+      style={{position:'absolute',left:bar?0:high?Math.round(dx):round(dx),top:bar?0:round(dy),
         width:size.x,height:size.y,maxWidth:'none'}}/>
   </span>;
 }

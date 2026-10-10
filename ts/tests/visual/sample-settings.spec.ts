@@ -3,6 +3,8 @@ import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
+for(const shared of [false,true])test.describe(`shared:${shared}`,()=>{
+ test.beforeEach(async({page})=>{await page.addInitScript(s=>localStorage.setItem('gelSharedPresentation',s?'1':'0'),shared);});
 test.beforeEach(async ({ page }, testInfo) => {
   const backend = testInfo.project.name === 'chromium-webgl2' ? 'webgl2' : 'webgpu';
   await page.addInitScript((b: string) => { localStorage.setItem('gelBackend', b); }, backend);
@@ -113,4 +115,6 @@ test('a first zero dye edit persists native fragment defaults when saved', async
     Bases: 0, Mass: 0, Degrade: 0, Dye: 'Xylene cyanol',
     AspectRatio: 1, Color: [0.5, 0.5, 0.5], Aggregate: [1],
   }]);
+});
+
 });

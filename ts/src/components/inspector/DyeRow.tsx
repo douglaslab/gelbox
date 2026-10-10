@@ -1,5 +1,5 @@
 import { LAYOUT } from '../../lib/layout/layout';
-import { SliderView } from '../primitives/SliderView';
+import { SliderView,type SliderViewProps } from '../primitives/SliderView';
 import { DYE_NAMES, DYE_COLORS, DYE_MAX_MASS } from '../../lib/sim/dye';
 
 // One dye row: name label + Style::Bar slider with dye-color fill +
@@ -14,15 +14,19 @@ export interface DyeRowProps {
   onChange: (mass: number) => void;
   width?: number;
   testId?: string;
+  presentation?:SliderViewProps['presentation'];
 }
 
-export function DyeRow({ dye, mass, onChange, width = LAYOUT.bufferViewSliderBarSize.x, testId }: DyeRowProps) {
+export function DyeRow({ dye, mass, onChange, width = LAYOUT.bufferViewSliderBarSize.x, testId,presentation }: DyeRowProps) {
   // Dye::kColors are already in the native display color domain.
   const fillColor = '#' + DYE_COLORS[dye]
     .map(channel => Math.round(channel * 255).toString(16).padStart(2, '0')).join('');
   const emptyColor = mixHex(fillColor, '#FFFFFF', 0.8);
   const iconPath   = `/assets/molecules/${DYE_ICON_NAMES[dye]}.png`;
   const id = testId ?? `dye-row-${dye}`;
+  const f=Math.fround;
+  const nativeFill=DYE_COLORS[dye].map(f) as [number,number,number];
+  const nativeEmpty=nativeFill.map(c=>f(c+f(f(1-c)*f(.8)))) as [number,number,number];
 
   return (
     <div
@@ -36,27 +40,20 @@ export function DyeRow({ dye, mass, onChange, width = LAYOUT.bufferViewSliderBar
         gap: 0,
       }}
     >
-      <div
-        style={{
-          width: 90,
-          flex: '0 0 auto',
-          textAlign: 'right',
-          paddingRight: 8,
-          color: LAYOUT.bufferViewSliderTextLabelColor,
-          font: `${LAYOUT.bufferViewSliderLabelFontSize}px ${LAYOUT.bufferViewSliderLabelFont}`,
-          userSelect: 'none',
-        }}
-      >
-        {DYE_NAMES[dye]}
-      </div>
+      <span style={{position:'absolute',opacity:0,pointerEvents:'none'}}>{DYE_NAMES[dye]}</span>
       <SliderView
         testId={`${id}-slider`}
+        nativeBar
+        presentation={presentation}
+        style={{marginLeft:90}}
+        iconLo={`/assets/native-text/dye-label-${dye}.png`}
+        barColors={{fill:[...nativeFill,1],empty:[...nativeEmpty,1],textColor:[0,0,0,1]}}
         config={{
           style: 'bar',
           valueMin: 0,
           valueMax: DYE_MAX_MASS,
           quantize: 1,
-          formatValue: (v) => `${Math.round(v)} ng`,
+          formatValue: (v) => `${Math.round(Math.max(0,Math.min(DYE_MAX_MASS,v)))} mM`,
         }}
         value={mass}
         onChange={onChange}

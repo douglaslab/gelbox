@@ -1,0 +1,119 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceHashes": {
+    "include/Layout.h": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+    "include/Slider.h": "4724225c977d03012a21835b12e7e54029ff9d2b5da01d0891d2cde564f85f68",
+    "include/Gelbox.h": "607dd57d2bddf81f74744f25527c01a01afbe73104fcd08919ff009114774734",
+    "src/Slider.cpp": "34dcc77498366d0b3d7ad48298e4f08c97b02ca1b7fa2285b57dac4723ca01d5",
+    "src/GelboxApp.cpp": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+    "include/Dye.h": "2f79d16e2da24ab3822ef9d817cbb18c4a94ed0dc295d4c2cf06c473b30c26df",
+    "src/SampleSettingsView.cpp": "208d7767e7ef860a3c8322876da11d6a31c3dd9d669051527ca8783baaba799c",
+    "include/GelSim.h": "e7bbc0bd7ec5bac4b6803b5236de49934d0926cac858b6c053a3ee460d3c6c42"
+  },
+  "methodSha256": "42674c8df5e1cf337528c8a85689289cea1b74e0b5eb0715f72d919ed64fcfcb",
+  "inputs": {
+    "driver.cpp": "419f5e1e0045e86c9104e6ca3aa6f6a5a24f6636bf9e79127313b6720a0513e2",
+    "capture.py": "2e4fca822886c9602993c5aaef45d748096cc86000bcfd5fcd07d705964839d4",
+    "cases.json": "26c336bcfcf4702b70e15bbc63f9b7c4497163786ed8f2725c73d02c615f75d8",
+    "metrics.json": "a230b5b16f1c6667da7ac35322c219cdc5c202a8ffdc4e9ac3972dbc5fbc5282",
+    "Bromphenol.png": "1b7de7b20ffb3d9c2e21a62a91d684f1d424635766796b0910982f5cf8a9354f",
+    "Bromphenol@2x.png": "3c28f0efc8389f6a4ed84c11a92967d89cbda68022a65c520f3c9c240fef0f8e",
+    "Xylene@2x.png": "2546cff59ee26619589f7bbb26678c9fe3b7e6af6bea911144024a036856a413",
+    "Orange G@2x.png": "8080350bacf4f9aaac0e9644d7f4dcf1bb2fe0b39f3653eac4850115a393c7c6",
+    "Orange G.png": "9c551a1996cbe0f4a9b07ba84e09907531961927d8fbe67dce167bcc8aa44c2c",
+    "Xylene.png": "d2035df7c20789023e8a921d51fe4d1871a22ba04be30a23dc790552eb39f8a7",
+    "Cresol@2x.png": "ffe6ac4c82396ac123f96e1831153fe890a0d5cd8fbf80ac16e689bd55753fc5",
+    "Cresol.png": "f0ff013f508f59951c32d37c20f8ff77d667a740cc3aa106e3aa5796324e14c6"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "files": [
+    {
+      "file": "zero-front-1.png",
+      "sha256": "9b64aed2f673f304fd4ebbd73f9a419b3ca6cb035c2901953257aedbd70433e2"
+    },
+    {
+      "file": "zero-behind-1.png",
+      "sha256": "e4e20622a04f4332c65a4c088863b55c9f7dc1394f3a85cdecead13bd63ec474"
+    },
+    {
+      "file": "zero-front-2.png",
+      "sha256": "5882f1ff53444dc22f2f3e1af0482e5247dbaf7daa95d5080ac308346b233617"
+    },
+    {
+      "file": "zero-behind-2.png",
+      "sha256": "3f7335466a2ac70bd9630db2932e362565ebbdca6ea4a00f5885caa866a8da1d"
+    },
+    {
+      "file": "mixed-front-1.png",
+      "sha256": "71c480320621f6640f50c4f91c004fd81f1cad691e0f9695e31fb288baabf1b2"
+    },
+    {
+      "file": "mixed-behind-1.png",
+      "sha256": "a3989be21f8a9076d9b1b646dee79731f97ae7807d761fc6501b1a5f6377a14d"
+    },
+    {
+      "file": "mixed-front-2.png",
+      "sha256": "bb4f6c4cc8e976149aee768592570a3bc6f44633b38e559827f02163a1947288"
+    },
+    {
+      "file": "mixed-behind-2.png",
+      "sha256": "1d33cc48a144c4cfd76a47cfda034cdc5ab4e2893ccc3ad13086d28a7810807e"
+    },
+    {
+      "file": "full-front-1.png",
+      "sha256": "ec81a00f02c1467b9990b09aeb7de651f0ec707d7fc6a77bd4a320617b941058"
+    },
+    {
+      "file": "full-behind-1.png",
+      "sha256": "affef66776e3b705d8527127fa9a6d343e9a975484fc7c67039fb5529db8704d"
+    },
+    {
+      "file": "full-front-2.png",
+      "sha256": "9b7ae15092e918c8c9287f08e2c3576de6eca1c22f7fd10c110e0db5437238c7"
+    },
+    {
+      "file": "full-behind-2.png",
+      "sha256": "8e738f06c3feebd662ef3d97799dc2719ba15ce299dd45b1d25618e34b3b04d4"
+    },
+    {
+      "file": "dye-label-0-1.png",
+      "sha256": "ed27e35ebeac3ae6c465ffa0369b78a4936e77c5aeb7ddccd0112a899e110825"
+    },
+    {
+      "file": "dye-label-1-1.png",
+      "sha256": "b36a076a6af71e0e05385f9ebf8b2ec9e640fd6ac8a0d26da1f34833eea7b078"
+    },
+    {
+      "file": "dye-label-2-1.png",
+      "sha256": "92570653e2a9040bef306b3d1ec2f50c9e48a00c96c0a4b5a96e76a014970ee8"
+    },
+    {
+      "file": "dye-label-3-1.png",
+      "sha256": "47494f48dc77eb730500d3cb99bcc1fb4f172265947208e0e28f1edba800bbf6"
+    },
+    {
+      "file": "dye-label-0-2.png",
+      "sha256": "f67eaf2887fdb30f62429c82cac2c34825dc7b1036505484931bd6f65dab4e77"
+    },
+    {
+      "file": "dye-label-1-2.png",
+      "sha256": "fab094946bd63019d9ea73376ddb7da700bfafb05212c2c3b53ba7b5bdf0a690"
+    },
+    {
+      "file": "dye-label-2-2.png",
+      "sha256": "a00039ddc04fe1d8564aadef5e1a250d2bc94e4862ef50da39c6068f0ea7e7b4"
+    },
+    {
+      "file": "dye-label-3-2.png",
+      "sha256": "60e10d2a8576931f9254ff4c2f91d741bf447b235a07867ae56c270f6ae8a4d0"
+    }
+  ],
+  "limits": [
+    "Actual pinned Slider methods and SampleSettingsView style, formatter and TextLayout label setup blocks.",
+    "Window content scale and UIFont access adapted; actual Dye constants, molecule assets and bar layout.",
+    "Four dye controls in native row order; no parent heading, Buffer controls, or interaction capture.",
+    "Modern Cinder/macOS RGBA8 MSAA4; not original-release full GUI certification."
+  ]
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "zero-behind-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "zero-front-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "mixed-behind-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "mixed-front-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "full-behind-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "full-front-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  }
+]

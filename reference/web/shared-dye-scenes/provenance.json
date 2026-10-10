@@ -1,0 +1,32 @@
+{
+  "base": "20f4b92",
+  "sha256": {
+    "ts/src/components/inspector/DyeRow.tsx": "d768885454f519b712d90c9a498399c5247ce9bda9ce28f7d7c28c2012a0fb4b",
+    "ts/src/components/inspector/SampleSettingsView.tsx": "945ef13ef300790713ac609b8adbda8264898dd2e4d7d44a0db43dd60a59eda9",
+    "ts/src/components/primitives/SliderView.tsx": "98b968463d04db2a7245db0152a5e9b0c1eadf3b1b9ce8ef338d6ba08647332e",
+    "ts/src/components/primitives/SliderScenePaint.tsx": "1f2de19a45f8fdfdd0d20873666fd738e1c87d4b699c3535162b32e007f9938d",
+    "ts/src/lib/gel/sliderPaint.ts": "bc4c18ab098f7f4a9bbcd3c448788d08d0325db02718c7b57d3ca5951bfcf481",
+    "ts/tests/visual/shared-dye-native.spec.ts": "7a9c8937f6997fe11e5c8d8a8f2b6327a1abe505eb436595d239fbd7b092cb20",
+    "ts/tests/visual/shared-dye.spec.ts": "82382f3bff28a48b256d385649d11c4c52cf14e5d68c90a9c5cba390e6937bb4",
+    "ts/tests/visual/sample-settings.spec.ts": "8193f45a1e7e251314ffb2f604d885e4274e81457ede34d6501c64bc8941327f",
+    "ts/tests/unit/nativeDyeAssets.test.ts": "ed2afcbf1564a392efb783548df4469542668c29325e745d89f2883e09b32904",
+    "reference/native/modern/shared-dye-scenes/manifest.json": "efe6e8e670273849140d8da33609f870b10c01028795ed506ecbf4d2ad52ebbf"
+  },
+  "exactNativeComparisons": 24,
+  "verification": {
+    "unitTests": 2921,
+    "browserTests": 767,
+    "intentionalSkips": 1,
+    "productionTests": 4,
+    "build": "passed",
+    "nativeRepeatedScenes": 12,
+    "nativeRepeatedLabelTextures": 8,
+    "previousSliderComparisonsStillExact": 128
+  },
+  "limits": [
+    "Actual DyeRow component pixels at DPR1/2; native reference uses modern pinned Cinder/macOS.",
+    "Simultaneous highlighted icons are a paint fixture; physical single-pointer endpoint actions tested separately.",
+    "Buffer controls/presets and remaining menus/palette/overlays still need migration.",
+    "Shared composition remains development-only; full original GUI/platform/performance/acceptance gates remain open."
+  ]
+}
