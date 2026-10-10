@@ -413,3 +413,54 @@ the earlier legacy deployment checks shared-production evidence.
 Overlap verification: 953 browser cases pass (one intentional duplicate skipped),
 2,924 units pass, production build and four legacy deployment checks pass. All
 twelve full-suite overlap outputs match the retained exact native comparisons.
+
+
+### Direct-render overlap acceptance and production cutover sequence
+
+The six full-window overlap states now pass with Render disabled as well. Cmd-R
+runs through the initialized native/web keyboard handlers; all native state exports
+confirm Render=false. Capture scheduling observes native update counts, because
+OS draw callbacks can precede setup or vary relative to simulation updates. No
+native timestep, simulation or draw method changes. Twelve files repeat exactly;
+the portable instrument reproduces compiled inputs from original hashes.
+
+The parameterized browser regression passes four tests / twenty-four exact RGB
+comparisons across effects/direct and both backends. Application source remains
+4dc7210; no extra full/unit/build run is needed for this test/evidence-only change.
+The preceding full verification remains 953 browser cases, one skip, 2,924 units,
+build and four legacy deployment checks. Native release composed-move, shared
+hidden-lane, sample background/held-input, buffer-to-Tab and component-overlap
+fixtures supply additional bounded interaction evidence; unrestricted RNG/input
+history and release/platform certification remain separate roadmap gates.
+
+Next execute the existing production switch requirement concretely:
+
+1. Add failing built-app assertions for the shared scene, backend ownership and
+   absence of per-view graphics contexts at root and subpath. Verify that storage
+   preferences cannot select the retired compositor in a production build.
+2. Add exact built-app startup/settings native comparisons and controlled native
+   edge/solid fixtures using the actual compiled FragmentWell/SampleSimCanvas
+   contribution, not the standalone presentation prototype. The old audit's
+   resolved CSS underlay cannot represent a shared-MSAA architecture. Preserve its
+   failure dossier, native inputs and exact thresholds; make release audit commands
+   target the current production composition contract.
+3. Enable the shared compositor for production. Keep legacy development fixtures
+   available for diagnostic comparisons; live production views must not acquire
+   their retired canvases or duplicate painting. Existing shared branches already
+   suppress those paints when a registry exists; verify in the compiled app.
+4. Run unit/full-browser/build/deployment/native composition gates, then built
+   shared compatibility, lifecycle and combined workload/resource checks. Perform
+   final migration review before declaring this switch accepted. Preserve every
+   remaining original-release/platform/roadmap gate.
+
+A test-only way to replay controlled production component inputs without adding
+product hooks is to inspect the pinned React18 DOM fiber/provider chain for the
+existing store and scene registry. Use public store/registry behavior where
+possible, assert the discovered shape, and keep any fixture isolation explicit.
+For the edge/solid fixture, the representative contributes key inspector-fragment,
+order0; brace, palette and sliders have separate orders. A controlled fixture may
+select this compiled contribution, supply the native underlay geometry, position
+its DOM canvas at origin, and use a303×520 logical window matching the native
+projection. This proves the compiled component/compositor boundary; complete-window
+built-app tests remain a separate requirement. Do not silently instrument renderer
+math or substitute native meshes for the generated representative.

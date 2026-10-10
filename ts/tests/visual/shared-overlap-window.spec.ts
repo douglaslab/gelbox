@@ -1,13 +1,14 @@
 import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
-const root='../reference/native/modern/full-window-overlap';
+test.use({viewport:{width:1365,height:768},deviceScaleFactor:2});
+for(const mode of ['effects','direct']){
+const root='../reference/native/modern/full-window-overlap'+(mode==='direct'?'-direct':'');
 const manifest=JSON.parse(fs.readFileSync(`${root}/manifest.json`,'utf8'));
 const asset=fs.readFileSync(`${root}/${manifest.image.file}`);
 const sha=(bytes:Buffer)=>createHash('sha256').update(bytes).digest('hex');
 const readState=(scene:string)=>{const bytes=fs.readFileSync(`${root}/${scene}.json`);expect(sha(bytes)).toBe(manifest.captures[`${scene}.json`]);return JSON.parse(bytes.toString());};
-test.use({viewport:{width:1365,height:768},deviceScaleFactor:2});
-test('complete overlapping image, species and loupe windows follow native ordering',async({page},info)=>{
+test(`${mode}: complete overlapping image, species and loupe windows follow native ordering`,async({page},info)=>{
  expect(sha(asset)).toBe(manifest.image.sha256);
  const initial=readState('image-before-species');
  await page.addInitScript(backend=>{localStorage.setItem('gelBackend',backend);localStorage.setItem('gelSharedPresentation','1');(window as any).__molsimFreezeAfterTicks=0;},info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
@@ -16,6 +17,7 @@ test('complete overlapping image, species and loupe windows follow native orderi
  await page.getByRole('button',{name:'Application settings'}).click();
  await page.getByTestId('file-input').setInputFiles({name:'captured.gel.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify({Gelbox:{type:'gel',version:'1.0'},Gel:initial.gel}))});
  await expect(page.getByRole('button',{name:'Application settings'})).toHaveAttribute('aria-expanded','false');
+ if(mode==='direct')await page.keyboard.press('Meta+r');
  await page.getByTestId('microtube-0').click();await page.mouse.move(0,0);
  let imageCount=0;
  const drop=async(x:number,y:number,resize=false)=>{
@@ -27,6 +29,8 @@ test('complete overlapping image, species and loupe windows follow native orderi
  };
  const capture=async(scene:string)=>{
   const state=readState(scene);
+  if(mode==='direct')expect(state.render).toBe(false);
+  expect(await page.evaluate(()=>(window as any).__windowStore.getSnapshot().gel.renderEnabled)).toBe(mode==='effects');
   await page.mouse.move(0,0);
   for(const [key,v] of Object.entries(state.views) as [string,any][]){
    const canvas=page.getByTestId(key==='sample'?'molecular-sim-canvas':'loupe-canvas-1');
@@ -65,3 +69,4 @@ test('complete overlapping image, species and loupe windows follow native orderi
  await page.mouse.click(Math.trunc(r.x+2),Math.trunc(r.y+145));await page.mouse.move(0,0);await expect(loupe).toBeFocused();
  await capture('loupe-raised');
 });
+}

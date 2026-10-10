@@ -96,6 +96,16 @@ The full regression passes 953 browser tests with one intentional duplicate skip
 All twelve overlap outputs from that run match the retained exact evidence.
 Fresh unit/build/legacy deployment checks also pass.
 
+The direct-render counterpart now also passes all six overlap scenes on both
+backends. The parameterized overlap regression passes four tests and twenty-four
+exact comparisons across both gel rendering modes. Native Cmd-R is exercised after
+initialization, and capture steps follow update counts to avoid variable draw
+cadence. All twelve new native files repeat byte-identically. This increment
+changes tests/evidence only; the preceding 953-test full suite and unit/build
+results remain the latest broader verification. See
+[Render-off overlap evidence](../reference/web/shared-overlap-direct/README.md).
+
+
 
 
 | Check | Result |

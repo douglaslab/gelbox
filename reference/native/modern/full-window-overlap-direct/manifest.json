@@ -1,0 +1,53 @@
+{
+  "baseManifestSha256": "123992ba39525246a08f5a947c4df8c8e243db60f360f4cacb055fa83fbd4d0d",
+  "probeSha256": "7586359c4f869f26483a11e07cad35ab3818317c0e6a129db7118e9aac92b464",
+  "instrumentSha256": "bb67eae44b03db53cb33fd1433e25dfb4df3cb4d114af3554ea6c1f4fb42b884",
+  "changes": {
+    "src/GelboxApp.cpp": {
+      "before": "facccd186b9e275ecc9a752e3eb5190e4a9b120be01e40a49e4449be52351d31",
+      "after": "64d19c5f3db3f1480546fada3c0ae1b8f3bd810448e125ae9a7226931cb744e0"
+    },
+    "include/SampleView.h": {
+      "before": "4c6bd19a8dbad08e5f7820a5f237cc8213e118e7038e94ac20fa3480923a2c06",
+      "after": "40fff27b318f9c9e3dac4dd7711e4c6ae45c8269ccd8896d2d902fe88aceb8b3"
+    },
+    "include/MolecularSim.h": {
+      "before": "d5ea5477c956bb5731979ee8ed4b2c233bbefee306c463850fb554b3511a91a1",
+      "after": "25c81c1a50a89f774d0cb19f28ce9e4bcddf301a8c838f173c7e3e9a29de796b"
+    },
+    "proj/cmake/CMakeLists.txt": {
+      "before": "0d490cf54e9070a56fe84046584457492761759d1a64d5361b052ddf087745ce",
+      "after": "3b82035a8a04b42ae0cae730b6f5a1a376cc1d7c696aeb9441005bab3f5c1ccf"
+    }
+  },
+  "window": [
+    1365,
+    768
+  ],
+  "scale": 2,
+  "render": false,
+  "schedule": "native update counts; capture after draw, once per tick",
+  "repeat": {
+    "allFilesByteIdentical": true,
+    "files": 12
+  },
+  "executableSha256": "f1563dea24b31459fbdd6ebfbe47185e2530dac92006abe3908688efd7d6d972",
+  "image": {
+    "file": "../shared-image-scenes/alpha.png",
+    "sha256": "c8e69d88fca910c234285e2355800bee5b08023ef1580251f8eff6086283a9a4"
+  },
+  "captures": {
+    "image-above-loupe.json": "2dd6a2f2acfdb0c3b584e8550079e054ece3cce2d95dc0d08f704ad033d861c1",
+    "image-above-loupe.png": "c1596f6b8fa4d4f422a2e34474743e2160cfd359a943e67936194478821fca81",
+    "image-above-species.json": "1010ae1c600c8f87f56a99e71f8a7396113b0b9992624b76e82db59dcddd0dd9",
+    "image-above-species.png": "43ef1fa6cd53bb1a51b3f365450ca2ebe6361b402307e7ea8295df9bc2b23c4e",
+    "image-before-species.json": "7548673048517f972b40276284469856255dbee161165605c65f34fa454951d2",
+    "image-before-species.png": "805611791908a500bef3291d954d0f43206dbffcebd99c991b15a22afcde20a6",
+    "loupe-created.json": "b6a6348f77e8a3b4ee7fee12024325da8e5c34e993e2233e2eb0745fd4c5e6e5",
+    "loupe-created.png": "7b2a993905d5707e4de9a0306b57d07c4e6b77d952d27509a1cfe32d4a36659c",
+    "loupe-raised.json": "d9ce4ae185f80bac07d126f4445eb2976d36d3a6d1a000d75f922174762df82e",
+    "loupe-raised.png": "45ea434e9def2242d43272658ea3f37193d19768d2ab6d6a7fbd56afbff8aaa6",
+    "species-above-image.json": "b4a039b2ac60d97788335fac7906ecb9651f591d4b7d69d62d9d008569643e12",
+    "species-above-image.png": "25cec664e86c157fff72d5be9379aa7b24ae40a1e9bdcbf697ecdbf39e19c2a8"
+  }
+}
