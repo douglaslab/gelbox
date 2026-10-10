@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,853 passed |
-| Browser suite across WebGPU/WebGL2 | 387 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 387 full baseline plus 2 new lifecycle checks passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
 | Production build and TypeScript checks | Passed |
@@ -1111,3 +1111,31 @@ Firefox follow-up: the pinned Firefox132 runner also failed in headed mode befor
 app navigation, with the same profile/sandbox-extension errors. This rules out a
 headless-only workaround in this environment; current Firefox/Safari verification
 still requires a working browser runner. No security settings were changed.
+
+
+## Repeated multi-view resource disposal and route remount
+
+Two additional browser tests instrument actual GPU buffer/texture creation and
+destruction, plus GL buffers, textures, framebuffers, programs, shaders and vertex
+arrays. After a warmup cycle, each renderer undergoes ten cycles of opening a
+sample and two persistent loupes, waiting for live particles, closing loupes and
+clearing sample selection through gel settings. Open-view resource counts exceed
+the gel-only baseline; each closed cycle returns to that same baseline.
+
+Native Escape retains species selection and can reopen the sample on the next
+frame, so it is not used as proof of sustained sample disposal. Loupes are created
+at separated bands to avoid clicking the first loupe's anchor when opening the
+second. These were test-scenario corrections, not product behavior changes.
+
+Same-document hash navigation to the non-GPU slider route releases all tracked
+resources (count zero). Returning to the gel route opens a live sample again
+without page errors or graphics alerts. A resource-count attachment is available
+to reporters that retain test attachments.
+
+Verification: **both new lifecycle cases passed twice after scenario corrections**,
+including the final attachment-bearing version. Product code is unchanged; the
+prior full suite remains 387 passed/one intentional skip, with two additional
+passing cases now present. No full-suite rerun or build was needed for this
+test-only increment. This establishes explicit object cleanup over these finite
+cycles, not JS heap/driver residency, long-run resource growth, pending async setup
+cleanup or hidden-tab resume. Those and native/platform release gates remain open.

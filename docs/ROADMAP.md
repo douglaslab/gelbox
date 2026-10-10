@@ -425,3 +425,11 @@ transitions with visible particles and preserved objects/nodes. Full checks: 387
 browser cases, one intentional skip; four production cases, build/type checks
 pass. Physical multi-monitor and broader lifecycle certification remain open.
 Pinned Firefox launch also fails headed; environment limitation remains explicit.
+
+
+P5 multi-view lifecycle evidence: ten measured sample/two-loupe open-close cycles
+per backend return tracked resource objects to their warmed gel baseline. Same-
+document route unmount reaches zero owned objects and gel remount restores a live
+sample. Two new real-browser checks pass; no product code changed. Long-run heap/
+driver memory, pending asynchronous setup/unmount and hidden-tab resume remain
+separate open requirements. Native parity and platform gates remain open.
