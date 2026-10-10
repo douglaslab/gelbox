@@ -56,8 +56,8 @@
 
 **Files:** Extend `ts/tests/visual/renderer-lifecycle.spec.ts` and relevant renderer recovery tests; modify presentation/component cleanup only as failures demonstrate necessary.
 
-- [ ] Track GL `createRenderbuffer/deleteRenderbuffer` alongside current resource types; assert exact baseline return and zero objects on route unmount with the new presentation targets.
-- [ ] Add failure injection for multisample allocation and late setup after unmount; use existing bounded recovery/fallback behavior. Direct-mode failure handling must also recover rather than log and remain blank.
-- [ ] Verify repeated mode toggles and physical-size changes do not accumulate buffers, textures, framebuffers or renderbuffers.
-- [ ] Run `npm --prefix ts run test:unit`, `npm --prefix ts run test:visual`, and `npm --prefix ts run test:production`; require clean results and inspect changed raster artifacts.
-- [ ] Record exact scope and limits in STATUS. Commit locally; do not push or mark the full goal complete.
+- [x] Track GL `createRenderbuffer/deleteRenderbuffer` alongside current resource types; assert exact baseline return and zero objects on route unmount with the new presentation targets.
+- [x] Add failure injection for multisample allocation and late setup after unmount; use existing bounded recovery/fallback behavior. Direct-mode failure handling must also recover rather than log and remain blank.
+- [x] Verify repeated mode toggles and physical-size changes do not accumulate buffers, textures, framebuffers or renderbuffers.
+- [x] Run `npm --prefix ts run test:unit`, `npm --prefix ts run test:visual`, and `npm --prefix ts run test:production`; require clean results and inspect changed raster artifacts.
+- [x] Record exact scope and limits in STATUS. Commit locally; do not push or mark the full goal complete.

@@ -15,13 +15,13 @@ async function track(page:Page,backend:string,initialFailure=false){
     const destroy=prototype.destroy;prototype.destroy=function(){live.delete(this);return destroy.call(this as any);};
    }
    const pipeline=GPUDevice.prototype.createRenderPipeline;GPUDevice.prototype.createRenderPipeline=function(desc){if((window as any).__failPresentationShader&&backend==='webgpu'&&desc.label==='gel-presentation-base')throw Error('Injected presentation pipeline failure');return pipeline.call(this,desc);};
-   const upload=GPUQueue.prototype.writeBuffer;GPUQueue.prototype.writeBuffer=function(...args){if((window as any).__failWellDraw&&backend==='webgpu'&&live.get(args[0])?.label==='gel-presentation-wells')throw Error('Injected well draw failure');return upload.apply(this,args);};
+   const upload=GPUQueue.prototype.writeBuffer;GPUQueue.prototype.writeBuffer=function(...args){if((window as any).__failWellDraw&&(backend==='webgpu'||(window as any).__failBoth)&&live.get(args[0])?.label==='gel-presentation-wells')throw Error('Injected well draw failure');return upload.apply(this,args);};
   }
   const p=WebGL2RenderingContext.prototype as any;
   for(const kind of ['Buffer','Texture','Framebuffer','Renderbuffer','Program','Shader','VertexArray']){const create=p['create'+kind],destroy=p['delete'+kind];p['create'+kind]=function(...args:any[]){const resource=create.apply(this,args);if(resource)live.set(resource,{kind});return resource;};p['delete'+kind]=function(resource:any){live.delete(resource);return destroy.call(this,resource);};}
   const badShaders=new WeakSet<WebGLShader>();const source=p.shaderSource,compile=p.compileShader;p.shaderSource=function(shader:WebGLShader,text:string){if(text.includes('uniform sampler2D base'))badShaders.add(shader);return source.call(this,shader,text);};p.compileShader=function(shader:WebGLShader){if((window as any).__failPresentationShader&&backend==='webgl2'&&badShaders.has(shader))throw Error('Injected presentation shader failure');return compile.call(this,shader);};
   const storage=p.renderbufferStorageMultisample;p.renderbufferStorageMultisample=function(...args:any[]){if((window as any).__failPresentation&&(backend==='webgl2'||(window as any).__failBoth))throw Error('Injected presentation allocation failure');return storage.apply(this,args);};
-  const draw=p.drawArrays;p.drawArrays=function(...args:any[]){if((window as any).__failWellDraw&&backend==='webgl2'&&args[0]===this.LINE_STRIP)throw Error('Injected well draw failure');return draw.apply(this,args);};
+  const draw=p.drawArrays;p.drawArrays=function(...args:any[]){if((window as any).__failWellDraw&&(backend==='webgl2'||(window as any).__failBoth)&&args[0]===this.LINE_STRIP)throw Error('Injected well draw failure');return draw.apply(this,args);};
  },{backend,initialFailure});
 }
 async function unmountAndCheck(page:Page){await page.evaluate(()=>{location.hash='/dev/slider';});await expect(page.getByTestId('gel-canvas')).toHaveCount(0);await expect.poll(()=>page.evaluate(()=>[...(window as any).__presentationLive.values()])).toEqual([]);await expect.poll(()=>page.evaluate(()=>(window as any).__presentationGlContexts.every((gl:WebGL2RenderingContext)=>gl.isContextLost()))).toBe(true);}
@@ -67,4 +67,20 @@ test('presentation pipeline failure releases partial shaders and recovers',async
  const backend=info.project.name.endsWith('webgl2')?'webgl2':'webgpu';await track(page,backend);await page.goto('/#/gel');await expect(page.getByTestId('gel-canvas')).toHaveAttribute('data-probe-context',backend);
  await page.evaluate(()=>{(window as any).__failPresentationShader=true;});await page.keyboard.press('Meta+r');
  await expect(page.getByTestId('gel-canvas')).toHaveAttribute('data-probe-context',backend==='webgpu'?'webgl2':'webgpu');await unmountAndCheck(page);
+});
+
+for(const failure of ['allocation','frame'])test(`effects terminal ${failure} failure releases resources before retry`,async({page},info)=>{
+ const backend=info.project.name.endsWith('webgl2')?'webgl2':'webgpu';await track(page,backend);
+ if(failure==='allocation')await page.addInitScript(()=>{(window as any).__failPresentation=true;(window as any).__failBoth=true;});
+ await page.goto('/#/gel');
+ if(failure==='frame'){
+  await expect(page.getByTestId('gel-canvas')).toHaveAttribute('data-probe-context',backend);await page.getByTestId('gel-canvas').screenshot();
+  await page.evaluate(()=>{(window as any).__failWellDraw=true;(window as any).__failBoth=true;});await page.getByTestId('timeline-slider-icon-lo').click();
+ }
+ const error=page.getByTestId('gel-canvas-error');await expect(error).toBeVisible();
+ await expect.poll(()=>page.evaluate(()=>[...(window as any).__presentationLive.values()])).toEqual([]);
+ await expect.poll(()=>page.evaluate(()=>(window as any).__presentationGlContexts.every((gl:WebGL2RenderingContext)=>gl.isContextLost()))).toBe(true);
+ await page.evaluate(()=>{(window as any).__failPresentation=false;(window as any).__failWellDraw=false;});
+ await error.getByRole('button',{name:'Retry graphics'}).click();await expect(error).toHaveCount(0);
+ await expect(page.getByTestId('gel-canvas')).toHaveAttribute('data-probe-context',backend);await page.getByTestId('gel-canvas').screenshot();await unmountAndCheck(page);
 });

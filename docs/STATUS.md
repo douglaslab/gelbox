@@ -1737,8 +1737,7 @@ Summing normalized float32 samples in sample-index order matches the full matrix
 forced integer ties produced one-byte errors. Both failing and passing reports
 are retained. TypeScript checks pass, and both 48-scene browser cases pass. The
 modules preserve opaque output and own/dispose their presentation resources.
-They are **not yet wired into the application**; SVG wells remain visible until
-integration, lifecycle/recovery and full regression checks complete.
+Application integration and lifecycle/recovery checks subsequently completed as recorded below.
 
 ## Native wells integrated into effects and direct rendering
 
@@ -1756,9 +1755,7 @@ resize/media events. Capture uses the same CDP session as the metrics override
 and asserts image dimensions; the original Playwright session captures its old
 DPR. Physical monitor transitions still need separate validation.
 
-Lifecycle, failure injection, full regression/production gates and final review
-for this increment are pending. These results do not close broader visual or
-release parity gates.
+Lifecycle, failure injection, full regression/production gates and independent review for this increment are complete as recorded below. Broader visual and release parity gates remain open.
 
 ## Presentation recovery and resource disposal
 
@@ -1776,4 +1773,20 @@ GL renderbuffers. Initial broad checks passed 2,872 units and four production
 cases; 473 browser cases passed and two scientific-buffer comparison tests
 needed their old SVG-only well exclusion moved to the presentation input.
 Those two now pass with the original exact full-image comparison unchanged.
-The complete browser rerun and final review remain pending for this increment.
+The complete browser rerun passed 475 cases with one intentional skip.
+
+Independent review then found an effects-mode terminal-failure resource leak.
+Four new allocation/frame tests reproduced it on both backends; immediate,
+idempotent disposal now releases all tracked objects and retires failed GL
+contexts while the error screen remains visible. Retry recovers. Final gates
+on the corrected product passed **2,872 unit tests, 479 browser cases (one
+intentional skip), and four production cases**, with no golden/tolerance changes.
+
+The [performance workload](../reference/web/performance/native-well-presentation/README.md)
+at the preceding commit passed both backends, with stable tracked resource
+counts and p95 rAF intervals <=16.8ms. It is not a native performance comparison
+or release budget. The [completion record](superpowers/reports/2026-10-10-native-well-presentation.md)
+retains review disposition and all execution rulings. A Minor remains deferred:
+fresh visible-well arrays trigger avoidable scientific redraws on unrelated UI
+changes. Whole-app parity, cross-platform/fractional-scale raster acceptance,
+physical driver-reset recovery and native performance budgets remain open.

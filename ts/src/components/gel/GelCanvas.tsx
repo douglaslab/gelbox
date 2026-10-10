@@ -35,8 +35,13 @@ export function GelCanvas({bands,globalWarp,gelSize,pixelsPerUnit,wells}:GelCanv
     const canvas=canvasRef.current;if(!canvas)return;
     let cancelled=false,lost=false;
     const cleanup:Array<()=>void>=[];
+    const dispose=()=>{
+      stateRef.current.rendererGpu?.destroy();stateRef.current.rendererGl?.destroy();
+      stateRef.current.rendererGpu=null;stateRef.current.rendererGl=null;stateRef.current.blitFn=null;stateRef.current.failFrame=null;
+      for(const release of cleanup.splice(0).reverse())release();
+    };
     const handleLoss=(backend:Backend,restartCycle=true)=>{
-      if(cancelled||lost)return;lost=true;stateRef.current.blitFn=null;
+      if(cancelled||lost)return;lost=true;dispose();
       if(restartCycle)onLoss(backend);else onFailure(backend);
     };
     const scale=pixelsPerUnit*dpr;
@@ -52,7 +57,7 @@ export function GelCanvas({bands,globalWarp,gelSize,pixelsPerUnit,wells}:GelCanv
           const {configureGl2Context}=await import('../../lib/gpu/gl/context');if(cancelled||lost)return;
           const {gl}=configureGl2Context(canvas);
           cleanup.push(watchGlLoss(canvas,()=>handleLoss('webgl2')));
-          cleanup.push(()=>{if(!canvas.isConnected)gl.getExtension('WEBGL_lose_context')?.loseContext();});
+          cleanup.push(()=>{if(lost||!canvas.isConnected)gl.getExtension('WEBGL_lose_context')?.loseContext();});
           const [{createGlGelRenderer},{createGlGelPresentation}]=await Promise.all([
             import('../../lib/gel/render-gl'),import('../../lib/gel/present-gl')]);
           if(cancelled||lost)return;
@@ -82,13 +87,9 @@ export function GelCanvas({bands,globalWarp,gelSize,pixelsPerUnit,wells}:GelCanv
           renderer.setBands(latestSceneRef.current.bands);renderer.setGlobalWarp(latestSceneRef.current.globalWarp);renderer.render();stateRef.current.blitFn();
         }
         if(!cancelled&&!lost)onSuccess();
-      }catch(error){if(!cancelled&&!lost){console.error('GelCanvas mount failed:',error);onFailure(backend);}}
+      }catch(error){if(!cancelled&&!lost){console.error('GelCanvas mount failed:',error);lost=true;dispose();onFailure(backend);}}
     })();
-    return()=>{
-      cancelled=true;stateRef.current.rendererGpu?.destroy();stateRef.current.rendererGl?.destroy();
-      stateRef.current.rendererGpu=null;stateRef.current.rendererGl=null;stateRef.current.blitFn=null;stateRef.current.failFrame=null;
-      for(const dispose of cleanup.reverse())dispose();
-    };
+    return()=>{cancelled=true;dispose();};
   },[gelSize.width,gelSize.height,pixelsPerUnit,dpr,attempt,forcedBackend,onFailure,onLoss,onSuccess]);
 
   useEffect(()=>{
