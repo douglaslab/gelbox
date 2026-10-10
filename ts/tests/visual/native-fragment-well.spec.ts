@@ -26,7 +26,6 @@ for (const scale of [1, 2]) test.describe(`fragment well compositor DPR${scale}`
       const { MolecularView } = await import('/src/lib/gel/molecularRuntime.ts');
       const { CinderRand } = await import('/src/lib/sim/rng.ts');
       const view = new MolecularView('reference', new CinderRand(1), { bounds: { x1: 0, y1: 0, x2: 303, y2: 520 } });
-      let scene: any = { selected: false, rollover: false };
       const Fixture = () => {
         const store = useGelStore();
         // Static native particle snapshot, with the production well component
@@ -37,7 +36,8 @@ for (const scale of [1, 2]) test.describe(`fragment well compositor DPR${scale}`
       };
       const host = document.createElement('div'); host.style.cssText = 'position:fixed;left:0;top:0;z-index:999;width:303px;height:520px;background:white'; document.body.append(host);
       createRoot(host).render(React.createElement(GelProvider, null, React.createElement(Fixture)));
-      (window as any).__particleScene = (next: any) => { scene = next; view.sim.parts = [next.part]; };
+      (window as any).__particleBackground = () => { host.style.background = 'rgb(255,0,255)'; };
+      (window as any).__particleScene = (next: any) => { view.sim.parts = [next.part]; };
     });
     const canvas = page.getByTestId('fragment-representative');
     await expect(canvas).toHaveAttribute('width', String(303 * scale));
@@ -70,5 +70,20 @@ for (const scale of [1, 2]) test.describe(`fragment well compositor DPR${scale}`
     }
     await fs.promises.writeFile(info.outputPath('comparison.json'), JSON.stringify(results, null, 2));
     expect(results.filter(r => r.differentChannels)).toEqual([]);
+    // The white native underlay applies only where geometry covers the panel.
+    // A contrasting host exposes accidental opaque full-panel output. The
+    // subquantum particle still covers white outside the well despite tiny fade.
+    await page.evaluate(scene => {
+      (window as any).__particleScene(scene);(window as any).__particleBackground();
+    }, cases.find((c:any)=>c.id==='large-subquantum'));
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+    const png=await page.screenshot({clip:{x:0,y:0,width:303,height:520}});
+    const pixels=await page.evaluate(async ({png,scale})=>{
+      const im=new Image();im.src='data:image/png;base64,'+png;await im.decode();
+      const c=document.createElement('canvas');c.width=im.width;c.height=im.height;
+      const ctx=c.getContext('2d')!;ctx.drawImage(im,0,0);
+      return [[10,10],[117,111],[170,130]].map(([x,y])=>Array.from(ctx.getImageData(x*scale,y*scale,1,1).data));
+    },{png:png.toString('base64'),scale});
+    expect(pixels).toEqual([[255,0,255,255],[241,241,241,255],[255,255,255,255]]);
   });
 });

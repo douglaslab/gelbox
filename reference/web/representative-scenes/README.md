@@ -11,7 +11,7 @@ PATH=/opt/homebrew/opt/node@22/bin:$PATH npm --prefix ts run test:visual -- \
   --output=/tmp/gel-representative-audit
 ```
 
-**All four tests currently fail exact parity.** Each completes its 18 image
+**This retained standalone-transparent audit fails exact parity.** Each completes its 18 image
 comparisons before asserting. Across both backends and scales, 16/18 scenes
 mismatch, with maximum channel error 102. All 72 measurements are retained in
 `before-*` reports.
@@ -46,3 +46,8 @@ and empty/near-zero-fade cases against those captures. Preserve native order
 (well, representative, heading/child controls), including overflow behavior,
 rather than painting an opaque rectangle over other controls. Full panel overlap
 and original-release GUI certification remain separate open requirements.
+
+The production FragmentWell now uses the shared underlay instead of this
+standalone transparent path. The [composed fragment audit](../fragment-well-scenes/README.md)
+passes all 60 native comparisons plus coverage checks in the normal suite. This
+older audit remains a reproducible record of the rejected composition strategy.

@@ -17,12 +17,37 @@ export function validatePresentationSize({width,height}:PresentationSize):void {
 /** A direct scene draws its triangles into the same samples as the wells. */
 export interface DirectPresentationBase {
   mesh:import('./mesh').Mesh;
+  underlay?:readonly PresentationLayer[];
   /** Opaque native display-domain background; defaults to gel black. */
   background?:readonly [number,number,number];
 }
-export interface PresentationOptions { meshBlend?:'additive'|'over' }
+export interface PresentationOptions {
+  meshBlend?:'additive'|'over';
+  /** Resolve covered pixels opaquely, leaving untouched pixels transparent.
+   * The caller must supply the actual opaque underlay color. */
+  cutout?:boolean;
+}
 export function physicalBandVertices(base:DirectPresentationBase,scale:number):Float32Array {
   const data=base.mesh.data.slice();
   for(let i=0;i<data.length;i+=6){data[i]*=scale;data[i+1]*=scale;}
   return data;
+}
+
+export interface PresentationLayer {
+  mesh:import('./mesh').Mesh;
+  topology?:'triangle-list'|'line-list';
+}
+
+/** Pack ordered geometry into one upload; the main mesh follows its underlay. */
+export function directPresentationGeometry(base:DirectPresentationBase,scale:number) {
+  const layers=[...(base.underlay??[]),{mesh:base.mesh} as PresentationLayer];
+  const count=layers.reduce((n,layer)=>n+layer.mesh.vertexCount,0);
+  const data=new Float32Array(count*6);
+  let first=0;
+  const draws=layers.map(({mesh,topology='triangle-list'})=>{
+    data.set(mesh.data.subarray(0,mesh.vertexCount*6),first*6);
+    const draw={first,count:mesh.vertexCount,topology};first+=mesh.vertexCount;return draw;
+  });
+  for(let i=0;i<data.length;i+=6){data[i]*=scale;data[i+1]*=scale;}
+  return {data,draws};
 }

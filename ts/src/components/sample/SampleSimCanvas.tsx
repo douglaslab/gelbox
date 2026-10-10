@@ -13,6 +13,7 @@ import { hexToLinearRgb } from '../../lib/layout/color';
 import { isDyeFragment } from '../../lib/sim/sample';
 import type { Sample } from '../../lib/sim/sample';
 import { DYE_COUNT } from '../../lib/sim/dye';
+import type { PresentationLayer } from '../../lib/gel/presentationTypes';
 import type { Mesh } from '../../lib/gel/mesh';
 
 /**
@@ -30,6 +31,8 @@ export interface SampleSimCanvasProps {
   /** Draw one representative from this existing engine; never create or tick another. */
   representativeFragment?: number;
   representativeCenter?: {x:number;y:number};
+  /** Known white panel underlay, drawn before the representative on one surface. */
+  representativeUnderlay?:readonly PresentationLayer[];
   width: number;
   height: number;
   /** Pointer-down on a particle → its fragment index (omit → non-interactive, e.g. loupe). */
@@ -64,6 +67,7 @@ export function SampleSimCanvas({
   viewKey,
   representativeFragment,
   representativeCenter,
+  representativeUnderlay,
   width,
   height,
   onPickFragment,
@@ -75,7 +79,8 @@ export function SampleSimCanvas({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const store = useGelStore();
   const sim = view.sim;
-  const transparent = representativeFragment !== undefined;
+  const composite = representativeUnderlay !== undefined;
+  const transparent = representativeFragment !== undefined && !composite;
   const handleRef = useRef<RenderHandle | null>(null);
   const hoverRef = useRef(false);
   const downRef = useRef(false);
@@ -132,10 +137,10 @@ export function SampleSimCanvas({
           const { gl } = configureGl2Context(canvas);
           cleanup.push(watchGlLoss(canvas,()=>handleLoss('webgl2')));
           cleanup.push(()=>{if(lost||!canvas.isConnected)gl.getExtension('WEBGL_lose_context')?.loseContext();});
-          // Transparent representatives retain their existing compositor until
-          // the native panel-compositing reference is established.
+          // Standalone transparent meshes remain available; fragment wells use
+          // the shared native underlay and coverage presentation.
           const batch = transparent ? createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' }) : null;
-          const makePresentation = () => createGlGelPresentation(gl, { width: canvas.width, height: canvas.height }, { meshBlend: 'over' });
+          const makePresentation = () => createGlGelPresentation(gl, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', cutout: composite });
           let presentation = transparent ? null : makePresentation();
           handleRef.current = {
             fail,
@@ -145,7 +150,7 @@ export function SampleSimCanvas({
             },
             draw: (mesh, bg, alpha=1) => {
               resize();if(lost)return;
-              if(presentation){presentation.draw({mesh,background:bg},[],window.devicePixelRatio||1);return;}
+              if(presentation){presentation.draw({mesh,background:bg,underlay:representativeUnderlay},[],window.devicePixelRatio||1);return;}
               batch!.draw(
                 { framebuffer: null, width: canvas.width, height: canvas.height },
                 mesh,
@@ -166,7 +171,7 @@ export function SampleSimCanvas({
           const { context, format } = configureContext(canvas, device);
           cleanup.push(()=>context.unconfigure());
           const batch = transparent ? createMeshBatch(device, { viewport: { width, height }, blend: 'over', format }) : null;
-          const makePresentation = () => createGelPresentation(device, format, { width: canvas.width, height: canvas.height }, { meshBlend: 'over' });
+          const makePresentation = () => createGelPresentation(device, format, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', cutout: composite });
           let presentation = transparent ? null : makePresentation();
           handleRef.current = {
             fail,
@@ -178,7 +183,7 @@ export function SampleSimCanvas({
               resize();if(lost)return;
               const enc = device.createCommandEncoder({ label: 'molsim' });
               if(presentation){
-                presentation.draw(enc,{mesh,background:bg},context.getCurrentTexture().createView(),[],window.devicePixelRatio||1);
+                presentation.draw(enc,{mesh,background:bg,underlay:representativeUnderlay},context.getCurrentTexture().createView(),[],window.devicePixelRatio||1);
                 device.queue.submit([enc.finish()]);return;
               }
               batch!.draw(enc, context.getCurrentTexture().createView(), mesh, {
@@ -205,7 +210,7 @@ export function SampleSimCanvas({
       cancelled = true;
       dispose();
     };
-  }, [width, height, transparent, attempt, forcedBackend, onFailure, onLoss, onSuccess]);
+  }, [width, height, transparent, composite, representativeUnderlay, attempt, forcedBackend, onFailure, onLoss, onSuccess]);
 
   // Draw after the application frame; acquiring a GPU never gates simulation.
   useEffect(() => store.subscribeFrame(() => {
@@ -220,11 +225,11 @@ export function SampleSimCanvas({
       const highlight:0|1|2=downRef.current?2:hoverRef.current?1:0;
       try { handle.draw(mesh,representativeFragment === undefined
         ? computeBackgroundColor(dyeMassesFromSample(view.sample),highlight)
-        : [0,0,0], representativeFragment === undefined ? 1 : 0); }
+        : composite ? [1,1,1] : [0,0,0], representativeFragment === undefined ? 1 : 0); }
       catch(error) { handle.fail(error); }
     }
     setTick(t=>(t+1)%1_000_000);
-  }),[store,view,sim,representativeFragment,representativeCenter,width,height]);
+  }),[store,view,sim,representativeFragment,representativeCenter,representativeUnderlay,composite,width,height]);
 
   const eventCoords = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;

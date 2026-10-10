@@ -1,3 +1,4 @@
+import { FRAGMENT_WELL_LAYERS } from '../../lib/gel/fragmentWellGeometry';
 import { LAYOUT } from '../../lib/layout/layout';
 import { useGelStore } from '../gel/GelContext';
 import { SampleSimCanvas } from '../sample/SampleSimCanvas';
@@ -7,13 +8,14 @@ export function FragmentWell({ fragmentIndex, testId }: {fragmentIndex:number;te
   const view=useGelStore().getMolecularView('sample');
   return <div data-testid={testId} style={{
     position:'relative',width:LAYOUT.fragViewWellSize.x,height:LAYOUT.fragViewWellSize.y,
-    borderRadius:LAYOUT.fragViewWellCornerRadius,background:LAYOUT.fragViewWellFill,
-    outline:`1px solid ${LAYOUT.fragViewWellStroke}`,
-    boxShadow:`0px ${LAYOUT.fragViewWellShadowOffset.y}px 0 ${LAYOUT.fragViewWellShadow}`,
+    borderRadius:LAYOUT.fragViewWellCornerRadius,background:view?'transparent':LAYOUT.fragViewWellFill,
+    outline:view?undefined:`1px solid ${LAYOUT.fragViewWellStroke}`,
+    boxShadow:view?undefined:`0px ${LAYOUT.fragViewWellShadowOffset.y}px 0 ${LAYOUT.fragViewWellShadow}`,
     overflow:'visible',
   }}>
     {view && <div style={{position:'absolute',left:-LAYOUT.fragViewWellTopLeft.x,top:-LAYOUT.fragViewWellTopLeft.y,pointerEvents:'none'}}>
     <SampleSimCanvas view={view} viewKey="fragment-preview"
+      representativeUnderlay={FRAGMENT_WELL_LAYERS}
       representativeFragment={fragmentIndex}
       representativeCenter={{x:LAYOUT.fragViewWellTopLeft.x+LAYOUT.fragViewWellSize.x/2,
         y:LAYOUT.fragViewWellTopLeft.y+LAYOUT.fragViewWellSize.y/2}}

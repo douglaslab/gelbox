@@ -620,3 +620,19 @@ with a coverage cutout, rather than another transparent RGBA8 composition step.
 Capture rounded well geometry and boundary-crossing particles before integrating;
 preserve heading/child ordering and verify overflow explicitly. This audit changes
 no production behavior and does not close the representative or full UI gate.
+
+
+### Shared fragment composition implemented
+
+Legacy Cinder rounded geometry and native boundary-crossing particle captures
+now support a shared well/representative surface. All 60 component RGB comparisons
+pass on both backends at DPR1/2. A separate coverage pass preserves untouched
+transparency and tiny-fade coverage, verified by a failed-then-passing contrasting
+background test. The four component tests are part of the normal suite.
+
+Validation: 2,909 unit tests, 515 browser cases (one intentional duplicate skip),
+and four production checks passed. Native references and regression goldens were
+not changed. Full panel draw order/overflow, original GUI replay, platform and
+performance gates remain next; this increment does not close P0–P5. See the
+[fragment composition review](superpowers/reports/2026-10-10-fragment-composition.md)
+for the deferred unused cutout/separate-well-lines API limitation.

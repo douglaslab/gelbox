@@ -18,7 +18,6 @@ test('original-release selected multimer follows tube move with hover enabled',a
  const strokes=await selected.evaluateAll(nodes=>nodes.map(n=>n.getAttribute('stroke')));
  expect(strokes.length).toBeGreaterThan(0);expect(strokes.every(s=>s!=='transparent')).toBe(true);
  await expect(page.getByTestId('sample-frame')).toHaveCSS('border-radius','0px');
- await expect(page.getByTestId('fragment-well')).toHaveCSS('background-color','rgb(241, 241, 241)');
  await expect(page.getByTestId('fragment-representative')).toBeVisible();
  await page.keyboard.press('Meta+l');
  await expect(page.getByTestId('hover-loupe')).toBeVisible();
@@ -61,7 +60,6 @@ test('Species preview draws the existing selected molecule and updates its color
    return red;
   },png);
  }).toBeGreaterThan(20);
- await expect(page.getByTestId('fragment-well')).toHaveCSS('background-color','rgb(241, 241, 241)');
  // The preview is a presentation of the sample view, not a second simulation.
  await expect(page.getByTestId('molecular-sim-canvas')).toHaveAttribute('data-molecular-view','sample');
 });

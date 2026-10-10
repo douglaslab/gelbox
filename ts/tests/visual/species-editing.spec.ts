@@ -26,7 +26,6 @@ test('create an empty sample, add species, edit, delete final species and save',
   await expect(page.getByTestId('fragment-view')).toBeVisible();
   await page.getByTestId('frag-size-icon-hi').click();
   await page.getByTestId('fragment-palette-swatch-11').click();
-  await expect(page.getByTestId('fragment-well')).toHaveCSS('background-color', 'rgb(241, 241, 241)');
   await expect(page.getByTestId('fragment-representative')).toBeVisible();
   await expect(page.locator('[data-testid^="band-"][data-lane-index="2"]').first()).toHaveAttribute('stroke', '#333333');
   const sample = await saveSample(page);

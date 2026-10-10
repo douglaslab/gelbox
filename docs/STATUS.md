@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Latest verification: 2026-10-10 · native dye-background parity · native reference `5f51097`._
+_Latest verification: 2026-10-10 · native fragment-well composition · native reference `5f51097`._
 
 ## Direction
 
@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include native well presentation, terminal-f
 | Check | Result |
 |---|---|
 | Unit suite | 2,909 passed |
-| Browser suite across WebGPU/WebGL2 | 511 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 515 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -2022,3 +2022,35 @@ repeat mesh and CGL captures; baseline and prototype each completed 72 browser
 comparisons and failed all four exact-parity tests as reported. After reverting
 the prototype, all 2,909 unit tests passed. Production source matches `8d577da`;
 no new full normal-browser/production result is claimed for this audit-only work.
+
+
+## Fragment well and representative composition correction
+
+The production fragment preview now draws the native rounded shadow, fill,
+one-physical-pixel stroke and representative together on an RGBA8 MSAA4 surface.
+A separate geometric coverage pass keeps untouched pixels transparent without
+requantizing faint-particle alpha. Covered pixels resolve once against the known
+white panel underlay and are then presented opaquely.
+
+All **60 independent native RGB comparisons** pass across WebGPU/WebGL2 at DPR
+1/2, including empty wells, degraded/multimer bodies, tiny fade and large particles
+crossing the well boundary. A contrasting-background test also proves untouched
+transparency and subquantum-fade coverage; an opaque-output mutation failed that
+check on all four configurations. These tests now join the normal browser suite.
+No native or existing regression screenshot was changed to obtain a pass.
+
+Fresh verification: **2,909 unit tests, 515 browser cases (one intentional
+duplicate skip), and four production root/subpath checks pass**, including the
+TypeScript/Vite build. Logs: `/tmp/gel-fragment-unit.log`,
+`/tmp/gel-fragment-full.log`, `/tmp/gel-fragment-production.log`.
+The [evidence](../reference/web/fragment-well-scenes/README.md) and
+[review](superpowers/reports/2026-10-10-fragment-composition.md) record exact scope.
+The reviewer found no Critical/Important issue in the active path. One unused
+API combination—cutout with separate gel-well lines—has a documented deferred
+coverage limitation; no current caller uses it.
+
+Heading/brace/control overlap, overflow beyond the panel canvas, original GUI
+certification, cross-platform raster and performance remain open. The old
+standalone transparent audit remains historical failing evidence of the rejected
+composition strategy, not a test of the production FragmentWell path. Full P0–P5
+gates remain open.
