@@ -104,6 +104,7 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view',p
         data-testid={`${testId}-presets`}
         onContextMenu={event=>event.preventDefault()}
         onPointerDown={event=>{
+          event.preventDefault(); // Native presets preserve the current keyboard owner.
           // BufferView::mouseDown picks the inset native rectangle immediately;
           // it does not filter mouse buttons or wait for mouse-up.
           const r=event.currentTarget.getBoundingClientRect();

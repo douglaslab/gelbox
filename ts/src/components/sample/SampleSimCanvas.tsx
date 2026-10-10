@@ -93,6 +93,15 @@ export function SampleSimCanvas({
   const handleRef = useRef<RenderHandle | null>(null);
   const hoverRef = useRef(false);
   const downRef = useRef(false);
+  const pointerRef=useRef<{clientX:number;clientY:number}|null>(null);
+  const backgroundHighlight=useCallback(():0|1|2=>{
+    if(readBackgroundHighlight)return readBackgroundHighlight(downRef.current);
+    const p=pointerRef.current,r=canvasRef.current?.getBoundingClientRect();
+    // Native SampleView picks at draw time: a particle can cross a stationary
+    // pointer without generating another input event.
+    if(p&&r&&r.width&&r.height&&sim.pickFragment((p.clientX-r.left)/r.width*width,(p.clientY-r.top)/r.height*height)>=0)return 0;
+    return downRef.current?2:hoverRef.current?1:0;
+  },[readBackgroundHighlight,sim,width,height]);
   const [, setTick] = useState(0);
   // GPU surface mount; retry replaces only the drawing canvas, not the live engine.
   useEffect(() => {
@@ -254,13 +263,13 @@ export function SampleSimCanvas({
         :buildRepresentativeMesh(sim.parts,representativeFragment,representativeCenter??{x:width/2,y:height/2},MESH_TUNING);
       const transform=[1,0,0,1,rect.left,rect.top] as const;
       if(representativeFragment!==undefined)return [...(representativeUnderlay??[]),{mesh}].map(op=>({...op,transform}));
-      const highlight:0|1|2=readBackgroundHighlight?.(downRef.current)??(downRef.current?2:hoverRef.current?1:0);
+      const highlight=backgroundHighlight();
       const bg=computeBackgroundColor(dyeMassesFromSample(view.sample),highlight);
       const focused=canvas.closest('[data-testid="sample-view"], [data-loupe-frame]')?.contains(document.activeElement);
       return [solidSceneRect(2,4,width-2,height+4,[0,0,0,focused ? .25 : .15]),solidSceneRect(0,0,width,height,bg),
         {mesh,scissor:nativeViewScissor(rect,frame.height,frame.scale)}].map(op=>({...op,transform}));
     });
-  },[shared,registry,viewKey,presentationKey,readBackgroundHighlight,view,store,sim,representativeFragment,representativeCenter,representativeUnderlay,width,height]);
+  },[shared,registry,viewKey,presentationKey,backgroundHighlight,view,store,sim,representativeFragment,representativeCenter,representativeUnderlay,width,height]);
 
   // Draw after the application frame; acquiring a GPU never gates simulation.
   useEffect(() => store.subscribeFrame(() => {
@@ -272,14 +281,14 @@ export function SampleSimCanvas({
       const mesh=representativeFragment === undefined
         ? buildMoleculesMesh(sim.parts,selected,rollover,MESH_TUNING)
         : buildRepresentativeMesh(sim.parts,representativeFragment,representativeCenter ?? {x:width/2,y:height/2},MESH_TUNING);
-      const highlight:0|1|2=downRef.current?2:hoverRef.current?1:0;
+      const highlight=backgroundHighlight();
       try { handle.draw(mesh,representativeFragment === undefined
         ? computeBackgroundColor(dyeMassesFromSample(view.sample),highlight)
         : [0,0,0], representativeFragment === undefined ? 1 : 0); }
       catch(error) { handle.fail(error); }
     }
     setTick(t=>(t+1)%1_000_000);
-  }),[store,view,sim,representativeFragment,representativeCenter,representativeUnderlay,composite,width,height]);
+  }),[store,view,sim,representativeFragment,representativeCenter,representativeUnderlay,composite,width,height,backgroundHighlight]);
 
   const eventCoords = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
@@ -314,6 +323,7 @@ export function SampleSimCanvas({
   const onPointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     // SampleView::mouseDown selects/toggles for every mouse button.
     e.preventDefault();
+    pointerRef.current={clientX:e.clientX,clientY:e.clientY};
     downRef.current = true;
     const c = eventCoords(e);
     if (!c) return;
@@ -326,15 +336,19 @@ export function SampleSimCanvas({
   }, [eventCoords, onPickFragment, onPickBackground, store, viewKey, sim]);
 
   const onPointerUp = useCallback((e: {clientX:number;clientY:number}) => {
+    pointerRef.current={clientX:e.clientX,clientY:e.clientY};
     downRef.current = false;
     hoverRef.current = document.elementFromPoint(e.clientX,e.clientY)===canvasRef.current;
   }, []);
 
   // Native mouse-down ownership survives leaving the view until release.
   useEffect(() => {
+    const move=(e:PointerEvent)=>{pointerRef.current={clientX:e.clientX,clientY:e.clientY};};
+    window.addEventListener('pointermove',move);
     window.addEventListener('pointerup', onPointerUp);
     window.addEventListener('pointercancel', onPointerUp);
     return () => {
+      window.removeEventListener('pointermove',move);
       window.removeEventListener('pointerup', onPointerUp);
       window.removeEventListener('pointercancel', onPointerUp);
     };

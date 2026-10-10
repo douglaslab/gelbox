@@ -269,3 +269,39 @@ opens it synchronously on activation. Twelve focused real-pointer workflows pass
 in both modes/backends; full verification passes 893 browser cases (one intentional
 duplicate skipped), 2,924 units, build and four production checks.
 Whole-GUI button chords and rollover histories remain integrated acceptance gates.
+
+
+### Independent whole-migration review (a47e1bc)
+
+Fresh read-only review covered `d676ac5..a47e1bc`: ordered backend operations,
+post-commit presentation, ownership/recovery, native paint/input integration and
+evidence scope. No Critical issue was found. Three Important findings were
+reproduced with failing browser regressions, fixed and independently rechecked.
+Full verification passes 941 browser cases (one intentional duplicate skipped),
+2,924 units, build and four legacy production checks:
+
+- Species labels used ambient locale formatting. French narrow spaces and Arabic
+  digits could make the ASCII native font shaper fail the entire shared scene.
+  Labels now use the native ASCII comma grouping; French/Arabic cases cover both
+  backends and presentation modes.
+- Ordinary sample backgrounds tinted over molecules. Background picking now runs
+  against current particle positions each draw, including a particle crossing a
+  stationary pointer. Both legacy and shared paths use the same decision.
+- Buffer preset pointer presses transferred keyboard focus to the HTML button.
+  Preventing default pointer focus retains native sample Tab behavior while
+  deliberate keyboard activation remains available.
+
+The reviewer approved the architecture for continued integrated acceptance with
+these fixes, not production migration. The built-app root/subpath checks still
+exercise the legacy compositor. Review did not certify original-release full GUI,
+Safari/Firefox, driver reset/resident memory, combined performance or exhaustive
+button-chord/rollover histories; those remain required gates. Disabled native
+rotation remains outside reachable parity scope.
+
+Next integrated acceptance must cover full-window native startup and populated
+sample hover/press histories, presets followed by keyboard input, overlapping
+controls/images/representatives, both gel rendering modes and both backends.
+Existing exact component captures and combined hidden-lane workflows provide
+inputs to that audit, not a substitute for it. Production switching and removal
+of duplicate paint follow acceptance, then built shared-renderer root/subpath,
+exact edge/solid, browser, lifecycle and performance verification.

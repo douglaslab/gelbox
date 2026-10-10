@@ -20,8 +20,10 @@ const ASPECT_MIN = 1;
 const ASPECT_MAX = 16;
 const AGG_MAX_MULTIMER = 7;
 
-function fmtBp(v: number): string  { return `${Math.round(v).toLocaleString()} bp`; }
-function fmtNg(v: number): string  { return `${Math.round(v).toLocaleString()} ng`; }
+// FragmentView::addCommasToNumericStr uses ASCII commas, independent of locale.
+function fmtInteger(v:number):string { return String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function fmtBp(v: number): string  { return `${fmtInteger(v)} bp`; }
+function fmtNg(v: number): string  { return `${fmtInteger(v)} ng`; }
 function fmtAsp(v: number): string { return `${Math.round(v)} : 1`; }
 
 /**

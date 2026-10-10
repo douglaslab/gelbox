@@ -49,14 +49,18 @@ particle paint after frame movement, resize and keyboard ownership pass. Gel/app
 release inside with every mouse button; release-outside, canceled capture,
 keyboard activation and sample focus pass. Actual Help popup navigation remains
 covered. Tube middle-button movement/cloning and Meta-loupe creation now follow
-native branch precedence, including capture loss and keyboard focus. Integrated
-acceptance and independent review still gate production enablement.
+native branch precedence, including capture loss and keyboard focus. Independent whole-migration review found three issues, now fixed and independently
+rechecked: locale-dependent labels could stop shared drawing, sample backgrounds
+tinted over molecules, and buffer presets stole keyboard focus. French/Arabic
+labels, draw-time particle hit changes and preset-to-Tab workflows now pass.
+Integrated full-window acceptance still gates production enablement; existing
+built-app deployment checks cover the legacy compositor.
 
 | Check | Result |
 |---|---|
 | Unit suite | 2,924 passed |
-| Browser suite across WebGPU/WebGL2 | 925 passed; one intentional duplicate skipped |
-| Built-app root/subpath checks | 4 Chromium passed |
+| Browser suite across WebGPU/WebGL2 | 941 passed; one intentional duplicate skipped |
+| Built-app legacy root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
 
