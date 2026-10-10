@@ -93,8 +93,11 @@ existing development flag. Scientific resource ownership, render invalidation,
 startup native pixels, repeated mode switching and mixed gel/sample/fragment
 overlaps are verified. Loupes now register anchor/callout/frame paint around their
 shared particle body, with24 exact native comparisons and shared interaction/
-recovery coverage. Reference images, remaining transforms and combined workflows
-remain open; these increments do not close Task3.
+recovery coverage. Reference images now contribute native image/resize/focus paint,
+with20 exact scene comparisons and28 exact native texture/mip comparisons. Async
+disposal, backend recovery and both-mode image interactions are covered. Remaining
+transforms, combined workflows and broader codec evidence remain open; these
+increments do not close Task3.
 
 Files: `GelCanvas.tsx`, `DirectBandCanvas.tsx`, `Loupe.tsx`,
 `ReferenceImageLayer.tsx`, scene registry and presentation asset owner.

@@ -9,7 +9,7 @@ export class ReferenceImageStore {
  private generation=0;
  private active=true;
  private nextId=1;
- constructor(private decode:(file:File)=>Promise<ImageBitmap> = file=>createImageBitmap(file)){}
+ constructor(private decode:(file:File)=>Promise<ImageBitmap> = file=>createImageBitmap(file,{premultiplyAlpha:'none',colorSpaceConversion:'none',imageOrientation:'none'})){}
  getSnapshot=()=>this.entries;
  subscribe=(listener:()=>void)=>{this.listeners.add(listener);return()=>{this.listeners.delete(listener);};};
  private publish(entries:ReferenceImage[]){this.entries=entries;this.listeners.forEach(fn=>fn());}

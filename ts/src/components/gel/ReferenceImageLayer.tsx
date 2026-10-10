@@ -1,3 +1,5 @@
+import {useSharedPresentation} from './ScenePresentation';
+import {SharedReferenceImage} from './SharedReferenceImage';
 import {createContext,useContext,useEffect,useLayoutEffect,useRef,useState,useSyncExternalStore,type ReactNode,type PointerEvent} from 'react';
 import {ReferenceImageStore,type ReferenceImage} from '../../lib/gel/referenceImages';
 import {imageGesture,imageGestureMode,imageIntersectsWindow,type Point} from '../../lib/gel/imageGeometry';
@@ -12,14 +14,15 @@ export function ReferenceImageProvider({children}:{children:ReactNode}){
 export function useReferenceImages(){const store=useContext(Context);if(!store)throw new Error('Missing reference image provider');return store;}
 const point=(e:{clientX:number;clientY:number}):Point=>({x:Math.trunc(e.clientX),y:Math.trunc(e.clientY)});
 function ImageView({image}:{image:ReferenceImage}){
+ const registry=useSharedPresentation();
  const store=useReferenceImages(),root=useRef<HTMLDivElement>(null),canvas=useRef<HTMLCanvasElement>(null);
  const [focused,setFocused]=useState(false);
  const {zIndex}=useViewLayer(`image-${image.id}`);
  const gesture=useRef<{pointerId:number;mode:'drag'|'resize';start:Rect;down:Point;frame:Rect;previous:Point}|null>(null);
  useLayoutEffect(()=>{
-  const ctx=canvas.current!.getContext('2d')!;ctx.drawImage(image.bitmap,0,0);
+  if(!registry){const ctx=canvas.current!.getContext('2d')!;ctx.drawImage(image.bitmap,0,0);}
   root.current?.focus({preventScroll:true});
- },[image.bitmap]);
+ },[image.bitmap,registry]);
  const end=(e:PointerEvent,removeOutside:boolean)=>{
   const g=gesture.current;if(!g||g.pointerId!==e.pointerId)return;
   gesture.current=null;
@@ -42,9 +45,10 @@ function ImageView({image}:{image:ReferenceImage}){
    g.previous=current;store.update(image.id,g.frame);
   }}
   onPointerUp={e=>end(e,true)} onPointerCancel={e=>end(e,true)} onLostPointerCapture={()=>{gesture.current=null;}}
-  style={{position:'fixed',left:image.frame.x1,top:image.frame.y1,width:image.frame.x2-image.frame.x1,height:image.frame.y2-image.frame.y1,zIndex,outline:focused?'4px solid rgb(255,255,128)':'none',outlineOffset:0,touchAction:'none',userSelect:'none'}}>
-  <canvas ref={canvas} data-testid={`reference-image-canvas-${image.id}`} width={image.bitmap.width} height={image.bitmap.height} style={{display:'block',width:'100%',height:'100%',pointerEvents:'none'}}/>
-  <div data-testid={`reference-image-handle-${image.id}`} style={{position:'absolute',right:0,bottom:0,width:16,height:16,background:'rgb(191,191,191)',outline:'1px solid rgb(89,89,89)',outlineOffset:'-.5px',pointerEvents:'none'}}/>
+  style={{position:'fixed',left:image.frame.x1,top:image.frame.y1,width:image.frame.x2-image.frame.x1,height:image.frame.y2-image.frame.y1,zIndex,outline:focused&&!registry?'4px solid rgb(255,255,128)':'none',outlineOffset:0,touchAction:'none',userSelect:'none'}}>
+  <canvas ref={canvas} data-testid={`reference-image-canvas-${image.id}`} width={image.bitmap.width} height={image.bitmap.height} style={{display:'block',width:'100%',height:'100%',pointerEvents:'none',opacity:registry?0:undefined}}/>
+  <div data-testid={`reference-image-handle-${image.id}`} style={{position:'absolute',right:0,bottom:0,width:16,height:16,background:'rgb(191,191,191)',outline:'1px solid rgb(89,89,89)',outlineOffset:'-.5px',pointerEvents:'none',opacity:registry?0:undefined}}/>
+ {registry&&<SharedReferenceImage registry={registry} image={image} root={root} canvas={canvas}/>}
  </div>;
 }
 export function ReferenceImageLayer(){const store=useReferenceImages(),images=useSyncExternalStore(store.subscribe,store.getSnapshot);return <>{images.map(image=><ImageView key={image.id} image={image}/>)}</>;}

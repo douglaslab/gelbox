@@ -1,0 +1,87 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceSha256": "af9de7276de1cad5569482afc57db7cc95d140e702353f0ed15a8810012118ee",
+  "extractedSha256": "2f979e93d2f1e2f37aa2440e6b6d28fe1d31784720c59603c328055b250c197c",
+  "inputs": {
+    "driver.cpp": "1b719617f98e0a285575b2b84a6dacf34a9ffaa4c60e1ca1f515ef918128d284",
+    "textures.cpp": "e84a284b861c3e26ce7be31233e4bd3312263acb475df0063c63ec891d20ec30",
+    "cases.json": "fad6340987c17cceb32bd515fc0b73a732fefe0ef817c30750bf11d2c41deb9a",
+    "alpha.png": "c8e69d88fca910c234285e2355800bee5b08023ef1580251f8eff6086283a9a4",
+    "odd.png": "c1cc654285c7dda173ed12081892e712f3aa0fb920882a9b7e18ce9c124f1d4e",
+    "textures.json": "4c38f6c49140fb292fcd0c663c485e3e0c17ec3b2892a76a7b3d905bc68c73fd"
+  },
+  "executables": {
+    "image-textures": "624bc8d49c4da7d5cc3a8d82f8c92a646c93338839caa8f01b6de7cbc1fb4d42",
+    "image-scenes": "f944a0362d66aee47beb771bdf290b16a8c5c97635fc71f96aab657fef61033a"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "cases": [
+    {
+      "id": "native-focused-1",
+      "scene": "native-focused",
+      "scale": 1,
+      "sha256": "80f8d3395de6893eedc4d96d3726e0bc0e1b613afbe0da580227c81345f18df5"
+    },
+    {
+      "id": "native-focused-2",
+      "scene": "native-focused",
+      "scale": 2,
+      "sha256": "2f96c78112ce15917cd6b170833245b51a095b68b3ec0a5c996adfd8713a4f07"
+    },
+    {
+      "id": "native-covered-1",
+      "scene": "native-covered",
+      "scale": 1,
+      "sha256": "0c18c5cb6dfc30a0e7f4948d3b1af9fe05eafdf5de57609998eacf06aa1f482e"
+    },
+    {
+      "id": "native-covered-2",
+      "scene": "native-covered",
+      "scale": 2,
+      "sha256": "c9baf3abef38c59365d5f630f3ae45d6b09a7cad11b0d5695ae8f8c0aa294551"
+    },
+    {
+      "id": "magnified-1",
+      "scene": "magnified",
+      "scale": 1,
+      "sha256": "5e256befe55fe56d7e2e39496951ba6e6fd57af77f8dbd1705099f8ec05d11c2"
+    },
+    {
+      "id": "magnified-2",
+      "scene": "magnified",
+      "scale": 2,
+      "sha256": "30c09e52dbbce50e320bb94d57f6cba0af35b0be2f23ee685d5ffdcdd833c362"
+    },
+    {
+      "id": "minified-1",
+      "scene": "minified",
+      "scale": 1,
+      "sha256": "629f980284b7bc4adf38160f54f5c95949254f24ff1b102b9b0f4a27091e5476"
+    },
+    {
+      "id": "minified-2",
+      "scene": "minified",
+      "scale": 2,
+      "sha256": "676f9e2afe38f3448de0be018a07cb429c78c227fa2789cb8fc7b8edf246e4dd"
+    },
+    {
+      "id": "odd-minified-1",
+      "scene": "odd-minified",
+      "scale": 1,
+      "sha256": "c8cd5baf27610e93b8e996386eac6ed477927d309d72d09033636283f552bef0"
+    },
+    {
+      "id": "odd-minified-2",
+      "scene": "odd-minified",
+      "scale": 2,
+      "sha256": "384c5b51e63c6db022e7c52e2088fb6ca69cad870528f66f669739b2fc56be8c"
+    }
+  ],
+  "limits": [
+    "Pinned ImageView draw/drawFrame/resize-box methods verbatim with frame/focus adapters, modern Cinder actual decode/Texture2d/drawing.",
+    "Standalone CGL RGBA8 MSAA4, positive-Y projection and raw row order; not original-release GUI.",
+    "8-bit PNG fixtures only; native texture levels are bottom-up, browser canonical image levels are top-down."
+  ]
+}

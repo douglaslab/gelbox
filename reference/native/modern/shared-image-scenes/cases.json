@@ -1,0 +1,62 @@
+[
+  {
+    "id": "native-focused",
+    "asset": "alpha",
+    "frame": [
+      80.25,
+      50.75,
+      208.25,
+      114.75
+    ],
+    "focused": true,
+    "front": false
+  },
+  {
+    "id": "native-covered",
+    "asset": "alpha",
+    "frame": [
+      80.25,
+      50.75,
+      208.25,
+      114.75
+    ],
+    "focused": true,
+    "front": true
+  },
+  {
+    "id": "magnified",
+    "asset": "alpha",
+    "frame": [
+      60.5,
+      40.25,
+      316.5,
+      168.25
+    ],
+    "focused": false,
+    "front": false
+  },
+  {
+    "id": "minified",
+    "asset": "alpha",
+    "frame": [
+      150.25,
+      60.75,
+      182.25,
+      76.75
+    ],
+    "focused": true,
+    "front": false
+  },
+  {
+    "id": "odd-minified",
+    "asset": "odd",
+    "frame": [
+      83.25,
+      40.75,
+      113.75,
+      59.25
+    ],
+    "focused": false,
+    "front": false
+  }
+]

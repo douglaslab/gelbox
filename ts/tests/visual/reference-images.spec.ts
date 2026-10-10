@@ -1,8 +1,10 @@
 import {openSampleSettings} from './sample-helpers';
 import {test,expect,type Page} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
+for(const shared of [false,true])test.describe(`shared:${shared}`,()=>{
 test.beforeEach(async({page},info)=>{
- await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.includes('webgl2')?'webgl2':'webgpu');
+ await page.addInitScript(({b,shared})=>{localStorage.setItem('gelBackend',b);if(shared)localStorage.setItem('gelSharedPresentation','1');},{b:info.project.name.includes('webgl2')?'webgl2':'webgpu',shared});
+ await page.route('**/src/components/gel/ReferenceImageLayer.tsx*',async route=>{const response=await route.fetch(),body=await response.text();const next=body.replace('const [store] = useState(() => new ReferenceImageStore());','const [store] = useState(() => new ReferenceImageStore()); globalThis.__referenceImages = store;');expect(next).not.toBe(body);await route.fulfill({response,body:next});});
  await page.setViewportSize({width:1365,height:768});await page.goto('/#/gel');
 });
 async function drop(page:Page,files:{name:string;color?:string;bytes?:number[];text?:string}[],x=180,y=140){
@@ -17,7 +19,7 @@ async function drop(page:Page,files:{name:string;color?:string;bytes?:number[];t
   document.querySelector('[data-testid="gel-page"]')!.dispatchEvent(new DragEvent('drop',{bubbles:true,cancelable:true,dataTransfer:data,clientX:x,clientY:y}));
  },{files,x,y});
 }
-async function pixel(page:Page,id=1){return page.getByTestId(`reference-image-canvas-${id}`).evaluate((c:HTMLCanvasElement)=>Array.from(c.getContext('2d')!.getImageData(0,0,1,1).data));}
+async function pixel(page:Page,id=1){return page.evaluate(id=>{const bitmap=(window as any).__referenceImages.getSnapshot().find((image:any)=>image.id===id).bitmap;const canvas=new OffscreenCanvas(1,1),ctx=canvas.getContext('2d')!;ctx.drawImage(bitmap,0,0);return Array.from(ctx.getImageData(0,0,1,1).data);},id);}
 async function top(page:Page,x:number,y:number){return page.evaluate(({x,y})=>document.elementFromPoint(x,y)?.closest('[data-reference-image],[data-loupe-id]')?.getAttribute('data-testid'),{x,y});}
 test('PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position',async({page})=>{
  expect(await page.getByRole('button',{name:'Application settings'}).boundingBox()).toEqual({x:16,y:720,width:32,height:32});
@@ -148,7 +150,7 @@ test('application settings preserves image keyboard ownership until a sample tak
  await drop(page,[{name:'a.png'}]);
  const image=page.getByTestId('reference-image-1');await expect(image).toBeFocused();
  await page.getByRole('button',{name:'Application settings'}).click();
- await expect(image).toBeFocused();await expect(image).toHaveCSS('outline-color','rgb(255, 255, 128)');
+ await expect(image).toBeFocused();if(!shared)await expect(image).toHaveCSS('outline-color','rgb(255, 255, 128)'); // Shared frame is checked against native pixels.
  await page.keyboard.press('Backspace');await expect(image).toHaveCount(0);
  await drop(page,[{name:'b.png'}],1200,650);const second=page.getByTestId('reference-image-2');await expect(second).toBeFocused();
  await page.getByTestId('microtube-0').click();
@@ -174,4 +176,6 @@ test('earlier reference image remains visible through empty Species panel space'
   return Array.from(ctx.getImageData(0,0,1,1).data);
  },png.toString('base64'));
  expect(rgba).toEqual([255,0,0,255]);
+});
+
 });
