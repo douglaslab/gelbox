@@ -1,0 +1,284 @@
+[
+  {
+    "id": "empty-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "empty-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "body-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "body-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "blur-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "blur-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "below-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "below-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "above-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "above-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "flame-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "flame-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "equal-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "equal-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "negative-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "negative-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "all-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "all-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "fractional-2-0",
+    "different": 81,
+    "max": 47,
+    "first": [
+      {
+        "x": 0,
+        "y": 0,
+        "channel": 0,
+        "native": 48,
+        "web": 1
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "channel": 1,
+        "native": 50,
+        "web": 3
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "channel": 2,
+        "native": 51,
+        "web": 4
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "channel": 0,
+        "native": 48,
+        "web": 1
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "channel": 1,
+        "native": 50,
+        "web": 3
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "channel": 2,
+        "native": 51,
+        "web": 4
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "channel": 0,
+        "native": 48,
+        "web": 1
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "channel": 1,
+        "native": 50,
+        "web": 3
+      }
+    ]
+  },
+  {
+    "id": "fractional-2-1",
+    "different": 81,
+    "max": 47,
+    "first": [
+      {
+        "x": 0,
+        "y": 0,
+        "channel": 0,
+        "native": 48,
+        "web": 1
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "channel": 1,
+        "native": 50,
+        "web": 3
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "channel": 2,
+        "native": 51,
+        "web": 4
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "channel": 0,
+        "native": 48,
+        "web": 1
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "channel": 1,
+        "native": 50,
+        "web": 3
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "channel": 2,
+        "native": 51,
+        "web": 4
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "channel": 0,
+        "native": 48,
+        "web": 1
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "channel": 1,
+        "native": 50,
+        "web": 3
+      }
+    ]
+  },
+  {
+    "id": "zero-brightness-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "zero-brightness-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "negative-below-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "negative-below-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "negative-blur-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "negative-blur-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "overlap-2-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "overlap-2-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  }
+]

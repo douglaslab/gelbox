@@ -13,3 +13,11 @@ export function validatePresentationSize({width,height}:PresentationSize):void {
   if(!Number.isInteger(width)||!Number.isInteger(height)||width<1||height<1)
     throw new Error('Gel presentation requires positive integer pixel dimensions');
 }
+
+/** A direct scene draws its triangles into the same samples as the wells. */
+export interface DirectPresentationBase {mesh:import('./mesh').Mesh}
+export function physicalBandVertices(base:DirectPresentationBase,scale:number):Float32Array {
+  const data=base.mesh.data.slice();
+  for(let i=0;i<data.length;i+=6){data[i]*=scale;data[i+1]*=scale;}
+  return data;
+}

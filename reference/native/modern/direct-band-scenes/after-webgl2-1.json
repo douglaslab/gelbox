@@ -1,0 +1,170 @@
+[
+  {
+    "id": "empty-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "empty-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "body-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "body-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "blur-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "blur-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "below-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "below-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "above-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "above-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "flame-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "flame-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "equal-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "equal-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "negative-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "negative-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "all-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "all-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "fractional-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "fractional-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "zero-brightness-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "zero-brightness-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "negative-below-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "negative-below-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "negative-blur-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "negative-blur-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "overlap-1-0",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "overlap-1-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  }
+]

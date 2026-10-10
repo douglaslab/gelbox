@@ -1,12 +1,13 @@
-import {validatePresentationSize,wellVertices,type PresentationSize,type WellRect} from './presentationTypes';
+import {validatePresentationSize,wellVertices,physicalBandVertices,type DirectPresentationBase,type PresentationSize,type WellRect} from './presentationTypes';
 
-/** Native window presentation: linear gel enlargement, then four-sample well lines. */
+/** Native window presentation: image or direct triangles, then four-sample well lines. */
 export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,size:PresentationSize) {
   validatePresentationSize(size);
   const {width,height}=size;
   const owned:Array<{destroy():void}>=[];
   let vertices:GPUBuffer|undefined,capacity=0,destroyed=false;
-  const destroy=()=>{if(destroyed)return;destroyed=true;vertices?.destroy();for(const resource of owned.reverse())resource.destroy();};
+  let bandVertices:GPUBuffer|undefined,bandCapacity=0,bandPipeline:GPURenderPipeline|undefined;
+  const destroy=()=>{if(destroyed)return;destroyed=true;vertices?.destroy();bandVertices?.destroy();for(const resource of owned.reverse())resource.destroy();};
   try {
     const samples=device.createTexture({label:'gel-presentation-msaa',size:[width,height],format:'rgba8unorm',sampleCount:4,usage:GPUTextureUsage.RENDER_ATTACHMENT|GPUTextureUsage.TEXTURE_BINDING});owned.push(samples);
     const sampleView=samples.createView();
@@ -41,7 +42,7 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
     const resolveGroup=device.createBindGroup({layout:resolvePipeline.getBindGroupLayout(0),entries:[{binding:0,resource:sampleView}]});
     let previousBase:GPUTextureView|undefined,baseGroup:GPUBindGroup;
     return {
-      draw(encoder:GPUCommandEncoder,base:GPUTextureView,target:GPUTextureView,wells:readonly WellRect[],scale:number) {
+      draw(encoder:GPUCommandEncoder,base:GPUTextureView|DirectPresentationBase,target:GPUTextureView,wells:readonly WellRect[],scale:number) {
         if(destroyed)throw new Error('Gel presentation has been destroyed');
         const data=wellVertices(wells,scale);
         if(data.byteLength>capacity){
@@ -50,9 +51,29 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
           vertices?.destroy();vertices=next;capacity=nextCapacity;
         }
         if(data.byteLength)device.queue.writeBuffer(vertices!,0,data);
-        if(base!==previousBase){baseGroup=device.createBindGroup({layout:basePipeline.getBindGroupLayout(0),entries:[{binding:0,resource:base},{binding:1,resource:sampler}]});previousBase=base;}
+        const direct='mesh' in base;
+        if(!direct&&base!==previousBase){baseGroup=device.createBindGroup({layout:basePipeline.getBindGroupLayout(0),entries:[{binding:0,resource:base},{binding:1,resource:sampler}]});previousBase=base;}
+        if(direct){
+          if(!bandPipeline){
+            const module=device.createShaderModule({label:'gel-presentation-bands',code:`
+              struct Out {@builtin(position) p:vec4f,@location(0) color:vec4f};
+              @vertex fn vs(@location(0) p:vec2f,@location(1) color:vec4f)->Out {
+                var o:Out;o.p=vec4f(p.x/${width}.*2.-1.,1.-p.y/${height}.*2.,0.,1.);o.color=color;return o;
+              }
+              @fragment fn fs(o:Out)->@location(0) vec4f {return o.color;}`});
+            bandPipeline=device.createRenderPipeline({label:'gel-presentation-bands',layout:'auto',vertex:{module,entryPoint:'vs',buffers:[{arrayStride:24,attributes:[{shaderLocation:0,offset:0,format:'float32x2'},{shaderLocation:1,offset:8,format:'float32x4'}]}]},fragment:{module,entryPoint:'fs',targets:[{format:'rgba8unorm',blend:{color:{srcFactor:'src-alpha',dstFactor:'one'},alpha:{srcFactor:'zero',dstFactor:'one'}}}]},multisample:{count:4}});
+          }
+          const data=physicalBandVertices(base,scale);
+          if(data.byteLength>bandCapacity){
+            const nextCapacity=Math.max(1024,2**Math.ceil(Math.log2(data.byteLength)));
+            const next=device.createBuffer({label:'gel-presentation-band-vertices',size:nextCapacity,usage:GPUBufferUsage.VERTEX|GPUBufferUsage.COPY_DST});
+            bandVertices?.destroy();bandVertices=next;bandCapacity=nextCapacity;
+          }
+          if(data.byteLength)device.queue.writeBuffer(bandVertices!,0,data);
+        }
         const pass=encoder.beginRenderPass({label:'gel-presentation',colorAttachments:[{view:sampleView,loadOp:'clear',storeOp:'store',clearValue:{r:0,g:0,b:0,a:1}}]});
-        pass.setPipeline(basePipeline);pass.setBindGroup(0,baseGroup!);pass.draw(3);
+        if(direct){if(base.mesh.vertexCount){pass.setPipeline(bandPipeline!);pass.setVertexBuffer(0,bandVertices!);pass.draw(base.mesh.vertexCount);}}
+        else{pass.setPipeline(basePipeline);pass.setBindGroup(0,baseGroup!);pass.draw(3);}
         if(wells.length){pass.setPipeline(linePipeline);pass.setVertexBuffer(0,vertices!);for(let i=0;i<wells.length;i++)pass.draw(5,1,i*5);}
         pass.end();
         const resolve=encoder.beginRenderPass({label:'gel-presentation-resolve',colorAttachments:[{view:target,loadOp:'clear',storeOp:'store',clearValue:{r:0,g:0,b:0,a:1}}]});

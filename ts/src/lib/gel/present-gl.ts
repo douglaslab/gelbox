@@ -1,12 +1,13 @@
 import {createGlProgram} from '../gpu/gl/program';
-import {validatePresentationSize,wellVertices,type PresentationSize,type WellRect} from './presentationTypes';
+import {validatePresentationSize,wellVertices,physicalBandVertices,type DirectPresentationBase,type PresentationSize,type WellRect} from './presentationTypes';
 
-/** GL input textures have their logical top at v=1. The final blit flips the
+/** Direct triangles share the well multisample surface. GL input textures have their logical top at v=1. The final blit flips the
  * reflected MSAA raster into the canvas; changing that order changes corners. */
 export function createGlGelPresentation(gl:WebGL2RenderingContext,size:PresentationSize) {
   validatePresentationSize(size);
   const {width,height}=size,cleanup:Array<()=>void>=[];
   let destroyed=false,capacity=0;
+  let bandProgram:ReturnType<typeof createGlProgram>|undefined,bandVertices:WebGLBuffer|undefined,bandCapacity=0;
   const destroy=()=>{if(destroyed)return;destroyed=true;for(const dispose of cleanup.reverse())dispose();};
   const required=<T>(value:T|null,label:string):T=>{if(value===null)throw new Error('Could not allocate '+label);return value;};
   try {
@@ -32,12 +33,34 @@ export function createGlGelPresentation(gl:WebGL2RenderingContext,size:Presentat
     const location=lines.attrib('p');
     gl.bindFramebuffer(gl.FRAMEBUFFER,null);
     return {
-      draw(base:WebGLTexture,wells:readonly WellRect[],scale:number) {
+      draw(base:WebGLTexture|DirectPresentationBase,wells:readonly WellRect[],scale:number) {
         if(destroyed)throw new Error('Gel presentation has been destroyed');
         gl.bindFramebuffer(gl.FRAMEBUFFER,msaa);gl.viewport(0,0,width,height);
         gl.disable(gl.SCISSOR_TEST);gl.disable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);gl.disable(gl.BLEND);
         gl.colorMask(true,true,true,true);gl.clearColor(0,0,0,1);gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.bindVertexArray(vao);gl.useProgram(baseProgram.program);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,base);gl.uniform1i(baseProgram.uniform('base'),0);gl.drawArrays(gl.TRIANGLES,0,3);
+        gl.bindVertexArray(vao);
+        if('mesh' in base){
+          if(!bandProgram){
+            bandProgram=createGlProgram(gl,`
+              in vec2 p;in vec4 c;out vec4 tint;
+              void main(){gl_Position=vec4(p.x/${width}.*2.-1.,p.y/${height}.*2.-1.,0.,1.);tint=c;}`,`
+              in vec4 tint;out vec4 color;void main(){color=tint;}`,'gel-presentation-bands');
+            const program=bandProgram;cleanup.push(()=>program.destroy());
+          }
+          const data=physicalBandVertices(base,scale);
+          if(data.byteLength){
+            if(!bandVertices){bandVertices=required(gl.createBuffer(),'gel presentation bands');const buffer=bandVertices;cleanup.push(()=>gl.deleteBuffer(buffer));}
+            gl.bindBuffer(gl.ARRAY_BUFFER,bandVertices);
+            if(data.byteLength>bandCapacity){bandCapacity=Math.max(1024,2**Math.ceil(Math.log2(data.byteLength)));gl.bufferData(gl.ARRAY_BUFFER,bandCapacity,gl.DYNAMIC_DRAW);}
+            gl.bufferSubData(gl.ARRAY_BUFFER,0,data);gl.useProgram(bandProgram.program);
+            const p=bandProgram.attrib('p'),c=bandProgram.attrib('c');gl.enableVertexAttribArray(p);gl.enableVertexAttribArray(c);
+            gl.vertexAttribPointer(p,2,gl.FLOAT,false,24,0);gl.vertexAttribPointer(c,4,gl.FLOAT,false,24,8);
+            gl.enable(gl.BLEND);gl.blendEquation(gl.FUNC_ADD);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE,gl.ZERO,gl.ONE);
+            gl.drawArrays(gl.TRIANGLES,0,base.mesh.vertexCount);gl.disableVertexAttribArray(p);gl.disableVertexAttribArray(c);
+          }
+        }else{
+          gl.useProgram(baseProgram.program);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,base);gl.uniform1i(baseProgram.uniform('base'),0);gl.drawArrays(gl.TRIANGLES,0,3);
+        }
         if(wells.length){
           const data=wellVertices(wells,scale);gl.bindBuffer(gl.ARRAY_BUFFER,vertices);
           if(data.byteLength>capacity){capacity=Math.max(1024,2**Math.ceil(Math.log2(data.byteLength)));gl.bufferData(gl.ARRAY_BUFFER,capacity,gl.DYNAMIC_DRAW);}
