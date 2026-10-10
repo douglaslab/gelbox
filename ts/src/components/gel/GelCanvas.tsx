@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import type { GlobalWarp } from '../../lib/sim/globalWarp';
 import type { Band } from '../../lib/sim/band';
-import { selectBackend } from '../../lib/gel/backend';
+import { resolveBackend } from '../../lib/gel/backend';
 
 interface GelCanvasProps {
   bands:        Band[];
@@ -35,7 +35,8 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
 
     (async () => {
       try {
-        const backend = selectBackend();
+        const backend = await resolveBackend();
+        if (cancelled) return;
         if (backend === 'webgl2') {
           const { configureGl2Context } = await import('../../lib/gpu/gl/context');
           if (cancelled) return;

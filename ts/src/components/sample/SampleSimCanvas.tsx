@@ -5,7 +5,7 @@ import { LAYOUT } from '../../lib/layout/layout';
 import { MOLECULAR_SIM_TUNING } from '../../lib/sim/molecularSimEngine';
 import { buildMoleculesMesh, type MeshBuildTuning } from '../../lib/sim/molecularSimMesh';
 import { computeBackgroundColor } from '../../lib/sim/molecularSimBackground';
-import { selectBackend } from '../../lib/gel/backend';
+import { resolveBackend } from '../../lib/gel/backend';
 import { hexToLinearRgb } from '../../lib/layout/color';
 import { isDyeFragment } from '../../lib/sim/sample';
 import type { Sample } from '../../lib/sim/sample';
@@ -82,7 +82,8 @@ export function SampleSimCanvas({
 
     (async () => {
       try {
-        const backend = selectBackend();
+        const backend = await resolveBackend();
+        if (cancelled) return;
         if (backend === 'webgl2') {
           const { configureGl2Context } = await import('../../lib/gpu/gl/context');
           const { createGlMeshBatch } = await import('../../lib/gpu/gl/meshBatch');

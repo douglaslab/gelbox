@@ -320,3 +320,12 @@ difference without substituting faces; four existing font checks cover the fix.
 Full browser suite remains 341 passed, one intentional duplicate skipped; build
 passes. Native atlas coverage and per-glyph snapping still require comparison;
 full visual/workflow and P5 release gates remain open.
+
+
+P5 acquisition update: gel and molecular canvases now recover from WebGPU null
+adapters, rejected adapter requests and rejected device requests through their full
+WebGL2 renderers. Six failed-then-passing browser cases inspect actual contexts and
+rendered pixels. Full suite: 347 passed, one intentional duplicate skipped; build
+passes. Next: post-context initialization failure/replacement, reverse fallback,
+clear exhausted-renderer failure, then device/context loss and lifecycle checks.
+P5 and full native parity gates remain open.

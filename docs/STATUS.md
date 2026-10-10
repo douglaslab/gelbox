@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 341 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 347 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -34,7 +34,7 @@ The [composed native runtime reference](../reference/native/runtime/README.md) c
 2. **Remaining native features and controls.** Reference-image views are now implemented with source-backed gestures and shared ordering; native image decoding/raster and composed GUI certification remain. The Render-off alternate band scene is now implemented; native raster certification remains. Menu placement and measured button geometry are now implemented at 1×/2×. Complete typography/raster comparison, shortcuts, focus and remaining interaction details, with composed native replay of the restored right-click creation/drag sequence.
 3. **Native visual certification.** Capture controlled matching native/web scenes for gel effects, blur/compositing, particles, loupes, selection and complete application layout. Resolve typography, asset proportions, resize/DPR behavior and justified raster tolerances. Decide cross-platform font handling and any browser layout adaptations explicitly.
 4. **Composed workflow verification.** Expand native → web edit/save → native roundtrips and replay move/clone/delete with loupes open, hidden-lane restoration, degraded multimer dragging, and buffer changes with resizing/failures. Resolve recorded XML safety and unsupported native import edge cases explicitly.
-5. **Browser lifecycle reliability.** Verify adapter failure and fallback, device/context loss, async unmount/disposal, route remount, resize/DPR, hidden-tab resume and repeated multi-view creation/removal. Provide a clear failure when no supported renderer works. Certify shortcuts that browser chrome may intercept.
+5. **Browser lifecycle reliability.** WebGPU adapter/device acquisition failure now falls back to full WebGL2 in gel and molecular views. Verify failures after context acquisition, device/context loss, async unmount/disposal, route remount, resize/DPR, hidden-tab resume and repeated multi-view creation/removal. Provide a clear failure when no supported renderer works. Certify shortcuts that browser chrome may intercept.
 6. **Production and release validation.** Serve built artifacts at root and subpath; check assets, fonts, routing, files and errors. Establish actual Safari/Firefox compatibility after macOS Chromium certification on both renderers. Measure combined-app responsiveness and resource growth on named hardware. Resolve every parity-ledger row and complete Shawn's side-by-side/workflow review.
 
 ## Roadmap state
@@ -803,3 +803,26 @@ Reviewed equal-scale after capture; no golden updates. Unit baseline remains 2,8
 This resolves the forced grayscale rendering difference, not every glyph's native
 raster: color-dependent atlas coverage, per-glyph snapping, platform fonts, full
 native workflow replay and P5 release checks remain open.
+
+
+## WebGPU acquisition fallback
+
+Gel and molecular canvases now share an asynchronous backend resolver. It checks
+actual WebGPU adapter/device acquisition before claiming a canvas context; null
+adapters, rejected adapter requests and rejected device requests select the full
+WebGL2 renderer on the untouched canvas. Successful WebGPU acquisition still uses
+the shared cached device. Async cancellation is checked after resolution so retired
+views do not acquire their canvas contexts. Molecular simulation ownership remains
+in the application runtime, independent of renderer readiness.
+
+Six browser cases failed before the fix and pass afterward. They inject all three
+acquisition failures in both browser projects, observe real WebGL2 contexts on the
+gel and molecular canvases, and inspect screenshot pixels for rendered bands and
+particles. Fresh full verification: **347 browser tests passed, one intentional
+duplicate skipped; production build and TypeScript checks passed**. No goldens
+changed; the unchanged model's last full unit baseline remains 2,845.
+
+This closes acquisition fallback only. Post-context setup/shader failures, reverse
+fallback from unavailable WebGL2, exhausted-renderer error UI, device/context loss,
+resource disposal and full lifecycle/platform/performance certification remain
+open. Existing last-resort molecular 2D drawing is not a parity release solution.

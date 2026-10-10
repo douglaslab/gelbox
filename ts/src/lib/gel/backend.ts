@@ -56,3 +56,22 @@ export function selectBackend(opts: SelectBackendOpts = {}): Backend {
 
   throw new Error('No GPU backend available (neither WebGPU nor WebGL2)');
 }
+
+
+/**
+ * Resolve the preferred backend before claiming a canvas context. WebGPU API
+ * presence is only a hint: a null adapter or rejected device must still allow
+ * the complete WebGL2 renderer to initialize on the untouched canvas.
+ * Actual WebGL2 context/shader failures remain the caller's responsibility.
+ */
+export async function resolveBackend(): Promise<Backend> {
+  const preferred = selectBackend();
+  if (preferred === 'webgl2') return preferred;
+  try {
+    const { requestDevice } = await import('../gpu/device');
+    await requestDevice();
+    return 'webgpu';
+  } catch {
+    return 'webgl2';
+  }
+}
