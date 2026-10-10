@@ -1,7 +1,7 @@
-import {validatePresentationSize,wellVertices,physicalBandVertices,type DirectPresentationBase,type PresentationSize,type WellRect} from './presentationTypes';
+import {validatePresentationSize,wellVertices,physicalBandVertices,type DirectPresentationBase,type PresentationSize,type PresentationOptions,type WellRect} from './presentationTypes';
 
 /** Native window presentation: image or direct triangles, then four-sample well lines. */
-export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,size:PresentationSize) {
+export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,size:PresentationSize,options:PresentationOptions={}) {
   validatePresentationSize(size);
   const {width,height}=size;
   const owned:Array<{destroy():void}>=[];
@@ -61,7 +61,7 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
                 var o:Out;o.p=vec4f(p.x/${width}.*2.-1.,1.-p.y/${height}.*2.,0.,1.);o.color=color;return o;
               }
               @fragment fn fs(o:Out)->@location(0) vec4f {return o.color;}`});
-            bandPipeline=device.createRenderPipeline({label:'gel-presentation-bands',layout:'auto',vertex:{module,entryPoint:'vs',buffers:[{arrayStride:24,attributes:[{shaderLocation:0,offset:0,format:'float32x2'},{shaderLocation:1,offset:8,format:'float32x4'}]}]},fragment:{module,entryPoint:'fs',targets:[{format:'rgba8unorm',blend:{color:{srcFactor:'src-alpha',dstFactor:'one'},alpha:{srcFactor:'zero',dstFactor:'one'}}}]},multisample:{count:4}});
+            bandPipeline=device.createRenderPipeline({label:'gel-presentation-bands',layout:'auto',vertex:{module,entryPoint:'vs',buffers:[{arrayStride:24,attributes:[{shaderLocation:0,offset:0,format:'float32x2'},{shaderLocation:1,offset:8,format:'float32x4'}]}]},fragment:{module,entryPoint:'fs',targets:[{format:'rgba8unorm',blend:{color:{srcFactor:'src-alpha',dstFactor:options.meshBlend==='over'?'one-minus-src-alpha':'one'},alpha:{srcFactor:'zero',dstFactor:'one'}}}]},multisample:{count:4}});
           }
           const data=physicalBandVertices(base,scale);
           if(data.byteLength>bandCapacity){
@@ -71,7 +71,8 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
           }
           if(data.byteLength)device.queue.writeBuffer(bandVertices!,0,data);
         }
-        const pass=encoder.beginRenderPass({label:'gel-presentation',colorAttachments:[{view:sampleView,loadOp:'clear',storeOp:'store',clearValue:{r:0,g:0,b:0,a:1}}]});
+        const background=direct?(base.background??[0,0,0]):[0,0,0];
+        const pass=encoder.beginRenderPass({label:'gel-presentation',colorAttachments:[{view:sampleView,loadOp:'clear',storeOp:'store',clearValue:{r:background[0],g:background[1],b:background[2],a:1}}]});
         if(direct){if(base.mesh.vertexCount){pass.setPipeline(bandPipeline!);pass.setVertexBuffer(0,bandVertices!);pass.draw(base.mesh.vertexCount);}}
         else{pass.setPipeline(basePipeline);pass.setBindGroup(0,baseGroup!);pass.draw(3);}
         if(wells.length){pass.setPipeline(linePipeline);pass.setVertexBuffer(0,vertices!);for(let i=0;i<wells.length;i++)pass.draw(5,1,i*5);}

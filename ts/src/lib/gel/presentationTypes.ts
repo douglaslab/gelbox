@@ -15,7 +15,12 @@ export function validatePresentationSize({width,height}:PresentationSize):void {
 }
 
 /** A direct scene draws its triangles into the same samples as the wells. */
-export interface DirectPresentationBase {mesh:import('./mesh').Mesh}
+export interface DirectPresentationBase {
+  mesh:import('./mesh').Mesh;
+  /** Opaque native display-domain background; defaults to gel black. */
+  background?:readonly [number,number,number];
+}
+export interface PresentationOptions { meshBlend?:'additive'|'over' }
 export function physicalBandVertices(base:DirectPresentationBase,scale:number):Float32Array {
   const data=base.mesh.data.slice();
   for(let i=0;i<data.length;i+=6){data[i]*=scale;data[i+1]*=scale;}

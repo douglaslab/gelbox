@@ -17,7 +17,7 @@ import type { Mesh } from '../../lib/gel/mesh';
 
 /**
  * Lane-agnostic presentational canvas backed by a live `MolecularSim` engine,
- * rendered through the GPU `meshBatch` primitive (WebGPU primary, WebGL2
+ * rendered through native multisample presentation (WebGPU primary, WebGL2
  * fallback, with a visible error when graphics cannot initialize).
  *
  * Takes explicit props instead of reading gel state, so it can be used both
@@ -75,6 +75,7 @@ export function SampleSimCanvas({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const store = useGelStore();
   const sim = view.sim;
+  const transparent = representativeFragment !== undefined;
   const handleRef = useRef<RenderHandle | null>(null);
   const hoverRef = useRef(false);
   const downRef = useRef(false);
@@ -126,49 +127,68 @@ export function SampleSimCanvas({
         if (backend === 'webgl2') {
           const { configureGl2Context } = await import('../../lib/gpu/gl/context');
           const { createGlMeshBatch } = await import('../../lib/gpu/gl/meshBatch');
+          const { createGlGelPresentation } = await import('../../lib/gel/present-gl');
           if (cancelled || lost) return;
           const { gl } = configureGl2Context(canvas);
           cleanup.push(watchGlLoss(canvas,()=>handleLoss('webgl2')));
           cleanup.push(()=>{if(lost||!canvas.isConnected)gl.getExtension('WEBGL_lose_context')?.loseContext();});
-          const batch = createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' });
+          // Transparent representatives retain their existing compositor until
+          // the native panel-compositing reference is established.
+          const batch = transparent ? createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' }) : null;
+          const makePresentation = () => createGlGelPresentation(gl, { width: canvas.width, height: canvas.height }, { meshBlend: 'over' });
+          let presentation = transparent ? null : makePresentation();
           handleRef.current = {
             fail,
-            resize: (wp, hp, wc, hc) => { canvas.width = wp; canvas.height = hp; batch.setViewport(wc, hc); },
+            resize: (wp, hp, wc, hc) => {
+              canvas.width = wp; canvas.height = hp; batch?.setViewport(wc, hc);
+              if(presentation){presentation.destroy();presentation=makePresentation();}
+            },
             draw: (mesh, bg, alpha=1) => {
               resize();if(lost)return;
-              batch.draw(
+              if(presentation){presentation.draw({mesh,background:bg},[],window.devicePixelRatio||1);return;}
+              batch!.draw(
                 { framebuffer: null, width: canvas.width, height: canvas.height },
                 mesh,
                 { clear: true, clearColor: [bg[0], bg[1], bg[2], alpha] },
               );
             },
-            destroy: () => batch.destroy(),
+            destroy: () => {batch?.destroy();presentation?.destroy();},
           };
         } else {
           const { requestDevice } = await import('../../lib/gpu/device');
           const { configureContext } = await import('../../lib/gpu/context');
           const { createMeshBatch } = await import('../../lib/gpu/meshBatch');
+          const { createGelPresentation } = await import('../../lib/gel/present');
           const { device } = await requestDevice();
           if (cancelled || lost) return;
           cleanup.push(watchDeviceLoss(device,()=>handleLoss('webgpu')));
           cleanup.push(watchDeviceErrors(device,()=>handleLoss('webgpu',false)));
           const { context, format } = configureContext(canvas, device);
           cleanup.push(()=>context.unconfigure());
-          const batch = createMeshBatch(device, { viewport: { width, height }, blend: 'over', format });
+          const batch = transparent ? createMeshBatch(device, { viewport: { width, height }, blend: 'over', format }) : null;
+          const makePresentation = () => createGelPresentation(device, format, { width: canvas.width, height: canvas.height }, { meshBlend: 'over' });
+          let presentation = transparent ? null : makePresentation();
           handleRef.current = {
             fail,
-            resize: (_wp, _hp, wc, hc) => { batch.setViewport(wc, hc); },
+            resize: (_wp, _hp, wc, hc) => {
+              batch?.setViewport(wc, hc);
+              if(presentation){presentation.destroy();presentation=makePresentation();}
+            },
             draw: (mesh, bg, alpha=1) => {
               resize();if(lost)return;
               const enc = device.createCommandEncoder({ label: 'molsim' });
-              batch.draw(enc, context.getCurrentTexture().createView(), mesh, {
+              if(presentation){
+                presentation.draw(enc,{mesh,background:bg},context.getCurrentTexture().createView(),[],window.devicePixelRatio||1);
+                device.queue.submit([enc.finish()]);return;
+              }
+              batch!.draw(enc, context.getCurrentTexture().createView(), mesh, {
                 clear: true,
                 clearColor: { r: bg[0], g: bg[1], b: bg[2], a: alpha },
                 callIdx: 0,
               });
               device.queue.submit([enc.finish()]);
             },
-            destroy: () => batch.destroy(),
+            destroy: () => {batch?.destroy();presentation?.destroy();},
           };
         }
         if (!cancelled && !lost) onSuccess();
@@ -185,7 +205,7 @@ export function SampleSimCanvas({
       cancelled = true;
       dispose();
     };
-  }, [width, height, attempt, forcedBackend, onFailure, onLoss, onSuccess]);
+  }, [width, height, transparent, attempt, forcedBackend, onFailure, onLoss, onSuccess]);
 
   // Draw after the application frame; acquiring a GPU never gates simulation.
   useEffect(() => store.subscribeFrame(() => {

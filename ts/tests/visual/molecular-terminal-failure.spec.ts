@@ -25,7 +25,7 @@ for (const phase of ['initialization', 'frame']) test(`terminal molecular ${phas
       }
       const pipeline = GPUDevice.prototype.createRenderPipeline;
       GPUDevice.prototype.createRenderPipeline = function(desc) {
-        if (phase === 'initialization' && desc.label === 'meshBatch-over' && (window as any).__failMolecular) throw Error('Injected molecular initialization failure');
+        if (phase === 'initialization' && desc.label === 'gel-presentation-base' && (window as any).__failMolecular) throw Error('Injected molecular initialization failure');
         return pipeline.call(this, desc);
       };
       const encoder = GPUDevice.prototype.createCommandEncoder;

@@ -594,3 +594,16 @@ produce identical browser pixels. The four acceptance tests remain failing.
 add native MSAA4/source-over/resolve, verify generated meshes, integrate opaque
 sample/loupe and transparent representative paths, then verify lifecycle and
 composed native GUI behavior. Full P0–P5 gates remain open.
+
+
+### Opaque particle MSAA correction implemented
+
+The previous particle audit is green: 512 native/generated-mesh comparisons now
+match exact native RGB. The shared sample/loupe canvas uses native MSAA4 and
+source-over; gel defaults remain unchanged. Four component checks exercise this
+integration at DPR1/2 on both backends, and all eight tests now join the normal
+suite. Transparent representative compositing, full original GUI comparison and
+release performance remain open. See the particle reference README for evidence
+and the two justified degraded-snapshot updates.
+Final gates for this increment: 2,909 units, 511 browser cases (one intentional
+skip), and four production checks passed. Full P0–P5 exit gates remain open.

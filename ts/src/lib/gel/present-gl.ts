@@ -1,9 +1,9 @@
 import {createGlProgram} from '../gpu/gl/program';
-import {validatePresentationSize,wellVertices,physicalBandVertices,type DirectPresentationBase,type PresentationSize,type WellRect} from './presentationTypes';
+import {validatePresentationSize,wellVertices,physicalBandVertices,type DirectPresentationBase,type PresentationSize,type PresentationOptions,type WellRect} from './presentationTypes';
 
 /** Direct triangles share the well multisample surface. GL input textures have their logical top at v=1. The final blit flips the
  * reflected MSAA raster into the canvas; changing that order changes corners. */
-export function createGlGelPresentation(gl:WebGL2RenderingContext,size:PresentationSize) {
+export function createGlGelPresentation(gl:WebGL2RenderingContext,size:PresentationSize,options:PresentationOptions={}) {
   validatePresentationSize(size);
   const {width,height}=size,cleanup:Array<()=>void>=[];
   let destroyed=false,capacity=0;
@@ -37,7 +37,8 @@ export function createGlGelPresentation(gl:WebGL2RenderingContext,size:Presentat
         if(destroyed)throw new Error('Gel presentation has been destroyed');
         gl.bindFramebuffer(gl.FRAMEBUFFER,msaa);gl.viewport(0,0,width,height);
         gl.disable(gl.SCISSOR_TEST);gl.disable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);gl.disable(gl.BLEND);
-        gl.colorMask(true,true,true,true);gl.clearColor(0,0,0,1);gl.clear(gl.COLOR_BUFFER_BIT);
+        const background='mesh' in base?(base.background??[0,0,0]):[0,0,0];
+        gl.colorMask(true,true,true,true);gl.clearColor(background[0],background[1],background[2],1);gl.clear(gl.COLOR_BUFFER_BIT);
         gl.bindVertexArray(vao);
         if('mesh' in base){
           if(!bandProgram){
@@ -55,7 +56,7 @@ export function createGlGelPresentation(gl:WebGL2RenderingContext,size:Presentat
             gl.bufferSubData(gl.ARRAY_BUFFER,0,data);gl.useProgram(bandProgram.program);
             const p=bandProgram.attrib('p'),c=bandProgram.attrib('c');gl.enableVertexAttribArray(p);gl.enableVertexAttribArray(c);
             gl.vertexAttribPointer(p,2,gl.FLOAT,false,24,0);gl.vertexAttribPointer(c,4,gl.FLOAT,false,24,8);
-            gl.enable(gl.BLEND);gl.blendEquation(gl.FUNC_ADD);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE,gl.ZERO,gl.ONE);
+            gl.enable(gl.BLEND);gl.blendEquation(gl.FUNC_ADD);gl.blendFuncSeparate(gl.SRC_ALPHA,options.meshBlend==='over'?gl.ONE_MINUS_SRC_ALPHA:gl.ONE,gl.ZERO,gl.ONE);
             gl.drawArrays(gl.TRIANGLES,0,base.mesh.vertexCount);gl.disableVertexAttribArray(p);gl.disableVertexAttribArray(c);
           }
         }else{

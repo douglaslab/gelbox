@@ -18,22 +18,20 @@ for (const scale of [1, 2]) test.describe(`particle raster DPR${scale}`, () => {
       let draw: (mesh: any) => void;
       if (backend === 'webgl2') {
         const { configureGl2Context } = await import('/src/lib/gpu/gl/context.ts');
-        const { createGlMeshBatch } = await import('/src/lib/gpu/gl/meshBatch.ts');
+        const { createGlGelPresentation } = await import('/src/lib/gel/present-gl.ts');
         const { gl } = configureGl2Context(canvas);
-        const batch = createGlMeshBatch(gl, { viewport: { width: 64, height: 64 }, blend: 'over' });
-        draw = mesh => batch.draw({ framebuffer: null, width: canvas.width, height: canvas.height }, mesh,
-          { clear: true, clearColor: [241 / 255, 241 / 255, 242 / 255, 1] });
+        const batch = createGlGelPresentation(gl, { width: canvas.width, height: canvas.height }, { meshBlend: 'over' });
+        draw = mesh => batch.draw({ mesh, background: [241 / 255, 241 / 255, 242 / 255] }, [], scale);
       } else {
         const { requestDevice } = await import('/src/lib/gpu/device.ts');
         const { configureContext } = await import('/src/lib/gpu/context.ts');
-        const { createMeshBatch } = await import('/src/lib/gpu/meshBatch.ts');
+        const { createGelPresentation } = await import('/src/lib/gel/present.ts');
         const { device } = await requestDevice();
         const { context, format } = configureContext(canvas, device);
-        const batch = createMeshBatch(device, { viewport: { width: 64, height: 64 }, blend: 'over', format });
+        const batch = createGelPresentation(device, format, { width: canvas.width, height: canvas.height }, { meshBlend: 'over' });
         draw = mesh => {
           const encoder = device.createCommandEncoder();
-          batch.draw(encoder, context.getCurrentTexture().createView(), mesh,
-            { clear: true, clearColor: { r: 241 / 255, g: 241 / 255, b: 242 / 255, a: 1 }, callIdx: 0 });
+          batch.draw(encoder, { mesh, background: [241 / 255, 241 / 255, 242 / 255] }, context.getCurrentTexture().createView(), [], scale);
           device.queue.submit([encoder.finish()]);
         };
       }
@@ -68,7 +66,7 @@ for (const scale of [1, 2]) test.describe(`particle raster DPR${scale}`, () => {
       results.push({ id: scene.id, source, ...result });
     }
     await fs.promises.writeFile(info.outputPath('comparison.json'), JSON.stringify(results, null, 2));
-    // This audit intentionally fails until native raster parity is established.
+    // Strict native RGB acceptance; no golden update or difference tolerance.
     expect(results.filter(r => r.differentChannels)).toEqual([]);
   });
 });

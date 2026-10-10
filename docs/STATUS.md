@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include native well presentation, terminal-f
 | Check | Result |
 |---|---|
 | Unit suite | 2,909 passed |
-| Browser suite across WebGPU/WebGL2 | 503 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 511 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -1960,3 +1960,39 @@ The prior normal-suite/production results therefore do not imply particle parity
 Next implement native multisampling/resolve with source-over, then certify shared
 sample/loupe integration and transparent representatives separately. Native full
 GUI, scheduling and composed-view acceptance remain open.
+
+
+## Opaque molecular multisample correction
+
+The [particle raster audit](../reference/web/particle-scenes/README.md) now passes
+with exact native RGB for all 512 mesh/source/backend/DPR combinations. The
+shared presentation gains explicit source-over mesh blending and an opaque
+background parameter. Existing gel defaults remain additive and black.
+SampleSimCanvas uses this path for opaque sample/loupe views, recreating owned
+surfaces on backing-size changes and disposing them through its existing bounded
+fallback/retry lifecycle. Transparent representatives retain the previous path
+pending native compositing evidence.
+
+Four additional component tests verify selected, hovered, multimer and narrow
+particle fixtures through the actual shared canvas, frame subscription and mesh
+builder at DPR1/2 on both backends. They passively record the acquired context to
+exclude fallback masquerading as backend coverage. The low-level and component
+checks are promoted into the normal browser suite, with the focused config kept
+for reproducing the original audit.
+
+The first integrated run passed 501 browser cases and failed only the two
+strict degraded-particle snapshots, whose old edges reflected single-sample
+rendering. Their diffs were inspected, then only those snapshots were regenerated
+after independent native raster/component checks passed. Their 20-pixel tolerance
+and every native reference remain unchanged. Independent code review found no
+Critical/Important production issues; its passive-backend-probe suggestion was
+applied. Full native composed GUI, transparent representatives, physical display
+and release performance certification remain open.
+
+Final verification: 2,909 unit tests, 511 browser cases (one intentional skip),
+and four production cases passed, including TypeScript/Vite builds. Full browser
+coverage includes the eight new particle cases, native direct/well/gel raster,
+resource lifecycle, DPR, background colors and bounded failure recovery.
+Logs: `/tmp/gel-particle-final-unit.log`, `/tmp/gel-particle-final-full.log`,
+`/tmp/gel-particle-final-production.log`. The [review record](superpowers/reports/2026-10-10-particle-presentation.md)
+retains scope and limitations.
