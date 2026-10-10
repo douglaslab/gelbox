@@ -33,6 +33,11 @@ file( GLOB GELBOX_SOURCES "${APP_PATH}/src/*.cpp" )
 
 set( GELBOX_ICON "${CMAKE_CURRENT_SOURCE_DIR}/Gelbox.icns" )
 
+if( WIN32 )
+	# Package a real assets directory beside the executable.
+	set( CINDER_COPY_ASSETS ON CACHE BOOL "Copy assets beside the executable" FORCE )
+endif()
+
 ci_make_app(
 	APP_NAME    Gelbox
 	CINDER_PATH ${CINDER_PATH}
@@ -44,7 +49,11 @@ ci_make_app(
 
 # Force-include the prefix header the old Xcode project used as its PCH, so
 # every translation unit sees Cinder's app and gl headers.
-target_compile_options( Gelbox PRIVATE "SHELL:-include ${APP_PATH}/include/Gelbox_Prefix.h" )
+if( MSVC )
+	target_compile_options( Gelbox PRIVATE "/FI${APP_PATH}/include/Gelbox_Prefix.h" )
+else()
+	target_compile_options( Gelbox PRIVATE "SHELL:-include ${APP_PATH}/include/Gelbox_Prefix.h" )
+endif()
 
 set( GELBOX_VERSION "1.0" CACHE STRING "Gelbox release version" )
 set( GELBOX_BUILD_NUMBER "1" CACHE STRING "Gelbox bundle build number" )
