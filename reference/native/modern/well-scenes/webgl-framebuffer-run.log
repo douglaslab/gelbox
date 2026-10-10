@@ -1,0 +1,17 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test temporary-line-probe.spec.ts --project=chromium-webgl2 --output=/tmp/gel-line-fbo
+
+[2m[WebServer] [22m(node:58915) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:58918) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58918) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[{"id":"2-1-0","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"2-1-quarter","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"2-2-0","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"2-2-quarter","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"7-1-0","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"7-1-quarter","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"7-2-0","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"7-2-quarter","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"12-1-0","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"12-1-quarter","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"12-2-0","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"12-2-quarter","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"20-1-0","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"20-1-quarter","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"20-2-0","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0},{"id":"20-2-quarter","samples":4,"antialias":false,"differentPixels":0,"maximumChannelError":0}]
+  ✓  1 [chromium-webgl2] › temporary-line-probe.spec.ts:5:1 › measure WebGL line-loop raster against native window (706ms)
+
+  1 passed (1.8s)

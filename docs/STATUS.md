@@ -1701,3 +1701,25 @@ captures, source hashes and reproduction are retained. Two diagnostic runs
 completed; they report differences and are not passing parity assertions.
 No product change or full-suite rerun. A general well-edge correction and its
 multi-geometry/DPR native reference validation remain open.
+
+## Native well raster strategy established across sixteen scenes
+
+[Native window-framebuffer captures and prototypes](../reference/native/modern/well-scenes/README.md)
+now cover 2/7/12/20 lanes, physical scale 1/2 and translations 0/.25. Two native
+launches produced byte-identical references. The startup case matches the user's
+PNG well strip exactly. The rejected offscreen-native capture path is explicitly
+distinguished from the retained window captures.
+
+WebGL's reflected projection plus unflipped readback matches all sixteen cases,
+including with explicit four-sample framebuffers and canvas antialiasing disabled.
+WebGPU matches all sixteen using standard top-down geometry and explicit integer
+nearest-even multisample resolve. Automatic and half-up resolves change some
+native RGB130 corners to131; those failed variants remain recorded. Final probes
+assert exact equality; three final diagnostic invocations passed (two canonical
+API probes, followed by the explicit-framebuffer GL variant).
+
+No product renderer changed. The [integration plan](superpowers/plans/2026-10-10-native-well-presentation.md)
+covers shared physical-resolution presentation, both effects/direct modes,
+nonblack compositing references, DPR, failures and cleanup. This establishes a
+measured strategy for the open well-edge correction, not application parity or
+release completion. Prior full-suite counts are unchanged and were not rerun.
