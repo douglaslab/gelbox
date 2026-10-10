@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include the application runtime integration.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,865 passed |
-| Browser suite across WebGPU/WebGL2 | 427 passed; one intentional duplicate skipped |
+| Unit suite | 2,867 passed |
+| Browser suite across WebGPU/WebGL2 | 433 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
 | Production build and TypeScript checks | Passed |
@@ -1461,3 +1461,22 @@ visual fixes identified by comparison/source are nearest-color palette
 selection, sample-header tube geometry and degradation label visibility;
 full inspector focus behavior and extreme representative overflow also remain
 uncertified.
+
+
+## Native palette, header tube and degradation label
+
+The three concrete inspector details from the preceding replay are corrected;
+[retained evidence](../reference/native/replay/inspector-details/README.md)
+records pinned source and web observations. The palette now marks the nearest
+native RGB color, retaining first-on-tie behavior and preserving imported custom
+RGB data. Its selected backdrop follows native outward geometry. The sample
+header tube is 19 logical pixels wide with its bottom 25 pixels above the
+sample frame. The web-only degradation value label is removed without changing
+its value or editing behavior.
+
+Two unit cases and six browser cases failed before correction. The browser
+checks include exact complete-document preservation after merely displaying a
+custom color. Verification: **2,867 unit tests, 433 browser tests and 4 production
+checks passed**, with one intentional duplicate browser skip. Production
+included a fresh build and TypeScript checks. No goldens or tolerances changed.
+Full native raster/typography and inspector focus certification remain open.

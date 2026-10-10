@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { FRAGMENT_PALETTE_HEX, FRAGMENT_PALETTE_RGB, hexToRgb } from '../../src/lib/fragment/palette';
+import { FRAGMENT_PALETTE_HEX, FRAGMENT_PALETTE_RGB, hexToRgb, nearestPaletteIndex } from '../../src/lib/fragment/palette';
 
 describe('FRAGMENT_PALETTE_HEX', () => {
   it('contains 12 hex colors matching FragmentView.cpp:25', () => {
@@ -45,5 +45,19 @@ describe('FRAGMENT_PALETTE_RGB', () => {
         expect(c).toBeLessThanOrEqual(1);
       }
     }
+  });
+});
+
+
+describe('native nearest palette selection', () => {
+  it('marks the closest swatch for an imported custom color without changing it', () => {
+    const custom: [number,number,number] = [.25,.5,.75];
+    expect(nearestPaletteIndex(custom)).toBe(0);
+    expect(custom).toEqual([.25,.5,.75]);
+    for (let i=0;i<FRAGMENT_PALETTE_RGB.length;i++) expect(nearestPaletteIndex(FRAGMENT_PALETTE_RGB[i])).toBe(i);
+  });
+  it('keeps the first swatch when native float distances tie', () => {
+    expect(nearestPaletteIndex([.5,0,0],[[0,0,0],[1,0,0]])).toBe(0);
+    expect(nearestPaletteIndex([.75,0,0],[[0,0,0],[1,0,0]])).toBe(1);
   });
 });

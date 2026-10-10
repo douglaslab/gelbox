@@ -1,4 +1,4 @@
-import { FRAGMENT_PALETTE_HEX, FRAGMENT_PALETTE_RGB, hexToRgb } from '../../lib/fragment/palette';
+import { FRAGMENT_PALETTE_HEX, nearestPaletteIndex, hexToRgb } from '../../lib/fragment/palette';
 import styles from './ColorPaletteView.module.css';
 
 export interface ColorPaletteViewProps {
@@ -7,20 +7,15 @@ export interface ColorPaletteViewProps {
   testId?: string;
 }
 
-function rgbApproxEq(a: readonly [number, number, number], b: readonly [number, number, number]) {
-  const EPS = 0.001;
-  return Math.abs(a[0] - b[0]) < EPS && Math.abs(a[1] - b[1]) < EPS && Math.abs(a[2] - b[2]) < EPS;
-}
-
 /**
  * 4×3 grid of color swatches. Mirrors C++ ColorPaletteView used inside FragmentView.
  */
 export function ColorPaletteView({ value, onChange, testId }: ColorPaletteViewProps) {
+  const selectedIndex = nearestPaletteIndex(value);
   return (
     <div className={styles.grid} data-testid={testId}>
       {FRAGMENT_PALETTE_HEX.map((hex, i) => {
-        const linear = FRAGMENT_PALETTE_RGB[i];
-        const selected = rgbApproxEq(value, linear);
+        const selected = i === selectedIndex;
         return (
           <button
             type="button"

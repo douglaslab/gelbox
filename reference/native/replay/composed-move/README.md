@@ -58,3 +58,7 @@ nearest-color palette selection, sample header tube geometry, and degradation
 slider label visibility. Full focus behavior across inspector controls,
 representative overflow beyond inspector bounds, native raster tolerances and
 long-run resource/performance budgets remain open.
+
+The palette, header tube and degradation-label follow-ups are now corrected;
+see [inspector details](../inspector-details/README.md). The remaining limits
+above still apply.

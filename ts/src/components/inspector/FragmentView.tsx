@@ -22,7 +22,6 @@ const AGG_MAX_MULTIMER = 7;
 function fmtBp(v: number): string  { return `${Math.round(v).toLocaleString()} bp`; }
 function fmtNg(v: number): string  { return `${Math.round(v).toLocaleString()} ng`; }
 function fmtAsp(v: number): string { return `${Math.round(v)} : 1`; }
-function fmtDeg(v: number): string { return v.toFixed(2); }
 
 /**
  * "Species" panel — the default inspector content.
@@ -190,7 +189,6 @@ export function FragmentView() {
                 quantize: 0,
                 notches: [0, 0.5, 1],
                 notchAction: 'snap',
-                formatValue: fmtDeg,
               }}
               value={fragment.degrade}
               onChange={(degrade) =>

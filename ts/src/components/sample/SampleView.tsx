@@ -47,9 +47,6 @@ export function SampleView() {
   const gutter = LAYOUT.sampleViewMicrotubeBkgndGutter;     // 11
   const circleSize = r * 2;                                  // 40
   const circleTop  = -r - gutter - r;                        // = -2r - gutter (top edge of circle)
-  // Microtube glyph height: keep visually consistent with MicrotubeRow's
-  // 36px icon. Width auto-resolves via the PNG's natural 47:89 aspect.
-  const tubeHeight = 32;
 
   return (
     <div
@@ -87,18 +84,19 @@ export function SampleView() {
           height: circleSize,
           borderRadius: '50%',
           background: LAYOUT.gelMicrotubeBkgndColorSelected,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
         }}
       >
         <img
+          data-testid="sample-header-tube"
           src={resolveAssetUrl('/assets/microtube1500ul.png')}
           alt=""
           onError={dprFallbackOnError}
           style={{
-            height: tubeHeight,
-            width:  'auto',
+            position: 'absolute',
+            left: r - LAYOUT.sampleViewMicrotubeWidth / 2,
+            bottom: LAYOUT.sampleViewMicrotubeGutter - LAYOUT.sampleViewMicrotubeBkgndGutter,
+            width: LAYOUT.sampleViewMicrotubeWidth,
+            height: 'auto',
             display: 'block',
             pointerEvents: 'none',
             userSelect: 'none',

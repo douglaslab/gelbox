@@ -20,3 +20,19 @@ export function hexToRgb(hex: string): [number, number, number] {
 
 export const FRAGMENT_PALETTE_RGB: readonly [number, number, number][] =
   FRAGMENT_PALETTE_HEX.map(hexToRgb);
+
+
+/** ColorPaletteView::pullValueFromGetter; first nearest native float RGB distance. */
+export function nearestPaletteIndex(color: readonly [number,number,number],
+  palette: readonly (readonly [number,number,number])[] = FRAGMENT_PALETTE_RGB): number {
+  const f = Math.fround;
+  let closest = 0, best = Infinity;
+  for (let i=0;i<palette.length;i++) {
+    const dr=f(f(palette[i][0])-f(color[0]));
+    const dg=f(f(palette[i][1])-f(color[1]));
+    const db=f(f(palette[i][2])-f(color[2]));
+    const distance=f(Math.sqrt(f(f(f(dr*dr)+f(dg*dg))+f(db*db))));
+    if (distance < best) { closest=i; best=distance; }
+  }
+  return closest;
+}
