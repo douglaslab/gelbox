@@ -1,3 +1,6 @@
+import {SliderScenePaint} from './SliderScenePaint';
+import {useSharedPresentation} from '../gel/ScenePresentation';
+import {useNativeButtonTint} from '../gel/useNativeButtonTint';
 import { useCallback, useRef, useState, useLayoutEffect, type CSSProperties } from 'react';
 import {
   type SliderConfig,
@@ -29,6 +32,7 @@ export interface SliderViewProps {
   barHeight?: number;
   style?: CSSProperties;
   testId?: string;
+  presentation?: {viewKey:string;order:number};
 }
 
 const DEFAULT_ICON_SIZE   = { x: 26, y: 26 };
@@ -53,7 +57,10 @@ export function SliderView({
   barHeight,
   style,
   testId,
+  presentation,
 }: SliderViewProps) {
+  const registry=useSharedPresentation(),element=useRef<HTMLDivElement>(null);
+  const shared=Boolean(registry&&presentation&&config.style!=='bar');
   const enabled = config.enabled !== false;
   const trackRef = useRef<HTMLDivElement | null>(null);
 
@@ -151,11 +158,13 @@ export function SliderView({
 
   return (
     <div
+      ref={element}
       className={`${styles.root} ${enabled ? '' : styles.disabled}`}
-      style={{ width, ...(config.style==='graph'?{height:iconSize.y}:{}), ...style }}
+      style={{ width, ...(config.style==='graph'?{height:iconSize.y}:{}), ...style, opacity:shared?0:style?.opacity }}
       data-testid={testId}
       aria-disabled={!enabled || undefined}
     >
+      {shared&&presentation&&<SliderScenePaint element={element} viewKey={presentation.viewKey} order={presentation.order} config={config} normalized={normalized} iconLo={iconLo} iconHi={iconHi} iconSize={iconSize} iconGutter={iconGutter} graphValues={graphValues} label={labelStr}/>}
       {iconLo && (
         <SliderIcon
           path={iconLo}
@@ -272,15 +281,15 @@ function SliderIcon({path,slot,natural,high,onClick,testId}:{
   path:string;slot:{x:number;y:number};natural:boolean;high:boolean;
   onClick:()=>void;testId?:string;
 }) {
-  const src=resolveAssetUrl(path);
+  const src=resolveAssetUrl(path),button=useNativeButtonTint();
   const [decoded,setDecoded]=useState<{src:string;x:number;y:number}|null>(null);
   const size=natural&&decoded?.src===src?decoded:slot;
   // Native roundf snaps absolute positions. The low icon starts at x=0;
   // the high icon starts at a positive integer position within the slider.
   const round=(v:number)=>Math.sign(v)*Math.round(Math.abs(v));
   const dx=(slot.x-size.x)/2,dy=(slot.y-size.y)/2;
-  return <span className={styles.iconSlot} style={{width:slot.x,height:slot.y}} onClick={onClick}>
-    <img src={src} alt="" className={styles.icon} data-testid={testId}
+  return <span className={styles.iconSlot} style={{width:slot.x,height:slot.y}} onClick={onClick} {...button.events}>
+    <img src={src} alt="" className={styles.icon} data-testid={testId} data-slider-icon={high?1:0} data-highlighted={button.tint[0]===.7}
       onLoad={e=>{
         const img=e.currentTarget,scale=src.endsWith('@2x.png')?2:1;
         setDecoded({src,x:img.naturalWidth/scale,y:img.naturalHeight/scale});

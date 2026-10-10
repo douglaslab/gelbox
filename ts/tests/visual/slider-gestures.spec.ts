@@ -1,6 +1,8 @@
 import {test,expect} from '@playwright/test';
 
+for(const shared of [false,true])test.describe(`shared:${shared}`,()=>{
 test.beforeEach(async({page},info)=>{
+ await page.addInitScript(s=>localStorage.setItem('gelSharedPresentation',s?'1':'0'),shared);
  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
  await page.setViewportSize({width:1365,height:800});await page.goto('/#/gel');
 });
@@ -56,4 +58,6 @@ test('native voltage notch captures within four logical pixels',async({page})=>{
  await expect(root).toHaveText(`${Math.round(600*5/r.width)} V`);
  await page.mouse.click(r.x+r.width/2+3,r.y+10);
  await expect(root).toHaveText('0 V');
+});
+
 });

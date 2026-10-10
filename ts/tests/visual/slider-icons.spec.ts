@@ -1,8 +1,9 @@
 import {test,expect} from '@playwright/test';
 
-for(const scale of [1,2])test(`native slider icon sizes and pick slots at ${scale}x`,async({browser},info)=>{
+for(const shared of [false,true])for(const scale of [1,2])test(`native slider icon sizes and pick slots at ${scale}x shared:${shared}`,async({browser},info)=>{
  const context=await browser.newContext({viewport:{width:1365,height:768},deviceScaleFactor:scale});
  const page=await context.newPage();
+ await page.addInitScript(s=>localStorage.setItem('gelSharedPresentation',s?'1':'0'),shared);
  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
  try {
   await page.goto('/#/gel');
@@ -16,6 +17,14 @@ for(const scale of [1,2])test(`native slider icon sizes and pick slots at ${scal
   await check('gel-lanes',32,32,-3,-3);
   await check('gel-voltage',27,28,-1,-1);
   await check('timeline-slider',27,28,-1,-1);
+  const low=page.getByTestId('timeline-slider-icon-lo');
+  const lowRect=(await low.boundingBox())!;
+  await page.mouse.move(lowRect.x+lowRect.width/2,lowRect.y+lowRect.height/2);await page.mouse.down();
+  await expect(low).toHaveAttribute('data-highlighted','true');
+  await expect(low).toHaveCSS('filter','brightness(0.5)');
+  await page.mouse.move(0,0);await page.mouse.up();
+  await expect(low).toHaveAttribute('data-highlighted','false');
+
   const gel=(await page.getByTestId('gel-canvas').boundingBox())!;
   expect(await page.getByTestId('timeline-slider').boundingBox()).toEqual({
    x:gel.x+16,y:gel.y+gel.height+16,width:gel.width-74,height:26,

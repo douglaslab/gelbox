@@ -128,6 +128,7 @@ export function GelSettingsView() {
         {sliders.map((s, i) => (
           <SliderView
             key={s.key}
+            presentation={{viewKey:'inspector-gel-settings',order:i}}
             testId={`gel-${s.key}`}
             config={s.cfg}
             value={s.value}

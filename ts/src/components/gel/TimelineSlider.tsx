@@ -35,6 +35,7 @@ export function TimelineSlider() {
       width={undefined as unknown as number /* let parent control width */}
       style={{ width: '100%' }}
       testId="timeline-slider"
+      presentation={{viewKey:'gel',order:110}}
     />
   );
 }

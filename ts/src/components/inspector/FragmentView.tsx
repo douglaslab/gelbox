@@ -88,6 +88,7 @@ export function FragmentView() {
           >
             <SliderView
               testId="frag-size"
+              presentation={{viewKey:'inspector-fragment',order:100}}
               config={{
                 style: 'slider',
                 valueMin: SIZE_MIN,
@@ -108,6 +109,7 @@ export function FragmentView() {
 
             <SliderView
               testId="frag-mass"
+              presentation={{viewKey:'inspector-fragment',order:101}}
               config={{
                 style: 'slider',
                 valueMin: MASS_MIN,
@@ -128,6 +130,7 @@ export function FragmentView() {
 
             <SliderView
               testId="frag-aspect"
+              presentation={{viewKey:'inspector-fragment',order:102}}
               config={{
                 style: 'slider',
                 valueMin: ASPECT_MIN,
@@ -148,6 +151,7 @@ export function FragmentView() {
 
             <SliderView
               testId="frag-aggregate"
+              presentation={{viewKey:'inspector-fragment',order:103}}
               config={{
                 style: 'graph',
                 valueMin: 1,
@@ -176,6 +180,7 @@ export function FragmentView() {
 
             <SliderView
               testId="frag-degrade"
+              presentation={{viewKey:'inspector-fragment',order:104}}
               config={{
                 style: 'slider',
                 valueMin: 0,

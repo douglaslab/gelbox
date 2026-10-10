@@ -167,8 +167,15 @@ CoreText advances/kerning and Cinder local pixel snapping. All 2,048 independent
 string measurements/placements match; eight exact RGB comparisons cover
 fractional translation, alpha tint and earlier/later translucent geometry on
 both backends at DPR1/2. This is single-line printable ASCII for native numeric
-values, not a general Unicode shaper. Slider integration, Buffer child labels,
-menus and remaining control paint stay open.
+values, not a general Unicode shaper. Slider drawing now matches 128 exact RGB
+comparisons covering standard, bar and graph styles, enabled/disabled states,
+endpoints, notches, text and earlier/later translucent geometry. The actual
+Timeline, Gel settings and Species standard/graph controls now contribute in
+native child order. Their DOM hit regions remain, including graph editing and
+handle drag ownership. Real image overlap/removal and held-icon cancellation
+are verified. Buffer/Dye bar integration still requires its complete parent
+layout, static labels, presets and molecule icons; the verified bar drawing
+foundation does not close that work. Menus and other control paint stay open.
 
 
 
@@ -187,5 +194,5 @@ Files: `MicrotubeRow.tsx`, `GelOverlay.tsx`, `SampleView.tsx`, inspector views,
   browser compatibility, lifecycle and combined performance checks. Record each
   remaining original-GUI/roadmap gate rather than marking the full app complete.
 
-Task 3 is the current implementation increment. Later work may be decomposed further
-when native texture/font evidence arrives; their acceptance scope must not shrink.
+Task 4 control migration is in progress alongside the remaining Task 3 integrated
+acceptance. Later work may be decomposed further without shrinking those gates.

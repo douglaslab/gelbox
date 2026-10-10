@@ -22,7 +22,7 @@
 }
 
 .icon[data-highlighted="true"] {
-  filter: brightness(0.7);
+  filter: brightness(0.5);
 }
 
 .disabled .icon {

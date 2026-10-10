@@ -1,0 +1,287 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceHashes": {
+    "include/Layout.h": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+    "include/Slider.h": "4724225c977d03012a21835b12e7e54029ff9d2b5da01d0891d2cde564f85f68",
+    "include/Gelbox.h": "607dd57d2bddf81f74744f25527c01a01afbe73104fcd08919ff009114774734",
+    "src/Slider.cpp": "34dcc77498366d0b3d7ad48298e4f08c97b02ca1b7fa2285b57dac4723ca01d5",
+    "src/GelboxApp.cpp": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47"
+  },
+  "methodSha256": "5efb9a06ae0a7589abb615b33eada4bc56066d95e1452c76015cba3e7c829efd",
+  "inputs": {
+    "driver.cpp": "f0f9f704cb61fa96a1242ba3afeceffb22ff903399a677205dc77e6842033cd9",
+    "capture.py": "da5d78d0f2c7bbf23f7d3a214afe3e6405bf9a73ca2bb384bfe8bda50a64c242",
+    "cases.json": "b1d74ba526e0091c933f5fa314ddbbc92b71cb1df8de8dd221ed1df087b6aee0",
+    "clock-lo.png": "b1ede6965fbc55aa2bf2f0588dbf193fb40b2a830d9135d3a6d968cbce2d58a7",
+    "clock-hi.png": "9a91d15ba3b1305fdb3dd56855e361a3c36401f2d31372a77831eb0d0dd3f489",
+    "clock-lo@2x.png": "ed66fbc223a811f0f53ea70acf1b7150e4ea93457ac453c1aa3a03e296358e9e",
+    "clock-hi@2x.png": "004f1ef16b7d0135ffba5902e0d70917ec9e1e5f95c493882788952c79554714"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "files": [
+    {
+      "file": "slider-0-enabled-front-1.png",
+      "sha256": "042d7e2d20ac89dda0d3df82e61fe1b83f50a14804576007b848f8b0c20a4264"
+    },
+    {
+      "file": "slider-0-enabled-behind-1.png",
+      "sha256": "597594f0e5b74b2f858360990f54d425f80ae6ff410b562700d6386fd9ef4cac"
+    },
+    {
+      "file": "slider-0-enabled-front-2.png",
+      "sha256": "4da356b3b3217e6395f9d95a06cefa259ab73b38ac640bac211563b33846f225"
+    },
+    {
+      "file": "slider-0-enabled-behind-2.png",
+      "sha256": "979cdb97bb5e9a6daafd372726b278ccdba8927970320552e2cdc8e7f36ef416"
+    },
+    {
+      "file": "slider-413-enabled-front-1.png",
+      "sha256": "9780d36dff11794022304befb9f2555932a39012e1cecab33b51e13c153d2203"
+    },
+    {
+      "file": "slider-413-enabled-behind-1.png",
+      "sha256": "c59926d75da1a5139213d336582cf4f5517267e8705d249234f2b33a5d5a8ae6"
+    },
+    {
+      "file": "slider-413-enabled-front-2.png",
+      "sha256": "763cb62cf213cc6cfdb3934b1ac67c76ddabf1449885354796f3877c26f097c2"
+    },
+    {
+      "file": "slider-413-enabled-behind-2.png",
+      "sha256": "46725558b16c38a78bc1e0e691ab9b6f967d7990aabb6eb24b8c3bbce16b0989"
+    },
+    {
+      "file": "slider-1000-enabled-front-1.png",
+      "sha256": "fef56dfa53b9e3c5199deb95bfa9966d48da2777ffca5b94a83fe22258060930"
+    },
+    {
+      "file": "slider-1000-enabled-behind-1.png",
+      "sha256": "f900038410ac939615257df8e90dee1849a2962cf82e5fce6c371698a5baef00"
+    },
+    {
+      "file": "slider-1000-enabled-front-2.png",
+      "sha256": "4493c122a081f67ad7a5819bea72c840bda7d5b8a435c0f9eab22e5743cceceb"
+    },
+    {
+      "file": "slider-1000-enabled-behind-2.png",
+      "sha256": "371ecd0e7e144ae6fc9bbd9bf457ed8f00b678dddfa9e79089c0d6fcb17c2387"
+    },
+    {
+      "file": "slider-0-disabled-front-1.png",
+      "sha256": "8a2a7f29b702a08fba1cf9e3748d74ecd87a20c7eb4384cfdc09b06fa3f07055"
+    },
+    {
+      "file": "slider-0-disabled-behind-1.png",
+      "sha256": "c93b63380f6a554ebcc9fb7eb9ca3e1ad0a56444c9cb9b2677d4ceafded21b75"
+    },
+    {
+      "file": "slider-0-disabled-front-2.png",
+      "sha256": "3c9de99f570e3bbcdb88746cc683143a98c64bcbef9fe40796f79a3b14141f9f"
+    },
+    {
+      "file": "slider-0-disabled-behind-2.png",
+      "sha256": "89432603fbcee2e661ed9a681381a19dee4920dc63286bc27f7384144feacf11"
+    },
+    {
+      "file": "slider-413-disabled-front-1.png",
+      "sha256": "f49d248b4d9c0f902e7a33be3dc24141a146f5011935b311d771b6c313d3c943"
+    },
+    {
+      "file": "slider-413-disabled-behind-1.png",
+      "sha256": "c432d52def22062aed42ec207f0e0d762529b0405dd997812001c60ec293bd4f"
+    },
+    {
+      "file": "slider-413-disabled-front-2.png",
+      "sha256": "18ab6984fee87c4098bdef052aecabc8f11f05c5dbe5dfd0e1ccacbdac3763a7"
+    },
+    {
+      "file": "slider-413-disabled-behind-2.png",
+      "sha256": "d838272e7cf5d5eee0bbbf7da3cc75f6977dec04fc95fe8819279c2a45b183bf"
+    },
+    {
+      "file": "slider-1000-disabled-front-1.png",
+      "sha256": "1156485086f0cdf0138eb1fb438cb9f69077e8a93708bd45c5e9bb575f5e4600"
+    },
+    {
+      "file": "slider-1000-disabled-behind-1.png",
+      "sha256": "579bf25eefcd416b60e95f33c9d3172131507a94e081ac5c2dab96db511ee70b"
+    },
+    {
+      "file": "slider-1000-disabled-front-2.png",
+      "sha256": "3b9813a751c3254e750b41d4762adc080f058cc10d447242d51c449beee48275"
+    },
+    {
+      "file": "slider-1000-disabled-behind-2.png",
+      "sha256": "46c5131560bfc81388593ca8707bf0b6c2ce771e8ef6f583db3b67dc849ef322"
+    },
+    {
+      "file": "bar-0-enabled-front-1.png",
+      "sha256": "81279faf800306a5b8f8fe61b5e5e4cf63d6024e34bded19562e8f229d42388f"
+    },
+    {
+      "file": "bar-0-enabled-behind-1.png",
+      "sha256": "a1f15bc6218713e342e56d9d6937bdb1d95a23926a9e0e0e303d8de0f7260201"
+    },
+    {
+      "file": "bar-0-enabled-front-2.png",
+      "sha256": "771d6d1f765615bdf556662065c459ac6106b91676cd8c6673f4d791029ead22"
+    },
+    {
+      "file": "bar-0-enabled-behind-2.png",
+      "sha256": "f97b9574f94b08f5e47c894f6e4131d9dc0b820e82dc1f44d97f621687a213f2"
+    },
+    {
+      "file": "bar-413-enabled-front-1.png",
+      "sha256": "2a54e0a304190fea1a381cc75e380edad1f7a938e917d980749604873c023cc8"
+    },
+    {
+      "file": "bar-413-enabled-behind-1.png",
+      "sha256": "da37044563efd7b552b543075abc0011c09ae3bb6efd48733b46e6dc4edad428"
+    },
+    {
+      "file": "bar-413-enabled-front-2.png",
+      "sha256": "d2a504fc52afc7c776b21b14069d7754398f3812938bd7304e63c0b4f4c8c97e"
+    },
+    {
+      "file": "bar-413-enabled-behind-2.png",
+      "sha256": "fc607657bdebd3c84c5a7fc9157a8936f870d9723ea10a7c5854ba30e55ed3f0"
+    },
+    {
+      "file": "bar-850-enabled-front-1.png",
+      "sha256": "cda60dcb1a4e1d93d4a8604536af54fadb51bd18d3a0d7fddc8ea2fef8f866d5"
+    },
+    {
+      "file": "bar-850-enabled-behind-1.png",
+      "sha256": "dbfe7b885bca95e3b6e3c9bf6a9998525872a52e91efd58414764608f129c25d"
+    },
+    {
+      "file": "bar-850-enabled-front-2.png",
+      "sha256": "4c2bfa3b1f73b838fef51a0821a98eec64dc8e197f35cabe0b4aa235f5e374c5"
+    },
+    {
+      "file": "bar-850-enabled-behind-2.png",
+      "sha256": "38925e95b8e35e8315f9e1d3a477d3c340726813b447d0c1cd15ee818b44188d"
+    },
+    {
+      "file": "bar-1000-enabled-front-1.png",
+      "sha256": "82a01eca32e67dceaf068015018655b9073cee5ce417a7e69078f53a64b00736"
+    },
+    {
+      "file": "bar-1000-enabled-behind-1.png",
+      "sha256": "7013d60e52e35dab4b4e3b513eeea9ed9147e52c7a5930e5dd289e69a4b14b5b"
+    },
+    {
+      "file": "bar-1000-enabled-front-2.png",
+      "sha256": "0062fac1dcc469b5c06f8930081e52ae1b0abfd656d1cb0f161b4e319d6586a4"
+    },
+    {
+      "file": "bar-1000-enabled-behind-2.png",
+      "sha256": "02338c9052a8a1395cb63595ffef6d021aa69fe129b4b8f7b59db2394fe4d4c0"
+    },
+    {
+      "file": "bar-0-disabled-front-1.png",
+      "sha256": "227ecb0ce062f6f4030503f1db3876da80628fdacd609dab63279d8ad009c58a"
+    },
+    {
+      "file": "bar-0-disabled-behind-1.png",
+      "sha256": "1bd3f1ffc33faecac1d95c445d46273ce4928a58adff127bfbb7a897b32ba9d2"
+    },
+    {
+      "file": "bar-0-disabled-front-2.png",
+      "sha256": "b2486392cb6c985d7e48f4c5f33c54749fd2ea2d431599b289d82e1653839bb5"
+    },
+    {
+      "file": "bar-0-disabled-behind-2.png",
+      "sha256": "187b662dc858446e2853506be7489bf5d9cdcfd6ba07ad20a9d46e274840e993"
+    },
+    {
+      "file": "bar-413-disabled-front-1.png",
+      "sha256": "24cecd7405714d29705aee33111a01c82337dfa3bce929a6a71750ec518881c9"
+    },
+    {
+      "file": "bar-413-disabled-behind-1.png",
+      "sha256": "2e6cb5a31489005262560808cfbc08f161dacb444d4661b6710673544fb1a310"
+    },
+    {
+      "file": "bar-413-disabled-front-2.png",
+      "sha256": "d1dbc825fda9be212feb6132b2a145fb894c576035e944596a1f93a216d21136"
+    },
+    {
+      "file": "bar-413-disabled-behind-2.png",
+      "sha256": "5f7a4af7f22ef268efac32887248c48581c8788d6935ad3edfe87dd994cb4503"
+    },
+    {
+      "file": "bar-850-disabled-front-1.png",
+      "sha256": "4a846f55d853e952a3c13446f159d5b2274a276d6bac12de0a2da1e406b93d0f"
+    },
+    {
+      "file": "bar-850-disabled-behind-1.png",
+      "sha256": "b26f5ed02fbdd674656f910c54d00594a51f8d08248825b0bd4ca0c2accdce7f"
+    },
+    {
+      "file": "bar-850-disabled-front-2.png",
+      "sha256": "42e9b396a990e3c890ff788d6d24bc5cb3584305984ceea597b0e095c0b31172"
+    },
+    {
+      "file": "bar-850-disabled-behind-2.png",
+      "sha256": "5504a154333d22b744eaf30c7240969e1bfa9551631d6464f3e85f3a472c95ea"
+    },
+    {
+      "file": "bar-1000-disabled-front-1.png",
+      "sha256": "48c7de0153e1d84c006db1265c41d71b605664ecd3c49b090c1302808386f6e2"
+    },
+    {
+      "file": "bar-1000-disabled-behind-1.png",
+      "sha256": "f3f50f4b6319f50ee7980544bd44e72dd7e88ac58c452845ad305d47d634c1ef"
+    },
+    {
+      "file": "bar-1000-disabled-front-2.png",
+      "sha256": "2c2ffb58bc92cd069fb6906610a02eec8fd69aefa724202d40f2faead98d7839"
+    },
+    {
+      "file": "bar-1000-disabled-behind-2.png",
+      "sha256": "3dccfe60e6bc7e9e76d13473754df2143a19873e3aedc4c92b95980e5bddf069"
+    },
+    {
+      "file": "graph-500-enabled-front-1.png",
+      "sha256": "78a00b434d0effe18919437921ca23c5450f4b9802e97b1fa96a6995998b0c67"
+    },
+    {
+      "file": "graph-500-enabled-behind-1.png",
+      "sha256": "5f41448e525f532976ec749aa0bb88af55785f6633125027fc1bc6d9763fcff1"
+    },
+    {
+      "file": "graph-500-enabled-front-2.png",
+      "sha256": "8c37960b20d0fc42a32531f71cb5bd4ae32288a8cdb3ed84f26bdd26998c45c9"
+    },
+    {
+      "file": "graph-500-enabled-behind-2.png",
+      "sha256": "8ad4f29532f583407883d8c5c3c9f328512925cd6766819e55f8d6b857893a78"
+    },
+    {
+      "file": "graph-500-disabled-front-1.png",
+      "sha256": "ce6dcd3f564481cd1488296f2718eb55d8f826a7ed3ce05e02bedb6a15d27227"
+    },
+    {
+      "file": "graph-500-disabled-behind-1.png",
+      "sha256": "21c29f22e211f5e591e42a775656a020cb0dd1366906c0dcab870c46d6796653"
+    },
+    {
+      "file": "graph-500-disabled-front-2.png",
+      "sha256": "076c093b214d0785e81ad648dcaa7175e1a25da33ecd52f7c450fe86e13a7ef3"
+    },
+    {
+      "file": "graph-500-disabled-behind-2.png",
+      "sha256": "0f0a9963c57c478455f4c0008d181eb313bd7d787875425905dd604d4bb74c3f"
+    }
+  ],
+  "limits": [
+    "Actual pinned Slider header/drawing/layout/mapping and global snap methods.",
+    "Window content scale and GelboxApp UIFont access use explicit adapters with matching font construction.",
+    "Clock assets used for all styles to exercise texture placement/tints; actual buffer/dye icons and parent layout are separate integration gates.",
+    "Modern Cinder/macOS RGBA8 MSAA4; not original-release full GUI certification."
+  ]
+}

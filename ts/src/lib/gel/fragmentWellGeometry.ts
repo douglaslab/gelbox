@@ -44,3 +44,10 @@ export function solidRoundedRect(rect:{x1:number;y1:number;x2:number;y2:number},
   for(let i=0;i<result.data.length;i+=6)result.data.set([color[0],color[1],color[2],color[3]??1],i+2);
   return {mesh:result};
 }
+
+/** Native one-physical-pixel rounded outline, preserving GL_LINES vertices. */
+export function strokedRoundedRect(rect:{x1:number;y1:number;x2:number;y2:number},radius:number,color:readonly number[]):PresentationLayer {
+  const result=mesh(rounded(rect.x1,rect.y1,rect.x2,rect.y2,radius,true),255);
+  for(let i=0;i<result.data.length;i+=6)result.data.set([color[0],color[1],color[2],color[3]??1],i+2);
+  return {mesh:result,topology:'line-list'};
+}

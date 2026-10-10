@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Latest verification: 2026-10-10 · shared sample/fragment integration gates · native reference `5f51097`._
+_Latest verification: 2026-10-10 · shared control/font migration · native reference `5f51097`._
 
 ## Direction
 
@@ -16,12 +16,19 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest recorded verification
 
-On macOS with Node 22: these checks include native well presentation, terminal-failure cleanup, scientific render invalidation, and direct-band multisample composition. The well-presentation review’s Important cleanup finding and previously deferred redundant-redraw finding are now fixed. Details and scope remain in the records below.
+On macOS with Node 22, the latest increment migrates Timeline, Gel and Species
+standard/graph slider paint into development shared composition. Dynamic UIFont
+metrics/placement match 2,048 independent native strings; 128 slider RGB
+comparisons match native methods exactly. Actual controls pass image covering,
+restoration, icon states and existing gesture checks in both rendering modes.
+See [slider evidence](../reference/web/shared-slider-scenes/README.md) and
+[font evidence](../reference/web/native-ui-text/README.md). Bar drawing is verified,
+but Buffer/Dye labels, presets, icons and complete parent layout remain open.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,916 passed |
-| Browser suite across WebGPU/WebGL2 | 559 passed; one intentional duplicate skipped |
+| Unit suite | 2,920 passed |
+| Browser suite across WebGPU/WebGL2 | 745 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -45,9 +52,11 @@ The [design](superpowers/specs/2026-10-10-shared-composition.md) and
 [implementation sequence](superpowers/plans/2026-10-10-shared-composition.md)
 cover ordered graphics, clipping, textures, frame timing, and DOM interaction
 preservation. Ordered mesh and texture operations are implemented. Development mode now draws
-sample and fragment bodies after the React commit on the shared surface. Next
-migrate gel, loupes and images, then ordered control/text/frame paint. The
-production app still uses separate view canvases.
+sample/fragment bodies, gel, loupes, reference images, tube icons, sample chrome,
+inspector headings and standard/graph slider paint on the shared surface after
+the React commit. Remaining work includes Buffer/Dye controls, menus, palette,
+checkboxes, overlays and full integrated acceptance. The production app still
+uses separate view canvases; exact production composition remains open.
 
 
 ## Remaining completion work
