@@ -449,3 +449,12 @@ native JSON. Current runner stays visible even after headed minimization; both
 cases fail the visibility precondition. No product workaround or weakened
 assertion was introduced. Resolve the runner/manual workflow before claiming
 hidden-tab resume coverage; the passing regression suite is unchanged.
+
+
+P5 application performance baseline: built app with 50 bands, sample and three
+sparse loupes measured on M5Max/macOS27.0.1/Chromium131 at DPR2. Two ten-second
+steady windows and verified 60-move timeline drag show p95 rAF intervals16.7–16.8ms
+and unchanged tracked object counts in this run. Raw reports/fixture provenance
+are under reference/web/performance; `test:performance` reproduces the workload.
+Both cases/build pass. Dense/longer workloads, driver memory, GPU/presentation
+timing and matching native measurements remain open; no release budget is claimed.

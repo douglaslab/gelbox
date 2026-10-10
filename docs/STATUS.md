@@ -1182,3 +1182,36 @@ passes). The executed minimization probe failed both visibility preconditions;
 changed in response to a browser control that did not establish the required
 state. A supported lifecycle runner or observed manual background/foreground
 workflow is needed. Existing graphics-loss, route and DPR evidence remains separate.
+
+
+## Built-application performance baseline
+
+`npm --prefix ts run test:performance` builds the app and measures it from a local
+static server, sequentially on both Chromium backends. The recorded native-format
+fixture repeats the first ten species of an existing native export into five lanes
+(50 bands) with two empty lanes. The real application opens a sample and three
+loupes at separated bands, warms up for three seconds, then records two ten-second
+windows and a 60-pointer-move timeline drag. Assertions verify the timeline changes
+to 0:18 and back to 3:00; the interaction is not just a missed pointer gesture.
+
+Recorded on Mac17,14 / Apple M5 Max, macOS27.0.1, pinned Chromium131.0.6778.33,
+1365×768 CSS pixels at DPR2. Raw measurements and fixture provenance are in
+`reference/web/performance/`. In this run:
+
+| Metric | WebGPU | WebGL2 |
+|---|---:|---:|
+| Steady rAF interval p95 (two windows) | 16.8 / 16.8 ms | 16.7 / 16.7 ms |
+| rAF callback CPU p95 | 3.5 / 3.5 ms | 2.7 / 2.9 ms |
+| Timeline-drag rAF interval p95 | 16.8 ms | 16.7 ms |
+| Tracked owned objects, warmup → post-drag | 223 → 223 | 27 → 27 |
+
+The sample holds about160 particles; loupes in this fixture are sparse (1/5/1).
+Resource counts track different API object categories per backend and are not
+comparative memory footprints. Steady windows leave gel effects static; the drag
+forces gel updates. Timings measure callback CPU and rAF cadence, not GPU timestamps
+or input-to-photon latency. Driver residency, longer runs, denser loupes, native
+comparison and a justified release performance budget remain required.
+
+**Final build/type checks and both measurement cases passed.** Product code is
+unchanged; no full regression rerun was needed. These are baseline measurements,
+not an invented FPS acceptance threshold or a closed performance/release gate.
