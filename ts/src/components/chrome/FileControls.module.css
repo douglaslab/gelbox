@@ -1,10 +1,50 @@
+.menu {
+  position: fixed;
+  width: 0;
+  height: 0;
+  overflow: visible;
+  pointer-events: none;
+  font-size-adjust: none;
+  color: #777;
+}
+.item { position: absolute; left: 0; width: max-content; display: flex; pointer-events: auto; }
+.item button {
+  appearance: none;
+  display: block;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  border-radius: 2px;
+  background: #f2f2f2;
+  color: #777;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: var(--button-font-size);
+  line-height: var(--button-line-height);
+  white-space: pre;
+  cursor: pointer;
+}
+/* Avenir-Medium 12 texture extents, rounded up by native TextLayout.
+   ButtonView divides the 1x texture dimensions by the window scale. */
+.openButton { width: calc(50px / var(--menu-scale)); }
+.saveGelButton { width: calc(67px / var(--menu-scale)); }
+.saveSampleButton { width: calc(139px / var(--menu-scale)); }
+.item button:hover { background: #e6e6e6; color: #6b6b6b; }
+.item button:active:hover { background: #b3b3b3; color: #535353; }
 .hoverToggle {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  height: 18px;
+  padding: calc(18px - var(--label-line-height)) 0 0 21px;
+  font-size: 12px;
+  line-height: var(--label-line-height);
   white-space: nowrap;
 }
 .hoverToggle input {
+  position: absolute;
+  left: 0;
+  top: 0;
   appearance: none;
   box-sizing: border-box;
   width: 16px;

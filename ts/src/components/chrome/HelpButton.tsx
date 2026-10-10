@@ -12,7 +12,6 @@ export function HelpButton() {
     style={{position:'fixed',right:LAYOUT.btnGutter,bottom:LAYOUT.btnGutter,
       width:LAYOUT.btnSize.x,height:LAYOUT.btnSize.y,zIndex}}>
     <img src={resolveAssetUrl('/assets/help.png')}
-      srcSet={`${resolveAssetUrl('/assets/help@2x.png')} 2x`}
       width={LAYOUT.btnSize.x} height={LAYOUT.btnSize.y} alt="" draggable={false}/>
   </a>;
 }

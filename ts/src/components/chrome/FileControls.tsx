@@ -1,7 +1,8 @@
 import {flushSync} from 'react-dom';
 import {useFileLoadQueue} from '../gel/FileLoadProvider';
 import {useViewLayer,useViewZIndex} from '../gel/useViewLayer';
-import type {ReactNode} from 'react';
+import {Children,type ReactNode,type CSSProperties} from 'react';
+import {LAYOUT} from '../../lib/layout/layout';
 import styles from './FileControls.module.css';
 import { resolveAssetUrl } from '../../lib/layout/assets';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -99,9 +100,9 @@ export function FileControls() {
   return (
     <section onPointerDownCapture={e => e.preventDefault()} ref={menuRef} data-testid="file-controls" style={{display:'contents'}}>
       {open && <ApplicationMenu>
-        <button data-testid="open-btn" onClick={onOpenClick}>Open…</button>
-        <button data-testid="save-gel-btn" onClick={onSaveGel}>Save Gel…</button>
-        {selectedSample && <button data-testid="save-sample-btn" onClick={onSaveSample}>Save Selected Sample…</button>}
+        <button className={styles.openButton} data-testid="open-btn" onClick={onOpenClick}>{' Open… '}</button>
+        <button className={styles.saveGelButton} data-testid="save-gel-btn" onClick={onSaveGel}>{' Save Gel… '}</button>
+        {selectedSample && <button className={styles.saveSampleButton} data-testid="save-sample-btn" onClick={onSaveSample}>{' Save Selected Sample… '}</button>}
         <label className={styles.hoverToggle}>
           <input type="checkbox" checked={state.hoverLoupeEnabled}
             onChange={event => dispatch({ type: 'SET_HOVER_LOUPE_ENABLED', value: event.target.checked })} />
@@ -124,5 +125,23 @@ export function FileControls() {
 
 function ApplicationMenu({children}:{children:ReactNode}){
  const {zIndex}=useViewLayer('app-settings');
- return <div id="application-file-menu" style={{position:'fixed',bottom:64,left:16,minWidth:180,display:'flex',flexDirection:'column',alignItems:'flex-start',gap:12,paddingBottom:12,borderBottom:'1px solid #979797',background:'#fff',zIndex}}>{children}</div>;
+ const items=Children.toArray(children);
+ // Native text buttons render a 1x texture and divide its size by the window
+ // scale; CheckboxView explicitly renders its label at the window scale.
+ const scale=window.devicePixelRatio||1;
+ return <div id="application-file-menu" className={styles.menu} style={{
+   left:LAYOUT.btnGutter,bottom:LAYOUT.btnGutter+LAYOUT.btnSize.y,zIndex,
+   fontFamily:LAYOUT.uiFont,fontWeight:LAYOUT.uiFontWeight,
+   '--button-font-size':`${LAYOUT.uiFontSize/scale}px`,
+   '--button-line-height':`${17/scale}px`,
+   '--menu-scale':scale,
+   // CoreText Avenir-Medium 12 ascent + descent; native rounds texture pixels up.
+   '--label-line-height':`${Math.ceil(16.3919677734375*scale)/scale}px`,
+ } as CSSProperties}>
+   <img data-testid="application-menu-divider" src={resolveAssetUrl('/assets/app-settings-line.png')}
+     width={113} height={8} alt="" draggable={false}
+     style={{position:'absolute',width:113,height:8,maxWidth:'none',left:-LAYOUT.appSettingsToDivLine.x,bottom:LAYOUT.appSettingsToDivLine.y}}/>
+   {items.map((item,index)=><div key={index} className={styles.item}
+     style={{bottom:LAYOUT.appSettingsToFirstWidgetGutter+LAYOUT.appSettingsItemVOffset*(items.length-1-index)}}>{item}</div>)}
+ </div>;
 }

@@ -64,3 +64,33 @@ test('selecting a loupe molecule opens its source panel on the next native frame
  await expect(page.getByTestId('fragment-view')).toBeVisible();
  await expect(page.getByTestId('loupe-frame-1')).toBeFocused();
 });
+
+test('leaving a loupe clears rollover acquired by a frame without a pointer event',async({page},info)=>{
+ await page.addInitScript(b=>{localStorage.setItem('gelBackend',b);(window as any).__molsimFreezeAfterTicks=60;},info.project.name.includes('webgl2')?'webgl2':'webgpu');
+ // Observe the real application store without adding production test hooks.
+ await page.route('**/src/components/sample/SampleSimCanvas.tsx*',async route=>{
+  const response=await route.fetch(),body=await response.text();
+  expect(body).toContain('const store = useGelStore();');
+  await route.fulfill({response,body:body.replace('const store = useGelStore();','const store = useGelStore(); globalThis.__observedGelStore = store;')});
+ });
+ await page.goto('/#/gel');
+ const band=(await page.getByTestId('band-0').boundingBox())!;
+ await page.keyboard.down('Meta');await page.mouse.click(band.x+band.width/2,band.y+band.height/2);await page.keyboard.up('Meta');
+ const canvas=page.getByTestId('loupe-canvas-1');await expect(canvas).toHaveAttribute('data-frozen','1');
+ // Park over empty space. A particle then crosses the stationary pointer;
+ // only the native frame picker, not a mouse callback, observes this hit.
+ await canvas.hover({position:{x:80,y:80}});
+ await page.evaluate(()=>{
+  const store=(window as any).__observedGelStore,view=store.getMolecularView('loupe-1');
+  store.dispatch({type:'SET_SELECTION',ref:null});
+  const part=view.sim.parts.find((p:any)=>p.alive);
+  if(!part)throw new Error('Missing loupe particle');
+  part.loc={x:80,y:80};part.fade=1;
+  store.setViewPointer('loupe-1',{x:80,y:80},true);
+  store.tick(60);
+  if(!store.getSnapshot().gel.rollover)throw new Error('Frame failed to acquire rollover');
+ });
+ await page.mouse.move(0,0);
+ await expect.poll(()=>page.evaluate(()=>(window as any).__observedGelStore.getSnapshot().gel.rollover)).toBeNull();
+ await expect(page.getByTestId('fragment-view')).toHaveCount(0);
+});

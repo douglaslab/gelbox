@@ -21,17 +21,17 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 275 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 281 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
-These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; reliable fresh native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
+These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
 
 ## Remaining completion work
 
 The [composed native runtime reference](../reference/native/runtime/README.md) covers sixteen sequences and eight contracts for constructors, local/global random draws, species generation, loupe preroll, ordered ticks and collection lifetimes. The matching TypeScript runtime is now connected to the live app through a synchronous command store and one application frame driver. Canvases draw existing engines; GPU readiness and React effect replay do not own simulation. Native species generation, intermediate tube/loupe notifications, inspector timing and right-pointer creation/drag are implemented. Twelve store tests and eight new browser checks supplement the reference tests. The review fix is verified; these scripted references and browser checks do not certify full native GUI history or raster parity.
 
 1. **Cross-view certification and shared runtime.** Sample identity, off-document references, raw fragment indices and frame selection-following are now implemented and regression-tested. Complete composed native GUI replay of selection/focus/panel transitions, and extend verification of application-wide RNG initialization and view scheduling beyond the captured command sequences.
-2. **Remaining native features and controls.** Reference-image views are now implemented with source-backed gestures and shared ordering; native image decoding/raster and composed GUI certification remain. The Render-off alternate band scene is now implemented; native raster certification remains. Complete settings/menu geometry, shortcuts, focus and remaining interaction details, with composed native replay of the restored right-click creation/drag sequence.
+2. **Remaining native features and controls.** Reference-image views are now implemented with source-backed gestures and shared ordering; native image decoding/raster and composed GUI certification remain. The Render-off alternate band scene is now implemented; native raster certification remains. Menu placement and measured button geometry are now implemented at 1×/2×. Complete typography/raster comparison, shortcuts, focus and remaining interaction details, with composed native replay of the restored right-click creation/drag sequence.
 3. **Native visual certification.** Capture controlled matching native/web scenes for gel effects, blur/compositing, particles, loupes, selection and complete application layout. Resolve typography, asset proportions, resize/DPR behavior and justified raster tolerances. Decide cross-platform font handling and any browser layout adaptations explicitly.
 4. **Composed workflow verification.** Expand native → web edit/save → native roundtrips and replay move/clone/delete with loupes open, hidden-lane restoration, degraded multimer dragging, and buffer changes with resizing/failures. Resolve recorded XML safety and unsupported native import edge cases explicitly.
 5. **Browser lifecycle reliability.** Verify adapter failure and fallback, device/context loss, async unmount/disposal, route remount, resize/DPR, hidden-tab resume and repeated multi-view creation/removal. Provide a clear failure when no supported renderer works. Certify shortcuts that browser chrome may intercept.
@@ -537,3 +537,32 @@ or full raster certification. The native menu visibly uses the notched divider
 asset and 28px item offsets; the web menu still uses a CSS border/flex gap. That
 remaining menu geometry correction is next. Source contracts: native
 `GelboxApp::makeHelpBtn`, `Config.h`, `Layout.h`, `AppSettingsView::setup` at `5f51097`.
+
+
+## Native application menu and frame-acquired loupe rollover
+
+The application menu now uses the native bottom-up 28px item spacing, measured
+button dimensions, checkbox alignment, fill/hover colors, and original notched
+divider, without a filled background panel. The native Retina text-button size
+quirk is preserved. Source and reproducible macOS CoreText measurements are in
+[the menu reference](../reference/native/menu/README.md). Browser tests cover
+both display scales, selected-sample insertion, and actual Help asset decoding.
+The latter caught and fixed a double `@2x` suffix that broke the Help image on
+Retina displays. The 1×/2× geometry regressions failed before correction.
+
+Full-suite verification exposed an intermittent existing loupe failure. Instrumented
+real-engine picks returned -1 for the empty-space click and selection cleared,
+but rollover remained at fragment 0. The frame picker can write rollover without
+updating the component's last mouse-event reference; a subsequent miss/leave was
+therefore unable to clear it. Loupe hover callbacks now clear current rollover on
+miss/leave, matching the ordinary sample's behavior. A deterministic browser
+regression moves a real particle under a stationary pointer, uses the real frame
+picker, then leaves the canvas; it failed on both backends before the fix.
+All 18 repeated loupe scenarios pass afterward, including the original failure.
+
+Fresh verification on Node 22: **281 browser tests passed, one intentional duplicate
+skipped; production build and TypeScript checks passed**. The unchanged model's
+last full unit baseline remains **2,845 passed**; it was not rerun for these UI
+changes. No screenshot goldens were changed. The reviewed web menu screenshot
+and source-backed geometry do not certify native text rasterization or complete
+application visual parity. Broader native workflow, raster, and P5 gates remain open.

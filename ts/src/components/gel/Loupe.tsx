@@ -60,7 +60,12 @@ export function Loupe({loupe,sourceRefs,transient=false}:LoupeProps) {
    <SampleSimCanvas view={view} viewKey={viewKey} width={SIZE} height={SIZE}
     onPickFragment={index=>{const ref=source(index);if(ref)dispatch({type:'SET_SELECTION',ref});}}
     onPickBackground={()=>dispatch({type:'SET_SELECTION',ref:null})}
-    onHoverFragment={index=>{const ref=index===null?null:source(index);if(ref)dispatch({type:'SET_ROLLOVER',ref});else if(hovered.current)dispatch({type:'CLEAR_ROLLOVER_IF',ref:hovered.current});hovered.current=ref;}}
+    onHoverFragment={index=>{
+      const ref=index===null?null:source(index);
+      // A frame can acquire rollover without a mouse callback. A miss/leave
+      // must clear that current rollover too, not only hovered.current.
+      dispatch({type:'SET_ROLLOVER',ref});hovered.current=ref;
+    }}
     data-testid={transient?"hover-loupe-canvas":`loupe-canvas-${loupe.id}`}/>
    <div style={{position:'absolute',inset:0,pointerEvents:'none',outline:`1px solid ${focused||hover?'#666':'#ccc'}`,boxShadow:focused?'0 0 0 2px rgba(0,0,255,.1), inset 0 0 0 2px rgba(0,0,255,.1)':undefined}}/>
   </div>
