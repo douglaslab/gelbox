@@ -162,10 +162,11 @@ export function SampleSimCanvas({
   }, [width, height]);
 
   const onPointerMove = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
-    hoverRef.current = true;
+    hoverRef.current = !store.isPointerDown();
     const c = eventCoords(e);
     if (!c) return;
     store.setViewPointer(viewKey,c,true);
+    if(store.isPointerDown())return;
     const fragIdx = sim.pickFragment(c.x, c.y);
     if (fragIdx >= 0) {
       onHoverFragment?.(fragIdx);
@@ -193,7 +194,10 @@ export function SampleSimCanvas({
     } else onPickBackground?.();
   }, [eventCoords, onPickFragment, onPickBackground, store, viewKey, sim]);
 
-  const onPointerUp = useCallback(() => { downRef.current = false; }, []);
+  const onPointerUp = useCallback((e: {clientX:number;clientY:number}) => {
+    downRef.current = false;
+    hoverRef.current = document.elementFromPoint(e.clientX,e.clientY)===canvasRef.current;
+  }, []);
 
   // Native mouse-down ownership survives leaving the view until release.
   useEffect(() => {
@@ -211,6 +215,7 @@ export function SampleSimCanvas({
     <canvas
       ref={canvasRef}
       data-testid={testId}
+      data-molecular-view={viewKey}
       data-alive-count={aliveCount}
       data-frozen={view.frozen ? '1' : '0'}
       onPointerEnter={() => { hoverRef.current = true; }}

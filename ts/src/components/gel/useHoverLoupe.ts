@@ -31,6 +31,16 @@ export function useHoverLoupe() {
       store.endPointerDown();
       const point = pointAt(event);
       store.releasePointer(point);
+      // Native mouse-up restores rollover from the actual top view, even when
+      // DOM capture delivers the event elsewhere and no pointer move follows.
+      const canvas=document.elementFromPoint(event.clientX,event.clientY)?.closest<HTMLCanvasElement>('canvas[data-molecular-view]');
+      if(canvas) {
+        const rect=canvas.getBoundingClientRect();
+        store.setViewPointer(canvas.dataset.molecularView!,{
+          x:(event.clientX-rect.left)/rect.width*canvas.clientWidth,
+          y:(event.clientY-rect.top)/rect.height*canvas.clientHeight,
+        },true,false);
+      }
     };
     const cancel = () => { down = false; store.endPointerDown(); store.releasePointer(null); dispatch({ type: 'cancel' }); };
     const leave = (event: PointerEvent) => { if (!event.relatedTarget && !down) dispatch({ type: 'move', point: null }); };

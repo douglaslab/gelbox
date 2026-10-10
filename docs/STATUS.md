@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Consolidated: 2026-10-09 · implementation through Render-off scene · native reference `5f51097`._
+_Consolidated: 2026-10-09 · implementation through application runtime integration · native reference `5f51097`._
 
 ## Direction
 
@@ -16,22 +16,22 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest recorded verification
 
-On macOS with Node 22: unit/build checks include the molecular runtime foundation; the latest browser run remains the Render-off integration run.
+On macOS with Node 22: these checks include the application runtime integration. Fresh independent review is complete; its Important pointer-ownership finding is fixed.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,832 passed |
-| Browser suite across WebGPU/WebGL2 | 263 passed; one intentional duplicate invocation skipped |
+| Unit suite | 2,844 passed |
+| Browser suite across WebGPU/WebGL2 | 271 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; reliable fresh native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
 
 ## Remaining completion work
 
-Active runtime work: the [source audit and composed native reference](../reference/native/runtime/README.md) confirms that molecular/view construction, inspector initialization, particle spawning and local species generation use distinct but coupled random streams. Sixteen native sequences reproduce byte-identically across executions; eight contracts check constructor/local/global draws, exact species generation, loupe preroll, ordered ticks and collection lifetimes. A framework-independent TypeScript molecular runtime now matches every captured frame, species value and RNG checkpoint, with seven additional ownership/freeze tests. It retains the verified engine and adds application-owned RNG injection, local species generation, explicit view lifetimes and ordered ticks. **Application integration remains unfinished**: live canvases still use lane seeds and their own animation loops, and species commands still use `Math.random`. These captures use scripted headless adapters, not full GUI replay. Next is wiring the runtime through synchronous commands/hover events and presentational canvases, including StrictMode and delayed-GPU browser checks.
+The [composed native runtime reference](../reference/native/runtime/README.md) covers sixteen sequences and eight contracts for constructors, local/global random draws, species generation, loupe preroll, ordered ticks and collection lifetimes. The matching TypeScript runtime is now connected to the live app through a synchronous command store and one application frame driver. Canvases draw existing engines; GPU readiness and React effect replay do not own simulation. Native species generation, intermediate tube/loupe notifications, inspector timing and right-pointer creation/drag are implemented. Twelve store tests and eight new browser checks supplement the reference tests. The review fix is verified; these scripted references and browser checks do not certify full native GUI history or raster parity.
 
-1. **Cross-view certification and shared runtime.** Sample identity, off-document references, raw fragment indices and frame selection-following are now implemented and regression-tested. Complete composed native GUI replay of selection/focus/panel transitions, and verify application-wide RNG initialization and view scheduling.
-2. **Remaining native features and controls.** Reference-image views are now implemented with source-backed gestures and shared ordering; native image decoding/raster and composed GUI certification remain. The Render-off alternate band scene is now implemented; native raster certification remains. Complete settings/help/menu geometry, shortcuts, focus and remaining interaction details, including the right-click creation/drag sequence.
+1. **Cross-view certification and shared runtime.** Sample identity, off-document references, raw fragment indices and frame selection-following are now implemented and regression-tested. Complete composed native GUI replay of selection/focus/panel transitions, and extend verification of application-wide RNG initialization and view scheduling beyond the captured command sequences.
+2. **Remaining native features and controls.** Reference-image views are now implemented with source-backed gestures and shared ordering; native image decoding/raster and composed GUI certification remain. The Render-off alternate band scene is now implemented; native raster certification remains. Complete settings/help/menu geometry, shortcuts, focus and remaining interaction details, with composed native replay of the restored right-click creation/drag sequence.
 3. **Native visual certification.** Capture controlled matching native/web scenes for gel effects, blur/compositing, particles, loupes, selection and complete application layout. Resolve typography, asset proportions, resize/DPR behavior and justified raster tolerances. Decide cross-platform font handling and any browser layout adaptations explicitly.
 4. **Composed workflow verification.** Expand native → web edit/save → native roundtrips and replay move/clone/delete with loupes open, hidden-lane restoration, degraded multimer dragging, and buffer changes with resizing/failures. Resolve recorded XML safety and unsupported native import edge cases explicitly.
 5. **Browser lifecycle reliability.** Verify adapter failure and fallback, device/context loss, async unmount/disposal, route remount, resize/DPR, hidden-tab resume and repeated multi-view creation/removal. Provide a clear failure when no supported renderer works. Certify shortcuts that browser chrome may intercept.
@@ -44,11 +44,11 @@ Active runtime work: the [source audit and composed native reference](../referen
 | P0 — Native reference | Strong numerical/source evidence; full GUI replay and visual reference coverage remain open |
 | P1 — Application and files | Core files and shell implemented; complete controls and composed interchange gate remain open |
 | P2 — Editing and UI | Interaction paths and sample identity restored; complete focus/panel replay remains open |
-| P3 — Numerical and rendering fidelity | Extensive independent comparisons pass; global RNG scheduling and full native raster gate remain open |
+| P3 — Numerical and rendering fidelity | Extensive independent comparisons pass; integrated RNG scheduling is tested; full native raster gate remains open |
 | P4 — Loupes and images | Persistent/hover loupes and reference images implemented; native composed GUI/raster certification remains open |
 | P5 — Reliability and release | Production/platform/performance certification remains open |
 
-All six full exit gates remain open; that does not mean their implemented parts are untested. Next sequence: remaining native features and shared runtime/RNG, controlled visual/workflow replay, then production/platform release checks. Continue reference work alongside implementation. No evidence-based percentage or calendar completion estimate is available yet; visual replay and platform checks may expose additional defects.
+All six full exit gates remain open; that does not mean their implemented parts are untested. Next sequence: remaining native features and the recorded highlight timing correction, controlled visual/workflow replay, then production/platform release checks. Continue reference work alongside implementation. No evidence-based percentage or calendar completion estimate is available yet; visual replay and platform checks may expose additional defects.
 
 Rust/WASM/native packaging, redesign/mobile composition, undo/autosave, scientific-model improvements and cloud features remain outside this parity release.
 
@@ -464,3 +464,46 @@ Verification: **2,809 units, 263 browser tests (one intentional duplicate skip),
 
 
 Render-off final review: repeated WebGL mode changes could retain retired canvas contexts and evict an open loupe under browser context pressure. Both canvas paths now explicitly release detached contexts after destroying resources; resize and StrictMode reuse retain connected contexts. A deterministic pre-fix regression held the retired context alive and failed; after correction, 50 mode changes retain loupe context/focus and byte-identical paused images on both backends. Final full results are 2,809 units, 263 browser tests plus one intentional skip, build/TypeScript and 2 native reference contracts passed. No goldens changed or Minor findings deferred. Physical monitor-only transitions, original native raster and general external context/device-loss recovery remain open release gates.
+
+
+## Application runtime integration
+
+`GelStore` now owns synchronous command effects, persistent local/global random
+streams, cached loupe samples, view lifetimes and frame scheduling. React observes
+stable snapshots; molecular canvases draw after the app tick. Native intermediate
+tube notifications, creation-order loupe refresh, immediate selection versus
+post-tick rollover inspectors, closing-loupe final ticks, native species generation
+and right-pointer creation/drag are covered by store and browser regressions.
+Repeated setting callbacks retain native refresh effects even when values match.
+
+New browser regressions failed before wiring on both backends for generated species
+values, GPU-gated ticks and missing right drag; all six now pass. Existing hover
+regressions caught microtask cleanup preceding React target handlers; event-task
+cleanup restores the native mouse-down refresh window. Full verification is
+**2,844 unit tests, 271 browser tests plus one intentional duplicate skip, production
+build/TypeScript checks and eight native runtime contracts passing**. Eight ordinary
+molecular screenshots were inspected and updated for native seeds; the selected
+snapshot now requires a successful particle hit. Loupe/layout baselines did not change.
+Fresh read-only review identified held-gesture rollover ownership as Important; the fix passed the full suite. Native full GUI/raster and P5 reliability gates
+remain open; delayed acquisition coverage is not general device-loss certification.
+
+
+Runtime final review: molecular rollover previously remained active during a held
+pointer gesture. Native ViewCollection clears that ownership and GelView clears
+the shared rollover before sample ticks. A store probe and rendered-particle
+browser test reproduced the defect; the store now suppresses held repicking and
+mouse-up restores ownership by hit-testing the actual top canvas, including when
+no subsequent move occurs. Final results above include the fix; no additional
+goldens changed. The fresh review found no Critical issues.
+
+**Open Minor finding, retained for the visual-parity pass:** frame drawing captures
+React highlight props before the current tick's rollover update has committed.
+This can delay a newly picked stationary-pointer highlight by one frame. Resolve
+current store/source references at draw time or draw after the associated commit;
+add a same-frame crossing regression. This is not accepted as final strict parity.
+
+Review boundaries: full native GUI/raster equivalence, P5 reliability and the
+unchanged nonparity 2D fallback remain required later gates. Zero random aspect/
+multimer probabilities match the pinned native defaults; exposing other tuning
+requires new reference coverage. Work stays in the isolated worktree; no merge,
+push or publication was performed.

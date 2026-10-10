@@ -1,5 +1,5 @@
 import {readFileSync} from 'node:fs';
-import {describe,expect,it} from 'vitest';
+import {describe,expect,it,vi} from 'vitest';
 import {GelStore} from '../../src/lib/gel/gelStore';
 import {deriveGelScene} from '../../src/lib/gel/gelScene';
 import {initialGelState} from '../../src/lib/gel/gelState';
@@ -20,6 +20,26 @@ function nextGlobal(store:GelStore) {
 function engineSeed(view:MolecularView) { return (view.sim as unknown as {seed:number}).seed|0; }
 
 describe('native application command ordering',()=>{
+  it('suspends molecular rollover during a held gesture and restores it on release',()=>{
+    const store=new GelStore(populated());
+    store.dispatch({type:'SET_SELECTED_LANE',laneIndex:0});
+    const view=store.getMolecularView('sample')!;
+    const pick=vi.spyOn(view.sim,'pickFragment').mockReturnValue(0);
+    store.setViewPointer('sample',{x:20,y:20},true);
+    store.tick();expect(store.getSnapshot().gel.rollover?.fragmentIndex).toBe(0);
+    store.beginPointerDown(null,false);
+    store.setViewPointer('sample',{x:20,y:20},true,true);
+    store.endPointerDown();pick.mockClear();
+    store.tick();
+    expect(pick).not.toHaveBeenCalled();
+    expect(store.getSnapshot().gel.rollover).toBeNull();
+    store.setViewPointer('sample',{x:30,y:30},true);
+    store.tick();expect(pick).not.toHaveBeenCalled();
+    store.releasePointer(null);
+    store.setViewPointer('sample',{x:30,y:30},true);
+    store.tick();expect(pick).toHaveBeenCalledTimes(1);
+    expect(store.getSnapshot().gel.rollover?.fragmentIndex).toBe(0);
+  });
   it('opens views synchronously and publishes a stable snapshot once per command',()=>{
     const store=new GelStore(empty());let calls=0;
     const cleanup=store.subscribe(()=>calls++);

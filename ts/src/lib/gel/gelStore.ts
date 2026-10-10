@@ -49,6 +49,7 @@ export class GelStore {
   private instance=0;
   private depth=0;
   private inspector:InspectorView='none';
+  private pointerDown=false;
   private downWindow:{point:Point|null}|null=null;
   private pendingRelease:{point:Point|null}|null=null;
 
@@ -176,19 +177,23 @@ export class GelStore {
     this.applyHover(next);
   });
   beginPointerDown=(point:Point|null,persistent:boolean):void=>this.transact(()=>{
+    this.pointerDown=true;
+    for(const meta of this.owned.values())meta.hovered=false;
     this.downWindow=persistent?null:{point};
     this.applyHover(hoverLoupeReducer(this.hover,{type:'down',persistent}));
   });
   endPointerDown=():void=>{this.downWindow=null;};
+  isPointerDown=():boolean=>this.pointerDown;
   releasePointer=(point:Point|null):void=>this.transact(()=>{
+    this.pointerDown=false;
     this.downWindow=null;
-    for(const meta of this.owned.values())meta.down=false;
+    for(const meta of this.owned.values()){meta.down=false;meta.hovered=false;}
     if(this.gel.drag)this.pendingRelease={point};
     else this.applyHover(hoverLoupeReducer(this.hover,{type:'up',point}));
   });
   setViewPointer=(key:string,point:Point|null,hovered:boolean,down?:boolean):void=>{
     const meta=this.active.get(key);if(!meta)return;
-    meta.pointer=point;meta.hovered=hovered;if(down!==undefined)meta.down=down;
+    meta.pointer=point;meta.hovered=hovered&&!this.pointerDown;if(down!==undefined)meta.down=down;
   };
   private afterViewTick(meta:OwnedView):void {
     if(meta.closing){this.dispose(meta);return;}
@@ -204,6 +209,9 @@ export class GelStore {
     this.transact(()=>{
       this.molecular.freezeAfter=freezeAfter;
       this.molecular.tick(()=>{
+        // ViewCollection clears rollover ownership during a held gesture;
+        // GelView clears the shared fragment rollover before SampleView ticks.
+        if(this.pointerDown)this.gel=gelReducer(this.gel,{type:'SET_ROLLOVER',ref:null});
         if(selectionViewTarget(this.gel)!==undefined)this.dispatch({type:'SYNC_SELECTION_VIEW'});
       });
     });

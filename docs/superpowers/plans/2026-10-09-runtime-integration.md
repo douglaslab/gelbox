@@ -1,6 +1,6 @@
 # Application Runtime Integration Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Wire the native molecular runtime through actual application commands, hover events, view lifetimes and rendering.
 
@@ -43,12 +43,52 @@
 
 **Interfaces:** consume Task 1's bound store commands and stable snapshots. `useGelStore()` exposes the provider's single store. SampleSimCanvas receives a MolecularView and registers drawing/pointer input; it performs no simulation lifecycle work. Managed layer registration is idempotent under effect replay.
 
-- [ ] Write browser regressions for renderer-delay-independent ticks, StrictMode single logical creation, native species generation/save, right-click creation/drag, and live loupe updates; run targeted tests to observe current failures.
-- [ ] Replace reducer/effect simulation ownership with store subscription and one app frame driver. Route species/clone/right-pointer commands to the store, migrate hover events and shared layers, and render stored loupe content.
-- [ ] Run focused tests on both backends, then full unit/browser/build/native contracts. Inspect changed screenshots and update only explained RNG/layout consequences. Record exact counts and remaining native GUI/raster limits.
-- [ ] Commit, obtain one fresh read-only final review, fix Important findings with failing-then-passing regressions, and update STATUS/ROADMAP. Retain the worktree for remaining parity gates.
+- [x] Write browser regressions for renderer-delay-independent ticks, StrictMode single logical creation, native species generation/save, right-click creation/drag, and live loupe updates; run targeted tests to observe current failures.
+- [x] Replace reducer/effect simulation ownership with store subscription and one app frame driver. Route species/clone/right-pointer commands to the store, migrate hover events and shared layers, and render stored loupe content.
+- [x] Run focused tests on both backends, then full unit/browser/build/native contracts. Inspect changed screenshots and update only explained RNG/layout consequences. Record exact counts and remaining native GUI/raster limits.
+- [x] Commit, obtain one fresh read-only final review, fix Important findings with failing-then-passing regressions, and update STATUS/ROADMAP. Retain the worktree for remaining parity gates.
 
 ## Decisions
 
 - Execute inline under the continuing goal authorization; the existing isolated worktree is retained.
 - Task 2 consumes Task 1's stable store API; no task changes the numerical reference contract.
+
+
+## Final evidence and rulings
+
+Implemented in `d8a8886` and `b3bd414`, followed by the pointer-ownership review fix.
+Final verification: Node 22, 2,844 units / 62 files, 271 browser tests / both GPU
+backends plus one intentional duplicate skip, production build/TypeScript and
+eight native runtime contracts passed. The three initial browser cases failed
+on both backends before integration. Eight ordinary molecular goldens were
+visually inspected and updated for native RNG; no loupe/layout goldens changed.
+
+Fresh read-only Astra review `/root/review_runtime_integration`: no Critical,
+one Important held-gesture rollover finding, one Minor preceding-frame highlight
+finding. The Important defect reproduced in a store spy and real rendered-particle
+hold/move/release tests on both backends; all pass after the fix and full regression
+run. There was one fix pass, no re-review.
+
+Rulings:
+- Continue inline in the existing isolated worktree under the ongoing goal; no
+  merge/push or new approval gate. Wrong scope would require revising local work.
+- Native setting notifications survive identical resulting values. Skipping them
+  changes RNG consumption; repeated-time/lanes regressions cover this boundary.
+- End the preclear hover window at an event-task boundary, not a microtask:
+  browser microtask checkpoints precede React target handlers. Wrong ordering
+  drops Alt-clone/right-create refreshes; those browser regressions now pass.
+- Full native GUI/raster and P5 release certification remain required work, not
+  claims of this increment. Treating these checks as certification would leave
+  platform/visual mismatches undetected.
+- The existing background-only 2D fallback remains uncertified; the P5 failure/
+  fallback gate must address it before release. Otherwise unsupported devices
+  could present incomplete molecular output.
+- Aspect/multimer generation probabilities remain pinned to native defaults zero;
+  alternate exposed tuning would require additional native captures.
+- Existing worktree retention authorization carries forward. Repeating passing
+  checks solely for a task-done wrapper adds no evidence; the actual commands,
+  counts and red/green results above are the completion record.
+
+Deferred Minor: the molecular draw callback uses the preceding React highlight
+snapshot when rollover changes during the tick. Fix and test same-frame visual
+updates in the remaining parity work; this is not a final accepted deviation.
