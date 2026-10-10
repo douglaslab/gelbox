@@ -107,6 +107,11 @@ export function FileControls() {
             onChange={event => dispatch({ type: 'SET_HOVER_LOUPE_ENABLED', value: event.target.checked })} />
           Loupe on hover
         </label>
+        <label className={styles.hoverToggle}>
+          <input type="checkbox" checked={state.renderEnabled}
+            onChange={event => dispatch({type:'SET_RENDER_ENABLED',value:event.target.checked})} />
+          Render
+        </label>
       </ApplicationMenu>}
       <button type="button" aria-label="Application settings" aria-expanded={open} aria-controls="application-file-menu" onClick={() => setOpen(!open)} style={{ position: 'fixed', left:16, bottom:16, zIndex:buttonZ, width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer' }}>
         <img src={resolveAssetUrl('/assets/settings.png')} alt="" width={32} height={32} />

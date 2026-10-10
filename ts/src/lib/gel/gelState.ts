@@ -49,6 +49,7 @@ export interface GelState {
   /** Transient lifecycle signal; never part of a native document. */
   documentRevision: number;
   hoverLoupeEnabled: boolean;
+  renderEnabled: boolean;
   samples:               (Sample | null)[];
   numLanes:              number;
   ctx:                   SimContext;
@@ -114,6 +115,8 @@ export type Action =
   | { type: 'SET_MODIFIERS';      modifiers: { shift: boolean; alt: boolean; meta: boolean } }
   | { type: 'SET_HOVER_LOUPE_ENABLED'; value: boolean }
   | { type: 'TOGGLE_HOVER_LOUPE' }
+  | { type: 'SET_RENDER_ENABLED'; value: boolean }
+  | { type: 'TOGGLE_RENDER' }
   | { type: 'ADD_LOUPE'; anchor: { x: number; y: number } }
   | { type: 'MOVE_LOUPE'; id: number; mode: 'frame' | 'anchor' | 'both'; delta: {x:number;y:number} }
   | { type: 'RAISE_LOUPE'; id: number }
@@ -161,6 +164,7 @@ export function initialGelState(): GelState {
   return {
     documentRevision: 0,
     hoverLoupeEnabled: false,
+    renderEnabled: true,
     samples,
     numLanes: NUM_LANES,
     ctx: {
@@ -644,6 +648,10 @@ function reduceGelState(state: GelState, action: Action): GelState {
       samples[action.laneIndex] = reviseSample(sample, { fragments });
       return { ...state, samples };
     }
+    case 'SET_RENDER_ENABLED':
+      return {...state,renderEnabled:action.value};
+    case 'TOGGLE_RENDER':
+      return {...state,renderEnabled:!state.renderEnabled};
     case 'SET_HOVER_LOUPE_ENABLED':
       return { ...state, hoverLoupeEnabled: action.value };
     case 'TOGGLE_HOVER_LOUPE':

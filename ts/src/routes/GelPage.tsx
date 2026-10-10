@@ -1,3 +1,4 @@
+import {DirectBandCanvas} from '../components/gel/DirectBandCanvas';
 import {useFileLoadQueue} from '../components/gel/FileLoadProvider';
 import {tubeGeometry} from '../lib/layout/tubeGeometry';
 import {flushSync} from 'react-dom';
@@ -122,7 +123,7 @@ function GelInner() {
           transformOrigin: '50% 0%',
         }}
       >
-        <GelCanvas bands={bands} globalWarp={globalWarp} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} />
+        {state.renderEnabled ? <GelCanvas bands={bands} globalWarp={globalWarp} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} /> : <DirectBandCanvas bands={bands} gelSize={state.gelSize} />}
         <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
         <LoupePortalLayer bands={bands} bandToLaneFragment={bandToLaneFragment} />
       </div>

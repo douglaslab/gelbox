@@ -10,6 +10,16 @@ const DispatchCtx = createContext<Dispatch<Action> | null>(null);
 
 export function GelProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(gelReducer, undefined, initialGelState);
+  useEffect(() => {
+    const key = (event: KeyboardEvent) => {
+      if (event.metaKey && event.key.toLowerCase() === 'r') {
+        event.preventDefault();
+        dispatch({type:'TOGGLE_RENDER'});
+      }
+    };
+    window.addEventListener('keydown', key, true);
+    return () => window.removeEventListener('keydown', key, true);
+  }, []);
   const current = useRef(state);
   useLayoutEffect(() => { current.current = state; }, [state]);
   useEffect(() => {

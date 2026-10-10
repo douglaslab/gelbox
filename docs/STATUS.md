@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Consolidated: 2026-10-09 · implementation through reference-image views · native reference `5f51097`._
+_Consolidated: 2026-10-09 · implementation through Render-off scene · native reference `5f51097`._
 
 ## Direction
 
@@ -16,12 +16,12 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest recorded verification
 
-On macOS with Node 22, after reference-image integration:
+On macOS with Node 22, after Render-off integration:
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,794 passed |
-| Browser suite across WebGPU/WebGL2 | 249 passed; one intentional duplicate invocation skipped |
+| Unit suite | 2,809 passed |
+| Browser suite across WebGPU/WebGL2 | 261 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; reliable fresh native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -29,7 +29,7 @@ These results combine regression coverage and independent native differential ch
 ## Remaining completion work
 
 1. **Cross-view certification and shared runtime.** Sample identity, off-document references, raw fragment indices and frame selection-following are now implemented and regression-tested. Complete composed native GUI replay of selection/focus/panel transitions, and verify application-wide RNG initialization and view scheduling.
-2. **Remaining native features and controls.** Reference-image views are now implemented with source-backed gestures and shared ordering; native image decoding/raster and composed GUI certification remain. Implement the Render-off alternate band scene. Complete settings/help/menu geometry, shortcuts, focus and remaining interaction details, including the right-click creation/drag sequence.
+2. **Remaining native features and controls.** Reference-image views are now implemented with source-backed gestures and shared ordering; native image decoding/raster and composed GUI certification remain. The Render-off alternate band scene is now implemented; native raster certification remains. Complete settings/help/menu geometry, shortcuts, focus and remaining interaction details, including the right-click creation/drag sequence.
 3. **Native visual certification.** Capture controlled matching native/web scenes for gel effects, blur/compositing, particles, loupes, selection and complete application layout. Resolve typography, asset proportions, resize/DPR behavior and justified raster tolerances. Decide cross-platform font handling and any browser layout adaptations explicitly.
 4. **Composed workflow verification.** Expand native → web edit/save → native roundtrips and replay move/clone/delete with loupes open, hidden-lane restoration, degraded multimer dragging, and buffer changes with resizing/failures. Resolve recorded XML safety and unsupported native import edge cases explicitly.
 5. **Browser lifecycle reliability.** Verify adapter failure and fallback, device/context loss, async unmount/disposal, route remount, resize/DPR, hidden-tab resume and repeated multi-view creation/removal. Provide a clear failure when no supported renderer works. Certify shortcuts that browser chrome may intercept.
@@ -42,7 +42,7 @@ These results combine regression coverage and independent native differential ch
 | P0 — Native reference | Strong numerical/source evidence; full GUI replay and visual reference coverage remain open |
 | P1 — Application and files | Core files and shell implemented; complete controls and composed interchange gate remain open |
 | P2 — Editing and UI | Interaction paths and sample identity restored; complete focus/panel replay remains open |
-| P3 — Numerical and rendering fidelity | Extensive independent comparisons pass; global RNG scheduling, alternate scene and full native raster gate remain open |
+| P3 — Numerical and rendering fidelity | Extensive independent comparisons pass; global RNG scheduling and full native raster gate remain open |
 | P4 — Loupes and images | Persistent/hover loupes and reference images implemented; native composed GUI/raster certification remains open |
 | P5 — Reliability and release | Production/platform/performance certification remains open |
 
@@ -448,3 +448,14 @@ original executable raster equivalence or all release platforms.
 Open and Drop now share a disposable FIFO, so a held image decode followed by an older dropped gel cannot overwrite a subsequently opened document. Each import uses current application state when its turn executes; disposal invalidates queued and late work. Application-settings mouse controls retain the current native view's keyboard ownership, including image focus outline and Backspace deletion; clicking a sample transfers focus normally.
 
 Both review findings reproduced in failing browser tests before the fixes. Verification: **2,794 units, 249 browser tests across WebGPU/WebGL2 (one intentional duplicate skip), and production build/TypeScript checks pass**. No additional screenshot baselines changed. The full run initially exposed a species-editing test helper that sent Escape after Save had already closed its menu; it now asserts menu closure without sending an unrelated sample-close command. No Minor review findings deferred. Original native image decoding/raster and broader composed focus certification remain open. Decisions and review boundaries are preserved in [the implementation plan](superpowers/plans/2026-10-09-reference-images.md).
+
+
+## Native Render-off scene
+
+The application now restores the native Render checkbox and global Cmd-R. Turning Render off draws additive band rectangles, blur halos, smears and flame gradients directly at display resolution, preserving native order and quirks (including upper smear reading lower-smear brightness). Wells, selection, editing and loupes retain their existing input layer. The mode survives document replacement and is omitted from saved files.
+
+An unchanged compiled `GelView::drawBands` capture supplies14 independent mesh cases; all flattened TS vertex floats compare exactly. Source/extraction/Cinder geometry provenance is pinned, and two native executions are byte-identical. This is pre-raster evidence using the modern pinned toolchain, not original executable or native pixel certification.
+
+Switching modes exposed and corrected effects-renderer async teardown and final-blit resource leaks. Deterministic browser tests hold module loading past unmount and count actual GPU/GL resource allocation/deletion. Direct canvas pixel probes check opaque additive color, overlap, gradients, blur and clearing at DPR1/2 on both backends; resize tests change display scale with viewport dimensions. CDP scale-only emulation emits no media/resize events; actual monitor-change certification remains open.
+
+Verification: **2,809 units, 261 browser tests (one intentional duplicate skip), production build/TypeScript and native Python reference checks pass**. No goldens changed. `/tmp/gel-render-off-chromium-webgl2.png` inspected as a web scene capture. Independent final review pending; implementation plan and boundaries: [Render-off](superpowers/plans/2026-10-09-render-off.md).

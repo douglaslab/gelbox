@@ -29,6 +29,7 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
     const canvas = canvasRef.current;
     if (!canvas) return;
     let cancelled = false;
+    const cleanup: (() => void)[] = [];
     canvas.width  = gelSize.width  * pixelsPerUnit;
     canvas.height = gelSize.height * pixelsPerUnit;
 
@@ -37,8 +38,8 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
         const backend = selectBackend();
         if (backend === 'webgl2') {
           const { configureGl2Context } = await import('../../lib/gpu/gl/context');
-          const { gl } = configureGl2Context(canvas);
           if (cancelled) return;
+          const { gl } = configureGl2Context(canvas);
           const [
             { createGlGelRenderer },
             { createGlProgram },
@@ -51,10 +52,13 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
             import('../../shaders/passthrough.vert.glsl?raw'),
             import('../../shaders/gel-passthrough.frag.glsl?raw'),
           ]);
+          if (cancelled) return;
           const renderer = createGlGelRenderer(gl, gelSize, pixelsPerUnit);
           stateRef.current.rendererGl = renderer;
           const blit = createGlProgram(gl, passVertSrc.default, gelPassthroughSrc.default, 'gl-blit');
+          cleanup.push(() => blit.destroy());
           const quad = createGlQuad(gl);
+          cleanup.push(() => quad.destroy());
           stateRef.current.blitFn = () => {
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             gl.viewport(0, 0, canvas.width, canvas.height);
@@ -80,9 +84,11 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
         } else {
           const { requestDevice } = await import('../../lib/gpu/device');
           const { configureContext } = await import('../../lib/gpu/context');
+          if (cancelled) return;
           const { device, queue } = await requestDevice();
           if (cancelled) return;
           const { context, format } = configureContext(canvas, device);
+          cleanup.push(() => context.unconfigure());
           const [
             { createGelRenderer },
             { createQuad },
@@ -97,9 +103,11 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
             import('../../shaders/passthrough.vert.wgsl?raw'),
             import('../../shaders/gel-passthrough.frag.wgsl?raw'),
           ]);
+          if (cancelled) return;
           const renderer = createGelRenderer(device, gelSize, pixelsPerUnit);
           stateRef.current.rendererGpu = renderer;
           const quad = createQuad(device);
+          cleanup.push(() => quad.destroy());
           const vs = createShaderModule(device, passVertSrc.default, 'passthrough.vert');
           const fs = createShaderModule(device, gelPassthroughSrc.default, 'gel-passthrough.frag');
           const bgl = device.createBindGroupLayout({
@@ -121,6 +129,7 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
             addressModeU: 'clamp-to-edge', addressModeV: 'clamp-to-edge',
           });
           const uPass = createUniformBuffer(device, 48, 'gel-canvas-blit-pass');
+          cleanup.push(() => uPass.destroy());
           const dv = uPass.view, w = canvas.width, h = canvas.height;
           dv.setFloat32(0, 0, true); dv.setFloat32(4, 0, true);
           dv.setFloat32(8, w, true); dv.setFloat32(12, h, true);
@@ -155,7 +164,7 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
           stateRef.current.blitFn(renderer);
         }
       } catch (err) {
-        console.error('GelCanvas mount failed:', err);
+        if (!cancelled) console.error('GelCanvas mount failed:', err);
       }
     })();
 
@@ -166,6 +175,7 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
       stateRef.current.rendererGpu = null;
       stateRef.current.rendererGl  = null;
       stateRef.current.blitFn = null;
+      for (const dispose of cleanup.reverse()) dispose();
     };
   }, [gelSize.width, gelSize.height, pixelsPerUnit]);
 
@@ -184,6 +194,7 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
     <canvas
       ref={canvasRef}
       data-testid="gel-canvas"
+      data-render-mode="effects"
       style={{
         width:  `${gelSize.width  * pixelsPerUnit}px`,
         height: `${gelSize.height * pixelsPerUnit}px`,
