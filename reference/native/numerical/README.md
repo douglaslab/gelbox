@@ -98,3 +98,30 @@ Fresh review found the initial eight cases never used population dithering becau
 ## Paused detail views
 
 Four additional scenarios mirror `GelView::openGelDetailView` calling `simPause()` before content/preroll, bringing the particle matrix to **58 scenarios**. Each starts with timeScale zero, refreshes the sample, and continues through normal and hover ticks. These capture the native paused detail lifecycle, while retaining fade/population processing. The real browser loupe now uses zero timeScale; two backend tests run without the screenshot-freeze hook and compare frames separated by 45 animation callbacks. Temporarily restoring timeScale one makes both comparisons fail.
+
+### CPU warp control fields
+
+Run `python3 reference/native/numerical/build-warp.py` from the repository root.
+This separate harness extracts `makeWarpByFracPos`, `smileBand`,
+`wellDamageBand` and the active first `overcook` definition verbatim from pinned
+Gelbox `5f51097`. It uses actual Cinder Surface8u, Rand and math functions;
+texture uploads and GPU warp execution are intercepted to capture RGB bytes and
+UV scale without a graphics context. The adapter supplies opaque alpha for the
+web's RGBA representation. Native output-size setup is reproduced as float
+multiplication followed by integer conversion. Overcook scale comes from the
+pinned tuning file; disabled/active amount is supplied by the case.
+
+`warp-cases.json` contains 137 explicit scenarios: disabled/underflow effects,
+fractional geometry and output resolutions, narrow/full-width smiles, multiple
+curve exponents, signed seeds, stab-count boundaries, high damage, and 2D water
+fields. Every byte, dimension and scale is compared in `nativeWarp.test.ts`.
+`native-warp-integration.spec.ts` additionally checks both real renderers upload
+those captured controls and allocate native dimensions at fractional resolution.
+
+The build script captures twice and requires identical output. Source, extracted
+methods, harness, fixture, tuning, compiler, library and executable hashes are in
+`warp-provenance.json`. Like the other numerical harnesses this is modern
+Cinder/macOS ARM64 evidence, not original-release executable certification.
+The finite matrix does not establish every transcendental rounding boundary or
+other platform's libc++ random mapping. It does not capture GPU sampling, blur,
+compositing, or native pixels. Those remain separate rendering/replay gates.

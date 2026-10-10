@@ -1,3 +1,4 @@
+import { nativeOutputExtent } from './warpTexture';
 import { createPingPong, type RenderTarget } from '../gpu/target';
 import { createPrimitivePass } from './passes/primitives';
 import { createBlurPass }      from './passes/blur';
@@ -25,8 +26,8 @@ export function createGelRenderer(
   pixelsPerUnit: number,
   format: GPUTextureFormat = 'rgba8unorm-srgb'
 ): GelRenderer {
-  const outputW = Math.round(gelSize.width  * pixelsPerUnit);
-  const outputH = Math.round(gelSize.height * pixelsPerUnit);
+  const outputW = nativeOutputExtent(gelSize.width, pixelsPerUnit);
+  const outputH = nativeOutputExtent(gelSize.height, pixelsPerUnit);
 
   const band      = createPingPong(device, outputW, outputH, format, 'band');
   const composite = createPingPong(device, outputW, outputH, format, 'composite');
@@ -80,14 +81,14 @@ export function createGelRenderer(
       const smile = buildSmileWarp({
         x1: banded.rect.x1, x2: banded.rect.x2,
         smileHeight: banded.smileHeight, smileExp: banded.smileExp,
-      }, gelSize);
+      }, gelSize, pixelsPerUnit);
       if (smile) warp.run(encoder, band, smile, warp1dIdx++, '1d');
 
       // 3. Well-damage warp
       const wd = buildWellDamageWarp({
         rect: banded.rect, wellDamage: banded.wellDamage,
         wellDamageRandSeed: banded.wellDamageRandSeed,
-      }, gelSize);
+      }, gelSize, pixelsPerUnit);
       if (wd) warp.run(encoder, band, wd, warp1dIdx++, '1d');
 
       // 4. Blur

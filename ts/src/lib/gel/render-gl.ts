@@ -1,3 +1,4 @@
+import { nativeOutputExtent } from './warpTexture';
 import { createGlPingPong, type GlRenderTarget } from '../gpu/gl/target';
 import { createGlProgram } from '../gpu/gl/program';
 import { createGlQuad, bindQuadAttribs } from '../gpu/gl/quad';
@@ -36,8 +37,8 @@ export function createGlGelRenderer(
   gelSize: { width: number; height: number },
   pixelsPerUnit: number
 ): GlGelRenderer {
-  const outputW = Math.round(gelSize.width  * pixelsPerUnit);
-  const outputH = Math.round(gelSize.height * pixelsPerUnit);
+  const outputW = nativeOutputExtent(gelSize.width, pixelsPerUnit);
+  const outputH = nativeOutputExtent(gelSize.height, pixelsPerUnit);
 
   const band      = createGlPingPong(gl, outputW, outputH, 'band');
   const composite = createGlPingPong(gl, outputW, outputH, 'composite');
@@ -255,13 +256,13 @@ export function createGlGelRenderer(
       const smile = buildSmileWarp({
         x1: b.rect.x1, x2: b.rect.x2,
         smileHeight: b.smileHeight, smileExp: b.smileExp,
-      }, gelSize);
+      }, gelSize, pixelsPerUnit);
       if (smile) runWarp(band, smile);
 
       const wd = buildWellDamageWarp({
         rect: b.rect, wellDamage: b.wellDamage,
         wellDamageRandSeed: b.wellDamageRandSeed,
-      }, gelSize);
+      }, gelSize, pixelsPerUnit);
       if (wd) runWarp(band, wd);
 
       if (b.blur > 0) runBlur(band, b.blur * pixelsPerUnit);

@@ -272,3 +272,13 @@ Verification: **2,606 unit tests, 201 browser tests (one intentional duplicate s
 Fresh read-only review found no critical or important defects. Its minor inaccurate gamma-independence comment was corrected, the test formatting expanded, and the targeted GPU readback rerun passed. Review explicitly declined native CPU arithmetic/byte quantization, well-damage RNG, control-texture resolution, native raster identity and broader renderer lifecycle/platform behavior; those remain required follow-up.
 
 **Remaining native warp differences:** web well damage uses mulberry32 instead of Cinder Rand; control bytes use rounding rather than native uint8 truncation; one-dimensional controls use logical gel width instead of native output pixel width; JavaScript double arithmetic differs from native float32 storage/evaluation. Capture these native CPU fields independently and restore their semantics before certifying native distortion rendering. Backend agreement alone does not establish native parity.
+
+## Native CPU warp fields
+
+A separate C++ harness now extracts native control generation verbatim and captures actual Cinder Surface bytes without a GUI context. Its 137 cases cover disabled and underflow effects, fractional geometry/resolution, smile exponents, signed seeds, stab-count boundaries, high damage and 2D water fields. Both native capture runs are byte-identical; source, harness, tuning, input, output, executable and toolchain provenance is recorded and verified.
+
+The web now uses Cinder Rand for well damage, native float evaluation/storage, uint8 truncation, and output-pixel resolution for all control fields. Both renderers truncate float output dimensions as native does and pass pixel density to the one-dimensional builders. Native's nominal zero displacement encodes to byte 127, including its small resulting bias; this is preserved. Overcook preserves native float arithmetic and promotion at M_PI before sinf.
+
+The initial 92-case differential test failed 76 cases; all 137 now match exact dimensions, scales and every byte. Two float-underflow cases separately failed before the disabled-effect guards were corrected. New real-backend integration tests verify allocated output dimensions and the actual uploaded control bytes against native captures. Restoring the previous renderer wiring deliberately fails both backends (89×49 instead of native 88×48).
+
+The current verification includes **2,743 passing unit tests**. The finite modern-Cinder/ARM64 matrix does not certify every transcendental boundary, other platform random mappings, GPU sampling, blur/compositing or original-release pixels. Native raster replay and broader release gates remain open. Final browser/build and fresh-review evidence follows when complete.

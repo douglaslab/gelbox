@@ -18,8 +18,8 @@ describe('buildSmileWarp', () => {
     expect(out!.data.byteLength).toBe(100 * 4);
     // Edge pixel (i=0): bx=1 → -bx=-1 → g=0 in native control coordinates
     expect(out!.data[1]).toBe(0);
-    // R channel (dx=0) is always 128
-    expect(out!.data[0]).toBe(128);
+    // R channel (dx=0) is truncated to 127
+    expect(out!.data[0]).toBe(127);
     // Mid pixel (i=49 or 50): bx≈0 → -bx≈0 → g≈128
     expect(out!.data[50 * 4 + 1]).toBeGreaterThan(120);
     expect(out!.data[50 * 4 + 1]).toBeLessThan(135);
