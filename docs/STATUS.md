@@ -1686,3 +1686,18 @@ Desktop file. The screenshot service subsequently exited and failed to reopen;
 no screenshot process remained. This attempt produced no pixel reference and
 does not advance native raster certification. Existing JPEG observations and the
 user-provided lossless startup PNG retain their previously documented limits.
+
+## Complete well-outline comparison against user PNG
+
+[Fresh seven-well diagnostics](../reference/native/modern/lossless-probe/well-edges/README.md)
+confirm exact agreement between the user's native PNG and modern framebuffer
+throughout the well strip. Current WebGPU and WebGL2 each differ at 240 pixels,
+confined to vertical edges/corners. A DOM-only experiment with SVG geometric
+precision increases the difference to 1,856 pixels and is rejected.
+
+Pinned source identifies a native OpenGL line-loop/MSAA path distinct from the
+web SVG stroke and from native explicit-width band-focus geometry. Reports,
+captures, source hashes and reproduction are retained. Two diagnostic runs
+completed; they report differences and are not passing parity assertions.
+No product change or full-suite rerun. A general well-edge correction and its
+multi-geometry/DPR native reference validation remain open.

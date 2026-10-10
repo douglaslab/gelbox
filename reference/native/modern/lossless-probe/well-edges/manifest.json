@@ -1,0 +1,32 @@
+{
+  "webCommit": "f32bbb3eab08f48703cb4bf857a5c7cbcfb74656",
+  "nativeSources": [
+    {
+      "revision": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+      "path": "src/GelView.cpp",
+      "sha256": "20159d314759e38b6e2f626fba2c5a401eb4cbf894f15682c597c6145e96a3e6"
+    },
+    {
+      "revision": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+      "path": "src/GelboxApp.cpp",
+      "sha256": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47"
+    },
+    {
+      "revision": "f90f332d1a4d453282c76435f3401271f25922f9",
+      "path": "src/cinder/gl/draw.cpp",
+      "sha256": "57a31fc056a912729c977e3a9871cdf517d173202929f72adc24c20c41ecb9d3"
+    }
+  ],
+  "referenceManifest": "../manifest.json",
+  "scope": "Complete startup well strip only; diagnostic execution success is not native/web equivalence.",
+  "files": {
+    "run.log": "1a29ef7a7d954ecdff198a5770fa8be950fdd3693816d4aa5d50c0b873009af7",
+    "probe.spec.ts": "fd8c0c53db247e18d02f0e9f809eeae28ab4dc498bcba709bc633991a0071154",
+    "webgpu-comparison.json": "eeda3e2a16e995f5ac0a585c9cfcab7e4dab90f3cb5890442a644460c234029a",
+    "webgl2-crispEdges.png": "7e9f50cb7aa38430ef78616ba0128c4f813587409b797c4da1c93daf24427dbd",
+    "webgl2-comparison.json": "8720c2318d29d1aa93d2adc386feb5cd259e73538a3ceb5fc852096f21cd6d26",
+    "webgpu-geometricPrecision.png": "1236385b6944d2cfadde1b95618638cc945a17226d41a9c5049fa77533d10a84",
+    "webgl2-geometricPrecision.png": "1236385b6944d2cfadde1b95618638cc945a17226d41a9c5049fa77533d10a84",
+    "webgpu-crispEdges.png": "7e9f50cb7aa38430ef78616ba0128c4f813587409b797c4da1c93daf24427dbd"
+  }
+}

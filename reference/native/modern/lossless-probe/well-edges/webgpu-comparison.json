@@ -1,0 +1,70 @@
+{
+  "backend": "webgpu",
+  "viewport": {
+    "width": 1365,
+    "height": 768,
+    "dpr": 2
+  },
+  "crop": [
+    416,
+    260,
+    780,
+    50
+  ],
+  "variants": [
+    {
+      "rendering": "crispEdges",
+      "nativeVsUser": {
+        "differentPixels": 0,
+        "maximumChannelError": 0,
+        "rows": {}
+      },
+      "nativeVsWeb": {
+        "differentPixels": 240,
+        "maximumChannelError": 122,
+        "rows": {
+          "282": 20,
+          "283": 20,
+          "284": 20,
+          "285": 20,
+          "286": 20,
+          "287": 20,
+          "288": 20,
+          "289": 20,
+          "290": 20,
+          "291": 20,
+          "292": 20,
+          "293": 20
+        }
+      }
+    },
+    {
+      "rendering": "geometricPrecision",
+      "nativeVsUser": {
+        "differentPixels": 0,
+        "maximumChannelError": 0,
+        "rows": {}
+      },
+      "nativeVsWeb": {
+        "differentPixels": 1856,
+        "maximumChannelError": 58,
+        "rows": {
+          "281": 404,
+          "282": 404,
+          "283": 24,
+          "284": 24,
+          "285": 24,
+          "286": 24,
+          "287": 24,
+          "288": 24,
+          "289": 24,
+          "290": 24,
+          "291": 24,
+          "292": 24,
+          "293": 404,
+          "294": 404
+        }
+      }
+    }
+  ]
+}
