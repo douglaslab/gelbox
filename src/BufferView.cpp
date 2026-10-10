@@ -24,7 +24,7 @@ void BufferView::setup()
 {
 	makeSliders();
 
-	mTextContentScale = ci::app::getWindowContentScale();
+	mTextContentScale = kLayout.assetScale();
 	
 	// subhead label
 	mHeadingTex = kLayout.renderSubhead("Buffer",mTextContentScale);
@@ -52,7 +52,7 @@ void BufferView::makeSliders()
 	const fs::path iconPathBase = getAssetPath("slider-icons");
 
 	// buffer params
-	int  labelFontScale = ci::app::getWindowContentScale();
+	int  labelFontScale = kLayout.assetScale();
 	Font labelFont = kLayout.font( kLayout.mBufferViewSliderLabelFont, kLayout.mBufferViewSliderLabelFontSize * labelFontScale );
 	
 	for( int param=0; param<Gelbox::Buffer::kNumParams; ++param )

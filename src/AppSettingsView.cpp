@@ -55,7 +55,7 @@ void AppSettingsView::setup( GelViewRef gelView )
 	auto addButton = [this,setFrame]( string name, function<void()> click, function<bool(void)> isEnabled )
 	{
 		ButtonViewRef cv = make_shared<ButtonView>();
-		cv->setup( name, ci::app::getWindowContentScale() );
+		cv->setup( name, kLayout.assetScale() );
 		cv->mClickFunction		= click;
 		cv->mIsEnabledFunction	= isEnabled;
 		cv->mRectCornerRadius	= kLayout.mAppSettingsButtonCornerRadius;

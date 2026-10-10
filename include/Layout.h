@@ -177,6 +177,8 @@ public:
 	// assets
 	// Prefer the named system font, falling back to the bundled OFL typeface.
 	ci::Font font( const std::string& name, float size ) const;
+	// Use high-resolution images and text for every display scale above 100%.
+	int assetScale() const { return ci::app::getWindowContentScale() > 1.f ? 2 : 1; }
 
 	ci::gl::TextureRef uiImage( std::string name, int* scaleFactor=0 ) const;
 	ci::gl::TextureRef uiImage( ci::fs::path stem, std::string name, int* scaleFactor=0 ) const;

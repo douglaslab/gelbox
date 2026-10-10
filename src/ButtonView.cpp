@@ -16,7 +16,7 @@ const ColorA kDisableColor( .5f, .5f, .5f,.5f );
 
 void ButtonView::setup( std::string string, int pixelsPerPt )
 {
-	setup( kLayout.renderUI(string), pixelsPerPt );
+	setup( kLayout.renderUI(string, pixelsPerPt), pixelsPerPt );
 }
 
 void ButtonView::setup( ci::gl::TextureRef t, int pixelsPerPt )

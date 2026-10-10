@@ -14,7 +14,7 @@ using namespace std;
 
 void CheckboxView::setup( string name )
 {
-	mLabelTextScale = ci::app::getWindowContentScale();
+	mLabelTextScale = kLayout.assetScale();
 
 	mBoxRect = Rectf( vec2(0.f), kLayout.mCheckboxSize );
 

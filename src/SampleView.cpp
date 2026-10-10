@@ -48,7 +48,7 @@ void SampleView::setup()
 	
 	mMicrotubeIcon = kLayout.uiImage("microtube1500ul.png");
 
-	mHeadingScale = ci::app::getWindowContentScale();
+	mHeadingScale = kLayout.assetScale();
 	mHeadingTex = kLayout.renderHead(kLayout.mSampleViewHeaderStr,mHeadingScale);
 
 	// new btn

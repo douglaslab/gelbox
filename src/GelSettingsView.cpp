@@ -35,7 +35,7 @@ void GelSettingsView::setup( GelViewRef gelView )
 		+ kLayout.mGelViewBufferViewTopLeft
 		);
 
-	mHeadingScale = ci::app::getWindowContentScale();
+	mHeadingScale = kLayout.assetScale();
 	mHeadingTex = kLayout.renderHead(kLayout.mGelSettingsHeaderStr,mHeadingScale);
 
 	layout();

@@ -38,7 +38,7 @@ ci::gl::TextureRef Layout::uiImageWithPath( fs::path assetPath, int scaleFactor,
 
 	// auto-pick size
 	if ( scaleFactor == -1 ) {
-		scaleFactor = (ci::app::getWindowContentScale()==2) ? 2 : 1;
+		scaleFactor = assetScale();
 		
 		// try higher size, default to lower
 		if (scaleFactor != 1) {

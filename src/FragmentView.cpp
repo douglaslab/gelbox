@@ -70,7 +70,7 @@ FragmentView::FragmentView()
 {
 	mBraceTex = kLayout.uiImage("brace.png");
 
-	mHeadingScale = ci::app::getWindowContentScale();
+	mHeadingScale = kLayout.assetScale();
 	mHeadingTex = kLayout.renderHead(kLayout.mFragViewHeaderStr,mHeadingScale);
 }
 

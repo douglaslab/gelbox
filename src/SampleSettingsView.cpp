@@ -35,7 +35,7 @@ void SampleSettingsView::setup( SampleViewRef sampleView )
 		+ kLayout.mSampleBufferViewTopLeft
 		);
 
-	mTextContentScale = ci::app::getWindowContentScale(); 
+	mTextContentScale = kLayout.assetScale();
 	
 	mSubheadTex = kLayout.renderSubhead("Dyes",mTextContentScale);
 	mHeadingTex = kLayout.renderHead(kLayout.mSampleSettingsHeaderStr,mTextContentScale);
@@ -45,7 +45,7 @@ void SampleSettingsView::setup( SampleViewRef sampleView )
 
 void SampleSettingsView::makeSliders()
 {
-	int  labelFontScale = ci::app::getWindowContentScale();
+	int  labelFontScale = kLayout.assetScale();
 	Font labelFont = kLayout.font( kLayout.mBufferViewSliderLabelFont, kLayout.mBufferViewSliderLabelFontSize * labelFontScale );
 
 	for( int dye=0; dye<Dye::kCount; ++dye )

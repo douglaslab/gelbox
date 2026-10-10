@@ -295,7 +295,7 @@ void Slider::drawTextLabel() const
 	if (mMappedValueToStr)
 	{
 		int fontScale;
-		const auto fontRef = GelboxApp::instance()->getUIFont( ci::app::getWindowContentScale(), &fontScale );
+		const auto fontRef = GelboxApp::instance()->getUIFont( kLayout.assetScale(), &fontScale );
 		
 		string str = mMappedValueToStr( getMappedValue() );
 		
