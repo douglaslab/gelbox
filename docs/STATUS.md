@@ -1569,3 +1569,21 @@ The affected Chromium loupe suite also passed **12 checks** across both renderer
 The preceding full suite remains 2,867 unit / 439 browser / 4 production checks;
 only the affected suite was rerun for these test-only changes. Shipping Safari,
 Firefox launch, native GUI/raster parity and remaining release gates stay open.
+
+
+## Original-release palette and keyboard replay
+
+Native window access recovered. The [retained original-release replay](../reference/native/replay/palette-focus/README.md)
+confirms palette dragging selects cyan while retaining sample focus, followed by
+Delete removing the selected species. Native Save Gel files independently verify
+color-only editing and swap-with-last deletion. The corresponding browser replay
+passed **two new cases**, one per renderer, including exact complete-document
+equality after deletion. This test/evidence-only addition did not rerun the full
+suite; its preceding result remains 439 browser checks.
+
+Two remaining discrepancies are now explicit: palette-created channel precision
+differs from the original release's cyan save, and visual inspection suggests
+the selected-band outline is too thick. The post-deletion file check does not
+certify intermediate palette precision. Native JPEGs/live particles are not
+lossless pixel parity evidence. Neither discrepancy nor the broader goal is
+marked complete.
