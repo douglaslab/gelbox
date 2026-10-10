@@ -9,7 +9,7 @@ import { FileControls } from '../components/chrome/FileControls';
 import { useMemo, useState, useRef, useLayoutEffect } from 'react';
 import { GelProvider, useGelState, useGelDispatch } from '../components/gel/GelContext';
 import { GelCanvas } from '../components/gel/GelCanvas';
-import { GelOverlay, type BandLaneFragment } from '../components/gel/GelOverlay';
+import { GelOverlay } from '../components/gel/GelOverlay';
 import { MicrotubeRow } from '../components/gel/MicrotubeRow';
 import { SettingsButton } from '../components/gel/SettingsButton';
 import { TimelineSlider } from '../components/gel/TimelineSlider';
@@ -19,10 +19,9 @@ import { Brace } from '../components/stage/Brace';
 import { SampleView } from '../components/sample/SampleView';
 import { InspectorPanel } from '../components/inspector/InspectorPanel';
 import { BUFFER_H2O, bufferEquals } from '../lib/sim/buffer';
-import { fragToBands } from '../lib/sim/gelSim';
+import {deriveGelScene} from '../lib/gel/gelScene';
 import { deserializeFile } from '../lib/gel/serialize';
 import { getVisibleSampleLane, isInspectorVisible, selectInspectorView } from '../lib/gel/gelState';
-import type { Band } from '../lib/sim/band';
 
 function GelInner() {
   const state = useGelState();
@@ -33,22 +32,8 @@ function GelInner() {
   const [dropError, setDropError] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
 
-  const { bands, bandToLaneFragment } = useMemo(() => {
-    const bands: Band[] = [];
-    const bandToLaneFragment: BandLaneFragment[] = [];
-    for (let lane = 0; lane < state.numLanes; lane++) {
-      const sample = state.samples[lane];
-      if (!sample) continue;
-      for (let fragi = 0; fragi < sample.fragments.length; fragi++) {
-        const out = fragToBands(sample, fragi, state.wellRects[lane], lane, state.ctx);
-        for (const b of out) {
-          bands.push(b);
-          bandToLaneFragment.push({ lane, fragment: fragi });
-        }
-      }
-    }
-    return { bands, bandToLaneFragment };
-  }, [state.samples, state.ctx, state.wellRects, state.numLanes]);
+  const { bands, bandToLaneFragment } = useMemo(() => deriveGelScene(state),
+    [state.samples, state.ctx, state.wellRects, state.numLanes]);
 
   // Gel::getRenderGlobalWarp: exact water composition, fixed native seed.
   const globalWarp = useMemo(() => ({

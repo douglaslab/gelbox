@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { LAYOUT } from '../../lib/layout/layout';
-import { newFragment } from '../../lib/gel/newFragment';
 import { sampleKeyAction } from '../../lib/gel/sampleKeyboard';
-import { useGelState, useGelDispatch } from '../gel/GelContext';
+import { useGelState, useGelDispatch, useGelStore } from '../gel/GelContext';
 import { getVisibleSampleLane } from '../../lib/gel/gelState';
 import { resolveAssetUrl, dprFallbackOnError } from '../../lib/layout/assets';
 import { MolecularSimCanvas } from './MolecularSimCanvas';
@@ -18,6 +17,7 @@ import { MolecularSimCanvas } from './MolecularSimCanvas';
 export function SampleView() {
   const state = useGelState();
   const dispatch = useGelDispatch();
+  const store = useGelStore();
   const rootRef = useRef<HTMLDivElement>(null);
   const visibleLane = getVisibleSampleLane(state);
   const innerRef = useRef<HTMLDivElement>(null);
@@ -65,7 +65,7 @@ export function SampleView() {
       <button type="button" aria-label="New species" data-testid="new-species"
         onClick={() => {
           if (visibleLane === null) return;
-          dispatch({ type: 'ADD_FRAGMENT', laneIndex: visibleLane, fragment: newFragment() });
+          store.createSpecies(visibleLane);
           rootRef.current?.focus({ preventScroll: true });
         }}
         style={{ position: 'absolute', right: 0, top: '100%', marginTop: LAYOUT.btnGutter,

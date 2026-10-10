@@ -1,6 +1,8 @@
+import type {MolecularView} from '../../lib/gel/molecularRuntime';
+import {useGelStore} from '../gel/GelContext';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { LAYOUT } from '../../lib/layout/layout';
-import { MolecularSim, MOLECULAR_SIM_TUNING } from '../../lib/sim/molecularSimEngine';
+import { MOLECULAR_SIM_TUNING } from '../../lib/sim/molecularSimEngine';
 import { buildMoleculesMesh, type MeshBuildTuning } from '../../lib/sim/molecularSimMesh';
 import { computeBackgroundColor } from '../../lib/sim/molecularSimBackground';
 import { selectBackend } from '../../lib/gel/backend';
@@ -20,14 +22,10 @@ import type { Mesh } from '../../lib/gel/mesh';
  * loupe (which drives it with a synthetic sample).
  */
 export interface SampleSimCanvasProps {
-  sample: Sample | null;
+  view: MolecularView;
+  viewKey: string;
   width: number;
   height: number;
-  seed: number;
-  degradeFilter?: ReadonlyMap<number, number>;
-  /** Native detail views preroll when their synthetic sample changes. */
-  prerollSample?: boolean;
-  timeScale?: number;
   selectedFragment?: import('../../lib/sim/molecularSimMesh').FragmentHighlight;
   rolloverFragment?: import('../../lib/sim/molecularSimMesh').FragmentHighlight;
   /** Pointer-down on a particle → its fragment index (omit → non-interactive, e.g. loupe). */
@@ -57,13 +55,10 @@ const MESH_TUNING: MeshBuildTuning = {
 };
 
 export function SampleSimCanvas({
-  sample,
+  view,
+  viewKey,
   width,
   height,
-  seed,
-  degradeFilter,
-  prerollSample = false,
-  timeScale = 1,
   selectedFragment = null,
   rolloverFragment = null,
   onPickFragment,
@@ -72,59 +67,12 @@ export function SampleSimCanvas({
   'data-testid': testId = 'molecular-sim-canvas',
 }: SampleSimCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const simRef = useRef<MolecularSim | null>(null);
+  const store = useGelStore();
+  const sim = view.sim;
   const handleRef = useRef<RenderHandle | null>(null);
   const hoverRef = useRef(false);
   const downRef = useRef(false);
   const [, setTick] = useState(0);
-  // Test-only deterministic freeze: when `window.__molsimFreezeAfterTicks` is a
-  // number, the rAF loop ticks at most that many times (since the last sample
-  // change) then stops advancing the sim while still drawing — so the seeded
-  // RNG + fixed tick count produce a stable, reproducible frame that Playwright
-  // `toHaveScreenshot` can settle. No effect when the flag is unset (production).
-  const tickCountRef = useRef(0);
-  const frozenRef = useRef(false);
-  const [frozen, setFrozen] = useState(false);
-
-  // A new panel starts empty; the sample effect applies data once. Native
-  // ordinary sample panels intentionally fade in, while detail views preroll.
-  useEffect(() => {
-    if (prerollSample && simRef.current) return;
-    simRef.current = new MolecularSim({
-      bounds: { x1: 0, y1: 0, x2: width, y2: height },
-      seed,
-    });
-    tickCountRef.current = 0;
-    frozenRef.current = false;
-    setFrozen(false);
-    setTick((t) => t + 1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [seed]);
-
-  // Bounds update: no engine replacement, just inform the existing engine.
-  useEffect(() => {
-    simRef.current?.setBounds({ x1: 0, y1: 0, x2: width, y2: height });
-  }, [width, height]);
-
-  // Sample change: re-apply sample to the existing engine and re-settle freeze.
-  useEffect(() => {
-    if (!simRef.current) return;
-    // Native detail refresh clears particles and reseeds before applying content.
-    if (prerollSample) {
-      simRef.current.parts = [];
-      simRef.current.setRand(seed);
-    }
-    simRef.current.timeScale = timeScale;
-    simRef.current.setSample(sample ?? null, degradeFilter);
-    if (sample && prerollSample) simRef.current.preroll();
-    // Re-settle the freeze window after a sample change (e.g. dye applied) so a
-    // frozen golden reflects N ticks past the new sample, not a stale freeze.
-    tickCountRef.current = 0;
-    frozenRef.current = false;
-    setFrozen(false);
-    setTick((t) => t + 1);
-  }, [sample, degradeFilter, seed, prerollSample, timeScale]);
-
   // GPU surface mount (mirrors GelCanvas.tsx). Falls back to 2D on throw.
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -142,8 +90,8 @@ export function SampleSimCanvas({
         if (backend === 'webgl2') {
           const { configureGl2Context } = await import('../../lib/gpu/gl/context');
           const { createGlMeshBatch } = await import('../../lib/gpu/gl/meshBatch');
-          const { gl } = configureGl2Context(canvas);
           if (cancelled) return;
+          const { gl } = configureGl2Context(canvas);
           const batch = createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' });
           handleRef.current = {
             resize: (wp, hp, wc, hc) => { canvas.width = wp; canvas.height = hp; batch.setViewport(wc, hc); },
@@ -179,6 +127,7 @@ export function SampleSimCanvas({
           };
         }
       } catch (err) {
+        if (cancelled) return;
         console.warn('SampleSimCanvas: GPU unavailable, using 2D fallback', err);
         handleRef.current = make2dFallback(canvas, width, height);
       }
@@ -189,43 +138,18 @@ export function SampleSimCanvas({
       handleRef.current?.destroy();
       handleRef.current = null;
     };
-    // Deliberately NOT keyed on seed/sample: the GPU surface is lane-agnostic, so
-    // a lane switch must not tear down and re-acquire the device/context/batch
-    // (expensive + drops frames). Lane-specific state (sim seed, sample) is
-    // handled by the engine effects above and the rAF draw loop below.
   }, [width, height]);
 
-  // rAF tick + draw.
-  useEffect(() => {
-    let raf = 0;
-    const loop = () => {
-      const sim = simRef.current;
-      const handle = handleRef.current;
-      if (sim && handle) {
-        const freezeAfter = (window as unknown as { __molsimFreezeAfterTicks?: number })
-          .__molsimFreezeAfterTicks;
-        const shouldTick = freezeAfter === undefined || tickCountRef.current < freezeAfter;
-        if (shouldTick) {
-          sim.tick(hoverRef.current || downRef.current);
-          tickCountRef.current++;
-        } else if (!frozenRef.current) {
-          frozenRef.current = true;
-          setFrozen(true);
-        }
-        const sel = selectedFragment ?? null;
-        const mesh = buildMoleculesMesh(sim.parts, sel, rolloverFragment ?? null, MESH_TUNING);
-        const highlight: 0 | 1 | 2 = downRef.current ? 2 : hoverRef.current ? 1 : 0;
-        const bgSrgb = computeBackgroundColor(dyeMassesFromSample(sample ?? null), highlight);
-        // Native draws raw Color RGB to an unorm framebuffer. Clear values
-        // bypass the particle shader; linearizing here darkens the background.
-        handle.draw(mesh, bgSrgb);
-      }
-      setTick((t) => (t + 1) % 1_000_000);
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, [selectedFragment, rolloverFragment, sample, degradeFilter]);
+  // Draw after the application frame; acquiring a GPU never gates simulation.
+  useEffect(() => store.subscribeFrame(() => {
+    const handle=handleRef.current;
+    if (handle && view.alive) {
+      const mesh=buildMoleculesMesh(sim.parts,selectedFragment,rolloverFragment,MESH_TUNING);
+      const highlight:0|1|2=downRef.current?2:hoverRef.current?1:0;
+      handle.draw(mesh,computeBackgroundColor(dyeMassesFromSample(view.sample),highlight));
+    }
+    setTick(t=>(t+1)%1_000_000);
+  }),[store,view,sim,selectedFragment,rolloverFragment]);
 
   const eventCoords = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
@@ -240,31 +164,34 @@ export function SampleSimCanvas({
   const onPointerMove = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     hoverRef.current = true;
     const c = eventCoords(e);
-    if (!c || !simRef.current) return;
-    const fragIdx = simRef.current.pickFragment(c.x, c.y);
+    if (!c) return;
+    store.setViewPointer(viewKey,c,true);
+    const fragIdx = sim.pickFragment(c.x, c.y);
     if (fragIdx >= 0) {
       onHoverFragment?.(fragIdx);
     } else {
       onHoverFragment?.(null);
     }
-  }, [eventCoords, onHoverFragment]);
+  }, [eventCoords, onHoverFragment, store, viewKey, sim]);
 
   const onPointerLeave = useCallback(() => {
     hoverRef.current = false;
+    store.setViewPointer(viewKey,null,false);
     onHoverFragment?.(null);
-  }, [onHoverFragment]);
+  }, [onHoverFragment,store,viewKey]);
 
   const onPointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
-    if (e.button !== 0 || !simRef.current) return;
+    if (e.button !== 0) return;
     downRef.current = true;
     const c = eventCoords(e);
     if (!c) return;
-    const fragIdx = simRef.current.pickFragment(c.x, c.y);
+    store.setViewPointer(viewKey,c,true,true);
+    const fragIdx = sim.pickFragment(c.x, c.y);
     if (fragIdx >= 0) {
       e.preventDefault();
       onPickFragment?.(fragIdx);
     } else onPickBackground?.();
-  }, [eventCoords, onPickFragment, onPickBackground]);
+  }, [eventCoords, onPickFragment, onPickBackground, store, viewKey, sim]);
 
   const onPointerUp = useCallback(() => { downRef.current = false; }, []);
 
@@ -278,14 +205,14 @@ export function SampleSimCanvas({
     };
   }, [onPointerUp]);
 
-  const aliveCount = simRef.current?.parts.filter((p) => p.alive).length ?? 0;
+  const aliveCount = sim.parts.filter((p) => p.alive).length;
 
   return (
     <canvas
       ref={canvasRef}
       data-testid={testId}
       data-alive-count={aliveCount}
-      data-frozen={frozen ? '1' : '0'}
+      data-frozen={view.frozen ? '1' : '0'}
       onPointerEnter={() => { hoverRef.current = true; }}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}

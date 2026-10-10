@@ -1,11 +1,9 @@
 import { fragmentIndexIn } from '../../lib/gel/sampleFragRef';
-import { newFragment, randomFragmentColor } from '../../lib/gel/newFragment';
+import {deriveGelScene} from '../../lib/gel/gelScene';
 import { sampleKeyAction } from '../../lib/gel/sampleKeyboard';
 import { useCallback, useEffect, useRef } from 'react';
 import type { Band } from '../../lib/sim/band';
-import { useGelState, useGelDispatch } from './GelContext';
-import { solveBasesForY } from '../../lib/sim/solver';
-import { BUFFER_TBE } from '../../lib/sim/buffer';
+import { useGelState, useGelDispatch, useGelStore } from './GelContext';
 import { LAYOUT } from '../../lib/layout/layout';
 import { bandUIRect, pickBand, type BandLaneFragment } from '../../lib/sim/sampleFromGel';
 
@@ -27,6 +25,7 @@ interface GelOverlayProps {
 export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
   const state = useGelState();
   const dispatch = useGelDispatch();
+  const store = useGelStore();
   const svgRef = useRef<SVGSVGElement>(null);
   const creatingLoupe=useRef<{id:number;x:number;y:number;pointerId:number}|null>(null);
   useEffect(()=>{
@@ -85,13 +84,27 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
   }
 
   function onBandPointerDown(e: React.PointerEvent<SVGSVGElement>) {
-    if (e.button !== 0) return;
+    if (e.button !== 0 && e.button !== 2) return;
     if (e.metaKey || e.ctrlKey) {
       e.preventDefault();
       const anchor=gelPoint(e);
       creatingLoupe.current={id:state.loupeNextId,...anchor,pointerId:e.pointerId};
       svgRef.current?.setPointerCapture(e.pointerId);
       dispatch({type:'ADD_LOUPE',anchor});
+      return;
+    }
+    if(e.button===2) {
+      e.preventDefault();
+      const point=gelPoint(e),lane=Math.floor(point.x/state.gelSize.width*state.numLanes);
+      const index=store.createSpecies(lane,point.y);
+      if(index===undefined)return;
+      const next=store.getSnapshot().gel,scene=deriveGelScene(next);
+      const slowest=scene.bands.filter((_,i)=>scene.bandToLaneFragment[i].lane===lane&&scene.bandToLaneFragment[i].fragment===index)
+        .reduce((a,b)=>a.rect.y1<=b.rect.y1?a:b);
+      dispatch({type:'BEGIN_DRAG',laneIndex:lane,fragmentIndex:index,startY:point.y,
+        referenceY:slowest.rect.y1,aggregate:slowest.aggregate,temporaryLane:next.samples[lane]!.fragments.length===1?lane:null});
+      svgRef.current?.setPointerCapture(e.pointerId);
+      queueMicrotask(()=>document.querySelector<HTMLElement>('[data-testid="sample-view"]')?.focus());
       return;
     }
     const picked = pickBand(gelPoint(e), bands);
@@ -106,7 +119,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
       if (!(error instanceof DOMException) || error.name !== 'NotFoundError') throw error;
     }
     if (e.altKey) {
-      dispatch({ type: 'CLONE_FRAGMENT', laneIndex: lane, sourceIndex: fragment, color: randomFragmentColor() });
+      dispatch({ type: 'CLONE_FRAGMENT', laneIndex: lane, sourceIndex: fragment });
       const rect = svgRef.current!.getBoundingClientRect();
       const y = ((e.clientY - rect.top) / rect.height) * state.gelSize.height;
       // Native Alt clone switches to the slowest band of the copied species.
@@ -138,19 +151,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
       tabIndex={0}
       onKeyDown={onKeyDown}
       onLostPointerCapture={() => {creatingLoupe.current=null;onPointerUp();}}
-      onContextMenu={e => {
-        e.preventDefault();
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width * state.gelSize.width;
-        const y = (e.clientY - rect.top) / rect.height * state.gelSize.height;
-        const lane = Math.floor(x / state.gelSize.width * state.numLanes);
-        if (lane < 0 || lane >= state.numLanes) return;
-        const fragment = newFragment();
-        fragment.bases = solveBasesForY({ targetY: y, frag: fragment, lane,
-          ctx: { ...state.ctx, sampleBuffer: state.samples[lane]?.buffer ?? BUFFER_TBE }, wellRect: state.wellRects[lane] });
-        dispatch({ type: 'ADD_FRAGMENT', laneIndex: lane, fragment });
-        e.currentTarget.focus();
-      }}
+      onContextMenu={e => e.preventDefault()}
       onPointerDown={onBandPointerDown}
       onPointerMove={e => {
         const picked = pickBand(gelPoint(e), bands);

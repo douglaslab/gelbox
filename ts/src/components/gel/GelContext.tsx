@@ -2,14 +2,18 @@ import {FileLoadProvider} from './FileLoadProvider';
 import {ViewOrderProvider} from './useViewLayer';
 import {ReferenceImageProvider} from './ReferenceImageLayer';
 import { flushSync } from 'react-dom';
-import { createContext, useContext, useEffect, useLayoutEffect, useRef, useReducer, type ReactNode, type Dispatch } from 'react';
-import { gelReducer, initialGelState, selectionViewTarget, type GelState, type Action } from '../../lib/gel/gelState';
+import {GelStore} from '../../lib/gel/gelStore';
+import { createContext, useContext, useEffect, useState, useSyncExternalStore, type ReactNode, type Dispatch } from 'react';
+import { type GelState, type Action } from '../../lib/gel/gelState';
 
+const StoreCtx = createContext<GelStore | null>(null);
 const StateCtx    = createContext<GelState | null>(null);
 const DispatchCtx = createContext<Dispatch<Action> | null>(null);
 
 export function GelProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(gelReducer, undefined, initialGelState);
+  const [store] = useState(() => new GelStore());
+  const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
+  const state = snapshot.gel, dispatch = store.dispatch;
   useEffect(() => {
     const key = (event: KeyboardEvent) => {
       if (event.metaKey && event.key.toLowerCase() === 'r') {
@@ -19,29 +23,23 @@ export function GelProvider({ children }: { children: ReactNode }) {
     };
     window.addEventListener('keydown', key, true);
     return () => window.removeEventListener('keydown', key, true);
-  }, []);
-  const current = useRef(state);
-  useLayoutEffect(() => { current.current = state; }, [state]);
+  }, [dispatch]);
   useEffect(() => {
     let frame: number;
     const tick = () => {
-      // Do not enqueue idle reducer updates: concurrent rebasing can replay a
-      // mouse-down edit after its native hover-refresh window has ended.
-      // An actual native tick view change commits before this frame is painted.
-      if (selectionViewTarget(current.current) !== undefined) {
-        flushSync(() => dispatch({ type: 'SYNC_SELECTION_VIEW' }));
-      }
+      const freeze = (window as unknown as {__molsimFreezeAfterTicks?:number}).__molsimFreezeAfterTicks;
+      flushSync(() => store.tick(freeze));
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, []);
+  }, [store]);
   return (
-    <StateCtx.Provider value={state}>
+    <StoreCtx.Provider value={store}><StateCtx.Provider value={state}>
       <DispatchCtx.Provider value={dispatch}>
-        <ViewOrderProvider><ReferenceImageProvider><FileLoadProvider>{children}</FileLoadProvider></ReferenceImageProvider></ViewOrderProvider>
+        <ViewOrderProvider value={{order:snapshot.order,add:store.registerLayer,remove:store.unregisterLayer,raise:store.raiseLayer}}><ReferenceImageProvider><FileLoadProvider>{children}</FileLoadProvider></ReferenceImageProvider></ViewOrderProvider>
       </DispatchCtx.Provider>
-    </StateCtx.Provider>
+    </StateCtx.Provider></StoreCtx.Provider>
   );
 }
 
@@ -55,4 +53,14 @@ export function useGelDispatch(): Dispatch<Action> {
   const d = useContext(DispatchCtx);
   if (!d) throw new Error('useGelDispatch must be used inside <GelProvider>');
   return d;
+}
+
+export function useGelStore(): GelStore {
+  const store=useContext(StoreCtx);
+  if(!store)throw new Error("useGelStore must be used inside <GelProvider>");
+  return store;
+}
+export function useGelSnapshot() {
+  const store=useGelStore();
+  return useSyncExternalStore(store.subscribe,store.getSnapshot);
 }

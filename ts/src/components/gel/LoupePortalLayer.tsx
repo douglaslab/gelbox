@@ -1,20 +1,16 @@
-import { useMemo } from 'react';
-import { useGelState } from './GelContext';
-import { Loupe } from './Loupe';
-import { useHoverLoupe } from './useHoverLoupe';
-import type {LoupeRef} from '../../lib/gel/gelState';
-import { makeSampleFromGel, type BandLaneFragment } from '../../lib/sim/sampleFromGel';
-import type { Band } from '../../lib/sim/band';
-interface Props { bands: Band[]; bandToLaneFragment: BandLaneFragment[]; }
-function DerivedLoupe({loupe,bands,bandToLaneFragment,transient=false}:Props & {loupe:LoupeRef;transient?:boolean}) {
- const {samples,wellRects,ctx}=useGelState();
- // Moving only the frame or changing stacking order must not reroll content.
- const content=useMemo(()=>makeSampleFromGel(loupe.anchor,bands,bandToLaneFragment,samples,wellRects,ctx),[loupe.anchor,bands,bandToLaneFragment,samples,wellRects,ctx]);
- return <Loupe loupe={loupe} transient={transient} {...content}/>;
-}
-export function LoupePortalLayer(props:Props) {
- const {loupes,documentRevision}=useGelState();
+import {useGelSnapshot,useGelStore} from './GelContext';
+import {Loupe} from './Loupe';
+import {useHoverLoupe} from './useHoverLoupe';
+import type {BandLaneFragment} from '../../lib/sim/sampleFromGel';
+import type {Band} from '../../lib/sim/band';
+interface Props {bands:Band[];bandToLaneFragment:BandLaneFragment[]}
+export function LoupePortalLayer(_props:Props) {
+ const store=useGelStore();
+ const {gel:{loupes,documentRevision}}=useGelSnapshot();
  const preview=useHoverLoupe();
- // Keep DOM nodes in creation order: moving a captured node loses capture.
- return <>{[...loupes].sort((a,b)=>a.id-b.id).map(loupe=><DerivedLoupe key={loupe.id} loupe={loupe} {...props}/>)}{preview&&<DerivedLoupe key={`hover-${documentRevision}`} loupe={preview} transient {...props}/>}</>;
+ // Stable creation-order DOM nodes preserve pointer capture while stacking changes.
+ return <>{[...loupes].sort((a,b)=>a.id-b.id).map(loupe=>{
+   const content=store.getLoupeContent(`loupe-${loupe.id}`);
+   return content?<Loupe key={loupe.id} loupe={loupe} {...content}/>:null;
+ })}{preview&&store.getLoupeContent('hover')&&<Loupe key={`hover-${documentRevision}`} loupe={preview} transient {...store.getLoupeContent('hover')!}/>}</>;
 }

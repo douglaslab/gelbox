@@ -159,10 +159,7 @@ test('molsim-selected: after clicking a particle (selection outline visible)', a
       if (view === 'fragment') hitFound = true;
     }
   }
-  // If no particle was hit the inspector stays on sample-settings, which means
-  // the canvas still renders cleanly — the golden will just show no selection
-  // outline. This is acceptable; the test does not hard-fail here because
-  // particle positions are not deterministic across browsers/runs.
+  expect(hitFound, 'native seeded particles must yield a selection in the probe grid').toBe(true);
 
   // Allow one rAF tick for the selection outline to be drawn.
   await page.waitForTimeout(200);

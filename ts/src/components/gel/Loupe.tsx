@@ -1,17 +1,18 @@
 import {useViewLayer} from './useViewLayer';
-import {loupeSeed} from '../../lib/sim/loupeSeed';
 import {useEffect,useMemo,useRef,useState, type PointerEvent as ReactPointerEvent} from 'react';
 import {sampleFragRefEq, type SampleFragRef} from '../../lib/gel/sampleFragRef';
 import {loupeHull} from '../../lib/gel/loupeGeometry';
 import type {DegradeFilter} from '../../lib/sim/sampleFromGel';
-import { useGelDispatch, useGelState } from './GelContext';
+import { useGelDispatch, useGelState, useGelStore } from './GelContext';
 import type { LoupeRef } from '../../lib/gel/gelState';
 import type { Sample } from '../../lib/sim/sample';
 import { SampleSimCanvas } from '../sample/SampleSimCanvas';
 const SIZE=171, RADIUS=10.4;
 interface LoupeProps { transient?:boolean; loupe:LoupeRef; sample:Sample; sourceRefs:SampleFragRef[]; degradeFilter?:DegradeFilter; }
-export function Loupe({loupe,sample,degradeFilter,sourceRefs,transient=false}:LoupeProps) {
+export function Loupe({loupe,sourceRefs,transient=false}:LoupeProps) {
  const dispatch=useGelDispatch(),state=useGelState();
+ const viewKey=transient?"hover":`loupe-${loupe.id}`;
+ const view=useGelStore().getMolecularView(viewKey);
  const layer=useViewLayer(transient?`hover-${state.documentRevision}`:`loupe-${loupe.id}`);
  const root=useRef<HTMLDivElement>(null),frame=useRef<HTMLDivElement>(null);
  const [focused,setFocused]=useState(false),[hover,setHover]=useState(false),[anchorHover,setAnchorHover]=useState(false);
@@ -42,6 +43,7 @@ export function Loupe({loupe,sample,degradeFilter,sourceRefs,transient=false}:Lo
  },[dispatch,loupe.id,state.gelSize,transient]);
  const ringFocus=focused||anchorHover;
  const hull=loupeHull(loupe.frame,loupe.anchor).map(p=>`${p.x},${p.y}`).join(' ');
+ if(!view)return null;
  return <div ref={root} data-testid={transient?"hover-loupe":`loupe-${loupe.id}`} data-loupe-id={transient?undefined:loupe.id}
   onLostPointerCapture={()=>{drag.current=null;}}
   onPointerEnter={()=>setHover(true)} onPointerLeave={()=>setHover(false)}
@@ -57,8 +59,7 @@ export function Loupe({loupe,sample,degradeFilter,sourceRefs,transient=false}:Lo
    onKeyDown={e=>{if(transient)return;if(['Delete','Backspace','Escape'].includes(e.key)){e.preventDefault();e.stopPropagation();dispatch({type:'REMOVE_LOUPE',id:loupe.id});}else if(e.key==='Tab'){e.preventDefault();e.stopPropagation();}}}
    style={{position:'absolute',left:loupe.frame.x,top:loupe.frame.y,width:SIZE,height:SIZE,pointerEvents:'auto',outline:'none',touchAction:'none'}}>
    <div style={{position:'absolute',left:2,top:4,width:SIZE-4,height:SIZE,background:`rgba(0,0,0,${focused ? .25 : .15})`,zIndex:-1}}/>
-   <SampleSimCanvas sample={sample} prerollSample timeScale={0} width={SIZE} height={SIZE}
-    seed={loupeSeed(loupe.anchor,state.ctx.time)} degradeFilter={degradeFilter} selectedFragment={selected} rolloverFragment={rollover}
+   <SampleSimCanvas view={view} viewKey={viewKey} width={SIZE} height={SIZE} selectedFragment={selected} rolloverFragment={rollover}
     onPickFragment={index=>{const ref=source(index);if(ref)dispatch({type:'SET_SELECTION',ref});}}
     onPickBackground={()=>dispatch({type:'SET_SELECTION',ref:null})}
     onHoverFragment={index=>{const ref=index===null?null:source(index);if(ref)dispatch({type:'SET_ROLLOVER',ref});else if(hovered.current)dispatch({type:'CLEAR_ROLLOVER_IF',ref:hovered.current});hovered.current=ref;}}

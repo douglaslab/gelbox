@@ -1,6 +1,6 @@
 import { fragmentIndexIn, sameSample } from '../../lib/gel/sampleFragRef';
 import { useCallback } from 'react';
-import { useGelState, useGelDispatch } from '../gel/GelContext';
+import { useGelState, useGelDispatch, useGelStore } from '../gel/GelContext';
 import { SampleSimCanvas } from './SampleSimCanvas';
 
 export interface MolecularSimCanvasProps {
@@ -13,6 +13,7 @@ export interface MolecularSimCanvasProps {
 export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCanvasProps) {
   const state = useGelState();
   const dispatch = useGelDispatch();
+  const view = useGelStore().getMolecularView("sample");
   const sample = state.samples[laneIndex] ?? null;
 
   const selectedFragment = fragmentIndexIn(state.selection, sample);
@@ -32,12 +33,13 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
     dispatch({ type: 'SET_SELECTED', laneIndex, index: fragment });
   }, [dispatch, laneIndex]);
 
+  if (!view) return null;
   return (
     <SampleSimCanvas
-      sample={sample}
+      view={view}
+      viewKey="sample"
       width={width}
       height={height}
-      seed={laneIndex * 31 + 1}
       selectedFragment={selectedFragment}
       rolloverFragment={rolloverFragment}
       onHoverFragment={onHoverFragment}
