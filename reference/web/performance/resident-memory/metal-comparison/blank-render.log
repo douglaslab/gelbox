@@ -1,0 +1,27 @@
+log GPU error [Invalid Texture] is invalid due to a previous error.
+ - While calling [Invalid Texture].CreateView([TextureViewDescriptor]).
+
+warning [Invalid Texture] is invalid due to a previous error.
+ - While calling [Invalid Texture].CreateView([TextureViewDescriptor]).
+
+log GPU error [Invalid TextureView] is invalid due to a previous error.
+ - While validating colorAttachments[0].
+ - While encoding [CommandEncoder (unlabeled)].BeginRenderPass([RenderPassDescriptor]).
+ - While finishing [CommandEncoder (unlabeled)].
+
+warning [Invalid TextureView] is invalid due to a previous error.
+ - While validating colorAttachments[0].
+ - While encoding [CommandEncoder (unlabeled)].BeginRenderPass([RenderPassDescriptor]).
+ - While finishing [CommandEncoder (unlabeled)].
+
+log GPU error [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+
+warning [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+
+{
+  loss: null,
+  work: 'done',
+  adapter: { vendor: 'google', device: '', description: '' }
+}

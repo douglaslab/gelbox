@@ -24,11 +24,14 @@ are retained. W08 remains open; this is not a passing memory budget. No applicat
 source or website review build changed.
 
 Follow-up controls verify that inspector response eviction does not eliminate
-Chromium131 growth. Chromium153 completes100 WebGL2 cycles with stable tracked
-resources and no renderer RSS increase from cycles50 to100, but its WebGPU case
-loses the device and falls back. Blank-page acquisition/GC controls do not
-reproduce the loss. [Raw controls and limits](../reference/web/performance/resident-memory/attribution/README.md)
-are retained; browser-dependent behavior is evidence, not attribution or final acceptance.
+Chromium131 growth. The initial Chromium153 comparison was confounded by a
+different graphics path selected by its runner. Explicit Metal restores the
+Apple adapter, fixes blank-canvas errors, and passes100 compiled cycles on both
+backends without app changes. Both subsequent300-cycle runs also pass resource
+and behavior checks, but renderer RSS still grows52–59MiB between early/late
+windows. [Controlled comparison and limits](../reference/web/performance/resident-memory/metal-comparison/README.md)
+replace the earlier interpretation of an unresolved product device-loss defect.
+Memory attribution and final acceptance remain open.
 
 ## Latest image decoding fix
 

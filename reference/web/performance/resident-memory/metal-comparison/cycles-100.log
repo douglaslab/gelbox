@@ -1,0 +1,31 @@
+
+Running 2 tests using 1 worker
+
+(node:15431) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/100
+Lifecycle cycles completed: 20/100
+Lifecycle cycles completed: 30/100
+Lifecycle cycles completed: 40/100
+Lifecycle cycles completed: 50/100
+Lifecycle cycles completed: 60/100
+Lifecycle cycles completed: 70/100
+Lifecycle cycles completed: 80/100
+Lifecycle cycles completed: 90/100
+Lifecycle cycles completed: 100/100
+  ✓  1 [chromium-webgpu] › ../../../../../../../private/tmp/gel-browser-compat-1.64/memory/performance/view-churn.spec.ts:10:5 › compiled repeated sample/loupe disposal and resize release owned GPU resources (31.7s)
+(node:15622) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/100
+Lifecycle cycles completed: 20/100
+Lifecycle cycles completed: 30/100
+Lifecycle cycles completed: 40/100
+Lifecycle cycles completed: 50/100
+Lifecycle cycles completed: 60/100
+Lifecycle cycles completed: 70/100
+Lifecycle cycles completed: 80/100
+Lifecycle cycles completed: 90/100
+Lifecycle cycles completed: 100/100
+  ✓  2 [chromium-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/memory/performance/view-churn.spec.ts:10:5 › compiled repeated sample/loupe disposal and resize release owned GPU resources (32.7s)
+
+  2 passed (1.1m)

@@ -1,0 +1,62 @@
+2026-10-10T19:53:42.569Z pw:browser <launching> /Users/shawn/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,NetworkTimeServiceQuerying,AimEnabled,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --enable-unsafe-webgpu --ignore-gpu-blocklist --user-data-dir=/var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_chromiumdev_profile-Hk3GPW --remote-debugging-pipe --no-startup-window
+2026-10-10T19:53:42.571Z pw:browser <launched> pid=15331
+2026-10-10T19:53:42.659Z pw:browser [pid=15331][err] [1010/125342.659276:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+2026-10-10T19:53:42.675Z pw:browser [pid=15331][err] [1010/125342.674851:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] [1010/125342.681255:ERROR:gpu/command_buffer/service/shared_image/shared_image_manager.cc:269] SharedImageManager::ProduceSkia: Trying to produce a Skia representation from an incompatible backing: CompoundImageBacking
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] [1010/125342.681324:ERROR:third_party/blink/renderer/modules/webgpu/gpu_device.cc:354] GPUDevice: "[Invalid Texture] is invalid due to a previous error.\n - While calling [Invalid Texture].CreateView([TextureViewDescriptor]).\n"
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] [1010/125342.681429:INFO:CONSOLE:2] "GPU error [Invalid Texture] is invalid due to a previous error.
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err]  - While calling [Invalid Texture].CreateView([TextureViewDescriptor]).
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] ", source:  (2)
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] [1010/125342.681440:ERROR:third_party/blink/renderer/modules/webgpu/gpu_device.cc:354] GPUDevice: "[Invalid TextureView] is invalid due to a previous error.\n - While validating colorAttachments[0].\n - While encoding [CommandEncoder (unlabeled)].BeginRenderPass([RenderPassDescriptor]).\n - While finishing [CommandEncoder (unlabeled)].\n"
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] [1010/125342.681466:INFO:CONSOLE:0] "[Invalid Texture] is invalid due to a previous error.
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err]  - While calling [Invalid Texture].CreateView([TextureViewDescriptor]).
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] ", source: http://gel-probe.localhost/ (0)
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] [1010/125342.681474:ERROR:third_party/blink/renderer/modules/webgpu/gpu_device.cc:354] GPUDevice: "[Invalid CommandBuffer] is invalid due to a previous error.\n - While calling [Queue].Submit([[Invalid CommandBuffer]])\n"
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] [1010/125342.681474:INFO:CONSOLE:2] "GPU error [Invalid TextureView] is invalid due to a previous error.
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err]  - While validating colorAttachments[0].
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err]  - While encoding [CommandEncoder (unlabeled)].BeginRenderPass([RenderPassDescriptor]).
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err]  - While finishing [CommandEncoder (unlabeled)].
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] ", source:  (2)
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] [1010/125342.681517:INFO:CONSOLE:0] "[Invalid TextureView] is invalid due to a previous error.
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err]  - While validating colorAttachments[0].
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err]  - While encoding [CommandEncoder (unlabeled)].BeginRenderPass([RenderPassDescriptor]).
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err]  - While finishing [CommandEncoder (unlabeled)].
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] ", source: http://gel-probe.localhost/ (0)
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] [1010/125342.681527:INFO:CONSOLE:2] "GPU error [Invalid CommandBuffer] is invalid due to a previous error.
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err]  - While calling [Queue].Submit([[Invalid CommandBuffer]])
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] ", source:  (2)
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] [1010/125342.681561:INFO:CONSOLE:0] "[Invalid CommandBuffer] is invalid due to a previous error.
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err]  - While calling [Queue].Submit([[Invalid CommandBuffer]])
+2026-10-10T19:53:42.681Z pw:browser [pid=15331][err] ", source: http://gel-probe.localhost/ (0)
+log GPU error [Invalid Texture] is invalid due to a previous error.
+ - While calling [Invalid Texture].CreateView([TextureViewDescriptor]).
+
+warning [Invalid Texture] is invalid due to a previous error.
+ - While calling [Invalid Texture].CreateView([TextureViewDescriptor]).
+
+log GPU error [Invalid TextureView] is invalid due to a previous error.
+ - While validating colorAttachments[0].
+ - While encoding [CommandEncoder (unlabeled)].BeginRenderPass([RenderPassDescriptor]).
+ - While finishing [CommandEncoder (unlabeled)].
+
+warning [Invalid TextureView] is invalid due to a previous error.
+ - While validating colorAttachments[0].
+ - While encoding [CommandEncoder (unlabeled)].BeginRenderPass([RenderPassDescriptor]).
+ - While finishing [CommandEncoder (unlabeled)].
+
+log GPU error [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+
+warning [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+
+{
+  loss: null,
+  work: 'done',
+  adapter: { vendor: 'google', device: '', description: '' }
+}
+2026-10-10T19:53:43.180Z pw:browser [pid=15331] <gracefully close start>
+2026-10-10T19:53:43.202Z pw:browser [pid=15331] <process did exit: exitCode=0, signal=null>
+2026-10-10T19:53:43.202Z pw:browser [pid=15331] starting temporary directories cleanup
+2026-10-10T19:53:43.207Z pw:browser [pid=15331] finished temporary directories cleanup
+2026-10-10T19:53:43.207Z pw:browser [pid=15331] <gracefully close end>

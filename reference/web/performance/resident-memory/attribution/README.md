@@ -30,6 +30,12 @@ version can affect absolute starting RSS. These are100-cycle controls, not the
 
 ## Chromium153 comparison
 
+**Follow-up correction:** [The Metal control](../metal-comparison/README.md)
+shows that the newer runner selected a different graphics path. The same browser
+and app pass both 100-cycle cases with explicit Metal. The default run below
+must not be interpreted as a controlled browser-version-only comparison or an
+unresolved product device-loss defect. Its observations remain retained.
+
 The installed Chrome for Testing153.0.8010.12 was first invoked with the pinned
 Playwright1.49 runner. Its WebGPU case timed out after five minutes without a
 memory checkpoint. The second case was deliberately interrupted using SIGINT

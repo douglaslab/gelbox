@@ -1,0 +1,5 @@
+{
+  loss: null,
+  work: 'done',
+  adapter: { vendor: 'apple', device: '', description: '' }
+}

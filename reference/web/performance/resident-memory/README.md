@@ -30,4 +30,4 @@ The analysis requires at least200cycles so early/late windows are distinct; fina
 
 ## Attribution follow-up
 
-[Response-cache controls and Chromium153 comparison](attribution/README.md) retain the next investigation. Effective inspector response eviction does not eliminate the growth in Chromium131. The newer browser loses its WebGPU device and falls back to WebGL2; the backend assertion correctly rejects that as WebGPU validation. Attribution and the memory release criterion remain open.
+[Response-cache controls and Chromium153 comparison](attribution/README.md) retain the next investigation. Effective inspector response eviction does not eliminate the growth in Chromium131. The initial newer-browser default loses its WebGPU device and falls back to WebGL2; the backend assertion correctly rejects that as WebGPU validation. [Explicit Metal](metal-comparison/README.md) subsequently restores correct rendering and both100-cycle cases pass, isolating that failure to the test graphics configuration. Attribution and the memory release criterion remain open.
