@@ -60,3 +60,19 @@ To work in Xcode, generate a project instead of makefiles: `cmake -S proj/cmake 
 | Save selected sample		| Cmd-Opt-S. Or use app menu. |
 | Load sample			| Drag sample file into window; can drop it into a specific lane. |
 | Load image				| Drag image file into window. |
+
+## Distribution builds
+
+For a self-contained Apple Silicon build with the 2026-10-10 fixes:
+
+```sh
+cmake -S proj/cmake -B build-distribution -DCMAKE_BUILD_TYPE=Release -DCINDER_COPY_ASSETS=ON -DGELBOX_VERSION=1.0.1 -DGELBOX_BUILD_NUMBER=20261010
+cmake --build build-distribution -j 8
+```
+
+Version 1.0.1 starts DNA bands flat and ramps curvature over the first ten
+simulated minutes; negative voltage reverses the curvature. The macOS build
+uses current Cinder and embeds its assets for distribution. The arm64 build
+is not an Intel binary. Public Developer ID signing and notarization are
+separate release steps; the locally prepared 2026-10-10 package is ad-hoc
+signed and not notarized.

@@ -391,7 +391,16 @@ Band fragAggregateToBand(
 	b.mWellDamageRandSeed	= calcWellDamageRandSeed( b, context ); 
 	b.mWellDamage			= context.mWellDamage;
 	
-	b.mSmileHeight = b.mRect.getHeight() * .35f; 
+	// Edges lag the center, so the band curls back toward the well. A band still
+	// in the well is flat; the curl builds over the first minutes of the run.
+	// Under negative voltage the band migrates up instead, and the curl flips.
+	{
+		const float kSmileRampMinutes = 10.f;
+		float minutes = context.mTime * (float)kTuning.mSliderTimelineMaxMinutes;
+		float ramp    = min( 1.f, max( 0.f, minutes / kSmileRampMinutes ) );
+		float sign    = ( context.mVoltage < 0.f ) ? -1.f : 1.f;
+		b.mSmileHeight = b.mRect.getHeight() * .35f * ramp * sign;
+	}
 	b.mSmileExp = 4.f;
 	
 	b.mFlameHeight = b.mRect.getHeight() * calcFlames(b.mMass);	

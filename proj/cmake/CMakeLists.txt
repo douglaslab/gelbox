@@ -46,14 +46,17 @@ ci_make_app(
 # every translation unit sees Cinder's app and gl headers.
 target_compile_options( Gelbox PRIVATE "SHELL:-include ${APP_PATH}/include/Gelbox_Prefix.h" )
 
+set( GELBOX_VERSION "1.0" CACHE STRING "Gelbox release version" )
+set( GELBOX_BUILD_NUMBER "1" CACHE STRING "Gelbox bundle build number" )
+
 if( APPLE )
 	set_target_properties( Gelbox PROPERTIES
 		MACOSX_BUNDLE_INFO_PLIST            "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in"
 		MACOSX_BUNDLE_GUI_IDENTIFIER        "org.douglaslab.Gelbox"
 		MACOSX_BUNDLE_BUNDLE_NAME           "Gelbox"
 		MACOSX_BUNDLE_ICON_FILE             "Gelbox.icns"
-		MACOSX_BUNDLE_SHORT_VERSION_STRING  "1.0"
-		MACOSX_BUNDLE_BUNDLE_VERSION        "1"
+		MACOSX_BUNDLE_SHORT_VERSION_STRING  "${GELBOX_VERSION}"
+		MACOSX_BUNDLE_BUNDLE_VERSION        "${GELBOX_BUILD_NUMBER}"
 		MACOSX_BUNDLE_COPYRIGHT             "Copyright © 2018 Douglas Lab"
 	)
 
