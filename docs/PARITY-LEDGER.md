@@ -138,13 +138,13 @@ not by the old M1–M27 milestone queue.
 
 - **D04 — stale native buffer binding after loading.** The original release keeps an open gel buffer panel bound to the previous document, so preset edits do not reach the imported gel until settings is reopened. [Native saves/source and compiled regression](../reference/native/files/interop/gel/stale-buffer/README.md) prove the difference. The web now matches native panel lifetime and retains its existing current-document binding. Acceptance of the binding correction is pending; W01 is not closed.
 
-- **D05 — accepted voltage-dependent curvature.** Shawn explicitly requested on
-  2026-10-10 that negative voltage reverse smiling into frowning. Implemented by
-  changing only the sign of DNA-band curvature below zero volts; dyes retain zero
-  curvature and nonnegative behavior is unchanged. [Red/green unit and compiled
-  pixel evidence](../reference/web/voltage-curvature/README.md) records the exact
-  request. Raw native goldens are retained; numerical comparison identifies this
-  sign change explicitly.
+- **D05 — accepted voltage- and time-dependent curvature.** Shawn explicitly
+  requested on 2026-10-10 both negative-voltage frowning and flat bands at time
+  zero, with curvature increasing through the first ten simulated minutes.
+  DNA bands now ramp linearly to full curvature at ten minutes, capped thereafter,
+  with negative voltage reversing the sign. Dyes remain flat. [Current evidence](../reference/web/curvature-ramp/README.md)
+  supersedes the historical time-zero polarity captures. Raw native goldens remain
+  intact; numerical comparisons identify both intentional differences explicitly.
 
 No accepted deviation is recorded here unless an explicit decision is linked.
 Browser dialogs/download mechanics and OS window borders are the boundary

@@ -2,7 +2,7 @@ import { useGelDispatch, useGelState } from './GelContext';
 import { SliderView } from '../primitives/SliderView';
 import type { SliderConfig } from '../../lib/slider/slider';
 
-const MAX_MINUTES = 60 * 3;
+import { GEL_DURATION_MINUTES } from '../../lib/sim/time';
 
 const TIMELINE_CONFIG: SliderConfig = {
   style:    'slider',
@@ -10,7 +10,7 @@ const TIMELINE_CONFIG: SliderConfig = {
   valueMax: 1,
   quantize: 0,
   formatValue: (v) => {
-    const mins = Math.round(v * MAX_MINUTES);
+    const mins = Math.round(v * GEL_DURATION_MINUTES);
     const h = Math.floor(mins / 60);
     const m = mins % 60;
     return `${h}:${m < 10 ? '0' : ''}${m}`;

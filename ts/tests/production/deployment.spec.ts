@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 import {serveBuiltApp} from './built-app';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
-for(const prefix of ['/','/gelbox/'])test(`built app at ${prefix} loads controls and roundtrips native files`,async({page},info)=>{
+for(const prefix of ['/','/gelbox/','/gelbox/app/'])test(`built app at ${prefix} loads controls and roundtrips native files`,async({page},info)=>{
  const app=await serveBuiltApp(prefix);
  try {
   const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));

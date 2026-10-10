@@ -1,0 +1,110 @@
+
+> @douglaslab/gel@0.0.1 test:unit
+> vitest run tests/unit/gelSim.test.ts
+
+[?25l
+ RUN  v3.0.0 /Users/shawn/.codex/worktrees/3f9f/gel/ts
+
+ ❯ tests/unit/gelSim.test.ts (27 tests | 5 failed) 32ms
+   ✓ fragToBands band metadata (M26a) > a monomer band carries mass, aggregate=1, degrade
+   ✓ fragToBands band metadata (M26a) > an aggregated fragment emits one band per tier with scaled mass and the tier index
+   ✓ fragToBands band metadata (M26a) > a dye band carries its mass, aggregate=1, degrade=0
+   ✓ fragToBands — dispatch > dye fragment with mass=0 emits zero bands
+   ✓ fragToBands — dispatch > dye fragment with mass>0 emits 1 band
+   ✓ fragToBands — dispatch > fragment with empty aggregate → 1 monomer band
+   ✓ fragToBands — dispatch > fragment with [0,1,0,2] aggregate → 2 bands
+   ✓ fragToBands — dispatch > fragment with all-zero aggregate is treated as monomer
+   × fragToBands — band fields > ramps curvature at -1 minutes to 0 of full strength 2ms
+     → expected -3.4902774810791013 to be close to -0, received difference is 3.4902774810791013, but expected 5e-7
+   × fragToBands — band fields > ramps curvature at 0 minutes to 0 of full strength 0ms
+     → expected -3.5 to be close to -0, received difference is 3.5, but expected 5e-7
+   × fragToBands — band fields > ramps curvature at 1 minutes to 0.1 of full strength 0ms
+     → expected -3.5097225189208983 to be close to -0.35097225189208986, received difference is 3.1587502670288083, but expected 5e-7
+   × fragToBands — band fields > ramps curvature at 5 minutes to 0.5 of full strength 0ms
+     → expected -3.5486113429069515 to be close to -1.7743056714534757, received difference is 1.7743056714534757, but expected 5e-7
+   × fragToBands — band fields > ramps curvature at 9.99 minutes to 0.999 of full strength 0ms
+     → expected -3.5971250534057613 to be close to -3.5935279283523553, received difference is 0.003597125053405925, but expected 5e-7
+   ✓ fragToBands — band fields > ramps curvature at 10 minutes to 1 of full strength
+   ✓ fragToBands — band fields > ramps curvature at 20 minutes to 1 of full strength
+   ✓ fragToBands — band fields > ramps curvature at 180 minutes to 1 of full strength
+   ✓ fragToBands — band fields > curvature follows voltage polarity at -200 V
+   ✓ fragToBands — band fields > curvature follows voltage polarity at -70 V
+   ✓ fragToBands — band fields > curvature follows voltage polarity at -1 V
+   ✓ fragToBands — band fields > curvature follows voltage polarity at 0 V
+   ✓ fragToBands — band fields > curvature follows voltage polarity at 1 V
+   ✓ fragToBands — band fields > curvature follows voltage polarity at 70 V
+   ✓ fragToBands — band fields > curvature follows voltage polarity at 200 V
+   ✓ fragToBands — band fields > monomer band has smile (smileHeight = rect.height × 0.35, smileExp = 4)
+   ✓ fragToBands — band fields > dye band has smile/flame disabled (zero)
+   ✓ fragToBands — band fields > overloaded mass (mass=170) gives flames > 0
+   ✓ fragToBands — band fields > different lanes produce different randSeeds (deterministic)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/gelSim.test.ts > fragToBands — band fields > ramps curvature at -1 minutes to 0 of full strength
+AssertionError: expected -3.4902774810791013 to be close to -0, received difference is 3.4902774810791013, but expected 5e-7
+ ❯ tests/unit/gelSim.test.ts:130:38
+    128|           for (const band of bands) {
+    129|             const full = (band.rect.y2 - band.rect.y1) * .35;
+    130|             expect(band.smileHeight).toBeCloseTo(full * fraction * (vo…
+       |                                      ^
+    131|             if (fraction === 0) expect(band.smileHeight).toBe(0);
+    132|           }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/unit/gelSim.test.ts > fragToBands — band fields > ramps curvature at 0 minutes to 0 of full strength
+AssertionError: expected -3.5 to be close to -0, received difference is 3.5, but expected 5e-7
+ ❯ tests/unit/gelSim.test.ts:130:38
+    128|           for (const band of bands) {
+    129|             const full = (band.rect.y2 - band.rect.y1) * .35;
+    130|             expect(band.smileHeight).toBeCloseTo(full * fraction * (vo…
+       |                                      ^
+    131|             if (fraction === 0) expect(band.smileHeight).toBe(0);
+    132|           }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/unit/gelSim.test.ts > fragToBands — band fields > ramps curvature at 1 minutes to 0.1 of full strength
+AssertionError: expected -3.5097225189208983 to be close to -0.35097225189208986, received difference is 3.1587502670288083, but expected 5e-7
+ ❯ tests/unit/gelSim.test.ts:130:38
+    128|           for (const band of bands) {
+    129|             const full = (band.rect.y2 - band.rect.y1) * .35;
+    130|             expect(band.smileHeight).toBeCloseTo(full * fraction * (vo…
+       |                                      ^
+    131|             if (fraction === 0) expect(band.smileHeight).toBe(0);
+    132|           }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  tests/unit/gelSim.test.ts > fragToBands — band fields > ramps curvature at 5 minutes to 0.5 of full strength
+AssertionError: expected -3.5486113429069515 to be close to -1.7743056714534757, received difference is 1.7743056714534757, but expected 5e-7
+ ❯ tests/unit/gelSim.test.ts:130:38
+    128|           for (const band of bands) {
+    129|             const full = (band.rect.y2 - band.rect.y1) * .35;
+    130|             expect(band.smileHeight).toBeCloseTo(full * fraction * (vo…
+       |                                      ^
+    131|             if (fraction === 0) expect(band.smileHeight).toBe(0);
+    132|           }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  tests/unit/gelSim.test.ts > fragToBands — band fields > ramps curvature at 9.99 minutes to 0.999 of full strength
+AssertionError: expected -3.5971250534057613 to be close to -3.5935279283523553, received difference is 0.003597125053405925, but expected 5e-7
+ ❯ tests/unit/gelSim.test.ts:130:38
+    128|           for (const band of bands) {
+    129|             const full = (band.rect.y2 - band.rect.y1) * .35;
+    130|             expect(band.smileHeight).toBeCloseTo(full * fraction * (vo…
+       |                                      ^
+    131|             if (fraction === 0) expect(band.smileHeight).toBe(0);
+    132|           }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 22 passed (27)
+   Start at  12:12:13
+   Duration  280ms (transform 45ms, setup 0ms, collect 44ms, tests 32ms, environment 0ms, prepare 43ms)
+
+[?25h

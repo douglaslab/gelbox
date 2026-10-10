@@ -1,3 +1,4 @@
+import { GEL_DURATION_MINUTES, SMILE_RAMP_MINUTES } from './time';
 // Port of ~/code/gelbox/src/GelSim.cpp:317-473 (dyeToBand, fragAggregateToBand, fragToBands).
 //
 // fragToBands is the public entry. It dispatches by fragment type:
@@ -86,8 +87,10 @@ function fragAggregateToBand(
   // Seeds + smile + flames depend on rect, computed AFTER calcBandGeometry
   const randSeed = calcRandSeed(lane, mass, ctx.voltage, geom.rect.y1);
   const wellDamageRandSeed = calcWellDamageRandSeed(lane);
-  // Requested polarity behavior: reverse the native smile below zero volts.
-  const smileHeight = height * 0.35 * (ctx.voltage < 0 ? -1 : 1);
+  // Start flat in the well, reach full curvature at ten minutes, and reverse
+  // the curl when voltage is negative.
+  const smileRamp = Math.min(1, Math.max(0, ctx.time * GEL_DURATION_MINUTES / SMILE_RAMP_MINUTES));
+  const smileHeight = smileRamp === 0 ? 0 : height * 0.35 * smileRamp * (ctx.voltage < 0 ? -1 : 1);
   const smileExp = 4;
   const flameHeight = height * calcFlames(mass);
 

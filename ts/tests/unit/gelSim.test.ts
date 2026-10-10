@@ -118,6 +118,23 @@ describe('fragToBands — dispatch', () => {
 });
 
 describe('fragToBands — band fields', () => {
+  it.each([[-1, 0], [0, 0], [1, .1], [5, .5], [9.99, .999], [10, 1], [20, 1], [180, 1]])(
+    'ramps curvature at %s minutes to %s of full strength', (minutes, fraction) => {
+      for (const voltage of [-200, 200]) {
+        const ctx = {...CTX_DEFAULT, voltage, time: minutes / 180};
+        for (const degrade of [0, .4]) {
+          const bands = fragToBands(makeSample({aggregate: [1, 1], degrade}), 0, WELL, 0, ctx);
+          expect(bands).toHaveLength(2);
+          for (const band of bands) {
+            const full = (band.rect.y2 - band.rect.y1) * .35;
+            expect(band.smileHeight).toBeCloseTo(full * fraction * (voltage < 0 ? -1 : 1), 6);
+            if (fraction === 0) expect(band.smileHeight).toBe(0);
+          }
+        }
+        expect(fragToBands(makeSample({dye: 0}), 0, WELL, 0, ctx)[0].smileHeight).toBe(0);
+      }
+    });
+
   it.each([-200, -70, -1, 0, 1, 70, 200])('curvature follows voltage polarity at %s V', voltage => {
     const sample = makeSample({aggregate: [1, 1], degrade: .4});
     const bands = fragToBands(sample, 0, WELL, 0, {...CTX_DEFAULT, voltage});

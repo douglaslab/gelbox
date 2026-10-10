@@ -1,5 +1,7 @@
 # Voltage polarity reverses band curvature
 
+**Historical:** the subsequent [ten-minute ramp](../curvature-ramp/README.md) supersedes the time-zero curvature and unchanged-positive-magnitude claims below.
+
 Shawn explicitly requested on 2026-10-10: “when the voltage flips to the - direction the direction of lane "smiling" should also flip to "frowning"”. This supersedes the original native always-positive smile for negative voltage. Ledger D05 is accepted by this direct instruction; D01/D04 remain separate pending decisions.
 
 The simulation now gives DNA bands a negative `smileHeight` below zero volts. The magnitude/exponent and nonnegative-voltage behavior remain unchanged. Dye bands retain zero curvature. Both existing GPU renderers consume the signed warp scale without shader changes.

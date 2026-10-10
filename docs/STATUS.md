@@ -16,11 +16,11 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Current acceptance status
 
-Shawn's requested negative-voltage frown is implemented on both renderers.
-Positive voltage retains the smile, negative reverses it, and switching back
-restores the original pixels. [Evidence](../reference/web/voltage-curvature/README.md):
-2,950 unit tests and32 compiled tests passed. This is an explicitly requested
-change from native behavior (D05), separate from pending defect exceptions.
+Shawn's requested curvature changes are implemented: flat at zero, a linear
+ramp to full strength over ten simulated minutes, and a frown at negative voltage.
+[Current evidence](../reference/web/curvature-ramp/README.md): 2,958 unit tests and
+38 compiled tests passed, including deployment at `/gelbox/app/`. The website
+release work does not close the remaining parity acceptance items.
 
 The legacy web import gap is fixed: nested scientific fields are validated before
 replacement, saved inputs and hidden sample slots are retained, and obsolete layout
