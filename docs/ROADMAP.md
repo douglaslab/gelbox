@@ -471,3 +471,15 @@ root/subpath: 4 passed with fresh build/type checks. No web goldens changed.
 See [capture and scope](../reference/native/modern/lossless-probe/offscreen/README.md).
 This closes the measured startup-band discrepancy, not other gel states,
 DPRs, wells, typography, loupes or full native workflow certification.
+
+### Broader gel effects: concrete remaining raster failures
+
+The [sixteen-scene matrix](../reference/native/modern/raster-scenes/README.md)
+now exercises plain, blur, smile, damage, smear, flame, water and combined
+rendering at ppu 1 and 2. Corrected output-sized blur uniforms, native flame
+randomness/float arithmetic, and source-over primitive blending. Native
+blur-2/flames-1/flames-2 RGB outputs match exactly on both backends. New
+regressions cover those corrected cases; full regression/production checks pass.
+The full diagnostic remains red for water/combined effects and WebGPU-only
+half-pixel edge cases. Investigate those failures next; do not infer complete
+gel-render parity from the startup or corrected effect cases.

@@ -52,7 +52,7 @@ export function createGlGelRenderer(
   const progBlur13  = createGlProgram(gl, passthroughVertSrc, blur13FragSrc,      'blur13');
   const progComp    = createGlProgram(gl, passthroughVertSrc, gelPassthroughSrc,  'composite', ['GEL_COMPOSITE']);
   // Geometry batch — owns the shader + VBO for band primitive drawing.
-  const geomBatch = createGlMeshBatch(gl, { viewport: gelSize, blend: 'additive' });
+  const geomBatch = createGlMeshBatch(gl, { viewport: gelSize, blend: 'over' });
 
   // Warp textures (1D and 2D), grown on demand. Same split-cache pattern as the
   // WebGPU warp pass to avoid mid-frame destroys.
@@ -190,7 +190,7 @@ export function createGlGelRenderer(
         gl.bindTexture(gl.TEXTURE_2D, target.current.texture);
         gl.uniform1i(prog.uniform('uTex0'), 0);
 
-        gl.uniform2f(prog.uniform('uResolution'), gelSize.width, gelSize.height);
+        gl.uniform2f(prog.uniform('uResolution'), target.current.width, target.current.height);
         gl.uniform2f(prog.uniform('uDirection'), dir === 0 ? 1 : 0, dir === 0 ? 0 : 1);
 
         // Passthrough vertex uniforms

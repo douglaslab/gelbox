@@ -26,7 +26,7 @@ export function createPrimitivePass(
   gelSize: { width: number; height: number },
   format: GPUTextureFormat = 'rgba8unorm-srgb',
 ): PrimitivePass {
-  const batch = createMeshBatch(device, { viewport: gelSize, blend: 'additive', format });
+  const batch = createMeshBatch(device, { viewport: gelSize, blend: 'over', format });
 
   function combine(meshes: Mesh[]): Mesh {
     let total = 0;

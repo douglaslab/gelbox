@@ -29,7 +29,7 @@ const INITIAL_VBO_BYTES = 64 * 1024;
 
 function blendState(mode: BlendMode): GPUBlendState {
   if (mode === 'additive') {
-    // Matches gel primitives: SRC_ALPHA,ONE on alpha=1 premultiplied output.
+    // Additive accumulation for premultiplied geometry.
     return {
       color: { srcFactor: 'one', dstFactor: 'one', operation: 'add' },
       alpha: { srcFactor: 'one', dstFactor: 'one', operation: 'add' },

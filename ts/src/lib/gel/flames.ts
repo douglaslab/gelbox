@@ -1,24 +1,25 @@
-import { mulberry32 } from '../sim/rng';
+import { CinderRand } from '../sim/rng';
 import type { Band } from '../sim/band';
 import { type Mesh, VERTEX_STRIDE } from './mesh';
 
 export function buildFlamesMesh(band: Band): Mesh {
   if (band.flameHeight <= 0) return { data: new Float32Array(0), vertexCount: 0 };
 
-  const { x1, x2, y1 } = band.rect;
-  const w = x2 - x1;
+  const f = Math.fround;
+  const x1=f(band.rect.x1), x2=f(band.rect.x2), y1=f(band.rect.y1);
+  const w = f(x2 - x1);
   const steps = Math.max(5, Math.floor(w / 2));
-  const step  = w / steps;
-  const rng   = mulberry32(band.randSeed);
+  const step  = f(w / steps);
+  const rng   = new CinderRand(band.randSeed);
 
   const heights = new Float32Array(steps);
-  const denom = 1 / Math.max(1, steps - 1);
+  const denom = f(1 / (steps - 1));
   for (let i = 0; i < steps; i++) {
-    let x = i * denom;
-    x = Math.min(x, 1 - x);
-    x = 1 - x;
-    x = x * x;
-    heights[i] = x * 0.25 + rng() * rng();
+    let x = f(i * denom);
+    x = Math.min(x, f(1 - x));
+    x = f(1 - x);
+    x = f(x * x);
+    heights[i] = f(f(x * 0.25) + f(rng.nextFloat() * rng.nextFloat()));
   }
 
   const b = band.brightness;
@@ -27,9 +28,9 @@ export function buildFlamesMesh(band: Band): Mesh {
 
   for (let i = 0; i < steps; i++) {
     const h  = Math.max(0, heights[i]);
-    const fx1 = x1 + i * step;
-    const fx2 = fx1 + step;
-    const fy1 = y1 - band.flameHeight * h;
+    const fx1 = f(x1 + f(i * step));
+    const fx2 = f(fx1 + step);
+    const fy1 = f(y1 - f(f(band.flameHeight) * h));
     const fy2 = y1;
     // Same triangle winding as body
     verts.push(fx2, fy2, ...c);

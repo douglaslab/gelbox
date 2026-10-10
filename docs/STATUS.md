@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,853 passed |
-| Browser suite across WebGPU/WebGL2 | 395 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 397 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
 | Production build and TypeScript checks | Passed |
@@ -1251,3 +1251,26 @@ duplicate skipped; **4 built-app root/subpath checks passed**, including a fresh
 production build and TypeScript checks. All four new native texture/display
 cases failed at their respective pre-fix stages and passed after correction.
 No existing screenshot goldens or tolerances changed.
+
+
+## Native effect-scene comparison and corrections
+
+A new [sixteen-scene native raster matrix](../reference/native/modern/raster-scenes/README.md)
+exports original GelRender output for eight effects at normal and doubled
+texture resolution. This exposed three concrete divergences: blur uniforms
+used logical rather than output dimensions; flames used Mulberry32 rather
+than Cinder's MT19937 float stream; and overlapping primitives accumulated
+additively instead of source-over. Those are corrected. The doubled-resolution
+blur and normal/doubled flame scenes now match every native RGB pixel on both
+web backends. Their zero-tolerance regressions failed before correction.
+
+The complete diagnostic matrix **still fails** for water/combined effects on
+both backends and for some half-pixel rectangle edges on WebGPU at ppu 1.
+Those failures and before/after metrics are retained explicitly outside the
+passing regression gate. They remain completion work; the synthetic modern
+native captures do not certify GUI workflows or original-release equivalence.
+
+Verification: **2,853 unit tests, 397 browser tests and 4 production checks
+passed**, with one intentional duplicate browser skip; the production command
+included fresh build/TypeScript checks. Existing goldens and tolerances are
+unchanged.

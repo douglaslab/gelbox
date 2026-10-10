@@ -21,7 +21,8 @@ export interface BlurPass {
 export function createBlurPass(
   device: GPUDevice,
   gelSize: { width: number; height: number },
-  format: GPUTextureFormat = 'rgba8unorm-srgb'
+  format: GPUTextureFormat = 'rgba8unorm-srgb',
+  outputSize: { width: number; height: number } = gelSize,
 ): BlurPass {
   const quad = createQuad(device);
   const vs = createShaderModule(device, passVertSrc, 'passthrough.vert');
@@ -70,12 +71,12 @@ export function createBlurPass(
   // (0,1). By baking both up front, we avoid per-call writeBuffer calls
   // (which would race with command-buffer recording on the device queue).
   const uBlurH = createUniformBuffer(device, 16, 'blur-uniforms-h');
-  writeVec2(uBlurH.view, 0, gelSize.width, gelSize.height);
+  writeVec2(uBlurH.view, 0, outputSize.width, outputSize.height);
   writeVec2(uBlurH.view, 8, 1, 0);
   uBlurH.upload(device.queue);
 
   const uBlurV = createUniformBuffer(device, 16, 'blur-uniforms-v');
-  writeVec2(uBlurV.view, 0, gelSize.width, gelSize.height);
+  writeVec2(uBlurV.view, 0, outputSize.width, outputSize.height);
   writeVec2(uBlurV.view, 8, 0, 1);
   uBlurV.upload(device.queue);
 

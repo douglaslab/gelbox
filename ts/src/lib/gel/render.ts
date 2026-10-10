@@ -36,7 +36,7 @@ function createGelRendererImpl(
   const composite = createPingPong(device, outputW, outputH, format, 'composite');
 
   const primitives = createPrimitivePass(device, gelSize, format);
-  const blur       = createBlurPass(device, gelSize, format);
+  const blur       = createBlurPass(device, gelSize, format, { width: outputW, height: outputH });
   const warp       = createWarpPass(device, gelSize, format);
   const cmp        = createCompositePass(device, gelSize, format);
 

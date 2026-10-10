@@ -1,0 +1,738 @@
+[
+  {
+    "id": "plain-1",
+    "width": 96,
+    "height": 128,
+    "ppu": 1,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 0,
+        "smileHeight": 0,
+        "smileExp": 1.7,
+        "blur": 0,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": false,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "blur-1",
+    "width": 96,
+    "height": 128,
+    "ppu": 1,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 0,
+        "smileHeight": 0,
+        "smileExp": 1.7,
+        "blur": 5,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": false,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "smile-1",
+    "width": 96,
+    "height": 128,
+    "ppu": 1,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 0,
+        "smileHeight": 8,
+        "smileExp": 1.7,
+        "blur": 0,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": false,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "damage-1",
+    "width": 96,
+    "height": 128,
+    "ppu": 1,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 0,
+        "smileHeight": 0,
+        "smileExp": 1.7,
+        "blur": 0,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0.7,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": false,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "smear-1",
+    "width": 96,
+    "height": 128,
+    "ppu": 1,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 8,
+        "smearBelow": 16,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 0,
+        "smileHeight": 0,
+        "smileExp": 1.7,
+        "blur": 0,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": false,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "flames-1",
+    "width": 96,
+    "height": 128,
+    "ppu": 1,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 8,
+        "smearBelow": 16,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 5,
+        "smileHeight": 0,
+        "smileExp": 1.7,
+        "blur": 0,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": false,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "water-1",
+    "width": 96,
+    "height": 128,
+    "ppu": 1,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 0,
+        "smileHeight": 0,
+        "smileExp": 1.7,
+        "blur": 0,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": true,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "combined-1",
+    "width": 96,
+    "height": 128,
+    "ppu": 1,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 8,
+        "smearBelow": 16,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 5,
+        "smileHeight": 8,
+        "smileExp": 1.7,
+        "blur": 5,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0.7,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": true,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "plain-2",
+    "width": 96,
+    "height": 128,
+    "ppu": 2,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 0,
+        "smileHeight": 0,
+        "smileExp": 1.7,
+        "blur": 0,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": false,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "blur-2",
+    "width": 96,
+    "height": 128,
+    "ppu": 2,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 0,
+        "smileHeight": 0,
+        "smileExp": 1.7,
+        "blur": 5,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": false,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "smile-2",
+    "width": 96,
+    "height": 128,
+    "ppu": 2,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 0,
+        "smileHeight": 8,
+        "smileExp": 1.7,
+        "blur": 0,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": false,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "damage-2",
+    "width": 96,
+    "height": 128,
+    "ppu": 2,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 0,
+        "smileHeight": 0,
+        "smileExp": 1.7,
+        "blur": 0,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0.7,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": false,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "smear-2",
+    "width": 96,
+    "height": 128,
+    "ppu": 2,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 8,
+        "smearBelow": 16,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 0,
+        "smileHeight": 0,
+        "smileExp": 1.7,
+        "blur": 0,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": false,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "flames-2",
+    "width": 96,
+    "height": 128,
+    "ppu": 2,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 8,
+        "smearBelow": 16,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 5,
+        "smileHeight": 0,
+        "smileExp": 1.7,
+        "blur": 0,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": false,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "water-2",
+    "width": 96,
+    "height": 128,
+    "ppu": 2,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 0,
+        "smileHeight": 0,
+        "smileExp": 1.7,
+        "blur": 0,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": true,
+      "randSeed": 42
+    }
+  },
+  {
+    "id": "combined-2",
+    "width": 96,
+    "height": 128,
+    "ppu": 2,
+    "bands": [
+      {
+        "rect": {
+          "x1": 15.25,
+          "y1": 49.5,
+          "x2": 78.75,
+          "y2": 54
+        },
+        "smearAbove": 8,
+        "smearBelow": 16,
+        "smearBrightnessAbove": [
+          0.6,
+          0
+        ],
+        "smearBrightnessBelow": [
+          0.6,
+          0
+        ],
+        "flameHeight": 5,
+        "smileHeight": 8,
+        "smileExp": 1.7,
+        "blur": 5,
+        "brightness": 0.6,
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "randSeed": 42,
+        "wellDamage": 0.7,
+        "wellDamageRandSeed": 73,
+        "mass": 50,
+        "aggregate": 1,
+        "degrade": 0
+      }
+    ],
+    "globalWarp": {
+      "h2oDistort": true,
+      "randSeed": 42
+    }
+  }
+]
