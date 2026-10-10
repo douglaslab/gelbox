@@ -101,12 +101,12 @@ export const LAYOUT = {
 
   // Native system Avenir faces; do not bundle platform font files.
   subheadFont:        'Avenir, sans-serif',
-  subheadFontWeight:  900,
+  subheadFontWeight:  700,
   subheadFontSize:    12,
   subheadFontColor:   '#000000',
 
   headFont:           'Avenir, sans-serif',
-  headFontWeight:     900,
+  headFontWeight:     700,
   headFontSize:       24,
   headFontColor:      '#7F94AC',
 

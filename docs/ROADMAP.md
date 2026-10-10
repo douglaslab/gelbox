@@ -281,3 +281,11 @@ are restored, including custom compositions and reopen behavior. Six regressions
 bring the passing full browser suite to 325 (one intentional duplicate skipped);
 production build passes. Next inspect inherited font-size adjustment and native
 text measurements; full native raster/workflow and P5 gates remain open.
+
+
+Font update: headings now select native Avenir-Heavy rather than Avenir-Black.
+Actual rendered-face and CoreText advance checks pass at 1×/2× on both renderers;
+full browser suite 329 passed, one intentional duplicate skipped; build passes.
+Sampled controls already reset inherited font-size-adjust. Continue native text
+baselines/raster and control stroke/handle comparison, then composed workflows
+and P5 release checks. This does not close the full visual parity gate.
