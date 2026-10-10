@@ -6,7 +6,7 @@ test.use({viewport:{width:1365,height:768},deviceScaleFactor:2});
 test('all twelve palette colors save exactly like the original release',async({page},info)=>{
  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
  await page.goto('/#/gel');
- await page.getByTestId('file-input').setInputFiles(path.resolve(root,'input.json'));
+ await page.getByTestId('file-input').setInputFiles(path.resolve(root,'capture-input.json'));
  await expect(page.getByTestId('band-0')).toBeVisible();
  await page.locator('[data-testid^="band-"][data-lane-index="0"][data-fragment-index="0"]').click();
  for(let i=0;i<12;i++){

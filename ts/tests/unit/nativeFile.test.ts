@@ -97,3 +97,15 @@ it('loads the native object form with no empty lane key', () => {
 it.each([true, 3, 'bad', { Sample: 4 }])('rejects malformed native lane collections %j', Samples => {
   expect(() => deserializeFile(JSON.stringify({ Gelbox: { version: '1.0', type: 'gel' }, Gel: { Samples } }))).toThrow(/Invalid native/);
 });
+
+describe('native case-insensitive JSON field lookup',()=>{
+  it.each(['sample-mixed','sample-reversed','gel-mixed'])('matches independent native parsing: %s',name=>{
+    const root='../reference/native/files/interop/case-keys/';
+    const expected=JSON.parse(readFileSync(root+name+'.native.json','utf8'));
+    expected.Gelbox={version:'1.0',type:name.startsWith('sample')?'sample':'gel'};
+    expect(deserializeFile(readFileSync(root+name+'.input.json','utf8'))).toEqual(deserializeFile(JSON.stringify(expected)));
+  });
+  it('rejects malformed values selected through a case alias',()=>{
+    expect(()=>deserializeFile(JSON.stringify({gelbox:{VERSION:'1.0',TYPE:'sample'},sample:{NAME:12,name:'valid'}}))).toThrow('Sample.name');
+  });
+});

@@ -1,5 +1,5 @@
 import { deserializeNativeXml } from './nativeXml';
-import { deserializeNativeFile, nativeBuffer, nativeSample } from './nativeFile';
+import { deserializeNativeFile, nativeChild, nativeBuffer, nativeSample } from './nativeFile';
 import type { Sample } from '../sim/sample';
 import type { SimContext } from '../sim/gelSim';
 import type { Buffer } from '../sim/buffer';
@@ -63,7 +63,7 @@ export function deserializeFile(text: string): DeserializedFile {
   if (!parsed || typeof parsed !== 'object') {
     throw new Error('JSON root must be an object');
   }
-  if ('Gelbox' in parsed) return deserializeNativeFile(parsed);
+  if (nativeChild(parsed as Record<string,unknown>, 'Gelbox') !== undefined) return deserializeNativeFile(parsed);
   const obj = parsed as { schema?: unknown };
   if (obj.schema === 'gel-sample-v0') {
     const s = parsed as SerializedSample;

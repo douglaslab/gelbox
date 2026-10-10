@@ -43,3 +43,8 @@ edits produce the captured native document with no other differences.
 
 Full native visual parity, broader palette interactions, native new-species GUI
 RNG replay and all remaining release gates stay open.
+
+Follow-up: native case-insensitive lookup is now implemented. The palette browser
+replay uses the original `capture-input.json` directly, so the exact document
+comparison now covers the conflicting names without fixture normalization.
+See `../../files/interop/case-keys/README.md` for independent native corpus checks.

@@ -1,0 +1,36 @@
+{
+  "Gelbox": {
+    "version": "1.0",
+    "type": "sample"
+  },
+  "Sample": {
+    "frAGments": [
+      {
+        "bases": 2500,
+        "MASS": 32,
+        "degrade": 0.25,
+        "ASPECTRATIO": 2,
+        "color": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "aggregate": [
+          0,
+          1
+        ],
+        "dye": "Orange G"
+      }
+    ],
+    "buffer": {
+      "tris": 12.5,
+      "BORATE": 2,
+      "acetate": 3,
+      "edta": 0.5
+    },
+    "ID": 42,
+    "ICONSCALE": 0.5,
+    "Name": "uppercase wins",
+    "name": "lowercase loses"
+  }
+}

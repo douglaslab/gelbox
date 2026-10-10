@@ -4,6 +4,13 @@ import { BUFFER_TBE, type Buffer } from '../sim/buffer';
 import { DYE_NAMES } from '../sim/dye';
 
 type ObjectValue = Record<string, unknown>;
+/** Cinder JsonTree defaults to ASCII-insensitive lookup, first jsoncpp-sorted key. */
+export function nativeChild(value: ObjectValue, key: string): unknown {
+  const fold = (s: string) => s.replace(/[A-Z]/g, c => c.toLowerCase());
+  const wanted = fold(key);
+  const match = Object.keys(value).sort().find(k => fold(k) === wanted);
+  return match === undefined ? undefined : value[match];
+}
 function invalid(path: string): never {
   throw new Error(`Invalid native Gelbox field: ${path}`);
 }
@@ -49,58 +56,58 @@ function buffer(value: unknown, path: string): Buffer {
   if (value === undefined) return { ...BUFFER_TBE };
   const b = object(value, path);
   return {
-    tris: number(b.Tris, 0, `${path}.Tris`),
-    borate: number(b.Borate, 0, `${path}.Borate`),
-    acetate: number(b.Acetate, 0, `${path}.Acetate`),
-    edta: number(b.EDTA, 0, `${path}.EDTA`),
+    tris: number(nativeChild(b, 'Tris'), 0, `${path}.Tris`),
+    borate: number(nativeChild(b, 'Borate'), 0, `${path}.Borate`),
+    acetate: number(nativeChild(b, 'Acetate'), 0, `${path}.Acetate`),
+    edta: number(nativeChild(b, 'EDTA'), 0, `${path}.EDTA`),
   };
 }
 function fragment(value: unknown, path: string): Fragment {
   const f = object(value, path);
-  const color = f.Color === undefined ? [0.5, 0.5, 0.5] : array(f.Color, `${path}.Color`);
+  const color = nativeChild(f, 'Color') === undefined ? [0.5, 0.5, 0.5] : array(nativeChild(f, 'Color'), `${path}.Color`);
   if (color.length !== 3) return invalid(`${path}.Color`);
-  const dye = string(f.Dye, '', `${path}.Dye`);
+  const dye = string(nativeChild(f, 'Dye'), '', `${path}.Dye`);
   return {
-    bases: integer(f.Bases, 0, `${path}.Bases`),
-    mass: number(f.Mass, 0, `${path}.Mass`),
-    degrade: number(f.Degrade, 0, `${path}.Degrade`),
-    aspectRatio: number(f.AspectRatio, 1, `${path}.AspectRatio`),
+    bases: integer(nativeChild(f, 'Bases'), 0, `${path}.Bases`),
+    mass: number(nativeChild(f, 'Mass'), 0, `${path}.Mass`),
+    degrade: number(nativeChild(f, 'Degrade'), 0, `${path}.Degrade`),
+    aspectRatio: number(nativeChild(f, 'AspectRatio'), 1, `${path}.AspectRatio`),
     color: color.map((v, i) => number(v, 0.5, `${path}.Color[${i}]`)) as Fragment['color'],
     dye: DYE_NAMES.findIndex(name => name === dye),
-    aggregate: f.Aggregate === undefined ? [1] : collection(f.Aggregate, `${path}.Aggregate`).map((v, i) => number(v, 0, `${path}.Aggregate[${i}]`)),
+    aggregate: nativeChild(f, 'Aggregate') === undefined ? [1] : collection(nativeChild(f, 'Aggregate'), `${path}.Aggregate`).map((v, i) => number(v, 0, `${path}.Aggregate[${i}]`)),
   };
 }
 function sample(value: unknown, path: string): Sample {
   const s = object(value, path);
   return {
-    name: string(s.name, '', `${path}.name`),
-    icon: string(s.icon, '', `${path}.icon`),
-    iconScale: number(s.iconScale, 1, `${path}.iconScale`),
-    id: integer(s.id, -1, `${path}.id`),
-    buffer: buffer(s.Buffer, `${path}.Buffer`),
-    fragments: s.Fragments === undefined ? [] : collection(s.Fragments, `${path}.Fragments`).map((f, i) => fragment(f, `${path}.Fragments[${i}]`)),
+    name: string(nativeChild(s, 'name'), '', `${path}.name`),
+    icon: string(nativeChild(s, 'icon'), '', `${path}.icon`),
+    iconScale: number(nativeChild(s, 'iconScale'), 1, `${path}.iconScale`),
+    id: integer(nativeChild(s, 'id'), -1, `${path}.id`),
+    buffer: buffer(nativeChild(s, 'Buffer'), `${path}.Buffer`),
+    fragments: nativeChild(s, 'Fragments') === undefined ? [] : collection(nativeChild(s, 'Fragments'), `${path}.Fragments`).map((f, i) => fragment(f, `${path}.Fragments[${i}]`)),
   };
 }
 
 /** Decode native data only; pointer-valued OriginSample fields are intentionally ignored. */
 export function deserializeNativeFile(value: unknown): DeserializedFile {
   const root = object(value, 'root');
-  const header = object(root.Gelbox, 'Gelbox');
-  if (header.version !== '1.0') return invalid('Gelbox.version');
-  if (header.type === 'sample') return { kind: 'sample', sample: sample(root.Sample, 'Sample') };
-  if (header.type !== 'gel') return invalid('Gelbox.type');
-  const gel = object(root.Gel, 'Gel');
-  const samples = sampleCollection(gel.Samples ?? []).map((s, i) => s === null || (typeof s === 'object' && !Array.isArray(s) && Object.keys(s).length === 0) ? null : sample(s, `Gel.Samples[${i}]`));
+  const header = object(nativeChild(root, 'Gelbox'), 'Gelbox');
+  if (nativeChild(header, 'version') !== '1.0') return invalid('Gelbox.version');
+  if (nativeChild(header, 'type') === 'sample') return { kind: 'sample', sample: sample(nativeChild(root, 'Sample'), 'Sample') };
+  if (nativeChild(header, 'type') !== 'gel') return invalid('Gelbox.type');
+  const gel = object(nativeChild(root, 'Gel'), 'Gel');
+  const samples = sampleCollection(nativeChild(gel, 'Samples') ?? []).map((s, i) => s === null || (typeof s === 'object' && !Array.isArray(s) && Object.keys(s).length === 0) ? null : sample(s, `Gel.Samples[${i}]`));
   // Gel::constrainNumLanesToSliderMinMax retains hidden sample storage.
   const numLanes = Math.min(20, Math.max(7, samples.length));
   while (samples.length < numLanes) samples.push(null);
   return {
     kind: 'state', samples, numLanes,
     ctx: {
-      time: number(gel.Time, 1, 'Gel.Time'),
-      voltage: number(gel.Voltage, 0, 'Gel.Voltage'),
-      wellDamage: number(gel.WellDamage, 0, 'Gel.WellDamage'),
-      gelBuffer: buffer(gel.Buffer, 'Gel.Buffer'),
+      time: number(nativeChild(gel, 'Time'), 1, 'Gel.Time'),
+      voltage: number(nativeChild(gel, 'Voltage'), 0, 'Gel.Voltage'),
+      wellDamage: number(nativeChild(gel, 'WellDamage'), 0, 'Gel.WellDamage'),
+      gelBuffer: buffer(nativeChild(gel, 'Buffer'), 'Gel.Buffer'),
       sampleBuffer: { ...BUFFER_TBE },
       // Native saves omit layout. Use the application's default 390×520 gel.
       ySpaceScale: 520 - 20 * 2 - (390 / numLanes) * 0.2,

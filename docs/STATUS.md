@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include the application runtime integration.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,868 passed |
-| Browser suite across WebGPU/WebGL2 | 447 passed; one intentional duplicate skipped |
+| Unit suite | 2,872 passed |
+| Browser suite across WebGPU/WebGL2 | 451 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -1636,3 +1636,27 @@ passed**, with one intentional duplicate browser skip. Production included fresh
 build/TypeScript checks. No goldens or tolerances changed. This resolves the
 palette-created channel precision discrepancy, not full native raster/interaction
 parity, arbitrary color conversion behavior or the remaining release gates.
+
+
+## Native JSON case-insensitive field lookup
+
+The conflicting sample-name discrepancy generalizes to native JsonTree field
+lookup: ASCII case-insensitive matching, first match in sorted jsoncpp member
+order. The native decoder now applies that lookup to header, gel, sample,
+fragment and buffer fields while retaining existing value validation and
+canonical exports. String values are not folded. Four unit regressions failed
+before correction; [three independently captured native cases](../reference/native/files/interop/case-keys/README.md)
+verify mixed-case fields and conflict precedence independent of insertion order.
+Re-executing the native harness reproduced every output byte-for-byte.
+
+Four browser cases verify actual mixed-case Sample/Gel Open and Save on both
+renderers. The palette replay now uses the original capture input directly,
+including conflicting names, and its whole saved document matches the original
+release without name normalization. The original release GUI establishes that
+name conflict; the broader mixed-case corpus is constructor/harness evidence,
+not an additional GUI claim.
+
+Verification: **2,872 unit tests, 451 browser tests and 4 production checks
+passed**, with one intentional duplicate browser skip. Production included fresh
+build/TypeScript checks. No goldens or tolerances changed. Native raster, broader
+interaction and remaining release gates stay open.
