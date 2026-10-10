@@ -384,7 +384,7 @@ production release gates. Those remain explicit follow-up requirements.
 ## Native reference-image interaction evidence
 
 A new compiled reference extracts five unchanged native ImageView methods and
-uses the pinned Cinder rectangle/vector implementation. **22 scenarios pass**
+uses the pinned Cinder rectangle/vector implementation. **24 scenarios pass**
 explicit expected-value contracts, with identical output from two executions.
 Coverage includes drag/reentry, resize-handle boundaries, clamp-before-aspect
 minimum sizes, both limiting resize axes, native-size snap boundaries, all four
@@ -397,5 +397,11 @@ retention across gel replacement and exclusion from gel saves. Native accepts
 lowercase .jpg/.png/.gif through drops; its Open picker filters JSON/XML. These
 are implementation contracts, not new web features: the image UI remains missing.
 The adapter capture does not run native GUI dispatch, image decoding or drawing;
-modern-toolchain and prebuilt Cinder library qualifications remain. Independent
-review is pending for this reference increment.
+modern-toolchain and prebuilt Cinder library qualifications remain. Fresh
+independent review found two important test-sensitivity gaps, now corrected:
+source/extraction metadata drift is rejected, and new snap cases reject both a
+per-axis metric and an inclusive threshold. Temporary mutated builds fail the
+observation tests; the unchanged extracted native methods pass. No deferred
+minor findings. Native GUI dispatch/stacking, decoder behavior, rendering and web
+resource lifecycle remain outside this capture and required for implementation
+and final certification.

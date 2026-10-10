@@ -183,13 +183,22 @@ flags, executable and input/output/test hashes. As with other captures, a clean
 Cinder source tree plus library hash records provenance but does not independently
 prove that the prebuilt library was compiled from those sources.
 
-The 22 named scenarios independently assert drag/reentry, handle boundaries,
+The 24 named scenarios independently assert drag/reentry, handle boundaries,
 landscape/portrait clamp-before-aspect sizing, growth constrained by either axis,
 inside/outside native-size snapping, every window-edge contact/outside pair,
 Delete/Backspace and Escape. In particular, the 32×32 proposed-box minimum is
 applied **before** aspect fitting: landscape output can be 32×16. Window-edge
 contact counts as intersection. A mutation of that output to 32×32, even with an
 updated output digest, is rejected by the explicit expected-value contract.
+Two additional snap cases distinguish Euclidean distance from per-axis distance
+(197×197 versus natural 200×200) and `< 4` from `<= 4`. The exact-threshold
+scenario deliberately seeds a fractional frame whose Cinder float32 distance
+from natural size is exactly four; it tests the method boundary, not a recorded
+GUI gesture history. Temporary builds of both altered methods fail the explicit
+observation tests. Provenance tests also pin full native revision, all native
+source hashes, Cinder geometry hashes and extraction hash; mutations of each are
+rejected. Compiler/host/flags and binary/library digests are checked for presence
+and shape, not assumed invariant across rebuild environments.
 This finite matrix is not exhaustive, and does not establish native raster parity.
 
 Source-inspection contracts for the upcoming UI integration (not executed by the
@@ -218,3 +227,11 @@ The original image decoder's frame/orientation/color handling, original GUI focu
 and stacking replay, image rendering and browser resource lifecycle still need
 verification. A browser animated GIF is not automatically equivalent to the
 native static texture produced by loadImage; do not assume equivalence.
+
+Implementation note from further source inspection: Cinder tag `v0.9.0`
+(`7ab6fd84030e19c5e6d1423b5e433b5def4699e9`) defaults `ImageSource::Options`
+to index zero in `include/cinder/ImageIo.h`, and the Quartz decoder calls
+`CGImageSourceCreateImageAtIndex` with that index in
+`src/cinder/ImageSourceFileQuartz.cpp`. This supports static first-frame intent
+for GIF imports. It is not a decoder/output fixture or proof of the release
+binary's linked dependency, orientation, color management or browser equivalence.
