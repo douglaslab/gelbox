@@ -303,3 +303,12 @@ opaque dot colors and snapped centers. Full suite: 337 passed, one intentional
 duplicate skipped; production build passed. No golden updates. Next compare
 native label baselines and composed control captures; graph/buffer stroke raster,
 full workflow replay and P5 release certification remain open.
+
+
+Control capture update: fresh native/web comparison records actual image encoding,
+ICC profiles and equal-scale crops. Native capture is lossy Display-profile JPEG;
+use profile-aware analysis, not raw byte comparison or extension assumptions.
+Buffer text's half-pixel baseline error is corrected; regular slider baselines
+already match. Full suite: 341 passed, one intentional duplicate skipped; build
+passes. Native text raster weight and horizontal text snapping remain unresolved,
+alongside full visual/workflow and P5 gates.

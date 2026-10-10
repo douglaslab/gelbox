@@ -39,3 +39,10 @@ are emitted by the test. No screenshot goldens were changed.
 This verifies sampled face selection and advances. It does not certify glyph
 rasterization, native texture padding/baselines, all text, cross-platform fonts,
 or complete native application screenshots. Those remain parity requirements.
+
+
+Fresh [control comparison](../control-comparison/README.md) demonstrates that
+correct face selection and advances do not establish native text raster parity.
+Regular slider baselines match the source; buffer baselines required a half-pixel
+correction. Native release text remains heavier in equal-scale captures. Preserve
+this distinction when evaluating font substitutions or visual tolerances.

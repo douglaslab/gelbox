@@ -83,8 +83,9 @@
 
 .barLabel {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  /* Native baseline is bar bottom - 8; Avenir's 18px line box has a 13px baseline. */
+  top: calc(100% - 21px);
+  line-height: 18px;
   font-size: 12px;
   color: #333333;
   pointer-events: none;

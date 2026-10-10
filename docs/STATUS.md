@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 337 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 341 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -763,3 +763,23 @@ backend checks and existing handle/gesture cases pass. Fresh complete verificati
 and TypeScript checks passed**. Reviewed screenshot artifacts; no goldens changed.
 The unchanged model unit baseline remains 2,845. Native raster replay, graph/buffer
 stroke treatment, label baselines, composed workflows and P5 gates remain open.
+
+
+## Native control capture and label baselines
+
+Fresh native/web gel-settings captures now have recorded provenance and a
+reproducible ICC-normalized crop comparison in
+[control-comparison](../reference/native/control-comparison/README.md). CUA returned
+JPEG bytes with a Display profile: prior filename extensions cannot establish
+lossless PNG/sRGB. Native color samples need profile-aware comparison, and JPEG
+noise prevents exact-byte acceptance. Native text still appears heavier than the
+source-face-correct browser text; no speculative weight change was made.
+
+Baseline probes verify the native source's voltage/timeline coordinates already
+match. Buffer values were half a logical pixel too low and are now corrected.
+Four new macOS backend/DPR cases failed before the fix and pass afterward.
+Fresh full verification: **341 browser tests passed, one intentional duplicate
+skipped; production build and TypeScript checks passed**. Reviewed after-capture;
+no goldens changed. Unchanged model unit baseline remains 2,845. Native text raster,
+horizontal text snapping, graph/buffer stroke raster, complete composed workflow
+replay and P5 release gates remain open.
