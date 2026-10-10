@@ -92,9 +92,10 @@ export function makeSampleFromGel(
   samples: readonly (Sample | null)[],
   wellRects: readonly Rect[],
   ctx: SimContext,
-): { sample: Sample; degradeFilter: DegradeFilter } {
+): { sample: Sample; degradeFilter: DegradeFilter; origins: BandLaneFragment[] } {
   p = { x: Math.fround(p.x), y: Math.fround(p.y) };
   const fragments: Fragment[] = [];
+  const origins: BandLaneFragment[] = [];
   const degradeFilter: DegradeFilter = new Map();
 
   for (const { band: b, index } of pickBands(p, bands)) {
@@ -133,7 +134,8 @@ export function makeSampleFromGel(
       (_, i) => i === b.aggregate - 1 ? 1 : 0);
 
     fragments.push(frag);
+    origins.push({lane:lf.lane,fragment:lf.fragment});
   }
 
-  return { sample: { buffer: { ...BUFFER_TBE }, fragments }, degradeFilter };
+  return { sample: { buffer: { ...BUFFER_TBE }, fragments }, degradeFilter, origins };
 }

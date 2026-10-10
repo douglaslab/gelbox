@@ -121,7 +121,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
     // This path runs only when coordinate-based picking found no band.
     // A stroke-edge hit on a rectangle is not a background click.
     if (e.target !== e.currentTarget) return;
-    if (state.selectedFragmentIndex !== null) {
+    if (state.selection?.fragmentIndex != null) {
       dispatch({ type: 'CLEAR_FRAGMENT_SELECTION' });
     }
   }
@@ -172,7 +172,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
         const hit = bandUIRect(b);
         const x = hit.x1, y = hit.y1, w = hit.x2 - hit.x1, h = hit.y2 - hit.y1;
         const lf = bandToLaneFragment[i];
-        const selected = state.selectedLane === lf.lane && state.selectedFragmentIndex === lf.fragment;
+        const selected = state.selection?.lane === lf.lane && state.selection.fragmentIndex === lf.fragment;
         const hovered  = state.rollover?.lane === lf.lane && state.rollover?.fragmentIndex === lf.fragment;
         const frag = state.samples[lf.lane]?.fragments[lf.fragment];
         const speciesColor = frag ? rgbToHex(frag.color) : LAYOUT.sampleViewFragSelectColor;

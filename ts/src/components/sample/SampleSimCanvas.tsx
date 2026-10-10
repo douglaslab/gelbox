@@ -27,8 +27,8 @@ export interface SampleSimCanvasProps {
   degradeFilter?: ReadonlyMap<number, number>;
   /** Native detail views preroll when their synthetic sample changes. */
   prerollSample?: boolean;
-  selectedFragment?: number | null;
-  rolloverFragment?: number | null;
+  selectedFragment?: import('../../lib/sim/molecularSimMesh').FragmentHighlight;
+  rolloverFragment?: import('../../lib/sim/molecularSimMesh').FragmentHighlight;
   /** Pointer-down on a particle → its fragment index (omit → non-interactive, e.g. loupe). */
   onPickFragment?: (fragment: number) => void;
   onPickBackground?: () => void;

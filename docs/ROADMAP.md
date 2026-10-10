@@ -205,4 +205,4 @@ Start with P0, not another loupe implementation. For each increment, write a sho
 
 Update the ledger and STATUS with actual commands, captures, and unresolved differences after each increment. Treat original M1–M27 tags as history. Avoid speculative multi-week estimates until P0 exposes the reference-build and fidelity costs. A behavior change or new platform exception changes the contract and must be surfaced rather than folded into a “polish” commit.
 
-The next concrete deliverable is the **P0 native-reference dossier and scenario ledger**, followed by P1's smallest end-to-end native file/edit/save slice. Product implementation is not part of this roadmap review.
+The initial roadmap review led into implementation under the same contract. See STATUS for completed increments and their limitations. The reference dossier, numerical captures and file/edit/save slice now exist; P0–P5 gates remain open until their complete scenario coverage is verified. Next priorities are reconciling sample/view identity and loupe lifecycle, then controlled native/web visual replay and the production reliability gates.

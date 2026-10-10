@@ -222,3 +222,14 @@ Fresh review found NaN vertices for tiny positive wholeness. Sixteen added thres
 New real-app degraded-particle screenshots exercise both GPU backends and assert that the requested context exists and colored particles are actually drawn. Both inspected PNGs contain 2,346 colored pixels; an apparently blank tool preview was a display artifact, not a WebGL rendering failure. Existing screenshots remain unchanged. No deferred review minors remain.
 
 Verification: **2,554 unit tests, 186 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. Final native double capture and all recorded harness/input/output hashes verify.
+
+
+## Loupe source selection and inspector focus
+
+Synthetic fragments now expose a parallel, nonserialized source-reference array. Each emitted origin is checked against the existing native loupe captures. Picking and hovering a loupe particle resolves to its original species; gel, ordinary sample and all synthetic fragments with the same origin share highlights. Native rollover-before-selection precedence drives the inspector for the already-open sample. Selecting another source does not open or switch sample panels. Closing a loupe conditionally clears its last rollover without clearing a different newer source.
+
+Fresh review found two integration gaps: deleting a selected species lost the sample reference needed to restart Tab cycling, and empty loupe clicks failed to deselect the source. Two unit and two browser regressions failed before correction. Deletion now retains the native same-sample/no-species selection, and loupe background clicks clear source selection while preserving panel context. Gel-background clearing also leaves a closed sample panel closed.
+
+Verification: **2,562 unit tests, 188 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. The two inspected loupe regression images now include the shared yellow source highlight. These are web regression images, not native visual certification. No deferred review minors remain.
+
+Stable document IDs, off-document sample retention, complete loupe frames/gestures/keyboard focus and constructor/seed integration remain required. Blank synthetic-loupe selection is currently represented by no shared source selection; its distinct synthetic view identity belongs to that remaining lifecycle work. Native per-tick versus web per-pointer rollover updates and controlled native raster comparisons were outside this increment's review and remain open. The original app and isolated native rebuild described above are available for the remaining visual replay work.

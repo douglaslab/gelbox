@@ -17,6 +17,7 @@ it.each(cases.filter((c:any)=>c.loupeProbes).map((c:any)=>[c.id,c]))('native syn
     expect(actual.sample.fragments).toHaveLength(probe.fragments.length);
     actual.sample.fragments.forEach((f,i)=>{
       const native=probe.fragments[i];
+      expect((actual as any).origins[i]).toEqual({lane:c.lane,fragment:native.originFragment});
       for(const key of ['bases','dye','aggregate'] as const)expect(f[key]).toEqual(native[key]);
       for(const key of ['mass','degrade','aspectRatio'] as const)expect(Math.abs(f[key]-native[key])).toBeLessThanOrEqual(Math.max(.00001,Math.abs(native[key])*2e-6));
       f.color.forEach((v,j)=>expect(Math.abs(v-native.color[j])).toBeLessThanOrEqual(2e-6));

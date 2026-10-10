@@ -23,8 +23,8 @@ export function LoupePortalLayer({ bands, bandToLaneFragment }: LoupePortalLayer
 
   return (
     <>
-      {derived.map(({ loupe, sample, degradeFilter }) => (
-        <Loupe key={loupe.id} loupe={loupe} sample={sample} degradeFilter={degradeFilter} />
+      {derived.map(({ loupe, sample, degradeFilter, origins }) => (
+        <Loupe key={loupe.id} loupe={loupe} sample={sample} degradeFilter={degradeFilter} origins={origins} />
       ))}
     </>
   );

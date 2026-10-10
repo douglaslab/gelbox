@@ -115,6 +115,7 @@ export type Action =
   | { type: 'CLEAR_LOUPES' }
   | { type: 'SET_SELECTION'; ref: SampleFragRef | null }
   | { type: 'SET_ROLLOVER';  ref: SampleFragRef | null }
+  | { type: 'CLEAR_ROLLOVER_IF'; ref: SampleFragRef }
   | { type: 'SET_INSPECTOR_MODE'; mode: InspectorMode }
   | { type: 'CLEAR_FRAGMENT_SELECTION' }
   | { type: 'SET_NUM_LANES';      value: number }
@@ -209,7 +210,7 @@ export function isInspectorVisible(state: GelState): boolean {
  * Decision matrix (precedence top → bottom; first match wins):
  *
  *   1. `inspectorMode === 'gel-settings'`        → 'gel-settings'  (gear wins)
- *   2. `selectedFragmentIndex !== null`          → 'fragment'       (Species)
+ *   2. valid rollover/selection in open sample     → species/dye inspector
  *   3. tube has a sample, mode === sample-settings → 'sample-settings' (Buffer + Dyes)
  *   4. else                                       → 'none'           (panel hidden)
  *
@@ -218,10 +219,22 @@ export function isInspectorVisible(state: GelState): boolean {
  */
 export type InspectorView = 'none' | 'gel-settings' | 'sample-settings' | 'fragment';
 
+/** Native SampleView::getFocusFragment: rollover, then shared selection,
+ * restricted to the sample already open in this view. */
+export function getFocusedFragmentIndex(state: GelState): number | null {
+  const lane=getVisibleSampleLane(state);
+  if(lane===null)return null;
+  for(const ref of [state.rollover,state.selection]) {
+    if(ref?.lane===lane && ref.fragmentIndex!==null && state.samples[lane]?.fragments[ref.fragmentIndex])return ref.fragmentIndex;
+  }
+  return null;
+}
+
 export function selectInspectorView(state: GelState): InspectorView {
   if (state.inspectorMode === 'gel-settings') return 'gel-settings';
-  if (state.selectedFragmentIndex !== null) {
-    const f = state.samples[state.selectedLane]?.fragments[state.selectedFragmentIndex];
+  const focus=getFocusedFragmentIndex(state);
+  if (focus !== null) {
+    const f = state.samples[state.lastSampleLane!]?.fragments[focus];
     if (f) return f.dye >= 0 ? 'sample-settings' : 'fragment';
   }
   if (state.inspectorMode === 'sample-settings'
@@ -368,7 +381,8 @@ function reduceGelState(state: GelState, action: Action): GelState {
       if (state.lastSampleLane === null || state.selectedLane >= state.numLanes) return state;
       const n = state.samples[state.selectedLane]?.fragments.length ?? 0;
       if (!n) return state;
-      const cur = state.selectedFragmentIndex;
+      if(state.selection?.lane!==state.lastSampleLane)return state;
+      const cur = state.selection.fragmentIndex;
       const next = action.type === 'SELECT_NEXT'
         ? (cur === null ? 0 : cur + 1 >= n ? null : cur + 1)
         : (cur === null ? n - 1 : cur === 0 ? null : cur - 1);
@@ -405,7 +419,9 @@ function reduceGelState(state: GelState, action: Action): GelState {
       const selectedFragmentIndex = state.selectedLane !== action.laneIndex ? state.selectedFragmentIndex
         : state.selectedFragmentIndex === action.index ? null
         : state.selectedFragmentIndex === last ? action.index : state.selectedFragmentIndex;
-      return { ...state, samples, selectedFragmentIndex, selection: remap(state.selection),
+      return { ...state, samples, selectedFragmentIndex, selection: state.selection?.lane === action.laneIndex
+          && state.selection.fragmentIndex === action.index
+          ? { lane: action.laneIndex, fragmentIndex: null } : remap(state.selection),
         rollover: remap(state.rollover), drag: state.drag?.type === 'sample' ? state.drag : null,
         inspectorMode: selectedFragmentIndex === null && state.inspectorMode === 'fragment' ? 'default' : state.inspectorMode };
     }
@@ -637,6 +653,8 @@ function reduceGelState(state: GelState, action: Action): GelState {
     case 'SET_SELECTION':
       if (sampleFragRefEq(state.selection, action.ref)) return state;
       return { ...state, selection: action.ref };
+    case 'CLEAR_ROLLOVER_IF':
+      return sampleFragRefEq(state.rollover,action.ref) ? {...state,rollover:null} : state;
     case 'SET_ROLLOVER':
       if (sampleFragRefEq(state.rollover, action.ref)) return state;
       return { ...state, rollover: action.ref };
@@ -669,7 +687,9 @@ function reduceGelState(state: GelState, action: Action): GelState {
     case 'SET_GEL_ROTATE':
       return { ...state, gelRotate: action.value };
     case 'CLEAR_FRAGMENT_SELECTION':
-      return selectFragment(state, state.selectedLane, null);
+      return state.lastSampleLane===null
+        ? {...state,selection:null,selectedFragmentIndex:null}
+        : selectFragment(state, state.lastSampleLane, null);
     default: {
       const _: never = action;
       void _;

@@ -38,7 +38,7 @@ describe('gelReducer (multi-lane)', () => {
     const sample = STARTING.samples[0]!;
     const n = sample.fragments.length;
     if (n === 0) return;
-    const next1 = gelReducer({ ...STARTING, lastSampleLane: 0, selectedFragmentIndex: 0 }, { type: 'SELECT_NEXT' });
+    const next1 = gelReducer(gelReducer(STARTING,{type:'SET_SELECTED',laneIndex:0,index:0}), { type: 'SELECT_NEXT' });
     expect(next1.selectedFragmentIndex).toBe(1 % n);
     // From an empty lane, no-op (selectedFragmentIndex unchanged)
     const empty = gelReducer({ ...STARTING, selectedLane: 1, selectedFragmentIndex: null }, { type: 'SELECT_NEXT' });
@@ -48,7 +48,7 @@ describe('gelReducer (multi-lane)', () => {
     const sample = STARTING.samples[0]!;
     const n = sample.fragments.length;
     if (n === 0) return;
-    const prev = gelReducer({ ...STARTING, lastSampleLane: 0, selectedFragmentIndex: null }, { type: 'SELECT_PREV' });
+    const prev = gelReducer(gelReducer(STARTING,{type:'SET_SELECTED_LANE',laneIndex:0}), { type: 'SELECT_PREV' });
     expect(prev.selectedFragmentIndex).toBe(n - 1);
   });
   it('BEGIN_DRAG (band) stores lane + fragment + startBases', () => {

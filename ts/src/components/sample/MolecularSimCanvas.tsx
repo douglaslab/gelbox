@@ -14,12 +14,7 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
   const dispatch = useGelDispatch();
   const sample = state.samples[laneIndex] ?? null;
 
-  // Mirror exact precedence from original: selection wins, classicSelectedFrag as fallback.
-  const selectedFragForLane =
-    state.selection?.lane === laneIndex ? state.selection.fragmentIndex : null;
-  const classicSelectedFrag =
-    state.selectedLane === laneIndex ? state.selectedFragmentIndex : null;
-  const selectedFragment = selectedFragForLane ?? classicSelectedFrag;
+  const selectedFragment = state.selection?.lane === laneIndex ? state.selection.fragmentIndex : null;
 
   const rolloverFragment =
     state.rollover?.lane === laneIndex ? state.rollover.fragmentIndex : null;

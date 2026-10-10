@@ -1,3 +1,4 @@
+import {getFocusedFragmentIndex} from '../../lib/gel/gelState';
 import { useGelDispatch, useGelState } from '../gel/GelContext';
 import { LAYOUT } from '../../lib/layout/layout';
 import { SliderView } from '../primitives/SliderView';
@@ -31,8 +32,8 @@ export function FragmentView() {
   const state    = useGelState();
   const dispatch = useGelDispatch();
 
-  const lane = state.selectedLane;
-  const fragIdx = state.selectedFragmentIndex;
+  const lane = state.lastSampleLane ?? state.selectedLane;
+  const fragIdx = getFocusedFragmentIndex(state);
   const sample = state.samples[lane];
   const fragment = sample && fragIdx !== null ? sample.fragments[fragIdx] : null;
 

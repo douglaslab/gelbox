@@ -46,9 +46,11 @@ function GelInner() {
     randSeed: 1,
   }), [state.ctx.gelBuffer]);
 
-  const selectedSample = state.samples[state.selectedLane];
-  const selectedFrag = selectedSample && state.selectedFragmentIndex !== null
-    ? selectedSample.fragments[state.selectedFragmentIndex]
+  const selectedLane = state.selection?.lane ?? state.selectedLane;
+  const selectedIndex = state.selection?.fragmentIndex ?? null;
+  const selectedSample = state.samples[selectedLane];
+  const selectedFrag = selectedSample && selectedIndex !== null
+    ? selectedSample.fragments[selectedIndex!]
     : null;
 
   async function onDrop(e: React.DragEvent<HTMLElement>) {
@@ -191,7 +193,7 @@ function GelInner() {
         }}
       >
         {selectedFrag
-          ? `lane ${state.selectedLane} fragment ${state.selectedFragmentIndex}: ${selectedFrag.bases} bp, ${selectedFrag.mass} ng`
+          ? `lane ${selectedLane} fragment ${selectedIndex}: ${selectedFrag.bases} bp, ${selectedFrag.mass} ng`
           : selectedSample
             ? `lane ${state.selectedLane}: ${selectedSample.fragments.length} fragments — click or tab through bands`
             : `lane ${state.selectedLane}: empty`}

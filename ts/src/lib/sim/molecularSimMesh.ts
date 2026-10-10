@@ -9,6 +9,8 @@ export interface MeshBuildTuning {
   hoverColor:  readonly [number, number, number];
 }
 
+export type FragmentHighlight = number | ReadonlySet<number> | null;
+
 type RGB = readonly [number, number, number];
 
 function lerp3(a: RGB, b: RGB, t: number): RGB {
@@ -32,15 +34,15 @@ function lerp3(a: RGB, b: RGB, t: number): RGB {
  */
 export function buildMoleculesMesh(
   parts: readonly Part[],
-  selectedFragment: number | null,
-  rolloverFragment: number | null,
+  selectedFragment: FragmentHighlight,
+  rolloverFragment: FragmentHighlight,
   t: MeshBuildTuning,
 ): Mesh {
   const verts: number[] = [];
 
   for (const p of parts) {
-    const selected = selectedFragment !== null && p.fragment === selectedFragment;
-    const rollover = rolloverFragment !== null && p.fragment === rolloverFragment;
+    const selected = typeof selectedFragment === 'number' ? p.fragment === selectedFragment : selectedFragment?.has(p.fragment) ?? false;
+    const rollover = typeof rolloverFragment === 'number' ? p.fragment === rolloverFragment : rolloverFragment?.has(p.fragment) ?? false;
 
     const emit = (outline: boolean) => {
       if (outline && !selected && !rollover) return;

@@ -1,4 +1,7 @@
-import { useGelDispatch } from './GelContext';
+import {useEffect,useMemo,useRef} from 'react';
+import {type SampleFragRef} from '../../lib/gel/sampleFragRef';
+import type {BandLaneFragment} from '../../lib/sim/sampleFromGel';
+import { useGelDispatch, useGelState } from './GelContext';
 import type { LoupeRef } from '../../lib/gel/gelState';
 import type { Sample } from '../../lib/sim/sample';
 import type { DegradeFilter } from '../../lib/sim/sampleFromGel';
@@ -9,11 +12,22 @@ const LOUPE_SIZE = 171;   // C++ Layout::mLoupeSize
 interface LoupeProps {
   loupe:          LoupeRef;
   sample:         Sample;
+  origins:        BandLaneFragment[];
   degradeFilter?: DegradeFilter;
 }
 
-export function Loupe({ loupe, sample, degradeFilter }: LoupeProps) {
-  const dispatch = useGelDispatch();
+export function Loupe({ loupe, sample, degradeFilter, origins }: LoupeProps) {
+  const dispatch = useGelDispatch(),state=useGelState();
+  const hovered=useRef<SampleFragRef|null>(null);
+  const source=(index:number):SampleFragRef|null=>{
+    const origin=origins[index];
+    return origin?{lane:origin.lane,fragmentIndex:origin.fragment}:null;
+  };
+  const selected=useMemo(()=>new Set(origins.flatMap((o,i)=>state.selection?.lane===o.lane&&state.selection.fragmentIndex===o.fragment?[i]:[])),[origins,state.selection]);
+  const rollover=useMemo(()=>new Set(origins.flatMap((o,i)=>state.rollover?.lane===o.lane&&state.rollover.fragmentIndex===o.fragment?[i]:[])),[origins,state.rollover]);
+  useEffect(()=>()=>{
+    if(hovered.current)dispatch({type:'CLEAR_ROLLOVER_IF',ref:hovered.current});
+  },[dispatch]);
   return (
     <div
       data-testid={`loupe-${loupe.id}`}
@@ -52,6 +66,16 @@ export function Loupe({ loupe, sample, degradeFilter }: LoupeProps) {
         height={LOUPE_SIZE}
         seed={Math.floor(loupe.anchor.x) * 19 + Math.floor(loupe.anchor.y) * 1723}
         degradeFilter={degradeFilter}
+        selectedFragment={selected}
+        rolloverFragment={rollover}
+        onPickFragment={index=>{const ref=source(index);if(ref)dispatch({type:'SET_SELECTION',ref});}}
+        onPickBackground={() => dispatch({type:'SET_SELECTION',ref:null})}
+        onHoverFragment={index=>{
+          const ref=index===null?null:source(index);
+          if(ref)dispatch({type:'SET_ROLLOVER',ref});
+          else if(hovered.current)dispatch({type:'CLEAR_ROLLOVER_IF',ref:hovered.current});
+          hovered.current=ref;
+        }}
         data-testid={`loupe-canvas-${loupe.id}`}
       />
     </div>

@@ -33,7 +33,7 @@ describe('native species editing', () => {
   });
   it('cycles through no-species selection and routes dyes to sample settings', () => {
     const samples = [{ buffer: initial.ctx.gelBuffer, fragments: [fragment, { ...fragment, dye: 0 }] }];
-    let state = { ...initial, samples, lastSampleLane: 0, selectedFragmentIndex: 0 };
+    let state = gelReducer({ ...initial, samples },{type:'SET_SELECTED',laneIndex:0,index:0});
     state = gelReducer(state, { type: 'SELECT_NEXT' });
     expect(selectInspectorView(state)).toBe('sample-settings');
     state = gelReducer(state, { type: 'SELECT_NEXT' });

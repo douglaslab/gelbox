@@ -108,3 +108,10 @@ describe('buildMoleculesMesh', () => {
     expect(slot1CenterX).toBeCloseTo(100 + expectedDx, 4);
   });
 });
+
+it('all synthetic fragments sharing a selected origin receive outlines',()=>{
+ const parts=[monomer({fragment:0}),monomer({fragment:1}),monomer({fragment:2})];
+ const fill=buildMoleculesMesh(parts,null,null,TUNING);
+ const selected=buildMoleculesMesh(parts,new Set([0,2]),null,TUNING);
+ expect(selected.vertexCount).toBe(fill.vertexCount+2*TUNING.numCirclePartVertices*3);
+});
