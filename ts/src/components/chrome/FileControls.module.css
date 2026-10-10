@@ -26,11 +26,11 @@
 }
 /* Avenir-Medium 12 texture extents, rounded up by native TextLayout.
    ButtonView divides the 1x texture dimensions by the window scale. */
-.openButton { width: calc(50px / var(--menu-scale)); }
-.saveGelButton { width: calc(67px / var(--menu-scale)); }
-.saveSampleButton { width: calc(139px / var(--menu-scale)); }
-.item button:hover { background: #e6e6e6; color: #6b6b6b; }
-.item button:active:hover { background: #b3b3b3; color: #535353; }
+.openButton { width: var(--open-width); }
+.saveGelButton { width: var(--save-width); }
+.saveSampleButton { width: var(--sample-width); }
+.item button[data-menu-hover="true"] { background: #e6e6e6; color: #6b6b6b; }
+.item button[data-menu-down="true"] { background: #b3b3b3; color: #535353; }
 .hoverToggle {
   position: relative;
   display: block;
@@ -55,5 +55,5 @@
   background-clip: content-box;
 }
 .hoverToggle input:checked,
-.hoverToggle:active:hover input:not(:checked) { background-color: #979797; }
-.hoverToggle:active:hover input:checked { background-color: transparent; }
+.hoverToggle[data-menu-down="true"] input:not(:checked) { background-color: #979797; }
+.hoverToggle[data-menu-down="true"] input:checked { background-color: transparent; }

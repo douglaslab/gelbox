@@ -1,3 +1,5 @@
+import {ApplicationMenuPaint} from './ApplicationMenuPaint';
+import menuText from '../../lib/layout/nativeMenuText.json';
 import {useSharedPresentation} from '../gel/ScenePresentation';
 import {SharedAssetPaint} from '../gel/SharedAssetPaint';
 import {useNativeButtonTint} from '../gel/useNativeButtonTint';
@@ -5,7 +7,7 @@ import {useDisplayScale} from '../../lib/gpu/useDisplayScale';
 import {flushSync} from 'react-dom';
 import {useFileLoadQueue} from '../gel/FileLoadProvider';
 import {useViewLayer,useViewZIndex} from '../gel/useViewLayer';
-import {Children,type ReactNode,type CSSProperties} from 'react';
+import {Children,type ReactNode,type CSSProperties,type PointerEvent as ReactPointerEvent,type MouseEvent as ReactMouseEvent} from 'react';
 import {LAYOUT} from '../../lib/layout/layout';
 import styles from './FileControls.module.css';
 import { resolveAssetUrl } from '../../lib/layout/assets';
@@ -105,21 +107,10 @@ export function FileControls() {
 
   return (
     <section onPointerDownCapture={e => e.preventDefault()} ref={menuRef} data-testid="file-controls" style={{display:'contents'}}>
-      {open && <ApplicationMenu>
-        <button className={styles.openButton} data-testid="open-btn" onClick={onOpenClick}>{' Open… '}</button>
-        <button className={styles.saveGelButton} data-testid="save-gel-btn" onClick={onSaveGel}>{' Save Gel… '}</button>
-        {selectedSample && <button className={styles.saveSampleButton} data-testid="save-sample-btn" onClick={onSaveSample}>{' Save Selected Sample… '}</button>}
-        <label className={styles.hoverToggle}>
-          <input type="checkbox" checked={state.hoverLoupeEnabled}
-            onChange={event => dispatch({ type: 'SET_HOVER_LOUPE_ENABLED', value: event.target.checked })} />
-          Loupe on hover
-        </label>
-        <label className={styles.hoverToggle}>
-          <input type="checkbox" checked={state.renderEnabled}
-            onChange={event => dispatch({type:'SET_RENDER_ENABLED',value:event.target.checked})} />
-          Render
-        </label>
-      </ApplicationMenu>}
+      {open && <FileControlMenu selected={!!selectedSample} hoverLoupe={state.hoverLoupeEnabled} render={state.renderEnabled}
+        onOpen={onOpenClick} onSaveGel={onSaveGel} onSaveSample={onSaveSample}
+        onHoverLoupe={value=>dispatch({type:'SET_HOVER_LOUPE_ENABLED',value})}
+        onRender={value=>dispatch({type:'SET_RENDER_ENABLED',value})}/>}
       <button ref={buttonElement} {...button.events} type="button" aria-label="Application settings" aria-expanded={open} aria-controls="application-file-menu" onClick={() => setOpen(!open)} style={{ position: 'fixed', left:16, bottom:16, zIndex:buttonZ, width: 32, height: 32, border: 0, padding: 0, background: 'transparent', cursor: 'pointer',outline:registry?'none':undefined }}>
         <img src={buttonUrl} alt="" width={32} height={32} style={{opacity:registry?0:undefined}} />
         {registry&&<SharedAssetPaint registry={registry} viewKey="app-button" element={buttonElement} url={buttonUrl} tint={button.tint}/>}
@@ -132,23 +123,66 @@ export function FileControls() {
 
 function ApplicationMenu({children}:{children:ReactNode}){
  const {zIndex}=useViewLayer('app-settings');
+ const registry=useSharedPresentation(),element=useRef<HTMLDivElement>(null),divider=useRef<HTMLImageElement>(null);
  const items=Children.toArray(children);
  // Native text buttons render a 1x texture and divide its size by the window
  // scale; CheckboxView explicitly renders its label at the window scale.
- const scale=window.devicePixelRatio||1;
- return <div id="application-file-menu" className={styles.menu} style={{
-   left:LAYOUT.btnGutter,bottom:LAYOUT.btnGutter+LAYOUT.btnSize.y,zIndex,
+ const scale=useDisplayScale()>=2?2:1;
+ return <div ref={element} id="application-file-menu" className={styles.menu} style={{
+   opacity:registry?0:undefined,left:LAYOUT.btnGutter,bottom:LAYOUT.btnGutter+LAYOUT.btnSize.y,zIndex,
    fontFamily:LAYOUT.uiFont,fontWeight:LAYOUT.uiFontWeight,
    '--button-font-size':`${LAYOUT.uiFontSize/scale}px`,
-   '--button-line-height':`${17/scale}px`,
+   '--button-line-height':`${Math.floor(17/scale)}px`,
    '--menu-scale':scale,
+   '--open-width':`${Math.floor(50/scale)}px`,'--save-width':`${Math.floor(67/scale)}px`,'--sample-width':`${Math.floor(139/scale)}px`,
    // CoreText Avenir-Medium 12 ascent + descent; native rounds texture pixels up.
-   '--label-line-height':`${Math.ceil(16.3919677734375*scale)/scale}px`,
+   '--label-line-height':`${Math.floor(Math.ceil(16.3919677734375*scale)/scale)}px`,
  } as CSSProperties}>
-   <img data-testid="application-menu-divider" src={resolveAssetUrl('/assets/app-settings-line.png')}
+   <img ref={divider} data-testid="application-menu-divider" src={resolveAssetUrl('/assets/app-settings-line.png')}
      width={113} height={8} alt="" draggable={false}
      style={{position:'absolute',width:113,height:8,maxWidth:'none',left:-LAYOUT.appSettingsToDivLine.x,bottom:LAYOUT.appSettingsToDivLine.y}}/>
+   {registry&&<><SharedAssetPaint registry={registry} viewKey="app-settings" element={divider} url={resolveAssetUrl('/assets/app-settings-line.png')} order={-1}/><ApplicationMenuPaint element={element}/></>}
    {items.map((item,index)=><div key={index} className={styles.item}
      style={{bottom:LAYOUT.appSettingsToFirstWidgetGutter+LAYOUT.appSettingsItemVOffset*(items.length-1-index)}}>{item}</div>)}
  </div>;
+}
+
+/** Native controls retain mouse ownership and activate on release inside. */
+function useMenuPointer(activate:()=>void){
+ const pointer=useRef<number|null>(null);
+ const inside=(e:ReactPointerEvent<HTMLElement>)=>{const r=e.currentTarget.getBoundingClientRect();return e.clientX>=r.left&&e.clientX<r.right&&e.clientY>=r.top&&e.clientY<r.bottom;};
+ const clear=(e:ReactPointerEvent<HTMLElement>)=>{pointer.current=null;e.currentTarget.dataset.menuDown='false';if(e.currentTarget.hasPointerCapture(e.pointerId))e.currentTarget.releasePointerCapture(e.pointerId);};
+ return {
+  onPointerEnter:(e:ReactPointerEvent<HTMLElement>)=>{e.currentTarget.dataset.menuHover='true';},
+  onPointerLeave:(e:ReactPointerEvent<HTMLElement>)=>{e.currentTarget.dataset.menuHover='false';e.currentTarget.dataset.menuDown='false';},
+  onPointerDown:(e:ReactPointerEvent<HTMLElement>)=>{
+   if(pointer.current!==null)return;e.preventDefault();pointer.current=e.pointerId;
+   e.currentTarget.dataset.menuDown='true';e.currentTarget.dataset.menuHover='true';e.currentTarget.setPointerCapture(e.pointerId);
+  },
+  onPointerMove:(e:ReactPointerEvent<HTMLElement>)=>{const hit=inside(e);e.currentTarget.dataset.menuHover=String(hit);if(pointer.current===e.pointerId)e.currentTarget.dataset.menuDown=String(hit);},
+  onPointerUp:(e:ReactPointerEvent<HTMLElement>)=>{if(pointer.current!==e.pointerId)return;const hit=inside(e);clear(e);if(hit)activate();},
+  onPointerCancel:clear,onLostPointerCapture:clear,
+  onContextMenu:(e:ReactMouseEvent<HTMLElement>)=>e.preventDefault(),
+  onClick:(e:ReactMouseEvent<HTMLElement>)=>{e.preventDefault();if(e.detail===0)activate();},
+ };
+}
+function MenuButton({index,onActivate,children,className,testId}:{index:number;onActivate:()=>void;children:ReactNode;className:string;testId:string}){
+ const pointer=useMenuPointer(onActivate);
+ return <button type="button" data-menu-text={index} className={className} data-testid={testId} {...pointer}>{children}</button>;
+}
+function MenuCheckbox({index,value,onChange,children}:{index:0|1;value:boolean;onChange:(value:boolean)=>void;children:ReactNode}){
+ const pointer=useMenuPointer(()=>onChange(!value)),scale=useDisplayScale()>=2?'2':'1';
+ return <label data-menu-text={index} className={styles.hoverToggle} style={{width:menuText[scale][index].frame[2]}} {...pointer}
+  onClick={e=>{if(e.detail!==0)e.preventDefault();}}>
+  <input type="checkbox" checked={value} onChange={e=>{if((e.nativeEvent as globalThis.MouseEvent).detail===0)onChange(e.target.checked);}}/>{children}
+ </label>;
+}
+export function FileControlMenu({selected,hoverLoupe,render,onOpen,onSaveGel,onSaveSample,onHoverLoupe,onRender}:{selected:boolean;hoverLoupe:boolean;render:boolean;onOpen:()=>void;onSaveGel:()=>void;onSaveSample:()=>void;onHoverLoupe:(value:boolean)=>void;onRender:(value:boolean)=>void}){
+ return <ApplicationMenu>
+  <MenuButton index={4} className={styles.openButton} testId="open-btn" onActivate={onOpen}>{' Open… '}</MenuButton>
+  <MenuButton index={3} className={styles.saveGelButton} testId="save-gel-btn" onActivate={onSaveGel}>{' Save Gel… '}</MenuButton>
+  {selected&&<MenuButton index={2} className={styles.saveSampleButton} testId="save-sample-btn" onActivate={onSaveSample}>{' Save Selected Sample… '}</MenuButton>}
+  <MenuCheckbox index={1} value={hoverLoupe} onChange={onHoverLoupe}>Loupe on hover</MenuCheckbox>
+  <MenuCheckbox index={0} value={render} onChange={onRender}>Render</MenuCheckbox>
+ </ApplicationMenu>;
 }

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "no-sample-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "no-sample-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "selected-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "selected-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "hover-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "hover-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "held-checked-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "held-checked-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "held-unchecked-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "held-unchecked-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "held-outside-behind-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "held-outside-front-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  }
+]

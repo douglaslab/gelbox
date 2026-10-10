@@ -16,7 +16,7 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest recorded verification
 
-On macOS with Node 22, recent increments add complete Buffer and palette controls to the
+On macOS with Node 22, recent increments add complete Buffer, palette and application menu controls to the
 Dye, Timeline, Gel and Species controls in development shared composition. Dynamic UIFont
 metrics/placement match 2,048 independent native strings; 128 slider RGB
 comparisons match native methods exactly. Actual controls pass image covering,
@@ -31,13 +31,17 @@ real-app mouse-down timing, custom notches and unchanged stored values are check
 See [Buffer evidence](../reference/web/shared-buffer-scenes/README.md). Palette
 paint now matches 96 native comparisons; all twelve saved colors, drag/Delete
 focus, secondary-button dragging and real-app image overlap pass. See
-[palette evidence](../reference/web/shared-palette-scenes/README.md). Menus,
-checkboxes and overlays remain to migrate before production enablement.
+[palette evidence](../reference/web/shared-palette-scenes/README.md). Application
+menu buttons, checkboxes, text and divider now match 48 native comparisons;
+integer Retina dimensions, press preview, release-outside cancellation,
+secondary-button/keyboard activation and image overlap are checked. See
+[menu evidence](../reference/web/shared-menu-scenes/README.md). Gel overlays and
+integrated acceptance remain before production enablement.
 
 | Check | Result |
 |---|---|
 | Unit suite | 2,922 passed |
-| Browser suite across WebGPU/WebGL2 | 797 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 813 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -62,9 +66,8 @@ The [design](superpowers/specs/2026-10-10-shared-composition.md) and
 cover ordered graphics, clipping, textures, frame timing, and DOM interaction
 preservation. Ordered mesh and texture operations are implemented. Development mode now draws
 sample/fragment bodies, gel, loupes, reference images, tube icons, sample chrome,
-inspector headings, standard/graph sliders, Dye rows, Buffer controls and palette on the shared surface after
-the React commit. Remaining work includes menus,
-checkboxes, overlays and full integrated acceptance. The production app still
+inspector headings, standard/graph sliders, Dye rows, Buffer controls, palette and application menu on the shared surface after
+the React commit. Remaining work includes Gel overlays and full integrated acceptance. The production app still
 uses separate view canvases; exact production composition remains open.
 
 

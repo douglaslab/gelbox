@@ -195,8 +195,13 @@ color exports and focus-preserving drag/Delete pass in both rendering modes.
 Original Cinder right/middle dispatch plus native palette methods prove all-button
 press/drag behavior; corresponding tests failed before removing the primary-only
 guard and now pass. The remaining Slider button-filter audit is still open.
-Menus, checkboxes and overlays remain to migrate; combined acceptance and
-production enablement stay open.
+Application menu buttons, checkboxes, divider and static text now contribute in
+native parent/child order. Forty-eight exact comparisons cover both menu layouts,
+checked/unchecked/hover/held states, both overlap orders, both scales and both
+backends. Native integer texture-size division corrects fractional Retina bounds.
+Real-app press preview, release-outside cancellation, secondary-button and
+keyboard activation, and covering/removal pass. Gel overlays remain to migrate;
+combined acceptance, whole-branch review and production enablement stay open.
 
 
 
