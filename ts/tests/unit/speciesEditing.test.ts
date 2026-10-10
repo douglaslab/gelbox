@@ -1,3 +1,4 @@
+import {releasePalette} from '../helpers/releasePalette';
 import { sampleKeyAction } from '../../src/lib/gel/sampleKeyboard';
 import { describe, expect, it } from 'vitest';
 import { gelReducer, initialGelState, selectInspectorView } from '../../src/lib/gel/gelState';
@@ -48,7 +49,7 @@ it('generates native default species values from controllable random inputs', as
   const values = [.999, .5, .5, .5];
   expect(newFragment(() => values.shift()!)).toEqual({
     bases: 3500, mass: 87.5, degrade: 0, aspectRatio: 1, dye: -1,
-    color: [.2, .2, .2], aggregate: [1,0,0,0,0,0,0],
+    color: releasePalette[11], aggregate: [1,0,0,0,0,0,0],
   });
 });
 

@@ -1,3 +1,4 @@
+import {releasePalette} from '../helpers/releasePalette';
 import {describe,expect,it} from 'vitest';
 import {MolecularRuntime} from '../../src/lib/gel/molecularRuntime';
 import {nativeFragmentColor,nativeSpecies} from '../../src/lib/gel/nativeSpecies';
@@ -70,7 +71,7 @@ describe('native runtime ownership',()=>{
     runtime.tick();expect(view.ticks).toBe(1);
   });
   it('assigns the correct palette slot to negative global integers',()=>{
-    expect(nativeFragmentColor(new CinderRand(310))).toEqual([247/255,67/255,8/255].map(Math.fround));
+    expect(nativeFragmentColor(new CinderRand(310))).toEqual(releasePalette[2]);
     const stream=new CinderRand(2701872764),reference=stream.clone();
     nativeSpecies(stream);
     for(let i=0;i<6;i++)reference.nextInt();

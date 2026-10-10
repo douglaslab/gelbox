@@ -61,3 +61,9 @@ describe('native nearest palette selection', () => {
     expect(nearestPaletteIndex([.75,0,0],[[0,0,0],[1,0,0]])).toBe(1);
   });
 });
+
+it('matches every original-release palette channel exactly', async () => {
+  const {readFile}=await import('node:fs/promises');
+  const native=JSON.parse(await readFile('../reference/native/replay/palette-values/native-output.json','utf8'));
+  expect(FRAGMENT_PALETTE_RGB).toEqual(native.Gel.Samples[0].Fragments.map((f:any)=>f.Color));
+});

@@ -1,3 +1,4 @@
+import {releasePaletteColor} from '../helpers/releasePalette';
 import {readFileSync} from 'node:fs';
 import {expect, it} from 'vitest';
 import {MolecularRuntime, type MolecularView} from '../../src/lib/gel/molecularRuntime';
@@ -84,7 +85,7 @@ it.each(cases.map((c:any,i:number)=>[c.id,c,references[i]]))('composed native ru
       expect(view.localRand.clone().nextInt()).toBe(native.nextLocalInt);
       expect(internal.rand.clone().nextInt()).toBe(native.nextDynamicInt);
       expect(view.inspectorOpen).toBe(native.inspector);
-      expect(view.sample!.fragments).toEqual(native.fragments);
+      expect(view.sample!.fragments).toEqual(native.fragments.map((f:any)=>({...f,color:releasePaletteColor(f.color)})));
       const expected=native.parts.map((p:any)=>({...p,
         loc:{x:p.loc[0],y:p.loc[1]},vel:{x:p.vel[0],y:p.vel[1]},radius:{x:p.radius[0],y:p.radius[1]},
         multi:p.multi.map((m:any)=>({...m,loc:{x:m.loc[0],y:m.loc[1]}})),
@@ -92,7 +93,7 @@ it.each(cases.map((c:any,i:number)=>[c.id,c,references[i]]))('composed native ru
       particles(view.sim.parts,expected,`${c.id}/${i}/${view.id}`);
     }
   });
-  expect(colors).toEqual(ref.colors);
+  expect(colors).toEqual(ref.colors.map(releasePaletteColor));
   expect(notifications).toEqual(ref.notifications);
   expect(trace).toEqual(ref.tickTrace);
   const global=(runtime as unknown as {globalRand:CinderRand}).globalRand;

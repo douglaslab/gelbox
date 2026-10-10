@@ -1,3 +1,4 @@
+import {releasePaletteColor} from '../helpers/releasePalette';
 import {test,expect,type Page} from '@playwright/test';
 import {readFileSync} from 'node:fs';
 import {readFile} from 'node:fs/promises';
@@ -30,7 +31,7 @@ test('StrictMode app creates species from the native persistent view stream',asy
   for(let i=0;i<2;i++) {
     const expected=nativeSpecies[i];
     expect(sample.Fragments[i]).toMatchObject({Bases:expected.bases,Mass:expected.mass,
-      AspectRatio:expected.aspectRatio,Degrade:expected.degrade,Color:expected.color,Aggregate:expected.aggregate});
+      AspectRatio:expected.aspectRatio,Degrade:expected.degrade,Color:releasePaletteColor(expected.color),Aggregate:expected.aggregate});
   }
 });
 

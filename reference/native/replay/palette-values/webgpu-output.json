@@ -1,0 +1,207 @@
+{
+  "Gelbox": {
+    "version": "1.0",
+    "type": "gel"
+  },
+  "Gel": {
+    "Samples": [
+      {
+        "name": "Native palette values",
+        "icon": "microtube1500ul.png",
+        "iconScale": 0.625,
+        "id": 17,
+        "Buffer": {
+          "Tris": 10.125,
+          "Borate": 0,
+          "Acetate": 7.75,
+          "EDTA": 0.25
+        },
+        "Fragments": [
+          {
+            "Bases": 500,
+            "Mass": 50,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0,
+              0.40000003576278687,
+              0.8000000715255737
+            ],
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 1500,
+            "Mass": 50,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.8000000715255737,
+              0,
+              0
+            ],
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 2500,
+            "Mass": 50,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.9686275124549866,
+              0.26274511218070984,
+              0.0313725508749485
+            ],
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 3500,
+            "Mass": 50,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.9686275124549866,
+              0.5764706134796143,
+              0.11764706671237946
+            ],
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 4500,
+            "Mass": 50,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.6666666865348816,
+              0.6666666865348816,
+              0
+            ],
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 5500,
+            "Mass": 50,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.34117648005485535,
+              0.7333333492279053,
+              0
+            ],
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 6500,
+            "Mass": 50,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0,
+              0.44705885648727417,
+              0
+            ],
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 7500,
+            "Mass": 50,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.011764707043766975,
+              0.7137255072593689,
+              0.6352941393852234
+            ],
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 8500,
+            "Mass": 50,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.09019608050584793,
+              0,
+              0.8705883026123047
+            ],
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 9500,
+            "Mass": 50,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.45098042488098145,
+              0,
+              0.8705883026123047
+            ],
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 10500,
+            "Mass": 50,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.7215686440467834,
+              0.019607843831181526,
+              0.4235294461250305
+            ],
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 11500,
+            "Mass": 50,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.20000001788139343,
+              0.20000001788139343,
+              0.20000001788139343
+            ],
+            "Aggregate": [
+              1
+            ]
+          }
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "Buffer": {
+      "Tris": 12.25,
+      "Borate": 0,
+      "Acetate": 8.5,
+      "EDTA": 0.5
+    },
+    "Time": 0.625,
+    "Voltage": 83.5,
+    "WellDamage": 0.125
+  }
+}

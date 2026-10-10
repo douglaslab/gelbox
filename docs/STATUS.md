@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include the application runtime integration.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,867 passed |
-| Browser suite across WebGPU/WebGL2 | 445 passed; one intentional duplicate skipped |
+| Unit suite | 2,868 passed |
+| Browser suite across WebGPU/WebGL2 | 447 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -1609,3 +1609,30 @@ Verification: **2,867 unit tests, 445 browser tests and 4 production checks
 passed**, with one intentional duplicate browser skip. Production included fresh
 build/TypeScript checks. Palette precision, complete original-native raster
 comparison and the remaining interaction/release gates stay open.
+
+
+## Original-release palette channel precision
+
+All twelve original-release palette swatches were captured through GUI edits and
+a single Save Gel; [retained evidence](../reference/native/replay/palette-values/README.md)
+includes the raw input, native output, observation and both web exports. Every
+channel matches float32 multiplication by a float32 reciprocal of 255. The web
+palette conversion now uses that computation, preserving imported colors and
+existing RNG behavior. Both renderers replay all twelve edits and save a complete
+document exactly equal to the native output. The new unit and browser checks
+failed before correction.
+
+Modern Cinder runtime references use rounded division and differ from the
+original release in palette channels. Raw captures remain intact; an explicit
+test helper substitutes only exact known harness palette entries with original
+release entries at the same index. Other runtime/RNG assertions are unchanged.
+The capture also revealed conflicting uppercase/lowercase sample-name handling;
+that is documented as a separate unresolved interoperability case. The replay
+fixture removes the accidental conflicting name alias, with raw capture input
+retained for audit.
+
+Verification: **2,868 unit tests, 447 browser tests and 4 production checks
+passed**, with one intentional duplicate browser skip. Production included fresh
+build/TypeScript checks. No goldens or tolerances changed. This resolves the
+palette-created channel precision discrepancy, not full native raster/interaction
+parity, arbitrary color conversion behavior or the remaining release gates.

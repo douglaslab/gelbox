@@ -1,3 +1,4 @@
+import {releasePalette} from '../helpers/releasePalette';
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
@@ -30,7 +31,7 @@ test('create an empty sample, add species, edit, delete final species and save',
   await expect(page.locator('[data-testid^="band-"][data-lane-index="2"]').first()).toHaveAttribute('stroke', '#333333');
   const sample = await saveSample(page);
   expect(sample.Fragments).toHaveLength(1);
-  expect(sample.Fragments[0]).toMatchObject({ Bases: 14000, Degrade: 0, AspectRatio: 1, Aggregate: [1,0,0,0,0,0,0], Color: [.2,.2,.2] });
+  expect(sample.Fragments[0]).toMatchObject({ Bases: 14000, Degrade: 0, AspectRatio: 1, Aggregate: [1,0,0,0,0,0,0], Color: releasePalette[11] });
   await page.getByTestId('sample-view').focus();
   await page.keyboard.press('Backspace');
   await expect(page.getByTestId('fragment-view')).toHaveCount(0);

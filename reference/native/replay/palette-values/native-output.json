@@ -1,0 +1,135 @@
+{
+   "Gel" : {
+      "Buffer" : {
+         "Acetate" : 8.5,
+         "Borate" : 0,
+         "EDTA" : 0.5,
+         "Tris" : 12.25
+      },
+      "Samples" : [
+         {
+            "Buffer" : {
+               "Acetate" : 7.75,
+               "Borate" : 0,
+               "EDTA" : 0.25,
+               "Tris" : 10.125
+            },
+            "Fragments" : [
+               {
+                  "Aggregate" : [ 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 500,
+                  "Color" : [ 0, 0.40000003576278687, 0.80000007152557373 ],
+                  "Degrade" : 0,
+                  "Mass" : 50
+               },
+               {
+                  "Aggregate" : [ 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 1500,
+                  "Color" : [ 0.80000007152557373, 0, 0 ],
+                  "Degrade" : 0,
+                  "Mass" : 50
+               },
+               {
+                  "Aggregate" : [ 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 2500,
+                  "Color" : [ 0.96862751245498657, 0.26274511218070984, 0.031372550874948502 ],
+                  "Degrade" : 0,
+                  "Mass" : 50
+               },
+               {
+                  "Aggregate" : [ 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 3500,
+                  "Color" : [ 0.96862751245498657, 0.57647061347961426, 0.11764706671237946 ],
+                  "Degrade" : 0,
+                  "Mass" : 50
+               },
+               {
+                  "Aggregate" : [ 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 4500,
+                  "Color" : [ 0.66666668653488159, 0.66666668653488159, 0 ],
+                  "Degrade" : 0,
+                  "Mass" : 50
+               },
+               {
+                  "Aggregate" : [ 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 5500,
+                  "Color" : [ 0.34117648005485535, 0.73333334922790527, 0 ],
+                  "Degrade" : 0,
+                  "Mass" : 50
+               },
+               {
+                  "Aggregate" : [ 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 6500,
+                  "Color" : [ 0, 0.44705885648727417, 0 ],
+                  "Degrade" : 0,
+                  "Mass" : 50
+               },
+               {
+                  "Aggregate" : [ 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 7500,
+                  "Color" : [ 0.011764707043766975, 0.7137255072593689, 0.63529413938522339 ],
+                  "Degrade" : 0,
+                  "Mass" : 50
+               },
+               {
+                  "Aggregate" : [ 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 8500,
+                  "Color" : [ 0.090196080505847931, 0, 0.87058830261230469 ],
+                  "Degrade" : 0,
+                  "Mass" : 50
+               },
+               {
+                  "Aggregate" : [ 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 9500,
+                  "Color" : [ 0.45098042488098145, 0, 0.87058830261230469 ],
+                  "Degrade" : 0,
+                  "Mass" : 50
+               },
+               {
+                  "Aggregate" : [ 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 10500,
+                  "Color" : [ 0.72156864404678345, 0.019607843831181526, 0.42352944612503052 ],
+                  "Degrade" : 0,
+                  "Mass" : 50
+               },
+               {
+                  "Aggregate" : [ 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 11500,
+                  "Color" : [ 0.20000001788139343, 0.20000001788139343, 0.20000001788139343 ],
+                  "Degrade" : 0,
+                  "Mass" : 50
+               }
+            ],
+            "icon" : "microtube1500ul.png",
+            "iconScale" : 0.625,
+            "id" : 17,
+            "name" : "Native palette values"
+         },
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      ],
+      "Time" : 0.625,
+      "Voltage" : 83.5,
+      "WellDamage" : 0.125
+   },
+   "Gelbox" : {
+      "type" : "gel",
+      "version" : "1.0"
+   }
+}

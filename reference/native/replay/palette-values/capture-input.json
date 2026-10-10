@@ -1,0 +1,208 @@
+{
+  "Gel": {
+    "Buffer": {
+      "Acetate": 8.5,
+      "Borate": 0,
+      "EDTA": 0.5,
+      "Tris": 12.25
+    },
+    "Samples": [
+      {
+        "Buffer": {
+          "Acetate": 7.75,
+          "Borate": 0,
+          "EDTA": 0.25,
+          "Tris": 10.125
+        },
+        "Fragments": [
+          {
+            "Bases": 500,
+            "Mass": 50,
+            "AspectRatio": 1,
+            "Degrade": 0,
+            "Aggregate": [
+              1
+            ],
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "Bases": 1500,
+            "Mass": 50,
+            "AspectRatio": 1,
+            "Degrade": 0,
+            "Aggregate": [
+              1
+            ],
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "Bases": 2500,
+            "Mass": 50,
+            "AspectRatio": 1,
+            "Degrade": 0,
+            "Aggregate": [
+              1
+            ],
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "Bases": 3500,
+            "Mass": 50,
+            "AspectRatio": 1,
+            "Degrade": 0,
+            "Aggregate": [
+              1
+            ],
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "Bases": 4500,
+            "Mass": 50,
+            "AspectRatio": 1,
+            "Degrade": 0,
+            "Aggregate": [
+              1
+            ],
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "Bases": 5500,
+            "Mass": 50,
+            "AspectRatio": 1,
+            "Degrade": 0,
+            "Aggregate": [
+              1
+            ],
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "Bases": 6500,
+            "Mass": 50,
+            "AspectRatio": 1,
+            "Degrade": 0,
+            "Aggregate": [
+              1
+            ],
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "Bases": 7500,
+            "Mass": 50,
+            "AspectRatio": 1,
+            "Degrade": 0,
+            "Aggregate": [
+              1
+            ],
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "Bases": 8500,
+            "Mass": 50,
+            "AspectRatio": 1,
+            "Degrade": 0,
+            "Aggregate": [
+              1
+            ],
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "Bases": 9500,
+            "Mass": 50,
+            "AspectRatio": 1,
+            "Degrade": 0,
+            "Aggregate": [
+              1
+            ],
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "Bases": 10500,
+            "Mass": 50,
+            "AspectRatio": 1,
+            "Degrade": 0,
+            "Aggregate": [
+              1
+            ],
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "Bases": 11500,
+            "Mass": 50,
+            "AspectRatio": 1,
+            "Degrade": 0,
+            "Aggregate": [
+              1
+            ],
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ]
+          }
+        ],
+        "icon": "microtube1500ul.png",
+        "iconScale": 0.625,
+        "id": 17,
+        "name": "Last lane",
+        "Name": "Native palette values"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "Time": 0.625,
+    "Voltage": 83.5,
+    "WellDamage": 0.125
+  },
+  "Gelbox": {
+    "type": "gel",
+    "version": "1.0"
+  }
+}

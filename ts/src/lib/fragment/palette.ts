@@ -11,10 +11,12 @@ export const FRAGMENT_PALETTE_HEX = [
 
 export function hexToRgb(hex: string): [number, number, number] {
   const h = hex.startsWith('#') ? hex.slice(1) : hex;
-  const r = parseInt(h.substring(0, 2), 16) / 255;
-  const g = parseInt(h.substring(2, 4), 16) / 255;
-  const b = parseInt(h.substring(4, 6), 16) / 255;
-  // Cinder Color::hex stores channel/255 directly, including native JSON.
+  const scale = Math.fround(1 / 255);
+  const r = Math.fround(parseInt(h.substring(0, 2), 16) * scale);
+  const g = Math.fround(parseInt(h.substring(2, 4), 16) * scale);
+  const b = Math.fround(parseInt(h.substring(4, 6), 16) * scale);
+  // Original-release palette exports use float32 reciprocal multiplication.
+  // All 12 swatches are captured in reference/native/replay/palette-values.
   return [r, g, b];
 }
 

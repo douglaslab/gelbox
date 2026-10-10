@@ -1,3 +1,4 @@
+import {releasePaletteColor} from '../helpers/releasePalette';
 import {readFileSync} from 'node:fs';
 import {describe,expect,it,vi} from 'vitest';
 import {GelStore} from '../../src/lib/gel/gelStore';
@@ -73,7 +74,7 @@ describe('native application command ordering',()=>{
   it('generates species from the persistent local stream and leaves metadata out of files',()=>{
     const store=new GelStore(empty());
     store.createSpecies(0);store.createSpecies(0);
-    const expected=native.find((r:any)=>r.id==='species').frames[2].views.a.fragments;
+    const expected=native.find((r:any)=>r.id==='species').frames[2].views.a.fragments.map((f:any)=>({...f,color:releasePaletteColor(f.color)}));
     expect(store.getSnapshot().gel.samples[0]!.fragments).toEqual(expected);
     expect(store.getMolecularView('sample')!.inspectorOpen).toBe(true);
     expect(store.getSnapshot().gel.selectedFragmentIndex).toBe(1);
