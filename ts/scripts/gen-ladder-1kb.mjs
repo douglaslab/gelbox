@@ -1,30 +1,26 @@
-// Generates fixtures/states/ladder-1kb.json — a canonical sample fixture
-// representing a 1 kb ladder spanning 100 bp to 13500 bp, suitable for
-// driving fragToBands and producing a recognizable Sample-driven scene.
-import { writeFileSync } from 'node:fs';
+// Reproduce the native startup ladder from its recorded native export.
+// Source/provenance: reference/native/manifest.json and GelboxApp::setup at 5f51097.
+// Keep channel floats unchanged: Cinder RGB is not gamma-decoded on XML import.
+import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import assert from 'node:assert/strict';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const out = resolve(__dirname, '..', 'fixtures', 'states', 'ladder-1kb.json');
-
-const sizes = [100, 200, 400, 800, 1600, 3200, 6400, 9000, 12000, 13500];
-const fragments = sizes.map((bp) => ({
-  bases: bp,
-  mass: 50,
-  degrade: 0,
-  dye: -1,
-  aggregate: [],
-  aspectRatio: 1,
-  color: [1, 1, 1],
-}));
-
+const here = dirname(fileURLToPath(import.meta.url));
+const reference = resolve(here, '../../reference/native/files/ladder-after-selection.gel.json');
+const { Gel: { Samples: [sample] } } = JSON.parse(readFileSync(reference, 'utf8'));
+assert.equal(sample.name, '1kb ladder');
 const fixture = {
   schema: 'gel-sample-v0',
-  // Buffer: TBE 0.5×
-  buffer: { tris: 44.5, borate: 44.5, acetate: 0, edta: 1 },
-  fragments,
+  name: sample.name, icon: sample.icon, iconScale: sample.iconScale, id: sample.id,
+  buffer: { tris: sample.Buffer.Tris, borate: sample.Buffer.Borate,
+    acetate: sample.Buffer.Acetate, edta: sample.Buffer.EDTA },
+  fragments: sample.Fragments.map(f => {
+    assert.equal(f.Dye, undefined, 'startup ladder must contain DNA species, not dyes');
+    return { bases: f.Bases, mass: f.Mass, degrade: f.Degrade, dye: -1,
+      aggregate: f.Aggregate, aspectRatio: f.AspectRatio, color: f.Color };
+  }),
 };
-
-writeFileSync(out, JSON.stringify(fixture, null, 2) + '\n', 'utf-8');
-console.log(`Wrote ${out} (${fragments.length} fragments)`);
+const out = resolve(here, '../fixtures/states/ladder-1kb.json');
+writeFileSync(out, JSON.stringify(fixture, null, 2) + '\n');
+console.log(`Wrote ${out} (${fixture.fragments.length} native fragments)`);

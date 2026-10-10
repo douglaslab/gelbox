@@ -174,3 +174,12 @@ test('native disabled controls preserve imported off-preset buffer values', asyn
     await page.keyboard.press('Escape');
   }
 });
+
+test('startup Save Gel matches the independent native startup document', async ({ page }) => {
+  await page.getByRole('button', { name: 'Application settings' }).click();
+  const downloading = page.waitForEvent('download');
+  await page.getByTestId('save-gel-btn').click();
+  const actual = JSON.parse(await readFile((await (await downloading).path())!, 'utf8'));
+  const native = JSON.parse(await readFile('../reference/native/files/ladder-after-selection.gel.json', 'utf8'));
+  expect(actual).toEqual(native);
+});
