@@ -18,7 +18,7 @@ test('repeated sample/loupe disposal and route remount release owned GPU resourc
    (GPUDevice.prototype as any)[create]=function(...args:any[]){const resource=original.apply(this,args);live.add(resource);return resource;};
    const destroy=prototype.destroy;prototype.destroy=function(){live.delete(this);return destroy.call(this as any);};
   }
-  for(const kind of ['Buffer','Texture','Framebuffer','Program','Shader','VertexArray']){
+  for(const kind of ['Buffer','Texture','Framebuffer','Renderbuffer','Program','Shader','VertexArray']){
    const p=WebGL2RenderingContext.prototype as any,create=p['create'+kind],destroy=p['delete'+kind];
    p['create'+kind]=function(...args:any[]){const resource=create.apply(this,args);if(resource)live.add(resource);return resource;};
    p['delete'+kind]=function(resource:any){live.delete(resource);return destroy.call(this,resource);};

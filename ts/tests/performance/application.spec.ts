@@ -24,7 +24,7 @@ test('measure built gel with fifty bands, sample and three loupes',async({page,b
     (GPUDevice.prototype as any)[key]=function(...args:any[]){const v=create.apply(this,args);live.add(v);return v;};
     prototype.destroy=function(){live.delete(this);return destroy.call(this as any);};
    }
-   for(const kind of ['Buffer','Texture','Framebuffer','Program','Shader','VertexArray']){
+   for(const kind of ['Buffer','Texture','Framebuffer','Renderbuffer','Program','Shader','VertexArray']){
     const p=WebGL2RenderingContext.prototype as any,create=p['create'+kind],destroy=p['delete'+kind];
     p['create'+kind]=function(...args:any[]){const v=create.apply(this,args);if(v)live.add(v);return v;};
     p['delete'+kind]=function(v:any){live.delete(v);return destroy.call(this,v);};

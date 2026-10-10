@@ -1759,3 +1759,21 @@ DPR. Physical monitor transitions still need separate validation.
 Lifecycle, failure injection, full regression/production gates and final review
 for this increment are pending. These results do not close broader visual or
 release parity gates.
+
+## Presentation recovery and resource disposal
+
+Failure injection exposed and corrected direct-mode gaps: it now retries the
+alternate full renderer, contains draw errors, provides bounded failure/Retry UI,
+and immediately releases failed resources. Explicit checks caught and fixed
+failed WebGL contexts left alive after early disposal. Presentation shader
+failure also exposed partial shader objects escaping the shared GL program
+constructor; its failure paths now release shaders/programs transactionally.
+
+All 18 targeted presentation/resource lifecycle cases pass, including delayed
+imports after route exit, mode/DPR cycling, shader/allocation/frame failures,
+retry and zero tracked objects after unmount. Resource tracking now includes
+GL renderbuffers. Initial broad checks passed 2,872 units and four production
+cases; 473 browser cases passed and two scientific-buffer comparison tests
+needed their old SVG-only well exclusion moved to the presentation input.
+Those two now pass with the original exact full-image comparison unchanged.
+The complete browser rerun and final review remain pending for this increment.

@@ -26,32 +26,34 @@ export function createGlProgram(
     'precision highp float;\n' +
     defines.map((d) => `#define ${d} 1\n`).join('');
 
-  const vs = compile(gl, gl.VERTEX_SHADER,   header + vsSrc, `${label}.vert`);
-  const fs = compile(gl, gl.FRAGMENT_SHADER, header + fsSrc, `${label}.frag`);
-
-  const program = gl.createProgram();
-  if (!program) throw new Error(`createProgram returned null for ${label}`);
-  gl.attachShader(program, vs);
-  gl.attachShader(program, fs);
-  gl.linkProgram(program);
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    const info = gl.getProgramInfoLog(program) || '';
-    gl.deleteProgram(program);
-    throw new Error(`Program link failed for ${label}: ${info}`);
+  let vs:WebGLShader|null=null,fs:WebGLShader|null=null,program:WebGLProgram|null=null;
+  try {
+    vs=compile(gl,gl.VERTEX_SHADER,header+vsSrc,`${label}.vert`);
+    fs=compile(gl,gl.FRAGMENT_SHADER,header+fsSrc,`${label}.frag`);
+    program=gl.createProgram();
+    if(!program)throw new Error(`createProgram returned null for ${label}`);
+    gl.attachShader(program,vs);gl.attachShader(program,fs);gl.linkProgram(program);
+    if(!gl.getProgramParameter(program,gl.LINK_STATUS))
+      throw new Error(`Program link failed for ${label}: ${gl.getProgramInfoLog(program)||''}`);
+    gl.detachShader(program,vs);gl.detachShader(program,fs);
+  } catch(error) {
+    if(program)gl.deleteProgram(program);
+    throw error;
+  } finally {
+    if(vs)gl.deleteShader(vs);
+    if(fs)gl.deleteShader(fs);
   }
-  // Shaders are no longer needed once the program is linked.
-  gl.detachShader(program, vs); gl.detachShader(program, fs);
-  gl.deleteShader(vs); gl.deleteShader(fs);
+  const linkedProgram=program;
 
   const uniformCache = new Map<string, WebGLUniformLocation | null>();
   const attribCache  = new Map<string, number>();
 
   return {
-    gl, program,
+    gl, program:linkedProgram,
     uniform(name) {
       let loc = uniformCache.get(name);
       if (loc === undefined) {
-        loc = gl.getUniformLocation(program, name);
+        loc = gl.getUniformLocation(linkedProgram, name);
         uniformCache.set(name, loc);
       }
       return loc;
@@ -59,12 +61,12 @@ export function createGlProgram(
     attrib(name) {
       let loc = attribCache.get(name);
       if (loc === undefined) {
-        loc = gl.getAttribLocation(program, name);
+        loc = gl.getAttribLocation(linkedProgram, name);
         attribCache.set(name, loc);
       }
       return loc;
     },
-    destroy() { gl.deleteProgram(program); },
+    destroy() { gl.deleteProgram(linkedProgram); },
   };
 }
 
@@ -76,12 +78,15 @@ function compile(
 ): WebGLShader {
   const sh = gl.createShader(type);
   if (!sh) throw new Error(`createShader returned null for ${label}`);
-  gl.shaderSource(sh, src);
-  gl.compileShader(sh);
-  if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
-    const info = gl.getShaderInfoLog(sh) || '';
+  try {
+    gl.shaderSource(sh,src);gl.compileShader(sh);
+    if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)) {
+      const info=gl.getShaderInfoLog(sh)||'';
+      throw new Error(`Shader compile failed for ${label}: ${info}\n--- source ---\n${src}`);
+    }
+    return sh;
+  } catch(error) {
     gl.deleteShader(sh);
-    throw new Error(`Shader compile failed for ${label}: ${info}\n--- source ---\n${src}`);
+    throw error;
   }
-  return sh;
 }

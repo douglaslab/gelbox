@@ -6,9 +6,18 @@ test('running-buffer controls apply and clear global rendering effects', async (
   const backend = testInfo.project.name === 'chromium-webgl2' ? 'webgl2' : 'webgpu';
   await context.addInitScript(b => localStorage.setItem('gelBackend', b), backend);
   await page.setViewportSize({ width: 1365, height: 768 });
+  // This test isolates the scientific renderer. Wells moved from SVG into the
+  // canvas, so exclude them at the presentation input instead of hiding SVG.
+  // Band simulation, global effects, base presentation and every compared pixel
+  // still use the real application path; native well tests cover the lines.
+  await page.route('**/src/components/gel/GelCanvas.tsx*',async route=>{
+    const response=await route.fetch();const body=await response.text();
+    expect(body.split('latestSceneRef.current.wells')).toHaveLength(3);
+    await route.fulfill({response,body:body.replaceAll('latestSceneRef.current.wells','[]')});
+  });
   await page.goto('/#/gel');
   await page.getByTestId('settings-button').click();
-  // Compare just the renderer surface, excluding the independently drawn wells.
+  // Also hide selection/rollover SVG outlines.
   await page.addStyleTag({ content: '[data-testid="gel-overlay"] { visibility: hidden }' });
   for (const preset of ['H2O', 'TBE'] as const) {
     const fixture = await page.evaluate(async preset => {
