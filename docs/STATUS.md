@@ -20,8 +20,9 @@ On macOS with Node 22: these checks include the application runtime integration.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,851 passed |
-| Browser suite across WebGPU/WebGL2 | 385 covered by full run + corrected track-test rerun; one intentional duplicate skipped |
+| Unit suite | 2,853 passed |
+| Browser suite across WebGPU/WebGL2 | 385 passed; one intentional duplicate skipped |
+| Built-app root/subpath checks | 4 passed |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -1029,3 +1030,25 @@ change was restored before that full run; graph tests pass. Production build
 and TypeScript checks pass. No snapshot baselines changed. Unit code is unchanged.
 Typography, handles, tubes, well vertical/corner coverage and band raster still
 need comparison; this is not full startup or native parity certification.
+
+
+## Production root/subpath deployment
+
+A new production-only suite serves the built `dist` from strict local static
+servers at `/` and `/gelbox/`, without a development server or root-asset fallback.
+Both subpath cases failed before the fix: native UI images requested origin-root
+`/assets/...`. The shared resolver now applies Vite BASE_URL before DPR selection;
+image-loading fallback also keeps the deployment base. No asset copies or server
+rewrites conceal incorrect requests.
+
+`npm --prefix ts run test:production` builds then runs four Chromium cases
+(root/subpath × WebGPU/WebGL2) at DPR2. They check the actual gel context, decoded
+startup/settings/species images, native JSON import/save equality, and malformed
+JSON errors preserving the current document. Two new unit checks cover explicit
+base resolution and a missing Retina variant's fallback path.
+
+Fresh verification: **2,853 unit tests, 385 development browser cases, four built-app
+cases passed; one intentional development-browser duplicate skipped. Production
+build and TypeScript checks pass.** This closes these Chromium static-host smoke
+scenarios, not all production checks: browser/platform fonts, deep engineering
+routes, full failure lifecycle, long-run performance and native parity remain open.

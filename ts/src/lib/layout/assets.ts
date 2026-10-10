@@ -1,12 +1,19 @@
+/** Native asset paths are rooted in the deployed app, not the origin. */
+function appAssetUrl(url:string):string {
+  return url.startsWith('/assets/') ? `${import.meta.env.BASE_URL}${url.slice(1)}` : url;
+}
+
 /**
  * Resolve an asset URL to its DPR-appropriate variant.
  * Mirrors Layout::uiImageWithPath: at devicePixelRatio >= 2, swap `foo.png` -> `foo@2x.png`.
- * Returns the URL unchanged for non-`.png` paths or when DPR < 2 or `window` is undefined (SSR/node).
+ * Native /assets paths first resolve under the Vite deployment base.
+ * Non-PNG and DPR<2 paths keep their filename.
  *
  * Note: this does NOT verify the @2x file exists on disk - the build/asset pipeline ensures it.
  * If a caller needs a graceful fallback, use `loadImage` below.
  */
 export function resolveAssetUrl(url: string): string {
+  url=appAssetUrl(url);
   if (!url.endsWith('.png')) return url;
   const w = (globalThis as { window?: { devicePixelRatio?: number } }).window;
   if (!w || (w.devicePixelRatio ?? 1) < 2) return url;
@@ -33,15 +40,16 @@ export function dprFallbackOnError(e: { currentTarget: HTMLImageElement }): void
  */
 export function loadImage(url: string): Promise<HTMLImageElement> {
   const candidate = resolveAssetUrl(url);
+  const fallbackUrl = appAssetUrl(url);
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload  = () => resolve(img);
     img.onerror = () => {
-      if (candidate !== url) {
+      if (candidate !== fallbackUrl) {
         const fallback = new Image();
         fallback.onload  = () => resolve(fallback);
         fallback.onerror = () => reject(new Error(`Failed to load ${url} (and ${candidate})`));
-        fallback.src = url;
+        fallback.src = fallbackUrl;
       } else {
         reject(new Error(`Failed to load ${url}`));
       }

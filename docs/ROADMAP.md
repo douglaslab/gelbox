@@ -400,3 +400,12 @@ native samples. Final-product full browser run passed 381 plus one skip; the fou
 obsolete div-based track checks passed after selector/assertion updates, with two
 pixel regressions rerun (six targeted passes). Build passes. Native complete-scene
 and composed-workflow gates remain open.
+
+
+P5 static-host update: actual production artifacts now pass strict root/subpath
+Chromium smoke tests on WebGPU/WebGL2. Fixed native image requests escaping the
+app base, including DPR fallback. New `test:production` command verifies images,
+contexts, native file roundtrip and malformed-file preservation. Full fresh checks:
+2,853 units, 385 development browser cases (one intentional skip), four production
+cases, build/type checks passed. Remaining platform/font/deep-route/lifecycle/
+performance and full native parity gates are still open.

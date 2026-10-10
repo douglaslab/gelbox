@@ -1,9 +1,27 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { resolveAssetUrl } from '../../src/lib/layout/assets';
+import { resolveAssetUrl, loadImage } from '../../src/lib/layout/assets';
 
 describe('resolveAssetUrl', () => {
   afterEach(() => {
     vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
+  });
+
+  it('keeps a missing Retina variant fallback under the deployment base',async()=>{
+    vi.stubEnv('BASE_URL','/gelbox/');vi.stubGlobal('window',{devicePixelRatio:2});
+    const requests:string[]=[];
+    vi.stubGlobal('Image',class {
+      onload?:()=>void;onerror?:()=>void;
+      set src(url:string){requests.push(url);queueMicrotask(()=>url.includes('@2x')?this.onerror?.():this.onload?.());}
+    });
+    await loadImage('/assets/help.png');
+    expect(requests).toEqual(['/gelbox/assets/help@2x.png','/gelbox/assets/help.png']);
+  });
+
+  it('resolves native assets under an explicit deployment base',()=>{
+    vi.stubEnv('BASE_URL','/gelbox/');vi.stubGlobal('window',{devicePixelRatio:2});
+    expect(resolveAssetUrl('/assets/help.png')).toBe('/gelbox/assets/help@2x.png');
+    expect(resolveAssetUrl('/assets/help.svg')).toBe('/gelbox/assets/help.svg');
   });
 
   it('returns @2x url at DPR >= 2', () => {

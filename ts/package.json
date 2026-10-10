@@ -12,7 +12,8 @@
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "test:visual": "playwright test",
-    "test:visual:update": "playwright test --update-snapshots"
+    "test:visual:update": "playwright test --update-snapshots",
+    "test:production": "npm run build && playwright test -c playwright.production.config.ts"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
