@@ -1,4 +1,4 @@
-import {validatePresentationSize,wellVertices,directPresentationGeometry,type DirectPresentationBase,type PresentationSize,type PresentationOptions,type WellRect} from './presentationTypes';
+import {validatePresentationSize,wellVertices,directPresentationGeometry,clipPresentationScissor,presentationBlend,type PresentationTopology,type PresentationBlend,type DirectPresentationBase,type PresentationSize,type PresentationOptions,type WellRect} from './presentationTypes';
 
 /** Native window presentation: image or direct triangles, then four-sample well lines. */
 export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,size:PresentationSize,options:PresentationOptions={}) {
@@ -6,9 +6,10 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
   const {width,height}=size;
   const owned:Array<{destroy():void}>=[];
   let vertices:GPUBuffer|undefined,capacity=0,destroyed=false;
-  let bandVertices:GPUBuffer|undefined,bandCapacity=0,bandPipeline:GPURenderPipeline|undefined;
-  let bandLines:GPURenderPipeline;
-  const destroy=()=>{if(destroyed)return;destroyed=true;vertices?.destroy();bandVertices?.destroy();for(const resource of owned.reverse())resource.destroy();};
+  let bandVertices:GPUBuffer|undefined,bandCapacity=0;
+  let bandModule:GPUShaderModule|undefined;
+  const bandPipelines=new Map<string,GPURenderPipeline>();
+  const destroy=()=>{if(destroyed)return;destroyed=true;vertices?.destroy();bandVertices?.destroy();bandPipelines.clear();bandModule=undefined;for(const resource of owned.reverse())resource.destroy();};
   try {
     const samples=device.createTexture({label:'gel-presentation-msaa',size:[width,height],format:'rgba8unorm',sampleCount:4,usage:GPUTextureUsage.RENDER_ATTACHMENT|GPUTextureUsage.TEXTURE_BINDING});owned.push(samples);
     const sampleView=samples.createView();
@@ -42,6 +43,26 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
     const resolvePipeline=device.createRenderPipeline({label:'gel-presentation-resolve',layout:'auto',vertex:{module:resolveModule,entryPoint:'vs'},fragment:{module:resolveModule,entryPoint:'fs',targets:[{format}]}});
     const resolveGroup=device.createBindGroup({layout:resolvePipeline.getBindGroupLayout(0),entries:[{binding:0,resource:sampleView}]});
     let previousBase:GPUTextureView|undefined,baseGroup:GPUBindGroup;
+    const bandPipeline=(topology:PresentationTopology,blend:PresentationBlend)=>{
+      const key=topology+':'+blend;
+      const existing=bandPipelines.get(key);if(existing)return existing;
+      if(!bandModule){
+      bandModule=device.createShaderModule({label:'gel-presentation-bands',code:`
+        struct Out {@builtin(position) p:vec4f,@location(0) color:vec4f};
+        @vertex fn vs(@location(0) p:vec2f,@location(1) color:vec4f)->Out {
+          var o:Out;o.p=vec4f(p.x/${width}.*2.-1.,1.-p.y/${height}.*2.,0.,1.);o.color=color;return o;
+        }
+        @fragment fn fs(o:Out)->@location(0) vec4f {return o.color;}`});
+      }
+      const module=bandModule;
+      const pipeline=device.createRenderPipeline({
+        label:'gel-presentation-bands',layout:'auto',
+        vertex:{module,entryPoint:'vs',buffers:[{arrayStride:24,attributes:[{shaderLocation:0,offset:0,format:'float32x2'},{shaderLocation:1,offset:8,format:'float32x4'}]}]},
+        fragment:{module,entryPoint:'fs',targets:[{format:'rgba8unorm',
+          blend:{color:{srcFactor:'src-alpha',dstFactor:blend==='over'?'one-minus-src-alpha':'one'},alpha:{srcFactor:options.transparent?'one':'zero',dstFactor:options.transparent?'one-minus-src-alpha':'one'}}}]},
+        primitive:{topology},multisample:{count:4}});
+      bandPipelines.set(key,pipeline);return pipeline;
+    };
     return {
       draw(encoder:GPUCommandEncoder,base:GPUTextureView|DirectPresentationBase,target:GPUTextureView,wells:readonly WellRect[],scale:number) {
         if(destroyed)throw new Error('Gel presentation has been destroyed');
@@ -56,22 +77,6 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
         if(!direct&&base!==previousBase){baseGroup=device.createBindGroup({layout:basePipeline.getBindGroupLayout(0),entries:[{binding:0,resource:base},{binding:1,resource:sampler}]});previousBase=base;}
         const geometry=direct?directPresentationGeometry(base,scale):null;
         if(direct){
-          if(!bandPipeline){
-            const module=device.createShaderModule({label:'gel-presentation-bands',code:`
-              struct Out {@builtin(position) p:vec4f,@location(0) color:vec4f};
-              @vertex fn vs(@location(0) p:vec2f,@location(1) color:vec4f)->Out {
-                var o:Out;o.p=vec4f(p.x/${width}.*2.-1.,1.-p.y/${height}.*2.,0.,1.);o.color=color;return o;
-              }
-              @fragment fn fs(o:Out)->@location(0) vec4f {return o.color;}`});
-            const pipeline=(topology:GPUPrimitiveTopology)=>device.createRenderPipeline({
-              label:'gel-presentation-bands',layout:'auto',
-              vertex:{module,entryPoint:'vs',buffers:[{arrayStride:24,attributes:[{shaderLocation:0,offset:0,format:'float32x2'},{shaderLocation:1,offset:8,format:'float32x4'}]}]},
-              fragment:{module,entryPoint:'fs',targets:[{format:'rgba8unorm',
-                blend:{color:{srcFactor:'src-alpha',dstFactor:options.transparent||options.meshBlend==='over'?'one-minus-src-alpha':'one'},alpha:{srcFactor:options.transparent?'one':'zero',dstFactor:options.transparent?'one-minus-src-alpha':'one'}}}]},
-              primitive:{topology},multisample:{count:4}});
-            bandPipeline=pipeline('triangle-list');bandLines=pipeline('line-list');
-
-          }
           const data=geometry!.data;
           if(data.byteLength>bandCapacity){
             const nextCapacity=Math.max(1024,2**Math.ceil(Math.log2(data.byteLength)));
@@ -85,7 +90,13 @@ export function createGelPresentation(device:GPUDevice,format:GPUTextureFormat,s
         if(direct){
           if(geometry!.data.length){
             pass.setVertexBuffer(0,bandVertices!);
-            for(const draw of geometry!.draws)if(draw.count){pass.setPipeline(draw.topology==='line-list'?bandLines:bandPipeline!);pass.draw(draw.count,1,draw.first);}
+            for(const draw of geometry!.draws)if(draw.count){
+              const clip=clipPresentationScissor(draw.scissor,size);if(!clip)continue;
+              pass.setScissorRect(clip.x,clip.y,clip.width,clip.height);
+              pass.setPipeline(bandPipeline(draw.topology,presentationBlend(draw.blend,options)));
+              pass.draw(draw.count,1,draw.first);
+            }
+            pass.setScissorRect(0,0,width,height);
           }
         }
         else{pass.setPipeline(basePipeline);pass.setBindGroup(0,baseGroup!);pass.draw(3);}

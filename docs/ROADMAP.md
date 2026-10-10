@@ -695,3 +695,13 @@ units and four production checks. No native or screenshot baseline changed.
 Translucent overlap still requires further compositor work; correcting DOM order
 and panel transparency does not establish native RGB over arbitrary earlier
 content. Full native GUI, platform/performance and P0–P5 acceptance remain open.
+
+
+### Shared presentation mesh operations verified
+
+Task 1's mesh portion now supports ordered affine transforms, independent blend
+state and physical scissoring, including reset before legacy wells. All 20
+constructed native mesh comparisons and the earlier 32-comparison shared-surface proof match exact
+RGB. Fresh gates: 2,913 units, 529 browser cases (one intentional skip), four
+production checks and build passed. Continue Task 1 with texture operations and
+sampling references before app view migration; no full milestone closes here.

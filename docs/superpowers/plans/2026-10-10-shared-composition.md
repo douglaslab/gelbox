@@ -22,13 +22,18 @@ continues to own semantics, input and simulation. Migrate drawing incrementally.
 
 ## Review focus
 
-- Mixed additive/source-over operations must restore blend state (Task1).
-- Clipped particles must not clip later frames/representatives (Task1).
-- New panels and scroll/DPR changes must use current committed transforms (Task2).
+- Mixed additive/source-over operations must restore blend state (Task 1).
+- Clipped particles must not clip later frames/representatives (Task 1).
+- New panels and scroll/DPR changes must use current committed transforms (Task 2).
 - Late image/device completion must not redraw removed views or restart engines (Tasks2–3).
-- Later views must cover earlier headings/control paint while preserving picking (Task4).
+- Later views must cover earlier headings/control paint while preserving picking (Task 4).
 
-## Task1: Ordered presentation operations
+## Task 1: Ordered presentation operations
+
+Mesh portion implemented and verified: per-layer affine transforms, blend,
+scissor and line strips;20 native comparisons exact;2,913 unit/529 browser/four
+production checks pass. Texture operations and final ordered entry points remain
+unfinished. See reference/web/ordered-mesh-scenes. Do not mark this task complete.
 
 Files: extend `ts/src/lib/gel/presentationTypes.ts`, `present.ts`, `present-gl.ts`;
 add focused geometry tests under `ts/tests/unit`, native reference/audit fixtures.
@@ -48,7 +53,7 @@ points to both presentation factories; keep legacy draw signatures as adapters.
 - [ ] Verify legacy gel/particle/well callers and the exact shared32-case proof.
   Run unit/browser/build checks; review and commit this independently testable API.
 
-## Task2: Frame registry and two real view contributions
+## Task 2: Frame registry and two real view contributions
 
 Files: create `ts/src/lib/gel/scenePresentation.ts`; provider under `ts/src/components/gel/ScenePresentation.tsx`;
 modify `GelContext.tsx`, `Stage.tsx`, `SampleSimCanvas.tsx`, `FragmentWell.tsx`.
@@ -66,7 +71,7 @@ resources use existing recovery behavior. Keep a development-only migration swit
   late acquisition after unmount, device/context loss and bounded allocation.
 - [ ] Keep missing chrome contributions explicitly unaccepted; review and commit.
 
-## Task3: Gel, loupes, images and assets
+## Task 3: Gel, loupes, images and assets
 
 Files: `GelCanvas.tsx`, `DirectBandCanvas.tsx`, `Loupe.tsx`,
 `ReferenceImageLayer.tsx`, scene registry and presentation asset owner.
@@ -81,7 +86,7 @@ Files: `GelCanvas.tsx`, `DirectBandCanvas.tsx`, `Loupe.tsx`,
   verify native pixels/state plus graphics recovery and resource growth.
 - [ ] Review and commit without enabling incomplete shared production rendering.
 
-## Task4: Ordered chrome, text and production switch
+## Task 4: Ordered chrome, text and production switch
 
 Files: `MicrotubeRow.tsx`, `GelOverlay.tsx`, `SampleView.tsx`, inspector views,
 `Brace.tsx`, control primitives and the shared texture cache/registry.
@@ -98,5 +103,5 @@ Files: `MicrotubeRow.tsx`, `GelOverlay.tsx`, `SampleView.tsx`, inspector views,
   browser compatibility, lifecycle and combined performance checks. Record each
   remaining original-GUI/roadmap gate rather than marking the full app complete.
 
-Task1 is the next implementation increment. Later tasks may be decomposed further
+Task 1 is the next implementation increment. Later tasks may be decomposed further
 when native texture/font evidence arrives; their acceptance scope must not shrink.

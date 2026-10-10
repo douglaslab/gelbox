@@ -35,9 +35,30 @@ export function physicalBandVertices(base:DirectPresentationBase,scale:number):F
   return data;
 }
 
+export type PresentationBlend='additive'|'over';
+export type PresentationTopology='triangle-list'|'line-list'|'line-strip';
+/** Column-major affine [a,b,c,d,tx,ty], mapping local positions into root coordinates. */
+export type PresentationTransform=readonly [number,number,number,number,number,number];
+/** Physical pixels with a top-left origin, independent of the layer transform. */
+export interface PresentationScissor {x:number;y:number;width:number;height:number}
 export interface PresentationLayer {
   mesh:import('./mesh').Mesh;
-  topology?:'triangle-list'|'line-list';
+  topology?:PresentationTopology;
+  blend?:PresentationBlend;
+  transform?:PresentationTransform;
+  scissor?:PresentationScissor;
+}
+export function presentationBlend(blend:PresentationBlend|undefined,options:PresentationOptions):PresentationBlend {
+  if(options.transparent&&blend==='additive')throw new Error('Additive layers require an opaque presentation surface');
+  return blend??(options.transparent?'over':options.meshBlend??'additive');
+}
+export function clipPresentationScissor(clip:PresentationScissor|undefined,size:PresentationSize):PresentationScissor|null {
+  if(!clip)return {x:0,y:0,width:size.width,height:size.height};
+  if(![clip.x,clip.y,clip.width,clip.height].every(Number.isSafeInteger)||clip.width<0||clip.height<0)
+    throw new Error('Presentation scissor requires integer coordinates and nonnegative dimensions');
+  const x=Math.max(0,clip.x),y=Math.max(0,clip.y);
+  const right=Math.min(size.width,clip.x+clip.width),bottom=Math.min(size.height,clip.y+clip.height);
+  return right<=x||bottom<=y?null:{x,y,width:right-x,height:bottom-y};
 }
 
 /** Pack ordered geometry into one upload; the main mesh follows its underlay. */
@@ -46,9 +67,17 @@ export function directPresentationGeometry(base:DirectPresentationBase,scale:num
   const count=layers.reduce((n,layer)=>n+layer.mesh.vertexCount,0);
   const data=new Float32Array(count*6);
   let first=0;
-  const draws=layers.map(({mesh,topology='triangle-list'})=>{
+  const draws=layers.map(({mesh,topology='triangle-list',blend,transform,scissor})=>{
     data.set(mesh.data.subarray(0,mesh.vertexCount*6),first*6);
-    const draw={first,count:mesh.vertexCount,topology};first+=mesh.vertexCount;return draw;
+    if(transform){
+      if(transform.length!==6||!transform.every(Number.isFinite))throw new Error('Presentation transform requires six finite coefficients');
+      const f=Math.fround,[a,b,c,d,tx,ty]=transform.map(f);
+      for(let i=first*6;i<(first+mesh.vertexCount)*6;i+=6){
+        const x=data[i],y=data[i+1];
+        data[i]=f(f(f(a*x)+f(c*y))+tx);data[i+1]=f(f(f(b*x)+f(d*y))+ty);
+      }
+    }
+    const draw={first,count:mesh.vertexCount,topology,blend,scissor};first+=mesh.vertexCount;return draw;
   });
   for(let i=0;i<data.length;i+=6){data[i]=(data[i]-(base.origin?.x??0))*scale;data[i+1]=(data[i+1]-(base.origin?.y??0))*scale;}
   return {data,draws};

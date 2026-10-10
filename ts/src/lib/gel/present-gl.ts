@@ -1,5 +1,5 @@
 import {createGlProgram} from '../gpu/gl/program';
-import {validatePresentationSize,wellVertices,directPresentationGeometry,type DirectPresentationBase,type PresentationSize,type PresentationOptions,type WellRect} from './presentationTypes';
+import {validatePresentationSize,wellVertices,directPresentationGeometry,clipPresentationScissor,presentationBlend,type DirectPresentationBase,type PresentationSize,type PresentationOptions,type WellRect} from './presentationTypes';
 
 /** Direct triangles share the well multisample surface. GL input textures have their logical top at v=1. The final blit flips the
  * reflected MSAA raster into the canvas; changing that order changes corners. */
@@ -56,9 +56,17 @@ export function createGlGelPresentation(gl:WebGL2RenderingContext,size:Presentat
             gl.bufferSubData(gl.ARRAY_BUFFER,0,data);gl.useProgram(bandProgram.program);
             const p=bandProgram.attrib('p'),c=bandProgram.attrib('c');gl.enableVertexAttribArray(p);gl.enableVertexAttribArray(c);
             gl.vertexAttribPointer(p,2,gl.FLOAT,false,24,0);gl.vertexAttribPointer(c,4,gl.FLOAT,false,24,8);
-            gl.enable(gl.BLEND);gl.blendEquation(gl.FUNC_ADD);gl.blendFuncSeparate(gl.SRC_ALPHA,options.transparent||options.meshBlend==='over'?gl.ONE_MINUS_SRC_ALPHA:gl.ONE,options.transparent?gl.ONE:gl.ZERO,options.transparent?gl.ONE_MINUS_SRC_ALPHA:gl.ONE);
+            gl.enable(gl.BLEND);gl.blendEquation(gl.FUNC_ADD);
             gl.lineWidth(1);
-            for(const draw of draws)gl.drawArrays(draw.topology==='line-list'?gl.LINES:gl.TRIANGLES,draw.first,draw.count);
+            for(const draw of draws){
+              if(!draw.count)continue;
+              const clip=clipPresentationScissor(draw.scissor,size);if(!clip)continue;
+              gl.enable(gl.SCISSOR_TEST);gl.scissor(clip.x,clip.y,clip.width,clip.height);
+              const blend=presentationBlend(draw.blend,options);
+              gl.blendFuncSeparate(gl.SRC_ALPHA,blend==='over'?gl.ONE_MINUS_SRC_ALPHA:gl.ONE,options.transparent?gl.ONE:gl.ZERO,options.transparent?gl.ONE_MINUS_SRC_ALPHA:gl.ONE);
+              gl.drawArrays(draw.topology==='line-list'?gl.LINES:draw.topology==='line-strip'?gl.LINE_STRIP:gl.TRIANGLES,draw.first,draw.count);
+            }
+            gl.disable(gl.SCISSOR_TEST);
             gl.disableVertexAttribArray(p);gl.disableVertexAttribArray(c);
           }
         }else{

@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include native well presentation, terminal-f
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,909 passed |
-| Browser suite across WebGPU/WebGL2 | 525 passed; one intentional duplicate skipped |
+| Unit suite | 2,913 passed |
+| Browser suite across WebGPU/WebGL2 | 529 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -2125,3 +2125,30 @@ regression goldens are unchanged. Logs: `/tmp/gel-inspector-layering-unit.log`,
 The [scope record](superpowers/reports/2026-10-10-inspector-layering.md) retains
 limitations. Translucent representative composition over earlier non-white
 content remains open, along with full P0–P5 acceptance.
+
+
+## Shared composition: ordered mesh operations
+
+The presentation backends now support per-layer affine transforms, explicit
+source-over/additive blending, physical scissoring, and line strips. They retain
+one multisample surface/resolve and the old caller interfaces. Clipping is reset
+before later unscissored operations and legacy well lines. Explicit additive
+operations require an opaque surface; transparent FragmentWell defaults stay
+source-over.
+
+Ten independently repeated/reverified native CGL images cover five constructed
+scenes at DPR1/2. All 20 comparisons match exact RGB on WebGPU/WebGL2. The four
+original browser tests failed before implementation; the empty scene already
+matched. Four unit checks cover transformed coordinates, bounds and invalid
+scissors, and the unsupported transparent/additive combination.
+
+Fresh results: **2,913 units; 529 normal browser cases, one intentional duplicate
+skip; four production checks and TypeScript/Vite build pass**. The separate
+shared-surface proof also still passes all 32 exact comparisons.
+[Evidence](../reference/web/ordered-mesh-scenes/README.md).
+
+This completes only the mesh portion of shared-composition Task 1. Texture
+operations, ordered app registration and native control/text migration are still
+pending; the app continues to use separate view canvases. The earlier production
+edge/solid exact audits were not rerun here and remain open, not superseded by
+these API tests. Full P0–P5 acceptance is unchanged.
