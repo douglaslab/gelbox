@@ -1,3 +1,4 @@
+import {InspectorHeadings} from './InspectorHeadings';
 import { LAYOUT } from '../../lib/layout/layout';
 import { useGelDispatch, useGelState } from '../gel/GelContext';
 import { BufferView } from './BufferView';
@@ -53,26 +54,13 @@ export function SampleSettingsView() {
   // The first dye row sits at sampleSettingsSlidersTopLeft. The "Dyes" subhead
   // sits one `sampleSettingsSlidersToDyeLabel` above the first row.
   const slidersTop = LAYOUT.sampleSettingsSlidersTopLeft.y;
-  const dyeLabelTop = slidersTop - LAYOUT.sampleSettingsSlidersToDyeLabel - LAYOUT.subheadFontSize;
 
   return (
     <div
       data-testid="sample-settings-view"
       style={{ position: 'relative', width: '100%', height: '100%' }}
     >
-      <h2
-        style={{
-          position: 'absolute',
-          left:     `${LAYOUT.sampleSettingsHeaderBaselinePos.x}px`,
-          top:      `${LAYOUT.sampleSettingsHeaderBaselinePos.y}px`,
-          margin:   0,
-          font:     `${LAYOUT.headFontWeight} ${LAYOUT.headFontSize}px ${LAYOUT.headFont}`,
-          color:    LAYOUT.headFontColor,
-          lineHeight: 1,
-        }}
-      >
-        {LAYOUT.sampleSettingsHeaderStr}
-      </h2>
+      <InspectorHeadings kind="sample-settings"/>
 
       {/* Buffer panel — its own absolute coords inside the SampleSettingsView. */}
       <BufferView
@@ -81,20 +69,6 @@ export function SampleSettingsView() {
         topLeft={LAYOUT.sampleBufferViewTopLeft}
         testId="sample-buffer-view"
       />
-
-      {/* "Dyes" subhead. */}
-      <div
-        data-testid="sample-settings-dyes-label"
-        style={{
-          position: 'absolute',
-          left:  LAYOUT.sampleSettingsSlidersTopLeft.x - 90 - 8, // align with row label
-          top:   dyeLabelTop,
-          color: LAYOUT.subheadFontColor,
-          font:  `${LAYOUT.subheadFontWeight} ${LAYOUT.subheadFontSize}px ${LAYOUT.subheadFont}`,
-        }}
-      >
-        Dyes
-      </div>
 
       {/* 4 dye rows. */}
       {Array.from({ length: DYE_COUNT }, (_, i) => (

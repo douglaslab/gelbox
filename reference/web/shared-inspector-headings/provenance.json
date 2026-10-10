@@ -1,0 +1,29 @@
+{
+  "base": "fb04f52",
+  "sha256": {
+    "ts/src/components/inspector/InspectorHeadings.tsx": "f07c631afcee9049b8b42528b813cfadd8f4ad98645795d250a9b0e590be097e",
+    "ts/src/components/inspector/FragmentView.tsx": "3549300f9016529bca6a69c75a0abb0f7822440264d5c989cc7d9dedc4e01cbf",
+    "ts/src/components/inspector/GelSettingsView.tsx": "442099e0468631df12f8bd80e0f4545dbab73d9fe66f0f078afaff9baff9e0db",
+    "ts/src/components/inspector/SampleSettingsView.tsx": "7e793c3eb27fbf9087b97dce235357c0d223d8b5434c1b83299556313a1ce3b3",
+    "ts/src/lib/layout/nativeInspectorText.json": "e54b3c51554468a4e3ad2e4736ff04570fb9fb7023d686bca6ff7f4c0d2f5ed6",
+    "ts/tests/visual/shared-inspector-headings.spec.ts": "ad263a2d77a07addc5c9d7bfa6a213884cdd6d054d657579d57cbfe74a3d3af9",
+    "ts/tests/visual/shared-inspector-headings-native.spec.ts": "13cde86f426a0fd562d57c2495b3067935d687e7fa003bbc67d8a97593db0358",
+    "reference/native/modern/shared-inspector-headings/manifest.json": "ddf8c983698770fde9543472950d1bb1ebc68fb3c54a60c1a2776a9552370159",
+    "reference/native/modern/shared-inspector-headings/capture.py": "95806c2505591bff0f7700ddec16f4a0f501604690b4d211930d973b3f8d8e37"
+  },
+  "exactNativeComparisons": 24,
+  "verification": {
+    "unitTests": 2917,
+    "browserTests": 717,
+    "intentionalSkips": 1,
+    "productionTests": 4,
+    "build": "passed",
+    "nativeRepeatedScenes": 12,
+    "nativeRepeatedTextTextures": 8
+  },
+  "limits": [
+    "Inspector parent headings, Dyes subhead and divider lines only; no Buffer child labels or other controls.",
+    "Modern pinned Cinder/macOS, not original-release full GUI certification.",
+    "Shared composition remains development-only."
+  ]
+}

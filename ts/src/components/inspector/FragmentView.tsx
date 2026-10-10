@@ -1,3 +1,4 @@
+import {InspectorHeadings} from './InspectorHeadings';
 import {getFocusedFragmentIndex} from '../../lib/gel/gelState';
 import { useGelDispatch, useGelState } from '../gel/GelContext';
 import { LAYOUT } from '../../lib/layout/layout';
@@ -36,13 +37,6 @@ export function FragmentView() {
   const sample = state.samples[lane];
   const fragment = sample && fragIdx !== null ? sample.fragments[fragIdx] : null;
 
-  const headerStyle = {
-    left:  `${LAYOUT.fragViewHeaderBaselinePos.x}px`,
-    top:   `${LAYOUT.fragViewHeaderBaselinePos.y}px`,
-    font:  `${LAYOUT.headFontWeight} ${LAYOUT.headFontSize}px ${LAYOUT.headFont}`,
-    color: LAYOUT.headFontColor,
-  };
-
   return (
     <div className={styles.root} data-testid="fragment-view">
       {fragment && (
@@ -57,9 +51,7 @@ export function FragmentView() {
         </div>
       )}
 
-      <h2 className={styles.header} style={headerStyle}>
-        {LAYOUT.fragViewHeaderStr}
-      </h2>
+      <InspectorHeadings kind="fragment"/>
 
       {!fragment && (
         <div className={styles.empty}>

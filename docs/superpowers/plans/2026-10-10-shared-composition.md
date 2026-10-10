@@ -157,8 +157,13 @@ it restores the original pixels. The sample frame/focus and new-species child bu
 order. Twenty-eight exact RGB comparisons cover the combined header, rectangular
 empty sample body, focus/frame and button states, including a later translucent
 view. Image covering/picking and create/edit/delete/save workflows are verified
-in shared mode. Other headings, dynamic labels, menus, sliders and remaining
-paint stay open.
+in shared mode. The Gel, Buffer + Dyes and Species headings, Dyes subhead and parent divider lines
+now use captured native text extents and ordered line paint. Twenty-four exact
+comparisons cover DPR1/2 and later/earlier translucent views; real panel switches
+and imported-image covering/removal verify integration. Native integer texture
+size division is preserved, including the 2x heading width and subhead height.
+Buffer child labels, dynamic slider values, menus and remaining control paint
+stay open.
 
 
 

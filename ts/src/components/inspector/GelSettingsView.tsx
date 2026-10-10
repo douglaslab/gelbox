@@ -1,3 +1,4 @@
+import {InspectorHeadings} from './InspectorHeadings';
 import { LAYOUT } from '../../lib/layout/layout';
 import { useGelDispatch, useGelState } from '../gel/GelContext';
 import { SliderView } from '../primitives/SliderView';
@@ -107,19 +108,7 @@ export function GelSettingsView() {
 
   return (
     <div data-testid="gel-settings-view" style={{ position: 'relative', width: '100%', height: '100%' }}>
-      <h2
-        style={{
-          position: 'absolute',
-          left:     `${LAYOUT.gelSettingsHeaderBaselinePos.x}px`,
-          top:      `${LAYOUT.gelSettingsHeaderBaselinePos.y}px`,
-          margin:   0,
-          font:     `${LAYOUT.headFontWeight} ${LAYOUT.headFontSize}px ${LAYOUT.headFont}`,
-          color:    LAYOUT.headFontColor,
-          lineHeight: 1,
-        }}
-      >
-        {LAYOUT.gelSettingsHeaderStr}
-      </h2>
+      <InspectorHeadings kind="gel-settings"/>
 
       {/* Buffer panel for the GEL running buffer (presets re-used from M16). */}
       <BufferView
@@ -128,12 +117,6 @@ export function GelSettingsView() {
         topLeft={LAYOUT.gelViewBufferViewTopLeft}
         testId="gel-buffer-view"
       />
-
-      <div data-testid="gel-settings-rule" style={{
-        position: 'absolute', left: LAYOUT.gelSettingsRuleTopLeft.x,
-        top: LAYOUT.gelSettingsRuleTopLeft.y, width: LAYOUT.gelSettingsRuleLength,
-        borderTop: `1px solid ${LAYOUT.ruleColor}`,
-      }} />
 
       {/* Sliders. */}
       <div className={styles.sliders} style={{
