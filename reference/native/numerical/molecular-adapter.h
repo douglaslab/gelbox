@@ -13,6 +13,8 @@ public:
   float calcTargetPop(float mass) const;
   void setSample(SampleRef sample, DegradeFilter* degradeFilter = nullptr);
   Part randomPart(int fragment);
+  int pickPart(ci::vec2 loc) const;
+  int pickFragment(ci::vec2 loc) const;
   int getRandomWeightedAggregateSize(int fragment);
   void tick(bool bulletTime);
   void preroll();

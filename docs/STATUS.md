@@ -200,3 +200,12 @@ Verification: **2,480 unit tests, 184 browser tests across WebGPU/WebGL2, produc
 The reference explicitly initializes dynamic/population/global seeds and bypasses native constructor/`setRand` application integration. Cross-view seed/identity lifecycle, null/deletion transitions, picking, mesh geometry, cadence and controlled native raster comparisons remain open. The finite modern-Cinder/macOS matrix does not certify the original executable or every standard-library float mapping. Undefined native aggregate inputs are excluded and documented rather than used to manufacture an oracle.
 
 Fresh review found fractional translated bounds rounded too late, producing 20 particles where native produces 19. New constructor/setBounds reference cases both failed before normalizing endpoints to native float32 storage, then passed. No other blocking findings or deferred minors remain for this increment. The exclusions above stay open roadmap requirements.
+
+
+## Native particle picking
+
+The independent harness now extracts native particle picking and transform functions. Five controlled scenes, each alone and overlapped by a dead zero-fade particle, provide **40,410 exact native hit results**. Three multimer scenes failed before correction. The web now rotates multimer offsets, applies minimum pick radii before spacing, and preserves native picking's larger spacing without the drawing overlap factor. Picking retains native reverse order, faded/dead eligibility and full-ellipse targets for degraded particles.
+
+Verification: **2,490 unit tests, 184 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. Existing browser screenshots pass unchanged. Native capture repeats byte-for-byte. The finite matrix does not certify every floating-point boundary. Particle mesh geometry and native raster comparison remain required separate work.
+
+Fresh picking review exposed boundary differences from replacing the native matrix inverse with an inverse-rotation/division shortcut. Added 14,400 boundary probes reproduced failures in four scenes. The web now preserves float32 matrix cofactors, determinant, translation and matrix-vector multiplication, including rounding of the Z diagonal in GLM rotation. All 40,410 discrete probes pass. No deferred minors were reported. Mesh/native raster certification remains open.

@@ -385,25 +385,40 @@ export class MolecularSim {
   /** Pick the topmost particle whose ellipse contains `(x, y)`. -1 for miss. */
   pickPart(x: number, y: number): number {
     const cfg = MOLECULAR_SIM_TUNING;
-    const multiScale = (1 - cfg.multimerAdhereOverlapFrac) * 2;
+    const f = Math.fround;
     for (let i = this.parts.length - 1; i >= 0; i--) {
       const p = this.parts[i];
-      const rx = Math.max(p.radius.x, cfg.partMinPickRadius);
-      const ry = Math.max(p.radius.y, cfg.partMinPickRadius);
-      const minR = Math.min(p.radius.x, p.radius.y);
-      // Test every multimer slot (rotated + translated by mMulti.loc * minR * multiScale).
+      // Native inflates the copied Part before computing its transform, so
+      // minimum pick radii also change multimer spacing. Picking deliberately
+      // uses 2*minRadius, without the overlap used by the drawing path.
+      const rx = Math.max(f(p.radius.x), f(cfg.partMinPickRadius));
+      const ry = Math.max(f(p.radius.y), f(cfg.partMinPickRadius));
+      const minR = Math.min(rx, ry);
+      const c = f(Math.cos(f(p.angle))), s = f(Math.sin(f(p.angle)));
       for (const m of p.multi) {
-        const mx = p.loc.x + m.loc.x * minR * multiScale;
-        const my = p.loc.y + m.loc.y * minR * multiScale;
-        const dx = x - mx;
-        const dy = y - my;
-        // Rotate (dx, dy) into the multimer's local frame.
-        const a = -(p.angle + m.angle);
-        const cosA = Math.cos(a);
-        const sinA = Math.sin(a);
-        const lx = dx * cosA - dy * sinA;
-        const ly = dx * sinA + dy * cosA;
-        if ((lx / rx) ** 2 + (ly / ry) ** 2 <= 1) return i;
+        const ox = f(f(f(m.loc.x) * minR) * 2);
+        const oy = f(f(f(m.loc.y) * minR) * 2);
+        const cx = f(f(p.loc.x) + f(f(c * ox) - f(s * oy)));
+        const cy = f(f(p.loc.y) + f(f(s * ox) + f(c * oy)));
+        const mc = f(Math.cos(f(m.angle))), ms = f(Math.sin(f(m.angle)));
+        const ca = f(f(c * mc) - f(s * ms));
+        const sa = f(f(s * mc) + f(c * ms));
+        // Preserve the native matrix inverse's cofactor/determinant rounding.
+        // Rotating (point-center) and dividing by radius changes edge picks.
+        const a = f(ca * rx), b = f(sa * rx);
+        const cc = f(-sa * ry), d = f(ca * ry);
+        // glm::rotate also rounds c + (1-c) on the Z diagonal; it can
+        // differ from 1, and its cofactors affect the inverse's XY rounding.
+        const z = f(f(c + f(1 - c)) * f(mc + f(1 - mc)));
+        const iz00 = f(d * z), iz01 = -f(b * z);
+        const iz10 = -f(cc * z), iz11 = f(a * z);
+        const invDet = f(1 / f(f(a * iz00) + f(b * iz10)));
+        const nx = -f(cx * z), ny = -f(cy * z);
+        const tx = f(-f(f(cc * ny) - f(d * nx)) * invDet);
+        const ty = f(f(f(a * ny) - f(b * nx)) * invDet);
+        const lx = f(f(f(f(iz00 * invDet) * f(x)) + f(f(iz10 * invDet) * f(y))) + tx);
+        const ly = f(f(f(f(iz01 * invDet) * f(x)) + f(f(iz11 * invDet) * f(y))) + ty);
+        if (f(Math.sqrt(f(f(lx * lx) + f(ly * ly)))) <= 1) return i;
       }
     }
     return -1;

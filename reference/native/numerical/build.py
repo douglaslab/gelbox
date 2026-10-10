@@ -22,7 +22,7 @@ molecular=(out/'pinned/include/MolecularSim.h').read_text()
 (out/'degrade-filter.inc').write_text(next(line for line in molecular.splitlines() if line.startswith('class DegradeFilter :'))+'\n')
 molecular_cpp=(out/'pinned/src/MolecularSim.cpp').read_text()
 parts=[]
-for signature in ['void MolecularSimTuning::load(', 'static float basesToRadius(', 'float MolecularSim::calcTargetPop(', 'void MolecularSim::setSample(', 'void MolecularSim::setBounds(', 'void MolecularSim::preroll(', 'void MolecularSim::tick(', 'int\nMolecularSim::getRandomWeightedAggregateSize(', 'MolecularSim::Part\nMolecularSim::randomPart(']:
+for signature in ['void MolecularSimTuning::load(', 'static float basesToRadius(', 'float MolecularSim::calcTargetPop(', 'void MolecularSim::setSample(', 'void MolecularSim::setBounds(', 'void MolecularSim::preroll(', 'void MolecularSim::tick(', 'int\nMolecularSim::getRandomWeightedAggregateSize(', 'MolecularSim::Part\nMolecularSim::randomPart(', 'int  MolecularSim::pickPart(', 'int  MolecularSim::pickFragment(', 'glm::mat4\nMolecularSim::Part::getRootTransform(', 'glm::mat4\nMolecularSim::Part::getTransform(']:
  start=molecular_cpp.index(signature);end=molecular_cpp.index('\n}',start)+2;parts.append(molecular_cpp[start:end])
 (out/'molecular-functions.inc').write_text('\n'.join(parts)+'\n')
 start=molecular.index('class MolecularSimTuning');end=molecular.index('\n};',start)+3

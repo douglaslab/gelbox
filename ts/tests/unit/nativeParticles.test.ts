@@ -28,7 +28,9 @@ it.each(cases.map((c:any,i:number)=>[c.id,c,refs[i]]))('native particle lifecycl
     for(const f of step.spawn??[])sim.parts.push((sim as any).spawnPart(f));
     for(let tick=0;tick<(step.ticks??0);tick++)sim.tick(step.bulletTime??false);
     if(step.preroll)sim.preroll();
+    if(step.parts)sim.parts=structuredClone(step.parts);
     check(sim.parts,ref.frames[i],`frame${i}`);
+    if(step.picks) expect(step.picks.map(([x,y]:number[])=>({part:sim.pickPart(x,y),fragment:sim.pickFragment(x,y)}))).toEqual(ref.picks[i]);
   });
 });
 

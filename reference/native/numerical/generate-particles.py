@@ -24,4 +24,30 @@ fractional['fragments'][0]['aggregate']=[]
 bounds=dict(x1=96.05,y1=0,x2=256.05,y2=400)
 for mode in ['constructor','set-bounds']:
  out.append(dict(id=f'fractional-bounds-{mode}',sample=fractional,seed=1,globalSeed=310,bounds=bounds if mode=='constructor' else dict(x1=0,y1=0,x2=400,y2=400),steps=[dict(ticks=20)] if mode=='constructor' else [dict(bounds=bounds,ticks=20)]))
+# Controlled picking covers transforms separately from stochastic spawning.
+import math
+for name,rx,ry,angle,multi in [
+ ('small-monomer',1,2,0,[(0,0,0)]),
+ ('ellipse',14,3,0.7,[(0,0,0)]),
+ ('rotated-multimer',12,4,math.pi/2,[(0,0,0),(1,0,0.4),(-1,1,-0.3)]),
+ ('minimum-radius-multimer',1,2,1.2,[(0,0,0),(1,0,0.4),(-1,1,-0.3)]),
+ ('unrotated-multimer',12,4,0,[(0,0,0),(1,0,0.4)])]:
+ part=dict(fragment=0,loc=dict(x=40,y=40),vel=dict(x=0,y=0),radius=dict(x=rx,y=ry),angle=angle,angleVel=0,color=[1,0,0],age=0,fade=1,alive=True,degradeKey=0,wholeness=.1,multi=[dict(loc=dict(x=x,y=y),angle=a) for x,y,a in multi])
+ points=[[x+.125,y+.25] for x in range(15,66) for y in range(15,66)]
+ # Half-degree boundary probes expose inverse-matrix rounding differences.
+ prx,pry=max(rx,8),max(ry,8)
+ for mx,my,ma in multi:
+  ox,oy=mx*min(prx,pry)*2,my*min(prx,pry)*2
+  cx=40+math.cos(angle)*ox-math.sin(angle)*oy
+  cy=40+math.sin(angle)*ox+math.cos(angle)*oy
+  for n in range(720):
+   phase=n*math.pi/360
+   ex,ey=prx*math.cos(phase),pry*math.sin(phase)
+   points.append([cx+math.cos(angle+ma)*ex-math.sin(angle+ma)*ey,cy+math.sin(angle+ma)*ex+math.cos(angle+ma)*ey])
+ parts=[part]
+ steps=[dict(parts=copy.deepcopy(parts),picks=points)]
+ # Native includes fading/dead particles and returns the last overlapping slot.
+ front=copy.deepcopy(part);front.update(fragment=1,fade=0,alive=False)
+ steps.append(dict(parts=[part,front],picks=points))
+ out.append(dict(id=f'pick-{name}',sample=sample,seed=1,globalSeed=310,bounds=dict(x1=0,y1=0,x2=100,y2=100),steps=steps))
 (r/'particle-cases.json').write_text(json.dumps(out,indent=2)+'\n');print(len(out),'particle scenarios')
