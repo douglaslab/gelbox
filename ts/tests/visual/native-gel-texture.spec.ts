@@ -11,8 +11,8 @@ test('startup gel texture matches native RGBA8 export',async({page},info)=>{
  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),backend);
  await page.route('**/src/components/gel/GelCanvas.tsx*',async route=>{
   const response=await route.fetch();let body=await response.text();
-  const glMarker='gl.bindFramebuffer(gl.FRAMEBUFFER, null);';
-  const gpuMarker='const bg = device.createBindGroup({';
+  const glMarker='presentation.draw(renderer.output.texture,';
+  const gpuMarker='const enc = device.createCommandEncoder();';
   expect(body.split(glMarker)).toHaveLength(2);
   expect(body.split(gpuMarker)).toHaveLength(2);
   body=body.replace(glMarker,`

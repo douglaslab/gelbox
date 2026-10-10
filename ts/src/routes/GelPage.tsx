@@ -110,7 +110,7 @@ function GelInner() {
           transformOrigin: '50% 0%',
         }}
       >
-        {state.renderEnabled ? <GelCanvas bands={bands} globalWarp={globalWarp} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} /> : <DirectBandCanvas bands={bands} gelSize={state.gelSize} />}
+        {state.renderEnabled ? <GelCanvas wells={state.wellRects.slice(0,state.numLanes)} bands={bands} globalWarp={globalWarp} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} /> : <DirectBandCanvas wells={state.wellRects.slice(0,state.numLanes)} bands={bands} gelSize={state.gelSize} />}
         <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
         <LoupePortalLayer bands={bands} bandToLaneFragment={bandToLaneFragment} />
       </div>

@@ -45,12 +45,12 @@
 
 **Interfaces:** Both canvas components accept `wells:readonly WellRect[]`; GelPage passes `state.wellRects.slice(0,state.numLanes)`. GelCanvas's existing scientific output texture stays unchanged. Canvas physical backing size is `round(logicalSize*pixelsPerUnit*dpr)`; presentation handles enlargement. DirectBandCanvas renders its current mesh into an intermediate physical-resolution texture, then calls Task 1's presentation method.
 
-- [ ] Add failing complete-seven-well startup comparison against the user/native reference on both backends. Assert no SVG visible stroke remains once native presentation is integrated.
-- [ ] Use Task 1 modules in place of canvas final blits; pass latest wells to async setup and redraw when they change. Use existing resolution-media-query pattern for live DPR updates. Resize presentation resources without changing document state.
-- [ ] Preserve `gel-well-N` rectangle attributes/test IDs as nonvisible DOM geometry. Remove only their visible stroke; keep band-focus rendering independent (native uses a different overload).
-- [ ] Verify full startup displayed-band crop remains exact: moving enlargement from browser to GPU must not silently change filtering. Verify scientific offscreen texture tests still use the same native-sized output.
-- [ ] Test native lane-count changes, effects/direct toggle, and DPR1→2→1 with identical logical picking and document JSON. Require exact well references in both render modes.
-- [ ] Run affected presentation, native-well-stroke, native-gel-texture, direct-render and DPR cases; inspect any existing golden differences before updating only proven well-edge changes. Commit.
+- [x] Add failing complete-seven-well startup comparison against the user/native reference on both backends. Assert no SVG visible stroke remains once native presentation is integrated.
+- [x] Use Task 1 modules in place of canvas final blits; pass latest wells to async setup and redraw when they change. Use existing resolution-media-query pattern for live DPR updates. Resize presentation resources without changing document state.
+- [x] Preserve `gel-well-N` rectangle attributes/test IDs as nonvisible DOM geometry. Remove only their visible stroke; keep band-focus rendering independent (native uses a different overload).
+- [x] Verify full startup displayed-band crop remains exact: moving enlargement from browser to GPU must not silently change filtering. Verify scientific offscreen texture tests still use the same native-sized output.
+- [x] Test native lane-count changes, effects/direct toggle, and DPR1→2→1 with identical logical picking and document JSON. Require exact well references in both render modes.
+- [x] Run affected presentation, native-well-stroke, native-gel-texture, direct-render and DPR cases; inspect any existing golden differences before updating only proven well-edge changes. Commit.
 
 ### Task 3: Lifecycle and release regression
 

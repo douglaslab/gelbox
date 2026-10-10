@@ -1739,3 +1739,23 @@ are retained. TypeScript checks pass, and both 48-scene browser cases pass. The
 modules preserve opaque output and own/dispose their presentation resources.
 They are **not yet wired into the application**; SVG wells remain visible until
 integration, lifecycle/recovery and full regression checks complete.
+
+## Native wells integrated into effects and direct rendering
+
+Both application canvas modes now present the base gel and wells together at
+physical display resolution, leaving scientific effects textures unchanged.
+SVG well rectangles retain their logical geometry/test IDs with no visible
+stroke. Complete seven-well comparisons against the user's native PNG pass on
+both backends/modes; native offscreen band texture and displayed band crop remain
+exact. The first affected run passed 26 browser cases and TypeScript checks.
+
+New live-DPR/lane workflows pass on both backends: 7→20 lanes, DPR1→2→1 in effects
+and direct modes, exact native well strips, unchanged saved document and logical
+picking. A guarded frame-time DPR check handles actual ratio changes without
+resize/media events. Capture uses the same CDP session as the metrics override
+and asserts image dimensions; the original Playwright session captures its old
+DPR. Physical monitor transitions still need separate validation.
+
+Lifecycle, failure injection, full regression/production gates and final review
+for this increment are pending. These results do not close broader visual or
+release parity gates.
