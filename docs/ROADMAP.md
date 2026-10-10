@@ -768,3 +768,16 @@ at browser launch. Combined workload now passes both backends with16.7–16.8ms 
 intervals and flat tracked resource counts. Built hidden-tab resume, shipping Safari,
 original-release/toolchain equivalence and the full P0–P5 contracts remain open.
 Enabling the renderer locally is not release or deployment approval.
+
+
+### Built hidden/frozen recovery verified
+
+The compiled shared app passes two hidden/frozen/resumed cycles per Chromium
+backend. Real visibility and lifecycle events, stopped/resumed callbacks, retained
+view identities, visible interior particles, changing resumed sample paint and
+unchanged saved JSON are asserted. Playwright's originating CDP session enabled
+focus emulation; disabling it on that session fixes the test precondition without
+product changes. Build and both lifecycle cases pass; source review found no
+Critical or Important issue. See [evidence](../reference/web/shared-resume/README.md).
+OS sleep/long suspension, physical-monitor transitions, resident-memory stress,
+shipping Safari/Firefox and the complete parity contracts remain open.

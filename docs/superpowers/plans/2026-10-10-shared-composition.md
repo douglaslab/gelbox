@@ -488,5 +488,8 @@ all seven failures clear without product or assertion changes.
 Combined workload instrumentation asserts shared context ownership; both built
 backend cases pass with steady p95 frame intervals16.7–16.8ms and flat tracked
 resource counts (236/WebGPU,49/WebGL2). Reports are retained with production
-evidence. Built hidden-tab lifecycle acceptance and broader platform gates remain.
+evidence. Built hidden/frozen recovery now passes both backend cases, including
+real visibility/lifecycle events and resumed sample paint. Evidence is retained in
+`reference/web/shared-resume`. Broader platform, long-suspension and physical
+monitor/resource gates remain.
 Do not represent this increment as completed P0–P5 or release certification.

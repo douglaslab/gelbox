@@ -143,7 +143,13 @@ Firefox still fails at browser launch before application evaluation. Both combin
 frame-interval p95 is16.7–16.8ms, with tracked resource counts flat at236/WebGPU
 and49/WebGL2 through two10-second windows and a60-move timeline drag. These
 are instrumented object counts and rAF intervals, not resident memory or
-input-to-photon latency. Built lifecycle and shipping-browser checks remain. The production switch is not yet fully accepted. See
+input-to-photon latency. Built hidden/frozen recovery now passes both backends:
+two real hidden/visible and freeze/resume cycles, stopped/resumed frames, retained
+view identities, interior particles, changing resumed paint and unchanged saved
+JSON. Playwright focus emulation had prevented earlier visibility checks; the
+fixture now disables it on the originating CDP session. No app fix was needed.
+See [recovery evidence](../reference/web/shared-resume/README.md). Shipping-browser,
+long-suspension and physical-monitor checks remain. The production switch is not yet fully accepted. See
 [retained production evidence](../reference/web/shared-production/README.md). Historical verification
 entries below retain their original scope; earlier deployment/performance results
 were for separate canvases. Original-release/toolchain equivalence and the broader
