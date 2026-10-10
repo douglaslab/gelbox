@@ -305,3 +305,28 @@ Existing exact component captures and combined hidden-lane workflows provide
 inputs to that audit, not a substitute for it. Production switching and removal
 of duplicate paint follow acceptance, then built shared-renderer root/subpath,
 exact edge/solid, browser, lifecycle and performance verification.
+
+
+### Integrated startup window acceptance
+
+The complete shared startup client area at 1365×768 logical pixels, DPR2 now
+matches the existing 2730×1536 native framebuffer exactly on both backends:
+zero differing RGB channels, with no crop or tolerance. The user-supplied PNG
+independently agrees after removing the title bar and compositing its macOS
+rounded window transparency on white. All application pixels participate.
+See `reference/web/shared-gel-startup/full-window/provenance.json` and the
+`shared-startup-window.spec.ts` regression, which pins the native PNG hash.
+
+Populated full-window acceptance remains open. The existing native application
+probe can capture the real completed framebuffer; native SampleView's particle
+engine must also export its capture-time state so web replay uses identical
+particles. Keep any diagnostic accessor/capture instrumentation isolated and
+recorded, without replacing native paint or changing references to fit web output.
+Verify native repeatability and compare complete sample/species/settings/menu
+scenes before broadening to overlapping loupes/images and workflow transitions.
+
+Startup acceptance regression: 943 browser cases pass (one intentional duplicate
+skipped). Final output pixels agree with both retained captures. The image file
+queue tests now isolate File decoding from unrelated UI asset Blobs, preserve
+bitmap decode options and deliberately exercise a concurrent Blob decode. No
+application code, reference pixels or tolerances changed in this increment.

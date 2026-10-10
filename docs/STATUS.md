@@ -53,13 +53,17 @@ native branch precedence, including capture loss and keyboard focus. Independent
 rechecked: locale-dependent labels could stop shared drawing, sample backgrounds
 tinted over molecules, and buffer presets stole keyboard focus. French/Arabic
 labels, draw-time particle hit changes and preset-to-Tab workflows now pass.
-Integrated full-window acceptance still gates production enablement; existing
-built-app deployment checks cover the legacy compositor.
+The complete startup client window now matches the native framebuffer with zero
+RGB differences on both backends at 1365×768 / DPR2. The user screenshot agrees
+after accounting for title bar and rounded window transparency; no application
+pixels are excluded. See [full-window evidence](../reference/web/shared-gel-startup/README.md).
+Populated/overlapping full-window acceptance still gates production enablement;
+existing built-app deployment checks cover the legacy compositor.
 
 | Check | Result |
 |---|---|
 | Unit suite | 2,924 passed |
-| Browser suite across WebGPU/WebGL2 | 941 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 943 passed; one intentional duplicate skipped |
 | Built-app legacy root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |

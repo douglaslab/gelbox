@@ -79,7 +79,7 @@ test('deletion and route unmount each release the owned bitmap exactly once',asy
   const original=window.createImageBitmap.bind(window);(window as any).imageCloses=0;
   window.createImageBitmap=(async(...args:any[])=>{
    const image=await (original as any)(...args),close=image.close.bind(image);
-   image.close=()=>{(window as any).imageCloses++;close();};return image;
+   if(args[0] instanceof File)image.close=()=>{(window as any).imageCloses++;close();};return image;
   }) as typeof createImageBitmap;
  });
  await drop(page,[{name:'a.png'},{name:'b.png'}]);await expect(page.getByTestId('reference-image-2')).toBeFocused();
@@ -104,12 +104,16 @@ test('later sample settings stay below images; later species inspectors append a
 test('a second drop waits for the first decode, retaining arrival order',async({page})=>{
  await page.evaluate(()=>{
   const original=window.createImageBitmap.bind(window);(window as any).decodeNames=[];
-  window.createImageBitmap=(async(file:File)=>{
-   (window as any).decodeNames.push(file.name);
-   if(file.name==='slow.png')await new Promise<void>(resolve=>{(window as any).finishDecode=resolve;});
-   return original(file);
+  window.createImageBitmap=(async(file:ImageBitmapSource,...options:any[])=>{
+   if(file instanceof File){
+    (window as any).decodeNames.push(file.name);
+    if(file.name==='slow.png')await new Promise<void>(resolve=>{(window as any).finishDecode=resolve;});
+   }
+   return (original as any)(file,...options);
   }) as typeof createImageBitmap;
  });
+ // UI assets decode Blobs independently of the dropped File queue.
+ await page.evaluate(async()=>{const c=new OffscreenCanvas(1,1);c.getContext('2d')!.fillRect(0,0,1,1);(await createImageBitmap(await c.convertToBlob())).close();});
  await drop(page,[{name:'slow.png'}]);await drop(page,[{name:'fast.png',color:'blue'}]);
  expect(await page.evaluate(()=>(window as any).decodeNames)).toEqual(['slow.png']);
  await page.evaluate(()=>(window as any).finishDecode());await expect(page.getByTestId('reference-image-2')).toBeFocused();
@@ -129,9 +133,9 @@ test('a mixed file batch picks sample placement using the newly loaded gel layou
 test('Open waits for an earlier pending drop before replacing its document',async({page})=>{
  await page.evaluate(()=>{
   const original=window.createImageBitmap.bind(window);
-  window.createImageBitmap=(async(file:File)=>{
-   await new Promise<void>(resolve=>{(window as any).finishDecode=resolve;});
-   return original(file);
+  window.createImageBitmap=(async(file:ImageBitmapSource,...options:any[])=>{
+   if(file instanceof File&&file.name==='slow.png')await new Promise<void>(resolve=>{(window as any).finishDecode=resolve;});
+   return (original as any)(file,...options);
   }) as typeof createImageBitmap;
  });
  const native=JSON.parse(await readFile('../reference/native/files/ladder-after-selection.gel.json','utf8'));

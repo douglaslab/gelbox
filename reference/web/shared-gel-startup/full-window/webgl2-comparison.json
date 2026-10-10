@@ -1,0 +1,11 @@
+{
+  "differentChannels": 0,
+  "maxChannelDifference": 0,
+  "bounds": {
+    "minX": 2730,
+    "minY": 1536,
+    "maxX": -1,
+    "maxY": -1
+  },
+  "tiles": {}
+}

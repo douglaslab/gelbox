@@ -35,3 +35,25 @@ Task4 of the shared composition plan remain open.
 
 Regression gates for this increment: 2,917 units, 565 browser cases (one intentional
 skip), and four production checks plus the TypeScript/Vite build pass.
+
+
+## Complete startup window after control migration
+
+The full-window regression now compares every RGB channel of the 2730×1536
+startup client area at 1365×768 logical pixels / DPR2 against the recorded native
+framebuffer. Both WebGPU and WebGL2 have **zero differing RGB channels**. This
+includes loaded/unloaded tubes, gel/wells/bands, timeline icons/track/handle/text,
+both settings buttons, Help and the entire workspace. It supersedes the narrower
+startup crops above for this size/scale, without changing the native reference.
+
+The user-supplied window capture independently agrees exactly after removing its
+64-pixel title bar and compositing the client on white. Its only alpha difference
+is macOS rounded bottom window masking (584 non-opaque pixels); no application
+region is masked or given a tolerance. Raw transparent corner RGB is zero, while
+the framebuffer has white there.
+
+`full-window/` retains both browser PNGs, exact comparison reports and hashes in
+`provenance.json`. The test pins the native PNG hash and waits for real migrated
+asset/font contributions before capture. This closes complete startup at this
+size/scale. Populated/overlapping native workflows, other sizes/scales, original
+release equivalence and production/platform acceptance remain open.

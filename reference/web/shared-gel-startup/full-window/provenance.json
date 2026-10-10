@@ -1,0 +1,55 @@
+{
+  "nativeFramebuffer": "reference/native/modern/lossless-probe/startup.png",
+  "nativeSha256": "80693c47b37b9073beb319f66853b65d194aea8a024c32baea95b4d48b3e84d9",
+  "userWindow": "reference/native/modern/lossless-probe/user-startup.png",
+  "userSha256": "7a45789dd65d46ab81f55d2860ba6b4195cae761c0659f8ecb03d46f2f8d78f0",
+  "userComparison": {
+    "titlebarPixelsRemoved": 64,
+    "method": "Client RGBA composited on white; macOS rounded window transparency is window decoration",
+    "nonOpaquePixels": 584,
+    "differentRgbChannels": 0,
+    "maxChannelDifference": 0
+  },
+  "captures": [
+    {
+      "backend": "webgpu",
+      "file": "webgpu-startup.png",
+      "sha256": "04b1f7736ff3a3bd5025e250c28e9dc272d37ad1557c9f58bbc2a067e3b43b93",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "file": "webgl2-startup.png",
+      "sha256": "04b1f7736ff3a3bd5025e250c28e9dc272d37ad1557c9f58bbc2a067e3b43b93",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    }
+  ],
+  "sourceCommit": "57565fa",
+  "testFile": "ts/tests/visual/shared-startup-window.spec.ts",
+  "testSha256": "353adcf61dfae49d8a67643a38c4e105f58b9620a0d2702837f4ece33baa227c",
+  "limits": [
+    "Startup only, 1365x768 client logical pixels, DPR2",
+    "Modern framebuffer reference; user screenshot independently agrees after window-decoration composition",
+    "Does not certify populated or overlapping workflow histories, production shared deployment, broader browser or DPR matrix"
+  ]
+}
