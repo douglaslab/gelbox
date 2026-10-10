@@ -1,0 +1,28 @@
+{
+  "executable": "/tmp/gel-native-reference/extracted/Gelbox/Gelbox.app",
+  "binarySha256": "037514b74bd7fcb673b7a276749fd31bfeabc0773fd11b790457412e905a78a7",
+  "sourceCommitEquivalence": "unverified; official release assets match pinned 5f51097",
+  "method": "cua App.getScreenshot; original Cocoa release restarted through retained app handle; Raise, Escape to clear incidental loupe/modifier state, tube click then 3000bp band click",
+  "clientLogicalSize": [
+    1365,
+    768
+  ],
+  "windowPixels": [
+    2730,
+    1592
+  ],
+  "titlebarPixels": 56,
+  "scale": 2,
+  "captures": {
+    "sample-selected.png": "a6eb853f6d03953091cfd050c06de37f99c16ff125272390b8cc019165cb52a1",
+    "species-selected.png": "d08703d02e1e1210e67d88b89ab3dd4e15a088d32e42bb92b8a5af31f2e110df"
+  },
+  "observations": [
+    "Native selected particles have thick black outlines; Layout.h radius inflation is4 logical pixels.",
+    "Dominant idle sample background in capture is RGB(241,241,243), within one byte of Layout.h F1F1F2."
+  ],
+  "limitations": [
+    "Unfrozen stochastic particles; cursor overlay and focus border present.",
+    "Exploratory reference, not pixel-certified native goldens."
+  ]
+}

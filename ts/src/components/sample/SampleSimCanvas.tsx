@@ -4,7 +4,7 @@ import { MolecularSim, MOLECULAR_SIM_TUNING } from '../../lib/sim/molecularSimEn
 import { buildMoleculesMesh, type MeshBuildTuning } from '../../lib/sim/molecularSimMesh';
 import { computeBackgroundColor } from '../../lib/sim/molecularSimBackground';
 import { selectBackend } from '../../lib/gel/backend';
-import { hexToLinearRgb, srgbToLinear } from '../../lib/layout/color';
+import { hexToLinearRgb } from '../../lib/layout/color';
 import { isDyeFragment } from '../../lib/sim/sample';
 import type { Sample } from '../../lib/sim/sample';
 import { DYE_COUNT } from '../../lib/sim/dye';
@@ -40,7 +40,7 @@ export interface SampleSimCanvasProps {
 // A backend-agnostic handle the mount effect fills in.
 interface RenderHandle {
   resize(wpx: number, hpx: number, wcss: number, hcss: number): void;
-  draw(mesh: Mesh, bgLinear: [number, number, number]): void;
+  draw(mesh: Mesh, bgRgb: [number, number, number]): void;
   destroy(): void;
 }
 
@@ -209,9 +209,9 @@ export function SampleSimCanvas({
         const mesh = buildMoleculesMesh(sim.parts, sel, rolloverFragment ?? null, MESH_TUNING);
         const highlight: 0 | 1 | 2 = downRef.current ? 2 : hoverRef.current ? 1 : 0;
         const bgSrgb = computeBackgroundColor(dyeMassesFromSample(sample ?? null), highlight);
-        const bgLinear: [number, number, number] =
-          [srgbToLinear(bgSrgb[0]), srgbToLinear(bgSrgb[1]), srgbToLinear(bgSrgb[2])];
-        handle.draw(mesh, bgLinear);
+        // Native draws raw Color RGB to an unorm framebuffer. Clear values
+        // bypass the particle shader; linearizing here darkens the background.
+        handle.draw(mesh, bgSrgb);
       }
       setTick((t) => (t + 1) % 1_000_000);
       raf = requestAnimationFrame(loop);
@@ -320,12 +320,12 @@ function make2dFallback(canvas: HTMLCanvasElement, width: number, height: number
   const ctx = canvas.getContext('2d');
   return {
     resize(wp, hp) { canvas.width = wp; canvas.height = hp; },
-    draw(_mesh, bgLinear) {
+    draw(_mesh, bgRgb) {
       if (!ctx) return;
       const dpr = canvas.width / width;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const toByte = (c: number) => Math.round(Math.max(0, Math.min(1, c)) ** (1 / 2.4) * 255);
-      ctx.fillStyle = `rgb(${toByte(bgLinear[0])},${toByte(bgLinear[1])},${toByte(bgLinear[2])})`;
+      const toByte = (c: number) => Math.round(Math.max(0, Math.min(1, c)) * 255);
+      ctx.fillStyle = `rgb(${toByte(bgRgb[0])},${toByte(bgRgb[1])},${toByte(bgRgb[2])})`;
       ctx.fillRect(0, 0, width, height);
     },
     destroy() {},

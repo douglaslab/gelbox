@@ -47,3 +47,7 @@ describe('LAYOUT', () => {
     expect(LAYOUT.windowSize).toEqual({ x: 1365, y: 768 });
   });
 });
+
+it('preserves native particle outline inflation (Layout.h mSampleViewFragOutlineWidth)', () => {
+  expect(LAYOUT.sampleViewFragOutlineWidth).toBe(4);
+});

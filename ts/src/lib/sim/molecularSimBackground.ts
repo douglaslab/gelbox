@@ -7,8 +7,8 @@ const HIGHLIGHT_SCALE = [1.0, 0.97, 0.9] as const;
 /**
  * Port of MolecularSim::drawBackground. `highlight`: 0 idle, 1 hover, 2 down.
  * `dyeMasses` is the 4 dye masses (ng) for the sample. Returns an sRGB-domain
- * [r,g,b] in 0..1 — the same domain C++ Cinder Color math works in. Convert
- * with `srgbToLinear` (lib/layout/color) before uploading to the GPU target.
+ * [r,g,b] in 0..1 — the same domain C++ Cinder Color math works in.
+ * Pass these raw values to the unorm framebuffer clear (no extra conversion).
  */
 export function computeBackgroundColor(
   dyeMasses: readonly number[],

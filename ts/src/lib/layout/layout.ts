@@ -74,10 +74,8 @@ export const LAYOUT = {
   sampleViewHeaderStr:            'Sample',
   sampleViewFragSelectColor:      '#000000',
   sampleViewFragHoverColor:       '#FFFF00',
-  // C++ used 4f in Cinder's anti-aliased GL strokes which rendered visually
-  // thinner; SVG strokes are crisper, so 1.5px reads about right against
-  // the original screenshot.
-  sampleViewFragOutlineWidth:     1.5,
+  // Native particle meshes inflate the radius by four logical pixels.
+  sampleViewFragOutlineWidth:     4,
 
   // buffer view
   bufferViewSize:                 { x: 303, y: 180 } as Vec2,
