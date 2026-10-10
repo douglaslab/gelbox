@@ -125,3 +125,36 @@ Cinder/macOS ARM64 evidence, not original-release executable certification.
 The finite matrix does not establish every transcendental rounding boundary or
 other platform's libc++ random mapping. It does not capture GPU sampling, blur,
 compositing, or native pixels. Those remain separate rendering/replay gates.
+
+## Sample identity and reference ownership
+
+Run `python3 reference/native/numerical/build-identity.py`, then
+`python3 reference/native/numerical/test_identity.py`. Set
+`GELBOX_REFERENCE_REPO` to override the sibling repository location. This
+standard-library-only capture needs clang++, not a working native GUI or Cinder.
+
+The harness extracts the entire `SampleFragRef` declaration, its five out-of-line
+methods, and `Sample::cloneFragment`/`removeFragment` verbatim from `5f51097`.
+A minimal storage adapter supplies the sample vector, base counts, ancestry and
+serialized ID. Twenty-eight observations cover pointer equality, validity,
+off-document references, swap-delete, revalidation after append, cloning,
+one-hop/root ancestry (including invalid origins), and actual shared ownership
+with weak-pointer expiry checks. The build runs twice and requires identical
+output; source/extraction, compiler, executable and artifact hashes are recorded.
+The Python contract independently requires the expected observations and hashes;
+a deliberately wrong swap-delete result was rejected even with an updated hash.
+
+Native references retain **sample identity plus a raw fragment index**, not a
+stable species identity. A reference to the deleted slot can therefore resolve
+to the former last species; a reference to the old last slot becomes invalid
+without being cleared, and a later append can make it valid again. Origin links
+also retain off-document samples. Equal serialized IDs do not imply equal
+objects. These facts constrain the web identity migration.
+
+Lane moves and sample copies in this harness are explicit driver operations,
+not compiled GelView event handlers. Sample construction, dye compaction,
+keyboard selection clearing, focus/panel lifecycle, cyclic ancestry and raster
+output are outside this capture. In particular native keyboard Delete clears
+selection before deleting; the lower-level capture is not permission to retain
+that selected species in the UI. Modern clang/libc++ output is not certification
+of the original release executable. Web identity migration remains outstanding.

@@ -295,3 +295,22 @@ A separate event controller preserves native refresh ordering: ordinary mouse-do
 Verification: **2,749 unit tests, 219 browser tests (one intentional duplicate skip), production build and TypeScript checks pass**. New hover regression images were inspected and are byte-identical across the two backends; prior baselines remain unchanged. Tests cover key-only activation/release, toggle/checkbox synchronization, blank gel, following/exit/frame hits, focus, paused particles, sample import/document replacement, persistent creation, drag timing and cancellation. These are source-backed behavior and web regression checks, not native screenshot certification.
 
 Pinned SampleView::tick has interpolation commented out: it applies the target frame directly, then removes closing views on the next tick. No animated interpolation is required by this native reference. Application-wide RNG scheduling, stable/off-document identity, complete menu layout and native raster replay remain required. Browser-chrome interception of Meta-L requires manual platform certification; the native checkbox is available independently. Fresh review found two important lifecycle defects: source-mutating mouse-down had cleared rollover too early, and document replacement failed to recreate an eligible preview. One unit regression and six browser regressions failed before correction. The fix preserves pre-clear rollover for the discrete mouse-down update, including Alt-clone and right-create, and remounts/recreates previews on replacement. All checks above passed after the single fix pass. No deferred review minors remain. Native event/render-boundary timing, identity, RNG scheduling, native pixels, browser shortcut interception and full menu geometry were outside the review and remain required certification/work.
+
+## Native identity reference
+
+A standard-library C++ harness now compiles pinned native SampleFragRef methods
+and sample clone/remove operations. Its 28 repeat-identical observations verify
+pointer identity, invalid raw indices, swap-delete/reappend behavior, one-hop and
+root ancestry, and real shared ownership after document removal. Source,
+extraction, compiler and artifact provenance plus an independent Python contract
+are recorded in the numerical reference. Both contract checks pass; a wrong
+deleted-slot result is rejected even with a matching updated fixture hash.
+
+This confirms that the next web migration must preserve sample identity without
+inventing stable species identity. The existing reducer remaps external indices
+on deletion and uses lane-based references; tube cloning can also reopen the
+source panel when native selection remains on the source but the visible panel
+follows the clone. These remain implementation gaps, not fixes delivered by the
+reference capture. The harness does not certify native GUI event ordering,
+dye compaction, RNG or pixels. No app code changed in this increment, so the
+2,749-unit/219-browser result above remains the latest app run, not a new run.
