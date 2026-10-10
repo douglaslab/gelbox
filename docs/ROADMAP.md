@@ -242,3 +242,11 @@ native's four logical pixels. Twelve new failing-then-passing browser cases brin
 the full passing suite to 297 (one intentional duplicate skipped); build passes.
 Continue with graph gestures and remaining control raster/typography, then complete
 composed native workflow and P5 release certification. These are not closed gates.
+
+
+Aggregate graph update: full-area editing, current-column dragging, accumulated
+edits, endpoint icon presets and native 0.05/8px quantization/snapping are restored.
+Six JSON-validating browser regressions pass, with 303 passing full-suite cases
+(one intentional duplicate skipped) and a passing build. Next: preserve short
+zero-leading and longer-than-seven imported distributions in the inspector, then
+finish graph/control visual comparison. Native GUI and P5 gates remain open.

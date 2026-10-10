@@ -159,7 +159,10 @@ export function FragmentView() {
                 style: 'graph',
                 valueMin: 1,
                 valueMax: AGG_MAX_MULTIMER,
-                quantize: 0,
+                quantize: 0.05,
+                notches: [0,1],
+                notchAction: 'snap',
+                notchSnapDist: 8/LAYOUT.fragViewSlidersGraphHeight,
               }}
               value={0}
               onChange={() => undefined}

@@ -67,3 +67,21 @@ pointer input. It additionally verifies web pointer cancellation, actual capture
 release and held-pointer entry. All twelve backend/case combinations failed
 before correction and passed afterward. This is a source-backed restoration;
 full native GUI replay and graph/remaining control certification are still open.
+
+
+## Aggregate graph editing
+
+Pinned `Slider.cpp::setValueWithMouse` selects a column from current pointer X
+and clamps it to the vector's extent. It derives height from Y, quantizes using
+the graph's 0..1 mapped range, then applies notch snapping and updates that one
+column. `setLimitValue` clears the entire vector and sets only its first/last
+entry to 1. `FragmentView.cpp` configures 0/1 notches, 0.05 value steps and an
+8px snap distance with a 32px graph. The web implements these gesture rules.
+
+`graph-gestures.spec.ts` checks native-format saved sample values after dragging
+across multiple columns, using both endpoint icons, and cancelling before further
+motion. All six backend/scenario combinations failed before correction and pass
+afterward. This does not certify native graph raster/layout or all input cases.
+Native's getter pads short distributions without changing existing weights and
+retains longer ones; the web inspector's separate padding/conversion discrepancy
+is recorded in STATUS for the next correction.

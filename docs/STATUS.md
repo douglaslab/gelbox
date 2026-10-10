@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 297 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 303 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -618,3 +618,28 @@ model's last full unit baseline remains 2,845 passed. Evidence is pinned
 SliderView.cpp/Slider.cpp/Slider.h plus real browser gestures, not a completed
 native GUI replay. Graph gestures, detailed styling/text and broader parity and
 release gates remain open.
+
+
+## Native aggregate graph gestures
+
+The graph now owns the entire pick area, including empty space above zero/short
+bars. Horizontal dragging selects the current column instead of continuing to
+write the starting column, and each update preserves earlier edits from the same
+gesture. Endpoint icons now select a one-hot first/last aggregate distribution.
+The species graph uses native 0.05 steps followed by 8px endpoint snapping.
+Primary-pointer ownership ends on up/cancel/capture loss; the former per-column
+native event listeners and captured initial-value array are removed.
+
+Six new backend/scenario combinations failed before their respective corrections
+and pass afterward. They validate downloaded native sample JSON for multi-column
+painting, quantization/snapping, endpoint icons and cancellation. Fresh complete
+verification: **303 browser tests passed, one intentional duplicate skipped;
+production build and TypeScript checks passed**. No goldens changed. The unchanged
+model's previous full unit baseline remains 2,845 passed.
+
+Pinned FragmentView.cpp and Slider.cpp establish these rules; complete native GUI
+replay and graph raster/layout remain open. Source review also confirms a separate
+inspector import defect: aggregateToColumns clamps a zero first weight to 0.001
+and truncates distributions longer than seven columns, unlike native's padding-only
+getter. Correct and verify that preservation boundary next. All broader native
+visual/workflow and P5 release gates remain open.

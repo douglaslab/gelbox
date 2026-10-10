@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, type CSSProperties } from 'react';
+import { useCallback, useRef, useState, useLayoutEffect, type CSSProperties } from 'react';
 import {
   type SliderConfig,
   applyNotchSnap,
@@ -108,37 +108,43 @@ export function SliderView({
 
   function onIconClick(which: 'lo' | 'hi') {
     if (!enabled) return;
-    onChange(which === 'lo' ? config.valueMin : config.valueMax);
+    if(config.style==='graph'&&graphValues&&onGraphChange) {
+      const next=graphValues.map(()=>0);
+      if(next.length)next[which==='lo'?0:next.length-1]=1;
+      graphLatest.current=next;onGraphChange(next);
+    } else onChange(which === 'lo' ? config.valueMin : config.valueMax);
   }
 
-  function onGraphPointerDown(idx: number) {
-    return (e: React.PointerEvent<HTMLDivElement>) => {
-      if (!enabled || !graphValues || !onGraphChange) return;
-      e.preventDefault();
-      const target = e.currentTarget;
-      target.setPointerCapture(e.pointerId);
-      const trackHeight = target.parentElement!.getBoundingClientRect().height;
-
-      function update(clientY: number) {
-        const r = target.parentElement!.getBoundingClientRect();
-        const yFromBottom = r.bottom - clientY;
-        const v = Math.max(0, Math.min(1, yFromBottom / trackHeight));
-        const next = graphValues!.slice();
-        next[idx] = v;
-        onGraphChange!(next);
-      }
-
-      update(e.clientY);
-
-      const move = (ev: PointerEvent) => update(ev.clientY);
-      const up = () => {
-        target.releasePointerCapture(e.pointerId);
-        target.removeEventListener('pointermove', move);
-        target.removeEventListener('pointerup', up);
-      };
-      target.addEventListener('pointermove', move);
-      target.addEventListener('pointerup', up);
-    };
+  const graphLatest=useRef(graphValues);
+  useLayoutEffect(()=>{graphLatest.current=graphValues;},[graphValues]);
+  const graphPointer=useRef<number|null>(null);
+  function updateGraph(e:React.PointerEvent<HTMLDivElement>) {
+    const current=graphLatest.current;
+    if(!current?.length||!onGraphChange)return;
+    const r=e.currentTarget.getBoundingClientRect();
+    const index=Math.max(0,Math.min(current.length-1,
+      Math.round((e.clientX-r.left)/r.width*current.length-.5)));
+    const quantized=getMappedValue((r.bottom-e.clientY)/r.height,
+      {valueMin:0,valueMax:1,quantize:config.quantize});
+    const value=applyNotchSnap(quantized,config.notches??[],config.notchAction??'none',
+      config.notchSnapDist??DEFAULT_SNAP_DIST_PX/r.height);
+    const next=current.slice();next[index]=value;
+    graphLatest.current=next;onGraphChange(next);
+  }
+  function onGraphPointerDown(e:React.PointerEvent<HTMLDivElement>) {
+    if(!enabled||e.button!==0||graphPointer.current!==null||!onGraphChange)return;
+    e.preventDefault();graphPointer.current=e.pointerId;
+    e.currentTarget.setPointerCapture(e.pointerId);updateGraph(e);
+  }
+  function onGraphPointerMove(e:React.PointerEvent<HTMLDivElement>) {
+    if(!enabled||graphPointer.current!==e.pointerId||e.buttons!==1)return;
+    if(!e.currentTarget.hasPointerCapture(e.pointerId)){graphPointer.current=null;return;}
+    e.preventDefault();updateGraph(e);
+  }
+  function endGraphGesture(e:React.PointerEvent<HTMLDivElement>) {
+    if(graphPointer.current!==e.pointerId)return;
+    graphPointer.current=null;
+    if(e.currentTarget.hasPointerCapture(e.pointerId))e.currentTarget.releasePointerCapture(e.pointerId);
   }
 
   const labelStr = config.formatValue?.(value);
@@ -234,14 +240,16 @@ export function SliderView({
       )}
 
       {config.style === 'graph' && graphValues && (
-        <div className={styles.graph}>
+        <div className={styles.graph}
+          onPointerDown={onGraphPointerDown} onPointerMove={onGraphPointerMove}
+          onPointerUp={endGraphGesture} onPointerCancel={endGraphGesture}
+          onLostPointerCapture={endGraphGesture}>
           <div className={styles.graphCap} />
           {graphValues.map((v, i) => (
             <div
               key={i}
               className={styles.graphCol}
               style={{ height: `${Math.max(1, v * 100)}%` }}
-              onPointerDown={onGraphPointerDown(i)}
               data-testid={testId ? `${testId}-col-${i}` : undefined}
             />
           ))}
