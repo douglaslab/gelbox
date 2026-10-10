@@ -14,6 +14,10 @@ The native feature areas are substantially implemented, and the shared composito
 
 Implemented and checked areas include native JSON/XML file workflows and metadata, startup defaults, hidden-lane retention, sample/species controls, tube and band movement/cloning, reverse solving, picking, buffer effects, molecular lifecycle/meshes, persistent loupe gestures and source selection, temporary hover loupes, and reference-image views. Independent compiled native captures now cover 509 band/setup cases, 2,909 solver requests, particle/loupe behavior and meshes, and 137 exact-byte CPU warp cases. These are finite source-backed comparisons, not certification of the original executable's complete output.
 
+## Latest profile-decoding verification
+
+Five Display P3/Adobe RGB fixtures extend the native codec corpus to 21. Four compiled production and four Firefox/WebKit image tests pass. Tagged opaque PNG pixels match exactly; JPEG and WebKit alpha retain the existing D06 differences. [Evidence and limits](../reference/web/image-decoding/wide-gamut/README.md). No product runtime or website snapshot changed; original-release visible replay and filtered alpha remain open.
+
 ## Latest local verification
 
 The [1,000-cycle memory repeat](../reference/web/performance/resident-memory/workload-controls/network-disabled-1000/README.md) passes resource recovery on both backends, but renderer RSS still grows by32.84/8.49MiB between early and late windows. W08 remains open.

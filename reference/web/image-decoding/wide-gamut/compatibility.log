@@ -1,0 +1,40 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.compatibility.config.ts image-decoding.spec.ts -g retain native orientation --output=/tmp/gel-wide-gamut-compatibility
+
+
+Running 2 tests using 2 workers
+
+(node:20800) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20799) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20800) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20799) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [webkit-webgl2] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences (628ms)
+  ✓  2 [firefox-webgl2] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences (1.2s)
+
+
+  1) [webkit-webgl2] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences 
+
+    Error: display-p3-alpha.png raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: <= [32m0[39m
+    Received:    [31m235[39m
+
+      58 |     expect.soft(result.maxVisibleChannelError,result.file+' visible straight pixels').toBeLessThanOrEqual(1);
+      59 |     expect.soft(result.maxPremultipliedChannelError,result.file+' premultiplied pixels').toBe(0);
+    > 60 |    }else expect.soft(result.maxChannelError,result.file+' raw pixels').toBeLessThanOrEqual(result.file.endsWith('.jpg')?1:0);
+         |                                                                        ^
+      61 |   }
+      62 |  }finally{await app.close();}
+      63 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:60:72
+
+  1 failed
+    [webkit-webgl2] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences 
+  1 passed (2.0s)

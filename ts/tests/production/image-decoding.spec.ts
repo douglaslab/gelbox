@@ -54,7 +54,7 @@ test('compiled images retain native orientation and bounded codec pixel differen
    // JPEG's measured one-level codec rounding difference remains an explicit
    // parity decision, not a claim of exact native JPEG pixels. WebKit rounds
    // unpremultiplied translucent RGB; these fixtures match after premultiplication.
-   if(result.file==='alpha.png'){
+   if(result.file==='alpha.png'||result.file==='display-p3-alpha.png'){
     expect.soft(result.maxVisibleChannelError,result.file+' visible straight pixels').toBeLessThanOrEqual(1);
     expect.soft(result.maxPremultipliedChannelError,result.file+' premultiplied pixels').toBe(0);
    }else expect.soft(result.maxChannelError,result.file+' raw pixels').toBeLessThanOrEqual(result.file.endsWith('.jpg')?1:0);
