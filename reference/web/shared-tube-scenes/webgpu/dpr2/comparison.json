@@ -1,0 +1,32 @@
+[
+  {
+    "id": "seven-idle-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "seven-selected-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "twenty-selected-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "drag-outside-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "drag-occupied-2",
+    "different": 0,
+    "max": 0,
+    "first": []
+  }
+]

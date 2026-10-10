@@ -37,10 +37,18 @@ export function acquireSceneAsset(registry:ScenePresentationRegistry,url:string)
 function load(target:Entry,url:string){
  target.error=null;target.errorOn=null;
  void(async()=>{try{
-   let response=await fetch(url,{signal:target.abort.signal});
-   if(!response.ok&&url.includes('@2x.'))response=await fetch(url.replace('@2x.','.'),{signal:target.abort.signal});
-   if(!response.ok)throw Error(`Could not load UI image: ${url}`);
-   const bitmap=await createImageBitmap(await response.blob(),{premultiplyAlpha:'none',colorSpaceConversion:'none',imageOrientation:'none'});
+   const decode=async(path:string)=>{
+    const response=await fetch(path,{signal:target.abort.signal});
+    if(!response.ok)throw Error(`Could not load UI image: ${path}`);
+    return createImageBitmap(await response.blob(),{premultiplyAlpha:'none',colorSpaceConversion:'none',imageOrientation:'none'});
+   };
+   let bitmap:ImageBitmap;
+   try{bitmap=await decode(url);}catch(error){
+    // Native Layout falls back after any failed load, including invalid image
+    // data from a successful response (for example an SPA fallback document).
+    if(target.abort.signal.aborted||!url.includes('@2x.'))throw error;
+    bitmap=await decode(url.replace('@2x.','.'));
+   }
    if(!target.users){bitmap.close();return;}target.bitmap=bitmap;
   }catch(error){if(target.users)target.error=error;}})();
 }

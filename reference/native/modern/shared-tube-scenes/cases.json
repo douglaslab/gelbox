@@ -1,0 +1,65 @@
+[
+  {
+    "id": "seven-idle",
+    "lanes": 7,
+    "loaded": [
+      0
+    ],
+    "selected": -1
+  },
+  {
+    "id": "seven-selected",
+    "lanes": 7,
+    "loaded": [
+      0,
+      3
+    ],
+    "selected": 3
+  },
+  {
+    "id": "twenty-selected",
+    "lanes": 20,
+    "loaded": [
+      0,
+      19
+    ],
+    "selected": 19
+  },
+  {
+    "id": "drag-outside",
+    "lanes": 7,
+    "loaded": [],
+    "selected": -1,
+    "initial": [
+      0
+    ],
+    "down": [
+      28,
+      -45
+    ],
+    "mouse": [
+      188,
+      115
+    ]
+  },
+  {
+    "id": "drag-occupied",
+    "lanes": 7,
+    "loaded": [
+      3
+    ],
+    "selected": -1,
+    "initial": [
+      0,
+      3
+    ],
+    "down": [
+      28,
+      -45
+    ],
+    "mouse": [
+      195,
+      -20
+    ]
+  }
+]

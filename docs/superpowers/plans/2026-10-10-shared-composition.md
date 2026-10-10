@@ -143,7 +143,12 @@ both scales/backends. Existing Help navigation/focus/resize and representative
 covering the brace now run in shared mode as well. Inspector brace paint uses
 its inspector key before body contents; application and Help keep separate keys.
 The shared asset path now serves both settings icons with one cached texture.
-Menu text/checkboxes, sliders, tube/sample icons and remaining paint stay open.
+Loaded tube icons now share their background's native order, with a floating
+mouse-down tube image after the gel when dragging outside lane hit regions. Twenty
+native comparisons cover seven/twenty lanes and free/occupied dragging at DPR1/2.
+The legacy path gains the same previously missing floating image. Native 2x-to-1x
+asset fallback now also handles successful responses containing invalid image data.
+Menu text/checkboxes, sliders, sample-header icons and remaining paint stay open.
 
 
 

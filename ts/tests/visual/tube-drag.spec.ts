@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+for(const shared of [false,true])test.describe(`shared:${shared}`,()=>{
 test.beforeEach(async ({ page }, info) => {
+  if(shared)await page.addInitScript(()=>localStorage.setItem('gelSharedPresentation','1'));
   await page.addInitScript(b => localStorage.setItem('gelBackend', b), info.project.name.includes('webgl2') ? 'webgl2' : 'webgpu');
   await page.setViewportSize({ width: 1365, height: 768 });
   await page.goto('/#/gel');
@@ -75,4 +77,6 @@ test('Tab and Delete while holding a tube persist when it moves', async ({ page 
   const doc = await save(page);
   expect(doc.Gel.Samples[0]).toBeNull();
   expect(doc.Gel.Samples[3].Fragments).toHaveLength(10);
+});
+
 });

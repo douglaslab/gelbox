@@ -1,0 +1,26 @@
+{
+  "base": "9cc89ec",
+  "sha256": {
+    "ts/src/components/gel/MicrotubeRow.tsx": "6b76f7e6905f36bf27a4f7a4a70f1f8b5eb32a1798dc9bc2606467d774339ad6",
+    "ts/src/lib/gel/sceneAssets.ts": "bf92d93b8bd68c8598daef1c564a5bfa7a20042cddda6f56cf14bb27591866d0",
+    "ts/src/lib/layout/tubeGeometry.ts": "2a18a88cb6934d209f4b5739f0dd439b1a67de6c138fddb9ac48f1a5a4d7e7a4",
+    "ts/tests/visual/shared-tubes.spec.ts": "1cac5d97c7a6e7db2d3b2d0589251ab9eecd3ab38f73220339e9034d126d6ee3",
+    "ts/tests/visual/shared-tubes-native.spec.ts": "419e8d8347fda36a5f7ee807c3f43a775e518cb004cc9fe01f175d6960152d2e",
+    "ts/tests/visual/tube-drag.spec.ts": "63cc139fa6f66b8e373666b5fe95a85aac7debfac75381b600c7c693c20839bd",
+    "reference/native/modern/shared-tube-scenes/manifest.json": "5cde0089adbaae9a541dde753abaa85387ddae9b44af4f9c00bc089f6bdbf17b",
+    "reference/native/modern/shared-tube-scenes/capture.py": "64f0471c2dfc62c7b86ed072e1e20ab1ccad61ff1c9f3fd112064ffdec18910e"
+  },
+  "exactNativeComparisons": 20,
+  "limits": [
+    "Tube row and floating drag image; no sample header, scientific bands, other control/font or full GUI certification.",
+    "Shared composition remains development-only."
+  ],
+  "verification": {
+    "unitTests": 2917,
+    "browserTests": 687,
+    "intentionalSkips": 1,
+    "productionTests": 4,
+    "build": "passed",
+    "nativeRepeatedCaptures": 10
+  }
+}
