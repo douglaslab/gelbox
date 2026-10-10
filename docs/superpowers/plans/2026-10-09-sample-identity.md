@@ -32,10 +32,34 @@
 
 **Interfaces:** SampleFragRef becomes `{sample: Sample, fragmentIndex: number|null}`; actions constructing references supply actual samples. `reviseSample` preserves transient identity across immutable data versions. `sameSample`, validity and index helpers centralize comparisons. `SYNC_SELECTION_VIEW` performs native selection-following once per frame.
 
-- [ ] Write identity reducer regressions for edit history, off-document move/reentry, clone separation, swap-delete/reappend, stale rollover, replacement, and frame focus. Run targeted Vitest; expect failures against lane-based implementation.
-- [ ] Implement sample identity and update all real UI producers/consumers. Preserve raw external indices; only keyboard-selected deletion deselects. Refresh retained references on immutable edits. Derive compatibility panel selection fields from authoritative reference.
-- [ ] Add browser workflows for clone/frame focus, off-document removal and stale highlights/replacement; observe RED before final integration or use a deliberate old-behavior mutation for the integration boundary.
-- [ ] Run targeted units/browser cases then full units, build/typecheck and both backend browser suites. Expected all pass; no baseline refresh without explained visual behavior.
-- [ ] Update evidence/scope, commit, complete task with full unit suite. Fresh read-only review; one RED→GREEN fix pass for important findings.
+- [x] Write identity reducer regressions for edit history, off-document move/reentry, clone separation, swap-delete/reappend, stale rollover, replacement, and frame focus. Run targeted Vitest; expect failures against lane-based implementation.
+- [x] Implement sample identity and update all real UI producers/consumers. Preserve raw external indices; only keyboard-selected deletion deselects. Refresh retained references on immutable edits. Derive compatibility panel selection fields from authoritative reference.
+- [x] Add browser workflows for clone/frame focus, off-document removal and stale highlights/replacement; observe RED before final integration or use a deliberate old-behavior mutation for the integration boundary.
+- [x] Run targeted units/browser cases then full units, build/typecheck and both backend browser suites. Expected all pass; no baseline refresh without explained visual behavior.
+- [x] Update evidence/scope, commit, complete task with full unit suite. Fresh read-only review; one RED→GREEN fix pass for important findings.
 
 Native tick source corrects the earlier STATUS inference: clone panel follows the original shared selection on the next tick. Record this correction, not a permanent clone-panel change.
+
+## Reviewed outcome
+
+Implementation: `25e3fa2`, followed by the hidden-lane Tab review correction.
+Independent review found no introduced defects; an existing visibility guard was
+promoted to a parity fix. NEXT/PREV regressions failed before removal and pass
+with panel-owned cycling. Final verification: 2,763 units, 227 browser tests plus
+one intentional duplicate skip, production build/typecheck; no snapshot changes.
+
+Decisions carried forward:
+- Preserve native event/frame selection-following, including returning to the
+  original sample after Alt-clone. A wrong phase model would change panel focus.
+- Weak identity tokens connect immutable revisions without serialized IDs or a
+  strong global registry. Any future sample mutation must preserve identity or
+  explicitly create a new sample; otherwise cross-view references can go stale.
+- Ordinary synchronous lane-targeted commands remain; retained loupe callbacks
+  use sample references. Future asynchronous editing needs a fresh stale-target audit.
+- General nested/cyclic ancestry has no demonstrated current UI path; this
+  increment does not certify it. If introduced, source resolution needs new proof.
+- Full native GUI timing/focus, shared RNG, raster and release gates remain open;
+  local passing tests must not be interpreted as full parity certification.
+
+No deferred minor findings. The isolated development worktree remains in use for
+the active complete-web-app goal; integration/publication is not this increment.

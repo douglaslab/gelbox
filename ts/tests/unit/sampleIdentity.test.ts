@@ -130,3 +130,16 @@ it('Tab steps a retained invalid index using native raw-index rules', () => {
  state=reduce(state,{type:'SYNC_SELECTION_VIEW'});
  expect(reduce(state,{type:'SELECT_PREV'}).selection!.fragmentIndex).toBe(1);
 });
+
+it.each([['SELECT_NEXT',2],['SELECT_PREV',0]] as const)('open hidden sample retains native %s ownership', (type,index) => {
+ let state=reduce(initialGelState(),{type:'SET_NUM_LANES',value:12});
+ state=reduce(state,{type:'IMPORT_SAMPLE',sample:state.samples[0]!,preferredLane:11});
+ state=reduce(state,{type:'SET_SELECTED',laneIndex:11,index:1});
+ state=reduce(state,{type:'SET_NUM_LANES',value:7});
+ const cycled=reduce(state,{type});
+ expect(cycled.selection!.fragmentIndex).toBe(index);
+ expect(cycled.selection!.sample).toBe(state.samples[11]);
+ expect(cycled.lastSampleLane).toBe(11);
+ const closed=reduce(cycled,{type:'CLOSE_SAMPLE'});
+ expect(reduce(closed,{type})).toBe(closed);
+});

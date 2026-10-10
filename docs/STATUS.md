@@ -20,7 +20,7 @@ On macOS with Node 22, after the sample identity migration:
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,761 passed |
+| Unit suite | 2,763 passed |
 | Browser suite across WebGPU/WebGL2 | 227 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
@@ -354,14 +354,27 @@ frame handler now avoids idle dispatches and commits real panel changes before
 paint. The failing Alt-clone scenario then passed 24 repeated runs across both
 backends; temporary instrumentation was removed.
 
-Verification: **2,761 unit tests, 227 browser tests (one intentional duplicate
-skip), production build and TypeScript checks pass**. Twelve identity unit cases
+Verification: **2,763 unit tests, 227 browser tests (one intentional duplicate
+skip), production build and TypeScript checks pass**. Fourteen identity unit cases
 cover edits/history, moves, clones, off-document ownership, stale cleanup,
 replacement, raw deletion/compaction indices, hidden lanes and Tab. New browser
 workflows exercise removal followed by lane reuse, clone independence and frame
 focus, close/reopen/replacement, and loupe selection opening its source panel.
 Restoring the old off-document clearing deliberately fails both backend browser
-tests. Existing screenshot baselines pass unchanged. Independent review pending.
+tests. Existing screenshot baselines pass unchanged. Fresh independent review
+found no introduced defects. It identified an older hidden-lane Tab restriction:
+native permits cycling in an already-open sample after its lane becomes hidden.
+The review fix removes that visibility restriction and uses panel sample ownership;
+two regressions failed before the correction and pass afterward. The full suites
+and build above were rerun after this fix.
+
+Review scope decisions: retained loupe callbacks use sample references; ordinary
+synchronous editing commands still target lanes because no delayed retargeting
+path was found. Adding asynchronous commands will require revisiting that boundary.
+General nested/cyclic ancestry is not demonstrated by the current gel-to-loupe
+UI paths and remains outside this increment's evidence. Native GUI timing, shared
+RNG, raster and release checks remain required work. No minor review findings
+were deferred.
 
 This increment restores the tested shared-reference paths; it does not certify
 original-native GUI frame timing or complete focus ownership, general cyclic

@@ -407,15 +407,16 @@ function reduceGelState(state: GelState, action: Action): GelState {
       return selectFragment(state, action.laneIndex, action.index);
     case 'SELECT_NEXT':
     case 'SELECT_PREV': {
-      if (state.lastSampleLane === null || state.selectedLane >= state.numLanes) return state;
-      const n = state.samples[state.selectedLane]?.fragments.length ?? 0;
-      if(!sameSample(state.selection?.sample, state.samples[state.lastSampleLane]))return state;
+      const lane = state.lastSampleLane;
+      if (lane === null) return state;
+      const n = state.samples[lane]?.fragments.length ?? 0;
+      if(!sameSample(state.selection?.sample, state.samples[lane]))return state;
       const cur = state.selection!.fragmentIndex;
       if (cur === null && n === 0) return state;
       const next = action.type === 'SELECT_NEXT'
         ? (cur === null ? 0 : cur + 1 >= n ? null : cur + 1)
         : (cur === null ? n - 1 : cur === 0 ? null : cur - 1);
-      return selectFragment(state, state.selectedLane, next);
+      return selectFragment(state, lane, next);
     }
     case 'TOGGLE_SAMPLE_SETTINGS':
       if (state.lastSampleLane === null) return state;
