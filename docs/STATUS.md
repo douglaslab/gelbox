@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,851 passed |
-| Browser suite across WebGPU/WebGL2 | 381 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 383 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -984,3 +984,27 @@ No screenshot baselines changed. These checks do not certify arbitrary driver
 failures, long-running resource growth, platform support or native raster parity.
 Next priorities are controlled native/web workflow and visual comparisons, plus
 the remaining lifecycle, production, platform and performance release checks.
+
+
+## Native startup capture and well stroke correction
+
+A disposable modern native build exports its completed framebuffer directly to
+PNG; three regenerated startup outputs have identical hashes. The user supplied
+a lossless window PNG with a Display ICC profile. Its first-well interior stroke
+pixels agree with the framebuffer after the 64-pixel titlebar offset. Captures,
+instrumentation and qualifications are recorded under
+`reference/native/modern/lossless-probe`. Modern/original executable equivalence
+and full color-space/raster certification remain open.
+
+Native no-width `drawStrokedRect` uses GL_LINE_LOOP, whose default width is one
+physical pixel. Web well outlines incorrectly used one CSS pixel. They now use
+one physical pixel with crisp SVG edges and respond to display-scale changes.
+Two real-browser pixel regressions failed before the fix and pass afterward.
+The first-well horizontal interior matches native exactly; the complete seven-well
+strip still differs at 240 vertical/corner pixels, so this is not full well-raster
+certification. No broader screenshot tolerances or baselines were changed.
+
+Fresh full verification: **383 browser tests passed, one intentional duplicate
+skipped; production build and TypeScript checks passed**. The unchanged unit
+suite's last verified count remains 2,851. Native workflow/visual certification
+and remaining lifecycle, production/platform/performance gates remain open.

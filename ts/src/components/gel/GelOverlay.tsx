@@ -1,7 +1,7 @@
 import { fragmentIndexIn } from '../../lib/gel/sampleFragRef';
 import {deriveGelScene} from '../../lib/gel/gelScene';
 import { sampleKeyAction } from '../../lib/gel/sampleKeyboard';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Band } from '../../lib/sim/band';
 import { useGelState, useGelDispatch, useGelStore } from './GelContext';
 import { LAYOUT } from '../../lib/layout/layout';
@@ -24,6 +24,18 @@ interface GelOverlayProps {
 
 export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
   const state = useGelState();
+  const [dpr,setDpr]=useState(()=>window.devicePixelRatio||1);
+  useEffect(()=>{
+    let resolution:MediaQueryList;
+    const update=()=>{
+      resolution?.removeEventListener('change',update);
+      setDpr(window.devicePixelRatio||1);
+      resolution=matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+      resolution.addEventListener('change',update);
+    };
+    update();window.addEventListener('resize',update);
+    return ()=>{resolution.removeEventListener('change',update);window.removeEventListener('resize',update);};
+  },[]);
   const dispatch = useGelDispatch();
   const store = useGelStore();
   const svgRef = useRef<SVGSVGElement>(null);
@@ -172,7 +184,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
       {state.wellRects.slice(0, state.numLanes).map((well, i) => (
         <rect key={`well-${i}`} data-testid={`gel-well-${i}`}
           x={well.x1} y={well.y1} width={well.x2 - well.x1} height={well.y2 - well.y1}
-          fill="none" stroke="rgba(204,204,204,0.8)" strokeWidth={1} pointerEvents="none" />
+          fill="none" stroke="rgba(204,204,204,0.8)" strokeWidth={1/(dpr*state.pixelsPerUnit)} shapeRendering="crispEdges" pointerEvents="none" />
       ))}
       {bands.map((b, i) => {
         const hit = bandUIRect(b);

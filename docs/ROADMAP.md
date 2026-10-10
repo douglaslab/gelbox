@@ -384,3 +384,11 @@ view recovery and frame allocation cleanup. Full checks: 2,851 units, 381 browse
 cases, one intentional duplicate skipped; production build/type checks pass.
 Controlled native visual/workflow comparison and lifecycle/resource-growth/
 platform/performance checks remain required; full parity and release gates stay open.
+
+
+P0/P3 reference update: isolated native framebuffer PNG export is repeatable for
+startup. A user-provided lossless native window capture corroborates horizontal
+well strokes. Corrected the web's CSS-pixel well width to native physical-pixel
+width; two pixel regressions pass, full browser suite 383 passed/one intentional
+skip, build/type checks pass. Vertical/corner raster differences, original-build
+equivalence and broader native visual/workflow comparisons remain open.

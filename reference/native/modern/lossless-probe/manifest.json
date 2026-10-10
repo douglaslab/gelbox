@@ -33,7 +33,28 @@
   "limitations": [
     "Modern compatibility patches and Cinder version remain different from original release.",
     "PNG is tagged sRGB by writer; relationship between framebuffer bytes, original-release framebuffer and display-managed capture requires validation.",
-    "Only startup captured; no repeatability or full-scene parity certification.",
+    "Only startup captured; repeatability confirmed for this scene only, not full-scene parity certification.",
     "Capture instrumentation is absent from the original release and both main checkouts."
-  ]
+  ],
+  "repeatability": {
+    "method": "Repeated menu Quit/getApp launch cycles regenerated the output; preserved initial and second output plus fresh third output all have identical SHA-256.",
+    "sha256": [
+      "80693c47b37b9073beb319f66853b65d194aea8a024c32baea95b4d48b3e84d9",
+      "80693c47b37b9073beb319f66853b65d194aea8a024c32baea95b4d48b3e84d9",
+      "80693c47b37b9073beb319f66853b65d194aea8a024c32baea95b4d48b3e84d9"
+    ]
+  },
+  "userCapture": {
+    "path": "user-startup.png",
+    "sha256": "7a45789dd65d46ab81f55d2860ba6b4195cae761c0659f8ecb03d46f2f8d78f0",
+    "source": "User attachment Gelbox 2026-10-09 at 11.31 PM.png",
+    "encoding": "PNG",
+    "pixelSize": [
+      2730,
+      1600
+    ],
+    "iccProfile": "Display",
+    "titlebarPixels": 64,
+    "observation": "After titlebar offset, first-well horizontal interior at x=470 is RGB163 on client rows282 and293, zero on remaining rows260..309. Same exact values as framebuffer capture."
+  }
 }
