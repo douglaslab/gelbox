@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include the application runtime integration.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,844 passed |
-| Browser suite across WebGPU/WebGL2 | 271 passed; one intentional duplicate invocation skipped |
+| Unit suite | 2,845 passed |
+| Browser suite across WebGPU/WebGL2 | 273 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; reliable fresh native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -48,7 +48,7 @@ The [composed native runtime reference](../reference/native/runtime/README.md) c
 | P4 — Loupes and images | Persistent/hover loupes and reference images implemented; native composed GUI/raster certification remains open |
 | P5 — Reliability and release | Production/platform/performance certification remains open |
 
-All six full exit gates remain open; that does not mean their implemented parts are untested. Next sequence: remaining native features and the recorded highlight timing correction, controlled visual/workflow replay, then production/platform release checks. Continue reference work alongside implementation. No evidence-based percentage or calendar completion estimate is available yet; visual replay and platform checks may expose additional defects.
+All six full exit gates remain open; that does not mean their implemented parts are untested. Next sequence: remaining native features, controlled visual/workflow replay, then production/platform release checks. Continue reference work alongside implementation. No evidence-based percentage or calendar completion estimate is available yet; visual replay and platform checks may expose additional defects.
 
 Rust/WASM/native packaging, redesign/mobile composition, undo/autosave, scientific-model improvements and cloud features remain outside this parity release.
 
@@ -480,7 +480,7 @@ New browser regressions failed before wiring on both backends for generated spec
 values, GPU-gated ticks and missing right drag; all six now pass. Existing hover
 regressions caught microtask cleanup preceding React target handlers; event-task
 cleanup restores the native mouse-down refresh window. Full verification is
-**2,844 unit tests, 271 browser tests plus one intentional duplicate skip, production
+**2,845 unit tests, 273 browser tests plus one intentional duplicate skip, production
 build/TypeScript checks and eight native runtime contracts passing**. Eight ordinary
 molecular screenshots were inspected and updated for native seeds; the selected
 snapshot now requires a successful particle hit. Loupe/layout baselines did not change.
@@ -496,11 +496,15 @@ mouse-up restores ownership by hit-testing the actual top canvas, including when
 no subsequent move occurs. Final results above include the fix; no additional
 goldens changed. The fresh review found no Critical issues.
 
-**Open Minor finding, retained for the visual-parity pass:** frame drawing captures
-React highlight props before the current tick's rollover update has committed.
-This can delay a newly picked stationary-pointer highlight by one frame. Resolve
-current store/source references at draw time or draw after the associated commit;
-add a same-frame crossing regression. This is not accepted as final strict parity.
+**Resolved Minor finding:** frame drawing previously captured React highlight props
+before the tick's rollover update committed. Molecular draws now resolve current
+selection/rollover directly from the store, including source-identity sets for
+loupes. A browser regression moves a real particle beneath a stationary pointer
+and observes the first mesh draw: it failed with the previous highlight on both
+backends and passes with the new species in that same frame. An additional unit
+case covers ordinary and loupe source mapping. Full verification: 2,845 units,
+273 browser tests plus one intentional skip, production build/typecheck pass.
+No screenshot baselines changed in this correction.
 
 Review boundaries: full native GUI/raster equivalence, P5 reliability and the
 unchanged nonparity 2D fallback remain required later gates. Zero random aspect/

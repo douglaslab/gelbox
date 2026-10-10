@@ -1,6 +1,6 @@
 import {useViewLayer} from './useViewLayer';
-import {useEffect,useMemo,useRef,useState, type PointerEvent as ReactPointerEvent} from 'react';
-import {sampleFragRefEq, type SampleFragRef} from '../../lib/gel/sampleFragRef';
+import {useEffect,useRef,useState, type PointerEvent as ReactPointerEvent} from 'react';
+import {type SampleFragRef} from '../../lib/gel/sampleFragRef';
 import {loupeHull} from '../../lib/gel/loupeGeometry';
 import type {DegradeFilter} from '../../lib/sim/sampleFromGel';
 import { useGelDispatch, useGelState, useGelStore } from './GelContext';
@@ -19,8 +19,6 @@ export function Loupe({loupe,sourceRefs,transient=false}:LoupeProps) {
  const drag=useRef<{mode:'frame'|'anchor'|'both';x:number;y:number;pointerId:number}|null>(null);
  const hovered=useRef<SampleFragRef|null>(null);
  const source=(index:number):SampleFragRef|null=>{return sourceRefs[index]??null;};
- const selected=useMemo(()=>new Set(sourceRefs.flatMap((ref,i)=>sampleFragRefEq(state.selection,ref)?[i]:[])),[sourceRefs,state.selection]);
- const rollover=useMemo(()=>new Set(sourceRefs.flatMap((ref,i)=>sampleFragRefEq(state.rollover,ref)?[i]:[])),[sourceRefs,state.rollover]);
  useEffect(()=>{if(!transient)frame.current?.focus();return()=>{if(hovered.current)dispatch({type:'CLEAR_ROLLOVER_IF',ref:hovered.current});};},[dispatch,transient]);
  const point=(e:{clientX:number;clientY:number})=>{const r=root.current!.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*state.gelSize.width,y:(e.clientY-r.top)/r.height*state.gelSize.height};};
  const begin=(e:ReactPointerEvent,mode:'frame'|'anchor'|'both')=>{
@@ -59,7 +57,7 @@ export function Loupe({loupe,sourceRefs,transient=false}:LoupeProps) {
    onKeyDown={e=>{if(transient)return;if(['Delete','Backspace','Escape'].includes(e.key)){e.preventDefault();e.stopPropagation();dispatch({type:'REMOVE_LOUPE',id:loupe.id});}else if(e.key==='Tab'){e.preventDefault();e.stopPropagation();}}}
    style={{position:'absolute',left:loupe.frame.x,top:loupe.frame.y,width:SIZE,height:SIZE,pointerEvents:'auto',outline:'none',touchAction:'none'}}>
    <div style={{position:'absolute',left:2,top:4,width:SIZE-4,height:SIZE,background:`rgba(0,0,0,${focused ? .25 : .15})`,zIndex:-1}}/>
-   <SampleSimCanvas view={view} viewKey={viewKey} width={SIZE} height={SIZE} selectedFragment={selected} rolloverFragment={rollover}
+   <SampleSimCanvas view={view} viewKey={viewKey} width={SIZE} height={SIZE}
     onPickFragment={index=>{const ref=source(index);if(ref)dispatch({type:'SET_SELECTION',ref});}}
     onPickBackground={()=>dispatch({type:'SET_SELECTION',ref:null})}
     onHoverFragment={index=>{const ref=index===null?null:source(index);if(ref)dispatch({type:'SET_ROLLOVER',ref});else if(hovered.current)dispatch({type:'CLEAR_ROLLOVER_IF',ref:hovered.current});hovered.current=ref;}}

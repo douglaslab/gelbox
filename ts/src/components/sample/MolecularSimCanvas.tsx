@@ -1,4 +1,4 @@
-import { fragmentIndexIn, sameSample } from '../../lib/gel/sampleFragRef';
+import { sameSample } from '../../lib/gel/sampleFragRef';
 import { useCallback } from 'react';
 import { useGelState, useGelDispatch, useGelStore } from '../gel/GelContext';
 import { SampleSimCanvas } from './SampleSimCanvas';
@@ -15,11 +15,6 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
   const dispatch = useGelDispatch();
   const view = useGelStore().getMolecularView("sample");
   const sample = state.samples[laneIndex] ?? null;
-
-  const selectedFragment = fragmentIndexIn(state.selection, sample);
-
-  const rolloverFragment =
-    fragmentIndexIn(state.rollover, sample);
 
   const onHoverFragment = useCallback((fragment: number | null) => {
     if (sample && fragment !== null) {
@@ -40,8 +35,6 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
       viewKey="sample"
       width={width}
       height={height}
-      selectedFragment={selectedFragment}
-      rolloverFragment={rolloverFragment}
       onHoverFragment={onHoverFragment}
       onPickFragment={onPickFragment}
       onPickBackground={() => dispatch({ type: 'TOGGLE_SAMPLE_SETTINGS' })}

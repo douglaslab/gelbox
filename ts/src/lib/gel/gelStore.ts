@@ -6,7 +6,7 @@ import {MolecularRuntime,type MolecularView} from './molecularRuntime';
 import {deriveGelScene} from './gelScene';
 import {gelReducer,initialGelState,getVisibleSampleLane,getFocusedFragmentIndex,selectionViewTarget,
   type GelState,type Action,type InspectorView} from './gelState';
-import {sameSample,fragmentIndexIn} from './sampleFragRef';
+import {sameSample,fragmentIndexIn,sampleFragRefEq} from './sampleFragRef';
 import {hoverLoupeReducer,initialHoverLoupe,type HoverLoupeEvent,type HoverLoupeState} from './hoverLoupe';
 import {insertView,removeView,raiseView} from './viewOrder';
 
@@ -65,6 +65,18 @@ export class GelStore {
   subscribeFrame=(listener:()=>void):(()=>void)=>{this.frameListeners.add(listener);return()=>{this.frameListeners.delete(listener);};};
   getMolecularView=(key:string):MolecularView|undefined=>this.active.get(key)?.view;
   getLoupeContent=(key:string):Content|undefined=>this.active.get(key)?.content;
+  getMolecularHighlights=(view:MolecularView)=>{
+    const meta=this.owned.get(view);
+    if(meta?.kind==='ordinary')return {
+      selected:fragmentIndexIn(this.gel.selection,view.sample),
+      rollover:fragmentIndexIn(this.gel.rollover,view.sample),
+    };
+    const refs=meta?.content?.sourceRefs??[];
+    return {
+      selected:new Set(refs.flatMap((ref,i)=>sampleFragRefEq(this.gel.selection,ref)?[i]:[])),
+      rollover:new Set(refs.flatMap((ref,i)=>sampleFragRefEq(this.gel.rollover,ref)?[i]:[])),
+    };
+  };
   private transact<T>(work:()=>T):T {
     this.depth++;
     try{return work();}finally{if(--this.depth===0)this.publish();}

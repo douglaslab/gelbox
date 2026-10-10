@@ -20,6 +20,23 @@ function nextGlobal(store:GelStore) {
 function engineSeed(view:MolecularView) { return (view.sim as unknown as {seed:number}).seed|0; }
 
 describe('native application command ordering',()=>{
+  it('resolves frame highlights from current references for ordinary and loupe views',()=>{
+    const store=new GelStore(populated(175));
+    store.dispatch({type:'SET_SELECTED_LANE',laneIndex:0});
+    const ordinary=store.getMolecularView('sample')!;
+    const band=deriveGelScene(store.getSnapshot().gel).bands[0];
+    store.dispatch({type:'ADD_LOUPE',anchor:{x:(band.rect.x1+band.rect.x2)/2,y:(band.rect.y1+band.rect.y2)/2}});
+    const loupe=store.getMolecularView('loupe-1')!;
+    const ref=store.getLoupeContent('loupe-1')!.sourceRefs[0];
+    expect(ref).toBeDefined();
+    store.dispatch({type:'SET_SELECTION',ref});store.dispatch({type:'SET_ROLLOVER',ref});
+    expect(store.getMolecularHighlights(ordinary)).toEqual({selected:0,rollover:0});
+    const highlights=store.getMolecularHighlights(loupe);
+    expect(highlights.selected).toEqual(new Set([0]));
+    expect(highlights.rollover).toEqual(new Set([0]));
+    store.dispatch({type:'SET_ROLLOVER',ref:null});
+    expect(store.getMolecularHighlights(loupe).rollover).toEqual(new Set());
+  });
   it('suspends molecular rollover during a held gesture and restores it on release',()=>{
     const store=new GelStore(populated());
     store.dispatch({type:'SET_SELECTED_LANE',laneIndex:0});

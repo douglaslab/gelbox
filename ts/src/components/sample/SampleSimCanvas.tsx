@@ -26,8 +26,6 @@ export interface SampleSimCanvasProps {
   viewKey: string;
   width: number;
   height: number;
-  selectedFragment?: import('../../lib/sim/molecularSimMesh').FragmentHighlight;
-  rolloverFragment?: import('../../lib/sim/molecularSimMesh').FragmentHighlight;
   /** Pointer-down on a particle → its fragment index (omit → non-interactive, e.g. loupe). */
   onPickFragment?: (fragment: number) => void;
   onPickBackground?: () => void;
@@ -59,8 +57,6 @@ export function SampleSimCanvas({
   viewKey,
   width,
   height,
-  selectedFragment = null,
-  rolloverFragment = null,
   onPickFragment,
   onPickBackground,
   onHoverFragment,
@@ -144,12 +140,15 @@ export function SampleSimCanvas({
   useEffect(() => store.subscribeFrame(() => {
     const handle=handleRef.current;
     if (handle && view.alive) {
-      const mesh=buildMoleculesMesh(sim.parts,selectedFragment,rolloverFragment,MESH_TUNING);
+      // React has not committed this tick's snapshot yet. Resolve current
+      // source identities here so the mesh uses the just-completed frame.
+      const {selected,rollover}=store.getMolecularHighlights(view);
+      const mesh=buildMoleculesMesh(sim.parts,selected,rollover,MESH_TUNING);
       const highlight:0|1|2=downRef.current?2:hoverRef.current?1:0;
       handle.draw(mesh,computeBackgroundColor(dyeMassesFromSample(view.sample),highlight));
     }
     setTick(t=>(t+1)%1_000_000);
-  }),[store,view,sim,selectedFragment,rolloverFragment]);
+  }),[store,view,sim]);
 
   const eventCoords = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
