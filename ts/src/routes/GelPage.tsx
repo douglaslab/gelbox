@@ -1,3 +1,4 @@
+import { sameSample } from '../lib/gel/sampleFragRef';
 import { FileControls } from '../components/chrome/FileControls';
 import { useMemo, useState } from 'react';
 import { GelProvider, useGelState, useGelDispatch } from '../components/gel/GelContext';
@@ -46,9 +47,9 @@ function GelInner() {
     randSeed: 1,
   }), [state.ctx.gelBuffer]);
 
-  const selectedLane = state.selection?.lane ?? state.selectedLane;
+  const selectedLane = state.selection ? state.samples.findIndex(s => sameSample(s, state.selection!.sample)) : state.selectedLane;
   const selectedIndex = state.selection?.fragmentIndex ?? null;
-  const selectedSample = state.samples[selectedLane];
+  const selectedSample = state.selection?.sample ?? state.samples[state.selectedLane];
   const selectedFrag = selectedSample && selectedIndex !== null
     ? selectedSample.fragments[selectedIndex!]
     : null;

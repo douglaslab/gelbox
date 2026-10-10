@@ -18,13 +18,14 @@ describe('SET_NUM_LANES', () => {
     const sample = { ...expanded.samples[0]!, name: 'last lane' };
     const loaded = gelReducer(expanded, { type: 'IMPORT_SAMPLE', sample, preferredLane: 11 });
     const reduced = gelReducer(loaded, { type: 'SET_NUM_LANES', value: 7 });
-    expect(reduced.samples[11]).toBe(sample);
+    expect(reduced.samples[11]).toBe(loaded.samples[11]);
     expect(reduced.wellRects).toHaveLength(7);
     expect(JSON.parse(serializeGelState(reduced)).Gel.Samples).toHaveLength(7);
     const imported = gelReducer(reduced, { type: 'IMPORT_SAMPLE', sample, preferredLane: 11 });
-    expect(imported.samples[1]).toBe(sample);
+    expect(imported.samples[1]).toEqual(sample);
+    expect(imported.samples[1]).not.toBe(loaded.samples[11]);
     const restored = gelReducer(imported, { type: 'SET_NUM_LANES', value: 20 });
-    expect(restored.samples[11]).toBe(sample);
+    expect(restored.samples[11]).toBe(loaded.samples[11]);
     expect(restored.samples[19]).toBeNull();
     expect(JSON.parse(serializeGelState(restored)).Gel.Samples[11].name).toBe('last lane');
   });
@@ -35,8 +36,8 @@ describe('SET_NUM_LANES', () => {
   });
   it('entering gel settings clears sample and species selection permanently', () => {
     const selected = gelReducer(initialGelState(), { type: 'SET_SELECTED', laneIndex: 0, index: 0 });
-    const opened = gelReducer({ ...selected, selection: { lane: 0, fragmentIndex: 0 },
-      rollover: { lane: 0, fragmentIndex: 1 }, drag: { type: 'sample', laneIndex: 0 } }, { type: 'SET_INSPECTOR_MODE', mode: 'gel-settings' });
+    const opened = gelReducer({ ...selected, selection: { sample: selected.samples[0]!, fragmentIndex: 0 },
+      rollover: { sample: selected.samples[0]!, fragmentIndex: 1 }, drag: { type: 'sample', laneIndex: 0 } }, { type: 'SET_INSPECTOR_MODE', mode: 'gel-settings' });
     expect(opened.lastSampleLane).toBeNull();
     expect(opened.selectedFragmentIndex).toBeNull();
     expect(opened.selection).toBeNull();

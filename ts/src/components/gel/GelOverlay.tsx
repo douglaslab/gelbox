@@ -1,3 +1,4 @@
+import { fragmentIndexIn } from '../../lib/gel/sampleFragRef';
 import { newFragment, randomFragmentColor } from '../../lib/gel/newFragment';
 import { sampleKeyAction } from '../../lib/gel/sampleKeyboard';
 import { useCallback, useEffect, useRef } from 'react';
@@ -154,7 +155,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
       onPointerMove={e => {
         const picked = pickBand(gelPoint(e), bands);
         const source = picked ? bandToLaneFragment[picked.index] : null;
-        dispatch({ type: 'SET_ROLLOVER', ref: source ? { lane: source.lane, fragmentIndex: source.fragment } : null });
+        dispatch({ type: 'SET_ROLLOVER', ref: source ? { sample: state.samples[source.lane]!, fragmentIndex: source.fragment } : null });
       }}
       onPointerLeave={() => dispatch({ type: 'SET_ROLLOVER', ref: null })}
       viewBox={`0 0 ${state.gelSize.width} ${state.gelSize.height}`}
@@ -176,8 +177,8 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
         const hit = bandUIRect(b);
         const x = hit.x1, y = hit.y1, w = hit.x2 - hit.x1, h = hit.y2 - hit.y1;
         const lf = bandToLaneFragment[i];
-        const selected = state.selection?.lane === lf.lane && state.selection.fragmentIndex === lf.fragment;
-        const hovered  = state.rollover?.lane === lf.lane && state.rollover?.fragmentIndex === lf.fragment;
+        const selected = fragmentIndexIn(state.selection, state.samples[lf.lane]) === lf.fragment;
+        const hovered  = fragmentIndexIn(state.rollover, state.samples[lf.lane]) === lf.fragment;
         const frag = state.samples[lf.lane]?.fragments[lf.fragment];
         const speciesColor = frag ? rgbToHex(frag.color) : LAYOUT.sampleViewFragSelectColor;
         return (

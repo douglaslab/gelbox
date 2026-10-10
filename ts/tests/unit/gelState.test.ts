@@ -48,7 +48,7 @@ describe('gelReducer (multi-lane)', () => {
     const sample = STARTING.samples[0]!;
     const n = sample.fragments.length;
     if (n === 0) return;
-    const prev = gelReducer(gelReducer(STARTING,{type:'SET_SELECTED_LANE',laneIndex:0}), { type: 'SELECT_PREV' });
+    const prev = gelReducer(gelReducer(STARTING,{type:'SET_SELECTED',laneIndex:0,index:null}), { type: 'SELECT_PREV' });
     expect(prev.selectedFragmentIndex).toBe(n - 1);
   });
   it('BEGIN_DRAG (band) stores lane + fragment + startBases', () => {
@@ -170,21 +170,21 @@ describe('gelReducer SET_SELECTION', () => {
   it('updates selection to a new ref', () => {
     const s0 = initialGelState();
     expect(s0.selection).toBeNull();
-    const s1 = gelReducer(s0, { type: 'SET_SELECTION', ref: { lane: 2, fragmentIndex: 3 } });
-    expect(s1.selection).toEqual({ lane: 2, fragmentIndex: 3 });
+    const s1 = gelReducer(s0, { type: 'SET_SELECTION', ref: { sample: s0.samples[0]!, fragmentIndex: 3 } });
+    expect(s1.selection).toEqual({ sample: s0.samples[0]!, fragmentIndex: 3 });
   });
 
   it('preserves state identity when selection is unchanged', () => {
     const s0 = initialGelState();
-    const ref = { lane: 1, fragmentIndex: null };
+    const ref = { sample: s0.samples[0]!, fragmentIndex: null };
     const s1 = gelReducer(s0, { type: 'SET_SELECTION', ref });
-    const s2 = gelReducer(s1, { type: 'SET_SELECTION', ref: { lane: 1, fragmentIndex: null } });
+    const s2 = gelReducer(s1, { type: 'SET_SELECTION', ref: { sample: s0.samples[0]!, fragmentIndex: null } });
     expect(s2).toBe(s1);
   });
 
   it('clears selection to null', () => {
     const s0 = initialGelState();
-    const s1 = gelReducer(s0, { type: 'SET_SELECTION', ref: { lane: 0, fragmentIndex: 0 } });
+    const s1 = gelReducer(s0, { type: 'SET_SELECTION', ref: { sample: s0.samples[0]!, fragmentIndex: 0 } });
     const s2 = gelReducer(s1, { type: 'SET_SELECTION', ref: null });
     expect(s2.selection).toBeNull();
   });
@@ -194,23 +194,23 @@ describe('gelReducer SET_ROLLOVER', () => {
   it('updates rollover to a new ref', () => {
     const s0 = initialGelState();
     expect(s0.rollover).toBeNull();
-    const s1 = gelReducer(s0, { type: 'SET_ROLLOVER', ref: { lane: 4, fragmentIndex: 0 } });
-    expect(s1.rollover).toEqual({ lane: 4, fragmentIndex: 0 });
+    const s1 = gelReducer(s0, { type: 'SET_ROLLOVER', ref: { sample: s0.samples[0]!, fragmentIndex: 0 } });
+    expect(s1.rollover).toEqual({ sample: s0.samples[0]!, fragmentIndex: 0 });
   });
 
   it('preserves state identity when rollover is unchanged', () => {
     const s0 = initialGelState();
-    const s1 = gelReducer(s0, { type: 'SET_ROLLOVER', ref: { lane: 0, fragmentIndex: 0 } });
-    const s2 = gelReducer(s1, { type: 'SET_ROLLOVER', ref: { lane: 0, fragmentIndex: 0 } });
+    const s1 = gelReducer(s0, { type: 'SET_ROLLOVER', ref: { sample: s0.samples[0]!, fragmentIndex: 0 } });
+    const s2 = gelReducer(s1, { type: 'SET_ROLLOVER', ref: { sample: s0.samples[0]!, fragmentIndex: 0 } });
     expect(s2).toBe(s1);
   });
 
   it('selection and rollover are independent', () => {
     const s0 = initialGelState();
-    const s1 = gelReducer(s0, { type: 'SET_SELECTION', ref: { lane: 1, fragmentIndex: 0 } });
-    const s2 = gelReducer(s1, { type: 'SET_ROLLOVER',  ref: { lane: 2, fragmentIndex: 5 } });
-    expect(s2.selection).toEqual({ lane: 1, fragmentIndex: 0 });
-    expect(s2.rollover).toEqual({ lane: 2, fragmentIndex: 5 });
+    const s1 = gelReducer(s0, { type: 'SET_SELECTION', ref: { sample: s0.samples[0]!, fragmentIndex: 0 } });
+    const s2 = gelReducer(s1, { type: 'SET_ROLLOVER',  ref: { sample: s0.samples[0]!, fragmentIndex: 5 } });
+    expect(s2.selection).toEqual({ sample: s0.samples[0]!, fragmentIndex: 0 });
+    expect(s2.rollover).toEqual({ sample: s0.samples[0]!, fragmentIndex: 5 });
   });
 });
 
@@ -293,8 +293,8 @@ describe('native sample file placement', () => {
   it('honors an empty drop lane and falls back if occupied', () => {
     const s = initialGelState();
     const sample = { buffer: BUFFER_TBE, fragments: [], name: 'new' };
-    expect(gelReducer(s, { type: 'IMPORT_SAMPLE', sample, preferredLane: 3 }).samples[3]).toBe(sample);
-    expect(gelReducer(s, { type: 'IMPORT_SAMPLE', sample, preferredLane: 0 }).samples[1]).toBe(sample);
+    expect(gelReducer(s, { type: 'IMPORT_SAMPLE', sample, preferredLane: 3 }).samples[3]).toEqual(sample);
+    expect(gelReducer(s, { type: 'IMPORT_SAMPLE', sample, preferredLane: 0 }).samples[1]).toEqual(sample);
   });
   it('does not replace any sample when all visible lanes are occupied', () => {
     const s = initialGelState(); s.samples.fill(s.samples[0]);

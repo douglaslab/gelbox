@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Consolidated: 2026-10-09 · implementation through `1d20a9b` · native reference `5f51097`._
+_Consolidated: 2026-10-09 · implementation through the sample identity increment · native reference `5f51097`._
 
 ## Direction
 
@@ -16,19 +16,19 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest recorded verification
 
-On macOS with Node 22, after the hover-loupe review fixes at `1d20a9b`:
+On macOS with Node 22, after the sample identity migration:
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,749 passed |
-| Browser suite across WebGPU/WebGL2 | 219 passed; one intentional duplicate invocation skipped |
+| Unit suite | 2,761 passed |
+| Browser suite across WebGPU/WebGL2 | 227 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; reliable fresh native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
 
 ## Remaining completion work
 
-1. **Sample identity and shared view state.** Replace lane-based references where native sample-object identity is required; preserve selection/rollover/source ancestry through moves, cloning, removal and off-document references. Reconcile duplicated selection fields and panel ownership. Preserve native raw fragment-index semantics instead of silently improving deletion behavior. Verify application-wide RNG initialization and view scheduling.
+1. **Cross-view certification and shared runtime.** Sample identity, off-document references, raw fragment indices and frame selection-following are now implemented and regression-tested. Complete composed native GUI replay of selection/focus/panel transitions, and verify application-wide RNG initialization and view scheduling.
 2. **Remaining native features and controls.** Implement PNG/JPEG/GIF reference-image views with native movement, resizing, aspect, stacking, focus, deletion and persistence boundaries. Implement the Render-off alternate band scene. Complete settings/help/menu geometry, shortcuts, focus and remaining interaction details, including the right-click creation/drag sequence.
 3. **Native visual certification.** Capture controlled matching native/web scenes for gel effects, blur/compositing, particles, loupes, selection and complete application layout. Resolve typography, asset proportions, resize/DPR behavior and justified raster tolerances. Decide cross-platform font handling and any browser layout adaptations explicitly.
 4. **Composed workflow verification.** Expand native → web edit/save → native roundtrips and replay move/clone/delete with loupes open, hidden-lane restoration, degraded multimer dragging, and buffer changes with resizing/failures. Resolve recorded XML safety and unsupported native import edge cases explicitly.
@@ -41,12 +41,12 @@ These results combine regression coverage and independent native differential ch
 |---|---|
 | P0 — Native reference | Strong numerical/source evidence; full GUI replay and visual reference coverage remain open |
 | P1 — Application and files | Core files and shell implemented; complete controls and composed interchange gate remain open |
-| P2 — Editing and UI | Many interaction paths restored; sample identity, focus/panel details and native replay remain open |
+| P2 — Editing and UI | Interaction paths and sample identity restored; complete focus/panel replay remains open |
 | P3 — Numerical and rendering fidelity | Extensive independent comparisons pass; global RNG scheduling, alternate scene and full native raster gate remain open |
 | P4 — Loupes and images | Persistent/hover loupes substantially restored; identity certification and reference-image views remain open |
 | P5 — Reliability and release | Production/platform/performance certification remains open |
 
-All six full exit gates remain open; that does not mean their implemented parts are untested. Next sequence: identity/state correctness, remaining native features, controlled visual/workflow replay, then production/platform release checks. Continue reference work alongside implementation. No evidence-based percentage or calendar completion estimate is available yet; visual replay and platform checks may expose additional defects.
+All six full exit gates remain open; that does not mean their implemented parts are untested. Next sequence: remaining native features and shared runtime/RNG, controlled visual/workflow replay, then production/platform release checks. Continue reference work alongside implementation. No evidence-based percentage or calendar completion estimate is available yet; visual replay and platform checks may expose additional defects.
 
 Rust/WASM/native packaging, redesign/mobile composition, undo/autosave, scientific-model improvements and cloud features remain outside this parity release.
 
@@ -320,3 +320,50 @@ the 28 observations, exact fixture bytes, source/extraction hashes and both
 Python checks. The reviewed boundary remains reference infrastructure: web
 identity migration, GUI ordering/focus/deletion, dye compaction, cyclic ancestry,
 RNG, raster parity and original-executable behavior are not certified by it.
+
+
+## Sample identity and native frame selection
+
+Shared selection and rollover now retain actual sample references with transient
+identity across immutable edits. A WeakMap holds only identity tokens; references
+own the needed snapshots, including samples removed from the document. Edits
+refresh those snapshots without mutating historical state; imports, replacement
+documents and sample copies create new identities even with equal serialized IDs.
+No identity fields enter native files. Synthetic loupe content captures source
+sample references, so lane reuse cannot retarget its selection or cleanup.
+
+External fragment indices now follow native swap-delete and dye-compaction
+rules: they are not remapped or cleared merely because invalid, and later append
+can revalidate them. Keyboard deletion deselects first. Tab preserves native
+raw-index stepping, including invalid indices and empty samples. The legacy
+selectedFragmentIndex field is a projection of the authoritative reference into
+the visible panel, and tube gestures no longer keep separate selection snapshots.
+
+**Correction to the earlier identity-reference entry:** native mouseDragSample
+briefly opens the clone's panel, but GelView::tick subsequently follows the
+shared original sample selection back to its panel. The web now reproduces this
+pointer-event/frame distinction. The same tick can reopen a closed panel while
+its sample reference remains selected, even with native index -1. Full document
+replacement clears references. Hidden-lane lookup follows native visible-lane
+limits, while an already-open matching hidden sample remains open.
+
+The first frame-loop implementation exposed a React scheduling race: idle
+updates caused mouse-down edits to be replayed after their hover-refresh window.
+Traces confirmed a second clone/edit commit without a new pointer event. The
+frame handler now avoids idle dispatches and commits real panel changes before
+paint. The failing Alt-clone scenario then passed 24 repeated runs across both
+backends; temporary instrumentation was removed.
+
+Verification: **2,761 unit tests, 227 browser tests (one intentional duplicate
+skip), production build and TypeScript checks pass**. Twelve identity unit cases
+cover edits/history, moves, clones, off-document ownership, stale cleanup,
+replacement, raw deletion/compaction indices, hidden lanes and Tab. New browser
+workflows exercise removal followed by lane reuse, clone independence and frame
+focus, close/reopen/replacement, and loupe selection opening its source panel.
+Restoring the old off-document clearing deliberately fails both backend browser
+tests. Existing screenshot baselines pass unchanged. Independent review pending.
+
+This increment restores the tested shared-reference paths; it does not certify
+original-native GUI frame timing or complete focus ownership, general cyclic
+ancestry, application-wide RNG/interleaving, original-native raster output or
+production release gates. Those remain explicit follow-up requirements.

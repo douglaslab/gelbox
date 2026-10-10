@@ -1,23 +1,23 @@
 import {loupeSeed} from '../../lib/sim/loupeSeed';
 import {useEffect,useMemo,useRef,useState, type PointerEvent as ReactPointerEvent} from 'react';
-import {type SampleFragRef} from '../../lib/gel/sampleFragRef';
+import {sampleFragRefEq, type SampleFragRef} from '../../lib/gel/sampleFragRef';
 import {loupeHull} from '../../lib/gel/loupeGeometry';
-import type {BandLaneFragment,DegradeFilter} from '../../lib/sim/sampleFromGel';
+import type {DegradeFilter} from '../../lib/sim/sampleFromGel';
 import { useGelDispatch, useGelState } from './GelContext';
 import type { LoupeRef } from '../../lib/gel/gelState';
 import type { Sample } from '../../lib/sim/sample';
 import { SampleSimCanvas } from '../sample/SampleSimCanvas';
 const SIZE=171, RADIUS=10.4;
-interface LoupeProps { transient?:boolean; stackIndex:number; loupe:LoupeRef; sample:Sample; origins:BandLaneFragment[]; degradeFilter?:DegradeFilter; }
-export function Loupe({loupe,sample,degradeFilter,origins,stackIndex,transient=false}:LoupeProps) {
+interface LoupeProps { transient?:boolean; stackIndex:number; loupe:LoupeRef; sample:Sample; sourceRefs:SampleFragRef[]; degradeFilter?:DegradeFilter; }
+export function Loupe({loupe,sample,degradeFilter,sourceRefs,stackIndex,transient=false}:LoupeProps) {
  const dispatch=useGelDispatch(),state=useGelState();
  const root=useRef<HTMLDivElement>(null),frame=useRef<HTMLDivElement>(null);
  const [focused,setFocused]=useState(false),[hover,setHover]=useState(false),[anchorHover,setAnchorHover]=useState(false);
  const drag=useRef<{mode:'frame'|'anchor'|'both';x:number;y:number;pointerId:number}|null>(null);
  const hovered=useRef<SampleFragRef|null>(null);
- const source=(index:number):SampleFragRef|null=>{const o=origins[index];return o?{lane:o.lane,fragmentIndex:o.fragment}:null;};
- const selected=useMemo(()=>new Set(origins.flatMap((o,i)=>state.selection?.lane===o.lane&&state.selection.fragmentIndex===o.fragment?[i]:[])),[origins,state.selection]);
- const rollover=useMemo(()=>new Set(origins.flatMap((o,i)=>state.rollover?.lane===o.lane&&state.rollover.fragmentIndex===o.fragment?[i]:[])),[origins,state.rollover]);
+ const source=(index:number):SampleFragRef|null=>{return sourceRefs[index]??null;};
+ const selected=useMemo(()=>new Set(sourceRefs.flatMap((ref,i)=>sampleFragRefEq(state.selection,ref)?[i]:[])),[sourceRefs,state.selection]);
+ const rollover=useMemo(()=>new Set(sourceRefs.flatMap((ref,i)=>sampleFragRefEq(state.rollover,ref)?[i]:[])),[sourceRefs,state.rollover]);
  useEffect(()=>{if(!transient)frame.current?.focus();return()=>{if(hovered.current)dispatch({type:'CLEAR_ROLLOVER_IF',ref:hovered.current});};},[dispatch,transient]);
  const point=(e:{clientX:number;clientY:number})=>{const r=root.current!.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*state.gelSize.width,y:(e.clientY-r.top)/r.height*state.gelSize.height};};
  const begin=(e:ReactPointerEvent,mode:'frame'|'anchor'|'both')=>{

@@ -1,3 +1,4 @@
+import type { SampleFragRef } from '../gel/sampleFragRef';
 // Port of ~/code/gelbox/src/GelView.cpp pickBands (1273) + makeSampleFromGelPos
 // (984). Pure functions — no React. Builds a synthetic Sample from the gel
 // pixel under a loupe.
@@ -92,10 +93,13 @@ export function makeSampleFromGel(
   samples: readonly (Sample | null)[],
   wellRects: readonly Rect[],
   ctx: SimContext,
-): { sample: Sample; degradeFilter: DegradeFilter; origins: BandLaneFragment[] } {
+): { sample: Sample; degradeFilter: DegradeFilter; origins: BandLaneFragment[]; sourceRefs: SampleFragRef[] } {
   p = { x: Math.fround(p.x), y: Math.fround(p.y) };
   const fragments: Fragment[] = [];
   const origins: BandLaneFragment[] = [];
+  // Keep the actual source sample, not just its replaceable lane position.
+  // origins remains the numerical lane/index mapping used by reference tests.
+  const sourceRefs: SampleFragRef[] = [];
   const degradeFilter: DegradeFilter = new Map();
 
   for (const { band: b, index } of pickBands(p, bands)) {
@@ -135,7 +139,8 @@ export function makeSampleFromGel(
 
     fragments.push(frag);
     origins.push({lane:lf.lane,fragment:lf.fragment});
+    sourceRefs.push({sample:samples[lf.lane]!,fragmentIndex:lf.fragment});
   }
 
-  return { sample: { buffer: { ...BUFFER_TBE }, fragments }, degradeFilter, origins };
+  return { sample: { buffer: { ...BUFFER_TBE }, fragments }, degradeFilter, origins, sourceRefs };
 }

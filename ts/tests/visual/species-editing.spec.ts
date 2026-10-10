@@ -36,7 +36,11 @@ test('create an empty sample, add species, edit, delete final species and save',
   expect((await saveSample(page)).Fragments).toEqual([]);
   await page.getByTestId('sample-view').focus();
   await page.keyboard.press('Escape');
-  await expect(page.getByTestId('sample-view')).toHaveCount(0);
+  // Native tick follows the retained sample reference even with index -1.
+  await page.evaluate(() => new Promise<void>(resolve => {
+    let frames=5;const tick=()=>--frames?requestAnimationFrame(tick):resolve();requestAnimationFrame(tick);
+  }));
+  await expect(page.getByTestId('sample-view')).toBeVisible();
 });
 
 test('right-click creates a species at gel position; Alt clone appends and deletion restores order', async ({ page }) => {

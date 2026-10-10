@@ -20,14 +20,14 @@ describe('native species editing', () => {
     expect(state.selectedFragmentIndex).toBe(n);
     expect(state.samples[0]!.fragments[n].aggregate).not.toBe(fragment.aggregate);
   });
-  it('deletes using the native last-entry replacement and repairs rollover', () => {
+  it('deletes using the native last-entry replacement and retains raw rollover index', () => {
     const selected = gelReducer(initial, { type: 'SET_SELECTED', laneIndex: 0, index: 1 });
     const last = initial.samples[0]!.fragments.length - 1;
-    const state = gelReducer({ ...selected, rollover: { lane: 0, fragmentIndex: last } },
+    const state = gelReducer({ ...selected, rollover: { sample: selected.samples[0]!, fragmentIndex: last } },
       { type: 'DELETE_FRAGMENT', laneIndex: 0, index: 1 });
     expect(state.samples[0]!.fragments[1]).toBe(initial.samples[0]!.fragments[last]);
     expect(state.samples[0]!.fragments[2]).toBe(initial.samples[0]!.fragments[2]);
-    expect(state.rollover).toEqual({ lane: 0, fragmentIndex: 1 });
+    expect(state.rollover).toEqual({ sample: state.samples[0], fragmentIndex: last });
     expect(state.selectedFragmentIndex).toBeNull();
     expect(state.lastSampleLane).toBe(0);
   });
@@ -56,7 +56,7 @@ it('clears shared and legacy selection together when a band is deselected', () =
   const selected = gelReducer(initial, { type: 'SET_SELECTED', laneIndex: 0, index: 0 });
   const cleared = gelReducer(selected, { type: 'CLEAR_FRAGMENT_SELECTION' });
   expect(cleared.selectedFragmentIndex).toBeNull();
-  expect(cleared.selection).toEqual({ lane: 0, fragmentIndex: null });
+  expect(cleared.selection).toBeNull();
 });
 
 it.each(['MOVE_SAMPLE', 'CLONE_SAMPLE_TO_LANE'] as const)('moving another tube clears stale species before %s', (type) => {

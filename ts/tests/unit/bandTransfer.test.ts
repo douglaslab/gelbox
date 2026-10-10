@@ -21,7 +21,7 @@ describe('native cross-lane band drag', () => {
     expect(next.samples[0]!.fragments.map(f => f.bases)).toEqual([8000]);
     expect(next.samples[1]!.fragments).toHaveLength(2);
     expect(next.samples[1]!.fragments[1]).toEqual(s.samples[0]!.fragments[0]);
-    expect(next.selection).toEqual({ lane: 1, fragmentIndex: 1 });
+    expect(next.selection).toEqual({ sample: next.samples[1], fragmentIndex: 1 });
     expect(next.lastSampleLane).toBe(1);
     expect(next.ctx.sampleBuffer).toEqual(BUFFER_H2O);
   });
@@ -83,9 +83,9 @@ it('vertical movement preserves keyboard selection until crossing into another l
   s = gelReducer(s,{type:'SELECT_NEXT'});
   expect(s.selectedFragmentIndex).toBe(1);
   s = move(s,0);
-  expect(s.selection).toEqual({lane:0,fragmentIndex:1});
+  expect(s.selection).toEqual({ sample: s.samples[0],fragmentIndex:1});
   s = move(s,1);
-  expect(s.selection).toEqual({lane:1,fragmentIndex:1});
+  expect(s.selection).toEqual({ sample: s.samples[1],fragmentIndex:1});
 });
 it('unshifted multimer transfer solves the native offset/tier and switches to destination buffer', () => {
   let s = setup();

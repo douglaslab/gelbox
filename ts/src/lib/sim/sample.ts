@@ -2,7 +2,8 @@ import type { Buffer } from './buffer';
 import type { Aggregate } from './aggregate';
 
 // Port of ~/code/gelbox/include/Sample.h.
-// Plain data — no class methods, no parentage tracking (mOriginSample/Frag dropped),
+// Plain scientific data. Runtime identity and synthetic-source references are
+// carried separately by sampleFragRef and makeSampleFromGel.
 // Native metadata is carried unchanged for file interchange; simulation ignores it.
 
 export interface Fragment {

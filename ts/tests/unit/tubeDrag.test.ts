@@ -9,7 +9,7 @@ describe('native tube drag', () => {
     const moved = gelReducer(begun, { type: 'UPDATE_SAMPLE_DRAG', laneIndex: 3 });
     expect(moved.samples[0]).toBeNull();
     expect(moved.samples[3]).toBe(initial.samples[0]);
-    expect(moved.selection).toEqual({ lane: 3, fragmentIndex: 0 });
+    expect(moved.selection).toEqual({ sample: moved.samples[3], fragmentIndex: 0 });
     expect(moved.lastSampleLane).toBe(3);
     expect(moved.selectedLane).toBe(3);
     expect(moved.ctx.sampleBuffer).toEqual(initial.samples[0]!.buffer);
@@ -47,9 +47,9 @@ describe('native tube drag', () => {
 it('keeps native shared species selection on the original during Alt clone', () => {
   const begun = gelReducer(selected, { type: 'BEGIN_SAMPLE_DRAG', laneIndex: 0, clone: true });
   const moved = gelReducer(begun, { type: 'UPDATE_SAMPLE_DRAG', laneIndex: 2 });
-  expect(moved.selection).toEqual({ lane: 0, fragmentIndex: 0 });
-  expect(moved.selectedLane).toBe(0);
-  expect(moved.lastSampleLane).toBe(0);
+  expect(moved.selection).toEqual({ sample: moved.samples[0], fragmentIndex: 0 });
+  expect(moved.selectedLane).toBe(2);
+  expect(moved.lastSampleLane).toBe(2);
   expect(moved.samples[2]).not.toBe(moved.samples[0]);
 });
 it('releasing outside removes the dragged sample from the document', () => {
@@ -58,7 +58,7 @@ it('releasing outside removes the dragged sample from the document', () => {
   const ended = gelReducer(outside, { type: 'END_SAMPLE_DRAG' });
   expect(ended.samples.every(s => s === null)).toBe(true);
   expect(ended.drag).toBeNull();
-  expect(ended.selection).toBeNull();
+  expect(ended.selection!.sample).toBe(selected.samples[0]);
   expect(ended.selectedFragmentIndex).toBeNull();
 });
 it('keeps edits made during an active drag when the sample moves again', () => {
@@ -74,5 +74,5 @@ it.each([false, true])('keeps live keyboard selection across further dragging (c
   const tabbed = gelReducer(begun, { type: 'SELECT_NEXT' });
   expect(tabbed.selectedFragmentIndex).toBe(1);
   const moved = gelReducer(tabbed, { type: 'UPDATE_SAMPLE_DRAG', laneIndex: 3 });
-  expect(moved.selection).toEqual({ lane: clone ? 0 : 3, fragmentIndex: 1 });
+  expect(moved.selection).toEqual({ sample: moved.samples[clone ? 0 : 3], fragmentIndex: 1 });
 });

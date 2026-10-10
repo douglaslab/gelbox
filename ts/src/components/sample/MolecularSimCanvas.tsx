@@ -1,3 +1,4 @@
+import { fragmentIndexIn, sameSample } from '../../lib/gel/sampleFragRef';
 import { useCallback } from 'react';
 import { useGelState, useGelDispatch } from '../gel/GelContext';
 import { SampleSimCanvas } from './SampleSimCanvas';
@@ -14,18 +15,18 @@ export function MolecularSimCanvas({ laneIndex, width, height }: MolecularSimCan
   const dispatch = useGelDispatch();
   const sample = state.samples[laneIndex] ?? null;
 
-  const selectedFragment = state.selection?.lane === laneIndex ? state.selection.fragmentIndex : null;
+  const selectedFragment = fragmentIndexIn(state.selection, sample);
 
   const rolloverFragment =
-    state.rollover?.lane === laneIndex ? state.rollover.fragmentIndex : null;
+    fragmentIndexIn(state.rollover, sample);
 
   const onHoverFragment = useCallback((fragment: number | null) => {
-    if (fragment !== null) {
-      dispatch({ type: 'SET_ROLLOVER', ref: { lane: laneIndex, fragmentIndex: fragment } });
-    } else if (state.rollover?.lane === laneIndex) {
+    if (sample && fragment !== null) {
+      dispatch({ type: 'SET_ROLLOVER', ref: { sample, fragmentIndex: fragment } });
+    } else if (sameSample(state.rollover?.sample, sample)) {
       dispatch({ type: 'SET_ROLLOVER', ref: null });
     }
-  }, [dispatch, laneIndex, state.rollover]);
+  }, [dispatch, sample, state.rollover]);
 
   const onPickFragment = useCallback((fragment: number) => {
     dispatch({ type: 'SET_SELECTED', laneIndex, index: fragment });

@@ -7,7 +7,7 @@ import type { Buffer } from '../sim/buffer';
 import { BUFFER_TBE, BUFFER_TAE, BUFFER_H2O } from '../sim/buffer';
 import { DYE_COLORS, DYE_MAX_MASS, DYE_BP_LO } from '../sim/dye';
 import type { SampleFragRef } from './sampleFragRef';
-import { sampleFragRefEq } from './sampleFragRef';
+import { sampleFragRefEq, copySample, sameSample, reviseSample, refreshSampleRef, fragmentIndexIn } from './sampleFragRef';
 import ladder from '../../../fixtures/states/ladder-1kb.json';
 
 const NUM_LANES = 7;
@@ -34,9 +34,6 @@ export interface SampleDrag {
   type:      'sample';
   laneIndex: number;
   sample: Sample;
-  fragmentIndex: number | null;
-  sourceSelection: SampleFragRef | null;
-  rolloverIndex: number | null;
 }
 export type DragState = BandDrag | SampleDrag;
 
@@ -56,6 +53,7 @@ export interface GelState {
   numLanes:              number;
   ctx:                   SimContext;
   selectedLane:          number;
+  /** Derived compatibility projection of selection into the open sample panel. */
   selectedFragmentIndex: number | null;
   /**
    * Sticky pointer to the lane whose sample should populate the middle Sample
@@ -80,6 +78,7 @@ export interface GelState {
 }
 
 export type Action =
+  | { type: 'SYNC_SELECTION_VIEW' }
   | { type: 'SET_VOLTAGE';        value: number }
   | { type: 'SET_TIME';           value: number }
   | { type: 'SET_WELL_DAMAGE';    value: number }
@@ -156,7 +155,7 @@ function computeWellRects(numLanes: number, gelSize: { width: number; height: nu
 }
 
 export function initialGelState(): GelState {
-  const sample = ladder as unknown as Sample;
+  const sample = copySample(ladder as unknown as Sample);
   const samples: (Sample | null)[] = new Array(NUM_LANES).fill(null);
   samples[0] = sample;
   return {
@@ -234,7 +233,8 @@ export function getFocusedFragmentIndex(state: GelState): number | null {
   const lane=getVisibleSampleLane(state);
   if(lane===null)return null;
   for(const ref of [state.rollover,state.selection]) {
-    if(ref?.lane===lane && ref.fragmentIndex!==null && state.samples[lane]?.fragments[ref.fragmentIndex])return ref.fragmentIndex;
+    const index = fragmentIndexIn(ref, state.samples[lane]);
+    if(index !== null)return index;
   }
   return null;
 }
@@ -255,33 +255,52 @@ export function selectInspectorView(state: GelState): InspectorView {
 
 function selectFragment(state: GelState, lane: number, index: number | null): GelState {
   const sample = state.samples[lane];
-  if (!sample || (index !== null && !sample.fragments[index])) return state;
+  if (!sample) return state;
   const fragment = index === null ? null : sample.fragments[index];
   return { ...state, selectedLane: lane, selectedFragmentIndex: index,
-    selection: { lane, fragmentIndex: index }, lastSampleLane: lane,
+    selection: { sample, fragmentIndex: index }, lastSampleLane: lane,
     ctx: { ...state.ctx, sampleBuffer: sample.buffer },
     inspectorMode: fragment ? (fragment.dye >= 0 ? 'sample-settings' : 'fragment') : 'default' };
 }
 
+/** Native GelView::tick follows the selected sample, even with an invalid
+ * fragment. undefined means no view change; null closes an off-gel view. */
+export function selectionViewTarget(state: GelState): number | null | undefined {
+  if (!state.selection || sameSample(state.selection.sample,
+    state.lastSampleLane === null ? null : state.samples[state.lastSampleLane])) return undefined;
+  const lane = state.samples.slice(0, state.numLanes).findIndex(sample => sameSample(sample, state.selection!.sample));
+  const target = lane === -1 ? null : lane;
+  return target === state.lastSampleLane ? undefined : target;
+}
+
 export function gelReducer(state: GelState, action: Action): GelState {
-  const next = reduceGelState(state, action);
-  const drag = next.drag;
-  if (drag?.type !== 'sample' || action.type === 'BEGIN_SAMPLE_DRAG' || action.type === 'UPDATE_SAMPLE_DRAG') return next;
-  // Native keeps a mutable SampleRef and shared selection during the gesture.
-  // Refresh the retained payload when React edits replace that sample immutably.
-  const sample = drag.laneIndex < 0 ? null : next.samples[drag.laneIndex];
-  return { ...next, drag: { ...drag,
-    sample: sample ?? drag.sample,
-    fragmentIndex: sample && next.lastSampleLane === drag.laneIndex ? next.selectedFragmentIndex : drag.fragmentIndex,
-    rolloverIndex: sample ? (next.rollover?.lane === drag.laneIndex ? next.rollover.fragmentIndex : null) : drag.rolloverIndex,
-    sourceSelection: drag.sourceSelection
-      ? (next.selection?.lane === drag.sourceSelection.lane && next.selection.fragmentIndex !== null ? next.selection : null)
-      : null,
-  } };
+  let next = reduceGelState(state, action);
+  if (next === state) return state;
+  // Refresh references to the immutable version representing the same native
+  // sample. Removed samples remain owned by their references; no global store.
+  const candidates = next.samples.slice();
+  if (next.drag?.type === 'sample') candidates.push(next.drag.sample);
+  const selection = refreshSampleRef(next.selection, candidates);
+  const rollover = refreshSampleRef(next.rollover, candidates);
+  const panel = next.lastSampleLane === null ? null : next.samples[next.lastSampleLane];
+  next = { ...next, selection, rollover,
+    selectedFragmentIndex: fragmentIndexIn(selection, panel) };
+  if (next.drag?.type === 'sample') {
+    const retained = next.drag.sample;
+    const sample = next.samples.find(s => sameSample(s, retained));
+    if (sample && sample !== next.drag.sample) next = { ...next, drag: { ...next.drag, sample } };
+  }
+  return next;
 }
 
 function reduceGelState(state: GelState, action: Action): GelState {
   switch (action.type) {
+    case 'SYNC_SELECTION_VIEW': {
+      const target = selectionViewTarget(state);
+      if (target === undefined) return state;
+      return { ...state, selectedLane: target ?? -1, lastSampleLane: target, inspectorMode: 'default',
+        ctx: target === null ? state.ctx : { ...state.ctx, sampleBuffer: state.samples[target]!.buffer } };
+    }
     case 'SET_VOLTAGE':
       return { ...state, ctx: { ...state.ctx, voltage: action.value } };
     case 'SET_TIME':
@@ -294,7 +313,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
       const sample = state.samples[action.laneIndex];
       if (!sample) return state;
       const samples = state.samples.slice();
-      samples[action.laneIndex] = { ...sample, buffer: action.buffer };
+      samples[action.laneIndex] = reviseSample(sample, { buffer: action.buffer });
       const ctx = action.laneIndex === state.selectedLane
         ? { ...state.ctx, sampleBuffer: action.buffer }
         : state.ctx;
@@ -330,7 +349,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
         );
       }
       const samples = state.samples.slice();
-      samples[action.laneIndex] = { ...sample, fragments };
+      samples[action.laneIndex] = reviseSample(sample, { fragments });
       return { ...state, samples };
     }
     case 'IMPORT_SAMPLE': {
@@ -339,12 +358,12 @@ function reduceGelState(state: GelState, action: Action): GelState {
         ? preferred : state.samples.slice(0, state.numLanes).findIndex(s => !s);
       if (lane < 0) return state;
       const samples = state.samples.slice();
-      samples[lane] = action.sample;
+      samples[lane] = copySample(action.sample);
       return { ...state, samples };
     }
     case 'LOAD_FIXTURE': {
       const samples = state.samples.slice();
-      samples[action.lane] = action.sample;
+      samples[action.lane] = copySample(action.sample);
       return {
         ...state,
         samples,
@@ -362,7 +381,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
       return {
         ...state,
         documentRevision: state.documentRevision + 1,
-        samples: action.samples.slice(),
+        samples: action.samples.map(sample => sample ? copySample(sample) : null),
         numLanes: action.numLanes,
         ctx: action.ctx,
         wellRects,
@@ -381,7 +400,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
       samples[action.laneIndex] = sample;
       return { ...state, samples, selectedLane: action.laneIndex,
         selectedFragmentIndex: null, lastSampleLane: action.laneIndex,
-        selection: { lane: action.laneIndex, fragmentIndex: null }, rollover: null,
+        selection: sameSample(state.selection?.sample, sample) ? state.selection : null,
         ctx: { ...state.ctx, sampleBuffer: sample.buffer }, inspectorMode: 'default' };
     }
     case 'SET_SELECTED':
@@ -390,9 +409,9 @@ function reduceGelState(state: GelState, action: Action): GelState {
     case 'SELECT_PREV': {
       if (state.lastSampleLane === null || state.selectedLane >= state.numLanes) return state;
       const n = state.samples[state.selectedLane]?.fragments.length ?? 0;
-      if (!n) return state;
-      if(state.selection?.lane!==state.lastSampleLane)return state;
-      const cur = state.selection.fragmentIndex;
+      if(!sameSample(state.selection?.sample, state.samples[state.lastSampleLane]))return state;
+      const cur = state.selection!.fragmentIndex;
+      if (cur === null && n === 0) return state;
       const next = action.type === 'SELECT_NEXT'
         ? (cur === null ? 0 : cur + 1 >= n ? null : cur + 1)
         : (cur === null ? n - 1 : cur === 0 ? null : cur - 1);
@@ -404,12 +423,12 @@ function reduceGelState(state: GelState, action: Action): GelState {
         inspectorMode: state.inspectorMode === 'sample-settings' ? 'default' : 'sample-settings' };
     case 'CLOSE_SAMPLE':
       return { ...state, lastSampleLane: null, selectedFragmentIndex: null,
-        selection: null, rollover: null, drag: null, inspectorMode: 'default' };
+        drag: null, inspectorMode: 'default' };
     case 'ADD_FRAGMENT': {
       if (action.laneIndex < 0 || action.laneIndex >= state.numLanes) return state;
       const samples = state.samples.slice();
       const sample = samples[action.laneIndex] ?? { fragments: [], buffer: { ...BUFFER_TBE } };
-      samples[action.laneIndex] = { ...sample, fragments: [...sample.fragments, action.fragment] };
+      samples[action.laneIndex] = reviseSample(sample, { fragments: [...sample.fragments, action.fragment] });
       return selectFragment({ ...state, samples }, action.laneIndex, sample.fragments.length);
     }
     case 'DELETE_FRAGMENT': {
@@ -420,20 +439,14 @@ function reduceGelState(state: GelState, action: Action): GelState {
       fragments[action.index] = fragments[last];
       fragments.pop();
       const samples = state.samples.slice();
-      samples[action.laneIndex] = { ...sample, fragments };
-      const remap = (ref: SampleFragRef | null): SampleFragRef | null => {
-        if (!ref || ref.lane !== action.laneIndex || ref.fragmentIndex === null) return ref;
-        if (ref.fragmentIndex === action.index) return null;
-        return ref.fragmentIndex === last ? { ...ref, fragmentIndex: action.index } : ref;
-      };
-      const selectedFragmentIndex = state.selectedLane !== action.laneIndex ? state.selectedFragmentIndex
-        : state.selectedFragmentIndex === action.index ? null
-        : state.selectedFragmentIndex === last ? action.index : state.selectedFragmentIndex;
-      return { ...state, samples, selectedFragmentIndex, selection: state.selection?.lane === action.laneIndex
-          && state.selection.fragmentIndex === action.index
-          ? { lane: action.laneIndex, fragmentIndex: null } : remap(state.selection),
-        rollover: remap(state.rollover), drag: state.drag?.type === 'sample' ? state.drag : null,
-        inspectorMode: selectedFragmentIndex === null && state.inspectorMode === 'fragment' ? 'default' : state.inspectorMode };
+      samples[action.laneIndex] = reviseSample(sample, { fragments });
+      // The keyboard path deselects its selected fragment first. All other
+      // references keep their raw index, including the old last (now invalid).
+      const selected = sameSample(state.selection?.sample, sample) && state.selection?.fragmentIndex === action.index;
+      return { ...state, samples,
+        selection: selected ? { sample: samples[action.laneIndex]!, fragmentIndex: null } : state.selection,
+        drag: state.drag?.type === 'sample' ? state.drag : null,
+        inspectorMode: selected && state.inspectorMode === 'fragment' ? 'default' : state.inspectorMode };
     }
     case 'BEGIN_DRAG': {
       const sample = state.samples[action.laneIndex];
@@ -457,7 +470,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
         selectedFragmentIndex: action.fragmentIndex,
         lastSampleLane: action.laneIndex,
         // Drag-selecting a band opens the Species inspector too.
-        selection: { lane: action.laneIndex, fragmentIndex: action.fragmentIndex },
+        selection: { sample, fragmentIndex: action.fragmentIndex },
         inspectorMode: frag.dye >= 0 ? 'sample-settings' : 'fragment',
       };
     }
@@ -486,21 +499,21 @@ function reduceGelState(state: GelState, action: Action): GelState {
           const fragments = sample.fragments.slice();
           fragments[index] = fragments[fragments.length - 1];
           fragments.pop();
-          samples[lane] = { ...sample, fragments };
+          samples[lane] = reviseSample(sample, { fragments });
         }
         temporaryLane = samples[target] ? null : target;
         const destination = samples[target] ?? { buffer: { ...BUFFER_TBE }, fragments: [] };
         index = destination.fragments.length;
-        samples[target] = { ...destination, fragments: [...destination.fragments, moved] };
+        samples[target] = reviseSample(destination, { fragments: [...destination.fragments, moved] });
         lane = target;
       } else {
         const fragments = sample.fragments.slice();
         fragments[index] = moved;
-        samples[lane] = { ...sample, fragments };
+        samples[lane] = reviseSample(sample, { fragments });
       }
       const next = { ...state, samples,
         drag: { ...drag, laneIndex: lane, fragmentIndex: index, temporaryLane } };
-      return lane === drag.laneIndex ? next : selectFragment({ ...next, rollover: null }, lane, index);
+      return lane === drag.laneIndex ? next : selectFragment(next, lane, index);
     }
     case 'END_DRAG': {
       const drag = state.drag;
@@ -520,13 +533,9 @@ function reduceGelState(state: GelState, action: Action): GelState {
       }
       for (const i of dyes.values()) fragments[i] = { ...fragments[i], mass: Math.min(DYE_MAX_MASS, fragments[i].mass) };
       const samples = state.samples.slice();
-      samples[drag.laneIndex] = { ...sample, fragments };
+      samples[drag.laneIndex] = reviseSample(sample, { fragments });
       const next = { ...state, samples, drag: null };
-      // Native retains indices; a culled trailing dye no longer has valid focus.
-      if (state.selectedLane === drag.laneIndex && state.selectedFragmentIndex !== null
-        && !fragments[state.selectedFragmentIndex]) {
-        return { ...next, selectedFragmentIndex: null, selection: null, rollover: null };
-      }
+      // Native does not clear invalid external indices after dye compaction.
       return next;
     }
     case 'BEGIN_SAMPLE_DRAG': {
@@ -534,16 +543,11 @@ function reduceGelState(state: GelState, action: Action): GelState {
       if (lane < 0 || lane >= state.numLanes) return state;
       const opened = gelReducer(state, { type: 'SET_SELECTED_LANE', laneIndex: lane });
       const sample = opened.samples[lane]!;
-      const index = state.selection?.lane === lane ? state.selection.fragmentIndex : null;
-      const selected = selectFragment(opened, lane, index);
       const clone = action.clone && state.samples[lane] !== null;
-      return { ...selected, drag: { type: 'sample', laneIndex: clone ? -1 : lane,
-        sample: clone ? { ...sample, buffer: { ...sample.buffer }, fragments: sample.fragments.map(f =>
-          ({ ...f, color: [...f.color], aggregate: [...f.aggregate] })) } : sample,
-        fragmentIndex: clone ? null : index,
-        sourceSelection: clone && index !== null ? { lane, fragmentIndex: index } : null,
-        rolloverIndex: !clone && state.rollover?.lane === lane ? state.rollover.fragmentIndex : null,
-      } };
+      return { ...opened,
+        selection: sameSample(state.selection?.sample, sample) ? state.selection : null,
+        drag: { type: 'sample', laneIndex: clone ? -1 : lane,
+          sample: clone ? copySample(sample) : sample } };
     }
     case 'UPDATE_SAMPLE_DRAG': {
       const drag = state.drag;
@@ -554,17 +558,10 @@ function reduceGelState(state: GelState, action: Action): GelState {
       if (drag.laneIndex !== -1) samples[drag.laneIndex] = null;
       const lane = target !== -1 && samples[target] === null ? target : -1;
       if (lane !== -1) samples[lane] = drag.sample;
-      const nextDrag = { ...drag, laneIndex: lane };
-      let next: GelState = { ...state, samples, drag: nextDrag, selection: null,
-        selectedFragmentIndex: null, lastSampleLane: null, inspectorMode: 'default',
-        rollover: state.rollover?.lane === drag.laneIndex ? null : state.rollover };
-      if (lane !== -1) {
-        next = selectFragment(next, lane, drag.fragmentIndex);
-        if (drag.rolloverIndex !== null) next.rollover = { lane, fragmentIndex: drag.rolloverIndex };
-      }
-      // Native shared selection still points at the original when Alt creates a clone.
-      if (drag.sourceSelection) next = selectFragment(next, drag.sourceSelection.lane, drag.sourceSelection.fragmentIndex);
-      return next;
+      return { ...state, samples, drag: { ...drag, laneIndex: lane },
+        selectedLane: lane, lastSampleLane: lane === -1 ? null : lane,
+        inspectorMode: 'default',
+        ctx: lane === -1 ? state.ctx : { ...state.ctx, sampleBuffer: drag.sample.buffer } };
     }
     case 'END_SAMPLE_DRAG':
       return { ...state, drag: null };
@@ -583,7 +580,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
       if (!src) return state;
       const clone = { ...src, color: [...(action.color ?? src.color)] as [number, number, number], aggregate: [...src.aggregate] };
       const samples = state.samples.slice();
-      samples[action.laneIndex] = { ...sample, fragments: [...sample.fragments, clone] };
+      samples[action.laneIndex] = reviseSample(sample, { fragments: [...sample.fragments, clone] });
       return selectFragment({ ...state, samples }, action.laneIndex, sample.fragments.length);
     }
     case 'SET_FRAGMENT_BASES': {
@@ -593,7 +590,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
         i === action.index ? { ...f, bases: action.bases } : f
       );
       const samples = state.samples.slice();
-      samples[action.laneIndex] = { ...sample, fragments };
+      samples[action.laneIndex] = reviseSample(sample, { fragments });
       return { ...state, samples };
     }
     case 'SET_FRAGMENT_MASS': {
@@ -603,7 +600,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
         i === action.index ? { ...f, mass: action.mass } : f
       );
       const samples = state.samples.slice();
-      samples[action.laneIndex] = { ...sample, fragments };
+      samples[action.laneIndex] = reviseSample(sample, { fragments });
       return { ...state, samples };
     }
     case 'SET_FRAGMENT_ASPECT': {
@@ -613,7 +610,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
         i === action.index ? { ...f, aspectRatio: action.aspectRatio } : f
       );
       const samples = state.samples.slice();
-      samples[action.laneIndex] = { ...sample, fragments };
+      samples[action.laneIndex] = reviseSample(sample, { fragments });
       return { ...state, samples };
     }
     case 'SET_FRAGMENT_AGGREGATE': {
@@ -623,7 +620,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
         i === action.index ? { ...f, aggregate: action.aggregate.slice() } : f
       );
       const samples = state.samples.slice();
-      samples[action.laneIndex] = { ...sample, fragments };
+      samples[action.laneIndex] = reviseSample(sample, { fragments });
       return { ...state, samples };
     }
     case 'SET_FRAGMENT_DEGRADE': {
@@ -633,7 +630,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
         i === action.index ? { ...f, degrade: action.degrade } : f
       );
       const samples = state.samples.slice();
-      samples[action.laneIndex] = { ...sample, fragments };
+      samples[action.laneIndex] = reviseSample(sample, { fragments });
       return { ...state, samples };
     }
     case 'SET_FRAGMENT_COLOR': {
@@ -643,7 +640,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
         i === action.index ? { ...f, color: action.color } : f
       );
       const samples = state.samples.slice();
-      samples[action.laneIndex] = { ...sample, fragments };
+      samples[action.laneIndex] = reviseSample(sample, { fragments });
       return { ...state, samples };
     }
     case 'SET_HOVER_LOUPE_ENABLED':
@@ -711,9 +708,7 @@ function reduceGelState(state: GelState, action: Action): GelState {
     case 'SET_GEL_ROTATE':
       return { ...state, gelRotate: action.value };
     case 'CLEAR_FRAGMENT_SELECTION':
-      return state.lastSampleLane===null
-        ? {...state,selection:null,selectedFragmentIndex:null}
-        : selectFragment(state, state.lastSampleLane, null);
+      return {...state,selection:null,selectedFragmentIndex:null};
     default: {
       const _: never = action;
       void _;
