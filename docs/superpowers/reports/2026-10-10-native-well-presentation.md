@@ -37,3 +37,11 @@ Final: Ruling: performance release budgets remain open — both benchmark cases 
 Final: effects terminal allocation/frame failure reproduced RED in all four new backend cases; immediate idempotent disposal made the complete 20-case presentation lifecycle file GREEN. Final full gates running.
 Final: fixed effects-mode terminal-failure resource leak — four effects terminal allocation/frame cases RED→GREEN; final suite 2,872 unit / 479 browser (one intentional skip) / four production passed. No golden or tolerance changes. Benchmark at 92fd008 passed both backends before this cleanup-only fix; retained under reference/web/performance/native-well-presentation.
 Final: keep local detached-HEAD worktree under existing no-push/no-merge authorization; broader app goal remains open.
+
+## Subsequent follow-up
+
+The deferred fresh-wells-array redraw finding was subsequently reproduced and
+fixed. A broader selection check also caught redundant simulation-context
+replacement, corrected without changing its values. See STATUS's scientific
+redraw isolation record and `gel-render-invalidation.spec.ts`. This does not
+change the original review's historical disposition above.

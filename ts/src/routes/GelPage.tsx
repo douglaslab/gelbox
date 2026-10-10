@@ -37,6 +37,10 @@ function GelInner() {
   const { bands, bandToLaneFragment } = useMemo(() => deriveGelScene(state),
     [state.samples, state.ctx, state.wellRects, state.numLanes]);
 
+  // UI-only state changes must not invalidate the scientific renderer.
+  const visibleWells = useMemo(() => state.wellRects.slice(0, state.numLanes),
+    [state.wellRects, state.numLanes]);
+
   // Gel::getRenderGlobalWarp: exact water composition, fixed native seed.
   const globalWarp = useMemo(() => ({
     h2oDistort: bufferEquals(state.ctx.gelBuffer, BUFFER_H2O),
@@ -110,7 +114,7 @@ function GelInner() {
           transformOrigin: '50% 0%',
         }}
       >
-        {state.renderEnabled ? <GelCanvas wells={state.wellRects.slice(0,state.numLanes)} bands={bands} globalWarp={globalWarp} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} /> : <DirectBandCanvas wells={state.wellRects.slice(0,state.numLanes)} bands={bands} gelSize={state.gelSize} />}
+        {state.renderEnabled ? <GelCanvas wells={visibleWells} bands={bands} globalWarp={globalWarp} gelSize={state.gelSize} pixelsPerUnit={state.pixelsPerUnit} /> : <DirectBandCanvas wells={visibleWells} bands={bands} gelSize={state.gelSize} />}
         <GelOverlay bands={bands} bandToLaneFragment={bandToLaneFragment} />
         <LoupePortalLayer bands={bands} bandToLaneFragment={bandToLaneFragment} />
       </div>

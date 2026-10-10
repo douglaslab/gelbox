@@ -263,7 +263,7 @@ function selectFragment(state: GelState, lane: number, index: number | null): Ge
   const fragment = index === null ? null : sample.fragments[index];
   return { ...state, selectedLane: lane, selectedFragmentIndex: index,
     selection: { sample, fragmentIndex: index }, lastSampleLane: lane,
-    ctx: { ...state.ctx, sampleBuffer: sample.buffer },
+    ctx: state.ctx.sampleBuffer === sample.buffer ? state.ctx : { ...state.ctx, sampleBuffer: sample.buffer },
     inspectorMode: fragment ? (fragment.dye >= 0 ? 'sample-settings' : 'fragment') : 'default' };
 }
 

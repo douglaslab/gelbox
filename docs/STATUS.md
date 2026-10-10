@@ -1,6 +1,6 @@
 # Gelbox web port — current status
 
-_Consolidated: 2026-10-09 · implementation through application runtime integration · native reference `5f51097`._
+_Latest verification: 2026-10-10 · native well presentation and render invalidation · native reference `5f51097`._
 
 ## Direction
 
@@ -16,12 +16,12 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest recorded verification
 
-On macOS with Node 22: these checks include the application runtime integration. Fresh independent review is complete; its Important pointer-ownership finding is fixed.
+On macOS with Node 22: these checks include native well presentation, terminal-failure cleanup, and scientific render invalidation. The well-presentation review’s Important cleanup finding and previously deferred redundant-redraw finding are now fixed. Details and scope remain in the records below.
 
 | Check | Result |
 |---|---|
 | Unit suite | 2,872 passed |
-| Browser suite across WebGPU/WebGL2 | 451 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 481 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | WebKit 18.2 and 27.2: 2 production cases each passed; Firefox 132 and 157 blocked at launch |
 | Production build and TypeScript checks | Passed |
@@ -1790,3 +1790,28 @@ retains review disposition and all execution rulings. A Minor remains deferred:
 fresh visible-well arrays trigger avoidable scientific redraws on unrelated UI
 changes. Whole-app parity, cross-platform/fractional-scale raster acceptance,
 physical driver-reset recovery and native performance budgets remain open.
+
+## Scientific redraw isolation and complete startup gel
+
+The [complete startup gel](../reference/web/startup-gel/README.md) now has an exact
+780×1040 RGBA comparison against the user's native PNG on both backends. This
+extends the previous separate well/band checks to the entire composed gel
+rectangle. Tubes, control/text raster, other states/scales and whole-app GUI
+acceptance remain open. No native fixture or tolerance was changed.
+
+Resolved the review's deferred redraw finding: GelPage memoizes visible wells,
+and fragment selection retains the simulation context when its sample buffer
+has not changed. Previously, pointer hover and keyboard selection invalidated
+all scientific passes despite unchanged scene data. The regression first failed
+on both backends, then passed after the two reference-stability fixes. It counts
+real scientific passes through hover, keyboard selection, settings panels and
+loupe creation/closure; real timeline/lane edits still redraw and alter pixels.
+Band/tube pointer editing retains its native notification behavior. The test
+hides selection strokes only for its scientific-image comparisons, not for the
+independent native startup comparison.
+
+Final checks: 2,872 unit tests, 481 browser cases (one intentional skip), and four
+production cases passed. Native GUI access was retried and still returned
+`cgWindowNotFound`; source-backed work can continue, but that does not certify
+composed original-release GUI workflows. The previous goal turn and this turn
+both made verified product/evidence progress; the full app goal remains active.

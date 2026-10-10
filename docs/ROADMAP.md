@@ -523,3 +523,15 @@ rejection and show no external-DTD request for the tested declaration. Native
 aggregate memory corruption is not emulated; partial-token numeric coercions,
 XML writer round trips and broader parser/GUI behavior remain open. See the
 [XML scope and boundaries](../reference/native/files/interop/xml/README.md).
+
+### Complete startup gel and UI-only render invalidation
+
+The complete default gel rectangle at 1365×768/DPR2 now matches the user's
+native PNG exactly on both effects-mode backends, including wells and bands
+in one comparison. [Retained captures and scope](../reference/web/startup-gel/README.md).
+Fixed redundant scientific rendering during hover/selection/panel/loupe-only
+changes; actual timeline and lane edits retain verified redraws. Fresh gates:
+2,872 units, 481 browser cases plus one intentional skip, four production cases.
+This closes the bounded startup-composition discrepancy and redraw regression,
+not full P0–P5 gates, direct-band raster, controls/text/particle/loupe scenes,
+composed native GUI acceptance or the outstanding platform/release requirements.
