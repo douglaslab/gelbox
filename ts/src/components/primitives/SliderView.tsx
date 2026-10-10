@@ -34,7 +34,7 @@ export interface SliderViewProps {
 const DEFAULT_ICON_SIZE   = { x: 26, y: 26 };
 const DEFAULT_ICON_GUTTER = 16;
 const DEFAULT_WIDTH       = 217;
-const DEFAULT_SNAP_DIST   = 0.04;
+const DEFAULT_SNAP_DIST_PX = 4;
 
 export function SliderView({
   config,
@@ -59,32 +59,51 @@ export function SliderView({
 
   const normalized = calcNormalizedValue(value, config);
 
-  const valueAtPointer = useCallback((pointerX: number): number => {
-    if (!trackRef.current) return value;
-    const r = trackRef.current.getBoundingClientRect();
-    const t = (pointerX - r.left) / r.width;
-    const clamped = Math.max(0, Math.min(1, t));
-    const snapped = applyNotchSnap(
-      clamped,
-      config.notches ?? [],
-      config.notchAction ?? 'none',
-      config.notchSnapDist ?? DEFAULT_SNAP_DIST,
-    );
-    return getMappedValue(snapped, config);
-  }, [config, value]);
+  const dragRef = useRef<{pointerId:number;startX:number;startValue:number;
+    handle:boolean;lastX:number;lastY:number}|null>(null);
 
-  function onPointerDownTrack(e: React.PointerEvent<HTMLDivElement>) {
-    if (!enabled) return;
+  const valueAtNormalized = useCallback((t:number,width:number):number => {
+    const snapped = applyNotchSnap(
+      Math.max(0,Math.min(1,t)), config.notches ?? [],
+      config.notchAction ?? 'none',
+      config.notchSnapDist ?? DEFAULT_SNAP_DIST_PX / width,
+    );
+    return getMappedValue(snapped,config);
+  },[config]);
+
+  function onPointerDownTrack(e:React.PointerEvent<HTMLDivElement>) {
+    if(!enabled||e.button!==0||dragRef.current)return;
+    const r=e.currentTarget.getBoundingClientRect();
+    const center=r.left+normalized*r.width;
+    const handle=config.style==='slider'&&Math.abs(e.clientX-center)<=8&&
+      e.clientY>=r.top&&e.clientY<=r.bottom;
+    const inTrack=e.clientX>=r.left&&e.clientX<=r.right&&
+      e.clientY>=r.top&&e.clientY<=r.bottom;
+    if(!handle&&!inTrack)return;
     e.preventDefault();
-    (e.target as Element).setPointerCapture?.(e.pointerId);
-    onChange(valueAtPointer(e.clientX));
+    dragRef.current={pointerId:e.pointerId,startX:e.clientX,startValue:normalized,
+      handle,lastX:e.clientX,lastY:e.clientY};
+    e.currentTarget.setPointerCapture(e.pointerId);
+    // Native stores the pre-click value even when mouseDown maps a track hit.
+    if(inTrack)onChange(valueAtNormalized((e.clientX-r.left)/r.width,r.width));
   }
 
-  function onPointerMoveTrack(e: React.PointerEvent<HTMLDivElement>) {
-    if (!enabled) return;
-    if (e.buttons !== 1) return;
-    e.preventDefault();
-    onChange(valueAtPointer(e.clientX));
+  function onPointerMoveTrack(e:React.PointerEvent<HTMLDivElement>) {
+    const drag=dragRef.current;
+    if(!enabled||!drag||drag.pointerId!==e.pointerId||e.buttons!==1)return;
+    if(!e.currentTarget.hasPointerCapture(e.pointerId)) {dragRef.current=null;return;}
+    if(e.clientX===drag.lastX&&e.clientY===drag.lastY)return;
+    e.preventDefault();drag.lastX=e.clientX;drag.lastY=e.clientY;
+    const r=e.currentTarget.getBoundingClientRect();
+    const t=drag.handle?drag.startValue+(e.clientX-drag.startX)/r.width:
+      (e.clientX-r.left)/r.width;
+    onChange(valueAtNormalized(t,r.width));
+  }
+
+  function endTrackGesture(e:React.PointerEvent<HTMLDivElement>) {
+    if(dragRef.current?.pointerId!==e.pointerId)return;
+    dragRef.current=null;
+    if(e.currentTarget.hasPointerCapture(e.pointerId))e.currentTarget.releasePointerCapture(e.pointerId);
   }
 
   function onIconClick(which: 'lo' | 'hi') {
@@ -150,6 +169,9 @@ export function SliderView({
           className={styles.track}
           onPointerDown={onPointerDownTrack}
           onPointerMove={onPointerMoveTrack}
+          onPointerUp={endTrackGesture}
+          onPointerCancel={endTrackGesture}
+          onLostPointerCapture={endTrackGesture}
           data-testid={testId ? `${testId}-track` : undefined}
         >
           <div className={styles.line} />
@@ -180,6 +202,9 @@ export function SliderView({
           }}
           onPointerDown={onPointerDownTrack}
           onPointerMove={onPointerMoveTrack}
+          onPointerUp={endTrackGesture}
+          onPointerCancel={endTrackGesture}
+          onLostPointerCapture={endTrackGesture}
           data-testid={testId ? `${testId}-track` : undefined}
         >
           <div

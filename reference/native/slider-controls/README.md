@@ -44,7 +44,26 @@ updated: differences were confined to timeline pixels (bounding box
 baselines, not native goldens.
 
 Open: handle fill/stroke/shadow and pixel snapping, notch styling, label
-font/raster/baselines, buffer bars and graph geometry, and complete slider
-gesture semantics. In particular, native SliderView retains the handle's
-mouse-down offset while dragging; the web control still maps absolute
-pointer position and needs a separate behavioral correction.
+font/raster/baselines, buffer bars and graph geometry, and complete graph/icon gesture semantics. Regular handle-relative dragging
+and four-pixel notch capture are now implemented as described below.
+
+
+## Regular-slider gesture contract
+
+`src/SliderView.cpp::mouseDown` records handle membership and the current
+normalized value before mapping a hit inside `calcPickRect`. `mouseDrag` uses
+that original value plus horizontal displacement / track length for a handle
+hit, otherwise maps the pointer absolutely for a track hit. It ignores zero
+mouse movement. Thus an inside-track handle click changes value initially, but
+subsequent motion is relative to the pre-click value; an outside-track portion
+of an endpoint handle does not cause the initial value change.
+
+`include/Slider.h` sets `mNotchSnapToDist = 4.f`; `Slider.cpp::notch` compares
+in local view pixels. The web's former normalized 0.04 default depended on
+track width and is replaced by 4 / track width before normalized snapping.
+
+`ts/tests/visual/slider-gestures.spec.ts` checks these contracts through browser
+pointer input. It additionally verifies web pointer cancellation, actual capture
+release and held-pointer entry. All twelve backend/case combinations failed
+before correction and passed afterward. This is a source-backed restoration;
+full native GUI replay and graph/remaining control certification are still open.

@@ -187,7 +187,6 @@ export function FragmentView() {
                 quantize: 0,
                 notches: [0, 0.5, 1],
                 notchAction: 'snap',
-                notchSnapDist: 0.04,
                 formatValue: fmtDeg,
               }}
               value={fragment.degrade}

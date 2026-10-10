@@ -233,3 +233,12 @@ reference/native/slider-controls. Full browser verification passes 285 cases,
 with one intentional duplicate skip, and the production build passes. Next
 control correction: native handle-relative drag semantics, followed by remaining
 handle/notch/text, graph and buffer-bar comparisons. Full phase gates remain open.
+
+
+Regular-slider gesture update: handle drags now use the pre-click value plus mouse
+delta, preserving native's distinct initial track-hit behavior. Owned primary
+pointer gestures terminate on release/cancel/capture loss, and notch capture uses
+native's four logical pixels. Twelve new failing-then-passing browser cases bring
+the full passing suite to 297 (one intentional duplicate skipped); build passes.
+Continue with graph gestures and remaining control raster/typography, then complete
+composed native workflow and P5 release certification. These are not closed gates.

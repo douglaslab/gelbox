@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 285 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 297 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -592,3 +592,29 @@ styling, notches, label raster/baselines, buffer and graph geometry, and gesture
 semantics. Source inspection specifically identifies handle-relative dragging:
 native retains its mouse-down offset, while the web currently maps the pointer
 absolutely. Full native visual/workflow and P5 certification remain open.
+
+
+## Native regular-slider gestures
+
+Regular sliders now retain the pre-mouse-down normalized value for handle-relative
+dragging, while preserving native's immediate absolute mapping when mouse-down
+falls inside the track pick rectangle. A handle hit beyond an endpoint starts a
+drag without an initial value change. Track drags remain absolute. Only primary
+pointer gestures started on the control may edit it; pointer-up, cancellation and
+capture loss end ownership. Entering with a held button no longer changes values.
+
+Native Slider's default notch capture is four logical pixels. The web now converts
+that distance using the current track width; the degradation control's old explicit
+4%-of-track override is removed. Explicit normalized overrides remain supported
+by the existing SliderConfig API, but native controls use the pixel default.
+
+Twelve new browser checks failed before correction and pass afterward across both
+renderers. They cover both sides of the endpoint handle, pre-click value retention,
+held entry, secondary clicks, cancellation, actual capture release, fresh gestures
+after termination, and the 3px/5px boundary around the voltage notch. Fresh full
+verification: **297 browser tests passed, one intentional duplicate skipped;
+production build and TypeScript checks passed**. No goldens changed; the unchanged
+model's last full unit baseline remains 2,845 passed. Evidence is pinned
+SliderView.cpp/Slider.cpp/Slider.h plus real browser gestures, not a completed
+native GUI replay. Graph gestures, detailed styling/text and broader parity and
+release gates remain open.
