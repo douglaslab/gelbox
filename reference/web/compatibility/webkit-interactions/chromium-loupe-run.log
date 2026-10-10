@@ -1,0 +1,71 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test loupe-interactions.spec.ts --output=/tmp/gel-loupe-interior-final
+
+[2m[WebServer] [22m(node:50902) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 12 tests using 9 workers
+
+(node:50907) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50907) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50909) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50909) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50906) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50912) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50910) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50912) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50906) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50910) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50905) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50905) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50913) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50913) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  6 [chromium-webgpu] › loupe-interactions.spec.ts:47:1 › Cmd drag creates a loupe on empty gel and moves frame and anchor (501ms)
+  ✓  8 [chromium-webgpu] › loupe-interactions.spec.ts:78:1 › clicking an older loupe raises it and retains its drag and keyboard focus (530ms)
+  ✓  9 [chromium-webgpu] › loupe-interactions.spec.ts:91:1 › an anchor inside its frame keeps priority over frame dragging (555ms)
+  ✓  3 [chromium-webgpu] › loupe-interactions.spec.ts:64:1 › losing creation capture and canceling frame drag release ownership (623ms)
+  ✓  4 [chromium-webgl2] › loupe-interactions.spec.ts:47:1 › Cmd drag creates a loupe on empty gel and moves frame and anchor (657ms)
+(node:50960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50961) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50961) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50962) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50962) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [chromium-webgl2] › loupe-interactions.spec.ts:78:1 › clicking an older loupe raises it and retains its drag and keyboard focus (323ms)
+  ✓  12 [chromium-webgl2] › loupe-interactions.spec.ts:91:1 › an anchor inside its frame keeps priority over frame dragging (322ms)
+  ✓  10 [chromium-webgl2] › loupe-interactions.spec.ts:64:1 › losing creation capture and canceling frame drag release ownership (349ms)
+  ✓  7 [chromium-webgl2] › loupe-interactions.spec.ts:54:1 › loupe particles remain paused without the screenshot freeze hook (2.2s)
+  ✓  2 [chromium-webgpu] › loupe-interactions.spec.ts:54:1 › loupe particles remain paused without the screenshot freeze hook (2.3s)
+  ✓  1 [chromium-webgpu] › loupe-interactions.spec.ts:6:1 › persistent loupe frame, three drag modes, resize and keyboard ownership (2.8s)
+  ✓  5 [chromium-webgl2] › loupe-interactions.spec.ts:6:1 › persistent loupe frame, three drag modes, resize and keyboard ownership (2.9s)
+
+  12 passed (4.1s)

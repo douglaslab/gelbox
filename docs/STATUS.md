@@ -1544,3 +1544,28 @@ Verification: **2,867 unit tests, 439 browser tests and 4 production checks
 passed**, with one intentional duplicate browser skip. Production included fresh
 build/TypeScript checks. No goldens or tolerances changed. Full native visual and
 interaction certification and the remaining release gates are still open.
+
+
+## WebKit core interaction expansion
+
+[Retained WebKit 27.2 evidence](../reference/web/compatibility/webkit-interactions/README.md)
+extends the isolated 1.64.0 runner probe to **21 passing interaction cases**
+covering species editing, sample transfers, inspector/palette behavior and
+persistent loupe movement, resize, stacking and keyboard ownership. The final
+run used byte-identical copies of five repository test files, no retries and
+explicitly disabled snapshot updates. The full-page loupe golden case is
+excluded because no reviewed WebKit baseline exists; it is not counted as passed.
+
+The exercise exposed two portability assumptions in the loupe test. WebKit
+delivers integer mouse coordinates, so the shared test now supplies integer
+input instead of expecting fractional coordinates to survive dispatch. Its
+exact molecule-invariance comparison now uses an integer-aligned interior clip:
+retained before/after images show 357 differing outer focus-border pixels while
+the decoded interior is identical. This avoids conflating the translucent CSS
+frame over a changed background with molecular content. Geometry tolerances and
+full-page Chromium goldens are unchanged. No product code changed.
+
+The affected Chromium loupe suite also passed **12 checks** across both renderers.
+The preceding full suite remains 2,867 unit / 439 browser / 4 production checks;
+only the affected suite was rerun for these test-only changes. Shipping Safari,
+Firefox launch, native GUI/raster parity and remaining release gates stay open.

@@ -7,17 +7,25 @@ test('persistent loupe frame, three drag modes, resize and keyboard ownership',a
  await page.getByTestId('microtube-0').click();
  const gel=page.getByTestId('gel-overlay'),g=(await gel.boundingBox())!;
  const band=page.getByTestId('band-0'),b=(await band.boundingBox())!;
- const x=b.x+b.width/2,y=b.y+b.height/2;
+ // WebKit delivers integer mouse coordinates; use the same exact input on every engine.
+ const x=Math.floor(b.x+b.width/2),y=Math.floor(b.y+b.height/2);
  await page.keyboard.down('Meta');await page.mouse.click(x,y);await page.keyboard.up('Meta');
  const frame=page.getByTestId('loupe-frame-1'),canvas=page.getByTestId('loupe-canvas-1'),anchor=page.getByTestId('loupe-anchor-1');
  await expect(frame).toBeFocused();await expect(canvas).toHaveAttribute('data-frozen','1');
  let f=(await frame.boundingBox())!;
  expect(f.x).toBeCloseTo(x+85.5,1);expect(f.y).toBeCloseTo(y-85.5,1);
- const before=await canvas.screenshot();
+ // Compare molecule content, not the translucent CSS focus border composited
+ // over a different background after moving. Use integer-aligned interior clips
+ // because WebKit expands fractional element screenshot bounds to whole pixels.
+ const contentScreenshot=async()=>{
+  const r=(await canvas.boundingBox())!;
+  return page.screenshot({clip:{x:Math.ceil(r.x+2),y:Math.ceil(r.y+2),width:Math.floor(r.width-4),height:Math.floor(r.height-4)}});
+ };
+ const before=await contentScreenshot();
  // Body moves only the frame; seed/content remain unchanged.
  await page.mouse.move(f.x+10,f.y+155);await page.mouse.down();await page.mouse.move(f.x+40,f.y+175);await page.mouse.up();await page.mouse.move(0,0);
  let moved=(await frame.boundingBox())!;expect(moved.x-f.x).toBeCloseTo(30,1);expect(moved.y-f.y).toBeCloseTo(20,1);
- expect(await canvas.screenshot()).toEqual(before);
+ expect(await contentScreenshot()).toEqual(before);
  let a=(await anchor.boundingBox())!;expect(a.x+a.width/2).toBeCloseTo(x,1);
  // Anchor moves independently.
  await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+12,y+10);await page.mouse.up();
