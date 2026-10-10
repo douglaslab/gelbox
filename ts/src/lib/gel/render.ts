@@ -126,7 +126,7 @@ function createGelRendererImpl(
   return {
     setBands(b)       { bands = b; },
     setGlobalWarp(w)  { globalWarp = w; overcookMemo = null; },
-    render,
+    render:()=>withAllocationRollback(device,render),
     get output()      { return composite.current; },
     destroy() {
       primitives.destroy();

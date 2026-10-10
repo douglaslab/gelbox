@@ -374,3 +374,13 @@ Full checks: 2,851 units, 375 browser cases, one intentional duplicate skipped;
 build passes after a type-only event-listener correction. Next: synchronous
 frame-time exceptions/pool allocation, then lifecycle/resource-growth/platform
 checks. Native parity and P5 release gates remain open.
+
+
+P5 frame recovery update: synchronous gel/molecular draw exceptions now enter
+bounded renderer recovery without stopping the shared application frame loop.
+Mesh and whole-gel frame transactions release new buffers/textures on failure;
+failed renderers are retired, not reused. Six new browser regressions cover both
+view recovery and frame allocation cleanup. Full checks: 2,851 units, 381 browser
+cases, one intentional duplicate skipped; production build/type checks pass.
+Controlled native visual/workflow comparison and lifecycle/resource-growth/
+platform/performance checks remain required; full parity and release gates stay open.

@@ -126,6 +126,7 @@ function createMeshBatchImpl(
       ub.upload(device.queue);
     },
     draw(encoder, targetView, mesh, { clear, clearColor, callIdx }) {
+      return withAllocationRollback(device,()=>{
       // Default clear is transparent black (a:0): the 'over' consumer composites
       // onto the page, so an unspecified clear must not leave opaque black.
       // Consumers that want an opaque background (gel additive, sim bg) always
@@ -157,6 +158,7 @@ function createMeshBatchImpl(
       pass.setVertexBuffer(0, slot.buffer);
       pass.draw(mesh.vertexCount);
       pass.end();
+      });
     },
     destroy() {
       for (const slot of vbos) slot.buffer.destroy();

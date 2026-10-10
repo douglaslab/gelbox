@@ -20,10 +20,11 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
   const {failed,attempt,forcedBackend,onFailure,onLoss,onSuccess,onRetry}=useRendererRecovery();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<{
+    failFrame: ((error:unknown)=>void) | null;
     rendererGpu: GpuRenderer | null;
     rendererGl:  GlRenderer  | null;
     blitFn:      ((output: GpuRenderer | GlRenderer) => void) | null;
-  }>({ rendererGpu: null, rendererGl: null, blitFn: null });
+  }>({ failFrame:null, rendererGpu: null, rendererGl: null, blitFn: null });
   // Async backend setup must render the latest complete scene.
   const latestSceneRef = useRef({ bands, globalWarp });
   latestSceneRef.current = { bands, globalWarp };
@@ -49,6 +50,9 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
       try {
         backend = forcedBackend ?? await resolveBackend();
         if (cancelled || lost) return;
+        stateRef.current.failFrame=error=>{
+          console.error('Gel frame failed:',error);handleLoss(backend!,false);
+        };
         if (backend === 'webgl2') {
           const { configureGl2Context } = await import('../../lib/gpu/gl/context');
           if (cancelled || lost) return;
@@ -196,6 +200,7 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
       stateRef.current.rendererGpu = null;
       stateRef.current.rendererGl  = null;
       stateRef.current.blitFn = null;
+      stateRef.current.failFrame = null;
       for (const dispose of cleanup.reverse()) dispose();
     };
   }, [gelSize.width, gelSize.height, pixelsPerUnit, attempt, forcedBackend, onFailure, onLoss, onSuccess]);
@@ -205,10 +210,12 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
     const { rendererGpu, rendererGl, blitFn } = stateRef.current;
     const renderer = rendererGpu ?? rendererGl;
     if (!renderer || !blitFn) return;
-    renderer.setBands(bands);
-    renderer.setGlobalWarp(globalWarp);
-    renderer.render();
-    blitFn(renderer);
+    try {
+      renderer.setBands(bands);
+      renderer.setGlobalWarp(globalWarp);
+      renderer.render();
+      blitFn(renderer);
+    } catch(error) { stateRef.current.failFrame?.(error); }
   }, [bands, globalWarp]);
 
   return (<>

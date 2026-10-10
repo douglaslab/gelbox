@@ -39,6 +39,7 @@ export interface SampleSimCanvasProps {
 
 // A backend-agnostic handle the mount effect fills in.
 interface RenderHandle {
+  fail(error:unknown):void;
   resize(wpx: number, hpx: number, wcss: number, hcss: number): void;
   draw(mesh: Mesh, bgRgb: [number, number, number]): void;
   destroy(): void;
@@ -96,6 +97,9 @@ export function SampleSimCanvas({
       try {
         backend = forcedBackend ?? await resolveBackend();
         if (cancelled || lost) return;
+        const fail=(error:unknown)=>{
+          console.error('Molecular frame failed:',error);handleLoss(backend!,false);
+        };
         if (backend === 'webgl2') {
           const { configureGl2Context } = await import('../../lib/gpu/gl/context');
           const { createGlMeshBatch } = await import('../../lib/gpu/gl/meshBatch');
@@ -105,6 +109,7 @@ export function SampleSimCanvas({
           cleanup.push(()=>{if(!canvas.isConnected)gl.getExtension('WEBGL_lose_context')?.loseContext();});
           const batch = createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' });
           handleRef.current = {
+            fail,
             resize: (wp, hp, wc, hc) => { canvas.width = wp; canvas.height = hp; batch.setViewport(wc, hc); },
             draw: (mesh, bg) => {
               if(lost)return;
@@ -128,6 +133,7 @@ export function SampleSimCanvas({
           cleanup.push(()=>context.unconfigure());
           const batch = createMeshBatch(device, { viewport: { width, height }, blend: 'over', format });
           handleRef.current = {
+            fail,
             resize: (_wp, _hp, wc, hc) => { batch.setViewport(wc, hc); },
             draw: (mesh, bg) => {
               if(lost)return;
@@ -167,7 +173,8 @@ export function SampleSimCanvas({
       const {selected,rollover}=store.getMolecularHighlights(view);
       const mesh=buildMoleculesMesh(sim.parts,selected,rollover,MESH_TUNING);
       const highlight:0|1|2=downRef.current?2:hoverRef.current?1:0;
-      handle.draw(mesh,computeBackgroundColor(dyeMassesFromSample(view.sample),highlight));
+      try { handle.draw(mesh,computeBackgroundColor(dyeMassesFromSample(view.sample),highlight)); }
+      catch(error) { handle.fail(error); }
     }
     setTick(t=>(t+1)%1_000_000);
   }),[store,view,sim]);
