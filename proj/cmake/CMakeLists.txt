@@ -31,6 +31,11 @@ include( "${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake" )
 
 file( GLOB GELBOX_SOURCES "${APP_PATH}/src/*.cpp" )
 
+if( WIN32 )
+	enable_language( RC )
+	list( APPEND GELBOX_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/Gelbox.rc" )
+endif()
+
 set( GELBOX_ICON "${CMAKE_CURRENT_SOURCE_DIR}/Gelbox.icns" )
 
 if( WIN32 )
