@@ -37,3 +37,10 @@ export const FRAGMENT_WELL_LAYERS:readonly PresentationLayer[]=[
   {mesh:mesh(rounded(x,y,x+w,y+h,r),241,true)},
   {mesh:mesh(rounded(x,y,x+w,y+h,r,true),189),topology:'line-list'},
 ];
+
+/** The same legacy Cinder rounded fan, for other native window backgrounds. */
+export function solidRoundedRect(rect:{x1:number;y1:number;x2:number;y2:number},radius:number,color:readonly number[]):PresentationLayer {
+  const result=mesh(rounded(rect.x1,rect.y1,rect.x2,rect.y2,radius),255,true);
+  for(let i=0;i<result.data.length;i+=6)result.data.set([color[0],color[1],color[2],color[3]??1],i+2);
+  return {mesh:result};
+}

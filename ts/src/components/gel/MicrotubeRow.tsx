@@ -1,4 +1,8 @@
-import { useRef } from 'react';
+import {useSharedPresentation} from './ScenePresentation';
+import {solidRoundedRect} from '../../lib/gel/fragmentWellGeometry';
+import {LAYOUT} from '../../lib/layout/layout';
+import {hexToUnormRgb} from '../../lib/layout/color';
+import { useRef,useMemo,useLayoutEffect } from 'react';
 import { tubeGeometry } from '../../lib/layout/tubeGeometry';
 import type { Rect } from '../../lib/sim/band';
 import { sampleKeyAction } from '../../lib/gel/sampleKeyboard';
@@ -12,13 +16,22 @@ import styles from './MicrotubeRow.module.css';
  * Background follows LAYOUT.gelMicrotubeBkgndColor / gelMicrotubeBkgndColorSelected.
  */
 export function MicrotubeRow() {
+  const registry=useSharedPresentation();
   const state = useGelState();
   const dispatch = useGelDispatch();
   const rowRef = useRef<HTMLDivElement>(null);
 
-  const geometry = Array.from({ length: state.numLanes }, (_, i) =>
-    tubeGeometry(state.gelSize.width, state.gelSize.height, state.numLanes, i));
+  const geometry = useMemo(()=>Array.from({ length: state.numLanes }, (_, i) =>
+    tubeGeometry(state.gelSize.width, state.gelSize.height, state.numLanes, i)),[state.gelSize.width,state.gelSize.height,state.numLanes]);
   const rowTop = geometry[0].well.y1;
+  const backgrounds=useMemo(()=>geometry.map((g,i)=>solidRoundedRect(g.background,g.radius,
+    hexToUnormRgb(state.lastSampleLane===i?LAYOUT.gelMicrotubeBkgndColorSelected:LAYOUT.gelMicrotubeBkgndColor))),[geometry,state.lastSampleLane]);
+  useLayoutEffect(()=>registry?.register('gel',()=>{
+    // Geometry is gel-local. Reconstructing this origin from the row's top
+    // introduces CSS subpixel rounding (the fractional row top is quantized).
+    const rect=rowRef.current?.parentElement?.getBoundingClientRect();if(!rect)return [];
+    return backgrounds.map(op=>({...op,transform:[1,0,0,1,rect.left,rect.top] as const}));
+  },-10),[registry,backgrounds]);
   const rectStyle = (r: Rect) => ({ left: r.x1, top: r.y1 - rowTop,
     width: r.x2 - r.x1, height: r.y2 - r.y1 });
   const pointer = useRef<{ id: number; lane: number; x: number; y: number; selected: boolean } | null>(null);
@@ -89,7 +102,7 @@ export function MicrotubeRow() {
             data-selected={isSelected || undefined}
             data-loaded={hasSample || undefined}
           >
-            <div className={styles.underlay} style={{ ...rectStyle(g.background), borderRadius: g.radius }} />
+            <div className={styles.underlay} style={{ ...rectStyle(g.background), borderRadius: g.radius,opacity:registry?0:undefined }} />
             <button
               type="button"
               aria-label={`Lane ${i + 1}${hasSample ? " sample" : " empty"}`}

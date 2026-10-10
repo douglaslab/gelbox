@@ -1,10 +1,9 @@
 import {createContext,useContext,useEffect,useRef,type ReactNode} from 'react';
-import {ScenePresentationRegistry} from '../../lib/gel/scenePresentation';
+import {ScenePresentationRegistry,type SceneGraphics,type SharedScene} from '../../lib/gel/scenePresentation';
 import {resolveBackend,type Backend} from '../../lib/gel/backend';
 import {useRendererRecovery} from '../../lib/gpu/useRendererRecovery';
 import {watchDeviceErrors,watchDeviceLoss,watchGlLoss} from '../../lib/gpu/loss';
 import {GraphicsFailure} from '../primitives/GraphicsFailure';
-import type {PresentationScene} from '../../lib/gel/presentationTypes';
 const Context=createContext<ScenePresentationRegistry|null>(null);
 export const useSharedPresentation=()=>useContext(Context);
 export function ScenePresentationProvider({registry,children}:{registry:ScenePresentationRegistry|null;children:ReactNode}){
@@ -22,7 +21,8 @@ function SceneCanvas({registry}:{registry:ScenePresentationRegistry}){
    let backend:Backend|null=null;
    try{
     backend=forcedBackend??await resolveBackend();if(cancelled||lost)return;
-    let draw:(scene:PresentationScene<never>,scale:number)=>void;
+    let draw:(scene:SharedScene,scale:number)=>void;
+    let graphics:SceneGraphics;
     if(backend==='webgl2'){
      const [{configureGl2Context},{createGlGelPresentation}]=await Promise.all([import('../../lib/gpu/gl/context'),import('../../lib/gel/present-gl')]);
      if(cancelled||lost)return;
@@ -31,9 +31,10 @@ function SceneCanvas({registry}:{registry:ScenePresentationRegistry}){
      cleanup.push(watchGlLoss(canvas,()=>fail('webgl2',true)));
      let presentation:ReturnType<typeof createGlGelPresentation>|undefined,w=0,h=0;
      cleanup.push(()=>presentation?.destroy());
+     graphics={backend:'webgl2',gl,fail:error=>{console.error('Shared GL resource failed:',error);fail('webgl2');}};
      draw=(scene,scale)=>{
       if(w!==canvas.width||h!==canvas.height){presentation?.destroy();presentation=undefined;w=canvas.width;h=canvas.height;presentation=createGlGelPresentation(gl,{width:w,height:h});}
-      presentation!.draw(scene,[],scale);
+      presentation!.draw({...scene,commands:scene.commands.map(op=>{if(!('texture' in op))return op;if(op.texture.backend!=='webgl2')throw Error('Texture belongs to a different backend');return {...op,texture:op.texture.value};})},[],scale);
      };
     }else{
      const [{requestDevice},{configureContext},{createGelPresentation}]=await Promise.all([import('../../lib/gpu/device'),import('../../lib/gpu/context'),import('../../lib/gel/present')]);
@@ -43,12 +44,14 @@ function SceneCanvas({registry}:{registry:ScenePresentationRegistry}){
      const {context,format}=configureContext(canvas,device);cleanup.push(()=>context.unconfigure());
      let presentation:ReturnType<typeof createGelPresentation>|undefined,w=0,h=0;
      cleanup.push(()=>presentation?.destroy());
+     graphics={backend:'webgpu',device,fail:error=>{console.error('Shared GPU resource failed:',error);fail('webgpu');}};
      draw=(scene,scale)=>{
       if(w!==canvas.width||h!==canvas.height){presentation?.destroy();presentation=undefined;w=canvas.width;h=canvas.height;presentation=createGelPresentation(device,format,{width:w,height:h});}
       const encoder=device.createCommandEncoder({label:'shared-scene'});
-      presentation!.draw(encoder,scene,context.getCurrentTexture().createView(),[],scale);device.queue.submit([encoder.finish()]);
+      presentation!.draw(encoder,{...scene,commands:scene.commands.map(op=>{if(!('texture' in op))return op;if(op.texture.backend!=='webgpu')throw Error('Texture belongs to a different backend');return {...op,texture:op.texture.value};})},context.getCurrentTexture().createView(),[],scale);device.queue.submit([encoder.finish()]);
      };
     }
+    cleanup.push(registry.connect(graphics));
     cleanup.push(registry.subscribe((scene,keys)=>{
      if(cancelled||lost)return;
      try{

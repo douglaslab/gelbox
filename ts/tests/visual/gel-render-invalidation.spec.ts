@@ -1,9 +1,9 @@
 import {test,expect} from '@playwright/test';
 
 test.use({viewport:{width:1365,height:768}});
-test('selection, panels and loupes retain the gel image while scientific edits redraw it',async({page},info)=>{
+for(const shared of [false,true])test(`selection, panels and loupes retain the gel image while scientific edits redraw it (shared: ${shared})`,async({page},info)=>{
  const backend=info.project.name.endsWith('webgl2')?'webgl2':'webgpu';
- await page.addInitScript(backend=>{localStorage.setItem('gelBackend',backend);(window as any).__scientificRenders=0;},backend);
+ await page.addInitScript(({backend,shared})=>{localStorage.setItem('gelBackend',backend);if(shared)localStorage.setItem('gelSharedPresentation','1');(window as any).__scientificRenders=0;},{backend,shared});
  // Count actual scientific passes, not React renders or presentation blits.
  await page.route(`**/src/lib/gel/render${backend==='webgl2'?'-gl':''}.ts*`,async route=>{
   const response=await route.fetch(),body=await response.text();

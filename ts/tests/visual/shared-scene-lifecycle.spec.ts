@@ -19,7 +19,7 @@ async function setup(page:Page,backend:string){
    const proto=GPUDevice.prototype as any,create=proto['create'+kind];
    proto['create'+kind]=function(desc:any){
     // Distinguish this owner from the still-separate gel presentation on the same device.
-    const shared=new Error().stack?.includes('/ScenePresentation.tsx');
+    const shared=/\/(ScenePresentation|SharedGelCanvas)\.tsx/.test(new Error().stack??'');
     if(shared&&kind==='Buffer'&&(window as any).__sharedFail)throw Error('injected shared buffer failure');
     const resource=create.call(this,desc);
     if(shared){live.set(resource,'gpu-'+kind);const destroy=resource.destroy.bind(resource);resource.destroy=()=>{live.delete(resource);destroy();};}

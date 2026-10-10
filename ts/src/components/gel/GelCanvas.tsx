@@ -1,3 +1,5 @@
+import {useSharedPresentation} from './ScenePresentation';
+import {SharedGelCanvas} from './SharedGelCanvas';
 import {watchDeviceLoss,watchDeviceErrors,watchGlLoss} from '../../lib/gpu/loss';
 import {useRendererRecovery} from '../../lib/gpu/useRendererRecovery';
 import {useDisplayScale} from '../../lib/gpu/useDisplayScale';
@@ -8,7 +10,7 @@ import type {Band} from '../../lib/sim/band';
 import type {WellRect} from '../../lib/gel/presentationTypes';
 import {resolveBackend,type Backend} from '../../lib/gel/backend';
 
-interface GelCanvasProps {
+export interface GelCanvasProps {
   bands:Band[];
   globalWarp:GlobalWarp;
   gelSize:{width:number;height:number};
@@ -18,7 +20,11 @@ interface GelCanvasProps {
 type GpuRenderer=ReturnType<typeof import('../../lib/gel/render').createGelRenderer>;
 type GlRenderer=ReturnType<typeof import('../../lib/gel/render-gl').createGlGelRenderer>;
 
-export function GelCanvas({bands,globalWarp,gelSize,pixelsPerUnit,wells}:GelCanvasProps) {
+export function GelCanvas(props:GelCanvasProps){
+  const registry=useSharedPresentation();
+  return registry?<SharedGelCanvas {...props} registry={registry}/>:<StandaloneGelCanvas {...props}/>;
+}
+function StandaloneGelCanvas({bands,globalWarp,gelSize,pixelsPerUnit,wells}:GelCanvasProps) {
   const {failed,attempt,forcedBackend,onFailure,onLoss,onSuccess,onRetry}=useRendererRecovery();
   const dpr=useDisplayScale();
   const canvasRef=useRef<HTMLCanvasElement>(null);

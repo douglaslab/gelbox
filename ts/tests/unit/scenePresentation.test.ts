@@ -23,3 +23,13 @@ it('converts native bottom-left float origins and truncated sizes before top-lef
  expect(nativeViewScissor({left:10.75,top:20.25,width:30.75,height:40.75},100,2)).toEqual({x:21,y:42,width:60,height:80});
  expect(nativeViewScissor({left:-2.75,top:-1.25,width:10.5,height:9.5},100,1)).toEqual({x:-2,y:0,width:10,height:9});
 });
+it('retires resources once before notifying a replacement graphics connection',()=>{
+ const registry=new ScenePresentationRegistry(),calls:string[]=[];
+ const a={backend:'webgl2' as const,gl:{} as WebGL2RenderingContext,fail:()=>{}},b={...a};
+ const stop=registry.connect(a);
+ const release=registry.own(a,()=>calls.push('destroy-a'));
+ registry.subscribeGraphics(()=>calls.push(registry.getGraphics()===b?'connected-b':'disconnected'));
+ registry.connect(b);release();stop();
+ expect(calls).toEqual(['destroy-a','connected-b']);expect(registry.getGraphics()).toBe(b);
+ registry.own(a,()=>calls.push('stale'));expect(calls.at(-1)).toBe('stale');
+});

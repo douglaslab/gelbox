@@ -1,15 +1,38 @@
-import type {PresentationLayer,PresentationScene,PresentationScissor} from './presentationTypes';
+import type {PresentationLayer,PresentationScene,PresentationScissor,PresentationCommand} from './presentationTypes';
+export type SceneGraphics=({backend:'webgpu';device:GPUDevice}|{backend:'webgl2';gl:WebGL2RenderingContext})&{fail:(error:unknown)=>void};
+export type SceneTexture={backend:'webgpu';value:GPUTextureView}|{backend:'webgl2';value:WebGLTexture};
+export type SharedScene=PresentationScene<SceneTexture>;
 export interface SceneFrame {width:number;height:number;scale:number}
-type Contribution=(frame:SceneFrame)=>readonly PresentationLayer[];
+type Contribution=(frame:SceneFrame)=>readonly PresentationCommand<SceneTexture>[];
 /** Paint ownership only. The application owns view order, state, engines and ticks. */
 export class ScenePresentationRegistry {
+ private graphics:SceneGraphics|null=null;
+ private graphicsListeners=new Set<()=>void>();
+ private owners=new Set<()=>void>();
+ getGraphics=()=>this.graphics;
+ subscribeGraphics=(listener:()=>void)=>{this.graphicsListeners.add(listener);return()=>{this.graphicsListeners.delete(listener);};};
+ private changeGraphics(next:SceneGraphics|null){
+  this.graphics=next;
+  for(const release of [...this.owners])release();
+  for(const listener of [...this.graphicsListeners])listener();
+ }
+ connect(graphics:SceneGraphics){
+  this.changeGraphics(graphics);
+  return()=>{if(this.graphics===graphics)this.changeGraphics(null);};
+ }
+ /** Components and context retirement share the same idempotent resource release. */
+ own(graphics:SceneGraphics,destroy:()=>void){
+  let live=true;const release=()=>{if(!live)return;live=false;this.owners.delete(release);destroy();};
+  if(this.graphics===graphics)this.owners.add(release);else release();
+  return release;
+ }
  private entries=new Map<symbol,{key:string;read:Contribution;order:number}>();
  private listeners=new Map<(scene:ReturnType<ScenePresentationRegistry['collect']>,keys:readonly string[])=>void,(error:unknown)=>void>();
  register(key:string,read:Contribution,order=0){
   const token=Symbol(key);this.entries.set(token,{key,read,order});
   return()=>{this.entries.delete(token);};
  }
- collect(order:readonly string[],frame:SceneFrame):PresentationScene<never>&{commands:PresentationLayer[]}{
+ collect(order:readonly string[],frame:SceneFrame):SharedScene{
   const entries=[...this.entries.values()].sort((a,b)=>a.order-b.order);
   return {background:[1,1,1],commands:order.flatMap(key=>entries.filter(e=>e.key===key).flatMap(e=>e.read(frame)))};
  }

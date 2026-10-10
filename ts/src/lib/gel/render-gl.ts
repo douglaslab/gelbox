@@ -1,4 +1,5 @@
 import { nativeOutputExtent } from './warpTexture';
+import { withGlAllocationRollback } from '../gpu/gl/allocations';
 import { createGlPingPong, type GlRenderTarget } from '../gpu/gl/target';
 import { createGlProgram } from '../gpu/gl/program';
 import { createGlQuad, bindQuadAttribs } from '../gpu/gl/quad';
@@ -33,6 +34,14 @@ export interface GlGelRenderer {
 }
 
 export function createGlGelRenderer(
+  gl: WebGL2RenderingContext,
+  gelSize: { width: number; height: number },
+  pixelsPerUnit: number
+): GlGelRenderer {
+  return withGlAllocationRollback(gl, () => buildGlGelRenderer(gl, gelSize, pixelsPerUnit));
+}
+
+function buildGlGelRenderer(
   gl: WebGL2RenderingContext,
   gelSize: { width: number; height: number },
   pixelsPerUnit: number
