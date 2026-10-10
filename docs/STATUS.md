@@ -16,6 +16,8 @@ Implemented and checked areas include native JSON/XML file workflows and metadat
 
 ## Latest original-native editing replay
 
+The original-native tube move into an empty lane, followed by release onto an occupied empty tube, now matches compiled saved documents on all four browser/backend configurations. The destination remains unchanged and the source is removed. [Evidence](../reference/native/replay/tube-movement/README.md). Off-gel and clone native replay remain open.
+
 The empty-tube → create/edit species → delete final species sequence now has actual original-release checkpoints and matching compiled checks on Chromium WebGPU/WebGL2, Firefox and WebKit. The edited sample matches exactly; the original app reopens the web-saved empty sample and reproduces the native checkpoint. [Evidence and encoding distinction](../reference/native/replay/empty-tube/README.md). This closes that W02 subscenario, not the remaining editing gestures or persistent-loupe replay. No product runtime or review artifact changed.
 
 ## Latest native capture diagnostics
