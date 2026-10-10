@@ -27,6 +27,14 @@ ci::gl::TextureRef Layout::uiImage( fs::path stem, string name, int* oScaleFacto
 
 ci::gl::TextureRef Layout::uiImageWithPath( fs::path assetPath, int scaleFactor, int* oScaleFactor ) const
 {	
+	// getAssetPath() returns an empty path when an asset is missing. Cinder's Quartz
+	// loader aborts on an empty path (CFRelease of a NULL CFURL) instead of throwing,
+	// so it must never get one.
+	if ( assetPath.empty() ) {
+		cerr << "ERROR ui image asset not found (empty path)" << endl;
+		return 0;
+	}
+
 	// auto-pick size
 	if ( scaleFactor == -1 ) {
 		scaleFactor = (ci::app::getWindowContentScale()==2) ? 2 : 1;

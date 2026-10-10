@@ -56,4 +56,27 @@ if( APPLE )
 		MACOSX_BUNDLE_BUNDLE_VERSION        "1"
 		MACOSX_BUNDLE_COPYRIGHT             "Copyright © 2018 Douglas Lab"
 	)
+
+	# Cinder on macOS looks for assets in Contents/Resources/assets before walking
+	# up from the executable, and the old Xcode project copied assets/ there, so
+	# Gelbox.app used to be self-contained. Without it a Gelbox.app copied out of
+	# build/ finds no asset directory at all and aborts inside Cinder's image
+	# loader. By default the bundle entry is a symlink to the repository assets/,
+	# which keeps hot-reload working and survives cp -R / Finder copies on this
+	# machine. Configure with -DCINDER_COPY_ASSETS=ON (the same switch Cinder uses
+	# for the assets folder beside the app) to embed a real copy for distribution.
+	set( GELBOX_BUNDLE_ASSETS "$<TARGET_BUNDLE_CONTENT_DIR:Gelbox>/Resources/assets" )
+	if( CINDER_COPY_ASSETS )
+		add_custom_command( TARGET Gelbox POST_BUILD
+			COMMAND "${CMAKE_COMMAND}" -E remove_directory "${GELBOX_BUNDLE_ASSETS}"
+			COMMAND "${CMAKE_COMMAND}" -E copy_directory "${APP_PATH}/assets" "${GELBOX_BUNDLE_ASSETS}"
+			COMMENT "Copying assets into Gelbox.app/Contents/Resources"
+		)
+	else()
+		add_custom_command( TARGET Gelbox POST_BUILD
+			COMMAND "${CMAKE_COMMAND}" -E remove_directory "${GELBOX_BUNDLE_ASSETS}"
+			COMMAND "${CMAKE_COMMAND}" -E create_symlink "${APP_PATH}/assets" "${GELBOX_BUNDLE_ASSETS}"
+			COMMENT "Linking assets into Gelbox.app/Contents/Resources"
+		)
+	endif()
 endif()

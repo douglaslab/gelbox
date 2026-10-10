@@ -34,7 +34,7 @@ Gelbox is a [Cinder](https://libcinder.org) app and builds with CMake on macOS. 
 
 If Cinder lives somewhere else, pass `-DCINDER_PATH=/path/to/Cinder` to the first `cmake` command, or set `CINDER_PATH` in the environment.
 
-The build places a symlink to `assets/` next to `Gelbox.app`, so edits to tuning files and shaders in the repository are picked up live by the running app.
+The build links `assets/` into `Gelbox.app/Contents/Resources` (and beside the app), so the bundle can be copied elsewhere on this machine and edits to tuning files and shaders in the repository are picked up live by the running app. To embed a real copy of the assets for a bundle that will leave this machine, configure with `-DCINDER_COPY_ASSETS=ON`.
 
 To work in Xcode, generate a project instead of makefiles: `cmake -S proj/cmake -B build-xcode -G Xcode`, then open `build-xcode/Gelbox.xcodeproj`.
 
