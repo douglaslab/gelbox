@@ -130,4 +130,14 @@ both renderers. It failed before correction. Existing files.spec.ts additionally
 clicks disabled images/tracks and checks imported concentrations in saved JSON.
 This does not certify label texture metrics or native raster output. Native
 syncPresetToModel sets a vertical notch for the matched preset and retains old
-notches when no preset matches; those markings remain a separate open item.
+notches when no preset matches; those markings and their per-view retention are now implemented.
+
+
+buffer-notches.spec.ts checks TBE/TAE/H2O marker positions at both scales, with
+X = barX + round(preset concentration / maximum × 135) - 1 for a 1px-wide
+CSS stroke. It also observes the live application store to change a sample
+composition without recreating its inspector, checks retained marker positions,
+and reopens the view to verify that a custom initial buffer has no markers.
+Six backend/scenario combinations failed before implementation and pass after.
+The stroke uses fill color × 0.8 at disabled alpha 0.5. Exact native pixel-width
+and antialiasing comparison at Retina scale remains part of raster certification.

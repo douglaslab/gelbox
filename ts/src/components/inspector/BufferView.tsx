@@ -1,4 +1,4 @@
-import type { Dispatch } from 'react';
+import {useState, type Dispatch} from 'react';
 import {resolveAssetUrl} from '../../lib/layout/assets';
 import { LAYOUT } from '../../lib/layout/layout';
 import { SliderView } from '../primitives/SliderView';
@@ -79,6 +79,9 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
   const barH = LAYOUT.bufferViewSliderBarSize.y;
 
   const matched = PRESETS.findIndex((p) => bufferEquals(buffer, p.buffer));
+  const [notchPreset,setNotchPreset]=useState(matched);
+  // Native syncPresetToModel replaces notches only when a preset matches.
+  if(matched!==-1&&matched!==notchPreset)setNotchPreset(matched);
 
   function setParam(key: ParamKey, value: number) {
     onChange({ ...buffer, [key]: value });
@@ -189,6 +192,10 @@ export function BufferView({ buffer, onChange, topLeft, testId = 'buffer-view' }
               barHeight={barH}
               style={{ position: 'absolute', left: 100, top: 0 }}
             />
+            {notchPreset!==-1&&<div data-testid={`${testId}-${key}-notch`}
+              style={{position:'absolute',left:100+Math.round(PRESETS[notchPreset].buffer[key]/max*barW)-1,
+                top:0,width:1,height:barH,pointerEvents:'none',opacity:.5,
+                background:`color-mix(in srgb, ${LAYOUT.bufferViewSliderFillColor} 80%, black)`}}/>}
             {/* Native layoutFromBar anchors the bar, then fits the natural
                 28×26 molecule asset beside it; no notional icon slot. */}
             <img src={resolveAssetUrl(BUFFER_PARAM_ICON_PATH[key])} alt=""

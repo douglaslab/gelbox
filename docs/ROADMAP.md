@@ -274,3 +274,10 @@ and existing saved-file tests verify geometry and disabled behavior. Full suite:
 319 passed, one intentional duplicate skipped; production build passed. Remaining
 buffer work includes preset notch marks and label typography/raster. Full native
 workflow and P5 gates remain open.
+
+
+Buffer-notch update: native preset marker placement and view-lifetime retention
+are restored, including custom compositions and reopen behavior. Six regressions
+bring the passing full browser suite to 325 (one intentional duplicate skipped);
+production build passes. Next inspect inherited font-size adjustment and native
+text measurements; full native raster/workflow and P5 gates remain open.

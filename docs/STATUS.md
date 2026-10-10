@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,845 passed |
-| Browser suite across WebGPU/WebGL2 | 319 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 325 passed; one intentional duplicate invocation skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -700,3 +700,23 @@ skipped; production build and TypeScript checks passed**. No goldens changed;
 2,845 remains the unchanged model's last full unit baseline. Preset notch marks,
 label typography/baselines, exact raster comparison, composed native workflows
 and P5 reliability/release validation remain open.
+
+
+## Buffer preset notch lifetime
+
+Buffer panels now draw vertical preset marks at native pixel-snapped positions,
+including the zero mark just outside the bar's left edge. Marks use the disabled
+native fill-color tint. A matched preset updates them; an unmatched composition
+retains the last matched marks for that view. Reopening a view on a custom buffer
+starts without marks. This follows BufferView::syncPresetToModel rather than
+recalculating markers from arbitrary current concentrations.
+
+Six new backend/scenario cases failed before implementation and pass afterward.
+They cover every parameter/preset at 1×/2× plus an observed-store update on a live
+sample buffer view and closing/reopening it. Fresh complete verification:
+**325 browser tests passed, one intentional duplicate skipped; production build
+and TypeScript checks passed**. Reviewed web captures show the markers; no goldens
+changed. The unchanged model's last full unit baseline remains 2,845 passed.
+Native raster/DPR stroke comparison, typography, composed workflows and P5 gates
+remain open. Next typography check: index.css sets inherited font-size-adjust on
+:root, while only the app menu currently clears it explicitly.
