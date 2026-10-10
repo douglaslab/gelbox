@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,857 passed |
-| Browser suite across WebGPU/WebGL2 | 411 passed; one intentional duplicate skipped |
+| Browser suite across WebGPU/WebGL2 | 421 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
 | Production build and TypeScript checks | Passed |
@@ -1377,3 +1377,28 @@ edit/save rereads were regenerated with the extended driver and still verify.
 Verification: **2,857 unit tests, 411 browser tests and 4 production checks
 passed**, with one intentional duplicate browser skip; production included a
 fresh build and TypeScript checks. No goldens or tolerances changed.
+
+
+## Whole Gel reader and edit/save corpus
+
+The [whole Gel corpus](../reference/native/files/interop/gel/README.md) extends
+independent native execution to four documents: twelve mixed lanes, two lanes
+padded to seven, twenty-two retained slots with twenty visible lanes, and an
+explicitly empty lane array. Ten browser checks compare loaded state/export
+scope and perform a real mass edit/Save Gel on both backends. Native rereading
+of both retained downloads verifies every field against the exact native
+numeric conversion; all other lane/sample/settings data stays unchanged.
+
+The harness initializes four otherwise-indeterminate native layout members
+through a recorded header patch. It rejects absent Samples; earlier source-only
+claims of safe native absent-Samples support were too broad. The retained
+Cinder writer also collapses Samples into an object when the final visible lane
+is populated. Raw output is retained separately from actual loaded native state;
+the web continues preserving all visible lanes in an array. Original release
+behavior must be established before treating that data loss as a parity target.
+Native GUI dispatch and broader composed workflows remain open.
+
+Verification: **2,857 unit tests, 421 browser tests and 4 production checks
+passed**, with one intentional duplicate browser skip. Production included a
+fresh build and TypeScript checks. This increment adds independent evidence
+and regression coverage; no product behavior, goldens or tolerances changed.

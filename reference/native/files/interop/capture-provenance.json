@@ -4,13 +4,14 @@
   "nativeBuild": "build-provenance.json",
   "nativeCaptureRepeatedIdentically": true,
   "files": {
-    "README.md": "67db361080fc4d653a4f92b9e07003a2bdd4e55f4d3c1f52fba71c532e41871d",
-    "build-provenance.json": "3914ea33348fa810257bbcdac98f7439a672e7d6c4a3e5a8ef8aadcc0a5cd23b",
-    "build.py": "871fe39fe58c6c8136a18d4b386fbac70e82be9e32b33202bacb9d163591c3c3",
+    "README.md": "d08629a57bfc0e12089139b9461f5e0a9ee049fda3923c22d7de82b2e776b940",
+    "build-provenance.json": "248150efb08fd5e57978d053e8e9e4ba1ee63e8ed55c3be4d2bb5ebbd00f81fd",
+    "build.py": "2122dc424686a58dbab50099c42b38952add2e4f5bc56db195ab79539787da68",
     "capture.py": "46972fcb2271bf2146004a089a09d62941dd606d5f4d4a2cbfdc219f559e18ef",
-    "driver.cpp": "fae95fe62627e3a214882a036a04a2e8f69e2e66516ef4032fb38ebeb9ef1dc9",
+    "driver.cpp": "bd26c25861e006c64d31decf6a1a4b4b8d235d422196cf400496acd163df34af",
     "empty-input.json": "ebd98a177cc27dbb893b7e0ab36523e8bcc357caec86d6905ae7979e44e964f0",
     "empty-native.json": "bd1f845e6bb091a083b59dc7d52a864a1cb37ea8b39d49cd78509c566f173217",
+    "gel-layout-initialization.patch": "05bf99a4cd707ba6b03cc07881e8635099a63f002fdaa8d30f5d29721df8cbfc",
     "mixed-input.json": "a647ace2a62248b8e45bf13312e9e2bcee42e47e0ee0851d9836a731213fbd22",
     "mixed-native.json": "1eaa27129457b18684b6b62959a389f56fdd1ddd99389c6f5c35691f0c86042d",
     "roundtrip-results.json": "108b04863dd7c1d6d60964aa6aceee09f335658ed7cff705af1902d4f5dc76ae",
@@ -25,11 +26,14 @@
     "/Users/shawn/code/Cinder/src/jsoncpp/jsoncpp.cpp": "84cd7683e0e402a4d1ca8012cd2d2ba48c931191de6435cff592eea1c42c5853"
   },
   "limits": [
-    "Two valid JSON sample shapes and one UI mass edit, plus four safe XML constructor inputs.",
-    "No native GUI, Gel constructor or native application file dispatch in this harness.",
+    "Two valid JSON sample shapes and a UI mass edit, four safe XML inputs, four whole Gel inputs and a twelve-lane UI mass edit/save.",
+    "No native GUI/application dispatch; Gel header layout initialization adaptation required. Absent Samples is not executed.",
     "Retained Cinder JsonTree coercion may differ from modern compatibility shim or original release toolchain.",
-    "Unsafe XML aggregate indices are not executed; broader numeric token/entity/writer cases remain unverified."
+    "Unsafe XML aggregate indices are not executed; broader numeric token/entity/writer cases remain unverified.",
+    "Retained Gel writer collapses array entries when last lane is occupied; raw writer output is retained separately from loaded model state. Original-release equivalence unproven."
   ],
-  "nativeReaderExtension": "XML constructor dispatch; JSON captures and round-trip verifications rerun unchanged",
-  "nativeXmlCaptures": "xml/captures.json"
+  "nativeReaderExtension": "XML and Gel constructors; original Sample captures and rereads regenerated unchanged",
+  "nativeXmlCaptures": "xml/captures.json",
+  "nativeGelCaptures": "gel/captures.json",
+  "nativeGelRoundtrip": "gel/roundtrip-results.json"
 }

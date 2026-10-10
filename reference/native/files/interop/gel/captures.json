@@ -1,0 +1,54 @@
+[
+  {
+    "case": "mixed-twelve",
+    "stateSha256": "053479fdc18d6d4076ab1ae8d9b1452e7c56ae3a09fb54d688c281fdbb926478",
+    "visibleLanes": 12,
+    "retainedSlots": 12,
+    "writerSamplesKind": "dict",
+    "inputSha256": "c3854797c0e4f9fdffb87d67b866c2032530675f75d0c93be6637f62b93718ba",
+    "nativeSha256": "3543627160e08c1b328f7cfb92bf68680b9ab8983adca7c3398dbc893a856ed4",
+    "inputLanes": 12,
+    "writerEntryCount": 2,
+    "repeatIdentical": true,
+    "stderr": "12\nGel::Gel(json), sample 1 is malformed or null.\nGel::Gel(json), sample 2 is malformed or null.\nGel::Gel(json), sample 3 is malformed or null.\nGel::Gel(json), sample 5 is malformed or null.\nGel::Gel(json), sample 6 is malformed or null.\nGel::Gel(json), sample 7 is malformed or null.\nGel::Gel(json), sample 8 is malformed or null.\nGel::Gel(json), sample 9 is malformed or null.\nGel::Gel(json), sample 10 is malformed or null.\n"
+  },
+  {
+    "case": "short",
+    "stateSha256": "f355b363e5c4e5a7705aa36ee916fec69f728b3ccf40f585c4f85cfdc1a1aded",
+    "visibleLanes": 7,
+    "retainedSlots": 7,
+    "writerSamplesKind": "list",
+    "inputSha256": "5158cabde40254598668c61df936e027e7ab979fa6f92b0491db63d1f04704dc",
+    "nativeSha256": "b1b64f77a4be220b1d7ce95d61c2a0132848708375dc3a97bb105c5c1b8e61d5",
+    "inputLanes": 2,
+    "writerEntryCount": 7,
+    "repeatIdentical": true,
+    "stderr": "2\nGel::Gel(json), sample 0 is malformed or null.\n"
+  },
+  {
+    "case": "over-limit",
+    "stateSha256": "bfcd75d7c764dfe939920370210de26a93578c3199a671913b43efa404319fb8",
+    "visibleLanes": 20,
+    "retainedSlots": 22,
+    "writerSamplesKind": "list",
+    "inputSha256": "c3680bb2573cb6a1179159e63cc2b267d7a7aa565f9eb5c2e96e24692aa712ea",
+    "nativeSha256": "8e2838139ccd4f9aa54f352f9fec661457a466f2d496d9e16a5a5eb020ad4d82",
+    "inputLanes": 22,
+    "writerEntryCount": 20,
+    "repeatIdentical": true,
+    "stderr": "22\nGel::Gel(json), sample 0 is malformed or null.\nGel::Gel(json), sample 1 is malformed or null.\nGel::Gel(json), sample 2 is malformed or null.\nGel::Gel(json), sample 3 is malformed or null.\nGel::Gel(json), sample 4 is malformed or null.\nGel::Gel(json), sample 5 is malformed or null.\nGel::Gel(json), sample 6 is malformed or null.\nGel::Gel(json), sample 7 is malformed or null.\nGel::Gel(json), sample 8 is malformed or null.\nGel::Gel(json), sample 9 is malformed or null.\nGel::Gel(json), sample 10 is malformed or null.\nGel::Gel(json), sample 11 is malformed or null.\nGel::Gel(json), sample 12 is malformed or null.\nGel::Gel(json), sample 13 is malformed or null.\nGel::Gel(json), sample 14 is malformed or null.\nGel::Gel(json), sample 15 is malformed or null.\nGel::Gel(json), sample 16 is malformed or null.\nGel::Gel(json), sample 17 is malformed or null.\nGel::Gel(json), sample 18 is malformed or null.\nGel::Gel(json), sample 19 is malformed or null.\n"
+  },
+  {
+    "case": "empty",
+    "stateSha256": "e8f4d99f9389feb12b2879044aff2a8a9482d946e319f49916acb6a97831a272",
+    "visibleLanes": 7,
+    "retainedSlots": 7,
+    "writerSamplesKind": "list",
+    "inputSha256": "0b0d60bf5ba778d8a7a0b8e1ff28161dfaa9fb02fdc40ee0562fb5ab4a1b4b23",
+    "nativeSha256": "289322c6e0451c47f452da34694ddd4a4131123793ca1da9b09973edb8b4b89f",
+    "inputLanes": 0,
+    "writerEntryCount": 7,
+    "repeatIdentical": true,
+    "stderr": "0\n"
+  }
+]

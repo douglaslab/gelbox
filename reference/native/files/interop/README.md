@@ -1,4 +1,4 @@
-# Native sample JSON interoperability
+# Native JSON interoperability
 
 This command-line harness compiles **pinned original Sample.cpp and headers**,
 plus verbatim Buffer constructor/writer functions, against Cinder's retained
@@ -27,9 +27,10 @@ The independent writer emits `Fragments: null` for the empty sample. Native's
 constructor iterates zero children and accepts it. The web importer previously
 rejected the native-generated file. It now accepts null fragment and aggregate
 collections, retaining the distinction between absent Aggregate (default [1])
-and null Aggregate (empty). Native Gel's constructor also accepts absent/null
-Samples; the web pads those to seven empty lanes. The Gel behavior is supported
-by pinned source inspection, **not execution of Gel in this sample harness**.
+and null Aggregate (empty). The web also pads absent/null Gel Samples to seven
+empty lanes. Subsequent execution exposed indeterminate native layout/storage
+for absent Samples; native acceptance of that case is not established. See the
+[whole Gel corpus](gel/README.md) for the corrected boundary.
 Color arrays and malformed scalar/element values keep their existing validation.
 Web exports may write [] for an empty collection; native accepts that equivalent
 representation. Four unit regressions failed before the correction and pass
@@ -62,8 +63,9 @@ changed to impose this old reader's numeric rounding.
 ## Limits
 
 This is finite sample interchange evidence, not full native application replay.
-It does not execute Gel construction, application dispatch, native file
-dialogs, or save/reload after broader composed edits. A separate [XML corpus](xml/README.md)
+The [whole Gel corpus](gel/README.md) now executes Gel construction with an
+explicitly documented layout initialization adaptation. Application dispatch,
+native file dialogs and broader composed edit/save workflows remain uncovered. A separate [XML corpus](xml/README.md)
 now exercises the pinned XML constructor through the same driver. Modern compiler and
 retained Cinder library behavior do not prove original-release equivalence.
 Malformed-data coercions and numeric precision across native toolchains remain
