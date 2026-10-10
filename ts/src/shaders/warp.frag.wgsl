@@ -13,8 +13,11 @@ struct WarpUniforms { scale: vec2f, _pad: vec2f };
 
 @fragment
 fn fs_main(@location(0) texcoord: vec2f) -> @location(0) vec4f {
-  var warp = textureSample(uTexWarp, uSampler, texcoord).xy;
+  // Native Surface rows and displacement use OpenGL texture coordinates.
+  // WebGPU render targets have their top at v=0 instead of native v=1.
+  let controlCoord = vec2f(texcoord.x, 1.0 - texcoord.y);
+  var warp = textureSample(uTexWarp, uSampler, controlCoord).xy;
   warp = (warp - vec2f(0.5, 0.5)) * 2.0;
-  warp = warp * uWarp.scale;
+  warp = warp * uWarp.scale * vec2f(1.0, -1.0);
   return textureSample(uTex0, uSampler, texcoord + warp);
 }

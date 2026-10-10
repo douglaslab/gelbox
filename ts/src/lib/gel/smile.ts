@@ -25,13 +25,9 @@ export function buildSmileWarp(
     bx = 2 * Math.abs(0.5 - bx);
     bx = Math.pow(bx, p.smileExp);
     let dx = 0;
-    // C++ Cinder uses Y-up FBOs (`d.y = -bx`); our WebGPU output texture and
-    // the WebGL2 warp pass (with the M4 V-flip) both put gel.y=0 at the top
-    // (Y-down). The same numeric `dy` therefore inverts the visual direction
-    // of the curl, turning a smile into a frown. Match the C++ visual by
-    // negating: at edges, dy=+bx pushes the output's edge band toward the
-    // well (lower screen-y), producing a smile.
-    let dy = bx;
+    // Native GelRender::smileBand encodes -bx in OpenGL UV coordinates.
+    // WebGPU adapts this shared control field at the shader boundary.
+    let dy = -bx;
     dx = Math.max(-1, Math.min(1, dx));
     dy = Math.max(-1, Math.min(1, dy));
     // Encode: r = lmap(dx, -1..1, 0..255), g = lmap(dy, -1..1, 0..255)

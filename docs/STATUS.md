@@ -256,6 +256,19 @@ Native `openGelDetailView` pauses the particle simulation before preroll. The we
 
 Verification: **2,606 unit tests, 200 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. Coverage includes all three gestures, creation drag, empty-gel creation, frame/anchor overlap, keyboard ownership, resize, cancellation, raising an older view and paused rendering. Loupe-only backend images are byte-identical; two full-page captures were inspected as web regression evidence. Fresh native GUI capture was unavailable because CUA reported `cgWindowNotFound`; existing source and compiled reference evidence remain available, but no fresh native screenshot parity is claimed.
 
-**New open rendering defect:** the full-page captures visibly show opposite band curvature between WebGPU and WebGL2. Existing per-backend goldens accepted this divergence. Investigate shader/texture coordinate orientation and verify against native before claiming renderer parity. This is the next investigation, not an accepted deviation.
+**Rendering defect discovered in this increment:** the full-page captures showed opposite band curvature between WebGPU and WebGL2. Existing per-backend goldens accepted this divergence. The subsequent warp-orientation increment below resolves the coordinate mismatch; complete native rendering parity remains open.
 
 Hover-preview lifetime/shortcut, stable and off-document source identity, application-wide RNG initialization and interleaving, broader rendering parity and release gates remain required. Rotation remains native-disabled; general transformed-layout support was outside this increment's review.
+
+
+## Native warp coordinate orientation
+
+The shared smile control now preserves native negative Y displacement. WebGPU converts both native control-texture row lookup and vertical displacement at its shader boundary. WebGL blur/composite passes and all five current final-output consumers now consistently sample framebuffer textures with native top-at-UV-one coordinates. Previously, compensating flips hid plain-image inversion while global water distortion operated on an inverted intermediate.
+
+New direct GPU readback tests compare ten scenes: plain, smile, well damage, water distortion and combined effects at two asymmetric vertical positions. They require real WebGPU and WebGL2 contexts, matching occupied columns, comparable brightness centroids in matching sRGB targets, absolute plain-band placement and independently specified upward smile edges. The initial readback failed with a six-pixel plain-band mismatch; the native smile-sign unit regression also failed before correction. The test runs once across both backends, with its duplicate project invocation intentionally skipped.
+
+Verification: **2,606 unit tests, 201 browser tests (one intentional duplicate skip), production build and TypeScript checks pass**. Three changed regression images were inspected and refreshed: both multi-band images and the WebGL2 full-page loupe image. The existing native startup capture also shows upward-curving band edges, consistent with pinned source. This is orientation evidence, not fresh native pixel certification.
+
+Fresh read-only review found no critical or important defects. Its minor inaccurate gamma-independence comment was corrected, the test formatting expanded, and the targeted GPU readback rerun passed. Review explicitly declined native CPU arithmetic/byte quantization, well-damage RNG, control-texture resolution, native raster identity and broader renderer lifecycle/platform behavior; those remain required follow-up.
+
+**Remaining native warp differences:** web well damage uses mulberry32 instead of Cinder Rand; control bytes use rounding rather than native uint8 truncation; one-dimensional controls use logical gel width instead of native output pixel width; JavaScript double arithmetic differs from native float32 storage/evaluation. Capture these native CPU fields independently and restore their semantics before certifying native distortion rendering. Backend agreement alone does not establish native parity.

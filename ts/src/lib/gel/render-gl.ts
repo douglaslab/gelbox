@@ -155,16 +155,9 @@ export function createGlGelRenderer(
 
     gl.uniform2f(progWarp.uniform('uWarpScale'), warp.scale[0], warp.scale[1]);
 
-    // Passthrough vertex uniforms. The (1, -1) scale on the texcoord flips V so
-    // the warp shader's sample row aligns with the destination FBO row. The
-    // vertex shader does clipY = 1 - 2*aPos.y; in WebGL2's FBO storage,
-    // clipY=+1 lands at texel-row H-1 while texCoord.y=0 reads texel-row 0 —
-    // so without the flip, sampling at vTexCoord.y reads from the OPPOSITE
-    // end of the texture from where this fragment is being written, producing
-    // a vertically-mirrored warp output. This was visible only when an odd
-    // number of warps ran in sequence (sim-ladder = 1 smile/band; multi-band
-    // overcook on composite = 1 warp). Single-band ran 2 warps (smile+wd),
-    // canceling the flip — which is why the bug stayed latent through M4.
+    // Native shadeRect convention: gel top maps to OpenGL FBO UV y=1.
+    // Keep this orientation in every pass and the final canvas blit so 2D
+    // control fields always operate on the same, unmirrored source image.
     gl.uniform2f(progWarp.uniform('uPositionOffset'), 0, 0);
     gl.uniform2f(progWarp.uniform('uPositionScale'),  gelSize.width, gelSize.height);
     gl.uniform2f(progWarp.uniform('uTexCoordOffset'), 0, 1);
@@ -202,8 +195,8 @@ export function createGlGelRenderer(
         // Passthrough vertex uniforms
         gl.uniform2f(prog.uniform('uPositionOffset'), 0, 0);
         gl.uniform2f(prog.uniform('uPositionScale'),  gelSize.width, gelSize.height);
-        gl.uniform2f(prog.uniform('uTexCoordOffset'), 0, 0);
-        gl.uniform2f(prog.uniform('uTexCoordScale'),  1, 1);
+        gl.uniform2f(prog.uniform('uTexCoordOffset'), 0, 1);
+        gl.uniform2f(prog.uniform('uTexCoordScale'),  1, -1);
         gl.uniform2f(prog.uniform('uGelSize'),        gelSize.width, gelSize.height);
 
         bindQuadAttribs(gl, quad.buffer, prog.attrib('aPos'), prog.attrib('aTexCoord'));
@@ -236,8 +229,8 @@ export function createGlGelRenderer(
     // Set passthrough vertex uniforms — full-screen quad mapped 1:1 to dst pixel space.
     gl.uniform2f(progComp.uniform('uPositionOffset'), 0, 0);
     gl.uniform2f(progComp.uniform('uPositionScale'),  gelSize.width, gelSize.height);
-    gl.uniform2f(progComp.uniform('uTexCoordOffset'), 0, 0);
-    gl.uniform2f(progComp.uniform('uTexCoordScale'),  1, 1);
+    gl.uniform2f(progComp.uniform('uTexCoordOffset'), 0, 1);
+    gl.uniform2f(progComp.uniform('uTexCoordScale'),  1, -1);
     gl.uniform2f(progComp.uniform('uGelSize'),        gelSize.width, gelSize.height);
 
     bindQuadAttribs(gl, quad.buffer, progComp.attrib('aPos'), progComp.attrib('aTexCoord'));

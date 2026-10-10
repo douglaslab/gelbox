@@ -67,8 +67,8 @@ export function GelCanvas({ bands, globalWarp, gelSize, pixelsPerUnit }: GelCanv
             gl.uniform1i(blit.uniform('uTex0'), 0);
             gl.uniform2f(blit.uniform('uPositionOffset'), 0, 0);
             gl.uniform2f(blit.uniform('uPositionScale'), gelSize.width, gelSize.height);
-            gl.uniform2f(blit.uniform('uTexCoordOffset'), 0, 0);
-            gl.uniform2f(blit.uniform('uTexCoordScale'), 1, 1);
+            gl.uniform2f(blit.uniform('uTexCoordOffset'), 0, 1);
+            gl.uniform2f(blit.uniform('uTexCoordScale'), 1, -1);
             gl.uniform2f(blit.uniform('uGelSize'), gelSize.width, gelSize.height);
             bindQuadAttribs(gl, quad.buffer, blit.attrib('aPos'), blit.attrib('aTexCoord'));
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);

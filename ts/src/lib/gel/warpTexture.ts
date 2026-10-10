@@ -1,3 +1,5 @@
+/** Native Surface row order and OpenGL UV displacement. WebGPU converts at
+ * the warp shader boundary; consumers must not flip individual CPU fields. */
 export interface WarpTextureCpu {
   data:   Uint8Array;
   width:  number;

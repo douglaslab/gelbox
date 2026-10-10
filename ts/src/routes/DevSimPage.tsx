@@ -202,8 +202,8 @@ async function mountWebGl2(
   gl.uniform1i(blit.uniform('uTex0'), 0);
   gl.uniform2f(blit.uniform('uPositionOffset'), 0, 0);
   gl.uniform2f(blit.uniform('uPositionScale'), GEL_SIZE.width, GEL_SIZE.height);
-  gl.uniform2f(blit.uniform('uTexCoordOffset'), 0, 0);
-  gl.uniform2f(blit.uniform('uTexCoordScale'), 1, 1);
+  gl.uniform2f(blit.uniform('uTexCoordOffset'), 0, 1);
+  gl.uniform2f(blit.uniform('uTexCoordScale'), 1, -1);
   gl.uniform2f(blit.uniform('uGelSize'), GEL_SIZE.width, GEL_SIZE.height);
   bindQuadAttribs(gl, quad.buffer, blit.attrib('aPos'), blit.attrib('aTexCoord'));
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
