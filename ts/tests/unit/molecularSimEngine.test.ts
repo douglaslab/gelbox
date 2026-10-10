@@ -58,7 +58,7 @@ describe('MolecularSim.tick — spawn / cull / fade lifecycle', () => {
     const sim = new MolecularSim({ bounds: BOUNDS, seed: 42 });
     sim.setSample(sample([frag({ mass: 175 })]));
     expect(sim.parts.length).toBe(0);
-    for (let i = 0; i < 200; i++) sim.tick(1);
+    for (let i = 0; i < 200; i++) sim.tick(false);
     const alive = sim.parts.filter((p) => p.alive).length;
     // targetPop ≈ 50 * sizeDensityScale (=1 at 400×400 bounds) → ≈ 50.
     expect(alive).toBeGreaterThan(40);
@@ -67,7 +67,7 @@ describe('MolecularSim.tick — spawn / cull / fade lifecycle', () => {
   it('dye fragments get zero population (culled to 0)', () => {
     const sim = new MolecularSim({ bounds: BOUNDS, seed: 7 });
     sim.setSample(sample([frag({ mass: 175, dye: 0 })]));
-    for (let i = 0; i < 100; i++) sim.tick(1);
+    for (let i = 0; i < 100; i++) sim.tick(false);
     expect(sim.parts.filter((p) => p.alive).length).toBe(0);
   });
   it('shrinks population when targetPop drops', () => {
@@ -78,7 +78,7 @@ describe('MolecularSim.tick — spawn / cull / fade lifecycle', () => {
     const aliveHigh = sim.parts.filter((p) => p.alive).length;
     expect(aliveHigh).toBeGreaterThan(20);
     sim.setSample(sample([frag({ mass: 1 })]));
-    for (let i = 0; i < 200; i++) sim.tick(1);
+    for (let i = 0; i < 200; i++) sim.tick(false);
     const aliveLow = sim.parts.filter((p) => p.alive).length;
     expect(aliveLow).toBeLessThan(aliveHigh);
   });
@@ -95,7 +95,7 @@ describe('MolecularSim.tick — spawn / cull / fade lifecycle', () => {
     const b = new MolecularSim({ bounds: BOUNDS, seed: 99 });
     a.setSample(sample([frag({ mass: 100 })]));
     b.setSample(sample([frag({ mass: 100 })]));
-    for (let i = 0; i < 50; i++) { a.tick(1); b.tick(1); }
+    for (let i = 0; i < 50; i++) { a.tick(false); b.tick(false); }
     expect(a.parts.length).toBe(b.parts.length);
   });
 });
@@ -178,5 +178,38 @@ describe('native swap deletion reconciliation', () => {
     expect(deleted.every(p => !p.alive && p.fragment === -1)).toBe(true);
     expect(unchanged.every(p => p.fragment === 1)).toBe(true);
     expect(moved.every(p => p.fragment === 0)).toBe(true);
+  });
+});
+
+describe('native molecular timing (5f51097 MolecularSim::tick/preroll)', () => {
+  function running() {
+    const sim = new MolecularSim({ bounds: BOUNDS, seed: 3 });
+    sim.setSample(sample([frag({mass: 175})]));
+    sim.tick();
+    sim.parts[0].age = 0;
+    sim.parts[0].fade = 0.25;
+    return sim;
+  }
+  it('normal and bullet time scale age/motion, but leave fading at full speed', () => {
+    const normal = running(), slow = running();
+    normal.timeScale = slow.timeScale = 2;
+    const start = {...normal.parts[0].loc};
+    normal.tick(false); slow.tick(true);
+    expect(normal.parts[0].age).toBe(2);
+    expect(slow.parts[0].age).toBe(Math.fround(0.2));
+    expect(slow.parts[0].loc.x - start.x).toBeCloseTo((normal.parts[0].loc.x-start.x)*0.1, 6);
+    expect(slow.parts[0].fade).toBe(normal.parts[0].fade);
+    normal.parts[0].alive = slow.parts[0].alive = false;
+    normal.tick(false); slow.tick(true);
+    expect(slow.parts[0].fade).toBe(normal.parts[0].fade);
+  });
+  it('preroll preserves native conversion of timeScale to bulletTime and forces fade', () => {
+    const sim = running();
+    sim.preroll(1);
+    expect(sim.parts[0].age).toBe(Math.fround(0.1));
+    expect(sim.parts[0].fade).toBe(1);
+    sim.timeScale = 0;
+    sim.preroll(1);
+    expect(sim.parts[0].age).toBe(Math.fround(0.1));
   });
 });

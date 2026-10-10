@@ -165,3 +165,14 @@ The initial differential run reproduced **494 failing cases**. All **509 native 
 Verification: **2,411 unit tests, 180 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. Eight inspected web regression images changed after restoring linear mass-to-population tuning: fewer particles alter positions and the species hit by the fixed-coordinate selection test. Both backends retain visible selection outlines and dye tint. These images are web regression baselines, not native visual certification.
 
 This increment validates fragment setup, not the complete molecular simulator. Particle lifecycle/RNG/motion/mesh fidelity, complete loupe gestures and origin identity, native GUI replay and raster comparison remain required. The pinned-source/modern-Cinder reference limitations still apply.
+
+
+## Native molecular timing and initialization
+
+Particle ticks now take the native boolean bullet-time flag. Hovering or holding the sample view slows age and motion to `0.1 × timeScale`; fade-in/out stays at normal speed. Held-pointer slowdown survives leaving the canvas and ends on release/cancel, including release outside the view. Preroll preserves native conversion of `timeScale` to the boolean tick argument.
+
+Ordinary sample panels now open with native particle fade-in. The former double preroll on open and preroll after each edit are removed; `GelView::updateSampleView` explicitly disables native sample preroll. Loupe content updates reset particle state and the current seeded engine, then preroll 100 ticks, matching the reset/initialization sequence in `updateGelDetailViewContent`. Exact native RNG and loupe seed derivation remain open; this change does not certify their sequences.
+
+Two timing unit regressions and the real-browser initialization workflow failed before correction. Fresh review found held-pointer leave and loupe refresh gaps; each reproduced before its fix. Browser tests now cover initial empty sample state, hover/leave, press-drag outside/release, edit without preroll, and cleared particles before loupe refresh preroll. The capture-loss regression now processes a pointer move to activate pending browser capture before releasing it, so it tests loss of active capture reliably.
+
+Verification: **2,413 unit tests, 182 browser tests across WebGPU/WebGL2, production build and TypeScript checks pass**. Eight inspected particle regression images changed because the engine no longer runs extra initialization ticks and native preroll uses slower motion; both backends retain selection outlines and dye tint. These are web regression baselines, not native visual certification. Full RNG/spawning/culling/motion arithmetic, frame cadence across displays, loupe gestures/identity, rendering and native GUI comparison remain required work.

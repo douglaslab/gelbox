@@ -47,6 +47,7 @@ export function Loupe({ loupe, sample, degradeFilter }: LoupeProps) {
       >×</button>
       <SampleSimCanvas
         sample={sample}
+        prerollSample
         width={LOUPE_SIZE}
         height={LOUPE_SIZE}
         seed={Math.floor(loupe.anchor.x) * 19 + Math.floor(loupe.anchor.y) * 1723}

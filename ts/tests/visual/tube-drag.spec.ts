@@ -57,6 +57,8 @@ test('repeated tube click closes sample; right click does not start a tube drag'
 test('unexpected capture loss ends the gesture and permits selecting another tube', async ({ page }) => {
   const source = await center(page, 0);
   await page.mouse.move(source.x, source.y); await page.mouse.down();
+  // Process pending capture before testing loss of active capture.
+  await page.mouse.move(source.x + 1, source.y);
   await page.getByTestId('microtube-row').evaluate(el => el.releasePointerCapture(1));
   await page.mouse.move(source.x, source.y + 130); await page.mouse.up();
   await page.getByTestId('microtube-1').click();

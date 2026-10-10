@@ -25,6 +25,8 @@ export interface SampleSimCanvasProps {
   height: number;
   seed: number;
   degradeFilter?: ReadonlyMap<number, number>;
+  /** Native detail views preroll when their synthetic sample changes. */
+  prerollSample?: boolean;
   selectedFragment?: number | null;
   rolloverFragment?: number | null;
   /** Pointer-down on a particle → its fragment index (omit → non-interactive, e.g. loupe). */
@@ -59,6 +61,7 @@ export function SampleSimCanvas({
   height,
   seed,
   degradeFilter,
+  prerollSample = false,
   selectedFragment = null,
   rolloverFragment = null,
   onPickFragment,
@@ -81,26 +84,13 @@ export function SampleSimCanvas({
   const frozenRef = useRef(false);
   const [frozen, setFrozen] = useState(false);
 
-  // Keep refs to latest sample/degradeFilter so the seed-effect can read them
-  // without listing them as dependencies (avoids re-constructing on sample change).
-  const sampleRef = useRef(sample);
-  sampleRef.current = sample;
-  const degradeFilterRef = useRef(degradeFilter);
-  degradeFilterRef.current = degradeFilter;
-
-  // Engine construction: rebuild whenever seed changes (covers first mount too).
-  // Also applies the current sample + prerolls so the engine is immediately ready.
-  // On first mount the sample-effect below will also run and call setSample/preroll
-  // again — this is intentional and idempotent (cheap FragState rebuild, harmless).
+  // A new panel starts empty; the sample effect applies data once. Native
+  // ordinary sample panels intentionally fade in, while detail views preroll.
   useEffect(() => {
     simRef.current = new MolecularSim({
       bounds: { x1: 0, y1: 0, x2: width, y2: height },
       seed,
     });
-    const s = sampleRef.current;
-    const df = degradeFilterRef.current;
-    simRef.current.setSample(s ?? null, df);
-    if (s) simRef.current.preroll(60);
     tickCountRef.current = 0;
     frozenRef.current = false;
     setFrozen(false);
@@ -116,15 +106,17 @@ export function SampleSimCanvas({
   // Sample change: re-apply sample to the existing engine and re-settle freeze.
   useEffect(() => {
     if (!simRef.current) return;
+    // Native detail refresh clears particles and reseeds before applying content.
+    if (prerollSample) simRef.current = new MolecularSim({bounds: simRef.current.bounds, seed});
     simRef.current.setSample(sample ?? null, degradeFilter);
-    if (sample) simRef.current.preroll(60);
+    if (sample && prerollSample) simRef.current.preroll();
     // Re-settle the freeze window after a sample change (e.g. dye applied) so a
     // frozen golden reflects N ticks past the new sample, not a stale freeze.
     tickCountRef.current = 0;
     frozenRef.current = false;
     setFrozen(false);
     setTick((t) => t + 1);
-  }, [sample, degradeFilter]);
+  }, [sample, degradeFilter, seed, prerollSample]);
 
   // GPU surface mount (mirrors GelCanvas.tsx). Falls back to 2D on throw.
   useEffect(() => {
@@ -207,7 +199,7 @@ export function SampleSimCanvas({
           .__molsimFreezeAfterTicks;
         const shouldTick = freezeAfter === undefined || tickCountRef.current < freezeAfter;
         if (shouldTick) {
-          sim.tick(1);
+          sim.tick(hoverRef.current || downRef.current);
           tickCountRef.current++;
         } else if (!frozenRef.current) {
           frozenRef.current = true;
@@ -252,7 +244,6 @@ export function SampleSimCanvas({
 
   const onPointerLeave = useCallback(() => {
     hoverRef.current = false;
-    downRef.current = false;
     onHoverFragment?.(null);
   }, [onHoverFragment]);
 
@@ -270,6 +261,16 @@ export function SampleSimCanvas({
 
   const onPointerUp = useCallback(() => { downRef.current = false; }, []);
 
+  // Native mouse-down ownership survives leaving the view until release.
+  useEffect(() => {
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
+    return () => {
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
+    };
+  }, [onPointerUp]);
+
   const aliveCount = simRef.current?.parts.filter((p) => p.alive).length ?? 0;
 
   return (
@@ -278,10 +279,12 @@ export function SampleSimCanvas({
       data-testid={testId}
       data-alive-count={aliveCount}
       data-frozen={frozen ? '1' : '0'}
+      onPointerEnter={() => { hoverRef.current = true; }}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
+      onPointerCancel={() => { downRef.current = false; onPointerLeave(); }}
       style={{
         width:  `${width}px`,
         height: `${height}px`,

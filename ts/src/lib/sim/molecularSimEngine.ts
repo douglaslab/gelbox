@@ -1,6 +1,6 @@
 // Phase-3 M20: pure-data port of `~/code/gelbox/src/MolecularSim.cpp`.
 //
-// Holds the live particle list for one Sample. `tick(dt)` runs spawn/cull/
+// Holds the live particle list for one Sample. `tick(bulletTime)` runs spawn/cull/
 // fade/age — no rendering. `setSample()` reconciles the per-fragment Frag
 // state when the underlying Sample changes.
 //
@@ -238,15 +238,10 @@ export class MolecularSim {
     }
   }
 
-  /**
-   * Advance the sim by one tick. `dt` is in the C++'s notional "tick units"
-   * (matching the C++ `tick()` signature: bulletTime is a boolean toggle, the
-   * actual scale is in tuning). Pass dt=1 for normal time, or use the
-   * provided convenience defaults.
-   */
-  tick(dt: number = 1): void {
+  /** Native tick takes a bullet-time flag; fades remain independent of motion time. */
+  tick(bulletTime: boolean = false): void {
     const cfg = MOLECULAR_SIM_TUNING;
-    const dtScaled  = dt * this.timeScale;
+    const dtScaled = Math.fround(Math.fround(bulletTime ? cfg.bulletTimeScale : 1) * Math.fround(this.timeScale));
     const dtFadeIn  = 1;
     const dtFadeOut = 1;
 
@@ -375,7 +370,7 @@ export class MolecularSim {
 
   /** Run `n` ticks back-to-back to settle the population at startup. */
   preroll(n: number = 100): void {
-    for (let i = 0; i < n; i++) this.tick(1);
+    for (let i = 0; i < n; i++) this.tick(Boolean(this.timeScale));
     // Force fade in/out fully.
     for (const p of this.parts) p.fade = p.alive ? 1 : 0;
   }
