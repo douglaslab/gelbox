@@ -21,7 +21,7 @@ On macOS with Node 22: these checks include the application runtime integration.
 | Check | Result |
 |---|---|
 | Unit suite | 2,851 passed |
-| Browser suite across WebGPU/WebGL2 | 383 passed; one intentional duplicate invocation skipped |
+| Browser suite across WebGPU/WebGL2 | 385 covered by full run + corrected track-test rerun; one intentional duplicate skipped |
 | Production build and TypeScript checks | Passed |
 
 These results combine regression coverage and independent native differential checks. Web screenshot baselines and cross-backend agreement do not establish native pixel parity. Native release captures, a modern isolated rebuild dossier, and reproducible C++ harnesses exist; fresh native menu interaction is working; comprehensive native GUI replay and original-executable/toolchain equivalence remain limitations. Detailed evidence and qualifications appear in the incremental records below.
@@ -1008,3 +1008,24 @@ Fresh full verification: **383 browser tests passed, one intentional duplicate
 skipped; production build and TypeScript checks passed**. The unchanged unit
 suite's last verified count remains 2,851. Native workflow/visual certification
 and remaining lifecycle, production/platform/performance gates remain open.
+
+
+## Native timeline track raster
+
+Lossless startup comparisons exposed a CSS raster mismatch: the native track
+center falls between Retina rows, giving two half-covered RGB203 rows. The web
+CSS rectangle snapped to two fully covered RGB151 rows despite a half-CSS-pixel
+height. Slider tracks now use an SVG line with the existing native color, center
+and physical-pixel width. Enabled/disabled colors and DPR1/2 geometry remain
+checked. Two new real-browser pixel regressions failed before and pass after.
+`reference/native/modern/lossless-probe/timeline-comparison.json` records samples
+from both native captures and the prior web output.
+
+Verification: the full browser run on final product code passed 381 cases with
+one intentional skip; four old track tests assumed a div. After updating their
+selector and SVG stroke-bounds assertions, all six track/pixel checks passed
+(two overlap the full run), covering 385 unique cases. An accidental graph CSS
+change was restored before that full run; graph tests pass. Production build
+and TypeScript checks pass. No snapshot baselines changed. Unit code is unchanged.
+Typography, handles, tubes, well vertical/corner coverage and band raster still
+need comparison; this is not full startup or native parity certification.

@@ -392,3 +392,11 @@ well strokes. Corrected the web's CSS-pixel well width to native physical-pixel
 width; two pixel regressions pass, full browser suite 383 passed/one intentional
 skip, build/type checks pass. Vertical/corner raster differences, original-build
 equivalence and broader native visual/workflow comparisons remain open.
+
+
+P3 timeline raster update: native lossless captures show two half-covered Retina
+rows where CSS produced two fully covered rows. SVG track lines now match these
+native samples. Final-product full browser run passed 381 plus one skip; the four
+obsolete div-based track checks passed after selector/assertion updates, with two
+pixel regressions rerun (six targeted passes). Build passes. Native complete-scene
+and composed-workflow gates remain open.

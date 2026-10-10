@@ -7,10 +7,12 @@ for(const scale of [1,2])test.describe(`native track ${scale}x`,()=>{
   for(const id of ['gel-voltage','gel-rotate']){
    const track=page.getByTestId(`${id}-track`);
    const rect=(await track.boundingBox())!;
-   const line=track.locator(':scope > div').first();
+   const line=track.locator(':scope > svg > line');
    const bounds=(await line.boundingBox())!;
+   await expect(line).toHaveAttribute('stroke-width',String(1/scale));
    expect(bounds.height).toBe(1/scale);
-   expect(bounds.y).toBe(rect.y+10+.5-.5/scale);
+   expect(bounds.y+bounds.height/2).toBe(rect.y+10+.5);
+   expect(await line.evaluate(el=>getComputedStyle(el).color)).toBe(id==='gel-voltage'?'rgb(151, 151, 151)':'rgb(229, 229, 229)');
    const dots=track.locator('[data-part="notch"]');
    expect(await dots.count()).toBeGreaterThan(0);
    for(const dot of await dots.all()){

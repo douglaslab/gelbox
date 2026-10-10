@@ -313,8 +313,9 @@ function SliderDrawing({normalized,enabled,notches,testId}:{normalized:number;en
   },[]);
   const color=enabled?[73,144,226]:[164,199.5,240.5];
   return <>
-    <div className={styles.line} style={{height:1/surface.dpr,
-      top:`calc(50% + ${.5-.5/surface.dpr}px)`}} />
+    <svg className={styles.line} aria-hidden="true" style={{height:1,top:'50%',width:'100%',overflow:'visible'}}>
+      <line x1="0" x2="100%" y1="0.5" y2="0.5" stroke="currentColor" strokeWidth={1/surface.dpr}/>
+    </svg>
     {notches.map((n,i)=><div key={i} data-part="notch" className={styles.notch}
       style={{left:Math.round(n*surface.width)}} />)}
     <div ref={ref} className={styles.handle} data-testid={testId}

@@ -41,11 +41,11 @@
   right: 0;
   top: 50%;
   height: 1px;
-  background: #979797;
+  color: #979797;
 }
 
 .disabled .line {
-  background: #E5E5E5;
+  color: #E5E5E5;
 }
 
 .handle {
