@@ -128,6 +128,16 @@ Files: `GelCanvas.tsx`, `DirectBandCanvas.tsx`, `Loupe.tsx`,
 
 ## Task 4: Ordered chrome, text and production switch
 
+First asset/button increment in progress alongside the remaining Task3 acceptance:
+settings icon paint now uses the gel's ordered contribution and a scene-local,
+reference-counted image cache. Pinned ButtonView method captures match16 RGB
+comparisons across DPR1/2 and both backends. Native hover/down tint and covering
+by a later imported image are verified. The cache shares textures among consumers,
+retains decode across backend loss, releases late decode, and retries a failed load
+on a new graphics connection. This establishes a reusable asset path; other icons,
+control geometry, text/font evidence and the production switch remain open.
+
+
 Files: `MicrotubeRow.tsx`, `GelOverlay.tsx`, `SampleView.tsx`, inspector views,
 `Brace.tsx`, control primitives and the shared texture cache/registry.
 

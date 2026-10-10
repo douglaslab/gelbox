@@ -5,16 +5,16 @@ async function setup(page:Page,info:TestInfo){
  await page.addInitScript(backend=>{
   localStorage.setItem('gelBackend',backend);localStorage.setItem('gelSharedPresentation','1');
   (window as any).__imageDevices=[];const request=GPUAdapter.prototype.requestDevice;GPUAdapter.prototype.requestDevice=async function(...args){const device=await request.apply(this,args);(window as any).__imageDevices.push(device);return device;};
-  const decode=window.createImageBitmap.bind(window);(window as any).__imageCloses=0;window.createImageBitmap=(async(...args:any[])=>{const bitmap=await (decode as any)(...args),close=bitmap.close.bind(bitmap);bitmap.close=()=>{(window as any).__imageCloses++;close();};if((window as any).__holdImageDecode)await new Promise<void>(r=>{(window as any).__finishImageDecode=r;});return bitmap;}) as any;
+  const decode=window.createImageBitmap.bind(window);(window as any).__imageCloses=0;window.createImageBitmap=(async(...args:any[])=>{const bitmap=await (decode as any)(...args);if(!(args[0] instanceof File))return bitmap;const close=bitmap.close.bind(bitmap);bitmap.close=()=>{(window as any).__imageCloses++;close();};if((window as any).__holdImageDecode)await new Promise<void>(r=>{(window as any).__finishImageDecode=r;});return bitmap;}) as any;
   const original=HTMLCanvasElement.prototype.getContext;
   HTMLCanvasElement.prototype.getContext=function(...args:any[]){const context=original.apply(this,args as any);if(context){this.dataset.context=args[0];if(this.dataset.testid==='shared-scene')(window as any).__imageContext=context;}return context;} as any;
   (window as any).__imageLive=new Set();const live=(window as any).__imageLive;
   const copy=GPUQueue.prototype.copyExternalImageToTexture;GPUQueue.prototype.copyExternalImageToTexture=function(...args){if((window as any).__imageFail)throw Error('Injected image upload failure');return copy.apply(this,args);};
-  const upload=WebGL2RenderingContext.prototype.texImage2D;WebGL2RenderingContext.prototype.texImage2D=function(...args:any[]){if((window as any).__imageFail&&/sceneImageTexture/.test(new Error().stack??''))throw Error('Injected image upload failure');return (upload as any).apply(this,args);};
+  const upload=WebGL2RenderingContext.prototype.texImage2D;WebGL2RenderingContext.prototype.texImage2D=function(...args:any[]){if((window as any).__imageFail&&/sceneImageTexture/.test(new Error().stack??'')&&!/sceneAssets/.test(new Error().stack??''))throw Error('Injected image upload failure');return (upload as any).apply(this,args);};
   const create=GPUDevice.prototype.createTexture;
   GPUDevice.prototype.createTexture=function(desc){const t=create.call(this,desc);if(desc.label==='scene-image'){live.add(t);const destroy=t.destroy.bind(t);t.destroy=()=>{live.delete(t);destroy();};}return t;};
   const gl=WebGL2RenderingContext.prototype,allocate=gl.createTexture,remove=gl.deleteTexture;
-  gl.createTexture=function(){const t=allocate.call(this);if(t&&/sceneImageTexture/.test(new Error().stack??''))live.add(t);return t;};
+  gl.createTexture=function(){const t=allocate.call(this);if(t&&/sceneImageTexture/.test(new Error().stack??'')&&!/sceneAssets/.test(new Error().stack??''))live.add(t);return t;};
   gl.deleteTexture=function(t){live.delete(t);remove.call(this,t);};
  },backend);
  await page.setViewportSize({width:1365,height:768});await page.goto('/#/gel');
@@ -36,12 +36,17 @@ test('reference image uses shared graphics and releases its texture on removal',
 });
 
 test('late upload import and late image decode cannot allocate after removal',async({page},info)=>{
+ await page.route('**/src/components/gel/SharedReferenceImage.tsx*',async route=>{
+  const response=await route.fetch(),body=await response.text();
+  const next=body.replace(/import\("[^"\n]*sceneImageTexture\.ts[^"\n]*"\)/,'import("/src/lib/gel/sceneImageTexture.ts?heldReferenceUpload=1")');
+  expect(next).not.toBe(body);await route.fulfill({response,body:next});
+ });
  await setup(page,info);let release!:()=>void,arrived!:()=>void;
  const held=new Promise<void>(r=>release=r),requested=new Promise<void>(r=>arrived=r);
- await page.route('**/src/lib/gel/sceneImageTexture.ts*',async route=>{arrived();await held;await route.continue();});
+ await page.route('**/src/lib/gel/sceneImageTexture.ts*',async route=>{if(route.request().url().includes('heldReferenceUpload')){arrived();await held;}await route.continue();});
  await drop(page);await requested;await expect(page.getByTestId('reference-image-1')).toBeFocused();
  await page.keyboard.press('Delete');await expect(page.getByTestId('reference-image-1')).toHaveCount(0);release();
- await page.evaluate(async()=>{await import('/src/lib/gel/sceneImageTexture.ts');await new Promise<void>(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>r())));});
+ await page.evaluate(async()=>{await import('/src/lib/gel/sceneImageTexture.ts?heldReferenceUpload=1');await new Promise<void>(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>r())));});
  expect(await page.evaluate(()=>(window as any).__imageLive.size)).toBe(0);expect(await page.evaluate(()=>(window as any).__imageCloses)).toBe(1);
  await page.evaluate(()=>{(window as any).__holdImageDecode=true;});await drop(page);
  await expect.poll(()=>page.evaluate(()=>typeof (window as any).__finishImageDecode)).toBe('function');

@@ -3,7 +3,7 @@ import {withAllocationRollback,allocateTexture} from '../gpu/allocations';
 import {withGlAllocationRollback} from '../gpu/gl/allocations';
 export interface SceneImageTexture {texture:SceneTexture;destroy:()=>void}
 /** Native ImageView uses straight UNORM pixels with a complete linear mip chain. */
-export function createSceneImageTexture(graphics:SceneGraphics,bitmap:ImageBitmap):SceneImageTexture {
+export function createSceneImageTexture(graphics:SceneGraphics,bitmap:ImageBitmap,label='scene-image'):SceneImageTexture {
  const width=bitmap.width,height=bitmap.height;
  if(!width||!height)throw Error('Reference image bitmap has no pixels');
  if(graphics.backend==='webgl2')return withGlAllocationRollback(graphics.gl,()=>{
@@ -19,7 +19,7 @@ export function createSceneImageTexture(graphics:SceneGraphics,bitmap:ImageBitma
  const device=graphics.device;
  return withAllocationRollback(device,()=>{
   const levels=Math.floor(Math.log2(Math.max(width,height)))+1;
-  const texture=allocateTexture(device,{label:'scene-image',size:{width,height},format:'rgba8unorm',mipLevelCount:levels,
+  const texture=allocateTexture(device,{label,size:{width,height},format:'rgba8unorm',mipLevelCount:levels,
    usage:GPUTextureUsage.TEXTURE_BINDING|GPUTextureUsage.COPY_DST|GPUTextureUsage.RENDER_ATTACHMENT});
   device.queue.copyExternalImageToTexture({source:bitmap},{texture,premultipliedAlpha:false,colorSpace:'srgb'},{width,height});
   if(levels>1){

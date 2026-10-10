@@ -1,0 +1,46 @@
+import {createSceneImageTexture,type SceneImageTexture} from './sceneImageTexture';
+import type {SceneGraphics,ScenePresentationRegistry,SceneTexture} from './scenePresentation';
+interface Entry {users:number;bitmap:ImageBitmap|null;error:unknown;errorOn:SceneGraphics|null;abort:AbortController;graphics:SceneGraphics|null;resource:SceneImageTexture|null;release?:()=>void}
+const caches=new WeakMap<ScenePresentationRegistry,Map<string,Entry>>();
+/** Native Layout caches UI images by resolved asset path. Keep that ownership
+ * separate from document images, with backend resources retired by the scene. */
+export function acquireSceneAsset(registry:ScenePresentationRegistry,url:string){
+ let cache=caches.get(registry);if(!cache){cache=new Map();caches.set(registry,cache);}
+ let entry=cache.get(url);
+ if(!entry){
+  entry={users:0,bitmap:null,error:null,errorOn:null,abort:new AbortController(),graphics:null,resource:null};cache.set(url,entry);
+  load(entry,url);
+ }
+ entry.users++;const target=entry;let live=true;
+ return {
+  texture(graphics:SceneGraphics|null):SceneTexture|null{
+   if(!live||!graphics)return null;
+   if(target.error){
+    if(!target.errorOn){target.errorOn=graphics;throw target.error;}
+    if(target.errorOn===graphics)throw target.error;
+    // A new graphics connection represents fallback or explicit retry.
+    // Do not repeatedly fetch a failed asset from every animation frame.
+    load(target,url);
+   }
+   if(!target.bitmap)return null;
+   if(!target.resource||target.graphics!==graphics){
+    target.release?.();const resource=createSceneImageTexture(graphics,target.bitmap,'scene-asset');
+    target.resource=resource;target.graphics=graphics;
+    target.release=registry.own(graphics,()=>{resource.destroy();if(target.resource===resource){target.resource=null;target.graphics=null;}});
+   }
+   return target.resource?.texture??null;
+  },
+  release(){if(!live)return;live=false;if(--target.users)return;cache!.delete(url);target.abort.abort();target.release?.();target.bitmap?.close();target.bitmap=null;},
+ };
+}
+
+function load(target:Entry,url:string){
+ target.error=null;target.errorOn=null;
+ void(async()=>{try{
+   let response=await fetch(url,{signal:target.abort.signal});
+   if(!response.ok&&url.includes('@2x.'))response=await fetch(url.replace('@2x.','.'),{signal:target.abort.signal});
+   if(!response.ok)throw Error(`Could not load UI image: ${url}`);
+   const bitmap=await createImageBitmap(await response.blob(),{premultiplyAlpha:'none',colorSpaceConversion:'none',imageOrientation:'none'});
+   if(!target.users){bitmap.close();return;}target.bitmap=bitmap;
+  }catch(error){if(target.users)target.error=error;}})();
+}

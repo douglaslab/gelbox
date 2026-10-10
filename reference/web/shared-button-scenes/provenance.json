@@ -1,0 +1,30 @@
+{
+  "base": "ea40674",
+  "sha256": {
+    "ts/src/components/gel/SettingsButton.tsx": "0b6c59bdea1abbf372b6deafe45ed9a991ced60e33c4fcf3533988d927ce7b8a",
+    "ts/src/components/gel/SharedAssetPaint.tsx": "f07886ac42c20451aad047a52e5da5099cd26b1a912b3e3b28cdf9bde3084516",
+    "ts/src/lib/gel/sceneAssets.ts": "ec8f6c1a4f79498be537622dbcd7ea4449a65b0058d1ebd54a5b0d0c2bd5e60a",
+    "ts/src/lib/gel/sceneImageTexture.ts": "f4b5a6b38a049116b5261f8c010d47ba487b547b98ad4de1c17689d08f4ce3b3",
+    "ts/tests/visual/shared-button-native.spec.ts": "958b6167e9152aeea51cc01bcfefabd9f71627df370c762b585501ae3f3b22bb",
+    "ts/tests/visual/shared-settings-button.spec.ts": "1858364c34cf726db6f782dcfe3cd5e786b4e34e2df9e97bc1cd38e35f3b49f3",
+    "ts/tests/visual/shared-assets-lifecycle.spec.ts": "98bbf01c101b54262e2bcafcf26a92d280f0de8e5cd83433874abcd107fa7b2a",
+    "ts/tests/visual/shared-assets-retry.spec.ts": "040c0c7e9fa3fcb44d456f82610e053470e67b234025da44a73f111fb7a6c130",
+    "ts/tests/visual/shared-image.spec.ts": "7a1fa3989f5d71cbffefb0d55a97669dfcc45672cf13001c9777e1add809da61",
+    "ts/tests/visual/shared-image-mips.spec.ts": "dcd3a4b4ee30081e55136c35df60bb5d5d8bcab4876c06c20ae0dc1c8497d7af",
+    "reference/native/modern/shared-button-scenes/manifest.json": "947e13e234df12ad4a27a3e4e079437da5e98d83f874f4b0be037e5700ebc958",
+    "reference/native/modern/shared-button-scenes/capture.py": "ff9153c81d43aebe260c15265f8d3c7a3be03c7159131e9c515da3235b19749b"
+  },
+  "exactNativeComparisons": 16,
+  "limits": [
+    "One settings icon and four button states; other control/font/native full GUI gates remain open.",
+    "Shared composition remains development-only."
+  ],
+  "verification": {
+    "unitTests": 2917,
+    "browserTests": 651,
+    "intentionalSkips": 1,
+    "productionTests": 4,
+    "build": "passed",
+    "nativeRepeatedCaptures": 8
+  }
+}

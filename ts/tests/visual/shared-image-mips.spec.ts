@@ -9,7 +9,7 @@ test('reference image decode and generated mip bytes match native Cinder texture
   const create=GPUDevice.prototype.createTexture;
   GPUDevice.prototype.createTexture=function(desc){const image=desc.label==='scene-image';const texture=create.call(this,image?{...desc,usage:desc.usage|GPUTextureUsage.COPY_SRC}:desc);if(image)(window as any).__imageProbe={device:this,texture};return texture;};
   const gl=WebGL2RenderingContext.prototype,allocate=gl.createTexture;
-  gl.createTexture=function(){const texture=allocate.call(this);if(/sceneImageTexture/.test(new Error().stack??''))(window as any).__imageProbe={gl:this,texture};return texture;};
+  gl.createTexture=function(){const texture=allocate.call(this);if(/sceneImageTexture/.test(new Error().stack??'')&&!/sceneAssets/.test(new Error().stack??''))(window as any).__imageProbe={gl:this,texture};return texture;};
  },backend);
  await page.goto('/#/gel');const results=[];
  for(const [index,name] of ['alpha','odd'].entries()){

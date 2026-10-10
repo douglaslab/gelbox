@@ -1,0 +1,26 @@
+[
+  {
+    "id": "idle-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "hover-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "down-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "covered-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  }
+]

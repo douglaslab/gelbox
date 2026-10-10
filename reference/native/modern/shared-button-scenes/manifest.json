@@ -1,0 +1,75 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceSha256": "d1631c11a2d5c7aa268e504c94faedb4b8185c5db2214980d578944dcc883f59",
+  "extractedSha256": "2d3866cf65dccb80ebc968da09a692ef48639d565f40d1939c04729667db6849",
+  "inputs": {
+    "driver.cpp": "6559ff20165ae792318bb590e2d2ee92476cc122beac7b460704ef60ac4f0833",
+    "cases.json": "d8803be1dc1615efc0a06964f1fa608c0effb0141b175cecac3795968ab32a3a",
+    "settings.png": "57b4c1655e42e16a302c7fb2ae4cbb59ea4a707173060807dab7eb7bc7f27bd6",
+    "settings@2x.png": "5edc58d9c40176d8a604021353435ecd255fc57cd4c4af64288a44688c551f13",
+    "textures.json": "ca9056d9d92b049125fd20bfcbc184cbbbeb33517a244556776d2b32f83f686e",
+    "../shared-image-scenes/textures.cpp": "e84a284b861c3e26ce7be31233e4bd3312263acb475df0063c63ec891d20ec30"
+  },
+  "executables": {
+    "image-textures": "624bc8d49c4da7d5cc3a8d82f8c92a646c93338839caa8f01b6de7cbc1fb4d42",
+    "image-scenes": "72ead17e5aabe22ed82385f6dd926791d10653a0606abe00e98a2cc077e52d30"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "cases": [
+    {
+      "id": "idle-1",
+      "scene": "idle",
+      "scale": 1,
+      "sha256": "79c5f4bcc125ee032694d02af6ebbf86f8cbe0af5f35126171bcfd762a74e96f"
+    },
+    {
+      "id": "idle-2",
+      "scene": "idle",
+      "scale": 2,
+      "sha256": "cf4edec4e94d851d565b8646f29e595c118ad33ab3b41ae5e1f0a1a4317c3fc9"
+    },
+    {
+      "id": "hover-1",
+      "scene": "hover",
+      "scale": 1,
+      "sha256": "c84014b13bffb0f19b78eebae9d36fc0e59bf74584657128f6085cd7cb93f1c2"
+    },
+    {
+      "id": "hover-2",
+      "scene": "hover",
+      "scale": 2,
+      "sha256": "aeaab96ca8cd95dfa569cd11b9dfa7fcd66adc3d5e8512056fcde3e6e3e82d24"
+    },
+    {
+      "id": "down-1",
+      "scene": "down",
+      "scale": 1,
+      "sha256": "6eb73b2ca3e9b5a2f19cd7232d426846870aca1c4943459ff966705d7d130773"
+    },
+    {
+      "id": "down-2",
+      "scene": "down",
+      "scale": 2,
+      "sha256": "e741d28ad6359e46e4134b96b9d424eb11dffdb9221046276e9d639c98da1b4e"
+    },
+    {
+      "id": "covered-1",
+      "scene": "covered",
+      "scale": 1,
+      "sha256": "08be9ea93907ade0a751590871f3ecd6799835e0b6887605ef4192569ece2540"
+    },
+    {
+      "id": "covered-2",
+      "scene": "covered",
+      "scale": 2,
+      "sha256": "11170b3e2e1fc68ec0d941b8257f0255757a76c6c61d1c8d11b7bfbaaf550fde"
+    }
+  ],
+  "limits": [
+    "Pinned ButtonView stateColor/draw/drawFill/drawFrame methods with fixed empty fill/frame and native layout colors, modern Cinder actual texture drawing.",
+    "Standalone CGL RGBA8 MSAA4, positive-Y projection and raw row order; not original-release GUI.",
+    "Native settings icon PNGs only; native texture levels are bottom-up, browser canonical image levels are top-down."
+  ]
+}
