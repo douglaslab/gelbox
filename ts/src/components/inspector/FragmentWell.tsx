@@ -1,31 +1,23 @@
 import { LAYOUT } from '../../lib/layout/layout';
+import { useGelStore } from '../gel/GelContext';
+import { SampleSimCanvas } from '../sample/SampleSimCanvas';
 
-export interface FragmentWellProps {
-  color: readonly [number, number, number];
-  testId?: string;
-}
-
-function rgbToHex(rgb: readonly [number, number, number]): string {
-  const toByte = (c: number) => {
-    return Math.max(0, Math.min(255, Math.round(c * 255)));
-  };
-  const [r, g, b] = rgb.map(toByte);
-  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-}
-
-/** 80×80 rounded preview swatch showing the current fragment color. */
-export function FragmentWell({ color, testId }: FragmentWellProps) {
-  return (
-    <div
-      data-testid={testId}
-      style={{
-        width:        LAYOUT.fragViewWellSize.x,
-        height:       LAYOUT.fragViewWellSize.y,
-        borderRadius: LAYOUT.fragViewWellCornerRadius,
-        background:   rgbToHex(color),
-        border:       `1px solid ${LAYOUT.fragViewWellStroke}`,
-        boxShadow:    `0px ${LAYOUT.fragViewWellShadowOffset.y}px 0 ${LAYOUT.fragViewWellShadow}`,
-      }}
-    />
-  );
+/** Native preview uses the sample engine's most-visible selected molecule. */
+export function FragmentWell({ fragmentIndex, testId }: {fragmentIndex:number;testId?:string}) {
+  const view=useGelStore().getMolecularView('sample');
+  return <div data-testid={testId} style={{
+    position:'relative',width:LAYOUT.fragViewWellSize.x,height:LAYOUT.fragViewWellSize.y,
+    borderRadius:LAYOUT.fragViewWellCornerRadius,background:LAYOUT.fragViewWellFill,
+    outline:`1px solid ${LAYOUT.fragViewWellStroke}`,
+    boxShadow:`0px ${LAYOUT.fragViewWellShadowOffset.y}px 0 ${LAYOUT.fragViewWellShadow}`,
+    overflow:'visible',
+  }}>
+    {view && <div style={{position:'absolute',left:-LAYOUT.fragViewWellTopLeft.x,top:-LAYOUT.fragViewWellTopLeft.y,pointerEvents:'none'}}>
+    <SampleSimCanvas view={view} viewKey="fragment-preview"
+      representativeFragment={fragmentIndex}
+      representativeCenter={{x:LAYOUT.fragViewWellTopLeft.x+LAYOUT.fragViewWellSize.x/2,
+        y:LAYOUT.fragViewWellTopLeft.y+LAYOUT.fragViewWellSize.y/2}}
+      width={LAYOUT.fragViewSize.x} height={LAYOUT.fragViewSize.y}
+      data-testid="fragment-representative"/></div>}
+  </div>;
 }

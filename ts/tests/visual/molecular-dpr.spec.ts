@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 test.use({viewport:{width:1365,height:768},deviceScaleFactor:1});
-test('sample and loupe resize backing buffers across live display-scale changes',async({page},info)=>{
+test('sample, loupe and representative resize backing buffers across live display-scale changes',async({page},info)=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
  await page.route('**/src/components/sample/SampleSimCanvas.tsx',async route=>{
@@ -11,10 +11,11 @@ test('sample and loupe resize backing buffers across live display-scale changes'
  await page.goto('/#/gel');await page.getByTestId('band-0').click();
  const band=(await page.getByTestId('band-0').boundingBox())!;
  await page.keyboard.down('Meta');await page.mouse.click(band.x+band.width/2,band.y+band.height/2);await page.keyboard.up('Meta');
- const ids=['molecular-sim-canvas','loupe-canvas-1'];
+ const ids=['molecular-sim-canvas','loupe-canvas-1','fragment-representative'];
  for(const id of ids)await expect.poll(async()=>Number(await page.getByTestId(id).getAttribute('data-alive-count'))).toBeGreaterThan(0);
- await expect.poll(()=>page.evaluate(()=>[...(window as any).__dprViews.values()].filter((v:any)=>v.alive).length)).toBe(2);
+ await expect.poll(()=>page.evaluate(()=>[...new Set((window as any).__dprViews.values())].filter((v:any)=>v.alive).length)).toBe(2);
  await page.evaluate(()=>{(window as any).__savedDprViews=[...(window as any).__dprViews.entries()].filter(([,v]:any)=>v.alive);});
+ expect(await page.evaluate(()=>(window as any).__dprViews.get('fragment-preview')===(window as any).__dprViews.get('sample'))).toBe(true);
  const nodes=await Promise.all(ids.map(id=>page.getByTestId(id).elementHandle()));
  const cdp=await page.context().newCDPSession(page);
  for(const dpr of [2,1]){

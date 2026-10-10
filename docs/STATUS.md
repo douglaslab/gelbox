@@ -20,8 +20,8 @@ On macOS with Node 22: these checks include the application runtime integration.
 
 | Check | Result |
 |---|---|
-| Unit suite | 2,863 passed |
-| Browser suite across WebGPU/WebGL2 | 423 passed; one intentional duplicate skipped |
+| Unit suite | 2,865 passed |
+| Browser suite across WebGPU/WebGL2 | 427 passed; one intentional duplicate skipped |
 | Built-app root/subpath checks | 4 Chromium passed |
 | Additional engine compatibility | 2 WebKit passed; 2 Firefox blocked at browser launch |
 | Production build and TypeScript checks | Passed |
@@ -1426,3 +1426,38 @@ was correct; that separate composed-panel observation remains unresolved.
 Verification: **2,863 unit tests, 423 browser tests and 4 production checks
 passed**, with one intentional duplicate browser skip. Production included a
 fresh build and TypeScript checks. No goldens or tolerances changed.
+
+
+## Composed native move and Species preview restoration
+
+The [original-release multimer move replay](../reference/native/replay/composed-move/README.md)
+checks selection, hover preview, tube movement and saved data together. Moving
+lane two to lane four retains the species inspector and sample focus; the
+native Save Gel differs only in lane placement. Both web backends now replay
+and verify that exact document and UI contract, including intermediate pointer
+positions through tube gaps.
+
+The comparison exposed three omissions, now corrected: rounded sample body
+corners instead of native square framing; a solid Species color swatch instead
+of the native live representative molecule; and tube-row keyboard focus instead
+of sample focus during movement/remounting. The representative picks the first
+most-visible matching part from the existing sample engine, draws without
+selection outlines, updates with color/geometry, and adds no simulation or
+random stream. Unit and browser regressions failed before these corrections.
+DPR coverage now includes its separate rendering surface and proves it shares
+the sample engine. Existing drag/keyboard behavior still passes.
+
+Verification: **2,865 unit tests, 427 browser tests and 4 production checks
+passed**, with one intentional duplicate browser skip. Production included a
+fresh build and TypeScript checks. No screenshot goldens or tolerances changed.
+Two [built-app performance checks](../reference/web/performance/species-preview/README.md)
+also passed: p95 frame intervals 16.7 ms steady and during timeline dragging on
+both backends, with tracked resource counts stable at 225 WebGPU / 29 WebGL2.
+Those finite sparse-loupe measurements are not a release performance budget.
+
+Native JPEGs and unfrozen web observations do not certify pixel parity.
+Persistent Command-drag/clone loupe GUI sequences remain open. Concrete next
+visual fixes identified by comparison/source are nearest-color palette
+selection, sample-header tube geometry and degradation label visibility;
+full inspector focus behavior and extreme representative overflow also remain
+uncertified.

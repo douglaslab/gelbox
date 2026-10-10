@@ -193,3 +193,15 @@ function centroid(points:Array<[number,number]>):[number,number] {
 function pushV(out: number[], x: number, y: number, c: RGB, a: number): void {
   out.push(x, y, c[0], c[1], c[2], a);
 }
+
+
+/** Native drawRepresentativeOfFrag: most-visible matching part, first on ties. */
+export function buildRepresentativeMesh(parts: readonly Part[], fragment: number,
+  center: {x:number;y:number}, tuning: MeshBuildTuning): Mesh {
+  let pick: Part | undefined;
+  let fade = 0;
+  for (const part of parts) {
+    if (part.fragment === fragment && part.fade > fade) { pick = part; fade = part.fade; }
+  }
+  return buildMoleculesMesh(pick ? [{...pick, loc: center}] : [], null, null, tuning);
+}

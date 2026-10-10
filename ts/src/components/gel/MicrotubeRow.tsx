@@ -31,6 +31,13 @@ export function MicrotubeRow() {
     return geometry.findIndex(({ hit }) => px >= hit.x1 && px <= hit.x2 && py >= hit.y1 && py <= hit.y2);
   }
 
+  function focusDraggedSample() {
+    queueMicrotask(() => {
+      const sample = document.querySelector<HTMLElement>('[data-testid="sample-view"]');
+      (sample ?? rowRef.current)?.focus({ preventScroll: true });
+    });
+  }
+
   function onTubePointerDown(laneIndex: number, e: React.PointerEvent<HTMLButtonElement>) {
     if (e.button !== 0 || pointer.current) return;
     e.preventDefault();
@@ -39,6 +46,8 @@ export function MicrotubeRow() {
     rowRef.current?.setPointerCapture(e.pointerId);
     rowRef.current?.focus({ preventScroll: true });
     dispatch({ type: 'BEGIN_SAMPLE_DRAG', laneIndex, clone: e.altKey });
+    // GelView::mouseDown gives the opened SampleView keyboard ownership.
+    focusDraggedSample();
   }
 
   function endPointer(e: React.PointerEvent<HTMLDivElement>, cancel = false) {
@@ -55,7 +64,11 @@ export function MicrotubeRow() {
     <div className={styles.row} ref={rowRef} data-testid="microtube-row" tabIndex={-1}
       style={{ top: rowTop, height: -rowTop, outline: 'none', touchAction: 'none' }}
       onPointerMove={e => {
-        if (pointer.current?.id === e.pointerId) dispatch({ type: 'UPDATE_SAMPLE_DRAG', laneIndex: laneAtPoint(e.clientX, e.clientY) });
+        if (pointer.current?.id === e.pointerId) {
+          dispatch({ type: 'UPDATE_SAMPLE_DRAG', laneIndex: laneAtPoint(e.clientX, e.clientY) });
+          // Crossing gaps can close/remount the sample panel during capture.
+          focusDraggedSample();
+        }
       }}
       onPointerUp={e => endPointer(e)}
       onPointerCancel={e => endPointer(e, true)}

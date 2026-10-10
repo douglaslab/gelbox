@@ -65,7 +65,7 @@ export function FragmentView() {
               top:  `${LAYOUT.fragViewWellTopLeft.y}px`,
             }}
           >
-            <FragmentWell color={fragment.color} testId="fragment-well" />
+            <FragmentWell fragmentIndex={fragIdx!} testId="fragment-well" />
           </div>
 
           <div

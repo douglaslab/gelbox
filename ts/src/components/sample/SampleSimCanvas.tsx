@@ -6,7 +6,7 @@ import {useGelStore} from '../gel/GelContext';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { LAYOUT } from '../../lib/layout/layout';
 import { MOLECULAR_SIM_TUNING } from '../../lib/sim/molecularSimEngine';
-import { buildMoleculesMesh, type MeshBuildTuning } from '../../lib/sim/molecularSimMesh';
+import { buildRepresentativeMesh, buildMoleculesMesh, type MeshBuildTuning } from '../../lib/sim/molecularSimMesh';
 import { computeBackgroundColor } from '../../lib/sim/molecularSimBackground';
 import { resolveBackend, type Backend } from '../../lib/gel/backend';
 import { hexToLinearRgb } from '../../lib/layout/color';
@@ -27,6 +27,9 @@ import type { Mesh } from '../../lib/gel/mesh';
 export interface SampleSimCanvasProps {
   view: MolecularView;
   viewKey: string;
+  /** Draw one representative from this existing engine; never create or tick another. */
+  representativeFragment?: number;
+  representativeCenter?: {x:number;y:number};
   width: number;
   height: number;
   /** Pointer-down on a particle → its fragment index (omit → non-interactive, e.g. loupe). */
@@ -41,7 +44,7 @@ export interface SampleSimCanvasProps {
 interface RenderHandle {
   fail(error:unknown):void;
   resize(wpx: number, hpx: number, wcss: number, hcss: number): void;
-  draw(mesh: Mesh, bgRgb: [number, number, number]): void;
+  draw(mesh: Mesh, bgRgb: [number, number, number], alpha?: number): void;
   destroy(): void;
 }
 
@@ -59,6 +62,8 @@ const MESH_TUNING: MeshBuildTuning = {
 export function SampleSimCanvas({
   view,
   viewKey,
+  representativeFragment,
+  representativeCenter,
   width,
   height,
   onPickFragment,
@@ -123,12 +128,12 @@ export function SampleSimCanvas({
           handleRef.current = {
             fail,
             resize: (wp, hp, wc, hc) => { canvas.width = wp; canvas.height = hp; batch.setViewport(wc, hc); },
-            draw: (mesh, bg) => {
+            draw: (mesh, bg, alpha=1) => {
               resize();if(lost)return;
               batch.draw(
                 { framebuffer: null, width: canvas.width, height: canvas.height },
                 mesh,
-                { clear: true, clearColor: [bg[0], bg[1], bg[2], 1] },
+                { clear: true, clearColor: [bg[0], bg[1], bg[2], alpha] },
               );
             },
             destroy: () => batch.destroy(),
@@ -147,12 +152,12 @@ export function SampleSimCanvas({
           handleRef.current = {
             fail,
             resize: (_wp, _hp, wc, hc) => { batch.setViewport(wc, hc); },
-            draw: (mesh, bg) => {
+            draw: (mesh, bg, alpha=1) => {
               resize();if(lost)return;
               const enc = device.createCommandEncoder({ label: 'molsim' });
               batch.draw(enc, context.getCurrentTexture().createView(), mesh, {
                 clear: true,
-                clearColor: { r: bg[0], g: bg[1], b: bg[2], a: 1 },
+                clearColor: { r: bg[0], g: bg[1], b: bg[2], a: alpha },
                 callIdx: 0,
               });
               device.queue.submit([enc.finish()]);
@@ -183,13 +188,17 @@ export function SampleSimCanvas({
       // React has not committed this tick's snapshot yet. Resolve current
       // source identities here so the mesh uses the just-completed frame.
       const {selected,rollover}=store.getMolecularHighlights(view);
-      const mesh=buildMoleculesMesh(sim.parts,selected,rollover,MESH_TUNING);
+      const mesh=representativeFragment === undefined
+        ? buildMoleculesMesh(sim.parts,selected,rollover,MESH_TUNING)
+        : buildRepresentativeMesh(sim.parts,representativeFragment,representativeCenter ?? {x:width/2,y:height/2},MESH_TUNING);
       const highlight:0|1|2=downRef.current?2:hoverRef.current?1:0;
-      try { handle.draw(mesh,computeBackgroundColor(dyeMassesFromSample(view.sample),highlight)); }
+      try { handle.draw(mesh,representativeFragment === undefined
+        ? computeBackgroundColor(dyeMassesFromSample(view.sample),highlight)
+        : [0,0,0], representativeFragment === undefined ? 1 : 0); }
       catch(error) { handle.fail(error); }
     }
     setTick(t=>(t+1)%1_000_000);
-  }),[store,view,sim]);
+  }),[store,view,sim,representativeFragment,representativeCenter,width,height]);
 
   const eventCoords = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
@@ -271,6 +280,7 @@ export function SampleSimCanvas({
         display: 'block',
         cursor: onPickFragment ? 'pointer' : 'default',
         touchAction: 'none',
+        pointerEvents: representativeFragment === undefined ? 'auto' : 'none',
       }}
     />
     {failed&&<GraphicsFailure testId={`${testId}-error`} width={width} height={height}

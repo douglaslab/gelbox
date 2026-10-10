@@ -1,0 +1,156 @@
+{
+  "recordedAt": "2026-10-10T08:30:12.908Z",
+  "backend": "webgl2",
+  "browser": "131.0.6778.33",
+  "productCommit": "82d3aa2fb7ac667420c2808da273498fd2ef7526",
+  "os": "27.0.1",
+  "hardware": "Mac17,14\nApple M5 Max",
+  "fixtureSha256": "9837e59e56953d4a441b7032bdf89a6a78510047097c359ee4cead1cc2a39598",
+  "viewport": {
+    "width": 1365,
+    "height": 768,
+    "dpr": 2
+  },
+  "warmupSeconds": 3,
+  "windowSeconds": 10,
+  "baseline": {
+    "resources": 29,
+    "particles": [
+      {
+        "view": "loupe-canvas-1",
+        "count": 1
+      },
+      {
+        "view": "loupe-canvas-2",
+        "count": 5
+      },
+      {
+        "view": "loupe-canvas-3",
+        "count": 1
+      },
+      {
+        "view": "molecular-sim-canvas",
+        "count": 160
+      },
+      {
+        "view": "fragment-representative",
+        "count": 160
+      }
+    ]
+  },
+  "windows": [
+    {
+      "samples": 599,
+      "intervalMs": {
+        "p50": 16.699999999999818,
+        "p95": 16.700000000000728,
+        "p99": 16.800000000000182,
+        "max": 16.80000000000109
+      },
+      "callbackCpuMs": {
+        "p50": 1.5,
+        "p95": 2.5
+      },
+      "end": {
+        "resources": 29,
+        "particles": [
+          {
+            "view": "loupe-canvas-1",
+            "count": 1
+          },
+          {
+            "view": "loupe-canvas-2",
+            "count": 5
+          },
+          {
+            "view": "loupe-canvas-3",
+            "count": 1
+          },
+          {
+            "view": "molecular-sim-canvas",
+            "count": 160
+          },
+          {
+            "view": "fragment-representative",
+            "count": 160
+          }
+        ]
+      }
+    },
+    {
+      "samples": 599,
+      "intervalMs": {
+        "p50": 16.69999999999891,
+        "p95": 16.700000000000728,
+        "p99": 16.799999999999272,
+        "max": 16.80000000000291
+      },
+      "callbackCpuMs": {
+        "p50": 1.4000000357627869,
+        "p95": 2.400000035762787
+      },
+      "end": {
+        "resources": 29,
+        "particles": [
+          {
+            "view": "loupe-canvas-1",
+            "count": 1
+          },
+          {
+            "view": "loupe-canvas-2",
+            "count": 5
+          },
+          {
+            "view": "loupe-canvas-3",
+            "count": 1
+          },
+          {
+            "view": "molecular-sim-canvas",
+            "count": 159
+          },
+          {
+            "view": "fragment-representative",
+            "count": 159
+          }
+        ]
+      }
+    }
+  ],
+  "interaction": {
+    "pointerMoves": 60,
+    "controllerInclusiveMs": 1032.7999999523163,
+    "frameSamples": 61,
+    "intervalMs": {
+      "p50": 16.700000000000728,
+      "p95": 16.700000000000728,
+      "p99": 16.80000000000291,
+      "max": 16.80000000000291
+    },
+    "end": {
+      "resources": 29,
+      "particles": [
+        {
+          "view": "loupe-canvas-1",
+          "count": 1
+        },
+        {
+          "view": "loupe-canvas-2",
+          "count": 5
+        },
+        {
+          "view": "loupe-canvas-3",
+          "count": 1
+        },
+        {
+          "view": "molecular-sim-canvas",
+          "count": 160
+        },
+        {
+          "view": "fragment-representative",
+          "count": 160
+        }
+      ]
+    }
+  },
+  "limitations": "Steady windows use a static gel and moving molecular views; interaction drags the timeline through 60 pointer moves. Controller-inclusive gesture timing is not input-to-photon latency. rAF intervals and callback CPU time, not GPU timestamps or presentation latency. Instrumented resource-object counts, not resident memory. No native performance comparison or release threshold."
+}

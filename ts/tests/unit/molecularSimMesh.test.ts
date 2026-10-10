@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildMoleculesMesh, type MeshBuildTuning } from '../../src/lib/sim/molecularSimMesh';
+import { buildRepresentativeMesh, buildMoleculesMesh, type MeshBuildTuning } from '../../src/lib/sim/molecularSimMesh';
 import type { Part } from '../../src/lib/sim/molecularSimEngine';
 import { VERTEX_STRIDE } from '../../src/lib/gel/mesh';
 
@@ -114,4 +114,20 @@ it('all synthetic fragments sharing a selected origin receive outlines',()=>{
  const fill=buildMoleculesMesh(parts,null,null,TUNING);
  const selected=buildMoleculesMesh(parts,new Set([0,2]),null,TUNING);
  expect(selected.vertexCount).toBe(fill.vertexCount+2*TUNING.numCirclePartVertices*3);
+});
+
+
+describe('native representative molecule', () => {
+  it('chooses greatest positive fade, keeping the first tie, and centers without an outline', () => {
+    const first=monomer({fragment:2,fade:.8,color:[1,0,0],angle:.7});
+    const parts=[monomer({fragment:0,fade:1}),monomer({fragment:2,fade:.2}),first,monomer({fragment:2,fade:.8,color:[0,1,0]})];
+    const before=structuredClone(parts);
+    const mesh=buildRepresentativeMesh(parts,2,{x:40,y:40},TUNING);
+    expect(mesh).toEqual(buildMoleculesMesh([{...first,loc:{x:40,y:40}}],null,null,TUNING));
+    expect(parts).toEqual(before);
+  });
+  it('draws no representative for an absent fragment or zero fade', () => {
+    expect(buildRepresentativeMesh([monomer({fade:0})],0,{x:40,y:40},TUNING).vertexCount).toBe(0);
+    expect(buildRepresentativeMesh([monomer()],2,{x:40,y:40},TUNING).vertexCount).toBe(0);
+  });
 });

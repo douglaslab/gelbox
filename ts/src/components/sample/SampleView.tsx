@@ -11,13 +11,15 @@ import { MolecularSimCanvas } from './MolecularSimCanvas';
  * the C++-style header (microtube glyph in a blue circle + "Sample" text).
  *
  * The panel slot itself is sized + positioned by `<Stage>`. Inside, we
- * render a rounded background rect (matching `mMolecularSimBkgndColor`)
+ * render a square background rect (matching `mMolecularSimBkgndColor`)
  * with the canvas filling it.
  */
 export function SampleView() {
   const state = useGelState();
   const dispatch = useGelDispatch();
   const store = useGelStore();
+  const [focused,setFocused] = useState(false);
+  const [hovered,setHovered] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const visibleLane = getVisibleSampleLane(state);
   const innerRef = useRef<HTMLDivElement>(null);
@@ -53,6 +55,8 @@ export function SampleView() {
     <div
       ref={rootRef}
       tabIndex={0}
+      onFocusCapture={() => setFocused(true)}
+      onBlurCapture={e => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false); }}
       onPointerDownCapture={() => rootRef.current?.focus({ preventScroll: true })}
       onKeyDown={e => {
         const action = sampleKeyAction(e.key, e.shiftKey, state);
@@ -118,14 +122,18 @@ export function SampleView() {
         {LAYOUT.sampleViewHeaderStr}
       </h2>
 
-      {/* Rounded background + canvas. */}
+      {/* Native square frame: inset shadow, thin border and focus rings. */}
+      <div aria-hidden style={{position:'absolute',left:2,top:4,right:2,height:'100%',
+        background:`rgba(0,0,0,${focused ? .25 : .15})`}}/>
       <div
         ref={innerRef}
+        data-testid="sample-frame"
+        onPointerEnter={() => setHovered(true)} onPointerLeave={() => setHovered(false)}
         style={{
           position: 'absolute',
           inset: 0,
           background: LAYOUT.molecularSimBkgndColor,
-          borderRadius: LAYOUT.gelMicrotubeBkgndCornerRadius,
+          borderRadius: 0,
           overflow: 'hidden',
         }}
       >
@@ -133,6 +141,9 @@ export function SampleView() {
           <MolecularSimCanvas laneIndex={visibleLane} width={size.w} height={size.h} />
         )}
       </div>
+      <div aria-hidden style={{position:'absolute',inset:0,pointerEvents:'none',
+        outline:`1px solid ${focused || hovered ? '#666' : '#ccc'}`,
+        boxShadow:focused ? '0 0 0 2px rgba(0,0,255,.1), inset 0 0 0 2px rgba(0,0,255,.1)' : undefined}}/>
     </div>
   );
 }
