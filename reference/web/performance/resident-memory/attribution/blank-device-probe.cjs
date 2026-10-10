@@ -1,0 +1,5 @@
+const {chromium}=require('/private/tmp/gel-browser-compat-1.64/node_modules/playwright');
+(async()=>{const b=await chromium.launch({executablePath:'/Users/shawn/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell',args:['--enable-unsafe-webgpu','--ignore-gpu-blocklist'],timeout:15000});try {const p=await b.newPage();await p.route('http://gel-probe.localhost/**',r=>r.fulfill({contentType:'text/html',body:'<!doctype html><title>Blank WebGPU probe</title>'}));await p.goto('http://gel-probe.localhost/');console.log(await p.evaluate(async()=>{
+// No app route: same-origin document, only the WebGPU acquisition below.
+const adapter=await navigator.gpu.requestAdapter();const device=await adapter.requestDevice();let lost=null;device.lost.then(l=>lost={reason:l.reason,message:l.message});for(let i=0;i<120;i++)await new Promise(requestAnimationFrame);device.destroy();return {lost,frames:120};
+}));}finally{await b.close();}})().catch(e=>{console.error(e);process.exitCode=1});

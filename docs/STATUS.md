@@ -23,6 +23,13 @@ settle; the cause is unproven. [Data, failed diagnostic attempts and next invest
 are retained. W08 remains open; this is not a passing memory budget. No application
 source or website review build changed.
 
+Follow-up controls verify that inspector response eviction does not eliminate
+Chromium131 growth. Chromium153 completes100 WebGL2 cycles with stable tracked
+resources and no renderer RSS increase from cycles50 to100, but its WebGPU case
+loses the device and falls back. Blank-page acquisition/GC controls do not
+reproduce the loss. [Raw controls and limits](../reference/web/performance/resident-memory/attribution/README.md)
+are retained; browser-dependent behavior is evidence, not attribution or final acceptance.
+
 ## Latest image decoding fix
 
 Native codec comparison exposed JPEG orientation differences in Chromium and

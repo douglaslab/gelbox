@@ -27,3 +27,7 @@ python3 reference/web/performance/resident-memory/analyze.py /path/to/webgpu/res
 ```
 
 The analysis requires at least200cycles so early/late windows are distinct; final route-exit/remount points are excluded from its cycle trend. RSS sampling is macOS-only and opt-in. These processes were launched by the tests; user browser processes were not sampled.
+
+## Attribution follow-up
+
+[Response-cache controls and Chromium153 comparison](attribution/README.md) retain the next investigation. Effective inspector response eviction does not eliminate the growth in Chromium131. The newer browser loses its WebGPU device and falls back to WebGL2; the backend assertion correctly rejects that as WebGPU validation. Attribution and the memory release criterion remain open.

@@ -12,6 +12,17 @@ test('compiled repeated sample/loupe disposal and resize release owned GPU resou
  try{
  test.setTimeout(Math.max(30000,cycles*3000));
  const started=Date.now();
+ const networkBuffer=process.env.GEL_LIFECYCLE_NETWORK_BUFFER_BYTES;
+ if(networkBuffer!==undefined){
+  const limit=Number(networkBuffer);
+  if(!Number.isSafeInteger(limit)||limit<1)throw Error('Network response buffer must be a positive integer');
+  // Network.enable is session-scoped; adjust the pinned Playwright connection
+  // that enables response-body retention, not a separate observer connection.
+  const session=(page as any)._toImpl()._delegate._mainFrameSession._client;
+  if(typeof session?.send!=='function')throw Error('Pinned Playwright main-frame session unavailable');
+  await session.send('Network.enable',{maxTotalBufferSize:limit,maxResourceBufferSize:limit});
+ }
+
  const heap=process.env.GEL_LIFECYCLE_MEASURE_HEAP==='1'?await page.context().newCDPSession(page):null;
  const rss=process.env.GEL_LIFECYCLE_MEASURE_RSS==='1';
  if(rss&&process.platform!=='darwin')throw Error('RSS sampler is scoped to macOS ps units');
@@ -99,7 +110,7 @@ test('compiled repeated sample/loupe disposal and resize release owned GPU resou
  await expect(page.getByRole('alert')).toHaveCount(0);expect(errors).toEqual([]);
  await measure(cycles+1);
 
- const report={backend:info.project.name,browser:browser.version(),cycles,elapsedMs:Date.now()-started,baseline,peaks,closedCycleCounts,afterRouteUnmount:0,memory,residentMemory,scope:'Explicit buffer/texture and GL object destruction. Optional CDP heap samples follow forced GC; final sample is after route remount. Heap observations are not a driver-memory or release-budget assertion. Optional macOS RSS samples cover processes belonging to this test browser, including its GPU process. RSS includes shared pages/caches and is not isolated driver allocation accounting.'};
+ const report={backend:info.project.name,browser:browser.version(),cycles,elapsedMs:Date.now()-started,baseline,peaks,closedCycleCounts,afterRouteUnmount:0,memory,residentMemory,networkResponseBufferBytes:networkBuffer===undefined?null:Number(networkBuffer),scope:'Explicit buffer/texture and GL object destruction. Optional CDP heap samples follow forced GC; final sample is after route remount. Heap observations are not a driver-memory or release-budget assertion. Optional macOS RSS samples cover processes belonging to this test browser, including its GPU process. RSS includes shared pages/caches and is not isolated driver allocation accounting.'};
  await writeFile(info.outputPath('resource-lifecycle.json'),JSON.stringify(report,null,2));
  await info.attach('resource-lifecycle',{body:JSON.stringify(report,null,2),contentType:'application/json'});
  await heap?.detach();await browserSession?.detach();

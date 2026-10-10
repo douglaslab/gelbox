@@ -1,0 +1,52 @@
+
+Running 2 tests using 1 worker
+
+(node:14375) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-webgpu] › ../../../../../../../private/tmp/gel-browser-compat-1.64/memory/performance/view-churn.spec.ts:10:5 › compiled repeated sample/loupe disposal and resize release owned GPU resources (6.5s)
+(node:14383) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/100
+Lifecycle cycles completed: 20/100
+Lifecycle cycles completed: 30/100
+Lifecycle cycles completed: 40/100
+Lifecycle cycles completed: 50/100
+Lifecycle cycles completed: 60/100
+Lifecycle cycles completed: 70/100
+Lifecycle cycles completed: 80/100
+Lifecycle cycles completed: 90/100
+Lifecycle cycles completed: 100/100
+  ✓  2 [chromium-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/memory/performance/view-churn.spec.ts:10:5 › compiled repeated sample/loupe disposal and resize release owned GPU resources (4.3m)
+
+
+  1) [chromium-webgpu] › ../../../../../../../private/tmp/gel-browser-compat-1.64/memory/performance/view-churn.spec.ts:10:5 › compiled repeated sample/loupe disposal and resize release owned GPU resources 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('shared-scene')
+    Expected: "webgpu"
+    Received: "webgl2"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('shared-scene') with timeout 5000ms
+      - waiting for getByTestId('shared-scene')
+        13 × locator resolved to <canvas width="2730" height="1536" aria-hidden="true" data-context="webgl2" data-testid="shared-scene" data-view-keys="gel,sample,app-button,help-button,inspector-fragment,loupe-1,loupe-2"></canvas>
+           - unexpected value "webgl2"
+
+
+      73 |   for(const canvas of await page.locator('[data-testid^="loupe-canvas-"]').all())
+      74 |    await expect.poll(async()=>Number(await canvas.getAttribute('data-alive-count'))).toBeGreaterThan(0);
+    > 75 |   await expect(page.getByTestId('shared-scene')).toHaveAttribute('data-context',info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+         |                                                  ^
+      76 |   await expect(page.locator('canvas[data-context=webgpu],canvas[data-context=webgl2]')).toHaveCount(1);
+      77 |   await page.setViewportSize({width:1465,height:868});
+      78 |   await expect(page.getByTestId('shared-scene')).toHaveAttribute('width','2930');
+        at cycle (/private/tmp/gel-browser-compat-1.64/memory/performance/view-churn.spec.ts:75:50)
+        at /private/tmp/gel-browser-compat-1.64/memory/performance/view-churn.spec.ts:94:2
+
+    Error Context: ../../../../../../../tmp/gel-memory-chromium153-matched/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgpu/error-context.md
+
+  1 failed
+    [chromium-webgpu] › ../../../../../../../private/tmp/gel-browser-compat-1.64/memory/performance/view-churn.spec.ts:10:5 › compiled repeated sample/loupe disposal and resize release owned GPU resources 
+  1 passed (4.4m)

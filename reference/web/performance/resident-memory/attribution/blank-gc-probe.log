@@ -1,0 +1,2 @@
+{ retainGpu: false, loss: null }
+{ retainGpu: true, loss: null }

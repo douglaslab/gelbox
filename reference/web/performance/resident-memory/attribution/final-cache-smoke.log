@@ -1,0 +1,21 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.performance.config.ts view-churn.spec.ts --output=/tmp/gel-memory-cache-final
+
+
+Running 2 tests using 1 worker
+
+(node:15093) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:15093) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/10
+  ✓  1 [chromium-webgpu] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources (5.7s)
+(node:15116) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:15116) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/10
+  ✓  2 [chromium-webgl2] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources (5.7s)
+
+  2 passed (12.1s)
