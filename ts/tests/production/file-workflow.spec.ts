@@ -146,11 +146,22 @@ test('compiled native file shortcuts use the current imported document and selec
    const pending=page.waitForEvent('download');await page.keyboard.press(shortcut);
    return JSON.parse(await readFile((await (await pending).path())!,'utf8'));
   };
-  expect(await download('Meta+s')).toEqual(input);
+  const nativeGel=JSON.parse(await readFile('../reference/native/replay/file-shortcuts/native-gel.json','utf8'));
+  expect(nativeGel).toEqual(input);expect(await download('Meta+s')).toEqual(nativeGel);
   await page.getByTestId('microtube-1').click();
   const sample=await download('Alt+Meta+s');
   expect(sample.Gelbox).toEqual({version:'1.0',type:'sample'});
-  expect(sample.Sample).toEqual(input.Gel.Samples[1]);
+  const nativeSample=JSON.parse(await readFile('../reference/native/replay/file-shortcuts/native-sample.json','utf8'));
+  expect(nativeSample.Sample).toEqual(input.Gel.Samples[1]);expect(sample).toEqual(nativeSample);
+  // Shipping macOS Safari reports Option-S as ß, while retaining KeyS.
+  // Playwright's keyboard.press('Alt+Meta+s') does not model this layout mapping.
+  const mappedDownload=page.waitForEvent('download');
+  const prevented=await page.evaluate(()=>{
+   const event=new KeyboardEvent('keydown',{key:'ß',code:'KeyS',metaKey:true,altKey:true,bubbles:true,cancelable:true});
+   window.dispatchEvent(event);return event.defaultPrevented;
+  });
+  expect(prevented).toBe(true);
+  expect(JSON.parse(await readFile((await (await mappedDownload).path())!,'utf8'))).toEqual(nativeSample);
   await expect(menu).toHaveAttribute('aria-expanded','false');
  }finally{await app.close();}
 });

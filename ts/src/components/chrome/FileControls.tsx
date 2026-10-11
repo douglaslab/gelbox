@@ -125,7 +125,9 @@ export function FileControls() {
   useEffect(() => {
     const key = (event: KeyboardEvent) => {
       if (!isNativeAccelerator(event)) return;
-      const command=event.key.toLowerCase();
+      // macOS Option changes the character (Option-S is ß on US keyboards).
+      // Preserve the native Save Sample shortcut using its physical S key.
+      const command=event.altKey && event.code==='KeyS' ? 's' : event.key.toLowerCase();
       if (command!=='o' && command!=='s') return;
       event.preventDefault();
       setOpen(false);

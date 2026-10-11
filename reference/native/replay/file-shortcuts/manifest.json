@@ -1,0 +1,18 @@
+{
+  "source_parent": "5755a6a65717bb64e0b43130963d953f85911256",
+  "runtime_sha256": "e155d577a9af5fcc89fd629095425d3268a289d3253a0a545999649687aea7c5",
+  "artifacts": {
+    "README.md": "8642ac3f25d363c591a03c104abfd0df81917625f1a4f21e3f04bd8392f37913",
+    "build.log.gz": "76ccb6a4ec2cf3006c43dff6d449cdd74d6e025684bc6e1bb0d3030e943475c1",
+    "compatibility.log.gz": "3105d877063fc0c2c11e0b86ed362c7d74847b3072264627ca9fc872d169fbd1",
+    "compiled-assets.json": "8821fed535a34b44d3645534d1b11ed81e6df858809fa5e91fc0970d1e8af340",
+    "keyboard-diagnostic.html": "922def9b8fae6b6f1f5cc76a26cbc2589896df45bedd570e1130627d76ec65ab",
+    "native-gel.json": "744d758185f8a67ae88f3481084653bd289f019cce81b74a68c9d9157bd7b981",
+    "native-sample.json": "7a190e016e8ca019308e0405e2e341c5ce0730a233ecfafcc425d1932b77a842",
+    "production-full.log.gz": "be9c96694253ccbd8d7a7650faa63c5fc6c8621678d09deb3fc98ea533e6c1b0",
+    "production.log.gz": "54e8bf1e9b3db96711c8a6738e7ea2b60d182ff13e39a9be57d859184c92a5b0",
+    "red.log.gz": "cdce8f8cb27844b58964039a36255bc3b28dc8ee6187387656a712ac2cb627f8",
+    "safari-gel.json": "35110c4b5345a0f6733269a95dfdb8dd904862d8b98f18b0f06bd08cf6fc4286",
+    "unit.log.gz": "7eb53a9d23796db9f65355e88fc9796c61b61610c76adce1f9501b33375915f8"
+  }
+}

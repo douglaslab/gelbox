@@ -39,3 +39,13 @@ retains the run. This includes the file shortcuts, macOS pointer modifiers,
 simulated Windows modifier branch and existing graphics/selection workflows.
 It is regression evidence; the outstanding paired native/platform requirements
 remain open.
+
+Shipping-browser follow-up found two limits that engine-only tests missed.
+[Original native and Safari trace](../../native/replay/file-shortcuts/README.md)
+now provides exact native gel/sample saves and a matching shipping Safari gel
+save. Safari reports Option-Command-S as key ß/code KeyS; the handler now accepts
+that physical S key when Option is held. Command-O is consumed by Safari before
+the diagnostic page receives a keydown event. The earlier statement that the
+handler prevents competing browser Open is therefore scoped to engines that
+deliver that shortcut. In-app menu Open works in shipping Safari. Post-fix
+shipping Save Sample replay and the Safari Open disposition remain outstanding.
