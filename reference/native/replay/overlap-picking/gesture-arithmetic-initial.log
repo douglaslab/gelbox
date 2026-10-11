@@ -1,0 +1,62 @@
+
+Running 2 tests using 2 workers
+
+(node:72457) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72456) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72457) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72456) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-webgl2] › overlap-picking.spec.ts:6:1 › native tied-band deletion and persistent loupe tube move-return (1.2s)
+  ✘  2 [chromium-webgpu] › overlap-picking.spec.ts:6:1 › native tied-band deletion and persistent loupe tube move-return (1.2s)
+
+
+  1) [chromium-webgpu] › overlap-picking.spec.ts:6:1 › native tied-band deletion and persistent loupe tube move-return 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [32m-   "30.999999999999996",[39m
+    [31m+   "31",[39m
+    [2m    "277",[22m
+    [2m  ][22m
+
+      76 |   await drag(325,401,269,401);
+      77 |   expect(await frame.boundingBox()).toEqual({...initialFrame!,x:initialFrame!.x-26,y:initialFrame!.y+20});
+    > 78 |   expect(await anchorCenter()).toEqual(initialAnchor);
+         |                                ^
+      79 |   await expect.poll(async()=>Number(await canvas.getAttribute('data-alive-count'))).toBeGreaterThan(0);
+      80 |   // Pick the visible molecule, as in the native trace. Particle positions are
+      81 |   // not asserted identical between independently running applications.
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/overlap-picking.spec.ts:78:32
+
+  2) [chromium-webgl2] › overlap-picking.spec.ts:6:1 › native tied-band deletion and persistent loupe tube move-return 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [32m-   "30.999999999999996",[39m
+    [31m+   "31",[39m
+    [2m    "277",[22m
+    [2m  ][22m
+
+      76 |   await drag(325,401,269,401);
+      77 |   expect(await frame.boundingBox()).toEqual({...initialFrame!,x:initialFrame!.x-26,y:initialFrame!.y+20});
+    > 78 |   expect(await anchorCenter()).toEqual(initialAnchor);
+         |                                ^
+      79 |   await expect.poll(async()=>Number(await canvas.getAttribute('data-alive-count'))).toBeGreaterThan(0);
+      80 |   // Pick the visible molecule, as in the native trace. Particle positions are
+      81 |   // not asserted identical between independently running applications.
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/overlap-picking.spec.ts:78:32
+
+  2 failed
+    [chromium-webgpu] › overlap-picking.spec.ts:6:1 › native tied-band deletion and persistent loupe tube move-return 
+    [chromium-webgl2] › overlap-picking.spec.ts:6:1 › native tied-band deletion and persistent loupe tube move-return 

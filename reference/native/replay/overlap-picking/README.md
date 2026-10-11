@@ -42,7 +42,7 @@ Chromium WebGPU/WebGL2 and Firefox/WebKit WebGL2 pass. These are workflow and
 saved-state comparisons, not exact native pixel comparisons or native internal
 view-identity instrumentation. Native/web focus chrome, exact cross-app loupe
 placement and particle trajectories are not certified by this test. Other
-clone/drop/selection/loupe-drag branches remain W02; unequal overlap remains W04.
+clone/drop and remaining selection/drag branches remain W02; unequal overlap remains W04.
 
 The initial replay assertion compared SVG anchor bounding boxes across focus
 states. It failed because focus changes stroke width from1.5 to1.1. The final
@@ -56,3 +56,42 @@ Run from ts:
 npx playwright test -c playwright.production.config.ts overlap-picking.spec.ts
 npx playwright test -c playwright.compatibility.config.ts overlap-picking.spec.ts
 ```
+
+## Native gesture and source-selection continuation
+
+From native-loupe-return.json's live UI state (the same original loupe, not a
+new document import), press ordinary `a` and perform these screenshot-coordinate
+left-button actions:
+
+1. Frame drag (700,990)→(760,1030): frame moves +60,+40 physical pixels, probe
+   stays at approximately(478,858), green molecule remains, source panel closes.
+2. Probe drag (478,858)→(590,858): frame stays, probe moves into empty lane2,
+   molecule disappears.
+3. Wedge drag (650,858)→(538,858): frame and probe both move −112 physical
+   pixels in x. Probe returns to the band and green molecule reappears.
+4. Click the green molecule at(873,920): lane1 sample and 700bp species controls
+   open, with source molecules and band highlighted.
+5. Click empty loupe space(640,1040): sample/species panels close; molecule stays.
+6. Save native-loupe-gestures.json. Its complete gel is unchanged from the return
+   checkpoint.
+
+The compiled continuation applies the same converted pointer gestures, asserts
+frame/probe deltas, content disappearance/reappearance and panel state. It picks
+the actual visible green molecule from a canvas screenshot instead of assuming
+independent simulations have identical particle coordinates. The original web
+canvas persists. All four configurations pass and save the exact native gel.
+Gesture screenshots and separate gesture-production/compatibility.log files
+retain the new run; earlier logs remain the preceding move/return scope.
+
+The first continuation assertion expected the probe coordinate's original
+string after adding and subtracting56. JavaScript evaluates
+30.999999999999996+56−56 as31. The final assertion checks that exact arithmetic
+result; no geometry tolerance or runtime change was introduced. The initial
+failure is retained in gesture-arithmetic-initial.log.
+
+This verifies one composed left-button trace for all three drag modes and both
+molecule/empty-background selections. Secondary buttons, overlapping probe/frame
+priority, cancellation, keyboard and other modifier histories retain their
+existing lower-level evidence and outstanding native-trace scope. Absolute
+cross-app frame geometry, focus pixels and particle trajectories remain outside
+this workflow assertion.

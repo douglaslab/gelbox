@@ -59,5 +59,52 @@ test('native tied-band deletion and persistent loupe tube move-return',async({pa
   await page.keyboard.press('a');await page.mouse.move(292,92);await page.mouse.down();await page.mouse.move(236,92);await page.mouse.up();
   await expect.poll(async()=>Number(await canvas.getAttribute('data-alive-count'))).toBeGreaterThan(0);
   await checkpoint('return');
+  // Continue the original-native left-button frame, probe and wedge trace.
+  const drag=async(x:number,y:number,toX:number,toY:number)=>{
+   await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(toX,toY);await page.mouse.up();
+  };
+  await drag(350,467,380,487);
+  await expect(page.getByTestId('sample-view')).toHaveCount(0);
+  expect(await frame.boundingBox()).toEqual({...initialFrame!,x:initialFrame!.x+30,y:initialFrame!.y+20});
+  expect(await anchorCenter()).toEqual(initialAnchor);
+  await expect.poll(async()=>Number(await canvas.getAttribute('data-alive-count'))).toBeGreaterThan(0);
+  await drag(239,401,295,401);
+  expect(await frame.boundingBox()).toEqual({...initialFrame!,x:initialFrame!.x+30,y:initialFrame!.y+20});
+  expect(await anchorCenter()).toEqual([String(Number(initialAnchor[0])+56),initialAnchor[1]]);
+  await expect(canvas).toHaveAttribute('data-alive-count','0');
+  await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('loupe-probe-empty.png')});
+  await drag(325,401,269,401);
+  expect(await frame.boundingBox()).toEqual({...initialFrame!,x:initialFrame!.x-26,y:initialFrame!.y+20});
+  expect(await anchorCenter()).toEqual([String(Number(initialAnchor[0])+56-56),initialAnchor[1]]);
+  await expect.poll(async()=>Number(await canvas.getAttribute('data-alive-count'))).toBeGreaterThan(0);
+  // Pick the visible molecule, as in the native trace. Particle positions are
+  // not asserted identical between independently running applications.
+  await page.mouse.move(0,0);
+  const pixels=await canvas.screenshot();
+  const point=await page.evaluate(async bytes=>{
+   const im=await createImageBitmap(new Blob([new Uint8Array(bytes)],{type:'image/png'}));
+   const c=new OffscreenCanvas(im.width,im.height),ctx=c.getContext('2d')!;
+   ctx.drawImage(im,0,0);im.close();const data=ctx.getImageData(0,0,c.width,c.height).data;
+   let xSum=0,ySum=0,count=0;
+   for(let y=5;y<c.height-5;y++)for(let x=5;x<c.width-5;x++){
+    const i=(y*c.width+x)*4;
+    if(data[i]<80&&data[i+1]>60&&data[i+1]>data[i]*2&&data[i+2]<100){xSum+=x+.5;ySum+=y+.5;count++;}
+   }
+   if(!count)throw new Error('No visible green molecule in loupe');
+   return{x:xSum/count/c.width,y:ySum/count/c.height};
+  },[...pixels]);
+  const bounds=(await canvas.boundingBox())!;
+  await page.mouse.click(bounds.x+point.x*bounds.width,bounds.y+point.y*bounds.height);
+  await expect(page.getByTestId('sample-view')).toHaveAttribute('data-lane-index','0');
+  await expect(page.getByTestId('fragment-view')).toBeVisible();
+  await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('loupe-source-selected.png')});
+  await page.mouse.click(320,492);await page.mouse.move(0,0);
+  await expect(page.getByTestId('sample-view')).toHaveCount(0);
+  await expect(page.getByTestId('fragment-view')).toHaveCount(0);
+  expect(await originalCanvas!.evaluate(el=>el===document.querySelector('[data-testid="loupe-canvas-1"]'))).toBe(true);
+  await menu.click();const finalDownload=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+  const finalBytes=await readFile((await (await finalDownload).path())!);
+  expect(JSON.parse(finalBytes.toString())).toEqual(JSON.parse(await readFile(path.join(root,'native-loupe-gestures.json'),'utf8')));
+  await writeFile(info.outputPath('web-loupe-gestures.json'),finalBytes);
  }finally{await app.close();}
 });
