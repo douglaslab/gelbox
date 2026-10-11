@@ -1,0 +1,16 @@
+{
+  "textSha256": "a3d8e089d458c338ecc5d08207d5b6b4b8c04be4a4c7347d9d7e951e42a6e61e",
+  "variants": [
+    {
+      "address": "0x7ff8148330e0",
+      "result": 0.41024816036224365
+    },
+    {
+      "address": "0x7ff814832e30",
+      "result": {
+        "error": "Invalid instruction (UC_ERR_INSN_INVALID)",
+        "rip": "0x7ff814832ec7"
+      }
+    }
+  ]
+}
