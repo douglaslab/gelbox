@@ -1,6 +1,0 @@
-{ enabled: true, bytes: 978, requestEvents: 1 }
-TypeError: Cannot read properties of undefined (reading '_mainFrameSession')
-    at /private/tmp/gel-network-domain-control/probe.cjs:2:655
-    at runNextTicks (node:internal/process/task_queues:64:5)
-    at process.processImmediate (node:internal/timers:452:9)
-    at process.callbackTrampoline (node:internal/async_hooks:130:17)
