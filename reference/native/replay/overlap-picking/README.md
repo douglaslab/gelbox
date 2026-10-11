@@ -95,3 +95,25 @@ priority, cancellation, keyboard and other modifier histories retain their
 existing lower-level evidence and outstanding native-trace scope. Absolute
 cross-app frame geometry, focus pixels and particle trajectories remain outside
 this workflow assertion.
+
+## Buffer continuation with the existing loupe
+
+Continue the original native session after the gesture save. Click gel settings
+at screenshot(1164,1404), H2O at(1552,356), then save native-loupe-h2o.json.
+Click half-strength TBE at(1644,356), then save native-loupe-tbe.json. Native
+water shows four zero concentrations and visibly diffuses the band; TBE shows
+Tris44.5, Borate44.5, Acetate0, EDTA1 and restores the narrower band. The same
+loupe remains at its anchor/frame location and retains its green molecule in
+both states. The gel-settings panel stays open; source panels remain closed.
+
+The compiled continuation uses the real preset controls, compares each complete
+saved gel exactly, checks retained canvas identity and fixed frame/probe position,
+and requires a populated loupe in both states. Gel-region screenshots must differ
+between water and TBE, so the assertion is not limited to control labels or saved
+values. The retained screenshots were visually inspected; this is not an exact
+native pixel comparison. buffer-production.log and buffer-compatibility.log each
+report two passing configurations. No runtime changes were needed.
+
+This supplies an original-native buffer/loupe action trace for W05. The existing
+compiled recovery tests separately cover injected graphics failures and emulated
+resize/DPR. It does not stand in for physical monitor or OS lifecycle checks.

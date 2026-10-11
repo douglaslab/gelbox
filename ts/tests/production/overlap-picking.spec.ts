@@ -106,5 +106,24 @@ test('native tied-band deletion and persistent loupe tube move-return',async({pa
   const finalBytes=await readFile((await (await finalDownload).path())!);
   expect(JSON.parse(finalBytes.toString())).toEqual(JSON.parse(await readFile(path.join(root,'native-loupe-gestures.json'),'utf8')));
   await writeFile(info.outputPath('web-loupe-gestures.json'),finalBytes);
+  if(await menu.getAttribute('aria-expanded')==='true')await menu.click();
+  await page.getByTestId('settings-button').click();
+  const bufferFrame=await frame.boundingBox(),bufferAnchor=await anchorCenter();
+  let waterGel:Buffer|undefined;
+  for(const preset of ['H2O','TBE']){
+   await page.getByTestId(`gel-buffer-view-preset-${preset}`).click();await page.mouse.move(0,0);
+   await expect(page.getByTestId('sample-view')).toHaveCount(0);
+   await expect.poll(async()=>Number(await canvas.getAttribute('data-alive-count'))).toBeGreaterThan(0);
+   expect(await frame.boundingBox()).toEqual(bufferFrame);expect(await anchorCenter()).toEqual(bufferAnchor);
+   expect(await originalCanvas!.evaluate(el=>el===document.querySelector('[data-testid="loupe-canvas-1"]'))).toBe(true);
+   const gelPixels=await page.getByTestId('gel-overlay').screenshot();
+   if(preset==='H2O')waterGel=gelPixels;else expect(gelPixels).not.toEqual(waterGel);
+   await page.screenshot({path:info.outputPath(`loupe-buffer-${preset.toLowerCase()}.png`)});
+   await menu.click();const pendingBuffer=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+   const savedBuffer=await readFile((await (await pendingBuffer).path())!);
+   expect(JSON.parse(savedBuffer.toString())).toEqual(JSON.parse(await readFile(path.join(root,`native-loupe-${preset.toLowerCase()}.json`),'utf8')));
+   await writeFile(info.outputPath(`web-loupe-${preset.toLowerCase()}.json`),savedBuffer);
+   if(await menu.getAttribute('aria-expanded')==='true')await menu.click();
+  }
  }finally{await app.close();}
 });
