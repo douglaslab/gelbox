@@ -148,6 +148,13 @@
     "ad_hoc_signature_verified": true,
     "dmg_integrity_and_mounted_bundle": true,
     "source_archive_files_verified": 179,
-    "gui_smoke": "pending: UI tool currently cannot access app windows"
+    "gui_smoke": {
+      "macos": "27.0.1",
+      "startup": "observed seven-lane ladder and 3:00 timeline",
+      "open": "mixed native document loaded through file dialog",
+      "save_gel": "complete saved JSON equals opened native input",
+      "settings_and_mouse_editing": "pending reliable input; automation clicks did not activate settings",
+      "focus_note": "Clicking native title bar restored keyboard Save after the file dialog"
+    }
   }
 }

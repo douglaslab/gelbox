@@ -47,3 +47,18 @@ input defect; earlier modern-Cinder background-input discrepancies are documente
 separately. Manual settings/Command-S confirmation was requested. Startup/Open
 are now observed, but Save/edit/settings GUI smoke remains unverified. No native
 source change, process replacement or exception waiver was made.
+
+## Keyboard focus and successful Save Gel
+
+Clicking the native window title bar at screenshot(760,32) restored keyboard
+focus: Command-S then opened the native Save dialog. Saving `native-roundtrip.json`
+produced a complete parsed JSON document exactly equal to the input at
+`../../replay/file-workflow/native-input.json`, with no normalization. The
+previous failed key attempts are therefore not a demonstrated Save defect.
+
+A subsequent title-bar focus followed by another click on the visible settings
+button still did not open its panel. The settings/mouse check remains pending;
+startup, Open and exact Save Gel roundtrip are now verified on this exact binary.
+The site's manifest and release notes record this narrower completed scope.
+The originally requested manual Command-S step is no longer needed. No runtime
+or packaged-file bytes changed during this verification.

@@ -78,8 +78,8 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
 The [native local preview](../reference/native/releases/20261011/README.md) is now
 refreshed to1.0.1/build20261011 from nativef880841, with the newer stale-settings
 and display-scale changes. Website commit01d8b8b stages its verified DMG/source
-and checksums. GUI smoke testing of this exact new binary remains pending;
-the website records that limitation. The pinned original parity target is unchanged.
+and checksums. Startup, Open and exact Save Gel roundtrip now pass on this binary;
+mouse/settings interaction checks remain pending and the website records that scope. The pinned original parity target is unchanged.
 
 Local preview availability is a separate deliverable from full parity acceptance.
 The app and native download are already reviewable at the local `/gelbox/` page;
