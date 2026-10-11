@@ -33,3 +33,31 @@ application leak. The declared budget remains unchanged and failed.
 Next: inspect object retainers and browser performance-entry/code-cache bounds,
 and compare later checkpoints of the existing long run. Do not rerun another
 long soak until a concrete cause or measurement correction is established.
+
+## Retainer follow-up
+
+`inspect-retainers.py` reads the retained snapshots without touching a live
+browser. It prints the largest newly allocated code nodes, their incoming code
+and closure edges, and the first newly allocated native LayoutShift node's
+shortest non-weak path to a snapshot root. The script is specific to the pinned
+snapshot format (six node fields and three edge fields as retained here).
+`retainer-paths.txt` preserves its actual output; `type-deltas.json` summarizes
+net shallow allocation differences by type.
+
+The eight largest new InstructionStream nodes are attached through Code objects
+to closures M9, R, A2, parseAttributeSelector, lx, draw, c2 and Lx.
+Seven closure IDs already existed at cycle10; draw is a new closure ID, so its
+individual lifetime is not established by this comparison.
+Seven identify served Gelbox bundle URLs (including renderer/global-warp code);
+parseAttributeSelector is runner-injected selector code. This establishes code
+compilation/tiering as a contributor, not that all growth is test overhead.
+The new LayoutShift node reaches the browser Performance entry vector; one
+shortest root path then traverses the test runner's UtilityScript builtins.
+That shortest path alone does not establish exclusive ownership by automation.
+
+Among positive non-code/non-native type-and-name groups, only an Array object
+(+16 bytes) and its object elements (+12 bytes) grew. This is a net shallow
+comparison, not proof that individual objects never leak or that the production
+long run has identical retainers. The snapshots narrow the next investigation;
+they do not change the original budget, establish a finite cache bound, or
+turn the ongoing acceptance run into a pass.

@@ -1,0 +1,50 @@
+{
+  "code": {
+    "shallowBytesDelta": 401872,
+    "countDelta": 1000
+  },
+  "native": {
+    "shallowBytesDelta": 101524,
+    "countDelta": 1597
+  },
+  "object": {
+    "shallowBytesDelta": 16,
+    "countDelta": 1
+  },
+  "array": {
+    "shallowBytesDelta": 12,
+    "countDelta": 1
+  },
+  "string": {
+    "shallowBytesDelta": 0,
+    "countDelta": -1
+  },
+  "closure": {
+    "shallowBytesDelta": 0,
+    "countDelta": 0
+  },
+  "regexp": {
+    "shallowBytesDelta": 0,
+    "countDelta": 0
+  },
+  "synthetic": {
+    "shallowBytesDelta": 0,
+    "countDelta": 0
+  },
+  "object shape": {
+    "shallowBytesDelta": 0,
+    "countDelta": 0
+  },
+  "number": {
+    "shallowBytesDelta": -48,
+    "countDelta": -1
+  },
+  "symbol": {
+    "shallowBytesDelta": 0,
+    "countDelta": 0
+  },
+  "concatenated string": {
+    "shallowBytesDelta": 0,
+    "countDelta": 0
+  }
+}

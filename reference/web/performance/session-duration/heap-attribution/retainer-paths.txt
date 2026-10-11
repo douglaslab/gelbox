@@ -1,0 +1,147 @@
+
+NEW {'index': 635286, 'id': 263501, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 22208}
+ <- internal instruction_stream {'index': 204834, 'id': 227419, 'type': 'code', 'name': 'system / Code', 'bytes': 72}
+   <- internal code {'index': 183690, 'id': 56993, 'type': 'closure', 'name': 'M9', 'bytes': 32}
+   <- hidden 0 {'index': 233898, 'id': 229581, 'type': 'code', 'name': 'system / CodeWrapper', 'bytes': 8}
+   <- internal code {'index': 635286, 'id': 263501, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 22208}
+
+NEW {'index': 630258, 'id': 263089, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 20416}
+ <- internal instruction_stream {'index': 291456, 'id': 233871, 'type': 'code', 'name': 'system / Code', 'bytes': 72}
+   <- internal code {'index': 291060, 'id': 136479, 'type': 'closure', 'name': 'R', 'bytes': 32}
+   <- hidden 0 {'index': 471942, 'id': 252401, 'type': 'code', 'name': 'system / CodeWrapper', 'bytes': 8}
+   <- internal code {'index': 630258, 'id': 263089, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 20416}
+
+NEW {'index': 635514, 'id': 263577, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 17536}
+ <- internal instruction_stream {'index': 204594, 'id': 227411, 'type': 'code', 'name': 'system / Code', 'bytes': 72}
+   <- internal code {'index': 186852, 'id': 56845, 'type': 'closure', 'name': 'A2', 'bytes': 32}
+   <- hidden 0 {'index': 367656, 'id': 237247, 'type': 'code', 'name': 'system / CodeWrapper', 'bytes': 8}
+   <- internal code {'index': 635514, 'id': 263577, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 17536}
+
+NEW {'index': 634926, 'id': 263381, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 16576}
+ <- internal instruction_stream {'index': 581784, 'id': 259001, 'type': 'code', 'name': 'system / Code', 'bytes': 72}
+   <- hidden 0 {'index': 396654, 'id': 240755, 'type': 'code', 'name': 'system / CodeWrapper', 'bytes': 8}
+   <- internal code {'index': 517794, 'id': 186441, 'type': 'closure', 'name': 'parseAttributeSelector', 'bytes': 32}
+   <- internal code {'index': 634926, 'id': 263381, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 16576}
+
+NEW {'index': 632964, 'id': 263293, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 12416}
+ <- internal instruction_stream {'index': 203604, 'id': 227365, 'type': 'code', 'name': 'system / Code', 'bytes': 72}
+   <- internal code {'index': 184356, 'id': 56201, 'type': 'closure', 'name': 'lx', 'bytes': 32}
+   <- hidden 0 {'index': 367650, 'id': 161117, 'type': 'code', 'name': 'system / CodeWrapper', 'bytes': 8}
+   <- internal code {'index': 632964, 'id': 263293, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 12416}
+
+NEW {'index': 635274, 'id': 263497, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 10400}
+ <- internal instruction_stream {'index': 377496, 'id': 238271, 'type': 'code', 'name': 'system / Code', 'bytes': 72}
+   <- hidden 0 {'index': 370146, 'id': 237637, 'type': 'code', 'name': 'system / CodeWrapper', 'bytes': 8}
+   <- internal code {'index': 377490, 'id': 238269, 'type': 'closure', 'name': 'draw', 'bytes': 28}
+   <- internal code {'index': 635274, 'id': 263497, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 10400}
+
+NEW {'index': 635334, 'id': 263517, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 10144}
+ <- internal instruction_stream {'index': 204252, 'id': 227391, 'type': 'code', 'name': 'system / Code', 'bytes': 72}
+   <- internal code {'index': 185910, 'id': 56641, 'type': 'closure', 'name': 'c2', 'bytes': 32}
+   <- hidden 0 {'index': 267312, 'id': 232333, 'type': 'code', 'name': 'system / CodeWrapper', 'bytes': 8}
+   <- internal code {'index': 635334, 'id': 263517, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 10144}
+
+NEW {'index': 633726, 'id': 263333, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 9888}
+ <- internal instruction_stream {'index': 203808, 'id': 227375, 'type': 'code', 'name': 'system / Code', 'bytes': 72}
+   <- internal code {'index': 185526, 'id': 56345, 'type': 'closure', 'name': 'Lx', 'bytes': 32}
+   <- hidden 0 {'index': 264270, 'id': 232267, 'type': 'code', 'name': 'system / CodeWrapper', 'bytes': 8}
+   <- internal code {'index': 633726, 'id': 263333, 'type': 'code', 'name': 'system / InstructionStream', 'bytes': 9888}
+
+LAYOUT ROOT PATH
+[
+  [
+    {
+      "index": 715164,
+      "id": 22024,
+      "type": "native",
+      "name": "blink::HeapVectorBacking<cppgc::internal::BasicMember<blink::PerformanceEntry, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWr",
+      "bytes": 752
+    },
+    "element",
+    "103"
+  ],
+  [
+    {
+      "index": 264960,
+      "id": 77987,
+      "type": "native",
+      "name": "Performance",
+      "bytes": 1424
+    },
+    "element",
+    "9"
+  ],
+  [
+    {
+      "index": 266232,
+      "id": 78383,
+      "type": "object",
+      "name": "Object",
+      "bytes": 64
+    },
+    "property",
+    "performance"
+  ],
+  [
+    {
+      "index": 22194,
+      "id": 7399,
+      "type": "object",
+      "name": "UtilityScript",
+      "bytes": 60
+    },
+    "property",
+    "builtins"
+  ],
+  [
+    {
+      "index": 66,
+      "id": 23,
+      "type": "synthetic",
+      "name": "(Global handles)",
+      "bytes": 0
+    },
+    "internal",
+    "12 / DevTools console"
+  ],
+  [
+    {
+      "index": 6,
+      "id": 3,
+      "type": "synthetic",
+      "name": "(GC roots)",
+      "bytes": 0
+    },
+    "element",
+    "10"
+  ],
+  [
+    {
+      "index": 0,
+      "id": 1,
+      "type": "synthetic",
+      "name": "",
+      "bytes": 0
+    },
+    "element",
+    "1"
+  ]
+]
+
+CODE SOURCE OWNERS
+OWNER {'index': 183690, 'id': 56993, 'type': 'closure', 'name': 'M9', 'bytes': 32} existingAt10 True
+SCRIPT http://127.0.0.1:65414/gelbox/assets/index-vws-PPVV.js
+OWNER {'index': 291060, 'id': 136479, 'type': 'closure', 'name': 'R', 'bytes': 32} existingAt10 True
+SCRIPT http://127.0.0.1:65414/gelbox/assets/globalWarp-B1Hq2Ysx.js
+OWNER {'index': 186852, 'id': 56845, 'type': 'closure', 'name': 'A2', 'bytes': 32} existingAt10 True
+SCRIPT http://127.0.0.1:65414/gelbox/assets/index-vws-PPVV.js
+OWNER {'index': 517794, 'id': 186441, 'type': 'closure', 'name': 'parseAttributeSelector', 'bytes': 32} existingAt10 True
+SCRIPT 
+OWNER {'index': 184356, 'id': 56201, 'type': 'closure', 'name': 'lx', 'bytes': 32} existingAt10 True
+SCRIPT http://127.0.0.1:65414/gelbox/assets/index-vws-PPVV.js
+OWNER {'index': 377490, 'id': 238269, 'type': 'closure', 'name': 'draw', 'bytes': 28} existingAt10 False
+SCRIPT http://127.0.0.1:65414/gelbox/assets/present-gl-BV-nbbe4.js
+OWNER {'index': 185910, 'id': 56641, 'type': 'closure', 'name': 'c2', 'bytes': 32} existingAt10 True
+SCRIPT http://127.0.0.1:65414/gelbox/assets/index-vws-PPVV.js
+OWNER {'index': 185526, 'id': 56345, 'type': 'closure', 'name': 'Lx', 'bytes': 32} existingAt10 True
+SCRIPT http://127.0.0.1:65414/gelbox/assets/index-vws-PPVV.js
