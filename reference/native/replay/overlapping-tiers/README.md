@@ -137,7 +137,10 @@ runs are deferred; the completed arm64 control supplies the result above.
 ## Original-instruction offline diagnostic
 
 The [emulated geometry probe](emulated-diagnostic/README.md) narrows the nine
-disputed boundaries: seven agree with the candidate and two disagree. Its
+disputed boundaries: after correcting the native minimum degradation counts,
+seven agree with the modern fast-math rebuild and two with the candidate. The
+earlier comparison was invalidated by that adapter error. Reciprocal normalization
+and pre-translation inflation explain all nine retained geometry probes. Its
 external math hooks and translated solver remain unqualified, so this is
 diagnostic evidence only. Canonical numerical expectations and website staging
 are unchanged. Original-app boundary saves remain pending.

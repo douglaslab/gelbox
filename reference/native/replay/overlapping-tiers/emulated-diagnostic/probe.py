@@ -27,7 +27,8 @@ class Geometry:
  def external(self,u,addr,size,data):
   if addr==0x1001b360a:
    a,b=[struct.unpack('<f',(u.reg_read(r)&0xffffffff).to_bytes(4,'little'))[0] for r in [UC_X86_REG_XMM0,UC_X86_REG_XMM1]]
-   u.reg_write(UC_X86_REG_XMM0,int.from_bytes(struct.pack('<f',self.pow(a,b)),'little'))
+   result=self.pow(a,b);self.pow_calls.append({'base':a,'exponent':b,'result':result})
+   u.reg_write(UC_X86_REG_XMM0,int.from_bytes(struct.pack('<f',result),'little'))
   else:
    rect=u.reg_read(UC_X86_REG_RDI); v=u.reg_read(UC_X86_REG_RSI)
    x1,y1,x2,y2=struct.unpack('<4f',u.mem_read(rect,16)); x,y=struct.unpack('<2f',u.mem_read(v,8))
@@ -35,6 +36,7 @@ class Geometry:
   sp=u.reg_read(UC_X86_REG_RSP); ret=struct.unpack('<Q',u.mem_read(sp,8))[0]
   u.reg_write(UC_X86_REG_RSP,sp+8);u.reg_write(UC_X86_REG_RIP,ret)
  def run(self,bases,aggregate,aspect,ctx,well,degradeLo=0,degradeHi=0):
+  self.pow_calls=[]
   u=self.u; inp=0x200000100;out=0x200000300;sp=0x200018008
   b=bytearray(256);struct.pack_into('<4i',b,12,bases,aggregate,degradeLo,degradeHi);struct.pack_into('<f',b,32,aspect)
   u.mem_write(inp,bytes(b));u.mem_write(out,bytes(256))
@@ -50,7 +52,7 @@ class Geometry:
   bases,step,direction,left=1,1000,1,50;frag=c['sample']['fragments'][c['fragment']]
   assert frag['degrade']==0
   while True:
-   y=int(self.run(bases,aggregate,frag['aspectRatio'],c['ctx'],c['wellRect'])[1])
+   y=int(self.run(bases,aggregate,frag['aspectRatio'],c['ctx'],c['wellRect'],degradeLo=1,degradeHi=1)[1])
    if y==int(target):return bases
    if (y>target and direction!=1) or (y<target and direction!=-1):
     direction*=-1;step=int(step/4)
@@ -64,4 +66,9 @@ if __name__=='__main__':
  result=[]
  for m in comparison['mismatches']:
   c=next(c for c in cases if c['id']==m['id']);result.append(dict(m,emulated=g.solve(c,m['target'],m['aggregate'])))
- print(json.dumps({'binarySHA256':g.sha,'limitation':'Original geometry instructions; host arm64 powf and source-equivalent Rectf inflation hooks; solver source translation. Not original GUI evidence.','results':result},indent=2))
+ controls=[]
+ for m in comparison['mismatches']:
+  c=next(c for c in cases if c['id']==m['id']);bases=m['fast'];frag=c['sample']['fragments'][c['fragment']]
+  rect=g.run(bases,m['aggregate'],frag['aspectRatio'],c['ctx'],c['wellRect'],degradeLo=1,degradeHi=1)
+  controls.append({'id':m['id'],'aggregate':m['aggregate'],'bases':bases,'rect':rect,'powCalls':g.pow_calls})
+ print(json.dumps({'controls':controls,'binarySHA256':g.sha,'limitation':'Original geometry instructions; host arm64 powf and source-equivalent Rectf inflation hooks; solver source translation. Not original GUI evidence.','results':result},indent=2))

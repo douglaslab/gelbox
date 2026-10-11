@@ -17,7 +17,8 @@ The retained result was repeated byte-for-byte on this Apple Silicon Mac.
 ## Inputs and boundaries
 
 - The nine disputed solver requests come from the retained candidate comparison.
-- All nine have zero degradation. The probe asserts this restriction.
+- All nine have zero degradation. The probe asserts this restriction and passes
+  native `calcDegradeAsBP`'s minimum of 1 for both degradation counts.
 - Geometry receives the existing corpus's float32 context and well rectangle.
 - Active geometry tuning is initialized from the original bundled
   `assets/tuning/gel-sim.json` and header defaults: BaseCountHigh 14000,
@@ -32,17 +33,40 @@ The retained result was repeated byte-for-byte on this Apple Silicon Mac.
 - This probe does not construct complete bands or test drawing, picking,
   degradation, random seeds, input dispatch, or serialization.
 
-## Finding
+## Corrected finding
 
-Seven of nine results agree with the web candidate; the other two disagree.
-Only two of nine agree with the modern simulation-only fast-math rebuild.
-For `boundary-bp1001-y310` and `boundary-bp1001-y352`, the probe returns 999
-while the current web candidate returns 1001.
+The first diagnostic revision incorrectly passed zero for the two degradation
+counts. Native `calcDegradeAsBP` floors both at one even when degradation is zero.
+The current script and output correct that adapter error; the earlier seven/two
+comparison is withdrawn. This is why the probe is not an acceptance oracle.
 
-This supports investigating original instruction ordering and rules out using
-the modern fast-math corpus as an unquestioned replacement oracle. It does not
-qualify either corpus, justify changing the canonical expected values, or close
-the numerical gate. Obtain the prepared original-app boundary saves, or establish
-all emulation dependencies independently, before treating these as expected
-product behavior. The original reference window still returned
-`cgWindowNotFound` when checked during this diagnostic.
+Seven of nine corrected results agree with the modern simulation-only fast-math
+rebuild; two agree with the web candidate. The candidate returns 1001 for
+`boundary-bp1001-y310` and `boundary-bp1001-y352`, as does the corrected probe.
+
+The retained `web-comparison.ts/json` traces power inputs, matching-input power
+results, and full band rectangles. Run from the repository root:
+
+```sh
+node ts/node_modules/vite-node/vite-node.mjs reference/native/replay/overlapping-tiers/emulated-diagnostic/web-comparison.ts
+```
+
+Two original instruction-order differences explain the probed rectangles:
+
+1. `0x1000573ba/3c2` normalize by multiplying by the rounded reciprocal of 14000.
+   The candidate divides directly. At 1000 effective bases, these produce
+   different float32 values and different power inputs.
+2. `0x1000574f8/523/527` calculate inflation using the original well height,
+   multiplying by time then by half the fatness excess. The candidate calculates
+   height after translation, where rounding can already have changed it.
+
+For all nine recorded power inputs, rounded JavaScript `Math.pow` equals the
+hook's arm64 `powf` result. A restricted JavaScript model with the two instruction
+orders above matches all four emulated rectangle coordinates exactly in all nine
+probes. That model only covers the retained TBE/aspect-one controls, not all
+simulation inputs, and does not establish original Intel `powf` equivalence.
+
+Canonical expectations and product code remain unchanged by this diagnostic.
+Obtain the prepared original-app boundary saves, or establish all emulation
+dependencies independently, before treating these as expected product behavior.
+The original reference window returned `cgWindowNotFound` at the last check.
