@@ -3,6 +3,57 @@ import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {serveBuiltApp} from './built-app';
 
+test('original-release visible image open move resize and gel replacement sequence',async({page},info)=>{
+ const app=await serveBuiltApp('/gelbox/');
+ const root=path.resolve('../reference/native/replay');
+ const images=path.resolve('../reference/native/image-decoding/inputs');
+ try{
+  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.goto(`${app.url}#/gel`);
+  const menu=page.getByRole('button',{name:'Application settings'});
+  const open=async(file:string)=>{
+   await menu.click();await page.getByTestId('file-input').setInputFiles(file);
+   await expect(menu).toHaveAttribute('aria-expanded','false');
+  };
+  const save=async(name:string)=>{
+   await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+   const bytes=await readFile((await (await pending).path())!);
+   expect(JSON.parse(bytes.toString())).toEqual(JSON.parse(await readFile(path.join(root,'visible-images',`native-${name}.json`),'utf8')));
+   await writeFile(info.outputPath(`web-images-${name}.json`),bytes);
+  };
+  const drag=async(x:number,y:number,x2:number,y2:number)=>{
+   await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x2,y2);await page.mouse.up();
+  };
+  await open(path.join(root,'isolated-tier/native-upper-grab.json'));
+  await page.mouse.click(236,202);await expect(page.getByTestId('fragment-view')).toBeVisible();
+  const cases=[['orientation-6.jpg',1,740,112],['alpha.png',2,740,172],['animated.gif',3,1000,172]] as const;
+  for(const [file,id,x,y] of cases){
+   await open(path.join(images,file));const image=page.getByTestId(`reference-image-${id}`);
+   await expect(image).toBeVisible();await expect(image).toBeFocused();
+   expect(await image.boundingBox()).toEqual({x:0,y:0,width:32,height:24});
+   await drag(10,10,x+10,y+10);
+   await drag(x+25,y+18,x+185,y+138);
+   expect(await image.boundingBox()).toEqual({x,y,width:192,height:144});
+  }
+  await page.mouse.move(0,740);await page.screenshot({path:info.outputPath('images-over-sample.png')});
+  const gifClip={x:1000,y:172,width:176,height:128};
+  const gifFrame=await page.screenshot({clip:gifClip});
+  // The source GIF has a different second frame; native keeps its first frame.
+  await page.waitForTimeout(500);
+  expect(await page.screenshot({clip:gifClip})).toEqual(gifFrame);
+  await save('with-images');
+  await open(path.join(root,'isolated-tier/input.json'));
+  await expect(page.getByTestId('fragment-view')).toHaveCount(0);
+  await expect(page.getByRole('heading',{name:'Sample',exact:true})).toHaveCount(0);
+  for(const [,id,x,y] of cases)expect(await page.getByTestId(`reference-image-${id}`).boundingBox()).toEqual({x,y,width:192,height:144});
+  await expect(page.getByTestId('reference-image-3')).toBeFocused();
+  await page.keyboard.press('Backspace');await expect(page.getByTestId('reference-image-3')).toHaveCount(0);
+  await expect(page.locator('[data-reference-image]')).toHaveCount(2);
+  await save('after-replace');await page.mouse.move(0,740);
+  await page.screenshot({path:info.outputPath('images-after-replace.png')});
+ }finally{await app.close();}
+});
+
 test('compiled images retain native orientation and bounded codec pixel differences',async({page},info)=>{
  const app=await serveBuiltApp('/gelbox/');
  const root=path.resolve('../reference/native/image-decoding');

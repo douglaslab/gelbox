@@ -6,6 +6,8 @@ import {useNativeButton} from '../gel/useNativeButton';
 import {useDisplayScale} from '../../lib/gpu/useDisplayScale';
 import {flushSync} from 'react-dom';
 import {useFileLoadQueue} from '../gel/FileLoadProvider';
+import {useReferenceImages} from '../gel/ReferenceImageLayer';
+import {isReferenceImage} from '../../lib/gel/referenceImages';
 import {useViewLayer,useViewZIndex} from '../gel/useViewLayer';
 import {Children,type ReactNode,type CSSProperties,type PointerEvent as ReactPointerEvent,type MouseEvent as ReactMouseEvent} from 'react';
 import {LAYOUT} from '../../lib/layout/layout';
@@ -47,6 +49,7 @@ export function FileControls() {
   const state = useGelState();
   const dispatch = useGelDispatch();
   const fileQueue = useFileLoadQueue();
+  const images = useReferenceImages();
   const current = useRef(state);
   useLayoutEffect(() => { current.current = state; }, [state]);
   const [error, setError] = useState<string | null>(null);
@@ -85,6 +88,11 @@ export function FileControls() {
     e.target.value = '';
     await fileQueue.run(async isCurrent => {
       try {
+        if (isReferenceImage(file.name)) {
+          await images.load(file);
+          if (isCurrent()) { setError(null); setOpen(false); }
+          return;
+        }
         const text = await file.text();
         if (!isCurrent()) return;
         const result = deserializeFile(text);
@@ -116,7 +124,7 @@ export function FileControls() {
         <img src={buttonUrl} alt="" width={32} height={32} style={{opacity:registry?0:undefined}} />
         {registry&&<SharedAssetPaint registry={registry} viewKey="app-button" element={buttonElement} url={buttonUrl} tint={button.tint}/>}
       </button>
-      <input ref={fileInputRef} data-testid="file-input" type="file" accept=".json,.xml,application/json,text/xml,application/xml" style={{ display: 'none' }} onChange={onFileChange} />
+      <input ref={fileInputRef} data-testid="file-input" type="file" accept=".json,.xml,.jpg,.png,.gif,application/json,text/xml,application/xml" style={{ display: 'none' }} onChange={onFileChange} />
       {error && <div role="alert" data-testid="file-error" style={{ position: 'fixed', bottom: 180, left: 16, zIndex:100, width: 260, background: '#fff', color: '#c44', fontSize: 12 }}>{error}</div>}
     </section>
   );
