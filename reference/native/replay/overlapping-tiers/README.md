@@ -95,3 +95,41 @@ was terminated (exit143); the native application was not intentionally terminate
 No security preference was changed. This attempt supplies no geometry evidence.
 The precise original-band heights/order or delivered pick location still need
 measurement; do not infer them from the saved base count alone.
+
+## Fast-math reproduction and expanded browser check
+
+The test now includes all three overlapping grab points and both isolated-tier
+controls. Eight single-tier checks pass across the four configurations; twelve
+overlap checks fail on Bases922 versus1001. All downloads are now retained before
+assertion, including failures. Time is handled using the already documented
+negative-voltage/file-workflow boundary: explicitly assert web0.1 and native
+Math.fround(0.1), then compare every other field exactly. Time preservation is
+not a newly discovered product defect; earlier notes calling it unresolved are
+superseded by this existing interchange contract.
+
+The pinned original Xcode Release configuration explicitly sets GCC_FAST_MATH=YES
+and optimization level3 (original-release-flags.txt). A separate arm64 model build
+compiles only pinned GelSim.cpp with -ffast-math; JSON parsing, driver, source
+inputs and tuning remain unchanged. It produces these UI heights:
+
+- aggregate2:7.710716247558594
+- aggregate3:7.710714340209961
+
+The minimum-height rule therefore picks aggregate3, which independently solves to
+the original GUI922bp. This is a reproduction of the previously missing selection
+behavior through a concrete original build setting. The no-fast-math model's
+identical heights pick aggregate2 instead. Full output, build configuration,
+logs and executable hash are retained. It does not imply bitwise equality of
+all original and modern fast-math operations.
+
+Next implementation work must identify the responsible operation ordering and
+encode the original observable behavior without replacing strict tie handling.
+Use the paired controls, native numerical/solver corpus and existing painting
+gates to detect collateral changes; do not broaden numerical tolerances.
+
+Two new x86 fast-math diagnostic processes stalled in kernel U state before output
+(PIDs6357 and6546, exec sessions30139 and98486). TERM was requested, but exit was
+not confirmed at this checkpoint. The earlier terminated debugger had left its
+own Rosetta debugserver PID5640; that helper was terminated and disappeared.
+No system service or security setting was changed. Further translated process
+runs are deferred; the completed arm64 control supplies the result above.

@@ -3,7 +3,7 @@ import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {serveBuiltApp} from './built-app';
 
-for(const [name,y] of [['overlap-drag',149]] as const){
+for(const [name,y,hits] of [['overlap-drag',149,2],['overlap-356',150,2],['overlap-358',151,2],['trimer-only',147,1],['dimer-only',154,1]] as const){
  test(`overlapping aggregate tiers ${name} drag matches original native`,async({page},info)=>{
   const app=await serveBuiltApp('/gelbox/');
   try{
@@ -15,13 +15,19 @@ for(const [name,y] of [['overlap-drag',149]] as const){
    await expect(menu).toHaveAttribute('aria-expanded','false');
    await expect(page.locator('[data-testid^="band-"]')).toHaveCount(3);
    const boxes=await Promise.all([0,1,2].map(i=>page.getByTestId(`band-${i}`).boundingBox()));
-   expect(boxes.filter(b=>b && 236>=b.x && 236<=b.x+b.width && y>=b.y && y<=b.y+b.height).length).toBeGreaterThanOrEqual(2);
+   expect(boxes.filter(b=>b && 236>=b.x && 236<=b.x+b.width && y>=b.y && y<=b.y+b.height).length).toBe(hits);
    await page.mouse.move(236,y);await page.mouse.down();await page.mouse.move(236,y+20);await page.mouse.up();
    await expect(page.getByTestId('fragment-view')).toBeVisible();
    await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
    const bytes=await readFile((await (await pending).path())!);
-   expect(JSON.parse(bytes.toString())).toEqual(JSON.parse(await readFile(path.join(root,`native-${name}.json`),'utf8')));
    await writeFile(info.outputPath(`web-${name}.json`),bytes);
+   const actual=JSON.parse(bytes.toString());
+   const native=JSON.parse(await readFile(path.join(root,`native-${name}.json`),'utf8'));
+   // Existing interchange boundary: web preserves imported decimals; native
+   // parses Time as float32. Assert both encodings before comparing the rest.
+   expect(actual.Gel.Time).toBe(0.1);
+   expect(native.Gel.Time).toBe(Math.fround(actual.Gel.Time));
+   expect({...actual,Gel:{...actual.Gel,Time:Math.fround(actual.Gel.Time)}}).toEqual(native);
    await page.mouse.move(0,0);await page.screenshot({path:info.outputPath(`${name}.png`)});
   }finally{await app.close();}
  });
