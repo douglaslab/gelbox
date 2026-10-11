@@ -1,0 +1,23 @@
+{
+  "README.md": "d25267efa90c50cf48a6b76ab84b09306cdfcd691d31e7d4879e5b2a15053f31",
+  "compiled-assets.json": "8821fed535a34b44d3645534d1b11ed81e6df858809fa5e91fc0970d1e8af340",
+  "preflight/run.log.gz": "094c4025b5c32714148a36b8569b0efed74216d4c42d2fd9f3804ef5d9363b39",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgl2/frozen-checkpoints.json": "7a53f94a2941ccc36868182ac87f875f6cd9a29a52c946ec6e228f82a0e46c22",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgl2/memory-checkpoints.json": "6f1f35f3622c4d5cb23c8f7537409e88800447885f7f5343d27bf89ac3712741",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgl2/resource-lifecycle.json": "b72d0784d7769589caef789f08e0aa7ad6bd4b7eda73d890a8b82c4b8a5bc764",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgl2/vmmap-0-GPU-99317.txt": "c048489f58313f48b076467ab56e2465771c5ac3e42875e437eff6ea611dba65",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgl2/vmmap-0-renderer-99322.txt": "0889d969104d7ca71758537d8f2e3dcc4fa77f153febd3002b643de80d6ea400",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgl2/vmmap-10-GPU-99317.txt": "323bef4b0a26692e27f23888d0f352e773f46a748982fd4ec48c41761e0fc853",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgl2/vmmap-10-renderer-99322.txt": "475d92194c6493ccf1d126980bbd5af0d3038784f35bf2085b3e94a046c8a9bf",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgpu/frozen-checkpoints.json": "dcf587523d6f4d9104f08328f2cf78c56fd8a04421ec4eef7cd7b02b796e281f",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgpu/memory-checkpoints.json": "59dce86fe0b587bca0e9950c47e9c682959e969849608284e1614426317e653d",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgpu/resource-lifecycle.json": "0c38787af316374c617ed9767c7b095850e2f6ad5bc457a25490f70d596c0f3c",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgpu/vmmap-0-GPU-99316.txt": "e68cea3cccd31d6f0fdd1e9f1f32ed84b28d901a1ee6743e8318114f5ddc5fa8",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgpu/vmmap-0-renderer-99321.txt": "7d6714b7ddf73e38003a8e6e0349bbea11592bae0d5697fa187519d1257872c4",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgpu/vmmap-10-GPU-99316.txt": "f6203ecf9e8e5655b22fac71a117ae5c333c4e76603f8c0646d875fc8c812718",
+  "preflight/view-churn-compiled-repeat-82b67-release-owned-GPU-resources-chromium-webgpu/vmmap-10-renderer-99321.txt": "9f865ff7e916f8dd5521b04f423682f52f762c67896fcc5a8131f26c01f1fff7",
+  "runner/metal.config.ts": "72fcc4f84550d79e9966c6b4a5f046c8262545894b522e3a0ebdd03e2b23fcba",
+  "runner/performance/view-churn.spec.ts": "919bbf3a3d680754f066b2ed841942a00ce7bd6d8859559c03aa929835c87512",
+  "runner/production/built-app.ts": "2099582051fc33841c53024849aeb495d1e1138f259a05cf535e5c596c395cde",
+  "verify.py": "a18fb6225ff1a00865b0646ba62e0becacd67cf1c51304cca48472ad2417db6d"
+}
