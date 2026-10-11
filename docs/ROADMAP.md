@@ -45,9 +45,12 @@ reference discrepancy is qualified. The runtime patch remains uncommitted and
 must not be copied to the website as an accepted release.
 
 The fixed `4ba0139` [two-hour frozen-sampling run](../reference/web/performance/session-duration/frozen-session/README.md)
-is still live. Its acceptance limits are already recorded in the session budget;
-do not redefine them or restart the run merely because a checkpoint is pending.
-This run does not include the separate numerical candidate.
+has completed120 cycles on both renderers. Lifecycle tests pass, but the unchanged
+acceptance verifier rejects missing process-footprint captures at cycles60 and120.
+Converged heap growth, DOM/listeners and owned-resource cleanup pass in their
+recorded scopes. The full result is retained under frozen-session/completed; no
+repeat run is scheduled until the measurement failure is resolved. This run does
+not include the separate numerical candidate.
 
 The next completion work is ordered below. These are the remaining portions of
 P0–P5 and W01–W09, not new milestones or a reduced definition of done.
@@ -85,8 +88,8 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    Avenir asset distribution strategy and supported text/platform scope before
    public distribution. The Inter license notice is already shipped. Do not
    substitute a fallback font silently or assert legal rights from visual tests.
-4. **Finish reliability disposition (W08).** Finish and evaluate the active
-   fixed-revision run against the recorded finite memory criterion. Existing 1,000-cycle
+4. **Finish reliability disposition (W08).** Resolve the process-memory capture failures from the completed
+   fixed-revision run before attempting another acceptance run. Existing 1,000-cycle
    RSS/physical-footprint reports do not establish a long-term bound.
    Retained JS/DOM and explicit GPU resources are stable in their measured scopes;
    native allocator/driver retention remains incompletely attributed. Resolve

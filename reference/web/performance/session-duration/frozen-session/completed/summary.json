@@ -1,0 +1,41 @@
+{
+  "accepted": false,
+  "reason": "Memory capture error",
+  "runtimeRevision": "4ba0139482a20351d367f12fc6ece80c6d07a051",
+  "runnerExitCode": 0,
+  "acceptanceExitCode": 1,
+  "results": [
+    {
+      "backend": "chromium-webgl2",
+      "cycles": 120,
+      "elapsedSeconds": 7274.982,
+      "maximumHeapGrowthBytes": 666404,
+      "domStable": true,
+      "closedResourcesStable": true,
+      "baselineResources": 37,
+      "afterRouteUnmount": 0,
+      "captureErrors": [
+        "vmmap-120-GPU-2246-error.txt",
+        "vmmap-120-renderer-2250-error.txt",
+        "vmmap-60-GPU-2246-error.txt",
+        "vmmap-60-renderer-2250-error.txt"
+      ]
+    },
+    {
+      "backend": "chromium-webgpu",
+      "cycles": 120,
+      "elapsedSeconds": 7274.982,
+      "maximumHeapGrowthBytes": 662108,
+      "domStable": true,
+      "closedResourcesStable": true,
+      "baselineResources": 66,
+      "afterRouteUnmount": 0,
+      "captureErrors": [
+        "vmmap-120-GPU-2247-error.txt",
+        "vmmap-120-renderer-2251-error.txt",
+        "vmmap-60-GPU-2247-error.txt",
+        "vmmap-60-renderer-2251-error.txt"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Error: Command failed: /usr/bin/vmmap -summary 2247

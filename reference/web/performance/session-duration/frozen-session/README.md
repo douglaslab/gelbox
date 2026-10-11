@@ -1,10 +1,18 @@
 # Prepared convergent two-hour measurement
 
-Status: long-duration run started2026-10-11 20:16UTC against the staged4ba0139
-build. Unified exec session97497; output `/tmp/gel-frozen-session-2h`, log
-`/tmp/gel-frozen-session-2h.log`. No acceptance result yet. Do not replace the
-isolated build while this run is live. The original two-hour run has completed
-and its failed acceptance is retained in ../completed-original/.
+Status: completed2026-10-11 after120 cycles on both renderers. Runner session97497
+exited0, with two lifecycle tests passing. Full acceptance is **NOT VERIFIED**:
+all renderer/GPU process-footprint captures at cycles60 and120 failed. Retained
+reports, errors, compressed log, summary and verifier output are in completed/.
+The unchanged verifier exits1 with `Memory capture error`. No restart or limit
+change has been made. The original failed run remains in ../completed-original/.
+
+Both renderers cover7274.982 seconds between checkpoints0 and120. Maximum
+converged retained-heap growth after cycle10 is662108 bytes on WebGPU and666404
+bytes on WebGL2, below1MiB. DOM/listener counts and closed resource counts remain
+stable; owned resources reach zero after route exit. Missing process-footprint
+measurements prevent full acceptance. This evidence applies to staged4ba0139,
+not the uncommitted numerical candidate.
 
 The runner extends the validated frozen control to every checkpoint, including
 startup, route exit, and remount. It retains active-frame readings separately as
@@ -40,3 +48,17 @@ The external runner directory contains the retained runner tree. Use Node22 PATH
 Then run this directory's verify.py with that output path and
 PYTHONDONTWRITEBYTECODE=1. A failed or incomplete run must remain failed/incomplete.
 No new budget, duration waiver, or claim about native behavior is introduced.
+
+## Live measurement failure investigation
+
+Before completion, all four cycle60 vmmap captures have error files. A separate
+read-only `vmmap -summary 2250` diagnostic against the still-live WebGL2 renderer
+also timed out after15 seconds with no captured output. Its structured result is
+retained in measurement-diagnostic/vmmap-live-timeout.json. This establishes a
+current measurement timeout, not the cause of every earlier failure or an app
+memory leak. It cannot replace a missing cycle60 measurement. The fixed run was
+left running through completion and its original error files remain intact.
+
+At cycle110, converged retained-heap growth from cycle10 is662108 bytes for
+WebGPU and650592 bytes for WebGL2, both below the1048576-byte limit. These partial
+values do not establish completed-session acceptance or process-footprint bounds.

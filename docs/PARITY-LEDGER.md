@@ -264,3 +264,14 @@ outputs. Never run reference-update flags merely to make a comparison pass.
 [resume]: ../reference/web/shared-resume/README.md
 [churn]: ../reference/web/performance/shared-view-churn/README.md
 [budget]: ../reference/web/performance/release-budget/README.md
+
+## Completed frozen-sampling session (2026-10-11)
+
+The fixed4ba0139 run has completed120 cycles on both renderers, covering7274.982
+seconds. Lifecycle tests pass and owned resources reach zero after route exit.
+Converged heap growth stays below1MiB, with unchanged DOM/listener counts.
+Full acceptance remains **not verified**: all cycle60/120 process-footprint
+captures failed. The unchanged verifier rejects the retained report. See
+[complete evidence](../reference/web/performance/session-duration/frozen-session/README.md).
+W08 remains open. Do not repeat this soak until the capture failure is resolved;
+this result does not qualify the separate uncommitted numerical candidate.
