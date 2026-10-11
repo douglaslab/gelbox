@@ -1,0 +1,15 @@
+{
+  "compiledAssets": "../compiled-assets.json",
+  "artifacts": {
+    "README.md": "a232603c4f6cb6057c1b5f2ce185e6ea76bcf61a6ef9fa0580cd7e0a893891a4",
+    "diagnostic/metal.config.ts": "72fcc4f84550d79e9966c6b4a5f046c8262545894b522e3a0ebdd03e2b23fcba",
+    "diagnostic/performance/view-churn.spec.ts": "c49a0c0a981c3c1cfe3a91305e5f3f6db28f970a79703a751f4b4d23d0592c97",
+    "diagnostic/production/built-app.ts": "2099582051fc33841c53024849aeb495d1e1138f259a05cf535e5c596c395cde",
+    "initial-failed.log.gz": "ec0f285625d06ef137e60401bbde984c6f99b95fadd0742fc7734f7d4e9afc14",
+    "initial-failed.spec.ts": "0ecec9dffb7603404fa6666cf36f53f117332c84d0c2bacafbbbdc25fe6d1a71",
+    "long-run-through50-webgl2.json": "f308be7490293503bf72d9d053b19e081fb83ce20f4d12a8e5165fe8ba055211",
+    "long-run-through50-webgpu.json": "12e95c2dffacf6ed9e3cf2acc301d5d31341c84cff1f8a702635d8e99986fd73",
+    "resource-lifecycle.json": "6ca5d479098134cdb712db2c4b3d7c4ffdc07416afc1139904ffac7c0ba2036a",
+    "verified.log.gz": "1ab978cb7780e2c09f54dadbb628d257a66def2c98827c4baf2c05baa59fe22f"
+  }
+}
