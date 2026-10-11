@@ -45,7 +45,7 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    substitute a fallback font silently or assert legal rights from visual tests.
 4. **Finish reliability disposition (W08).** Define and justify a finite release
    memory criterion, then run it against a fixed revision. Existing 1,000-cycle
-   RSS and 200-cycle native-memory reports do not establish a long-term bound.
+   RSS/physical-footprint reports do not establish a long-term bound.
    Retained JS/DOM and explicit GPU resources are stable in their measured scopes;
    native allocator/driver retention remains incompletely attributed. Resolve
    the historical native missing-view observation with reproduction/attribution

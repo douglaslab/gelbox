@@ -1,0 +1,37 @@
+{
+  "website_commit": "38e5335a671810c6071796fbe45b6961dc4bfae1",
+  "source_commit": "ff35ea987742817435933433ab73b0efee3fd815",
+  "url": "http://127.0.0.1:8766/gelbox/app/",
+  "date": "2026-10-11",
+  "safari_version": "27.0.1",
+  "safari_build": "22625.1.29.11.28",
+  "macos": "27.0.1 (26A434)",
+  "served_asset_count_verified": 223,
+  "screenshot_window_pixels": [
+    2912,
+    2002
+  ],
+  "scope": "Shipping Safari native-UI tab switch; screenshots visually inspected in CUA, not retained as RGB goldens. No JS injection, WebDriver, frame counter, internal identity or backend instrumentation.",
+  "downloads": {
+    "before.json": {
+      "sha256": "81dc9883a620af26f74e3700df227dac7ce34ec314923c70ed68f0d47d22517f",
+      "source_file": "/Users/shawn/Downloads/ladder-1kb-gel.json",
+      "mtime_utc": "2026-10-11T17:37:19.997318+00:00"
+    },
+    "after-first.json": {
+      "sha256": "81dc9883a620af26f74e3700df227dac7ce34ec314923c70ed68f0d47d22517f",
+      "source_file": "/Users/shawn/Downloads/ladder-1kb-gel.json",
+      "mtime_utc": "2026-10-11T17:38:06.881967+00:00"
+    },
+    "after-second.json": {
+      "sha256": "81dc9883a620af26f74e3700df227dac7ce34ec314923c70ed68f0d47d22517f",
+      "source_file": "/Users/shawn/Downloads/ladder-1kb-gel.json",
+      "mtime_utc": "2026-10-11T17:39:10.777786+00:00"
+    }
+  },
+  "second_background_observed_utc": [
+    "2026-10-11T17:38:26Z",
+    "2026-10-11T17:38:57Z"
+  ],
+  "second_background_minimum_seconds": 31
+}
