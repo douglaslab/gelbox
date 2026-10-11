@@ -21,6 +21,14 @@ browser certification on those systems. No original-native Control-click GUI
 replay was available because window access still returned cgWindowNotFound.
 
 The concurrent two-hour memory run retains the unchanged223 compiled assets
-from26b4eb0. This gesture correction has only been checked through the dev server
-and units so far. Production build/compiled gates and local website refresh are
-pending until the fixed-build session test finishes. Nothing was published.
+from26b4eb0. The gesture correction was then built independently under
+`/tmp/gel-modifier-compiled-bdc7fbd` using `git archive bdc7fbd ts`, installed
+dependencies, and linked read-only reference fixtures. The existing76 production
+cases pass, as do the two added compiled Control/Command cases. The full58-case
+Firefox/WebKit suite and all3,054 units pass. The new compiled interaction test
+was copied into this source snapshot after the initial76-case run; runtime source
+remained identical tobdc7fbd. The223 resulting asset hashes are retained separately.
+The long memory run’s223 original asset hashes were rechecked and remain unchanged.
+
+Only local website packaging remains pending for this correction, until the
+fixed-build session test finishes. Nothing was published.

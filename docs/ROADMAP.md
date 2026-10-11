@@ -16,8 +16,9 @@ through Open and the source-verified right-edge sample-drop correction. Publishi
 Shawn's explicit instruction to prepare both releases locally for review.
 
 A [pointer-modifier correction](../reference/web/loupe-modifiers/README.md) is
-verified in development tests but awaits compiled checks and website packaging
-after the fixed-build two-hour memory run finishes. Do not replace ts/dist during
+verified in development and an isolated production build, including all58
+compatibility cases. It awaits website packaging after the fixed-build two-hour
+memory run finishes. Do not replace ts/dist during
 that run.
 
 The next completion work is ordered below. These are the remaining portions of

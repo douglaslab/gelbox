@@ -49,3 +49,24 @@ for(const button of ['left','right','middle'] as const)test(`compiled editing an
   expect(app.outside.filter(p=>p!=='/favicon.ico')).toEqual([]);
  }finally{await app.close();}
 });
+
+test('compiled macOS pointer gestures distinguish Control from Command',async({page},info)=>{
+ const app=await serveBuiltApp('/gelbox/');
+ try{
+  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.goto(`${app.url}#/gel`);
+  expect(await page.evaluate(()=>navigator.platform)).toMatch(/Mac/);
+  for(const target of ['microtube-0','band-0']){
+   await page.keyboard.down('Control');
+   try{await page.getByTestId(target).click();}finally{await page.keyboard.up('Control');}
+   await expect(page.locator('[data-loupe-id]')).toHaveCount(0);
+   await page.keyboard.down('Meta');
+   try{await page.getByTestId(target).click();}finally{await page.keyboard.up('Meta');}
+   await expect(page.locator('[data-loupe-id]')).toHaveCount(1);
+   await page.locator('[data-testid^="loupe-frame-"]').focus();
+   await page.keyboard.press('Delete');
+   await expect(page.locator('[data-loupe-id]')).toHaveCount(0);
+  }
+  await expect(page.getByTestId('microtube-0')).not.toHaveAttribute('data-empty','true');
+ }finally{await app.close();}
+});
