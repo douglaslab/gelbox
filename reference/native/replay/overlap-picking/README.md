@@ -162,3 +162,20 @@ pass (offgel-production.log and offgel-compatibility.log); corresponding files
 and visible-state screenshots are retained. No normalization or runtime change
 was needed. This closes the populated off-gel/persistent-loupe branch, without
 claiming the remaining occupied-destination or modifier-clone loupe histories.
+
+## Unequal-overlap independent selection case
+
+Open input-unequal.json in the original native app. It differs from input.json
+only in the first purple species' Mass200; the second green species remains
+Mass19.5. Both are700bp and overlap. Click screenshot(472,856): the native
+species panel shows green,700bp,20ng. Press Backspace and save
+native-unequal-after-delete.json. Only the first purple200ng species survives.
+This distinguishes minimum-height picking from the earlier equal-height
+first-in-order tie rule.
+
+The separate compiled unequal-overlap test confirms two bands with different
+UI heights, clicks client(236,400), deletes, and compares the complete saved
+gel exactly. Chromium WebGPU/WebGL2 and Firefox/WebKit WebGL2 pass; logs,
+downloads and after-delete screenshots are retained under unequal-* filenames.
+No runtime changes were required. This verifies one unequal-height overlap
+selection/deletion trace, not all overlap drag paths or modifier histories.
