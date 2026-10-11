@@ -27,6 +27,9 @@ continues against its separately retained26b4eb0 build; do not replace ts/dist
 during that run. Its cycle30 WebGL2 heap observation already exceeds the
 predeclared1MiB growth ceiling; the run continues for characterization, not a
 passing claim. See [partial evidence](../reference/web/performance/session-duration/intermediate-cycle30/README.md).
+A separate [120-cycle frozen-sampling control](../reference/web/performance/session-duration/frozen-120-preflight/README.md)
+now converges at every checkpoint on both renderers, with maximum heap growth
+below0.8MB. This supports the measurement method, not two-hour acceptance.
 
 The next completion work is ordered below. These are the remaining portions of
 P0–P5 and W01–W09, not new milestones or a reduced definition of done.

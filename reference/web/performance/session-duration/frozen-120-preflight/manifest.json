@@ -1,0 +1,12 @@
+{
+  "README.md": "ee3e045aedad7da4e4197fe8007dd03ac8f7592767718ff86c9de3b493c219d7",
+  "assessment.json": "b79b1fe2551c7d6559ad6da45c2df7a0033c607aaa1664ae4cdfcfda96c2d729",
+  "chromium-webgl2/frozen-checkpoints.json": "81a1664ccb15d353c0007fb83571497264228ade99df840c7fc1b1d227ff88b0",
+  "chromium-webgl2/resource-lifecycle.json": "9ef24a14a2c10d131c0b358953ad500ff6b1540c587a4397cc5c05e89453a0b9",
+  "chromium-webgpu/frozen-checkpoints.json": "4ad654203af1c56d9164e14521aac123255d25d9563a256ddca0ce78798e6add",
+  "chromium-webgpu/resource-lifecycle.json": "ca72b632a1d897d91dbde858d4c4ac96da1c3bff4588184cbea13f8126985156",
+  "diagnostic/metal.config.ts": "72fcc4f84550d79e9966c6b4a5f046c8262545894b522e3a0ebdd03e2b23fcba",
+  "diagnostic/performance/view-churn.spec.ts": "04e87781221b85931b5935dbafcd44f26723c5f8cd46645d72a701cd0ce6e8a5",
+  "diagnostic/production/built-app.ts": "2099582051fc33841c53024849aeb495d1e1138f259a05cf535e5c596c395cde",
+  "run.log.gz": "5bde6a48156a2b310edc39b3e584e3471dbbbdcb21cc901f438dfb01ade46b5c"
+}
