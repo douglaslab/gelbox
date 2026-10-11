@@ -33,8 +33,8 @@ This isolates the Save Sample handler's character-only matching bug. The fix
 recognizes physical KeyS when Option is held; existing ordinary S handling
 remains. The compiled regression dispatches the observed mapped event and
 compares its complete sample download with the native save. This synthetic
-regression does not replace a post-fix shipping Safari UI replay. That replay
-remains pending after CUA returned cgWindowNotFound for the still-open browser.
+regression does not replace a post-fix shipping Safari UI replay. That replay was temporarily pending after CUA returned cgWindowNotFound;
+the completed follow-up is recorded below.
 
 Command-O remains a shipping Safari limitation in this observed configuration;
 it is not intercepted by the page listener. The working in-app Open menu is
@@ -55,3 +55,16 @@ The same corrected isolated build additionally passed all3,054 unit tests and
 all82 compiled production cases; retained unit/production-full logs record
 those release checks. Compatibility coverage for this increment is the10 file
 workflow cases, not a fresh full compatibility run.
+
+## Shipping Safari post-fix verification
+
+After UI access returned on2026-10-11, a fresh navigation from the diagnostic tab
+to the staged `/gelbox/app/` loaded runtime4ba0139. The app menu Open imported
+the same native input, lane2 was selected through the real Safari UI, and
+Option-Command-S downloaded `safari-sample.json`. Its complete parsed document
+exactly equals `native-sample.json`; no normalization was applied. The download
+was1880bytes, modified at2026-10-11T12:18:37.455989 local time, SHA256
+`2e6c84e79d524de365c2b7893a67e2115ab9b8d654f6a996a2cb341c4839848e`.
+This closes the post-fix shipping Save Sample check. Safari Command-O's browser
+interception remains separately unresolved; acceptance of menu Open as its
+fallback has been requested but not assumed.

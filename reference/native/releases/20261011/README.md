@@ -30,3 +30,20 @@ signing is unchanged and the build is not notarized. Do not describe this new
 binary as an original-native parity reference or as GUI-validated. Once UI
 access returns, smoke-test startup, Open/save and loading another gel with its
 settings open on this exact build before considering the native handoff ready.
+
+## Partial GUI follow-up
+
+Once CUA access returned, launching the exact isolated bundle displayed its
+startup seven-lane ladder and3:00 timeline. Command-O and the native file dialog
+opened the retained mixed native input: the tube moved to lane2 and the visible
+timeline became1:53, with its expected DNA/dye bands. These were direct visual
+observations, not retained lossless PNG comparisons. The built bundle remains
+byte-identical to the105-file manifest used to verify the mounted DMG.
+
+Two automated clicks on the gel-settings button did not open its panel. After
+Open, automated Command-S also produced no Save dialog, including a retry after
+an ordinary keypress. These automation outcomes do not establish a physical
+input defect; earlier modern-Cinder background-input discrepancies are documented
+separately. Manual settings/Command-S confirmation was requested. Startup/Open
+are now observed, but Save/edit/settings GUI smoke remains unverified. No native
+source change, process replacement or exception waiver was made.

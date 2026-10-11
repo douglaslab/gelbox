@@ -16,7 +16,7 @@ through Open, the right-edge sample-drop correction and native pointer-modifier
 handling. It also restores native Open/Save keyboard shortcuts, verified with
 actual chooser/download sequences in four compiled configurations. Shipping Safari
 exposed Option-S character mapping, now corrected and regression-tested; its
-post-fix UI replay is pending. Safari intercepts Command-O before page delivery;
+post-fix Save Sample UI replay now matches the original native save exactly. Safari intercepts Command-O before page delivery;
 the in-app Open menu works, and acceptance of that browser limitation is pending. Publishing remains deferred by
 Shawn's explicit instruction to prepare both releases locally for review.
 

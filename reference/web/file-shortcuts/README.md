@@ -48,4 +48,5 @@ that physical S key when Option is held. Command-O is consumed by Safari before
 the diagnostic page receives a keydown event. The earlier statement that the
 handler prevents competing browser Open is therefore scoped to engines that
 deliver that shortcut. In-app menu Open works in shipping Safari. Post-fix
-shipping Save Sample replay and the Safari Open disposition remain outstanding.
+shipping Save Sample now matches the original native sample exactly, as recorded
+in the linked follow-up. Safari Open disposition remains outstanding.
