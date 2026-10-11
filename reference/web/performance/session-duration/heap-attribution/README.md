@@ -61,3 +61,21 @@ comparison, not proof that individual objects never leak or that the production
 long run has identical retainers. The snapshots narrow the next investigation;
 they do not change the original budget, establish a finite cache bound, or
 turn the ongoing acceptance run into a pass.
+
+## Pinned browser buffer bound
+
+A separate launch of the same executable reports Chromium revision
+`971a7443b0c9b0a9b2860529b33331b76077ec62` through Browser.getVersion. Its
+[Performance implementation](https://chromium.googlesource.com/chromium/src/+/971a7443b0c9b0a9b2860529b33331b76077ec62/third_party/blink/renderer/core/timing/performance.cc)
+caps the layout-shift buffer at150 entries; insertion stops and the dropped-entry
+counter increments after the cap. The exact source was retrieved using Gitiles
+format=TEXT and decoded from base64; its hash and observed values are retained in
+`chromium-buffer-bound.json`. The web browsing tool could not open this revision,
+but the direct official Gitiles request succeeded.
+
+The snapshots contain55 LayoutShift objects at10 and150 at30, with165→450
+attribution objects and330→900 rectangle objects. These match a filled browser
+buffer (three source attributions/two rectangles each in this observed workload).
+This supplies a source-supported bound for the identified layout-shift retention.
+It does not bound compiled-code memory or the whole heap, and does not change
+the failed acceptance result. No browser flags or application behavior changed.

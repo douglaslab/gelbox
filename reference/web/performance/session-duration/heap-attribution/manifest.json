@@ -1,7 +1,8 @@
 {
   "compiledAssets": "../compiled-assets.json",
   "artifacts": {
-    "README.md": "abc794f072a606cf2cdc7b1ea477a07b581404f71f12682f7ecb8c20256bcfce",
+    "README.md": "5d546ef60003cb12e7a05db15feeb61f73b019bf0bd250c1f7000e1a3c5b6d5d",
+    "chromium-buffer-bound.json": "571d2d70de1c49ea26e38ec6c209ce7c54d1a8059c6d336804010052baa4c3d9",
     "diagnostic/metal.config.ts": "72fcc4f84550d79e9966c6b4a5f046c8262545894b522e3a0ebdd03e2b23fcba",
     "diagnostic/performance/view-churn.spec.ts": "f65a42dba284ed6f3a0cdfc91b1e59571b19c71a9f35d4f2acf688140e50c3c0",
     "diagnostic/production/built-app.ts": "2099582051fc33841c53024849aeb495d1e1138f259a05cf535e5c596c395cde",
