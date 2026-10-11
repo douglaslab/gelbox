@@ -32,3 +32,10 @@ The local website is refreshed from sourcee84627c in website commiteca3e42.
 All626 tracked TypeScript workspace files matched the isolated source snapshot;
 all223 packaged and HTTP-served hashes and both routes were verified. The memory
 run retains its separate original build. Nothing was published.
+
+After the subsequent platform-modifier correction, the full visual suite at
+source8f308d8 passed969 cases with one intentional skip. `full-visual.log.gz`
+retains the run. This includes the file shortcuts, macOS pointer modifiers,
+simulated Windows modifier branch and existing graphics/selection workflows.
+It is regression evidence; the outstanding paired native/platform requirements
+remain open.
