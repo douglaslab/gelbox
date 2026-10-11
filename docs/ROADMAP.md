@@ -11,7 +11,7 @@ They do not supersede the current ledger or relax this completion contract.
 
 The implementation strategy is unchanged: finish the existing TypeScript web app.
 The local website preview has been refreshed from source `ff35ea9` and committed
-in the website repository as `38e5335`. Later source commits through `f848639`
+in the website repository as `38e5335`. Later source commits through `97cdcf4`
 change tests/evidence, not shipped app behavior. Publishing remains deferred by
 Shawn's explicit instruction to prepare both releases locally for review.
 
@@ -23,10 +23,12 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    source/loupe selection and the three loupe drag modes. Follow with overlap
    picking, zero/negative-voltage drag and remaining slider/focus branches.
    Keep exact saved-document comparisons and observable view/selection checks.
-   A coordinated Command-click from Shawn is needed because the native control
-   API cannot combine a mouse action with held modifiers. The earlier click
-   instruction was deferred while independent zero-voltage capture proceeds;
-   prepare the loupe fixture again before requesting that action. Automated web tests do not replace these native traces.
+   Shawn supplied the coordinated Command-click; the retained loupe move/return
+   and tied-overlap deletion now have paired traces, as do one zero-voltage and
+   one negative-voltage drag. See the ledger for their exact scopes. Further
+   native modifier actions may need manual coordination because the native
+   control API cannot combine mouse actions with held modifiers. Automated web
+   tests do not replace these native traces.
 2. **Finish remaining native file/image and platform observations (W01, W06,
    W07).** Replay native occupied/full/mixed drops and visible image decoding;
    compare the corresponding compiled workflow. Exercise actual shipping-browser

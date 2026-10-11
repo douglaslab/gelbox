@@ -10,7 +10,7 @@ import production from './playwright.production.config';
 const firefoxAppData=path.resolve('playwright/.cache/firefox-app-data');
 if(process.platform==='darwin')mkdirSync(firefoxAppData,{recursive:true});
 const firefoxEnv=process.platform==='darwin'?{...process.env,CFFIXED_USER_HOME:firefoxAppData}:undefined;
-export default defineConfig({...production,testMatch:/(deployment|interactions|image-decoding|empty-tube|tube-movement|multimer-drag|dye-transfer|legacy-files|hidden-lanes|file-workflow|zero-voltage|negative-voltage)\.spec\.ts/,projects:[
+export default defineConfig({...production,testMatch:/(deployment|interactions|image-decoding|empty-tube|tube-movement|multimer-drag|dye-transfer|legacy-files|hidden-lanes|file-workflow|zero-voltage|negative-voltage|overlap-picking)\.spec\.ts/,projects:[
  {name:'firefox-webgl2',use:{browserName:'firefox',launchOptions:{timeout:15000,env:firefoxEnv}}},
  {name:'webkit-webgl2',use:{browserName:'webkit'}},
 ]});
