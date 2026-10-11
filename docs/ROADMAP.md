@@ -36,7 +36,9 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    selection, water→TBE, hidden-lane reduction/restoration and populated off-gel
    removal now have paired traces. Tied and unequal-overlap deletion, one zero-
    voltage drag and one negative-voltage drag are also verified in their stated
-   scopes. Continue modifier clone/Shift-lock, occupied destinations with loupes,
+   scopes. Right-click creation, deterministic species edits and post-save deletion
+   now also match the native saved samples across four configurations.
+   Continue modifier clone/Shift-lock, occupied destinations with loupes,
    remaining picked aggregate offsets and slider/focus/secondary-button branches.
    Keep exact saved-document comparisons and observable view/selection checks.
    Native Option-drag tube cloning is prepared on the current one-species fixture;
