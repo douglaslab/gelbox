@@ -3,8 +3,7 @@
 Last tested: 2026-10-11 on ndskpc1, Windows 11, Intel Arc 140T.
 Plan: [2026-10-10 Windows port](../../docs/superpowers/plans/2026-10-10-windows-port.md).
 
-Tasks 1–9 are complete. Task 10 remains open for the 150% display-scale check.
-Later tasks have not been started, preserving the requested task order.
+Tasks 1–10 are complete. Task 11, numerical rendering parity, is next.
 
 ## Verified
 
@@ -25,6 +24,7 @@ Later tasks have not been started, preserving the requested task order.
 | Settings and Help | App and gel settings panels render; clicking Help opens the Douglas Lab Gelbox page in Chrome. |
 | Hot reload | Changing copied `H2ODistort.Faint` from .25 to 1 changed the gel crop's mean brightness from 2.9691 to 10.1807. Restoring the original bytes restored the exact pixels, without restarting. |
 | Relocation | A copy containing only the executable and assets launches from a directory with spaces and `ü`; all eleven loads resolve to that copy's assets. |
+| Display scale | At 150%, native DPI144, full Sample/Species layout fits, icons/text remain sharp, and scaled band selection works. Shawn signed out/in for the check and restored100%; native DPI96 verified after relaunch. |
 | Antialiasing | Windows originally reported zero samples and jagged circles. With explicit 4x MSAA it reports four samples and screenshot edges are smoother; Mac also reports four. |
 
 Remote tests ran through an interactive scheduled task in the signed-in console
@@ -32,7 +32,8 @@ session. Mouse and keyboard actions used native Windows input. XML/PNG and the
 Unicode drop used `WM_DROPFILES`, exercising Cinder's native drop handler; the
 ordinary JSON Explorer drag was tested by Shawn. Test copies stayed inside the
 Gelbox checkout rather than writing another Desktop or Documents directory.
-Actual window DPI was 96 (100%). No display, sign-in or power settings were changed.
+Shawn changed display scale for the test and restored it to100%. No power or
+sign-in settings were changed by the test scripts.
 
 ## Fixes found during Task 10
 
@@ -44,19 +45,15 @@ Actual window DPI was 96 (100%). No display, sign-in or power settings were chan
 
 ## Still to do, in plan order
 
-1. **Task 10: 150% scale with a person at the console.** Set Windows display scale
-   to 150%, sign out/in, launch Release, check layout and sharp high-resolution
-   icons/text, then restore 100%. Signing out remotely while Shawn is away would
-   prevent completing the sign-in portion. Do not mark Task 10 complete yet.
-2. **Task 11: numerical Mac/Windows render parity.** Create the shared fixture,
+1. **Task 11: numerical Mac/Windows render parity.** Create the shared fixture,
    compare gel crops and lane centroids, and consider ANGLE only if measured
    differences exceed the plan's limits. Smooth molecular circles alone do not
    establish gel-render parity. Also resolve the existing startup-file interface:
    `run.ps1 -Open` passes a path, but the app currently has no command-line loader.
-3. **Task 12: installer.** Package, install, launch and uninstall the unsigned build.
-4. **Task 13: signing checkpoint with Shawn.** Certificate choice, purchase and
+2. **Task 12: installer.** Package, install, launch and uninstall the unsigned build.
+3. **Task 13: signing checkpoint with Shawn.** Certificate choice, purchase and
    identity verification belong to Shawn; wire signing after those are available.
-5. **Tasks 14–15:** Windows CI, release/build documentation, final cleanup and
+4. **Tasks 14–15:** Windows CI, release/build documentation, final cleanup and
    whole-change review. Confirm any screen/sign-in settings Shawn changed are
    restored. There is no signed installer or CI validation yet.
 
