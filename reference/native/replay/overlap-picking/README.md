@@ -146,3 +146,19 @@ supplies the previously missing native persistent-loupe branch for W03. Earlier
 hidden-lanes evidence covers subsequent species editing and establishes that
 opening gel settings clears selection, making hidden-selected editing unavailable
 through this sequence. Other W02 modifiers and drop histories remain separate.
+
+## Populated tube off-gel removal with retained loupe
+
+From the restored twelve-lane native state, close gel settings at
+screenshot(1164,1404), press ordinary `a`, and drag tube(1164,258)→(2300,258).
+The populated tube and its band disappear, sample controls close, and the same
+loupe remains in place with no molecules. Save native-loupe-off-gel.json: all
+twelve slots are null, with buffer/time/voltage/damage unchanged.
+
+The compiled continuation uses client(582,101)→(1150,101), checks no bands or
+sample panel, zero loupe particles, unchanged probe/frame and the original canvas
+identity, then compares the entire saved gel exactly. All four configurations
+pass (offgel-production.log and offgel-compatibility.log); corresponding files
+and visible-state screenshots are retained. No normalization or runtime change
+was needed. This closes the populated off-gel/persistent-loupe branch, without
+claiming the remaining occupied-destination or modifier-clone loupe histories.

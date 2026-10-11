@@ -150,5 +150,17 @@ test('native tied-band deletion and persistent loupe tube move-return',async({pa
    await writeFile(info.outputPath(`web-loupe-lanes-${lanes}.json`),laneBytes);
    if(await menu.getAttribute('aria-expanded')==='true')await menu.click();
   }
+  await page.getByTestId('settings-button').click();await page.keyboard.press('a');
+  await drag(582,101,1150,101);
+  await expect(page.getByTestId('sample-view')).toHaveCount(0);
+  await expect(page.locator('[data-testid^="band-"]')).toHaveCount(0);
+  await expect(canvas).toHaveAttribute('data-alive-count','0');
+  expect(await frame.boundingBox()).toEqual(hiddenFrame);expect(await anchorCenter()).toEqual(hiddenAnchor);
+  expect(await originalCanvas!.evaluate(el=>el===document.querySelector('[data-testid="loupe-canvas-1"]'))).toBe(true);
+  await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('loupe-off-gel.png')});
+  await menu.click();const offGelDownload=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+  const offGelBytes=await readFile((await (await offGelDownload).path())!);
+  expect(JSON.parse(offGelBytes.toString())).toEqual(JSON.parse(await readFile(path.join(root,'native-loupe-off-gel.json'),'utf8')));
+  await writeFile(info.outputPath('web-loupe-off-gel.json'),offGelBytes);
  }finally{await app.close();}
 });
