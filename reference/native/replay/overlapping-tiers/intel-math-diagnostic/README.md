@@ -31,3 +31,19 @@ Both previous native Intel diagnostic processes remained in kernel U state at
 the prerequisite check, despite earlier termination requests. No additional
 translated process was started. Native reference GUI and all product files
 were untouched by this diagnostic.
+
+## Rejected alternate-variant experiment
+
+`experimental_fma_probe.py` attempts to handle only the encountered
+vfmadd213pd/vfmadd231sd instructions using exact rational multiply/add followed
+by one binary64 rounding, checking each fused result against host `fma`.
+The instruction semantics were checked against the [Intel instruction manual](https://cdrdv2-public.intel.com/825743/325462-sdm-vol-1-2abcd-3abcd-4.pdf).
+Other unsupported instructions stop execution.
+
+Although this lets the alternate path return, its .41062676906585693 result
+fails the independent 80/160-digit Decimal power controls, both of which round
+to .41024816036224365. The complete AVX emulation/hook interaction is therefore
+not qualified. This experiment must not be used as native truth or justify
+changing product arithmetic. The scalar-path observation remains bounded to
+that path; original-app confirmation remains pending. Further emulator work is
+not the next release task.
