@@ -10,8 +10,8 @@ They do not supersede the current ledger or relax this completion contract.
 ## Execution order as of 2026-10-11
 
 The implementation strategy is unchanged: finish the existing TypeScript web app.
-The local website preview has been refreshed from source `e84627c` and committed
-in the website repository as `eca3e42`. This includes native-compatible image loading
+The local website preview has been refreshed from source `2a7eb31` and committed
+in the website repository as `0c0b652`. This includes native-compatible image loading
 through Open, the right-edge sample-drop correction and native pointer-modifier
 handling. It also restores native Open/Save keyboard shortcuts, verified with
 actual chooser/download sequences in four compiled configurations. Publishing remains deferred by
