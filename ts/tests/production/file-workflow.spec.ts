@@ -163,5 +163,27 @@ test('compiled native file shortcuts use the current imported document and selec
   expect(prevented).toBe(true);
   expect(JSON.parse(await readFile((await (await mappedDownload).path())!,'utf8'))).toEqual(nativeSample);
   await expect(menu).toHaveAttribute('aria-expanded','false');
+  // A completed Save Sample shortcut must not turn the next ordinary tube drag
+  // into a Command gesture. Cover both no loupe and an existing persistent loupe.
+  for(const [from,to,loupes] of [[1,2,0],[2,1,1]]){
+   if(loupes){
+    await page.keyboard.down('Meta');
+    // Keep the new probe away from the tube's drag hit target.
+    try{await page.mouse.click(260,500);}
+    finally{await page.keyboard.up('Meta');}
+   }
+   expect(await download('Alt+Meta+s')).toEqual(nativeSample);
+   await expect(page.locator('[data-loupe-id]')).toHaveCount(loupes);
+   const a=(await page.getByTestId(`microtube-${from}`).boundingBox())!;
+   const b=(await page.getByTestId(`microtube-${to}`).boundingBox())!;
+   await page.mouse.move(a.x+a.width/2,a.y+15);await page.mouse.down();
+   await page.mouse.move(b.x+b.width/2,b.y+15,{steps:8});await page.mouse.up();
+   await expect(page.locator('[data-loupe-id]')).toHaveCount(loupes);
+   await expect(page.getByTestId('sample-view')).toHaveAttribute('data-lane-index',String(to));
+   const expected=structuredClone(input);
+   expected.Gel.Samples[1]=null;expected.Gel.Samples[to]=nativeSample.Sample;
+   expect(await download('Meta+s')).toEqual(expected);
+  }
+
  }finally{await app.close();}
 });

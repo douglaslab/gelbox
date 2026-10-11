@@ -36,3 +36,27 @@ and matched. Website commit5440489 records that source and the verification
 commands. All223 disk/HTTP asset hashes match, and both Gelbox routes return200.
 The memory run’s separate223 assets were rechecked unchanged. This avoids waiting
 for the long run or mutating its build; no publication occurred.
+
+## Save shortcut followed by ordinary tube drag
+
+The compiled `file-workflow.spec.ts` shortcut case now continues after the native
+sample-save comparisons with two ordinary tube moves. First, save via
+Option-Command-S and move lane 2 to lane 3 with no persistent loupes. Then create
+one persistent loupe away from the tube, save again, and move lane 3 back to
+lane 2. Both steps assert an unchanged persistent-loupe count, the selected lane,
+and the exact full saved document. Chromium WebGPU/WebGL2 and Firefox/WebKit
+WebGL2 all pass against the isolated 4ba0139 runtime. Product code is unchanged.
+
+The initial test setup placed the intentional loupe probe directly over the tube;
+Playwright correctly refused the subsequent tube click because that probe
+intercepted pointer events. The setup was corrected to place the probe inside
+the gel away from the tube. No force-click or product behavior change was used.
+
+During another original-native automation attempt after Save Sample, a loupe was
+visible near the tube while the intended sample selection did not happen.
+It disappeared after a plain key event. This is consistent with transient hover
+behavior, but neither a held modifier nor persistent loupe creation was directly
+measured. Subsequent UI access returned noWindowsAvailable/cgWindowNotFound while
+the process remained alive. This observation does not establish a native defect
+or certify the pending multiple-species Shift-Tab sequence. The web test does not
+substitute for that native replay or a physical Safari keyboard/drag check.
