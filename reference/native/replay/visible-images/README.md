@@ -74,3 +74,10 @@ Fresh regression after the Open correction: build,3,051 unit tests,72 full
 production cases,52 full compatibility cases and24 focused file/image visual
 cases pass. Logs are retained. This is not the final whole-project acceptance
 gate; the remaining ledger requirements still apply.
+
+The local website was then refreshed from committed source `9ce75cd` and
+committed in douglaslab.org as `d337863`. Its updater independently reran3,051
+unit and72 production cases. All223 packaged/HTTP-served asset hashes and both
+native download hashes were verified; `/gelbox/` and `/gelbox/app/` return200.
+`website-release.json` records this deployment-path build separately from the
+first compiled replay build. Publication remains deferred.

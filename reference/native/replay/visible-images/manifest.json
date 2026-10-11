@@ -234,7 +234,7 @@
     "animated.gif": "ad9b3dd5f6b9c71af7f7ec59ca857698caf5def030eada903174c227039c9086"
   },
   "artifacts": {
-    "README.md": "20a9a7f13bc758d021334eb9a71bc71bb29c554b408b8bb7d3e8015c5ab0527b",
+    "README.md": "db1b6e69fa429cc623dfa10bf4689286de7c61cebbf8e0eb2a269e6e70eb3408",
     "build.log.gz": "131b0daf01f706a675fb90aa1bf8436bc06a6fd2e67ecdb3f3431c6c621afb27",
     "chromium-webgl2/images-after-replace.png": "bdbe4fb555d1e675952b54e4424f4c5e14cc53cdf57b4f24cbfb5bbe69a34ea1",
     "chromium-webgl2/images-over-sample.png": "f690390923436e1ecb6f672d81ba2539bfede84f0fd97a143dfe6cc3d5d3dbba",
@@ -260,6 +260,8 @@
     "webkit-webgl2/images-after-replace.png": "4ea5042d3de6da7d94a3fc88cfc67b41a29ad39469875a10a2c474b91c714d79",
     "webkit-webgl2/images-over-sample.png": "76794fcdf0e6bc3e9b816830c51a065e97e024f313c2fbdaa1c0092cd9975ee9",
     "webkit-webgl2/web-images-after-replace.json": "f4175881c5fbb54f06a2c19b6544418e676d004a33652877edbb982a2e63fe00",
-    "webkit-webgl2/web-images-with-images.json": "e5655e9843c896c98c792f39228760dfc113ba04b3367997c19421823a5103a5"
+    "webkit-webgl2/web-images-with-images.json": "e5655e9843c896c98c792f39228760dfc113ba04b3367997c19421823a5103a5",
+    "website-refresh.log.gz": "409d1a71d15534333e54baecb5d73714bff54ce463358a8b863a9615373f06f3",
+    "website-release.json": "2038bf07e947d6d4755ea9459849540102fe603289ba0f427308c06fe24dedd0"
   }
 }
