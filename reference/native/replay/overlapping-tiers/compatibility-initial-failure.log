@@ -1,0 +1,104 @@
+
+Running 2 tests using 2 workers
+
+(node:4584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4585) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4585) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [webkit-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native (771ms)
+  ✘  2 [firefox-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native (947ms)
+
+
+  1) [firefox-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 2[39m
+    [31m+ Received  + 2[39m
+
+    [33m@@ -20,11 +20,11 @@[39m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m              ],[22m
+    [2m              "AspectRatio": 1,[22m
+    [32m-             "Bases": 922,[39m
+    [31m+             "Bases": 1001,[39m
+    [2m              "Color": Array [[22m
+    [2m                0.5,[22m
+    [2m                0.25,[22m
+    [2m                0.75,[22m
+    [2m              ],[22m
+    [33m@@ -42,11 +42,11 @@[39m
+    [2m        null,[22m
+    [2m        null,[22m
+    [2m        null,[22m
+    [2m        null,[22m
+    [2m      ],[22m
+    [32m-     "Time": 0.10000000149011612,[39m
+    [31m+     "Time": 0.1,[39m
+    [2m      "Voltage": 70,[22m
+    [2m      "WellDamage": 0.125,[22m
+    [2m    },[22m
+    [2m    "Gelbox": Object {[22m
+    [2m      "type": "gel",[22m
+
+      21 |    await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+      22 |    const bytes=await readFile((await (await pending).path())!);
+    > 23 |    expect(JSON.parse(bytes.toString())).toEqual(JSON.parse(await readFile(path.join(root,`native-${name}.json`),'utf8')));
+         |                                         ^
+      24 |    await writeFile(info.outputPath(`web-${name}.json`),bytes);
+      25 |    await page.mouse.move(0,0);await page.screenshot({path:info.outputPath(`${name}.png`)});
+      26 |   }finally{await app.close();}
+        at /private/tmp/gel-modifier-compiled-bdc7fbd/ts/tests/production/overlapping-tiers.spec.ts:23:41
+
+  2) [webkit-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 2[39m
+    [31m+ Received  + 2[39m
+
+    [33m@@ -20,11 +20,11 @@[39m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m              ],[22m
+    [2m              "AspectRatio": 1,[22m
+    [32m-             "Bases": 922,[39m
+    [31m+             "Bases": 1001,[39m
+    [2m              "Color": Array [[22m
+    [2m                0.5,[22m
+    [2m                0.25,[22m
+    [2m                0.75,[22m
+    [2m              ],[22m
+    [33m@@ -42,11 +42,11 @@[39m
+    [2m        null,[22m
+    [2m        null,[22m
+    [2m        null,[22m
+    [2m        null,[22m
+    [2m      ],[22m
+    [32m-     "Time": 0.10000000149011612,[39m
+    [31m+     "Time": 0.1,[39m
+    [2m      "Voltage": 70,[22m
+    [2m      "WellDamage": 0.125,[22m
+    [2m    },[22m
+    [2m    "Gelbox": Object {[22m
+    [2m      "type": "gel",[22m
+
+      21 |    await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+      22 |    const bytes=await readFile((await (await pending).path())!);
+    > 23 |    expect(JSON.parse(bytes.toString())).toEqual(JSON.parse(await readFile(path.join(root,`native-${name}.json`),'utf8')));
+         |                                         ^
+      24 |    await writeFile(info.outputPath(`web-${name}.json`),bytes);
+      25 |    await page.mouse.move(0,0);await page.screenshot({path:info.outputPath(`${name}.png`)});
+      26 |   }finally{await app.close();}
+        at /private/tmp/gel-modifier-compiled-bdc7fbd/ts/tests/production/overlapping-tiers.spec.ts:23:41
+
+  2 failed
+    [firefox-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native 
+    [webkit-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native 

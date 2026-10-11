@@ -1,0 +1,11 @@
+{
+  "source": "/Applications/Gelbox.app",
+  "copy": "/tmp/gel-original-isolated-20261011/GelboxReference.app",
+  "onlyChangedFile": [
+    "Contents/Info.plist"
+  ],
+  "originalBundleIdentifier": "org.libcinder.Gelbox",
+  "isolatedBundleIdentifier": "org.douglaslab.Gelbox.Reference.Keyboard20261011",
+  "executableSha256": "037514b74bd7fcb673b7a276749fd31bfeabc0773fd11b790457412e905a78a7",
+  "signed": false
+}
