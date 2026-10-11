@@ -15,8 +15,10 @@ cases, one loupe case and one molecular case against the existing source-model
 corpus. These failures are unresolved, not waived. No canonical fixtures or visual
 snapshots were changed. The previous candidate's visual results do not qualify this changed candidate.
 The new full compiled production suite passes all 96 cases, and Firefox/WebKit
-compatibility passes all 76 cases. Full visual regression is still running; its
-result is not implied by these compiled checks.
+compatibility passes all 76 cases. Full visual regression also passes: 969 passed and the one pre-existing
+WebGL2 warp-orientation skip. No snapshots were updated. These passes do not
+resolve the 52 reference-unit failures or qualify the original math-library
+boundary.
 
 The earlier candidate directory is historical evidence for its own patch hash.
 The website and independent two-hour stability build still use runtime 4ba0139.

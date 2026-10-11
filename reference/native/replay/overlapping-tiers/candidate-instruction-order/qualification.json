@@ -37,9 +37,9 @@
     "failed": 0
   },
   "visual": {
-    "status": "running",
-    "session": 46991,
-    "log": "/tmp/gel-instruction-visual.log"
+    "passed": 969,
+    "skipped": 1,
+    "failed": 0
   },
   "stabilityAssetsRechecked": 223
 }
