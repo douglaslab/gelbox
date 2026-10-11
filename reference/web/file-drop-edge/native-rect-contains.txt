@@ -1,0 +1,4 @@
+/Users/shawn/code/Cinder 75f4821:include/cinder/Rect.h
+
+	bool		contains( const glm::tvec2<Y, glm::defaultp> &pt ) const		{ return ( pt.x >= x1 ) && ( pt.x <= x2 ) && ( pt.y >= y1 ) && ( pt.y <= y2 ); }
+	bool		contains( const Vec2T &pt ) const								{ return ( pt.x >= x1 ) && ( pt.x <= x2 ) && ( pt.y >= y1 ) && ( pt.y <= y2 ); }

@@ -78,8 +78,10 @@ function GelInner() {
             if(overlay){
               const x=(point.x-overlay.left)/overlay.width*state.gelSize.width;
               const y=(point.y-overlay.top)/overlay.height*state.gelSize.height;
-              if(x>=0&&x<state.gelSize.width&&y>=0&&y<=state.gelSize.height)
-                preferredLane=Math.floor(x/state.gelSize.width*state.numLanes);
+              // Native Rect::contains includes the right edge; pickLane clamps
+              // that edge to the final lane rather than falling back elsewhere.
+              if(x>=0&&x<=state.gelSize.width&&y>=0&&y<=state.gelSize.height)
+                preferredLane=Math.min(state.numLanes-1,Math.floor(x/state.gelSize.width*state.numLanes));
               else for(let lane=0;lane<state.numLanes;lane++){
                 const {hit}=tubeGeometry(state.gelSize.width,state.gelSize.height,state.numLanes,lane);
                 if(x>=hit.x1&&x<=hit.x2&&y>=hit.y1&&y<=hit.y2){preferredLane=lane;break;}

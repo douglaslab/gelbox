@@ -106,3 +106,28 @@ test('compiled queued mixed drops use the new layout and preserve occupied or fu
   expect(await save(page)).toEqual(full);
  }finally{await app.close();}
 });
+
+for(const offset of [0,1])test(`sample drop ${offset===0?'on':'outside'} right gel edge follows native lane picking`,async({page},info)=>{
+ const app=await serveBuiltApp('/gelbox/');
+ try{
+  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.goto(`${app.url}#/gel`);
+  const before=await save(page);
+  const rect=(await page.getByTestId('gel-overlay').boundingBox())!;
+  const transfer=await page.evaluateHandle(()=>{
+   const data=new DataTransfer();
+   data.items.add(new File(['<Sample name="edge-drop"><Fragment><Bases value="500"/><Mass value="10"/></Fragment></Sample>'],'edge.xml'));
+   return data;
+  });
+  try{await page.getByTestId('gel-page').dispatchEvent('drop',{dataTransfer:transfer,clientX:rect.x+rect.width+offset,clientY:rect.y+30});}
+  finally{await transfer.dispose();}
+  // Native Rect::contains includes the right edge; pickLane clamps to the last
+  // lane. Outside the rectangle, loading uses the first empty lane instead.
+  const lane=offset===0?6:1;
+  await expect(page.getByTestId(`microtube-${lane}`)).not.toHaveAttribute('data-empty','true');
+  const after=await save(page);
+  expect(after.Gel.Samples[lane].name).toBe('edge-drop');
+  expect(after.Gel.Samples.filter(Boolean)).toHaveLength(2);
+  expect(after.Gel.Samples[0]).toEqual(before.Gel.Samples[0]);
+ }finally{await app.close();}
+});

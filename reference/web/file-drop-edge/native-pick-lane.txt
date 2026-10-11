@@ -1,0 +1,16 @@
+/Users/shawn/code/gelbox 5f51097:src/GelView.cpp
+
+int GelView::pickLane ( vec2 loc ) const
+{
+	if ( !getFrame().contains(loc) ) return -1;
+	
+	// move to bounds space
+	loc = parentToChild(loc);
+	
+	int lane = loc.x / (float)mGel->getLaneWidth();
+	
+	lane = constrain( lane, 0, mGel->getNumLanes()-1 );
+	
+	return lane;
+}
+
