@@ -1,3 +1,4 @@
+import {isNativeAccelerator} from '../../lib/gel/nativeAccelerator';
 import {useEffect} from 'react';
 import {useGelStore,useGelSnapshot} from './GelContext';
 export function useHoverLoupe() {
@@ -20,7 +21,7 @@ export function useHoverLoupe() {
     };
     const start = (event: PointerEvent) => {
       down = true;
-      const point = pointAt(event), persistent = !!point && (event.metaKey || event.ctrlKey);
+      const point = pointAt(event), persistent = !!point && isNativeAccelerator(event);
       store.beginPointerDown(point,persistent);
       clearTimeout(downTimer);
       // Microtasks can run between native capture and React target listeners.

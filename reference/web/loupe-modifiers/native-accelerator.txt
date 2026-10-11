@@ -1,0 +1,6 @@
+Cinder75f4821 include/cinder/app/MouseEvent.h
+#if (defined( CINDER_MSW ) || defined( CINDER_WINRT ))
+		ACCEL_DOWN	= CTRL_DOWN
+#else
+		ACCEL_DOWN	= META_DOWN
+#endif

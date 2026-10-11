@@ -19,3 +19,16 @@ for(const shared of [false,true])for(const button of ['left','right','middle'] a
  await page.mouse.move(x+50,y+50);await page.mouse.up({button});await page.keyboard.up('Meta');
  expect((await second.boundingBox())!.x).toBeCloseTo(before.x,1);await expect(page.getByTestId('sample-view')).toHaveCount(0);
 });
+
+for(const target of ['microtube-0','band-0'])test(`macOS Control-click on ${target} does not act as the Command loupe modifier`,async({page},info)=>{
+ await page.addInitScript(backend=>localStorage.setItem('gelBackend',backend),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+ await page.goto('/#/gel');
+ // The original Cocoa reference uses Cinder ACCEL_DOWN=META_DOWN on macOS.
+ // Control alone must not take the loupe-creation branch.
+ expect(await page.evaluate(()=>navigator.platform)).toMatch(/Mac/);
+ await page.keyboard.down('Control');
+ try{await page.getByTestId(target).click();}
+ finally{await page.keyboard.up('Control');}
+ await expect(page.locator('[data-loupe-id]')).toHaveCount(0);
+ await expect(page.getByTestId('microtube-0')).not.toHaveAttribute('data-empty','true');
+});

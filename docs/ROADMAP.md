@@ -15,6 +15,11 @@ in the website repository as `66be215`. This includes native-compatible image lo
 through Open and the source-verified right-edge sample-drop correction. Publishing remains deferred by
 Shawn's explicit instruction to prepare both releases locally for review.
 
+A [pointer-modifier correction](../reference/web/loupe-modifiers/README.md) is
+verified in development tests but awaits compiled checks and website packaging
+after the fixed-build two-hour memory run finishes. Do not replace ts/dist during
+that run.
+
 The next completion work is ordered below. These are the remaining portions of
 P0–P5 and W01–W09, not new milestones or a reduced definition of done.
 

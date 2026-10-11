@@ -1,3 +1,4 @@
+import {isNativeAccelerator} from '../../lib/gel/nativeAccelerator';
 import {acquireSceneAsset} from '../../lib/gel/sceneAssets';
 import type {SceneTexture} from '../../lib/gel/scenePresentation';
 import type {PresentationCommand,PresentationSampling} from '../../lib/gel/presentationTypes';
@@ -87,7 +88,7 @@ export function MicrotubeRow() {
     e.preventDefault();
     // GelView picks tube hit regions outside its frame, then handles Meta
     // before right-click creation or ordinary sample selection.
-    if(e.metaKey || e.ctrlKey){
+    if(isNativeAccelerator(e)){
       const anchor=gelPoint(e);
       creatingLoupe.current={id:state.loupeNextId,pointerId:e.pointerId,...anchor};
       rowRef.current?.setPointerCapture(e.pointerId);

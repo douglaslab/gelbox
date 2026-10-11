@@ -1,0 +1,12 @@
+{
+  "source_parent": "989b29f",
+  "artifacts": {
+    "visual.log.gz": "b12a7002c19012b86f9bd984dc7ad3a9a220fcb71c409bc89f413f64a937e2dc",
+    "typecheck.log.gz": "0f03a0c93637a34d4ed5dee8c2250e738ac47d9ba80cdad0bdfce5a4251adb4e",
+    "unit.log.gz": "e70d35c71d0ec7ac4432749ece2a26d16943483b1ef2ce60ea1d98fae0a8c54e",
+    "native-accelerator.txt": "0ab9af0ffeef262afa63fc0862134b2f277bb854148e20b4361f4459b67487bd",
+    "README.md": "e83dce05b7ade37a670c93ac85150ecd28166da1ff87a8c05b5e87e9f847d6a2",
+    "platform-unit.log.gz": "d0f4a089ac4879b55ebe3f96cff4cfcb236b5bf264d94fec66fd53e9fa36acad",
+    "red.log.gz": "76c079e680908a3dcbb6f4a01268b92d628edd6540d9f7e8ae64b2c91412ecf7"
+  }
+}

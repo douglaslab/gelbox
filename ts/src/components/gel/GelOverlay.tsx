@@ -1,3 +1,4 @@
+import {isNativeAccelerator} from '../../lib/gel/nativeAccelerator';
 import {useSharedPresentation} from './ScenePresentation';
 import {nativeViewScissor} from '../../lib/gel/scenePresentation';
 import {bandFocusState,buildBandFocusLayers} from '../../lib/gel/bandFocus';
@@ -102,7 +103,7 @@ export function GelOverlay({ bands, bandToLaneFragment }: GelOverlayProps) {
   }
 
   function onBandPointerDown(e: React.PointerEvent<SVGSVGElement>) {
-    if (e.metaKey || e.ctrlKey) {
+    if (isNativeAccelerator(e)) {
       e.preventDefault();
       const anchor=gelPoint(e);
       creatingLoupe.current={id:state.loupeNextId,...anchor,pointerId:e.pointerId};
