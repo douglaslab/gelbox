@@ -111,8 +111,9 @@ export function SliderView({
     if(e.clientX===drag.lastX&&e.clientY===drag.lastY)return;
     e.preventDefault();drag.lastX=e.clientX;drag.lastY=e.clientY;
     const r=e.currentTarget.getBoundingClientRect();
-    const t=drag.handle?drag.startValue+(e.clientX-drag.startX)/r.width:
-      (e.clientX-r.left)/r.width;
+    const f=Math.fround;
+    const t=drag.handle?f(drag.startValue+f(f(e.clientX-drag.startX)/f(r.width))):
+      f(f(e.clientX-r.left)/f(r.width));
     onChange(valueAtNormalized(t,r.width));
   }
 

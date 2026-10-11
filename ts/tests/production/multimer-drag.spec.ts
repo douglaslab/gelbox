@@ -12,10 +12,11 @@ test('compiled degraded multimer transfer and vertical drag match original nativ
   await page.goto(`${app.url}#/gel`);
   const menu=page.getByRole('button',{name:'Application settings'});
   await menu.click();await page.getByTestId('file-input').setInputFiles(path.resolve('../reference/native/replay/hidden-lanes/input-twelve.json'));
+  await expect(page.getByTestId('band-0')).toHaveAttribute('data-lane-index','11');
   // Native screenshot coordinates / 2, subtracting its 28 logical pixel title bar.
   await page.mouse.click(582,231);
   await expect(page.getByTestId('fragment-view')).toContainText('2,500 bp');
-  const drag=async(x:number,y:number,tx:number,ty:number)=>{await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(tx,ty,{steps:10});await page.mouse.up();};
+  const drag=async(x:number,y:number,tx:number,ty:number,steps=10)=>{await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(tx,ty,{steps});await page.mouse.up();};
   const save=async(kind:'sample'|'gel',name:string)=>{
    await menu.click();const pending=page.waitForEvent('download');await page.getByTestId(`save-${kind}-btn`).click();
    const bytes=await readFile((await (await pending).path())!);await writeFile(info.outputPath(name),bytes);return JSON.parse(bytes.toString());
@@ -39,6 +40,17 @@ test('compiled degraded multimer transfer and vertical drag match original nativ
   for(const [x,y,name] of [[1134,495,'edit'],[1288.5,495.5,'high'],[1097.5,495.5,'low']] as const){
    await page.mouse.click(x,y);
    expect(await save('sample',`web-aggregate-${name}.json`)).toEqual(await native(`native-aggregate-${name}.json`));
+  }
+  for(const [x,y,tx,ty,name] of [
+   [1134,495,1249,495,'aggregate-drag'],
+   [1249,495,1249,527,'aggregate-outside'],
+   [1157,383,1187,383,'mass-handle'],
+   [1140,383,1170,383,'mass-track'],
+  ] as const){
+   // Native CUA drag recorded only the two endpoint columns; do not insert
+   // browser-only intermediate graph edits into this paired replay.
+   await drag(x,y,tx,ty,name==='aggregate-drag'?1:10);
+   expect(await save('sample',`web-${name}.json`)).toEqual(await native(`native-${name}.json`));
   }
  }finally{await app.close();}
 });

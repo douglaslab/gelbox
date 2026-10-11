@@ -40,7 +40,8 @@ export function quantize(v: number, step: number): number {
 
 /** Mapped value -> normalized 0..1 (mirrors Slider::calcNormalizedValue). */
 export function calcNormalizedValue(mapped: number, cfg: Pick<SliderConfig, 'valueMin' | 'valueMax'>): number {
-  return lmap(mapped, cfg.valueMin, cfg.valueMax, 0, 1);
+  const f=Math.fround,lo=f(cfg.valueMin),span=f(f(cfg.valueMax)-lo);
+  return span===0?0:f(f(f(mapped)-lo)/span);
 }
 
 /**
@@ -48,6 +49,12 @@ export function calcNormalizedValue(mapped: number, cfg: Pick<SliderConfig, 'val
  * Quantizes after mapping then clamps to [valueMin, valueMax].
  */
 export function getMappedValue(normalized: number, cfg: Pick<SliderConfig, 'valueMin' | 'valueMax' | 'quantize'>): number {
+  // Native continuous controls store the float32 lerp result, not a JS double.
+  // Imported model values remain untouched until a user edits the control.
+  if(cfg.quantize<=0){
+    const f=Math.fround,lo=f(cfg.valueMin),hi=f(cfg.valueMax);
+    return clamp(f(lo+f(f(hi-lo)*f(normalized))),lo,hi);
+  }
   let v = lmap(normalized, 0, 1, cfg.valueMin, cfg.valueMax);
   v = quantize(v, cfg.quantize);
   v = clamp(v, cfg.valueMin, cfg.valueMax);

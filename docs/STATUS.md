@@ -10,7 +10,9 @@ The current requirement-by-requirement evidence and remaining work are in [PARIT
 
 ## Big picture
 
-The [original-native multimer drag replay](../reference/native/replay/multimer-drag/README.md) now covers a degraded species moving into an empty lane and then changing migration position. All four compiled configurations match its native saved sample exactly at1642bp and preserve the remaining source payload. The subsequent aggregate graph-column edit and both presets also match complete native saved samples across all four configurations. Modifier/overlap/unusual-voltage branches remain W04; other slider/graph gestures remain R01/W02.
+The [original-native multimer drag replay](../reference/native/replay/multimer-drag/README.md) now covers a degraded species moving into an empty lane and then changing migration position. All four compiled configurations match its native saved sample exactly at1642bp and preserve the remaining source payload. The subsequent aggregate graph-column edit, both presets, a two-column drag and release below the graph also match complete native saved samples across all four configurations. Paired mass handle-edge and track drags exposed and corrected double-versus-float32 slider arithmetic; both resulting saved masses now match native exactly. Modifier/overlap/unusual-voltage branches remain W04; other slider/graph gestures remain R01/W02.
+
+The continuous-slider correction passed a fresh build, 3,051 unit tests, 955 visual tests (one existing intentional skip), 54 production tests and 24 compatibility tests. Logs and source hashes are retained with the multimer replay.
 
 Native window access recovered after Shawn dismissed an unexpected-quit dialog. The saved occupied-tube checkpoint was reloaded explicitly; empty-tube off-gel removal now matches the complete native saved document across all four compiled browser/backend configurations. [Evidence](../reference/native/replay/tube-movement/README.md). This restores native replay access without attributing the crash or closing the remaining W02 scenarios.
 

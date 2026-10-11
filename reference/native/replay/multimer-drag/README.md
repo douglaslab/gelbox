@@ -18,7 +18,7 @@ Both native whole-gel saves use the defective keyed writer: only the remaining s
 
 The compiled test imports the same file and replays the pointer positions, dividing screenshot coordinates by2 and subtracting28 from y. It checks selected destination lane10(zero-based), the horizontal display value, both saved source-sample payloads against native, and the final selected sample **exactly** against native Save Sample. It also checks the full web document changes only by the destination sample's vertical edit. No tolerance or normalization is used. The horizontal destination numeric payload was not independently saved by native, so its rounded label alone is not claimed as exact numeric proof.
 
-Four configurations pass: Chromium WebGPU/WebGL2, Firefox WebGL2 and WebKit WebGL2. Per-project downloaded documents and final screenshots are retained. Test: `ts/tests/production/multimer-drag.spec.ts`. Compiled runtime was unchanged from the last fresh build at7f37543; subsequent commits changed tests, notices/docs or evidence only.
+Four configurations pass: Chromium WebGPU/WebGL2, Firefox WebGL2 and WebKit WebGL2. Per-project downloaded documents and final screenshots are retained. Test: `ts/tests/production/multimer-drag.spec.ts`. For the initial drag and preset checkpoints, compiled runtime was unchanged from the fresh build at7f37543; intervening commits changed tests, notices/docs or evidence only. The continuous-slider correction below uses a new build.
 
 This closes this finite positive-voltage, unmodified gesture sequence. W04 still requires zero/negative voltage, modifiers, overlaps and independent tier/offset observations; W02 still has clone/dye/loupe workflows. No product behavior, website snapshot or native release package changed.
 
@@ -27,3 +27,22 @@ This closes this finite positive-voltage, unmodified gesture sequence. W04 still
 From the selected1642bp species above, actual original-native clicks at screenshot(2268,1046), (2577,1047), then(2195,1047) edit the first graph column, choose the high aggregate preset, and choose the low preset. Save Sample after each action yields `native-aggregate-edit.json`, `native-aggregate-high.json`, and `native-aggregate-low.json`. Aggregate arrays are respectively[0.5,0.25,1,0,0,0,0], [0,0,0,0,0,0,1], and[1,0,0,0,0,0,0]. All other sample fields remain unchanged.
 
 The extended compiled test performs these three clicks after the same transfer/vertical-drag sequence, using the same screenshot-to-client conversion, and compares each entire saved sample exactly. All four configurations pass (aggregate-production.log and aggregate-compatibility.log). This verifies one column edit and both presets; multi-column drags, release outside/cancel, slider handle offsets and focus transitions remain open under R01/W02. No product implementation changed.
+
+## Graph drag and continuous-slider precision (2026-10-11)
+
+Continuing from the monomer preset, the original app received these screenshot-coordinate drags, each followed by Save Sample:
+
+| Gesture | Checkpoint | Result |
+| --- | --- | --- |
+| (2268,1046) → (2498,1046) | native-aggregate-drag.json | Aggregate[0.5,0,0,0,0,0,0.5] |
+| (2498,1046) → (2498,1110), releasing below graph | native-aggregate-outside.json | Aggregate[0.5,0,0,0,0,0,0] |
+| Mass handle edge(2314,822) → (2374,822) | native-mass-handle.json | Mass74.37312316894531 |
+| Mass track(2280,822) → (2340,822) | native-mass-track.json | Mass58.563907623291016 |
+
+The CUA graph drag changed only its endpoint columns. The first browser replay inserted ten intermediate pointer moves and painted intervening columns; that was a different input sequence, retained in control-drag-initial.log. The paired graph replay now sends one move between endpoints, with no interpolated column edits. This verifies accumulation across two sampled columns and release below the graph; it does not claim a densely sampled native sweep or arbitrary gesture cancellation. The initial log also exposed an unsynchronized band click immediately after asynchronous file input; the test now waits for band0 to belong to the imported lane11 before clicking.
+
+After aligning graph input, both Chromium backends failed on mass74.37312030075186 versus native74.37312316894531 (control-drag-precision-red.log). The web used double arithmetic for normalized values, drag deltas and continuous mapping. Native Slider/SliderView uses float32 at each of these operations. The correction preserves that precision on normalization and drag movement and uses float32 mapping for continuous controls. It does not round imported model fields merely by opening an inspector. Quantized graph mapping is unchanged.
+
+Both mass checkpoints and both graph checkpoints now match entire saved samples exactly on Chromium WebGPU/WebGL2, Firefox WebGL2 and WebKit WebGL2. Logs are control-drag-production.log and control-drag-compatibility.log. Other sample fields remain unchanged. This closes this specific handle-edge versus track sequence; quantized slider/notch boundaries, Tab/Delete focus transitions and cancellation still need their remaining paired checks.
+
+Fresh validation of the continuous-slider correction: production build passes;3051 unit tests pass;955 visual tests pass with the existing intentional duplicate skip;54 production and24 compatibility tests pass. Full logs are retained as control-*.log.gz. No visual baselines or comparison tolerances changed. The website review snapshot was not refreshed or published.

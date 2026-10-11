@@ -1,0 +1,78 @@
+
+Running 2 tests using 2 workers
+
+(node:48433) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48433) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48432) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48432) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample (1.7s)
+  ✘  1 [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample (1.7s)
+
+
+  1) [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [33m@@ -27,11 +27,11 @@[39m
+    [2m            0.25,[22m
+    [2m            0.5,[22m
+    [2m            0.75,[22m
+    [2m          ],[22m
+    [2m          "Degrade": 0.375,[22m
+    [32m-         "Mass": 74.37312316894531,[39m
+    [31m+         "Mass": 74.37312030075186,[39m
+    [2m        },[22m
+    [2m      ],[22m
+    [2m      "icon": "",[22m
+    [2m      "iconScale": 1,[22m
+    [2m      "id": -1,[22m
+
+      51 |    // browser-only intermediate graph edits into this paired replay.
+      52 |    await drag(x,y,tx,ty,name==='aggregate-drag'?1:10);
+    > 53 |    expect(await save('sample',`web-${name}.json`)).toEqual(await native(`native-${name}.json`));
+         |                                                    ^
+      54 |   }
+      55 |  }finally{await app.close();}
+      56 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/multimer-drag.spec.ts:53:52
+
+  2) [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [33m@@ -27,11 +27,11 @@[39m
+    [2m            0.25,[22m
+    [2m            0.5,[22m
+    [2m            0.75,[22m
+    [2m          ],[22m
+    [2m          "Degrade": 0.375,[22m
+    [32m-         "Mass": 74.37312316894531,[39m
+    [31m+         "Mass": 74.37312030075186,[39m
+    [2m        },[22m
+    [2m      ],[22m
+    [2m      "icon": "",[22m
+    [2m      "iconScale": 1,[22m
+    [2m      "id": -1,[22m
+
+      51 |    // browser-only intermediate graph edits into this paired replay.
+      52 |    await drag(x,y,tx,ty,name==='aggregate-drag'?1:10);
+    > 53 |    expect(await save('sample',`web-${name}.json`)).toEqual(await native(`native-${name}.json`));
+         |                                                    ^
+      54 |   }
+      55 |  }finally{await app.close();}
+      56 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/multimer-drag.spec.ts:53:52
+
+  2 failed
+    [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
+    [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
