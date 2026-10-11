@@ -1,3 +1,9 @@
+> Current status: the original run is complete and **fails** its heap criterion;
+> see [retained full results](completed-original/README.md). All other declared
+> checks passed. A separate [convergent-sampling run](frozen-session/README.md)
+> started2026-10-11 20:16UTC on the staged4ba0139 build, with unchanged limits.
+> Its result is pending. Earlier setup notes below are historical.
+
 # Two-hour session memory acceptance candidate
 
 Duration is a working assumption while Shawn's two-hour versus all-day preference

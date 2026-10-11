@@ -1,8 +1,10 @@
 # Prepared convergent two-hour measurement
 
-Status: runner and verifier preflight complete; long-duration run NOT STARTED.
-The original two-hour active-frame measurement continues separately. Preserve its
-failures and full report before beginning this experiment.
+Status: long-duration run started2026-10-11 20:16UTC against the staged4ba0139
+build. Unified exec session97497; output `/tmp/gel-frozen-session-2h`, log
+`/tmp/gel-frozen-session-2h.log`. No acceptance result yet. Do not replace the
+isolated build while this run is live. The original two-hour run has completed
+and its failed acceptance is retained in ../completed-original/.
 
 The runner extends the validated frozen control to every checkpoint, including
 startup, route exit, and remount. It retains active-frame readings separately as
