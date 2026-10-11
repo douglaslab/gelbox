@@ -39,5 +39,12 @@ test('compiled tube move and occupied drop match retained native documents',asyn
   // Compare the entire lane array; only the native empty Fragments encoding differs.
   expect(normalize(await save('gel','web-after-occupied.json'))).toEqual(normalize(await native('native-after-occupied.json')));
   await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('after-occupied.png')});
+  const remaining=(await tube(1).boundingBox())!;
+  await page.mouse.move(remaining.x+remaining.width/2,remaining.y+15);await page.mouse.down();
+  await page.mouse.move(remaining.x+remaining.width/2,remaining.y-55,{steps:8});await page.mouse.up();
+  for(let lane=0;lane<12;lane++)await expect(tube(lane)).toHaveAttribute('data-empty','true');
+  await expect(page.getByTestId('sample-view')).toHaveCount(0);
+  expect(await save('gel','web-after-offgel.json')).toEqual(await native('native-after-offgel.json'));
+  await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('after-offgel.png')});
  }finally{await app.close();}
 });

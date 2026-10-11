@@ -10,6 +10,8 @@ The current requirement-by-requirement evidence and remaining work are in [PARIT
 
 ## Big picture
 
+Native window access recovered after Shawn dismissed an unexpected-quit dialog. The saved occupied-tube checkpoint was reloaded explicitly; empty-tube off-gel removal now matches the complete native saved document across all four compiled browser/backend configurations. [Evidence](../reference/native/replay/tube-movement/README.md). This restores native replay access without attributing the crash or closing the remaining W02 scenarios.
+
 Shawn accepted the lane-preserving save and current-document buffer fixes, plus the measured JPEG rounding difference (at most one 8-bit RGB channel level), on 2026-10-10. These exceptions are recorded in D01/D04/D06 of the parity ledger. This does not accept unrelated malformed-input behavior or waive remaining native/platform verification.
 
 The native feature areas are substantially implemented, and the shared compositor is enabled in production builds on both WebGPU and WebGL2. Targeted restoration remains the strategy; the evidence does not justify another rewrite or a Rust migration. Completion now requires the specific paired workflows, reference decisions and platform checks in the current parity ledger. Passing isolated rendering or model comparisons does not close those gaps.
