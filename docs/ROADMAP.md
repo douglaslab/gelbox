@@ -10,18 +10,23 @@ They do not supersede the current ledger or relax this completion contract.
 ## Execution order as of 2026-10-11
 
 The implementation strategy is unchanged: finish the existing TypeScript web app.
-The local website preview has been refreshed from source `2a7eb31` and committed
-in the website repository as `0c0b652`. This includes native-compatible image loading
+The local website preview has been refreshed from source `4ba0139` and committed
+in the website repository as `d664726`. This includes native-compatible image loading
 through Open, the right-edge sample-drop correction and native pointer-modifier
 handling. It also restores native Open/Save keyboard shortcuts, verified with
-actual chooser/download sequences in four compiled configurations. Publishing remains deferred by
+actual chooser/download sequences in four compiled configurations. Shipping Safari
+exposed Option-S character mapping, now corrected and regression-tested; its
+post-fix UI replay is pending. Safari intercepts Command-O before page delivery;
+the in-app Open menu works, and acceptance of that browser limitation is pending. Publishing remains deferred by
 Shawn's explicit instruction to prepare both releases locally for review.
 
 A [pointer-modifier correction](../reference/web/loupe-modifiers/README.md) is
 verified in development and an isolated production build, including all58
 compatibility cases, and staged on the local website. The two-hour memory run
 continues against its separately retained26b4eb0 build; do not replace ts/dist
-during that run.
+during that run. Its cycle30 WebGL2 heap observation already exceeds the
+predeclared1MiB growth ceiling; the run continues for characterization, not a
+passing claim. See [partial evidence](../reference/web/performance/session-duration/intermediate-cycle30/README.md).
 
 The next completion work is ordered below. These are the remaining portions of
 P0–P5 and W01–W09, not new milestones or a reduced definition of done.
