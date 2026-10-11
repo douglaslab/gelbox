@@ -133,3 +133,11 @@ not confirmed at this checkpoint. The earlier terminated debugger had left its
 own Rosetta debugserver PID5640; that helper was terminated and disappeared.
 No system service or security setting was changed. Further translated process
 runs are deferred; the completed arm64 control supplies the result above.
+
+## Original-instruction offline diagnostic
+
+The [emulated geometry probe](emulated-diagnostic/README.md) narrows the nine
+disputed boundaries: seven agree with the candidate and two disagree. Its
+external math hooks and translated solver remain unqualified, so this is
+diagnostic evidence only. Canonical numerical expectations and website staging
+are unchanged. Original-app boundary saves remain pending.

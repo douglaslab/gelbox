@@ -1,0 +1,87 @@
+{
+  "binarySHA256": "037514b74bd7fcb673b7a276749fd31bfeabc0773fd11b790457412e905a78a7",
+  "limitation": "Original geometry instructions; host arm64 powf and source-equivalent Rectf inflation hooks; solver source translation. Not original GUI evidence.",
+  "results": [
+    {
+      "id": "boundary-bp1001-y233",
+      "target": 233,
+      "aggregate": 1,
+      "actual": 999,
+      "fast": 1001,
+      "strict": 999,
+      "emulated": 999
+    },
+    {
+      "id": "boundary-bp1001-y254",
+      "target": 254,
+      "aggregate": 1,
+      "actual": 999,
+      "fast": 1001,
+      "strict": 999,
+      "emulated": 999
+    },
+    {
+      "id": "boundary-bp1001-y310",
+      "target": 310,
+      "aggregate": 1,
+      "actual": 1001,
+      "fast": 999,
+      "strict": 1001,
+      "emulated": 999
+    },
+    {
+      "id": "boundary-bp1001-y352",
+      "target": 352,
+      "aggregate": 1,
+      "actual": 1001,
+      "fast": 999,
+      "strict": 1001,
+      "emulated": 999
+    },
+    {
+      "id": "boundary-bp2001-y156",
+      "target": 156,
+      "aggregate": 1,
+      "actual": 1999,
+      "fast": 2001,
+      "strict": 1999,
+      "emulated": 1999
+    },
+    {
+      "id": "boundary-bp2001-y240",
+      "target": 240,
+      "aggregate": 1,
+      "actual": 1999,
+      "fast": 2001,
+      "strict": 2001,
+      "emulated": 1999
+    },
+    {
+      "id": "boundary-bp3001-y135",
+      "target": 135,
+      "aggregate": 1,
+      "actual": 2999,
+      "fast": 3001,
+      "strict": 3001,
+      "emulated": 2999
+    },
+    {
+      "id": "boundary-bp3001-y177",
+      "target": 177,
+      "aggregate": 1,
+      "actual": 2999,
+      "fast": 3001,
+      "strict": 2999,
+      "emulated": 2999
+    },
+    {
+      "id": "boundary-bp3001-y219",
+      "target": 219,
+      "aggregate": 1,
+      "actual": 2999,
+      "fast": 3001,
+      "strict": 2999,
+      "emulated": 2999
+    }
+  ]
+}
