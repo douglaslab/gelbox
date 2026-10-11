@@ -10,6 +10,8 @@ The current requirement-by-requirement evidence and remaining work are in [PARIT
 
 ## Big picture
 
+Shawn accepted the lane-preserving save and current-document buffer fixes, plus the measured JPEG rounding difference (at most one 8-bit RGB channel level), on 2026-10-10. These exceptions are recorded in D01/D04/D06 of the parity ledger. This does not accept unrelated malformed-input behavior or waive remaining native/platform verification.
+
 The native feature areas are substantially implemented, and the shared compositor is enabled in production builds on both WebGPU and WebGL2. Targeted restoration remains the strategy; the evidence does not justify another rewrite or a Rust migration. Completion now requires the specific paired workflows, reference decisions and platform checks in the current parity ledger. Passing isolated rendering or model comparisons does not close those gaps.
 
 Implemented and checked areas include native JSON/XML file workflows and metadata, startup defaults, hidden-lane retention, sample/species controls, tube and band movement/cloning, reverse solving, picking, buffer effects, molecular lifecycle/meshes, persistent loupe gestures and source selection, temporary hover loupes, and reference-image views. Independent compiled native captures now cover 509 band/setup cases, 2,909 solver requests, particle/loupe behavior and meshes, and 137 exact-byte CPU warp cases. These are finite source-backed comparisons, not certification of the original executable's complete output.
@@ -100,7 +102,7 @@ The remaining W01 priority is the paired original-native edit/save/reopen workfl
 A further W01 replay diagnosed the original stale buffer panel as an old-model
 binding: preset clicks after load do not edit the loaded gel until settings is
 reopened. The web now preserves the open settings panel on import; its existing
-current-document binding remains an explicit pending exception (D04).
+current-document binding is an explicit accepted exception (D04, approved 2026-10-10).
 [Evidence and fresh checks](../reference/native/files/interop/gel/stale-buffer/README.md):
 2,943 units and26 compiled cases passed after this panel-lifetime correction.
 
@@ -108,8 +110,8 @@ The [original-native → compiled edit/save → native reopen workflow](../refer
 now preserves the mixed document, with only exact native float32 conversion of
 the edited mass. Both backend exports are identical and reopen in web without
 further changes. Four focused compiled cases cover that chain and queued mixed,
-occupied and full-lane drops. Native composed drop replay and D01/D04 decisions
-remain open; this does not close W01.
+occupied and full-lane drops. Native composed drop replay and D01 input-boundary
+classification remain open; the save/buffer fixes are now accepted. This does not close W01.
 
 The ledger reconciles all37 original audit rows and preserves all five roadmap
 high-risk workflows. Remaining packages are paired file/edit/save, shared-state
