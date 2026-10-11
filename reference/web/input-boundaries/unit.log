@@ -1,0 +1,11 @@
+[?25l
+ RUN  v3.0.0 /Users/shawn/.codex/worktrees/3f9f/gel/ts
+
+ ✓ tests/unit/nativeFile.test.ts (31 tests) 42ms
+
+ Test Files  1 passed (1)
+      Tests  31 passed (31)
+   Start at  00:40:15
+   Duration  270ms (transform 35ms, setup 0ms, collect 37ms, tests 42ms, environment 0ms, prepare 34ms)
+
+[?25h

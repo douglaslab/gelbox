@@ -1,0 +1,15 @@
+
+Running 2 tests using 2 workers
+
+(node:56220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56219) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56219) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [webkit-webgl2] › legacy-files.spec.ts:5:1 › compiled legacy imports normalize native geometry and reject malformed files without replacing the gel (1.8s)
+  ✓  2 [firefox-webgl2] › legacy-files.spec.ts:5:1 › compiled legacy imports normalize native geometry and reject malformed files without replacing the gel (1.8s)
+
+  2 passed (2.7s)

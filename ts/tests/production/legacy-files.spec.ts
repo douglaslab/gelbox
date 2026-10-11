@@ -28,8 +28,14 @@ test('compiled legacy imports normalize native geometry and reject malformed fil
   await expect(page.getByTestId(/^microtube-\d+$/)).toHaveCount(7);
   expect(await page.getByTestId('band-0').boundingBox()).toEqual(nativeBand);
   expect(await save()).toEqual(native);
-  for(const invalid of [{...legacy,ctx:{...legacy.ctx,time:'wrong'}},{schema:'gel-sample-v0',buffer:b,fragments:null}]){
-   await open(invalid);await expect(page.getByTestId('file-error')).toContainText('Invalid legacy Gelbox field');
+  const invalidFiles=[
+   {doc:{...legacy,ctx:{...legacy.ctx,time:'wrong'}},error:'Invalid legacy Gelbox field'},
+   {doc:{schema:'gel-sample-v0',buffer:b,fragments:null},error:'Invalid legacy Gelbox field'},
+   ...[true,3,'bad',{Sample:4},[false],[{Fragments:[{Color:[1,2]}]}]].map(Samples=>({doc:{...native,Gel:{...native.Gel,Samples}},error:'Invalid native Gelbox field'})),
+   {doc:{...native,Gel:{...native.Gel,Voltage:'bad'}},error:'Invalid native Gelbox field'},
+  ];
+  for(const {doc:invalid,error} of invalidFiles){
+   await open(invalid);await expect(page.getByTestId('file-error')).toContainText(error);
    expect(await save()).toEqual(native);
    expect(await page.getByTestId('band-0').boundingBox()).toEqual(nativeBand);
   }
