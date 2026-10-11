@@ -11,7 +11,7 @@ They do not supersede the current ledger or relax this completion contract.
 
 The implementation strategy is unchanged: finish the existing TypeScript web app.
 The local website preview has been refreshed from source `4ba0139` and committed
-in the website repository as `d664726`. This includes native-compatible image loading
+in the website repository; its current local release branch is `3316a54`. This includes native-compatible image loading
 through Open, the right-edge sample-drop correction and native pointer-modifier
 handling. It also restores native Open/Save keyboard shortcuts, verified with
 actual chooser/download sequences in four compiled configurations. Shipping Safari
@@ -30,10 +30,31 @@ A separate [120-cycle frozen-sampling control](../reference/web/performance/sess
 now converges at every checkpoint on both renderers, with maximum heap growth
 below0.8MB. This supports the measurement method, not two-hour acceptance.
 
+The local numerical candidate is separate from that staged build. Original
+Release fast-math instruction ordering changes float32 band positions and which
+multimer wins an overlap. The [current candidate evidence](../reference/native/replay/overlapping-tiers/candidate-instruction-order/README.md)
+records 3,012 passing and 52 failing units, 96 passing compiled production cases,
+76 passing compatibility cases, and 969 passing visual cases with one existing
+skip. Its 20 paired overlap cases pass, but the reference-unit failures remain
+unresolved. The [offline original-instruction diagnostic](../reference/native/replay/overlapping-tiers/emulated-diagnostic/README.md)
+matches all 505 corpus band rectangles; host math hooks mean it does not replace
+original-app confirmation. Keep canonical expectations unchanged until the
+reference discrepancy is qualified. The runtime patch remains uncommitted and
+must not be copied to the website as an accepted release.
+
+The fixed `4ba0139` [two-hour frozen-sampling run](../reference/web/performance/session-duration/frozen-session/README.md)
+is still live. Its acceptance limits are already recorded in the session budget;
+do not redefine them or restart the run merely because a checkpoint is pending.
+This run does not include the separate numerical candidate.
+
 The next completion work is ordered below. These are the remaining portions of
 P0–P5 and W01–W09, not new milestones or a reduced definition of done.
 
-1. **Complete original-native editing traces (W02–W05).** Persistent-loupe
+1. **Complete original-native editing traces (W02–W05).** First capture the
+   prepared numerical boundary inputs in the original app and resolve the
+   candidate's solver, seed and loupe reference disagreements. The original
+   chooser is waiting for manual input because automated Return resets its path.
+   Then continue the remaining composed editing histories. Persistent-loupe
    move/return, left-button frame/probe/wedge gestures, molecule/background
    selection, water→TBE, hidden-lane reduction/restoration and populated off-gel
    removal now have paired traces. Tied and unequal-overlap deletion, one zero-
@@ -62,8 +83,8 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    Avenir asset distribution strategy and supported text/platform scope before
    public distribution. The Inter license notice is already shipped. Do not
    substitute a fallback font silently or assert legal rights from visual tests.
-4. **Finish reliability disposition (W08).** Define and justify a finite release
-   memory criterion, then run it against a fixed revision. Existing 1,000-cycle
+4. **Finish reliability disposition (W08).** Finish and evaluate the active
+   fixed-revision run against the recorded finite memory criterion. Existing 1,000-cycle
    RSS/physical-footprint reports do not establish a long-term bound.
    Retained JS/DOM and explicit GPU resources are stable in their measured scopes;
    native allocator/driver retention remains incompletely attributed. Resolve

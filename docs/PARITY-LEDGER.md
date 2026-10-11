@@ -1,6 +1,7 @@
 # Current parity acceptance ledger
 
-Evidence index reconciled through `9ce75cd`, 2026-10-11. This replaces the initial
+Evidence index updated through `2335420`, 2026-10-11; bounded records retain their
+own source revisions. This replaces the initial
 findings in [PORT-AUDIT](PORT-AUDIT.md) as the current evidence index. The
 [ROADMAP](ROADMAP.md) remains the completion contract. The web app is not yet
 fully accepted. No percentage is assigned to this mixed set of requirements.
@@ -10,6 +11,21 @@ with shared WebGPU/WebGL2 presentation. The audited evidence does not justify
 another rewrite or a Rust migration. Most original omissions are implemented;
 the remaining work is specific reference/interaction coverage, platform
 validation, and explicit decisions about known native defects and boundaries.
+
+## Current candidate and staged release
+
+The website remains staged from runtime `4ba0139`, with native preview
+1.0.1/build20261011. The [local release audit](../reference/native/releases/20261011/local-website-audit.json)
+verified all 223 web asset hashes, eight local HTTP routes and both native
+download hashes. Website commit `3316a54` corrects the Safari Save Sample
+verification note without changing the app bundle. Nothing is published.
+
+The uncommitted [instruction-order candidate](../reference/native/replay/overlapping-tiers/candidate-instruction-order/README.md)
+passes compiled production/compatibility/visual regressions but fails 52 current
+reference units. It is unqualified. The original instruction diagnostic supports
+its geometry changes, with explicit external-math limitations; it does not close
+D02 or supersede canonical reference data. The fixed staged build's two-hour
+stability run is still live and cannot qualify this different candidate.
 
 ## How to read the records
 
