@@ -1,0 +1,2 @@
+Original verify.py exit 1: NOT VERIFIED: Retained heap budget exceeded
+All-check diagnostic: three retained-heap violations; all other original assertions passed.

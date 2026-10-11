@@ -22,11 +22,10 @@ Shawn's explicit instruction to prepare both releases locally for review.
 
 A [pointer-modifier correction](../reference/web/loupe-modifiers/README.md) is
 verified in development and an isolated production build, including all58
-compatibility cases, and staged on the local website. The two-hour memory run
-continues against its separately retained26b4eb0 build; do not replace ts/dist
-during that run. Its cycle30 WebGL2 heap observation already exceeds the
-predeclared1MiB growth ceiling; the run continues for characterization, not a
-passing claim. See [partial evidence](../reference/web/performance/session-duration/intermediate-cycle30/README.md).
+compatibility cases, and staged on the local website. The original two-hour run against26b4eb0 is now complete and fails acceptance
+because WebGL2 exceeds the1MiB heap ceiling at cycles30,40,and80. Duration,
+DOM/listeners, tracked resources and all process-footprint limits pass.
+See the [complete retained result](../reference/web/performance/session-duration/completed-original/README.md).
 A separate [120-cycle frozen-sampling control](../reference/web/performance/session-duration/frozen-120-preflight/README.md)
 now converges at every checkpoint on both renderers, with maximum heap growth
 below0.8MB. This supports the measurement method, not two-hour acceptance.

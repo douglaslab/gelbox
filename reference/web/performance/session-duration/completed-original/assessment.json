@@ -1,0 +1,134 @@
+{
+  "passed": false,
+  "budget": {
+    "sessionSeconds": 7200,
+    "cycles": 120,
+    "holdMs": 60000,
+    "physicalFootprintPeakMiB": {
+      "renderer": 256,
+      "GPU": 1024
+    },
+    "maximumClosedFootprintGrowthAfterCycle10MiB": 64,
+    "maximumRetainedHeapGrowthAfterCycle10Bytes": 1048576,
+    "maximumDomGrowthAfterCycle10": 0,
+    "ownedResourceGrowth": 0
+  },
+  "results": [
+    {
+      "backend": "chromium-webgpu",
+      "elapsedSeconds": 7244.315,
+      "maxRetainedHeapGrowthBytes": 743032,
+      "footprints": [
+        {
+          "cycle": 120,
+          "process": "GPU",
+          "footprintMiB": 483.6,
+          "peakMiB": 556.2
+        },
+        {
+          "cycle": 10,
+          "process": "renderer",
+          "footprintMiB": 54.5,
+          "peakMiB": 144.3
+        },
+        {
+          "cycle": 60,
+          "process": "renderer",
+          "footprintMiB": 53.9,
+          "peakMiB": 150.4
+        },
+        {
+          "cycle": 0,
+          "process": "GPU",
+          "footprintMiB": 475.7,
+          "peakMiB": 507.5
+        },
+        {
+          "cycle": 0,
+          "process": "renderer",
+          "footprintMiB": 51.1,
+          "peakMiB": 132.3
+        },
+        {
+          "cycle": 120,
+          "process": "renderer",
+          "footprintMiB": 54.2,
+          "peakMiB": 159.7
+        },
+        {
+          "cycle": 60,
+          "process": "GPU",
+          "footprintMiB": 500.8,
+          "peakMiB": 542.0
+        },
+        {
+          "cycle": 10,
+          "process": "GPU",
+          "footprintMiB": 482.6,
+          "peakMiB": 537.9
+        }
+      ]
+    },
+    {
+      "backend": "chromium-webgl2",
+      "elapsedSeconds": 7244.285,
+      "maxRetainedHeapGrowthBytes": 1454164,
+      "footprints": [
+        {
+          "cycle": 120,
+          "process": "GPU",
+          "footprintMiB": 511.4,
+          "peakMiB": 636.9
+        },
+        {
+          "cycle": 10,
+          "process": "renderer",
+          "footprintMiB": 49.7,
+          "peakMiB": 165.2
+        },
+        {
+          "cycle": 0,
+          "process": "GPU",
+          "footprintMiB": 507.6,
+          "peakMiB": 636.1
+        },
+        {
+          "cycle": 60,
+          "process": "renderer",
+          "footprintMiB": 48.5,
+          "peakMiB": 165.2
+        },
+        {
+          "cycle": 0,
+          "process": "renderer",
+          "footprintMiB": 47.7,
+          "peakMiB": 146.5
+        },
+        {
+          "cycle": 120,
+          "process": "renderer",
+          "footprintMiB": 47.5,
+          "peakMiB": 165.2
+        },
+        {
+          "cycle": 60,
+          "process": "GPU",
+          "footprintMiB": 510.8,
+          "peakMiB": 636.7
+        },
+        {
+          "cycle": 10,
+          "process": "GPU",
+          "footprintMiB": 511.2,
+          "peakMiB": 636.1
+        }
+      ]
+    }
+  ],
+  "failures": [
+    "Retained heap budget exceeded",
+    "Retained heap budget exceeded",
+    "Retained heap budget exceeded"
+  ],
+  "method": "Original verifier checks collected without short-circuiting; production verifier still rejects the run."
+}
