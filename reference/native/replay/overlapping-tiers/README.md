@@ -42,3 +42,28 @@ its pinned gel-sim and molecular-sim tuning, and native-model-case.json. The web
 diagnostic was bundled with the installed esbuild and run with Node. The native
 harness provenance is retained alongside that build; these diagnostic files are
 investigative evidence, not a new independently qualified native capture corpus.
+
+## Independent tier controls
+
+From a fresh input.json each time, the original GUI now also saves:
+
+- (472,350)→(472,390), trimer-only grab: native-trimer-only.json, Bases922.
+- (472,364)→(472,404), dimer-only grab: native-dimer-only.json, Bases1001.
+
+Both use the same40 physical-pixel delta. This supports the tier-selection
+hypothesis and independently confirms each solver result at this time. A repeated
+overlap observation and original geometry/order attribution are still outstanding.
+
+Read-only disassembly of the original mouseDown function is retained in
+original-mousedown.asm. Its minimum-height loop subtracts the endpoints at
+0x10000d956, compares against the current minimum, and branches past replacement
+on greater-or-equal at0x10000d95e. This supports retaining strict less-than tie
+handling; changing web picking to prefer the last equal-height band would not
+be justified by the original executable.
+
+An additional model control constructs well endpoints with the source float32
+Rect offsetCenterTo sequence instead of double-precision symmetric endpoints.
+It changes the well's y2 by one float32 ULP, but the model still gives equal
+aggregate2/3 UI heights. Thus that endpoint discrepancy alone does not explain
+the GUI behavior. Inputs and output are retained as native-well-case/result.json.
+No product fix has been made; the original failing test remains enabled.

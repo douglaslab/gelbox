@@ -1,0 +1,47 @@
+{
+   "Gel" : {
+      "Buffer" : {
+         "Acetate" : 8.5,
+         "Borate" : 0,
+         "EDTA" : 0.5,
+         "Tris" : 12.25
+      },
+      "Samples" : [
+         {
+            "Buffer" : {
+               "Acetate" : 7.75,
+               "Borate" : 0,
+               "EDTA" : 0.25,
+               "Tris" : 10.125
+            },
+            "Fragments" : [
+               {
+                  "Aggregate" : [ 1, 1, 1 ],
+                  "AspectRatio" : 1,
+                  "Bases" : 922,
+                  "Color" : [ 0.5, 0.25, 0.75 ],
+                  "Degrade" : 0,
+                  "Mass" : 200
+               }
+            ],
+            "icon" : "microtube1500ul.png",
+            "iconScale" : 0.625,
+            "id" : 2147483647,
+            "name" : "Overlapping aggregate tiers"
+         },
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      ],
+      "Time" : 0.10000000149011612,
+      "Voltage" : 70,
+      "WellDamage" : 0.125
+   },
+   "Gelbox" : {
+      "type" : "gel",
+      "version" : "1.0"
+   }
+}

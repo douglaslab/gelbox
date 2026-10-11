@@ -1,0 +1,213 @@
+[
+  {
+    "bands": [
+      {
+        "aggregate": 1,
+        "blur": 1,
+        "brightness": 0.6963483095169067,
+        "color": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "flameHeight": 0.0,
+        "mass": 66.66667175292969,
+        "randSeed": 14704,
+        "rect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 38.635414123535156,
+          "y2": 44.485416412353516
+        },
+        "smearAbove": 0.0,
+        "smearBelow": -0.13928604125976563,
+        "smearBrightnessAbove": [
+          0.6963483095169067,
+          0.0
+        ],
+        "smearBrightnessBelow": [
+          0.0,
+          0.0
+        ],
+        "smileExp": 4.0,
+        "smileHeight": 2.0475008487701416,
+        "wellDamage": 0.125,
+        "wellDamageRandSeed": 0
+      },
+      {
+        "aggregate": 2,
+        "blur": 1,
+        "brightness": 0.6963483095169067,
+        "color": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "flameHeight": 0.0,
+        "mass": 66.66667175292969,
+        "randSeed": 14691,
+        "rect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 25.337646484375,
+          "y2": 31.187646865844727
+        },
+        "smearAbove": 0.0,
+        "smearBelow": -0.13928604125976563,
+        "smearBrightnessAbove": [
+          0.6963483095169067,
+          0.0
+        ],
+        "smearBrightnessBelow": [
+          0.0,
+          0.0
+        ],
+        "smileExp": 4.0,
+        "smileHeight": 2.0475001335144043,
+        "wellDamage": 0.125,
+        "wellDamageRandSeed": 0
+      },
+      {
+        "aggregate": 3,
+        "blur": 1,
+        "brightness": 0.6963483095169067,
+        "color": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "flameHeight": 0.0,
+        "mass": 66.66667175292969,
+        "randSeed": 14686,
+        "rect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 20.46044921875,
+          "y2": 26.31045150756836
+        },
+        "smearAbove": -2.3252639770507813,
+        "smearBelow": -0.13928604125976563,
+        "smearBrightnessAbove": [
+          0.6963483095169067,
+          0.0
+        ],
+        "smearBrightnessBelow": [
+          0.0,
+          0.0
+        ],
+        "smileExp": 4.0,
+        "smileHeight": 2.0475008487701416,
+        "wellDamage": 0.125,
+        "wellDamageRandSeed": 0
+      }
+    ],
+    "id": "overlap-drag",
+    "loupeProbes": [],
+    "molecular": [
+      {
+        "aggregateWeightSum": 3.0,
+        "isDye": false,
+        "radius": {
+          "x": 8.428571701049805,
+          "y": 8.428571701049805
+        },
+        "targetPop": 50.0,
+        "wholenessHi": 1.0,
+        "wholenessLo": 1.0
+      }
+    ],
+    "molecularFiltered": [],
+    "nativeMetadata": [
+      {
+        "aspectRatio": 1.0,
+        "bases": 3000,
+        "degradeHi": 1,
+        "degradeLo": 1,
+        "dye": -1,
+        "focusColor": [
+          0.5,
+          0.25,
+          0.75
+        ],
+        "fragment": 0,
+        "lane": 0,
+        "uiRect": {
+          "x1": 12.928571701049805,
+          "x2": 42.78571319580078,
+          "y1": 37.635414123535156,
+          "y2": 45.34613037109375
+        },
+        "wellRect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 17.214284896850586,
+          "y2": 22.78571319580078
+        }
+      },
+      {
+        "aspectRatio": 1.0,
+        "bases": 3000,
+        "degradeHi": 1,
+        "degradeLo": 1,
+        "dye": -1,
+        "focusColor": [
+          0.5,
+          0.25,
+          0.75
+        ],
+        "fragment": 0,
+        "lane": 0,
+        "uiRect": {
+          "x1": 12.928571701049805,
+          "x2": 42.78571319580078,
+          "y1": 24.337646484375,
+          "y2": 32.048362731933594
+        },
+        "wellRect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 17.214284896850586,
+          "y2": 22.78571319580078
+        }
+      },
+      {
+        "aspectRatio": 1.0,
+        "bases": 3000,
+        "degradeHi": 1,
+        "degradeLo": 1,
+        "dye": -1,
+        "focusColor": [
+          0.5,
+          0.25,
+          0.75
+        ],
+        "fragment": 0,
+        "lane": 0,
+        "uiRect": {
+          "x1": 12.928571701049805,
+          "x2": 42.78571319580078,
+          "y1": 19.46044921875,
+          "y2": 27.171165466308594
+        },
+        "wellRect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 17.214284896850586,
+          "y2": 22.78571319580078
+        }
+      }
+    ],
+    "solved": [
+      {
+        "aggregate": 3,
+        "bases": 922,
+        "targetY": 40
+      },
+      {
+        "aggregate": 2,
+        "bases": 1001,
+        "targetY": 45
+      }
+    ]
+  }
+]
