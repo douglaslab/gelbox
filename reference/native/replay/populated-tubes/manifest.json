@@ -1,0 +1,31 @@
+{
+  "base_commit": "89ee201",
+  "source_hashes": {
+    "ts/tests/production/tube-movement.spec.ts": "b77a04b360b9a6a239a4eb01a2bd0eec79cea826880bb2844ebaf4cd6a3b67c0",
+    "reference/native/replay/hidden-lanes/input-twelve.json": "fd563276063154c9a1ff7d72998ceb1ac7e9eccc8d36027c5ba09f0c7c17b1f2",
+    "reference/native/replay/multimer-drag/native-quantized-controls.json": "2436f81c730b5ae6de861c46d14f59520f9bd49eb9e30ff55f898ea8722204e5"
+  },
+  "files": {
+    "README.md": "845433fd5aee4f0c7fab79e8c034fd4e981e7242fbed73eb032499e8e8ed14d8",
+    "chromium-webgl2/populated-occupied.png": "dae0d77649c1f08b82f4c43e37571abfa666c9854e72405f42510231e9e83266",
+    "chromium-webgl2/populated-offgel.png": "c3d63b574061a29c2eacba339f9cfed1d9db8cd6571c4e831f28c2403377f35e",
+    "chromium-webgl2/web-populated-occupied.json": "c79030b8f3bcc28b72a4be48af0422b9648b8110f2524d0df105a2224b6a6f81",
+    "chromium-webgl2/web-populated-offgel.json": "022195ad700603e370c4e23f64118b85aa6d5aa32054ecd387efe500a81bd751",
+    "chromium-webgpu/populated-occupied.png": "dae0d77649c1f08b82f4c43e37571abfa666c9854e72405f42510231e9e83266",
+    "chromium-webgpu/populated-offgel.png": "c3d63b574061a29c2eacba339f9cfed1d9db8cd6571c4e831f28c2403377f35e",
+    "chromium-webgpu/web-populated-occupied.json": "c79030b8f3bcc28b72a4be48af0422b9648b8110f2524d0df105a2224b6a6f81",
+    "chromium-webgpu/web-populated-offgel.json": "022195ad700603e370c4e23f64118b85aa6d5aa32054ecd387efe500a81bd751",
+    "compatibility.log": "553cae0a941bf398072d3636f375d15bce6a106e79b85e5fe3e00c8acc15cea5",
+    "firefox-webgl2/populated-occupied.png": "ccd09beab2c6002d3002ac71f52de7c10c851d356f3c6a55ea31f2bbf3a46e86",
+    "firefox-webgl2/populated-offgel.png": "7e695dc1d3db5f7e62b6bf18841db0d9ef0047aa95c0fe0563522d8e6a5c3ec5",
+    "firefox-webgl2/web-populated-occupied.json": "c79030b8f3bcc28b72a4be48af0422b9648b8110f2524d0df105a2224b6a6f81",
+    "firefox-webgl2/web-populated-offgel.json": "022195ad700603e370c4e23f64118b85aa6d5aa32054ecd387efe500a81bd751",
+    "native-populated-occupied.json": "ee40692a9f70b23de9d7ffc7e809fc859d7ad8a7ce8c58c829618c3ab4993015",
+    "native-populated-offgel.json": "2796521f4fdcb77a199c16a7bef8994473d289ab3b4618c7246b316647aa0015",
+    "production.log": "54d4c7c54f43ae16989525eba7792217d5e4a3e1218def68817c7b6bfc916955",
+    "webkit-webgl2/populated-occupied.png": "53a34986f52da1d31d4a5f298f676ab6b165c3475207b5709e528b6583a93aa3",
+    "webkit-webgl2/populated-offgel.png": "b47baa9505fd7012b973628150403a406a4d5a7f0fe15f59551cb7ed0e81c2d9",
+    "webkit-webgl2/web-populated-occupied.json": "c79030b8f3bcc28b72a4be48af0422b9648b8110f2524d0df105a2224b6a6f81",
+    "webkit-webgl2/web-populated-offgel.json": "022195ad700603e370c4e23f64118b85aa6d5aa32054ecd387efe500a81bd751"
+  }
+}

@@ -10,6 +10,8 @@ The current requirement-by-requirement evidence and remaining work are in [PARIT
 
 ## Big picture
 
+[Populated tube drops](../reference/native/replay/populated-tubes/README.md) now match native for an occupied destination and removal outside the gel, including exact complete saved documents across all four browser/backend configurations. This adds verification without a runtime change; retained loupe and clone branches remain open.
+
 The [original-native multimer drag replay](../reference/native/replay/multimer-drag/README.md) now covers a degraded species moving into an empty lane and then changing migration position. All four compiled configurations match its native saved sample exactly at1642bp and preserve the remaining source payload. The subsequent aggregate graph-column edit, both presets, a two-column drag and release below the graph also match complete native saved samples across all four configurations. Paired mass handle-edge and track drags exposed and corrected double-versus-float32 slider arithmetic. The next native checkpoints also exposed fractional graph rounding and incorrectly quantized aspect-ratio edits; those are corrected to native float32 weights and continuous aspect values. Modifier/overlap/unusual-voltage branches remain W04; other slider/graph gestures remain R01/W02.
 
 The continuous-slider, fractional-graph and aspect-ratio corrections passed a fresh build, 3,051 unit tests, 955 visual tests (one existing intentional skip), 54 production tests and 24 compatibility tests. Logs and source hashes are retained with the multimer replay, including an interrupted visual run and its clean unchanged-tree rerun. Forward Tab/reselect/Backspace after a slider edit also matches native and retains the empty tube/panel.

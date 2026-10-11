@@ -48,3 +48,39 @@ test('compiled tube move and occupied drop match retained native documents',asyn
   await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('after-offgel.png')});
  }finally{await app.close();}
 });
+
+test('compiled populated occupied and off-gel tube drops match original native documents',async({page},info)=>{
+ const root=path.resolve('../reference/native/replay/populated-tubes');
+ const native=async(name:string)=>JSON.parse(await readFile(path.join(root,name),'utf8'));
+ const app=await serveBuiltApp('/gelbox/');
+ try{
+  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.goto(`${app.url}#/gel`);
+  const menu=page.getByRole('button',{name:'Application settings'});
+  await menu.click();await page.getByTestId('file-input').setInputFiles(path.resolve('../reference/native/replay/hidden-lanes/input-twelve.json'));
+  await expect(page.getByTestId('band-0')).toHaveAttribute('data-lane-index','11');
+  await menu.click();await page.getByTestId('file-input').setInputFiles(path.resolve('../reference/native/replay/multimer-drag/native-quantized-controls.json'));
+  const tube=(lane:number)=>page.getByTestId(`microtube-${lane}`);
+  await expect(tube(0)).not.toHaveAttribute('data-empty','true');
+  await expect(tube(11)).not.toHaveAttribute('data-empty','true');
+  const drag=async(x:number,y:number,tx:number,ty:number)=>{
+   await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(tx,ty);await page.mouse.up();
+  };
+  const save=async(name:string)=>{
+   await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+   const bytes=await readFile((await (await pending).path())!);await writeFile(info.outputPath(name),bytes);return JSON.parse(bytes.toString());
+  };
+  // Original screenshot / 2 minus the 28px title bar: lane12 -> occupied lane1.
+  await drag(582,102,224,102);
+  await expect(tube(11)).toHaveAttribute('data-empty','true');
+  await expect(tube(0)).not.toHaveAttribute('data-empty','true');
+  await expect(page.getByTestId('sample-view')).toHaveCount(0);
+  expect(await save('web-populated-occupied.json')).toEqual(await native('native-populated-occupied.json'));
+  await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('populated-occupied.png')});
+  await drag(224,102,224,32);
+  for(let lane=0;lane<12;lane++)await expect(tube(lane)).toHaveAttribute('data-empty','true');
+  await expect(page.getByTestId('sample-view')).toHaveCount(0);
+  expect(await save('web-populated-offgel.json')).toEqual(await native('native-populated-offgel.json'));
+  await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('populated-offgel.png')});
+ }finally{await app.close();}
+});
