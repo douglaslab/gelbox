@@ -20,9 +20,10 @@ verified all 223 web asset hashes, eight local HTTP routes and both native
 download hashes. Website commit `3316a54` corrects the Safari Save Sample
 verification note without changing the app bundle. Nothing is published.
 
-The uncommitted [instruction-order candidate](../reference/native/replay/overlapping-tiers/candidate-instruction-order/README.md)
-passes compiled production/compatibility/visual regressions but fails 52 current
-reference units. It is unqualified. The original instruction diagnostic supports
+The uncommitted [fractional-shape candidate](../reference/native/replay/overlapping-tiers/candidate-fractional-shape/README.md)
+builds but fails 54 current units, including two new math-library diagnostic
+boundaries. Full browser/visual passes apply to the preceding instruction-order
+candidate, not this subsequent change. It is unqualified. The original instruction diagnostic supports
 its geometry changes, with explicit external-math limitations; it does not close
 D02 or supersede canonical reference data. The fixed staged build's two-hour
 stability run is still live and cannot qualify this different candidate.

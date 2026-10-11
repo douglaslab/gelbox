@@ -32,11 +32,13 @@ below0.8MB. This supports the measurement method, not two-hour acceptance.
 
 The local numerical candidate is separate from that staged build. Original
 Release fast-math instruction ordering changes float32 band positions and which
-multimer wins an overlap. The [current candidate evidence](../reference/native/replay/overlapping-tiers/candidate-instruction-order/README.md)
-records 3,012 passing and 52 failing units, 96 passing compiled production cases,
-76 passing compatibility cases, and 969 passing visual cases with one existing
-skip. Its 20 paired overlap cases pass, but the reference-unit failures remain
-unresolved. The [offline original-instruction diagnostic](../reference/native/replay/overlapping-tiers/emulated-diagnostic/README.md)
+multimer wins an overlap. The [current candidate evidence](../reference/native/replay/overlapping-tiers/candidate-fractional-shape/README.md)
+records 3,034 passing and 54 failing units. The preceding instruction-order
+candidate passed 96 production, 76 compatibility and 969 visual cases with one
+existing skip, including all 20 paired overlap cases. Those browser results do
+not certify the latest fractional-shape change. Two new diagnostic failures
+expose differing host math-library results; original Intel qualification and
+the reference-unit failures remain unresolved. The [offline original-instruction diagnostic](../reference/native/replay/overlapping-tiers/emulated-diagnostic/README.md)
 matches all 505 corpus band rectangles; host math hooks mean it does not replace
 original-app confirmation. Keep canonical expectations unchanged until the
 reference discrepancy is qualified. The runtime patch remains uncommitted and

@@ -101,3 +101,11 @@ formula differs from the body's brightness scaling. This explains how a tiny
 rectangle change propagates into the failing loupe/molecular population test;
 it does not justify relaxing its tolerance or changing expected data without
 qualifying the original behavior. No runtime changes were made for this trace.
+
+## Fractional shape and math-library boundary
+
+The [fractional-shape candidate](../candidate-fractional-shape/README.md) adds 24
+probes beyond the sparse existing shape corpus. Two reveal an actual one-ULP
+JavaScript/host-arm64 power-library disagreement for identical inputs. Thus the
+earlier matching power calls cannot be generalized to all supported controls.
+The emulator remains diagnostic, with original Intel library qualification open.
