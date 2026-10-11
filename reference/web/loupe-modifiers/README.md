@@ -30,5 +30,9 @@ was copied into this source snapshot after the initial76-case run; runtime sourc
 remained identical tobdc7fbd. The223 resulting asset hashes are retained separately.
 The long memory run’s223 original asset hashes were rechecked and remain unchanged.
 
-Only local website packaging remains pending for this correction, until the
-fixed-build session test finishes. Nothing was published.
+The local website was then staged directly from this verified isolated build.
+All626 tracked TypeScript workspace files were compared against sourcef017f10
+and matched. Website commit5440489 records that source and the verification
+commands. All223 disk/HTTP asset hashes match, and both Gelbox routes return200.
+The memory run’s separate223 assets were rechecked unchanged. This avoids waiting
+for the long run or mutating its build; no publication occurred.

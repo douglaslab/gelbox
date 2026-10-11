@@ -10,16 +10,17 @@ They do not supersede the current ledger or relax this completion contract.
 ## Execution order as of 2026-10-11
 
 The implementation strategy is unchanged: finish the existing TypeScript web app.
-The local website preview has been refreshed from source `26b4eb0` and committed
-in the website repository as `66be215`. This includes native-compatible image loading
-through Open and the source-verified right-edge sample-drop correction. Publishing remains deferred by
+The local website preview has been refreshed from source `f017f10` and committed
+in the website repository as `5440489`. This includes native-compatible image loading
+through Open, the right-edge sample-drop correction and native pointer-modifier
+handling. Publishing remains deferred by
 Shawn's explicit instruction to prepare both releases locally for review.
 
 A [pointer-modifier correction](../reference/web/loupe-modifiers/README.md) is
 verified in development and an isolated production build, including all58
-compatibility cases. It awaits website packaging after the fixed-build two-hour
-memory run finishes. Do not replace ts/dist during
-that run.
+compatibility cases, and staged on the local website. The two-hour memory run
+continues against its separately retained26b4eb0 build; do not replace ts/dist
+during that run.
 
 The next completion work is ordered below. These are the remaining portions of
 P0–P5 and W01–W09, not new milestones or a reduced definition of done.
