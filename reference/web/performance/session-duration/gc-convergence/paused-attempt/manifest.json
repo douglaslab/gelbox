@@ -1,0 +1,9 @@
+{
+  "artifacts": {
+    "README.md": "361771983ac546599ce07be2e8ef78401595d3f9f663cd22efcc1064e84f2f84",
+    "diagnostic/metal.config.ts": "72fcc4f84550d79e9966c6b4a5f046c8262545894b522e3a0ebdd03e2b23fcba",
+    "diagnostic/performance/view-churn.spec.ts": "ccc260b98bce4f2f783aa98c0625aebde8f7460d781aa1079b76da7401d90ce7",
+    "diagnostic/production/built-app.ts": "2099582051fc33841c53024849aeb495d1e1138f259a05cf535e5c596c395cde",
+    "run.log.gz": "3d7c433e99052f368721a6e60a42d04640057f4e67a586f309581ca8e0b8a38a"
+  }
+}
