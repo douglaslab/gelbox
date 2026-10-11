@@ -79,6 +79,14 @@ void GelView::setGel( GelRef gel )
 	selectMicrotube(-1);
 	closeSampleView();
 
+	// Buffer controls hold a reference to the old gel. Recreate them on demand
+	// when a different gel is loaded, just like the sample and loupe views.
+	if (mSettingsView)
+	{
+		mSettingsView->close();
+		mSettingsView.reset();
+	}
+
 	// update	
 	auto oldGel = mGel;
 	

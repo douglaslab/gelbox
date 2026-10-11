@@ -50,3 +50,17 @@ The native Windows renderer explicitly requests 4x MSAA, matching the Mac.
 Cinder defaults to zero samples; the previous Windows-only version request
 omitted MSAA and made molecular circles jagged. Startup logs report the actual
 OpenGL renderer and sample count so a driver fallback is visible.
+
+For hot reload, edit the copies in `build-win-Release\assets` (or the Debug
+build directory). These are the live files beside the executable; edits to the
+repository assets are copied over on the next build. Restore experimental edits
+before packaging. Verified by changing `H2ODistort.Faint` in the copied
+`tuning\gel-render.json`: the running gel changed immediately and returned to
+the identical image when the original bytes were restored.
+
+See [TESTING.md](TESTING.md) for the Windows port verification record and remaining checks.
+
+Loading a new gel closes the existing gel settings panel. The buffer editor
+holds its own gel reference; retaining that panel after a load displayed and
+edited the previous gel instead of the newly loaded one. Reopening the panel
+now binds it to the current gel. This fix applies on both platforms.
