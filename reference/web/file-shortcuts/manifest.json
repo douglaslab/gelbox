@@ -4,10 +4,11 @@
   "artifacts": {
     "visual.log.gz": "eab23b44a35ab7faf0200e606763939f799e8e06800c780236d08077a8fc427e",
     "typecheck.log.gz": "0f03a0c93637a34d4ed5dee8c2250e738ac47d9ba80cdad0bdfce5a4251adb4e",
+    "website-release.json": "9ad96f7b8160d342f0156006a8ebbac5c80417958558d21ed7f1ff652cac55b2",
     "compiled-assets.json": "b2350889d722182c38f6017e56b6f91fe83cc39b3dad430b46baac6fb977a4fb",
     "production.log.gz": "25e4720dec9f8fd19c968f7240ce27e3b1fb9786c62005418d861b55820f506d",
     "unit.log.gz": "f1ced72a4d58649ceb920e1d23f754941564787be4c5aac40b7f60c2fe870547",
-    "README.md": "deb08697c294772a48ce8782b98088dee13763aa0a3910f13e480d413750f376",
+    "README.md": "4494db367179df2a8f950d19906f446e38d5cdb6982225cc17fca4858c1cfe31",
     "compatibility.log.gz": "ffbcb97efcf527f23f58ae47abc0ea3b83a99e1308c260964f4129876124e560",
     "red.log.gz": "da9e29141bbd46aecabf5a9e28901a8c5e32ddf0a0802092564f3cf2a0019a32"
   }

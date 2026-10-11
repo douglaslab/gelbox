@@ -28,4 +28,7 @@ native shortcut behavior and engine-level chooser/download integration; actual
 shipping Safari keyboard interception and a new original-native shortcut replay
 remain separate from these automated cases.
 
-Local website refresh is pending the source commit. Nothing was published.
+The local website is refreshed from sourcee84627c in website commiteca3e42.
+All626 tracked TypeScript workspace files matched the isolated source snapshot;
+all223 packaged and HTTP-served hashes and both routes were verified. The memory
+run retains its separate original build. Nothing was published.

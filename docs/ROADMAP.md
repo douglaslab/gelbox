@@ -10,10 +10,11 @@ They do not supersede the current ledger or relax this completion contract.
 ## Execution order as of 2026-10-11
 
 The implementation strategy is unchanged: finish the existing TypeScript web app.
-The local website preview has been refreshed from source `f017f10` and committed
-in the website repository as `5440489`. This includes native-compatible image loading
+The local website preview has been refreshed from source `e84627c` and committed
+in the website repository as `eca3e42`. This includes native-compatible image loading
 through Open, the right-edge sample-drop correction and native pointer-modifier
-handling. Publishing remains deferred by
+handling. It also restores native Open/Save keyboard shortcuts, verified with
+actual chooser/download sequences in four compiled configurations. Publishing remains deferred by
 Shawn's explicit instruction to prepare both releases locally for review.
 
 A [pointer-modifier correction](../reference/web/loupe-modifiers/README.md) is
