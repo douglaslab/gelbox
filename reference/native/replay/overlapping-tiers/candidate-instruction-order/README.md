@@ -13,9 +13,10 @@ launch its uninstalled Chromium revision; that setup failure is retained.
 The full unit suite passes 3,012 and fails 52: 43 solver cases, seven numerical
 cases, one loupe case and one molecular case against the existing source-model
 corpus. These failures are unresolved, not waived. No canonical fixtures or visual
-snapshots were changed. The previous candidate's full browser/visual results do
-not qualify this changed candidate. Non-unit regressions beyond the overlap
-workflow have not yet been rerun.
+snapshots were changed. The previous candidate's visual results do not qualify this changed candidate.
+The new full compiled production suite passes all 96 cases, and Firefox/WebKit
+compatibility passes all 76 cases. Full visual regression is still running; its
+result is not implied by these compiled checks.
 
 The earlier candidate directory is historical evidence for its own patch hash.
 The website and independent two-hour stability build still use runtime 4ba0139.

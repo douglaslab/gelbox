@@ -27,5 +27,19 @@
       "WebKit WebGL2"
     ],
     "runnerNote": "The first four-project attempt passed Firefox/WebKit but lacked Chromium 1248. Reran Chromium with the installed repository Playwright version: 10 passed."
-  }
+  },
+  "production": {
+    "passed": 96,
+    "failed": 0
+  },
+  "compatibility": {
+    "passed": 76,
+    "failed": 0
+  },
+  "visual": {
+    "status": "running",
+    "session": 46991,
+    "log": "/tmp/gel-instruction-visual.log"
+  },
+  "stabilityAssetsRechecked": 223
 }
