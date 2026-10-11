@@ -626,7 +626,7 @@ bool GelboxApp::isSampleSelected() const
 }
 
 namespace {
-fs::path promptJsonSavePath()
+fs::path promptJsonSavePath( bool savingSample )
 {
 #if defined( CINDER_MSW )
 	// Cinder's Windows dialog filters JSON but does not set a default extension.
@@ -640,6 +640,7 @@ fs::path promptJsonSavePath()
 	dialog.lpstrFilter = L"Gelbox JSON (*.json)\0*.json\0";
 	dialog.nFilterIndex = 1;
 	dialog.lpstrDefExt = L"json";
+	dialog.lpstrTitle = savingSample ? L"Save Sample" : L"Save Gel";
 	dialog.Flags = OFN_EXPLORER | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR;
 	auto platform = PlatformMsw::get();
 	const bool wasInsideModalLoop = platform->isInsideModalLoop();
@@ -648,6 +649,7 @@ fs::path promptJsonSavePath()
 	platform->setInsideModalLoop(wasInsideModalLoop);
 	return saved ? fs::path(filename) : fs::path();
 #else
+	(void)savingSample;
 	return getSaveFilePath( fs::path(), std::vector<string>{"json"} );
 #endif
 }
@@ -657,7 +659,7 @@ void GelboxApp::promptUserToSaveSample( SampleRef s )
 {
 	if (!s) return;
 	
-	fs::path p = promptJsonSavePath();
+	fs::path p = promptJsonSavePath(true);
 	
 	if ( !p.empty() )
 	{
@@ -670,7 +672,7 @@ void GelboxApp::promptUserToSaveGel( GelRef g )
 {
 	if (!g) return;
 	
-	fs::path p = promptJsonSavePath();
+	fs::path p = promptJsonSavePath(false);
 
 	if ( !p.empty() )
 	{
