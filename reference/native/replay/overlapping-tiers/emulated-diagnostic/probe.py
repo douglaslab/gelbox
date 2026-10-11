@@ -35,7 +35,7 @@ class Geometry:
    u.mem_write(rect,struct.pack('<4f',f(x1-x),f(y1-y),f(x2+x),f(y2+y)))
   sp=u.reg_read(UC_X86_REG_RSP); ret=struct.unpack('<Q',u.mem_read(sp,8))[0]
   u.reg_write(UC_X86_REG_RSP,sp+8);u.reg_write(UC_X86_REG_RIP,ret)
- def run(self,bases,aggregate,aspect,ctx,well,degradeLo=0,degradeHi=0):
+ def run(self,bases,aggregate,aspect,ctx,well,degradeLo=0,degradeHi=0,fatness=1.5):
   self.pow_calls=[]
   u=self.u; inp=0x200000100;out=0x200000300;sp=0x200018008
   b=bytearray(256);struct.pack_into('<4i',b,12,bases,aggregate,degradeLo,degradeHi);struct.pack_into('<f',b,32,aspect)
@@ -44,7 +44,7 @@ class Geometry:
   context=[ctx[k] for k in ['voltage','time','ySpaceScale','wellDamage']]+buf(ctx['gelBuffer'])+buf(ctx['sampleBuffer'])
   u.mem_write(sp,struct.pack('<Q12f',0x300000000,*context))
   for r,val in [(UC_X86_REG_RSP,sp),(UC_X86_REG_RDI,out),(UC_X86_REG_RSI,inp),(UC_X86_REG_MXCSR,0x1f80),(UC_X86_REG_EFLAGS,2)]:u.reg_write(r,val)
-  for r,vals in [(UC_X86_REG_XMM0,[well['x1'],well['y1']]),(UC_X86_REG_XMM1,[well['x2'],well['y2']]),(UC_X86_REG_XMM2,[1.5])]:u.reg_write(r,int.from_bytes(struct.pack('<'+'f'*len(vals),*vals),'little'))
+  for r,vals in [(UC_X86_REG_XMM0,[well['x1'],well['y1']]),(UC_X86_REG_XMM1,[well['x2'],well['y2']]),(UC_X86_REG_XMM2,[fatness])]:u.reg_write(r,int.from_bytes(struct.pack('<'+'f'*len(vals),*vals),'little'))
   u.emu_start(0x1000572f0,0x300000000,count=10000)
   assert u.reg_read(UC_X86_REG_RIP)==0x300000000
   return list(struct.unpack('<4f',u.mem_read(out+48,16)))
