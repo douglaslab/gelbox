@@ -26,4 +26,8 @@ Native and Safari UI access was unavailable during this investigation:
 getApp returned cgWindowNotFound for both original native paths and Safari,
 while native PIDs71172 and75624 were still running. Neither process was restarted.
 
-The website bundle needs refreshing from the committed runtime correction.
+The local website was refreshed from source `26b4eb0` and committed as
+`66be215`. The updater independently reran3,051 units and76 production cases.
+All223 packaged/HTTP-served hashes and both page routes were verified. The
+first HTTP check stopped at a filename containing a space; URL encoding that
+filename allowed the full check to complete. Nothing was published.

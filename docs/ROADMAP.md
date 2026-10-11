@@ -10,9 +10,9 @@ They do not supersede the current ledger or relax this completion contract.
 ## Execution order as of 2026-10-11
 
 The implementation strategy is unchanged: finish the existing TypeScript web app.
-The local website preview has been refreshed from source `9ce75cd` and committed
-in the website repository as `d337863`. This adds native-compatible image loading
-through Open, verified against the original release. Publishing remains deferred by
+The local website preview has been refreshed from source `26b4eb0` and committed
+in the website repository as `66be215`. This includes native-compatible image loading
+through Open and the source-verified right-edge sample-drop correction. Publishing remains deferred by
 Shawn's explicit instruction to prepare both releases locally for review.
 
 The next completion work is ordered below. These are the remaining portions of
