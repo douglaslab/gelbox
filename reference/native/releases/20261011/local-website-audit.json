@@ -1,0 +1,55 @@
+{
+  "source_commit": "4ba0139482a20351d367f12fc6ece80c6d07a051",
+  "assetHashesVerified": 223,
+  "safariSampleEqual": true,
+  "http": [
+    {
+      "path": "gelbox/",
+      "status": 200,
+      "bytes": 31875,
+      "sha256": "39281b5ec6970725fa51393081ab533a6c385ed5388c97b52118bfff6ffb0a58"
+    },
+    {
+      "path": "gelbox/app/",
+      "status": 200,
+      "bytes": 393,
+      "sha256": "2c68204e407abe95e7a0dab98c3eabc9c35a1c5b88f6447cbe5bea9db67b2f18"
+    },
+    {
+      "path": "gelbox/app/release.json",
+      "status": 200,
+      "bytes": 25993,
+      "sha256": "6a720b8c4fb77b2c2758df9676e0d8450a6aa73b71c2f4d13a3031e308efd8f2"
+    },
+    {
+      "path": "gelbox/releases/1.0.1.html",
+      "status": 200,
+      "bytes": 2111,
+      "sha256": "fc7ef6c19e7fa348f16181bfabdb45a7d4344769e06b3b31f169dc6c15ee17ab"
+    },
+    {
+      "path": "gelbox/releases/1.0.1.json",
+      "status": 200,
+      "bytes": 15220,
+      "sha256": "b17bf1ae4f6a43654bf296cb78a4a13c19beddec19ac68df473141804f44913b"
+    },
+    {
+      "path": "gelbox/files/Gelbox1.0.1-SHA256SUMS.txt",
+      "status": 200,
+      "bytes": 180,
+      "sha256": "e478a078c4a8968f8f74d1ecaf18a34dd65720063987a2f23f4153e80eef49a4"
+    },
+    {
+      "path": "gelbox/files/Gelbox1.0.1-arm64.dmg",
+      "status": 200,
+      "bytes": 4515610,
+      "sha256": "6806be071f60ee1115fa36c77ec83621c1df0b802156b2560c089a26e96af8c8"
+    },
+    {
+      "path": "gelbox/files/Gelbox1.0.1-source.tar.gz",
+      "status": 200,
+      "bytes": 2386612,
+      "sha256": "8d2095c237b95a42b1c06eeac99b0caa9dcc09982da424b8c7e493f784d4615a"
+    }
+  ]
+}
