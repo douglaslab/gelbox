@@ -1,0 +1,31 @@
+# Restore native file keyboard shortcuts
+
+The source audit found no Open/Save keyboard handlers in the web implementation,
+despite A04's broad shortcut claim. Native Gelbox5f51097 GelboxApp::keyDown handles
+accelerator-O (Open), accelerator-S (Save Gel) and accelerator-Alt-S (Save Selected
+Sample). It closes application settings first; Alt-S with no selected sample is
+a no-op. These handlers run globally before forwarding to the focused view.
+
+FileControls now installs a global capture listener with native platform
+accelerator matching. Committed-current action references reuse the existing
+menu actions, serialization, download and picker behavior without rebinding the
+listener on each animation render. The handler closes settings and prevents the
+browser's competing Open/Save action. An absent selection is ignored.
+
+All six new Chromium shortcut cases failed before the correction. Afterward,
+all24 file workflow visual cases,3,054 unit tests, TypeScript checks,80 compiled
+production cases and60 Firefox/WebKit compatibility cases pass. The compiled
+sequence opens a retained original-native document via the real chooser event,
+saves the full current gel exactly, selects lane2, and saves exactly that native
+sample with Alt-Command-S. This tests current callbacks after import and focus
+changes, not just download creation. No error is introduced by the no-selection
+shortcut. The retained logs identify the failing and passing runs.
+
+Compiled checks used the isolated build directory from the modifier correction,
+with these three changed source/test files copied from the current worktree.
+The long memory run's original dist is untouched. This establishes source-guided
+native shortcut behavior and engine-level chooser/download integration; actual
+shipping Safari keyboard interception and a new original-native shortcut replay
+remain separate from these automated cases.
+
+Local website refresh is pending the source commit. Nothing was published.

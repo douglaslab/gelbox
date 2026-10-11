@@ -183,3 +183,30 @@ test('startup Save Gel matches the independent native startup document', async (
   const native = JSON.parse(await readFile('../reference/native/files/ladder-after-selection.gel.json', 'utf8'));
   expect(actual).toEqual(native);
 });
+
+test('native Command-O opens the chooser and closes application settings',async({page})=>{
+ await page.getByRole('button',{name:'Application settings'}).click();
+ const chooser=page.waitForEvent('filechooser',{timeout:3000});
+ await page.keyboard.press('Meta+o');
+ await (await chooser).setFiles(path.resolve('../reference/native/files/1kbladder.xml'));
+ await expect(page.getByRole('button',{name:'Application settings'})).toHaveAttribute('aria-expanded','false');
+ await expect(page.getByTestId('microtube-1')).not.toHaveAttribute('data-empty','true');
+});
+
+test('native Command-S saves the gel without opening settings',async({page})=>{
+ const downloading=page.waitForEvent('download',{timeout:3000});
+ await page.keyboard.press('Meta+s');
+ const doc=JSON.parse(await readFile((await (await downloading).path())!,'utf8'));
+ expect(doc.Gelbox.type).toBe('gel');expect(doc.Gel.Samples.filter(Boolean)).toHaveLength(1);
+ await expect(page.getByRole('button',{name:'Application settings'})).toHaveAttribute('aria-expanded','false');
+});
+
+test('native Option-Command-S saves the selected sample and ignores no selection',async({page})=>{
+ await page.keyboard.press('Alt+Meta+s');await expect(page.getByTestId('file-error')).toHaveCount(0);
+ await page.getByTestId('microtube-0').click();
+ const downloading=page.waitForEvent('download',{timeout:3000});
+ await page.keyboard.press('Alt+Meta+s');
+ const doc=JSON.parse(await readFile((await (await downloading).path())!,'utf8'));
+ expect(doc.Gelbox.type).toBe('sample');expect(doc.Sample.Fragments.length).toBeGreaterThan(0);
+ await expect(page.getByRole('button',{name:'Application settings'})).toHaveAttribute('aria-expanded','false');
+});

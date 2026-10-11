@@ -8,6 +8,7 @@ import {flushSync} from 'react-dom';
 import {useFileLoadQueue} from '../gel/FileLoadProvider';
 import {useReferenceImages} from '../gel/ReferenceImageLayer';
 import {isReferenceImage} from '../../lib/gel/referenceImages';
+import {isNativeAccelerator} from '../../lib/gel/nativeAccelerator';
 import {useViewLayer,useViewZIndex} from '../gel/useViewLayer';
 import {Children,type ReactNode,type CSSProperties,type PointerEvent as ReactPointerEvent,type MouseEvent as ReactMouseEvent} from 'react';
 import {LAYOUT} from '../../lib/layout/layout';
@@ -113,6 +114,28 @@ export function FileControls() {
       }
     });
   }
+
+  // Native file shortcuts are global, including while a molecular view owns
+  // keyboard focus. Keep current document/selection callbacks without binding
+  // a new window listener on every animation render.
+  const shortcuts = useRef({open:onOpenClick,saveGel:onSaveGel,saveSample:onSaveSample,selected:!!selectedSample});
+  useLayoutEffect(() => {
+    shortcuts.current={open:onOpenClick,saveGel:onSaveGel,saveSample:onSaveSample,selected:!!selectedSample};
+  });
+  useEffect(() => {
+    const key = (event: KeyboardEvent) => {
+      if (!isNativeAccelerator(event)) return;
+      const command=event.key.toLowerCase();
+      if (command!=='o' && command!=='s') return;
+      event.preventDefault();
+      setOpen(false);
+      if (command==='o') shortcuts.current.open();
+      else if (!event.altKey) shortcuts.current.saveGel();
+      else if (shortcuts.current.selected) shortcuts.current.saveSample();
+    };
+    window.addEventListener('keydown',key,true);
+    return () => window.removeEventListener('keydown',key,true);
+  },[]);
 
   return (
     <section onPointerDownCapture={e => e.preventDefault()} ref={menuRef} data-testid="file-controls" style={{display:'contents'}}>

@@ -131,3 +131,26 @@ for(const offset of [0,1])test(`sample drop ${offset===0?'on':'outside'} right g
   expect(after.Gel.Samples[0]).toEqual(before.Gel.Samples[0]);
  }finally{await app.close();}
 });
+
+test('compiled native file shortcuts use the current imported document and selected sample',async({page},info)=>{
+ const app=await serveBuiltApp('/gelbox/');
+ try{
+  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.goto(`${app.url}#/gel`);
+  const inputFile=path.resolve('../reference/native/replay/file-workflow/native-input.json');
+  const input=JSON.parse(await readFile(inputFile,'utf8'));
+  const menu=page.getByRole('button',{name:'Application settings'});await menu.click();
+  const choosing=page.waitForEvent('filechooser');await page.keyboard.press('Meta+o');
+  await (await choosing).setFiles(inputFile);await expect(menu).toHaveAttribute('aria-expanded','false');
+  const download=async(shortcut:string)=>{
+   const pending=page.waitForEvent('download');await page.keyboard.press(shortcut);
+   return JSON.parse(await readFile((await (await pending).path())!,'utf8'));
+  };
+  expect(await download('Meta+s')).toEqual(input);
+  await page.getByTestId('microtube-1').click();
+  const sample=await download('Alt+Meta+s');
+  expect(sample.Gelbox).toEqual({version:'1.0',type:'sample'});
+  expect(sample.Sample).toEqual(input.Gel.Samples[1]);
+  await expect(menu).toHaveAttribute('aria-expanded','false');
+ }finally{await app.close();}
+});
