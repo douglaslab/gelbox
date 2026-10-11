@@ -36,3 +36,12 @@ for the nearest-item search sentinel on both platforms.
 MSVC C2926 rejects default member initializers in the anonymous struct
 inside Buffer’s union. The default constructor now zero-initializes `mValue`
 as a whole, preserving zero concentrations for default buffers and presets.
+
+Cinder at the pinned revision filters JSON in its Windows save dialog but does
+not supply a default extension. Gelbox uses a Windows JSON save dialog with
+`lpstrDefExt` set to `json`, so extensionless names remain reopenable and native
+overwrite confirmation checks the final `.json` filename. Both sample and gel
+saves use this dialog; the Mac save panel is unchanged.
+Include `<windows.h>` before `<commdlg.h>`: Cinder forward declarations alone
+are insufficient for the SDK dialog structures and cause a cascade of C2059,
+C2146 and C3646 errors in `prsht.h`. No warning suppression is needed.

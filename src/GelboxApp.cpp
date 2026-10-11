@@ -6,6 +6,9 @@
 #include <cstdlib>
 #if defined( CINDER_MSW )
 #include <io.h>
+#include "cinder/app/msw/PlatformMsw.h"
+#include <windows.h>
+#include <commdlg.h>
 #else
 #include <unistd.h>
 #endif
@@ -622,11 +625,39 @@ bool GelboxApp::isSampleSelected() const
 	return mGelView && mGelView->getSelectedMicrotube() != -1;
 }
 
+namespace {
+fs::path promptJsonSavePath()
+{
+#if defined( CINDER_MSW )
+	// Cinder's Windows dialog filters JSON but does not set a default extension.
+	// Set it in the dialog so overwrite confirmation sees the final filename.
+	wchar_t filename[32768] = {};
+	OPENFILENAMEW dialog = {};
+	dialog.lStructSize = sizeof(dialog);
+	dialog.hwndOwner = static_cast<HWND>(getWindow()->getNative());
+	dialog.lpstrFile = filename;
+	dialog.nMaxFile = static_cast<DWORD>(sizeof(filename) / sizeof(filename[0]));
+	dialog.lpstrFilter = L"Gelbox JSON (*.json)\0*.json\0";
+	dialog.nFilterIndex = 1;
+	dialog.lpstrDefExt = L"json";
+	dialog.Flags = OFN_EXPLORER | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR;
+	auto platform = PlatformMsw::get();
+	const bool wasInsideModalLoop = platform->isInsideModalLoop();
+	platform->setInsideModalLoop(true);
+	const BOOL saved = GetSaveFileNameW(&dialog);
+	platform->setInsideModalLoop(wasInsideModalLoop);
+	return saved ? fs::path(filename) : fs::path();
+#else
+	return getSaveFilePath( fs::path(), std::vector<string>{"json"} );
+#endif
+}
+}
+
 void GelboxApp::promptUserToSaveSample( SampleRef s )
 {
 	if (!s) return;
 	
-	fs::path p = getSaveFilePath( fs::path(), std::vector<string>{"json"} );
+	fs::path p = promptJsonSavePath();
 	
 	if ( !p.empty() )
 	{
@@ -639,7 +670,7 @@ void GelboxApp::promptUserToSaveGel( GelRef g )
 {
 	if (!g) return;
 	
-	fs::path p = getSaveFilePath( fs::path(), std::vector<string>{"json"} );
+	fs::path p = promptJsonSavePath();
 
 	if ( !p.empty() )
 	{
