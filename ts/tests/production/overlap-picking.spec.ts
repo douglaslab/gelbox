@@ -125,5 +125,30 @@ test('native tied-band deletion and persistent loupe tube move-return',async({pa
    await writeFile(info.outputPath(`web-loupe-${preset.toLowerCase()}.json`),savedBuffer);
    if(await menu.getAttribute('aria-expanded')==='true')await menu.click();
   }
+  await page.mouse.click(805,383);await expect(page.getByTestId(/^microtube-\d+$/)).toHaveCount(12);
+  await page.getByTestId('settings-button').click();await page.keyboard.press('a');
+  await drag(224,101,582,101);await drag(239,401,582,401);
+  await page.getByTestId('settings-button').click();
+  await expect.poll(async()=>Number(await canvas.getAttribute('data-alive-count'))).toBeGreaterThan(0);
+  const hiddenFrame=await frame.boundingBox(),hiddenAnchor=await anchorCenter();
+  for(const lanes of [7,12]){
+   await page.mouse.click(lanes===7?725:805,383);
+   await expect(page.getByTestId(/^microtube-\d+$/)).toHaveCount(lanes);
+   await expect(page.getByTestId('sample-view')).toHaveCount(0);
+   if(lanes===7)await expect(canvas).toHaveAttribute('data-alive-count','0');
+   else await expect.poll(async()=>Number(await canvas.getAttribute('data-alive-count'))).toBeGreaterThan(0);
+   expect(await frame.boundingBox()).toEqual(hiddenFrame);expect(await anchorCenter()).toEqual(hiddenAnchor);
+   expect(await originalCanvas!.evaluate(el=>el===document.querySelector('[data-testid="loupe-canvas-1"]'))).toBe(true);
+   await page.mouse.move(0,0);await page.screenshot({path:info.outputPath(`loupe-lanes-${lanes}.png`)});
+   await menu.click();const pendingLanes=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+   const laneBytes=await readFile((await (await pendingLanes).path())!);
+   const native=JSON.parse(await readFile(path.join(root,lanes===7?'native-loupe-hidden-seven.json':'native-loupe-restored-twelve.json'),'utf8'));
+   // D01: native keyed Samples loses positions. Preserve the observed lane12
+   // layout and compare every native sample/gel field without numeric changes.
+   if(lanes===12)native.Gel.Samples=[...Array(11).fill(null),native.Gel.Samples.Sample];
+   expect(JSON.parse(laneBytes.toString())).toEqual(native);
+   await writeFile(info.outputPath(`web-loupe-lanes-${lanes}.json`),laneBytes);
+   if(await menu.getAttribute('aria-expanded')==='true')await menu.click();
+  }
  }finally{await app.close();}
 });

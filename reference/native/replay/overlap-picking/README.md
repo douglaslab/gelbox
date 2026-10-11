@@ -117,3 +117,32 @@ report two passing configurations. No runtime changes were needed.
 This supplies an original-native buffer/loupe action trace for W05. The existing
 compiled recovery tests separately cover injected graphics failures and emulated
 resize/DPR. It does not stand in for physical monitor or OS lifecycle checks.
+
+## Persistent loupe across hidden lane12
+
+Continue with native gel settings open and TBE selected. Click lane-count track
+at screenshot(1610,822) to select12; close settings at(1164,1404). Press ordinary
+`a`, drag tube(448,258)→(1164,258), then probe(478,858)→(1164,858). The sample is
+now in lane12 and the original loupe shows its green molecule. Reopen settings.
+Click minimum-lanes icon(1450,822): seven lanes remain, tube and band are hidden,
+and the existing loupe becomes empty without moving. Save
+native-loupe-hidden-seven.json. Click(1610,822) again: lane12, tube, band and
+loupe molecule return. Save native-loupe-restored-twelve.json. Native screenshots
+were inspected through CUA; no pixel-golden claim is made.
+
+The compiled continuation matches these actions and visible transitions in all
+four configurations. Frame/probe positions and original canvas identity remain
+unchanged during reduction/restoration. The seven-lane document matches native
+exactly. Both applications omit hidden sample slots from a seven-lane save;
+retention here is within the live document, not a hidden-data save roundtrip.
+The restored native writer emits a keyed Samples object and loses lane indices.
+Under accepted D01, the comparison explicitly reconstructs twelve slots with its
+unchanged saved sample at observed lane12, then compares the whole web document.
+No numerical tolerances or sample-field omissions are used.
+
+hidden-production.log and hidden-compatibility.log retain passing runs; each
+browser folder contains the two lane-count screenshots and downloads. This
+supplies the previously missing native persistent-loupe branch for W03. Earlier
+hidden-lanes evidence covers subsequent species editing and establishes that
+opening gel settings clears selection, making hidden-selected editing unavailable
+through this sequence. Other W02 modifiers and drop histories remain separate.
