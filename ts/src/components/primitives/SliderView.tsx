@@ -9,6 +9,7 @@ import {
   applyNotchSnap,
   calcNormalizedValue,
   getMappedValue,
+  getGraphValue,
   getDisplayValue,
 } from '../../lib/slider/slider';
 import { resolveAssetUrl,dprFallbackOnError } from '../../lib/layout/assets';
@@ -141,8 +142,7 @@ export function SliderView({
     const r=e.currentTarget.getBoundingClientRect();
     const index=Math.max(0,Math.min(current.length-1,
       Math.round((e.clientX-r.left)/r.width*current.length-.5)));
-    const quantized=getMappedValue((r.bottom-e.clientY)/r.height,
-      {valueMin:0,valueMax:1,quantize:config.quantize});
+    const quantized=getGraphValue((r.bottom-e.clientY)/r.height,config.quantize);
     const value=applyNotchSnap(quantized,config.notches??[],config.notchAction??'none',
       config.notchSnapDist??DEFAULT_SNAP_DIST_PX/r.height);
     const next=current.slice();next[index]=value;

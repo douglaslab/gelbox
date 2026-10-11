@@ -20,7 +20,8 @@ test('aggregate graph paints current columns and retains earlier edits in one ge
  await page.mouse.move(x(5),y(.78));
  await page.mouse.move(x(0),y(.22));await page.mouse.up();
  const a=await weights(page);
- expect(a).toEqual([0,0,.65,0,.4,1,0]);
+ // Original-native saved checkpoints establish float32 0.05-step weights.
+ expect(a).toEqual([0,0,0.6500000357627869,0,0.4000000059604645,1,0]);
 });
 test('aggregate endpoint icons select only first or last size',async({page})=>{
  await page.getByTestId('frag-aggregate-icon-hi').click();

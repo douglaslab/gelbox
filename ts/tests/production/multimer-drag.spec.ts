@@ -52,5 +52,20 @@ test('compiled degraded multimer transfer and vertical drag match original nativ
    await drag(x,y,tx,ty,name==='aggregate-drag'?1:10);
    expect(await save('sample',`web-${name}.json`)).toEqual(await native(`native-${name}.json`));
   }
+  await page.mouse.click(1174,490);await page.mouse.click(1212,498);
+  expect(await save('sample','web-aggregate-fractional.json')).toEqual(await native('native-aggregate-fractional.json'));
+  await page.mouse.click(1193,439);await page.mouse.click(1193,327);await page.mouse.click(1196,551);
+  expect(await save('sample','web-quantized-controls.json')).toEqual(await native('native-quantized-controls.json'));
+  // Exercise keyboard ownership directly after a pointer edit, without a save dialog between.
+  await page.mouse.click(1196,551);await page.keyboard.press('Tab');
+  await expect(page.getByTestId('fragment-view')).toHaveCount(0);
+  await page.keyboard.press('Tab');await expect(page.getByTestId('fragment-view')).toBeVisible();
+  await page.keyboard.press('Backspace');
+  await expect(page.getByTestId('fragment-view')).toHaveCount(0);
+  await expect(page.getByTestId('sample-view')).toHaveAttribute('data-lane-index','10');
+  await expect(page.getByTestId('microtube-10')).not.toHaveAttribute('data-empty','true');
+  const deletedNative=await native('native-control-keyboard-delete.json');
+  expect(deletedNative.Sample.Fragments).toBeNull();deletedNative.Sample.Fragments=[];
+  expect(await save('sample','web-control-keyboard-delete.json')).toEqual(deletedNative);
  }finally{await app.close();}
 });

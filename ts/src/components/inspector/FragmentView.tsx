@@ -138,7 +138,8 @@ export function FragmentView() {
                 style: 'slider',
                 valueMin: ASPECT_MIN,
                 valueMax: ASPECT_MAX,
-                quantize: 1,
+                // Native retains a continuous ratio; fmtAsp rounds only the label.
+                quantize: 0,
                 formatValue: fmtAsp,
               }}
               value={fragment.aspectRatio}

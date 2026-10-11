@@ -38,6 +38,14 @@ export function quantize(v: number, step: number): number {
   return Math.round(v / step) * step;
 }
 
+/** Slider::setValueWithMouse graph branch: clamp then quantize in float32. */
+export function getGraphValue(normalized:number,step:number):number {
+  const f=Math.fround,q=f(step);
+  let v=clamp(f(normalized),0,1);
+  if(q>0)v=clamp(f(Math.round(f(v/q))*q),0,1);
+  return v;
+}
+
 /** Mapped value -> normalized 0..1 (mirrors Slider::calcNormalizedValue). */
 export function calcNormalizedValue(mapped: number, cfg: Pick<SliderConfig, 'valueMin' | 'valueMax'>): number {
   const f=Math.fround,lo=f(cfg.valueMin),span=f(f(cfg.valueMax)-lo);

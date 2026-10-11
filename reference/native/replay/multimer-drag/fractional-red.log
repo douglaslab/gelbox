@@ -1,0 +1,84 @@
+
+Running 2 tests using 2 workers
+
+(node:50814) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50814) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50815) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50815) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample (2.1s)
+  ✘  1 [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample (2.1s)
+
+
+  1) [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 2[39m
+    [31m+ Received  + 2[39m
+
+    [33m@@ -13,13 +13,13 @@[39m
+    [2m      "Fragments": Array [[22m
+    [2m        Object {[22m
+    [2m          "Aggregate": Array [[22m
+    [2m            0.5,[22m
+    [2m            0,[22m
+    [32m-           0.6500000357627869,[39m
+    [31m+           0.65,[39m
+    [2m            0,[22m
+    [32m-           0.4000000059604645,[39m
+    [31m+           0.4,[39m
+    [2m            0,[22m
+    [2m            0,[22m
+    [2m          ],[22m
+    [2m          "AspectRatio": 1.25,[22m
+    [2m          "Bases": 1642,[22m
+
+      54 |   }
+      55 |   await page.mouse.click(1174,490);await page.mouse.click(1212,498);
+    > 56 |   expect(await save('sample','web-aggregate-fractional.json')).toEqual(await native('native-aggregate-fractional.json'));
+         |                                                                ^
+      57 |   await page.mouse.click(1193,439);await page.mouse.click(1193,327);await page.mouse.click(1196,551);
+      58 |   expect(await save('sample','web-quantized-controls.json')).toEqual(await native('native-quantized-controls.json'));
+      59 |  }finally{await app.close();}
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/multimer-drag.spec.ts:56:64
+
+  2) [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 2[39m
+    [31m+ Received  + 2[39m
+
+    [33m@@ -13,13 +13,13 @@[39m
+    [2m      "Fragments": Array [[22m
+    [2m        Object {[22m
+    [2m          "Aggregate": Array [[22m
+    [2m            0.5,[22m
+    [2m            0,[22m
+    [32m-           0.6500000357627869,[39m
+    [31m+           0.65,[39m
+    [2m            0,[22m
+    [32m-           0.4000000059604645,[39m
+    [31m+           0.4,[39m
+    [2m            0,[22m
+    [2m            0,[22m
+    [2m          ],[22m
+    [2m          "AspectRatio": 1.25,[22m
+    [2m          "Bases": 1642,[22m
+
+      54 |   }
+      55 |   await page.mouse.click(1174,490);await page.mouse.click(1212,498);
+    > 56 |   expect(await save('sample','web-aggregate-fractional.json')).toEqual(await native('native-aggregate-fractional.json'));
+         |                                                                ^
+      57 |   await page.mouse.click(1193,439);await page.mouse.click(1193,327);await page.mouse.click(1196,551);
+      58 |   expect(await save('sample','web-quantized-controls.json')).toEqual(await native('native-quantized-controls.json'));
+      59 |  }finally{await app.close();}
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/multimer-drag.spec.ts:56:64
+
+  2 failed
+    [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
+    [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
