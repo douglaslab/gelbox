@@ -1,0 +1,78 @@
+
+Running 2 tests using 2 workers
+
+(node:58397) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58396) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58397) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58396) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-webgl2] › negative-voltage.spec.ts:6:1 › negative-voltage upward band drag matches original native saved gel (316ms)
+  ✘  1 [chromium-webgpu] › negative-voltage.spec.ts:6:1 › negative-voltage upward band drag matches original native saved gel (398ms)
+
+
+  1) [chromium-webgpu] › negative-voltage.spec.ts:6:1 › negative-voltage upward band drag matches original native saved gel 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [33m@@ -40,11 +40,11 @@[39m
+    [2m        null,[22m
+    [2m        null,[22m
+    [2m        null,[22m
+    [2m        null,[22m
+    [2m      ],[22m
+    [32m-     "Time": 0.009999999776482582,[39m
+    [31m+     "Time": 0.01,[39m
+    [2m      "Voltage": -70,[22m
+    [2m      "WellDamage": 0.125,[22m
+    [2m    },[22m
+    [2m    "Gelbox": Object {[22m
+    [2m      "type": "gel",[22m
+
+      19 |   await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+      20 |   const bytes=await readFile((await (await pending).path())!);
+    > 21 |   expect(JSON.parse(bytes.toString())).toEqual(JSON.parse(await readFile(path.join(root,'native-up.json'),'utf8')));
+         |                                        ^
+      22 |   await writeFile(info.outputPath('web-up.json'),bytes);
+      23 |   await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('after-up.png')});
+      24 |  }finally{await app.close();}
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/negative-voltage.spec.ts:21:40
+
+  2) [chromium-webgl2] › negative-voltage.spec.ts:6:1 › negative-voltage upward band drag matches original native saved gel 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [33m@@ -40,11 +40,11 @@[39m
+    [2m        null,[22m
+    [2m        null,[22m
+    [2m        null,[22m
+    [2m        null,[22m
+    [2m      ],[22m
+    [32m-     "Time": 0.009999999776482582,[39m
+    [31m+     "Time": 0.01,[39m
+    [2m      "Voltage": -70,[22m
+    [2m      "WellDamage": 0.125,[22m
+    [2m    },[22m
+    [2m    "Gelbox": Object {[22m
+    [2m      "type": "gel",[22m
+
+      19 |   await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+      20 |   const bytes=await readFile((await (await pending).path())!);
+    > 21 |   expect(JSON.parse(bytes.toString())).toEqual(JSON.parse(await readFile(path.join(root,'native-up.json'),'utf8')));
+         |                                        ^
+      22 |   await writeFile(info.outputPath('web-up.json'),bytes);
+      23 |   await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('after-up.png')});
+      24 |  }finally{await app.close();}
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/negative-voltage.spec.ts:21:40
+
+  2 failed
+    [chromium-webgpu] › negative-voltage.spec.ts:6:1 › negative-voltage upward band drag matches original native saved gel 
+    [chromium-webgl2] › negative-voltage.spec.ts:6:1 › negative-voltage upward band drag matches original native saved gel 
