@@ -46,3 +46,10 @@ worktree, four workers, exec session14194, output /tmp/gel-overlap-candidate-vis
 log /tmp/gel-overlap-candidate-visual.log. Result is pending at this checkpoint.
 The two-hour fixed4ba0139 run remains active under session97497; latest logged
 checkpoint is40/120 on both renderers. Neither build was restaged to the website.
+
+The visual run completed successfully:969 passed,1 existing skipped case,
+exit0. visual-full.log and qualification.json retain the final candidate counts.
+No screenshots were updated. All223 assets in the separate live stability build
+were rehashed and still exactly match its frozen manifest. This closes the
+candidate's current browser regression run, not the outstanding numerical or
+native/platform acceptance work. Runtime source remains uncommitted.

@@ -1,5 +1,5 @@
 {
-  "README.md": "bd4ec5bbe9b5c9183340237ac91b03fc401c1165566319e46b488d7ee418115f",
+  "README.md": "f2d01bfe80cc2e9428c405701a758b2d352b7dad4f9621b9d0cfd3f389dabba0",
   "arithmetic-controls.cjs": "40792ffdc4fb51336f928c4e8340af905b0e0e2694363d25336b11f07b5955b8",
   "arithmetic-controls.json": "847cc6ec9c390030a31af50f09c846ac385609020a9a66ebf3af5b6c1aacb798",
   "build.log": "a7cde4685a80de4dd14231ecf844f64027fd13adf49a46a9a0912d83e59258d2",
@@ -9,6 +9,7 @@
   "fast-corpus.json": "5c032a26466af4448118f3645e668155a2d45a584e990fcf3b2a957afdce54fa",
   "nativeOverlapRelease.test.ts": "7bbac1593e943a9e08248c4214dabab3696f4496f1c4c52a4bebc564ef23e2a5",
   "production-full.log": "b4c1602b759105933051e5f6de08ace3cc8b92c408fa89bd3251466b6e338bd0",
+  "qualification.json": "b760c7720f44f2f58ebad736a7bebe9dd1762d6b5ae74e562299dd806e7e40a5",
   "results/overlapping-tiers-overlapp-01c75-rag-matches-original-native-chromium-webgl2/web-trimer-only.json": "c6a9ad117dfdac4a79c53c8197749416722f3697f1d244dc4b8537a2025c86cd",
   "results/overlapping-tiers-overlapp-01c75-rag-matches-original-native-chromium-webgpu/web-trimer-only.json": "c6a9ad117dfdac4a79c53c8197749416722f3697f1d244dc4b8537a2025c86cd",
   "results/overlapping-tiers-overlapp-01c75-rag-matches-original-native-firefox-webgl2/web-trimer-only.json": "c6a9ad117dfdac4a79c53c8197749416722f3697f1d244dc4b8537a2025c86cd",
@@ -34,5 +35,6 @@
   "solver-comparison.ts": "8cf7c399f6451624914bfaa52a1fc18c3c858876fd161d65aa1fb46dda0a487f",
   "targeted-units.log": "1acd4b8ed1800cfdbbc5bd22e3ca77d3826b6aae9696273a86c0d44b32c8db23",
   "unit-red.log": "4d3008520cdc8b9f6425ce600809295893e9f23a1b9c3c125229e5d3b2c1b825",
-  "units-full.log": "3b266c5cb748a470d114cfea17f7dea6f63369e7968daca080e8cb578ee268d7"
+  "units-full.log": "3b266c5cb748a470d114cfea17f7dea6f63369e7968daca080e8cb578ee268d7",
+  "visual-full.log": "ee65ea6af48dccc395089b62410d5f73e5e74592414be694d75b62b62ef957ba"
 }
