@@ -1,6 +1,7 @@
 import {test,expect} from '@playwright/test';
 import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
+import {PNG} from 'pngjs';
 import {serveBuiltApp} from './built-app';
 
 test('original-release visible image open move resize and gel replacement sequence',async({page},info)=>{
@@ -38,6 +39,17 @@ test('original-release visible image open move resize and gel replacement sequen
   await page.mouse.move(0,740);await page.screenshot({path:info.outputPath('images-over-sample.png')});
   const gifClip={x:1000,y:172,width:176,height:128};
   const gifFrame=await page.screenshot({clip:gifClip});
+  const rendered=PNG.sync.read(gifFrame);
+  const nativeFirstFrame=await readFile(path.resolve('../reference/native/image-decoding/decoded/animated.gif.rgba'));
+  const scale=rendered.width/gifClip.width;
+  // Sample the four uniform quadrant interiors, away from focus/resize paint.
+  // Stability alone would also accept a blank image or a frozen second frame.
+  for(const [x,y] of [[8,6],[24,6],[8,18],[24,18]]){
+   const expectedOffset=(y*32+x)*4;
+   const renderedOffset=(Math.floor(y*6*scale)*rendered.width+Math.floor(x*6*scale))*4;
+   expect([...rendered.data.subarray(renderedOffset,renderedOffset+4)])
+    .toEqual([...nativeFirstFrame.subarray(expectedOffset,expectedOffset+4)]);
+  }
   // The source GIF has a different second frame; native keeps its first frame.
   await page.waitForTimeout(500);
   expect(await page.screenshot({clip:gifClip})).toEqual(gifFrame);

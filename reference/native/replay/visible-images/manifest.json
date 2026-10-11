@@ -234,7 +234,7 @@
     "animated.gif": "ad9b3dd5f6b9c71af7f7ec59ca857698caf5def030eada903174c227039c9086"
   },
   "artifacts": {
-    "README.md": "db1b6e69fa429cc623dfa10bf4689286de7c61cebbf8e0eb2a269e6e70eb3408",
+    "README.md": "8c8f7908563ed0be8ade3a8500b6028675426caa43c6628282be314c71b0ecdc",
     "build.log.gz": "131b0daf01f706a675fb90aa1bf8436bc06a6fd2e67ecdb3f3431c6c621afb27",
     "chromium-webgl2/images-after-replace.png": "bdbe4fb555d1e675952b54e4424f4c5e14cc53cdf57b4f24cbfb5bbe69a34ea1",
     "chromium-webgl2/images-over-sample.png": "f690390923436e1ecb6f672d81ba2539bfede84f0fd97a143dfe6cc3d5d3dbba",
@@ -262,6 +262,9 @@
     "webkit-webgl2/web-images-after-replace.json": "f4175881c5fbb54f06a2c19b6544418e676d004a33652877edbb982a2e63fe00",
     "webkit-webgl2/web-images-with-images.json": "e5655e9843c896c98c792f39228760dfc113ba04b3367997c19421823a5103a5",
     "website-refresh.log.gz": "409d1a71d15534333e54baecb5d73714bff54ce463358a8b863a9615373f06f3",
-    "website-release.json": "2038bf07e947d6d4755ea9459849540102fe603289ba0f427308c06fe24dedd0"
+    "website-release.json": "2038bf07e947d6d4755ea9459849540102fe603289ba0f427308c06fe24dedd0",
+    "full-visual.log.gz": "f8e5ecb0b36aec79e821451e78a8bd1830e4bef6295880db9af5d9170b3fb5b4",
+    "first-frame-compatibility.log.gz": "629c8b665fbf013751fabc4932e9c503306aa00becddebda07f4786fd92d6695",
+    "first-frame-production.log.gz": "6ed9f606bd0da581f4ef292113c6f9364d84b69e6c74d1b883616fe080156534"
   }
 }

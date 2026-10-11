@@ -60,7 +60,11 @@ The compiled replay in `ts/tests/production/image-decoding.spec.ts` reproduces
 all moves/resizes, verifies stored32×24 and final192×144 frames, retains images
 through gel replacement, checks source panels close, verifies focused GIF deletion,
 and compares both entire gel downloads exactly. Two GIF image-region captures
-500ms apart must match; the fixture has two different100ms frames. Per-project
+500ms apart must match; the fixture has two different100ms frames. Four interior
+quadrant pixels also match the retained native first-frame RGBA data exactly,
+preventing a blank or frozen second frame from satisfying the stability assertion.
+This strengthened assertion passes on both Chromium backends, Firefox and WebKit.
+Per-project
 screenshots and saved documents are retained for all four backend/engine cases.
 No native pixel-equality claim is made from these CUA observations; the separate
 decoder and native texture corpora retain their precise pixel scopes.
@@ -81,3 +85,10 @@ unit and72 production cases. All223 packaged/HTTP-served asset hashes and both
 native download hashes were verified; `/gelbox/` and `/gelbox/app/` return200.
 `website-release.json` records this deployment-path build separately from the
 first compiled replay build. Publication remains deferred.
+
+Follow-up verification at source `6366064`: the full visual suite completed with
+955 passes and one intentional skip (`full-visual.log.gz`). A focused independent
+code review found no critical or important issues. Its minor GIF-test concern
+was addressed by the first-frame pixel assertions above; all four focused cases
+pass (the two `first-frame-*.log.gz` files). These test/evidence-only changes do
+not require a website bundle refresh and do not close the remaining ledger items.
