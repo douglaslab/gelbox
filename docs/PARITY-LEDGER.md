@@ -157,7 +157,11 @@ not by the old M1–M27 milestone queue.
   | Original visible screenshots | [Capture/profile investigation](../reference/native/control-comparison/README.md) identifies JPEG and Display ICC data. Treat these as visible observations, with explicit profile conversion for analytical crops; do not demand zero-byte equality or invent CSS corrections from raw channels. |
 
   Remaining D02 work is the original/modern geometry and visual qualification
-  for the release scenario set, plus binary/prebuilt-Cinder source provenance.
+  for the release scenario set, plus original-release binary/source provenance.
+  The [clean-source Cinder rebuild](../reference/native/modern/cinder-provenance/README.md)
+  now reproduces all285 object members and the symbol table exactly in each
+  architecture; only archive timestamp/group-ID metadata differs. This closes
+  the modern prebuilt-library qualification for the recorded toolchain.
   These known differences cannot be closed by declaring global build equivalence.
 - **D03 — platform/font distribution.** macOS is the initial native certification
   environment. The shared UI includes captured Avenir glyph assets; determine

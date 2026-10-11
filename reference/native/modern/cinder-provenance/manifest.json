@@ -1,0 +1,15 @@
+{
+  "artifacts": {
+    "README.md": "26c9a4f54c6ba06b24ddd32c1bfbb9e56c97d15193c6e0398c2acc596d18ed5c",
+    "build-mapped.log.gz": "6acf218c71fdfe56282ae038fe77bbe357502803f123151a04e9ea95a2e414f2",
+    "build-unmapped.log.gz": "aa604f1b1be770c0bfcd3bcb5a70b90441ffd0cbe3109ade188ee22752b97cee",
+    "compare.py": "45776f54cdb37fad869d7ae559ac5446a11aab19570268b652c9daf7490c8118",
+    "comparison-mapped.json.gz": "b2a7e85a1cd8052347ebd27a1e421232852746cbe3ca8d7797f1d450cf81f245",
+    "comparison-unmapped.json.gz": "99e603ca2072b53f4a17a8f5c524d4c2cd10e5d37ef68d0adb93cd8a60c6ee3b",
+    "configure-mapped.log.gz": "667db753a51e0e83e356afd7272fdaeb968c34531a5bcab0e4a5debc0b82b1b0",
+    "configure-unmapped.log.gz": "dee14e5eec4ad15ac0925d2abad51fb277e183d6f644992ef99def8c4e6299f6",
+    "environment.json": "1934855e556544ac9b5289af747bca63d1d174481fed86f632e3c7a6ac20c546",
+    "metadata-differences.json.gz": "395ab9e330b14903178745eec4b656eb820cd6d275f96748ea5d380e3e9ee29f",
+    "rebuild.py": "9fbfc64e95b8a57a9ef6518e076e3660d81f0848d5e447e95f6269eaba286c0c"
+  }
+}

@@ -39,7 +39,9 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    engine emulation alone cannot close them.
 3. **Resolve reference and distribution decisions (D02, D03).** Keep the original
    executable authoritative where modern-Cinder JSON/color behavior differs;
-   record scenario-specific provenance and unresolved limits. Decide the captured
+   record scenario-specific provenance and unresolved limits. The modern Cinder
+   library now has a clean-source rebuild with exact object-member correspondence;
+   original-release binary provenance remains separate. Decide the captured
    Avenir asset distribution strategy and supported text/platform scope before
    public distribution. The Inter license notice is already shipped. Do not
    substitute a fallback font silently or assert legal rights from visual tests.

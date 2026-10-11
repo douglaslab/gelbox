@@ -4,7 +4,7 @@ This is an isolated rebuild of the sibling Gelbox compatibility work, based on `
 
 ## Reproduce
 
-Requires macOS, Xcode C++ tools, CMake, a Gelbox repository containing the recorded base commit, and **a clean Cinder checkout at the recorded revision with its Release library already built**. The existing `lib/macosx/Release/libcinder.a` must match the manifest hash; the script refuses another library. This recipe does not build Cinder from a clean checkout, and correspondence between that prebuilt library and its source revision is not independently established. Build output paths/compiler metadata may change executable bytes; only source/asset reconstruction is asserted byte-for-byte.
+Requires macOS, Xcode C++ tools, CMake, a Gelbox repository containing the recorded base commit, and **a clean Cinder checkout at the recorded revision with its Release library already built**. The existing `lib/macosx/Release/libcinder.a` must match the manifest hash; the script refuses another library. This app recipe does not build Cinder from a clean checkout. A separate [clean-source library rebuild](cinder-provenance/README.md) now establishes byte-identical archive member payloads for the recorded Cinder source and toolchain; raw archive metadata differs. Build output paths/compiler metadata may change executable bytes; only source/asset reconstruction is asserted byte-for-byte.
 
 ```sh
 python3 reference/native/modern/rebuild.py \
