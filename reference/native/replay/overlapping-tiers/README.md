@@ -67,3 +67,31 @@ It changes the well's y2 by one float32 ULP, but the model still gives equal
 aggregate2/3 UI heights. Thus that endpoint discrepancy alone does not explain
 the GUI behavior. Inputs and output are retained as native-well-case/result.json.
 No product fix has been made; the original failing test remains enabled.
+
+## Overlap boundary and architecture controls
+
+Fresh native replays at physical (472,356)→(472,396) and
+(472,358)→(472,398) both save Bases922. These neighboring overlap points are
+retained separately; the original discrepancy is not confined to one start point.
+
+The unchanged pinned numerical harness was separately built for x86_64 under
+/tmp/gel-native-numerical-x86-overlap with CMAKE_OSX_ARCHITECTURES=x86_64.
+Its complete case output equals the existing arm64 model output exactly. Build
+logs, compile flags and input/source/library/executable hashes are retained.
+This rules out architecture alone for this model case, not every compiler or
+original-build difference. The original bundled gel-sim tuning also compares
+byte-identical to the pinned harness tuning.
+
+Original geometry disassembly exposes a different evaluation order for band
+inflation (well height before translation). Two temporary bundle-only controls
+tried that ordering with the existing and source-float32 well endpoints. Both
+still pick aggregate2, so this observation alone is insufficient for a fix.
+Their outputs and diagnostic transformation are retained; repository runtime
+source was not changed.
+
+A read-only LLDB attach to isolated PID3764 remained pending without producing
+an image list or band data. It was interrupted and then the debugger process
+was terminated (exit143); the native application was not intentionally terminated.
+No security preference was changed. This attempt supplies no geometry evidence.
+The precise original-band heights/order or delivered pick location still need
+measurement; do not infer them from the saved base count alone.
