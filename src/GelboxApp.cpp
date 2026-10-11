@@ -2,6 +2,13 @@
 #include "cinder/gl/gl.h"
 #include "cinder/Utilities.h"
 #include "cinder/Url.h"
+#include <cstdio>
+#include <cstdlib>
+#if defined( CINDER_MSW )
+#include <io.h>
+#else
+#include <unistd.h>
+#endif
 
 #include "Gel.h"
 #include "GelView.h"
@@ -759,6 +766,25 @@ void GelboxApp::draw()
 
 void GelboxApp::prepareSettings( Settings *settings )
 {
+	// GUI builds have no console. Share one file offset so stderr cannot be
+	// overwritten by a later stdout write, and flush each startup diagnostic.
+#if defined( CINDER_MSW )
+	if ( const wchar_t* logPath = _wgetenv(L"GELBOX_LOG") )
+	{
+		if ( *logPath && _wfreopen( logPath, L"w", stdout ) && _wfreopen( logPath, L"a", stderr ) )
+		{
+			_dup2( _fileno(stdout), _fileno(stderr) );
+#else
+	if ( const char* logPath = getenv("GELBOX_LOG") )
+	{
+		if ( *logPath && freopen( logPath, "w", stdout ) && freopen( logPath, "a", stderr ) )
+		{
+			dup2( fileno(stdout), fileno(stderr) );
+#endif
+			setvbuf( stdout, nullptr, _IONBF, 0 );
+			setvbuf( stderr, nullptr, _IONBF, 0 );
+		}
+	}
 	settings->setResizable( kConfig.mEnableWindowResize );
 	settings->setHighDensityDisplayEnabled( kConfig.mEnableHDDisplay );
 }
