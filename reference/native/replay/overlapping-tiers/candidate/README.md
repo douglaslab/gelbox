@@ -32,3 +32,17 @@ shows that global equivalence between the original and modern fast-math builds
 is still unproven. It is not evidence to change an expected result or choose
 an algorithm solely by its pass count. Further corrections must be justified
 against original-release behavior at the affected boundaries.
+
+## Broader candidate checks
+
+The retained runtime patch still exactly matches the three modified runtime
+files. Full unit run:3030 pass,25 fail (same19 old-reference solver cases and6
+old-reference integer-seed cases; no additional unit failures). Full compiled
+Chromium gate:96 pass. Full Firefox/WebKit compatibility gate:76 pass. These
+results do not waive the numerical gate. Logs are retained here.
+
+The full visual suite was started against a fresh Vite server from the candidate
+worktree, four workers, exec session14194, output /tmp/gel-overlap-candidate-visual,
+log /tmp/gel-overlap-candidate-visual.log. Result is pending at this checkpoint.
+The two-hour fixed4ba0139 run remains active under session97497; latest logged
+checkpoint is40/120 on both renderers. Neither build was restaged to the website.
