@@ -45,3 +45,8 @@ saves use this dialog; the Mac save panel is unchanged.
 Include `<windows.h>` before `<commdlg.h>`: Cinder forward declarations alone
 are insufficient for the SDK dialog structures and cause a cascade of C2059,
 C2146 and C3646 errors in `prsht.h`. No warning suppression is needed.
+
+The native Windows renderer explicitly requests 4x MSAA, matching the Mac.
+Cinder defaults to zero samples; the previous Windows-only version request
+omitted MSAA and made molecular circles jagged. Startup logs report the actual
+OpenGL renderer and sample count so a driver fallback is visible.

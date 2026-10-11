@@ -79,6 +79,10 @@ ci::gl::TextureFontRef GelboxApp::getUIFont( int scale, int *oScale )
 
 void GelboxApp::setup()
 {
+	GLint samples = 0;
+	glGetIntegerv( GL_SAMPLES, &samples );
+	cout << "OpenGL renderer: " << glGetString(GL_RENDERER)
+	     << "; samples: " << samples << endl;
 	mOverloadedAssetPath = calcOverloadedAssetPath();
 
 	setWindowSize( kLayout.mWindowSize );
@@ -842,7 +846,7 @@ ci::fs::path GelboxApp::calcOverloadedAssetPath() const
 }
 
 #if defined( CINDER_MSW ) && ! defined( CINDER_GL_ANGLE )
-auto options = RendererGl::Options().version( 3, 3 ); // instancing functions are technically only in GL 3.3
+auto options = RendererGl::Options().version( 3, 3 ).msaa(4); // instancing functions are technically only in GL 3.3
 #else
 auto options = RendererGl::Options().msaa(4); // implemented as extensions in Mac OS 10.7+
 #endif
