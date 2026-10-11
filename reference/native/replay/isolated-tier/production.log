@@ -1,0 +1,25 @@
+
+Running 4 tests using 4 workers
+
+(node:75854) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:75854) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:75856) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:75856) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:75855) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:75855) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:75853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:75853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [chromium-webgpu] › isolated-tier.spec.ts:7:2 › isolated trimer upper-grab drag matches original native (804ms)
+  ✓  1 [chromium-webgpu] › isolated-tier.spec.ts:7:2 › isolated trimer lower-edge drag matches original native (811ms)
+  ✓  2 [chromium-webgl2] › isolated-tier.spec.ts:7:2 › isolated trimer upper-grab drag matches original native (861ms)
+  ✓  4 [chromium-webgl2] › isolated-tier.spec.ts:7:2 › isolated trimer lower-edge drag matches original native (877ms)
+
+  4 passed (1.4s)
