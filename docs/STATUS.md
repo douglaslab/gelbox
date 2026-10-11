@@ -10,6 +10,8 @@ The current requirement-by-requirement evidence and remaining work are in [PARIT
 
 ## Big picture
 
+The [original-native multimer drag replay](../reference/native/replay/multimer-drag/README.md) now covers a degraded species moving into an empty lane and then changing migration position. All four compiled configurations match its native saved sample exactly at1642bp and preserve the remaining source payload. Modifier/overlap/unusual-voltage branches remain W04.
+
 Native window access recovered after Shawn dismissed an unexpected-quit dialog. The saved occupied-tube checkpoint was reloaded explicitly; empty-tube off-gel removal now matches the complete native saved document across all four compiled browser/backend configurations. [Evidence](../reference/native/replay/tube-movement/README.md). This restores native replay access without attributing the crash or closing the remaining W02 scenarios.
 
 Shawn accepted the lane-preserving save and current-document buffer fixes, plus the measured JPEG rounding difference (at most one 8-bit RGB channel level), on 2026-10-10. These exceptions are recorded in D01/D04/D06 of the parity ledger. This does not accept unrelated malformed-input behavior or waive remaining native/platform verification.

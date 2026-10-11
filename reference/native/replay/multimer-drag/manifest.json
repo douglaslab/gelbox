@@ -1,0 +1,31 @@
+{
+  "base_commit": "d69d414",
+  "source_hashes": {
+    "ts/tests/production/multimer-drag.spec.ts": "1f849334232aa9f9fe11c344956b7660fedf2d0eeaf59b245a86230cb5c3be8b",
+    "reference/native/replay/hidden-lanes/input-twelve.json": "fd563276063154c9a1ff7d72998ceb1ac7e9eccc8d36027c5ba09f0c7c17b1f2"
+  },
+  "files": {
+    "README.md": "f86b0efcb30be6085f18d232cb54513a10ca3adab120eae47b74e01f2c447cfb",
+    "chromium-webgl2/vertical.png": "47edeb1477262c93ffc7aa3139f7ad58891bd84a37515f584691814796ab050d",
+    "chromium-webgl2/web-horizontal.json": "9ae236452783f8fcb8ec323a8c1b420b0bc68e67b44573ad71f54686efe7b409",
+    "chromium-webgl2/web-vertical-sample.json": "1b3d01720cd839b07c68cda9318b5cfbc36aaec148cdae5c5229eb1ac7137bb7",
+    "chromium-webgl2/web-vertical.json": "6e2f05338d1b722f33310d6f9fe380f3f5f7c48c73d546166436379f2c69b128",
+    "chromium-webgpu/vertical.png": "fde869fbce716762ba1b68a87e1b26acd5743e1defbfe2fea93cbffe1d15f8c4",
+    "chromium-webgpu/web-horizontal.json": "9ae236452783f8fcb8ec323a8c1b420b0bc68e67b44573ad71f54686efe7b409",
+    "chromium-webgpu/web-vertical-sample.json": "1b3d01720cd839b07c68cda9318b5cfbc36aaec148cdae5c5229eb1ac7137bb7",
+    "chromium-webgpu/web-vertical.json": "6e2f05338d1b722f33310d6f9fe380f3f5f7c48c73d546166436379f2c69b128",
+    "compatibility.log": "40fb1e33fefc1018fe441a79d3747242ff32c7e0b21e9286d14c21d9a868835e",
+    "firefox-webgl2/vertical.png": "dfd366d19a3be2e1f11d905e7ea7ba8a9b04b1e8470de2e22cc7acbf9d1b86c0",
+    "firefox-webgl2/web-horizontal.json": "9ae236452783f8fcb8ec323a8c1b420b0bc68e67b44573ad71f54686efe7b409",
+    "firefox-webgl2/web-vertical-sample.json": "1b3d01720cd839b07c68cda9318b5cfbc36aaec148cdae5c5229eb1ac7137bb7",
+    "firefox-webgl2/web-vertical.json": "6e2f05338d1b722f33310d6f9fe380f3f5f7c48c73d546166436379f2c69b128",
+    "native-horizontal.json": "e3cf4927a3e6015e3e38be849665cc4d3125a2a44e3b4c169542078bcc05ac10",
+    "native-vertical-sample.json": "ecd9aafa5108c89bc729269698262ae56b2ff1bdd2fb0519127722d431a25508",
+    "native-vertical.json": "e3cf4927a3e6015e3e38be849665cc4d3125a2a44e3b4c169542078bcc05ac10",
+    "production.log": "c2465665a74b56615d8ebcc5c927e52cdf67017b6ceede366b359fe2b93e645b",
+    "webkit-webgl2/vertical.png": "690399ba189835984e44f760d1f14c4180ed1aa8e77da82991a38bfe6f6249b3",
+    "webkit-webgl2/web-horizontal.json": "9ae236452783f8fcb8ec323a8c1b420b0bc68e67b44573ad71f54686efe7b409",
+    "webkit-webgl2/web-vertical-sample.json": "1b3d01720cd839b07c68cda9318b5cfbc36aaec148cdae5c5229eb1ac7137bb7",
+    "webkit-webgl2/web-vertical.json": "6e2f05338d1b722f33310d6f9fe380f3f5f7c48c73d546166436379f2c69b128"
+  }
+}
