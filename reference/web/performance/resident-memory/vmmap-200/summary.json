@@ -1,0 +1,66 @@
+{
+  "webgpu": [
+    {
+      "file": "vmmap-0-GPU-57518.txt",
+      "physicalFootprint": "495.0M",
+      "partitionAllocUnavailable": true
+    },
+    {
+      "file": "vmmap-0-renderer-57521.txt",
+      "physicalFootprint": "51.7M",
+      "partitionAllocUnavailable": true
+    },
+    {
+      "file": "vmmap-100-GPU-57518.txt",
+      "physicalFootprint": "503.7M",
+      "partitionAllocUnavailable": true
+    },
+    {
+      "file": "vmmap-100-renderer-57521.txt",
+      "physicalFootprint": "61.8M",
+      "partitionAllocUnavailable": true
+    },
+    {
+      "file": "vmmap-200-GPU-57518.txt",
+      "physicalFootprint": "509.7M",
+      "partitionAllocUnavailable": true
+    },
+    {
+      "file": "vmmap-200-renderer-57521.txt",
+      "physicalFootprint": "56.0M",
+      "partitionAllocUnavailable": true
+    }
+  ],
+  "webgl2": [
+    {
+      "file": "vmmap-0-GPU-57629.txt",
+      "physicalFootprint": "515.6M",
+      "partitionAllocUnavailable": true
+    },
+    {
+      "file": "vmmap-0-renderer-57631.txt",
+      "physicalFootprint": "48.9M",
+      "partitionAllocUnavailable": true
+    },
+    {
+      "file": "vmmap-100-GPU-57629.txt",
+      "physicalFootprint": "518.3M",
+      "partitionAllocUnavailable": true
+    },
+    {
+      "file": "vmmap-100-renderer-57631.txt",
+      "physicalFootprint": "58.9M",
+      "partitionAllocUnavailable": true
+    },
+    {
+      "file": "vmmap-200-GPU-57629.txt",
+      "physicalFootprint": "517.6M",
+      "partitionAllocUnavailable": true
+    },
+    {
+      "file": "vmmap-200-renderer-57631.txt",
+      "physicalFootprint": "55.6M",
+      "partitionAllocUnavailable": true
+    }
+  ]
+}
