@@ -144,3 +144,8 @@ and pre-translation inflation explain all nine retained geometry probes. Its
 external math hooks and translated solver remain unqualified, so this is
 diagnostic evidence only. Canonical numerical expectations and website staging
 are unchanged. Original-app boundary saves remain pending.
+
+The [updated candidate](candidate-instruction-order/README.md) applies reciprocal
+normalization and pre-translation inflation. Ten focused units and all twenty
+compiled overlap cases pass, but 52 full-suite reference failures remain. Its
+patch and test evidence are retained separately; website staging is unchanged.
