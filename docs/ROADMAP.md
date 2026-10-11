@@ -11,24 +11,26 @@ They do not supersede the current ledger or relax this completion contract.
 
 The implementation strategy is unchanged: finish the existing TypeScript web app.
 The local website preview has been refreshed from source `ff35ea9` and committed
-in the website repository as `38e5335`. Later source commits through `97cdcf4`
+in the website repository as `38e5335`. Later source commits through `e441fcc`
 change tests/evidence, not shipped app behavior. Publishing remains deferred by
 Shawn's explicit instruction to prepare both releases locally for review.
 
 The next completion work is ordered below. These are the remaining portions of
 P0–P5 and W01–W09, not new milestones or a reduced definition of done.
 
-1. **Complete original-native editing traces (W02–W05).** First finish the
-   persistent-loupe lane-change/move sequence, then modifier clone/Shift-lock,
-   source/loupe selection and the three loupe drag modes. Follow with overlap
-   picking, zero/negative-voltage drag and remaining slider/focus branches.
+1. **Complete original-native editing traces (W02–W05).** Persistent-loupe
+   move/return, left-button frame/probe/wedge gestures, molecule/background
+   selection, water→TBE, hidden-lane reduction/restoration and populated off-gel
+   removal now have paired traces. Tied and unequal-overlap deletion, one zero-
+   voltage drag and one negative-voltage drag are also verified in their stated
+   scopes. Continue modifier clone/Shift-lock, occupied destinations with loupes,
+   remaining picked aggregate offsets and slider/focus/secondary-button branches.
    Keep exact saved-document comparisons and observable view/selection checks.
-   Shawn supplied the coordinated Command-click; the retained loupe move/return
-   and tied-overlap deletion now have paired traces, as do one zero-voltage and
-   one negative-voltage drag. See the ledger for their exact scopes. Further
-   native modifier actions may need manual coordination because the native
-   control API cannot combine mouse actions with held modifiers. Automated web
-   tests do not replace these native traces.
+   Native Option-drag tube cloning is prepared on the current one-species fixture;
+   a manual lane1→lane2 Option-drag was requested because the UI tool cannot hold
+   a modifier during a drag. Do not mutate that native fixture while awaiting it.
+   Independent reference/platform work can continue. Automated web tests do not
+   replace the required native traces.
 2. **Finish remaining native file/image and platform observations (W01, W06,
    W07).** Replay native occupied/full/mixed drops and visible image decoding;
    compare the corresponding compiled workflow. Exercise actual shipping-browser

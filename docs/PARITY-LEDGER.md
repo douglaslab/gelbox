@@ -1,6 +1,6 @@
 # Current parity acceptance ledger
 
-Evidence index reconciled through `f848639`, 2026-10-11. This replaces the initial
+Evidence index reconciled through `e441fcc`, 2026-10-11. This replaces the initial
 findings in [PORT-AUDIT](PORT-AUDIT.md) as the current evidence index. The
 [ROADMAP](ROADMAP.md) remains the completion contract. The web app is not yet
 fully accepted. No percentage is assigned to this mixed set of requirements.
@@ -145,6 +145,19 @@ not by the old M1–M27 milestone queue.
   [Original-release file replay](../reference/native/replay/file-workflow/README.md)
   now distinguishes direct float32 JSON parsing from modern-Cinder six-digit
   token conversion; use the original result for that scenario.
+  The case-specific authority choices are now explicit:
+
+  | Case | Authoritative result and comparison boundary |
+  |---|---|
+  | Palette constants | [Original-release saved swatches](../reference/native/replay/palette-values/README.md): all36 channels equal `f32(byte * f32(1/255))`. Imported colors remain unchanged. Modern palette entries are not substituted for release defaults. |
+  | JSON numeric interchange | Original GUI directly parses float32: mass117.57998083587876 becomes117.5799789428711. The modern harness instead produces117.58000183105469 then writes117.58. Use original GUI saves; any float32 conversion is asserted explicitly. |
+  | Interactive selection/editing | Original Cocoa release and its saved checkpoints govern the paired traces. Modern GLFW background input was observed at a different position than requested, so a modern CUA click alone is not interaction evidence. |
+  | Controlled RGB raster tests | Modern source-method captures govern only the exact captured document, particle inputs, geometry and stated DPR. [Populated-window evidence](../reference/native/modern/full-window-scenes/README.md) reports twelve one-level differences when release palette inputs were incorrectly mixed into a modern capture; use each capture's own full input. This is conditional rendering evidence, not original-release pixel certification. |
+  | Original visible screenshots | [Capture/profile investigation](../reference/native/control-comparison/README.md) identifies JPEG and Display ICC data. Treat these as visible observations, with explicit profile conversion for analytical crops; do not demand zero-byte equality or invent CSS corrections from raw channels. |
+
+  Remaining D02 work is the original/modern geometry and visual qualification
+  for the release scenario set, plus binary/prebuilt-Cinder source provenance.
+  These known differences cannot be closed by declaring global build equivalence.
 - **D03 — platform/font distribution.** macOS is the initial native certification
   environment. The shared UI includes captured Avenir glyph assets; determine
   the distributable asset/font strategy and supported character/platform scope.
