@@ -70,3 +70,29 @@ test('compiled macOS pointer gestures distinguish Control from Command',async({p
   await expect(page.getByTestId('microtube-0')).not.toHaveAttribute('data-empty','true');
  }finally{await app.close();}
 });
+
+test('compiled Windows platform branch uses Control consistently for loupe and Render',async({page},info)=>{
+ const app=await serveBuiltApp('/gelbox/');
+ try{
+  await page.addInitScript(b=>{
+   localStorage.setItem('gelBackend',b);
+   Object.defineProperty(navigator,'platform',{configurable:true,value:'Win32'});
+  },info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.goto(`${app.url}#/gel`);
+  const band=(await page.getByTestId('band-0').boundingBox())!;
+  await page.mouse.move(band.x+band.width/2,band.y+band.height/2);
+  await page.keyboard.down('Control');await expect(page.getByTestId('hover-loupe')).toBeVisible();
+  await page.mouse.click(band.x+band.width/2,band.y+band.height/2);await page.keyboard.up('Control');
+  await expect(page.locator('[data-loupe-id]')).toHaveCount(1);
+  await page.locator('[data-testid^="loupe-frame-"]').focus();await page.keyboard.press('Delete');
+  await expect(page.locator('[data-loupe-id]')).toHaveCount(0);
+  // Re-establish gel rollover after removing the focused loupe/probe.
+  await page.mouse.move(band.x+band.width/2+1,band.y+band.height/2);
+  await page.keyboard.press('Control+l');await expect(page.getByTestId('hover-loupe')).toBeVisible();
+  await page.keyboard.press('Control+l');await expect(page.getByTestId('hover-loupe')).toHaveCount(0);
+  await page.getByRole('button',{name:'Application settings'}).click();
+  const render=page.getByRole('checkbox',{name:'Render',exact:true});
+  await page.keyboard.press('Control+r');await expect(render).not.toBeChecked();
+  await page.keyboard.press('Control+r');await expect(render).toBeChecked();
+ }finally{await app.close();}
+});

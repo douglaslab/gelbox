@@ -5,6 +5,7 @@ import {ViewOrderProvider} from './useViewLayer';
 import {ReferenceImageProvider} from './ReferenceImageLayer';
 import { flushSync } from 'react-dom';
 import {GelStore} from '../../lib/gel/gelStore';
+import {isNativeAccelerator} from '../../lib/gel/nativeAccelerator';
 import { createContext, useContext, useEffect, useState, useSyncExternalStore, type ReactNode, type Dispatch } from 'react';
 import { type GelState, type Action } from '../../lib/gel/gelState';
 
@@ -19,7 +20,7 @@ export function GelProvider({ children }: { children: ReactNode }) {
   const state = snapshot.gel, dispatch = store.dispatch;
   useEffect(() => {
     const key = (event: KeyboardEvent) => {
-      if (event.metaKey && event.key.toLowerCase() === 'r') {
+      if (isNativeAccelerator(event) && event.key.toLowerCase() === 'r') {
         event.preventDefault();
         dispatch({type:'TOGGLE_RENDER'});
       }

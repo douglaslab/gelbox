@@ -47,9 +47,10 @@ export function useHoverLoupe() {
     const leave = (event: PointerEvent) => { if (!event.relatedTarget && !down) dispatch({ type: 'move', point: null }); };
     const key = (event: KeyboardEvent) => {
       store.endPointerDown();
-      const toggle = event.type === 'keydown' && event.metaKey && event.key.toLowerCase() === 'l';
+      const accelerator = isNativeAccelerator(event);
+      const toggle = event.type === 'keydown' && accelerator && event.key.toLowerCase() === 'l';
       if (toggle) event.preventDefault();
-      dispatch({ type: 'key', meta: event.metaKey, toggle });
+      dispatch({ type: 'key', meta: accelerator, toggle });
     };
     window.addEventListener('pointermove', move, true);
     window.addEventListener('pointerdown', start, true);

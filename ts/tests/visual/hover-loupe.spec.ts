@@ -124,3 +124,22 @@ test('right-create refreshes preview during the native mouse-down operation', as
   await expect(preview).toBeVisible();
   await page.mouse.up({ button: 'right' });
 });
+
+test('Windows platform branch uses Control for preview and hover toggle',async({page})=>{
+ // Exercise the platform branch on this Mac; this is not physical Windows QA.
+ await page.evaluate(()=>Object.defineProperty(navigator,'platform',{configurable:true,value:'Win32'}));
+ const band=(await page.getByTestId('band-0').boundingBox())!;
+ await page.mouse.move(band.x+band.width/2,band.y+band.height/2);
+ await page.keyboard.down('Control');await expect(page.getByTestId('hover-loupe')).toBeVisible();
+ await page.keyboard.up('Control');await expect(page.getByTestId('hover-loupe')).toHaveCount(0);
+ await page.keyboard.press('Control+l');await expect(page.getByTestId('hover-loupe')).toBeVisible();
+ await page.keyboard.press('Control+l');await expect(page.getByTestId('hover-loupe')).toHaveCount(0);
+});
+
+test('Windows platform branch uses Control-R for native Render toggle',async({page})=>{
+ await page.evaluate(()=>Object.defineProperty(navigator,'platform',{configurable:true,value:'Win32'}));
+ await page.getByRole('button',{name:'Application settings'}).click();
+ const render=page.getByRole('checkbox',{name:'Render',exact:true});await expect(render).toBeChecked();
+ await page.keyboard.press('Control+r');await expect(render).not.toBeChecked();
+ await page.keyboard.press('Control+r');await expect(render).toBeChecked();
+});
