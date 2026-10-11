@@ -62,3 +62,10 @@ left running through completion and its original error files remain intact.
 At cycle110, converged retained-heap growth from cycle10 is662108 bytes for
 WebGPU and650592 bytes for WebGL2, both below the1048576-byte limit. These partial
 values do not establish completed-session acceptance or process-footprint bounds.
+
+A post-run control against a fresh diagnostic Python process also timed out at
+15 seconds without output (measurement-diagnostic/fresh-process-timeout.json).
+The failure is therefore not confined to the two browser targets. This does not
+identify its OS cause. Two earlier Intel diagnostic processes also remain in
+uninterruptible U state after prior termination requests. No more translated
+probes or duration reruns should be launched in this environment until recovery.
