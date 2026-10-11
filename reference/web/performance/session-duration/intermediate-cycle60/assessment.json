@@ -1,0 +1,81 @@
+{
+  "partial": true,
+  "cycle": 60,
+  "originalCriterionAlreadyFailed": true,
+  "results": [
+    {
+      "backend": "webgpu",
+      "heapGrowthBytesFrom10": 561844,
+      "domUnchanged": true,
+      "processMemory": {
+        "renderer": {
+          "cycle10": {
+            "pid": 85262,
+            "footprintMiB": 54.5,
+            "peakMiB": 144.3
+          },
+          "cycle60": {
+            "pid": 85262,
+            "footprintMiB": 53.9,
+            "peakMiB": 150.4
+          },
+          "growthMiB": -0.6,
+          "withinFootprintGrowthBudget": true,
+          "withinPeakBudget": true
+        },
+        "GPU": {
+          "cycle10": {
+            "pid": 85258,
+            "footprintMiB": 482.6,
+            "peakMiB": 537.9
+          },
+          "cycle60": {
+            "pid": 85258,
+            "footprintMiB": 500.8,
+            "peakMiB": 542.0
+          },
+          "growthMiB": 18.2,
+          "withinFootprintGrowthBudget": true,
+          "withinPeakBudget": true
+        }
+      }
+    },
+    {
+      "backend": "webgl2",
+      "heapGrowthBytesFrom10": 575068,
+      "domUnchanged": true,
+      "processMemory": {
+        "renderer": {
+          "cycle10": {
+            "pid": 85263,
+            "footprintMiB": 49.7,
+            "peakMiB": 165.2
+          },
+          "cycle60": {
+            "pid": 85263,
+            "footprintMiB": 48.5,
+            "peakMiB": 165.2
+          },
+          "growthMiB": -1.2,
+          "withinFootprintGrowthBudget": true,
+          "withinPeakBudget": true
+        },
+        "GPU": {
+          "cycle10": {
+            "pid": 85259,
+            "footprintMiB": 511.2,
+            "peakMiB": 636.1
+          },
+          "cycle60": {
+            "pid": 85259,
+            "footprintMiB": 510.8,
+            "peakMiB": 636.7
+          },
+          "growthMiB": -0.4,
+          "withinFootprintGrowthBudget": true,
+          "withinPeakBudget": true
+        }
+      }
+    }
+  ]
+}
