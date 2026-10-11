@@ -35,5 +35,10 @@ test('compiled degraded multimer transfer and vertical drag match original nativ
   expect(vertical).toEqual(expected);
   expect(vertical.Gel.Samples[11]).toEqual((await native('native-vertical.json')).Gel.Samples.Sample);
   await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('vertical.png')});
+  // Continue the original-native replay through graph editing and both presets.
+  for(const [x,y,name] of [[1134,495,'edit'],[1288.5,495.5,'high'],[1097.5,495.5,'low']] as const){
+   await page.mouse.click(x,y);
+   expect(await save('sample',`web-aggregate-${name}.json`)).toEqual(await native(`native-aggregate-${name}.json`));
+  }
  }finally{await app.close();}
 });

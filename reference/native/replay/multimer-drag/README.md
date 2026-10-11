@@ -21,3 +21,9 @@ The compiled test imports the same file and replays the pointer positions, divid
 Four configurations pass: Chromium WebGPU/WebGL2, Firefox WebGL2 and WebKit WebGL2. Per-project downloaded documents and final screenshots are retained. Test: `ts/tests/production/multimer-drag.spec.ts`. Compiled runtime was unchanged from the last fresh build at7f37543; subsequent commits changed tests, notices/docs or evidence only.
 
 This closes this finite positive-voltage, unmodified gesture sequence. W04 still requires zero/negative voltage, modifiers, overlaps and independent tier/offset observations; W02 still has clone/dye/loupe workflows. No product behavior, website snapshot or native release package changed.
+
+## Aggregate controls continuation (2026-10-11)
+
+From the selected1642bp species above, actual original-native clicks at screenshot(2268,1046), (2577,1047), then(2195,1047) edit the first graph column, choose the high aggregate preset, and choose the low preset. Save Sample after each action yields `native-aggregate-edit.json`, `native-aggregate-high.json`, and `native-aggregate-low.json`. Aggregate arrays are respectively[0.5,0.25,1,0,0,0,0], [0,0,0,0,0,0,1], and[1,0,0,0,0,0,0]. All other sample fields remain unchanged.
+
+The extended compiled test performs these three clicks after the same transfer/vertical-drag sequence, using the same screenshot-to-client conversion, and compares each entire saved sample exactly. All four configurations pass (aggregate-production.log and aggregate-compatibility.log). This verifies one column edit and both presets; multi-column drags, release outside/cancel, slider handle offsets and focus transitions remain open under R01/W02. No product implementation changed.
