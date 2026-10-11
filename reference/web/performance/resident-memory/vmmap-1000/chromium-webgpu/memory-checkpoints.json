@@ -1,0 +1,4023 @@
+{
+  "memory": [
+    {
+      "cycle": 0,
+      "usedSize": 5632672,
+      "totalSize": 6144000,
+      "embedderHeapUsedSize": 1244472,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 10,
+      "usedSize": 6643956,
+      "totalSize": 7979008,
+      "embedderHeapUsedSize": 1228056,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 20,
+      "usedSize": 6831888,
+      "totalSize": 7979008,
+      "embedderHeapUsedSize": 1227888,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 30,
+      "usedSize": 7095980,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1291152,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 40,
+      "usedSize": 7212116,
+      "totalSize": 8241152,
+      "embedderHeapUsedSize": 1296792,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 50,
+      "usedSize": 7270412,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1259632,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 60,
+      "usedSize": 7297092,
+      "totalSize": 8241152,
+      "embedderHeapUsedSize": 1260896,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 70,
+      "usedSize": 7337412,
+      "totalSize": 9027584,
+      "embedderHeapUsedSize": 1259568,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 80,
+      "usedSize": 7381772,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1251232,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 90,
+      "usedSize": 7402712,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1241144,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 100,
+      "usedSize": 7392920,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1257576,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 110,
+      "usedSize": 7396920,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1278592,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 120,
+      "usedSize": 7401560,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1321432,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 130,
+      "usedSize": 7418552,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1306048,
+      "backingStorageSize": 723779,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 140,
+      "usedSize": 7438580,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1285680,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 150,
+      "usedSize": 7422540,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1281680,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 160,
+      "usedSize": 7433428,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1239840,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 170,
+      "usedSize": 7463192,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1213960,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 180,
+      "usedSize": 7504928,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1241440,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 190,
+      "usedSize": 7515028,
+      "totalSize": 9027584,
+      "embedderHeapUsedSize": 1238360,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 200,
+      "usedSize": 7527556,
+      "totalSize": 9027584,
+      "embedderHeapUsedSize": 1301656,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 210,
+      "usedSize": 7519008,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1296544,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 220,
+      "usedSize": 7555720,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1291584,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 230,
+      "usedSize": 7559740,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1225328,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 240,
+      "usedSize": 7572876,
+      "totalSize": 9027584,
+      "embedderHeapUsedSize": 1289352,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 250,
+      "usedSize": 7557372,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1308232,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 260,
+      "usedSize": 8506488,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1571072,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 270,
+      "usedSize": 8506672,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1632840,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 280,
+      "usedSize": 7620984,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1298808,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 290,
+      "usedSize": 8518324,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1618944,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 300,
+      "usedSize": 8519484,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1618656,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 310,
+      "usedSize": 7624848,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1343880,
+      "backingStorageSize": 724077,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 320,
+      "usedSize": 7698272,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1587240,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 330,
+      "usedSize": 7722804,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1530792,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 340,
+      "usedSize": 8534856,
+      "totalSize": 9814016,
+      "embedderHeapUsedSize": 1569416,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 350,
+      "usedSize": 7711408,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1547680,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 360,
+      "usedSize": 8534484,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1556144,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 370,
+      "usedSize": 7708576,
+      "totalSize": 9814016,
+      "embedderHeapUsedSize": 1529112,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 380,
+      "usedSize": 7727880,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1589352,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 390,
+      "usedSize": 7712480,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1577872,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 400,
+      "usedSize": 8558244,
+      "totalSize": 9551872,
+      "embedderHeapUsedSize": 1569616,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 410,
+      "usedSize": 7780004,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1614800,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 420,
+      "usedSize": 7770536,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1550296,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 430,
+      "usedSize": 8576084,
+      "totalSize": 9814016,
+      "embedderHeapUsedSize": 1612480,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 440,
+      "usedSize": 7772320,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1592496,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 450,
+      "usedSize": 7770836,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1515816,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 460,
+      "usedSize": 7790184,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1549024,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 470,
+      "usedSize": 8575892,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1609024,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 480,
+      "usedSize": 7786408,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1605440,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 490,
+      "usedSize": 7790100,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1585312,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 500,
+      "usedSize": 7788732,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1538688,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 510,
+      "usedSize": 7779172,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1631616,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 520,
+      "usedSize": 7792668,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1657984,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 530,
+      "usedSize": 7793284,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1584376,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 540,
+      "usedSize": 7794740,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1553864,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 550,
+      "usedSize": 7810556,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1529448,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 560,
+      "usedSize": 7795452,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1572968,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 570,
+      "usedSize": 7814232,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1624464,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 580,
+      "usedSize": 7797208,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1535480,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 590,
+      "usedSize": 7796308,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1555456,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 600,
+      "usedSize": 7798864,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1590784,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 610,
+      "usedSize": 7800112,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1534072,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 620,
+      "usedSize": 7799920,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1618936,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 630,
+      "usedSize": 7812476,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1528560,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 640,
+      "usedSize": 7800012,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1594656,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 650,
+      "usedSize": 7817548,
+      "totalSize": 10862592,
+      "embedderHeapUsedSize": 1620944,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 660,
+      "usedSize": 7845756,
+      "totalSize": 9814016,
+      "embedderHeapUsedSize": 1620848,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 670,
+      "usedSize": 7835592,
+      "totalSize": 10600448,
+      "embedderHeapUsedSize": 1552920,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 680,
+      "usedSize": 7829488,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1551784,
+      "backingStorageSize": 806858,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 690,
+      "usedSize": 7773748,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1635240,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 700,
+      "usedSize": 7775908,
+      "totalSize": 10600448,
+      "embedderHeapUsedSize": 1612640,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 710,
+      "usedSize": 7740364,
+      "totalSize": 9814016,
+      "embedderHeapUsedSize": 1557168,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 720,
+      "usedSize": 7756352,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1613696,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 730,
+      "usedSize": 7755972,
+      "totalSize": 9814016,
+      "embedderHeapUsedSize": 1616584,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 740,
+      "usedSize": 7759064,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1652856,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 750,
+      "usedSize": 7740896,
+      "totalSize": 9814016,
+      "embedderHeapUsedSize": 1585416,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 760,
+      "usedSize": 7740608,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1606504,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 770,
+      "usedSize": 7757108,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1579152,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 780,
+      "usedSize": 7757996,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1566720,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 790,
+      "usedSize": 7741072,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1678656,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 800,
+      "usedSize": 7749824,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1743280,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 810,
+      "usedSize": 7728472,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1675776,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 820,
+      "usedSize": 7737104,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1587992,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 830,
+      "usedSize": 7735416,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1633968,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 840,
+      "usedSize": 7739196,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1631880,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 850,
+      "usedSize": 7761256,
+      "totalSize": 10338304,
+      "embedderHeapUsedSize": 1649000,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 860,
+      "usedSize": 7743652,
+      "totalSize": 9814016,
+      "embedderHeapUsedSize": 1736336,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 870,
+      "usedSize": 7697560,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1349312,
+      "backingStorageSize": 723717,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 880,
+      "usedSize": 7779812,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1731752,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 890,
+      "usedSize": 7781136,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1774912,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 900,
+      "usedSize": 7791604,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1728736,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 910,
+      "usedSize": 7791980,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1750056,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 920,
+      "usedSize": 7724932,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1318672,
+      "backingStorageSize": 723717,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 930,
+      "usedSize": 7840248,
+      "totalSize": 10076160,
+      "embedderHeapUsedSize": 1691144,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 940,
+      "usedSize": 7748800,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1396016,
+      "backingStorageSize": 723717,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 950,
+      "usedSize": 7741596,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1412752,
+      "backingStorageSize": 723717,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 960,
+      "usedSize": 7839268,
+      "totalSize": 9814016,
+      "embedderHeapUsedSize": 1741808,
+      "backingStorageSize": 806498,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 970,
+      "usedSize": 7758932,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1356320,
+      "backingStorageSize": 723717,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 980,
+      "usedSize": 7768980,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1386360,
+      "backingStorageSize": 723717,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 990,
+      "usedSize": 7768632,
+      "totalSize": 8765440,
+      "embedderHeapUsedSize": 1341112,
+      "backingStorageSize": 723717,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 1000,
+      "usedSize": 7780788,
+      "totalSize": 8503296,
+      "embedderHeapUsedSize": 1322488,
+      "backingStorageSize": 723717,
+      "dom": {
+        "documents": 1,
+        "nodes": 154,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 1000.5,
+      "usedSize": 7008856,
+      "totalSize": 7979008,
+      "embedderHeapUsedSize": 1319912,
+      "backingStorageSize": 527481,
+      "dom": {
+        "documents": 1,
+        "nodes": 149,
+        "jsEventListeners": 232
+      }
+    },
+    {
+      "cycle": 1001,
+      "usedSize": 8665340,
+      "totalSize": 10452992,
+      "embedderHeapUsedSize": 1827816,
+      "backingStorageSize": 1304679,
+      "dom": {
+        "documents": 1,
+        "nodes": 289,
+        "jsEventListeners": 342
+      }
+    }
+  ],
+  "residentMemory": [
+    {
+      "cycle": 0,
+      "elapsedMs": 350,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 91040
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 151744
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 98480
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 47568
+        }
+      ],
+      "totalRssKiB": 388832
+    },
+    {
+      "cycle": 10,
+      "elapsedMs": 4680,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 91568
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 174720
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 103712
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 48672
+        }
+      ],
+      "totalRssKiB": 418672
+    },
+    {
+      "cycle": 20,
+      "elapsedMs": 7629,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 91584
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 175168
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 107328
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 49008
+        }
+      ],
+      "totalRssKiB": 423088
+    },
+    {
+      "cycle": 30,
+      "elapsedMs": 10611,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 91760
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 176384
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 109056
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 49552
+        }
+      ],
+      "totalRssKiB": 426752
+    },
+    {
+      "cycle": 40,
+      "elapsedMs": 13579,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 91776
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 177824
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 109376
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 49712
+        }
+      ],
+      "totalRssKiB": 428688
+    },
+    {
+      "cycle": 50,
+      "elapsedMs": 16511,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 91792
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 177696
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 110544
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 49872
+        }
+      ],
+      "totalRssKiB": 429904
+    },
+    {
+      "cycle": 60,
+      "elapsedMs": 19478,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92096
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 179456
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 111136
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 50112
+        }
+      ],
+      "totalRssKiB": 432800
+    },
+    {
+      "cycle": 70,
+      "elapsedMs": 22529,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92112
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 179904
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 111776
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 50768
+        }
+      ],
+      "totalRssKiB": 434560
+    },
+    {
+      "cycle": 80,
+      "elapsedMs": 25495,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92112
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 180784
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 112080
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 51104
+        }
+      ],
+      "totalRssKiB": 436080
+    },
+    {
+      "cycle": 90,
+      "elapsedMs": 28544,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92112
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 180848
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 112368
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 51280
+        }
+      ],
+      "totalRssKiB": 436608
+    },
+    {
+      "cycle": 100,
+      "elapsedMs": 31612,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92144
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 182112
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 114272
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 52272
+        }
+      ],
+      "totalRssKiB": 440800
+    },
+    {
+      "cycle": 110,
+      "elapsedMs": 35845,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92144
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 182544
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 114368
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 52272
+        }
+      ],
+      "totalRssKiB": 441328
+    },
+    {
+      "cycle": 120,
+      "elapsedMs": 38795,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92768
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 183424
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 114624
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 52272
+        }
+      ],
+      "totalRssKiB": 443088
+    },
+    {
+      "cycle": 130,
+      "elapsedMs": 41861,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92768
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 183232
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 114928
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 52288
+        }
+      ],
+      "totalRssKiB": 443216
+    },
+    {
+      "cycle": 140,
+      "elapsedMs": 44944,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92768
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 182544
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 115456
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 52288
+        }
+      ],
+      "totalRssKiB": 443056
+    },
+    {
+      "cycle": 150,
+      "elapsedMs": 47926,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92768
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 182704
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 115488
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 52304
+        }
+      ],
+      "totalRssKiB": 443264
+    },
+    {
+      "cycle": 160,
+      "elapsedMs": 51112,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92768
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 185408
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 115808
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53568
+        }
+      ],
+      "totalRssKiB": 447552
+    },
+    {
+      "cycle": 170,
+      "elapsedMs": 54228,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92768
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 187488
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 115904
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53568
+        }
+      ],
+      "totalRssKiB": 449728
+    },
+    {
+      "cycle": 180,
+      "elapsedMs": 57413,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92768
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 187408
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116128
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53568
+        }
+      ],
+      "totalRssKiB": 449872
+    },
+    {
+      "cycle": 190,
+      "elapsedMs": 60564,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92912
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 187664
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116224
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53696
+        }
+      ],
+      "totalRssKiB": 450496
+    },
+    {
+      "cycle": 200,
+      "elapsedMs": 63713,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92912
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 187840
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116272
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53696
+        }
+      ],
+      "totalRssKiB": 450720
+    },
+    {
+      "cycle": 210,
+      "elapsedMs": 66863,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92912
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 188208
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116352
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53696
+        }
+      ],
+      "totalRssKiB": 451168
+    },
+    {
+      "cycle": 220,
+      "elapsedMs": 70045,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92912
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 188560
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116384
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53696
+        }
+      ],
+      "totalRssKiB": 451552
+    },
+    {
+      "cycle": 230,
+      "elapsedMs": 73230,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 92912
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 188480
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116480
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53696
+        }
+      ],
+      "totalRssKiB": 451568
+    },
+    {
+      "cycle": 240,
+      "elapsedMs": 76380,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94112
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 189776
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116512
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53696
+        }
+      ],
+      "totalRssKiB": 454096
+    },
+    {
+      "cycle": 250,
+      "elapsedMs": 79560,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 189856
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116528
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53696
+        }
+      ],
+      "totalRssKiB": 454208
+    },
+    {
+      "cycle": 260,
+      "elapsedMs": 82746,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 190032
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116560
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53696
+        }
+      ],
+      "totalRssKiB": 454416
+    },
+    {
+      "cycle": 270,
+      "elapsedMs": 85930,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 190048
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116592
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53696
+        }
+      ],
+      "totalRssKiB": 454464
+    },
+    {
+      "cycle": 280,
+      "elapsedMs": 89129,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 190096
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116624
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53696
+        }
+      ],
+      "totalRssKiB": 454544
+    },
+    {
+      "cycle": 290,
+      "elapsedMs": 92313,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 190096
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116704
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53712
+        }
+      ],
+      "totalRssKiB": 454640
+    },
+    {
+      "cycle": 300,
+      "elapsedMs": 95497,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 190368
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116736
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 53728
+        }
+      ],
+      "totalRssKiB": 454960
+    },
+    {
+      "cycle": 310,
+      "elapsedMs": 98694,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 191488
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116768
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 457264
+    },
+    {
+      "cycle": 320,
+      "elapsedMs": 101879,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 191680
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116784
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 457472
+    },
+    {
+      "cycle": 330,
+      "elapsedMs": 105064,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 192112
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116816
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 457936
+    },
+    {
+      "cycle": 340,
+      "elapsedMs": 108263,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 192176
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116848
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 458032
+    },
+    {
+      "cycle": 350,
+      "elapsedMs": 111480,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 192736
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 116880
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 458624
+    },
+    {
+      "cycle": 360,
+      "elapsedMs": 114680,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 192640
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 117936
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 459584
+    },
+    {
+      "cycle": 370,
+      "elapsedMs": 117864,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94128
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 192720
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118048
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 459776
+    },
+    {
+      "cycle": 380,
+      "elapsedMs": 121063,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94208
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 192688
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118224
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 460000
+    },
+    {
+      "cycle": 390,
+      "elapsedMs": 124264,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94208
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 192880
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118240
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 460208
+    },
+    {
+      "cycle": 400,
+      "elapsedMs": 127463,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94208
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 192768
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118464
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 460320
+    },
+    {
+      "cycle": 410,
+      "elapsedMs": 130663,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94208
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 192656
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118464
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 460208
+    },
+    {
+      "cycle": 420,
+      "elapsedMs": 133881,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94208
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 193008
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118480
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 460576
+    },
+    {
+      "cycle": 430,
+      "elapsedMs": 137096,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94208
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 193168
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118480
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 460736
+    },
+    {
+      "cycle": 440,
+      "elapsedMs": 140348,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94208
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 193168
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118480
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 460736
+    },
+    {
+      "cycle": 450,
+      "elapsedMs": 143631,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94224
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 193040
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118480
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 460624
+    },
+    {
+      "cycle": 460,
+      "elapsedMs": 146897,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 94224
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 193024
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118496
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 460624
+    },
+    {
+      "cycle": 470,
+      "elapsedMs": 150212,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 194304
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118496
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 463040
+    },
+    {
+      "cycle": 480,
+      "elapsedMs": 153598,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 194560
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118512
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 463312
+    },
+    {
+      "cycle": 490,
+      "elapsedMs": 156914,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 194688
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118512
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54880
+        }
+      ],
+      "totalRssKiB": 463440
+    },
+    {
+      "cycle": 500,
+      "elapsedMs": 160264,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 195136
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118544
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54896
+        }
+      ],
+      "totalRssKiB": 463936
+    },
+    {
+      "cycle": 510,
+      "elapsedMs": 163615,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 195728
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118608
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54896
+        }
+      ],
+      "totalRssKiB": 464592
+    },
+    {
+      "cycle": 520,
+      "elapsedMs": 166997,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 195840
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118608
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54896
+        }
+      ],
+      "totalRssKiB": 464704
+    },
+    {
+      "cycle": 530,
+      "elapsedMs": 170414,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 196048
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118608
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54896
+        }
+      ],
+      "totalRssKiB": 464912
+    },
+    {
+      "cycle": 540,
+      "elapsedMs": 173645,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 195904
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118608
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54896
+        }
+      ],
+      "totalRssKiB": 464768
+    },
+    {
+      "cycle": 550,
+      "elapsedMs": 177064,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 195840
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118608
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54896
+        }
+      ],
+      "totalRssKiB": 464704
+    },
+    {
+      "cycle": 560,
+      "elapsedMs": 180413,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 196016
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118576
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54912
+        }
+      ],
+      "totalRssKiB": 464864
+    },
+    {
+      "cycle": 570,
+      "elapsedMs": 183794,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 196384
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118608
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54912
+        }
+      ],
+      "totalRssKiB": 465264
+    },
+    {
+      "cycle": 580,
+      "elapsedMs": 187146,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 195984
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118624
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54912
+        }
+      ],
+      "totalRssKiB": 464880
+    },
+    {
+      "cycle": 590,
+      "elapsedMs": 190514,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 196128
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118624
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54912
+        }
+      ],
+      "totalRssKiB": 465024
+    },
+    {
+      "cycle": 600,
+      "elapsedMs": 193897,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 196192
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118624
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 54912
+        }
+      ],
+      "totalRssKiB": 465088
+    },
+    {
+      "cycle": 610,
+      "elapsedMs": 197230,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 198496
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118624
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57216
+        }
+      ],
+      "totalRssKiB": 469696
+    },
+    {
+      "cycle": 620,
+      "elapsedMs": 200633,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 198944
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118624
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57216
+        }
+      ],
+      "totalRssKiB": 470144
+    },
+    {
+      "cycle": 630,
+      "elapsedMs": 204013,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 199120
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118624
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57216
+        }
+      ],
+      "totalRssKiB": 470320
+    },
+    {
+      "cycle": 640,
+      "elapsedMs": 207399,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 199152
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118624
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57216
+        }
+      ],
+      "totalRssKiB": 470352
+    },
+    {
+      "cycle": 650,
+      "elapsedMs": 210931,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 199120
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118624
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 470864
+    },
+    {
+      "cycle": 660,
+      "elapsedMs": 214664,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 200208
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118656
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 471984
+    },
+    {
+      "cycle": 670,
+      "elapsedMs": 218499,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 200768
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118656
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 472544
+    },
+    {
+      "cycle": 680,
+      "elapsedMs": 222213,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 200784
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118656
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 472560
+    },
+    {
+      "cycle": 690,
+      "elapsedMs": 226101,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 95360
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 200800
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118656
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 472576
+    },
+    {
+      "cycle": 700,
+      "elapsedMs": 229863,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 201296
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118672
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 474112
+    },
+    {
+      "cycle": 710,
+      "elapsedMs": 233733,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 201792
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118688
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 474624
+    },
+    {
+      "cycle": 720,
+      "elapsedMs": 237600,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 201872
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118688
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 474704
+    },
+    {
+      "cycle": 730,
+      "elapsedMs": 241599,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 202912
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118688
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 475744
+    },
+    {
+      "cycle": 740,
+      "elapsedMs": 245500,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 203280
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118688
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 476112
+    },
+    {
+      "cycle": 750,
+      "elapsedMs": 249415,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 203152
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118688
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 475984
+    },
+    {
+      "cycle": 760,
+      "elapsedMs": 253263,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 203760
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118656
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 476560
+    },
+    {
+      "cycle": 770,
+      "elapsedMs": 257299,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 203856
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118688
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 476688
+    },
+    {
+      "cycle": 780,
+      "elapsedMs": 261179,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 204336
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 119232
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 477712
+    },
+    {
+      "cycle": 790,
+      "elapsedMs": 265031,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 203792
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118688
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 476624
+    },
+    {
+      "cycle": 800,
+      "elapsedMs": 268880,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 203824
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118720
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 57760
+        }
+      ],
+      "totalRssKiB": 476688
+    },
+    {
+      "cycle": 810,
+      "elapsedMs": 272746,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 203824
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118720
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58192
+        }
+      ],
+      "totalRssKiB": 477120
+    },
+    {
+      "cycle": 820,
+      "elapsedMs": 276613,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 203824
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118720
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58192
+        }
+      ],
+      "totalRssKiB": 477120
+    },
+    {
+      "cycle": 830,
+      "elapsedMs": 280481,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 203872
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118720
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58192
+        }
+      ],
+      "totalRssKiB": 477168
+    },
+    {
+      "cycle": 840,
+      "elapsedMs": 284397,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 204464
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 119248
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58192
+        }
+      ],
+      "totalRssKiB": 478288
+    },
+    {
+      "cycle": 850,
+      "elapsedMs": 288314,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 203904
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118688
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58192
+        }
+      ],
+      "totalRssKiB": 477168
+    },
+    {
+      "cycle": 860,
+      "elapsedMs": 292398,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 205792
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118720
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58192
+        }
+      ],
+      "totalRssKiB": 479088
+    },
+    {
+      "cycle": 870,
+      "elapsedMs": 296532,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96384
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 205952
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118704
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58192
+        }
+      ],
+      "totalRssKiB": 479232
+    },
+    {
+      "cycle": 880,
+      "elapsedMs": 300564,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96448
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 207824
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 119168
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 481728
+    },
+    {
+      "cycle": 890,
+      "elapsedMs": 304617,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96448
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 207504
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118704
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 480944
+    },
+    {
+      "cycle": 900,
+      "elapsedMs": 308747,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96448
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 207952
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 119264
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 481952
+    },
+    {
+      "cycle": 910,
+      "elapsedMs": 312880,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96448
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 207680
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118704
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 481120
+    },
+    {
+      "cycle": 920,
+      "elapsedMs": 317016,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96448
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 206592
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118656
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 479984
+    },
+    {
+      "cycle": 930,
+      "elapsedMs": 321182,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96448
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 207328
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118304
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 480368
+    },
+    {
+      "cycle": 940,
+      "elapsedMs": 325365,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96448
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 206720
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118704
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 480160
+    },
+    {
+      "cycle": 950,
+      "elapsedMs": 329584,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96992
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 207648
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118704
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 481632
+    },
+    {
+      "cycle": 960,
+      "elapsedMs": 333783,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96992
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 209632
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 119232
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 484144
+    },
+    {
+      "cycle": 970,
+      "elapsedMs": 338032,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96992
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 207360
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118704
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 481344
+    },
+    {
+      "cycle": 980,
+      "elapsedMs": 342266,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96992
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 207952
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118704
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 481936
+    },
+    {
+      "cycle": 990,
+      "elapsedMs": 346515,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96992
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 208144
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118720
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 482144
+    },
+    {
+      "cycle": 1000,
+      "elapsedMs": 350833,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 96992
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 207920
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 118752
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58288
+        }
+      ],
+      "totalRssKiB": 481952
+    },
+    {
+      "cycle": 1000.5,
+      "elapsedMs": 352054,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 97088
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 206928
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 123440
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58336
+        }
+      ],
+      "totalRssKiB": 485792
+    },
+    {
+      "cycle": 1001,
+      "elapsedMs": 352244,
+      "processes": [
+        {
+          "pid": 74090,
+          "type": "browser",
+          "rssKiB": 97104
+        },
+        {
+          "pid": 74093,
+          "type": "renderer",
+          "rssKiB": 215696
+        },
+        {
+          "pid": 74091,
+          "type": "GPU",
+          "rssKiB": 131872
+        },
+        {
+          "pid": 74092,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 58336
+        }
+      ],
+      "totalRssKiB": 503008
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+[
+  {
+    "backend": "chromium-webgl2",
+    "reportSha256": "4921e0fcf5af3d304431984a9a226b5b42854394b20e5bfdfe7170813fda232e",
+    "footprints": [
+      {
+        "cycle": 0,
+        "process": "GPU",
+        "pid": 74551,
+        "physicalFootprintMiB": 517.8,
+        "peakMiB": 628.4,
+        "partitionAllocUnavailable": true,
+        "source": "vmmap-0-GPU-74551.txt",
+        "sha256": "af87c2a33637dc3f55441cda02f68a3c2e021792630e25df487440ce6b7e4de1"
+      },
+      {
+        "cycle": 0,
+        "process": "renderer",
+        "pid": 74553,
+        "physicalFootprintMiB": 48.8,
+        "peakMiB": 58.9,
+        "partitionAllocUnavailable": true,
+        "source": "vmmap-0-renderer-74553.txt",
+        "sha256": "e2275a90e8e66e636523b54ce8071d52b2797925ea44c23560d8fe42b0d3901c"
+      },
+      {
+        "cycle": 100,
+        "process": "GPU",
+        "pid": 74551,
+        "physicalFootprintMiB": 520.7,
+        "peakMiB": 639.2,
+        "partitionAllocUnavailable": true,
+        "source": "vmmap-100-GPU-74551.txt",
+        "sha256": "144e8ecf1e8a0a2355e397a85daa61abf2529aacebe7422a3a116af04785be50"
+      },
+      {
+        "cycle": 100,
+        "process": "renderer",
+        "pid": 74553,
+        "physicalFootprintMiB": 58.9,
+        "peakMiB": 112.7,
+        "partitionAllocUnavailable": true,
+        "source": "vmmap-100-renderer-74553.txt",
+        "sha256": "73e6b380ed6d56e739d68b21b93a5e4336f4dd12e04c4dcfb73e954a62f2a726"
+      },
+      {
+        "cycle": 1000,
+        "process": "GPU",
+        "pid": 74551,
+        "physicalFootprintMiB": 523.4,
+        "peakMiB": 640.3,
+        "partitionAllocUnavailable": true,
+        "source": "vmmap-1000-GPU-74551.txt",
+        "sha256": "a2c19911a091bcc005e08923706c60b310cc4278cd08d6564449ea57b793f23f"
+      },
+      {
+        "cycle": 1000,
+        "process": "renderer",
+        "pid": 74553,
+        "physicalFootprintMiB": 58.4,
+        "peakMiB": 126.6,
+        "partitionAllocUnavailable": true,
+        "source": "vmmap-1000-renderer-74553.txt",
+        "sha256": "6aed98ff15ba8275d74ef106f61d4dec3312c3b08a1e2e90709e2c6dcd4490ea"
+      }
+    ],
+    "heapCycles": [
+      500,
+      1000
+    ],
+    "heapSamples": 51,
+    "heap": {
+      "usedSize": {
+        "endpointChangeBytes": -8140,
+        "minBytes": 7728084,
+        "maxBytes": 7886228,
+        "slopeBytesPerCycle": -17.982733031674208
+      },
+      "embedderHeapUsedSize": {
+        "endpointChangeBytes": -260256,
+        "minBytes": 1363392,
+        "maxBytes": 1856464,
+        "slopeBytesPerCycle": -171.83276018099548
+      },
+      "backingStorageSize": {
+        "endpointChangeBytes": -82888,
+        "minBytes": 705944,
+        "maxBytes": 788832,
+        "slopeBytesPerCycle": -120.11253393665159
+      }
+    },
+    "domRanges": {
+      "documents": [
+        1,
+        1
+      ],
+      "nodes": [
+        153,
+        153
+      ],
+      "jsEventListeners": [
+        221,
+        221
+      ]
+    }
+  },
+  {
+    "backend": "chromium-webgpu",
+    "reportSha256": "52d7767d4605d5542f4b833877cefbe9bf9070d5c4b77882ceaf7e00436106d6",
+    "footprints": [
+      {
+        "cycle": 0,
+        "process": "GPU",
+        "pid": 74091,
+        "physicalFootprintMiB": 494.7,
+        "peakMiB": 534.7,
+        "partitionAllocUnavailable": true,
+        "source": "vmmap-0-GPU-74091.txt",
+        "sha256": "5634147e6faf6b47d22b55953e38299c9ba12ba6a14b68fa118751880a0044e0"
+      },
+      {
+        "cycle": 0,
+        "process": "renderer",
+        "pid": 74093,
+        "physicalFootprintMiB": 51.0,
+        "peakMiB": 65.3,
+        "partitionAllocUnavailable": true,
+        "source": "vmmap-0-renderer-74093.txt",
+        "sha256": "c0acbdc2fef437612bcd037ce984f7d18e0d7c422760d57bfebdbb27d5e78469"
+      },
+      {
+        "cycle": 100,
+        "process": "GPU",
+        "pid": 74091,
+        "physicalFootprintMiB": 515.8,
+        "peakMiB": 556.8,
+        "partitionAllocUnavailable": true,
+        "source": "vmmap-100-GPU-74091.txt",
+        "sha256": "11deeb6caef8e73764217ed88ad71d49b9e0a76282009c2c0a1cd2672913bedf"
+      },
+      {
+        "cycle": 100,
+        "process": "renderer",
+        "pid": 74093,
+        "physicalFootprintMiB": 61.1,
+        "peakMiB": 111.7,
+        "partitionAllocUnavailable": true,
+        "source": "vmmap-100-renderer-74093.txt",
+        "sha256": "705798b525e2285cb5ad19c0786e0a7cb4ea9123dbe9ab92ede98355b9bd7870"
+      },
+      {
+        "cycle": 1000,
+        "process": "GPU",
+        "pid": 74091,
+        "physicalFootprintMiB": 516.7,
+        "peakMiB": 582.2,
+        "partitionAllocUnavailable": true,
+        "source": "vmmap-1000-GPU-74091.txt",
+        "sha256": "80fc39d2386e0151be862af6aa1d1a29b007035ab462d74446205fafde0ad3d8"
+      },
+      {
+        "cycle": 1000,
+        "process": "renderer",
+        "pid": 74093,
+        "physicalFootprintMiB": 63.8,
+        "peakMiB": 148.7,
+        "partitionAllocUnavailable": true,
+        "source": "vmmap-1000-renderer-74093.txt",
+        "sha256": "ca322882d81a61cea128def44ec5fd809c5aff7e05ba3d4aafc64df5f8890851"
+      }
+    ],
+    "heapCycles": [
+      500,
+      1000
+    ],
+    "heapSamples": 51,
+    "heap": {
+      "usedSize": {
+        "endpointChangeBytes": -7944,
+        "minBytes": 7697560,
+        "maxBytes": 7845756,
+        "slopeBytesPerCycle": -89.84390950226245
+      },
+      "embedderHeapUsedSize": {
+        "endpointChangeBytes": -216200,
+        "minBytes": 1318672,
+        "maxBytes": 1774912,
+        "slopeBytesPerCycle": -145.20991855203619
+      },
+      "backingStorageSize": {
+        "endpointChangeBytes": -83141,
+        "minBytes": 723717,
+        "maxBytes": 806858,
+        "slopeBytesPerCycle": -122.35259728506787
+      }
+    },
+    "domRanges": {
+      "documents": [
+        1,
+        1
+      ],
+      "nodes": [
+        154,
+        154
+      ],
+      "jsEventListeners": [
+        221,
+        221
+      ]
+    }
+  }
+]
