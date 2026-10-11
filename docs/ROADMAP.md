@@ -75,6 +75,12 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    The native Apple Silicon download is prepared but remains ad-hoc signed and
    unnotarized; normal trusted macOS distribution needs signing/notarization.
 
+The [native local preview](../reference/native/releases/20261011/README.md) is now
+refreshed to1.0.1/build20261011 from nativef880841, with the newer stale-settings
+and display-scale changes. Website commit01d8b8b stages its verified DMG/source
+and checksums. GUI smoke testing of this exact new binary remains pending;
+the website records that limitation. The pinned original parity target is unchanged.
+
 Local preview availability is a separate deliverable from full parity acceptance.
 The app and native download are already reviewable at the local `/gelbox/` page;
 the outstanding certification work must not be described as missing website

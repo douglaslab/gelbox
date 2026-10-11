@@ -1,0 +1,11 @@
+{
+  "artifacts": {
+    "README.md": "5d21411eded9934f32c8bde2b831c18a6a243d7acb7f4dcd76ed4d254b3273a0",
+    "build.log.gz": "4eeaa3c9e3826d88385c58553ef87a3ffbaf59d8c70b3b5e650e282fcc828ca1",
+    "bundle-sha256.json": "f6101762a5b2cb57e969f76f90dcb1d72f9ded5dbb21b242d5db0dcc63a29c37",
+    "configure.log.gz": "9d172433b4af68808b28f8432d24948ba8e9563b5572a841b75d11b33a9129ab",
+    "package.log.gz": "05379a3e92fd6f925a5a76af014aa76d7040137b286aa35c4b74f4b04451602f",
+    "source.json": "e577fa8487dd3f953e5af4d22fe3cde9d63c2e4f9ed69b624216b45e2ebaab6f",
+    "website-release.json": "a80d70943fb42a25a4b45401288931fe0c7517082b7fa4d5554851938a86f837"
+  }
+}
