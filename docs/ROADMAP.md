@@ -23,10 +23,10 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    source/loupe selection and the three loupe drag modes. Follow with overlap
    picking, zero/negative-voltage drag and remaining slider/focus branches.
    Keep exact saved-document comparisons and observable view/selection checks.
-   A Command-click in the original app is currently requested from Shawn because
-   the native control API cannot combine a mouse action with held modifiers.
-   The prepared window must remain unchanged until that action or a revised
-   capture arrangement. Automated web tests do not replace these native traces.
+   A coordinated Command-click from Shawn is needed because the native control
+   API cannot combine a mouse action with held modifiers. The earlier click
+   instruction was deferred while independent zero-voltage capture proceeds;
+   prepare the loupe fixture again before requesting that action. Automated web tests do not replace these native traces.
 2. **Finish remaining native file/image and platform observations (W01, W06,
    W07).** Replay native occupied/full/mixed drops and visible image decoding;
    compare the corresponding compiled workflow. Exercise actual shipping-browser
