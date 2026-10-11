@@ -1,6 +1,6 @@
 # Current parity acceptance ledger
 
-Reviewed against the worktree at `e8cc60d`, 2026-10-10. This replaces the initial
+Evidence index reconciled through `f848639`, 2026-10-11. This replaces the initial
 findings in [PORT-AUDIT](PORT-AUDIT.md) as the current evidence index. The
 [ROADMAP](ROADMAP.md) remains the completion contract. The web app is not yet
 fully accepted. No percentage is assigned to this mixed set of requirements.

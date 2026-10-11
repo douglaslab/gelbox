@@ -7,6 +7,60 @@ Current execution evidence and the finite remaining acceptance packages are in
 original audit context; later integration records are historical checkpoints.
 They do not supersede the current ledger or relax this completion contract.
 
+## Execution order as of 2026-10-11
+
+The implementation strategy is unchanged: finish the existing TypeScript web app.
+The local website preview has been refreshed from source `ff35ea9` and committed
+in the website repository as `38e5335`. Later source commits through `f848639`
+change tests/evidence, not shipped app behavior. Publishing remains deferred by
+Shawn's explicit instruction to prepare both releases locally for review.
+
+The next completion work is ordered below. These are the remaining portions of
+P0–P5 and W01–W09, not new milestones or a reduced definition of done.
+
+1. **Complete original-native editing traces (W02–W05).** First finish the
+   persistent-loupe lane-change/move sequence, then modifier clone/Shift-lock,
+   source/loupe selection and the three loupe drag modes. Follow with overlap
+   picking, zero/negative-voltage drag and remaining slider/focus branches.
+   Keep exact saved-document comparisons and observable view/selection checks.
+   A Command-click in the original app is currently requested from Shawn because
+   the native control API cannot combine a mouse action with held modifiers.
+   The prepared window must remain unchanged until that action or a revised
+   capture arrangement. Automated web tests do not replace these native traces.
+2. **Finish remaining native file/image and platform observations (W01, W06,
+   W07).** Replay native occupied/full/mixed drops and visible image decoding;
+   compare the corresponding compiled workflow. Exercise actual shipping-browser
+   background/resume, physical display-scale changes and OS sleep/resume on
+   named hardware. Physical actions require a coordinated manual session;
+   engine emulation alone cannot close them.
+3. **Resolve reference and distribution decisions (D02, D03).** Keep the original
+   executable authoritative where modern-Cinder JSON/color behavior differs;
+   record scenario-specific provenance and unresolved limits. Decide the captured
+   Avenir asset distribution strategy and supported text/platform scope before
+   public distribution. The Inter license notice is already shipped. Do not
+   substitute a fallback font silently or assert legal rights from visual tests.
+4. **Finish reliability disposition (W08).** Define and justify a finite release
+   memory criterion, then run it against a fixed revision. Existing 1,000-cycle
+   RSS and 200-cycle native-memory reports do not establish a long-term bound.
+   Retained JS/DOM and explicit GPU resources are stable in their measured scopes;
+   native allocator/driver retention remains incompletely attributed. Resolve
+   the historical native missing-view observation with reproduction/attribution
+   or an explicit accepted disposition; additional green unrelated runs do not
+   close it. Avoid repeating the same soak unless it answers a new hypothesis.
+5. **Perform final acceptance and release handoff (W09).** Once the above items
+   and accepted exceptions are recorded, run the required numeric, unit, browser,
+   native-RGB, compatibility, lifecycle and performance checks from one recorded
+   revision. Present complete paired workflow captures for Shawn's review.
+   Refresh the website bundle only if runtime/assets changed; verify its actual
+   deployment path and download hashes. Publication requires Shawn's approval.
+   The native Apple Silicon download is prepared but remains ad-hoc signed and
+   unnotarized; normal trusted macOS distribution needs signing/notarization.
+
+Local preview availability is a separate deliverable from full parity acceptance.
+The app and native download are already reviewable at the local `/gelbox/` page;
+the outstanding certification work must not be described as missing website
+integration. Exact current evidence and open subcases remain in the parity ledger.
+
 ## Goal and authority
 
 Deliver a browser version of Gelbox with **strict native behavior and visual parity first; improvements afterward**. Finish the web application before reconsidering Rust, a shared native engine, or desktop packaging. These priorities were explicitly confirmed by Shawn during this review.
