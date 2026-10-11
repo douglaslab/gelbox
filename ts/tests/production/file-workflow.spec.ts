@@ -23,6 +23,7 @@ test('compiled native mixed gel supports species and buffer edits before native 
   const file=path.resolve('../reference/native/replay/file-workflow/native-input.json');
   const input=JSON.parse(await readFile(file,'utf8'));
   await page.getByTestId('file-input').setInputFiles(file);
+  await expect(page.getByRole('button',{name:'Application settings'})).toHaveAttribute('aria-expanded','false');
   await expect(page.getByTestId('gel-settings-view')).toBeVisible();
   expect(await save(page)).toEqual(input);
   await page.getByTestId('gel-buffer-view-preset-TBE').click();
