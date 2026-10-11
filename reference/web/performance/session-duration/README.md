@@ -6,7 +6,7 @@ of all-day stability or support on untested hardware. The limits are stated befo
 the long run. They must not be enlarged retrospectively to turn a failure green.
 
 Run120 cycles per backend, keeping a populated sample and two persistent loupes
-animating for60 seconds per cycle, then close them and reopen for the next cycle.
+open with animation enabled for60 seconds per cycle, then close them and reopen for the next cycle.
 Each cycle also resizes the shared surface out and back. This tests elapsed-time
 retention during normal animation, unlike the earlier six-minute accelerated
 churn. Both backends run in separate browser processes concurrently; these are
@@ -33,3 +33,28 @@ A ten-cycle100ms-hold smoke test passes on both backends. It validates the new
 pacing and sampler operation; it does not satisfy the two-hour budget. Long-run
 status and results will be added after the actual run completes. No user-visible
 runtime change or website refresh is part of this diagnostic.
+
+## Verification
+
+Run `python3 -B reference/web/performance/session-duration/verify.py <output>`
+after completion. It rejects missing backend reports, incomplete checkpoints,
+short elapsed duration, sampler errors, changed process identities and budget
+violations. `test_verify.py` has12 synthetic controls, including deliberate
+heap/DOM/resource/footprint growth and missing-data failures. These controls are
+verifier tests, not evidence that the app meets the session budget. The verifier
+currently rejects the active run because completed reports do not yet exist.
+
+The actual run launched from `ts` after commit `0f9c8f3`:
+
+```sh
+GEL_SESSION_HOLD_MS=60000 GEL_LIFECYCLE_CYCLES=120 \
+GEL_LIFECYCLE_MEASURE_HEAP=1 GEL_LIFECYCLE_MEASURE_RSS=1 \
+PATH=/opt/homebrew/opt/node@22/bin:$PATH \
+node /private/tmp/gel-browser-compat-1.64/node_modules/@playwright/test/cli.js test \
+-c /private/tmp/gel-browser-compat-1.64/session-duration/metal.config.ts \
+--workers=2 --output=/tmp/gel-session-duration-2h
+```
+
+Log: `/tmp/gel-session-duration-2h.log`. Do not rebuild or replace `ts/dist`
+while this fixed-build run is active. Browser assertions cover populated views
+at each edit checkpoint; the diagnostic does not record every intervening frame.
