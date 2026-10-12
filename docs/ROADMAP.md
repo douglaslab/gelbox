@@ -10,8 +10,8 @@ They do not supersede the current ledger or relax this completion contract.
 ## Execution order as of 2026-10-11
 
 The implementation strategy is unchanged: finish the existing TypeScript web app.
-The local website preview has been refreshed from source `4ba0139` and committed
-in the website repository; its current local release branch is `3316a54`. This includes native-compatible image loading
+The local website preview has been refreshed from source `812ff8a` and committed
+in the website repository at `03d8cf9` on gelbox-web-native-release. This includes native-compatible image loading
 through Open, the right-edge sample-drop correction and native pointer-modifier
 handling. It also restores native Open/Save keyboard shortcuts, verified with
 actual chooser/download sequences in four compiled configurations. Shipping Safari
@@ -30,7 +30,7 @@ A separate [120-cycle frozen-sampling control](../reference/web/performance/sess
 now converges at every checkpoint on both renderers, with maximum heap growth
 below0.8MB. This supports the measurement method, not two-hour acceptance.
 
-The local numerical candidate remains separate from the staged website build.
+The qualified numerical runtime is now included in the locally staged website.
 Original Release fast-math instruction ordering changes float32 positions and
 which multimer wins an overlap. The [qualified Intel reference profile](../reference/native/numerical/release-x86_64/README.md)
 now reproduces the independent clean Intel capture exactly. Original-app saves
@@ -40,8 +40,8 @@ power results resolve the two host-math discrepancies. All3,100 current units,
 tolerances. The full visual suite passes969 cases with one existing skip. Historical strict outputs
 remain preserved. This is case-specific reference qualification, not a claim
 that a modern compiler/Cinder build is equivalent to the entire original app.
-The runtime patch has completed its regression gate and independent code review.
-Refresh the local website after recording the source commit.
+The runtime patch completed its regression gate and independent review, was
+committed as812ff8a, and is staged locally with all223 asset hashes verified.
 
 The fixed `4ba0139` [two-hour frozen-sampling run](../reference/web/performance/session-duration/frozen-session/README.md)
 has completed120 cycles on both renderers. Lifecycle tests pass, but the unchanged

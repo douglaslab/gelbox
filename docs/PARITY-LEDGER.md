@@ -14,11 +14,12 @@ validation, and explicit decisions about known native defects and boundaries.
 
 ## Current candidate and staged release
 
-The website remains staged from runtime `4ba0139`, with native preview
-1.0.1/build20261011. The [local release audit](../reference/native/releases/20261011/local-website-audit.json)
-verified all 223 web asset hashes, eight local HTTP routes and both native
-download hashes. Website commit `3316a54` corrects the Safari Save Sample
-verification note without changing the app bundle. Nothing is published.
+The local website is now staged from runtime `812ff8a` at website commit
+`03d8cf9`, with native preview1.0.1/build20261011 unchanged. The
+[current local audit](../reference/native/numerical/release-x86_64-website-audit.json)
+verifies all223 web assets, eight HTTP routes and both native download hashes.
+The preceding3316a54 website checkpoint and its4ba0139 source remain historical.
+Nothing is published.
 
 The reviewed fractional-shape runtime candidate now passes all 3,100 units
 using the independently qualified [Intel Release reference profile](../reference/native/numerical/release-x86_64/README.md).
@@ -36,8 +37,8 @@ and120 are missing. See the [retained result](../reference/web/performance/sessi
 A subsequent [fresh measurement control](../reference/native/replay/overlapping-tiers/intel-math-diagnostic/recovered-native/README.md)
 now succeeds; it does not repair the missing measurements or qualify the current
 runtime candidate. A [current-runtime two-hour run](../reference/web/performance/session-duration/release-profile-session/README.md)
-is now live after both ten-cycle measurement preflights passed. Website refresh
-and completed current-runtime reliability acceptance remain pending.
+is now live after both ten-cycle measurement preflights passed. The website refresh is complete locally; completed current-runtime reliability
+acceptance remains pending.
 
 ## How to read the records
 
