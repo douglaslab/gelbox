@@ -1,15 +1,20 @@
 import { defineConfig, devices } from '@playwright/test';
+import { linuxCiExcludedSpecs } from './tests/visual/linuxCiScope';
 
 // Fixture imports and intercepted module URLs require a fresh Vite module graph.
 // Reusing an HMR server can create distinct React contexts via ?t= URLs.
 const externalBaseURL=process.env.GEL_BASE_URL;
 const baseURL=externalBaseURL??'http://127.0.0.1:5187';
+// The Linux CI gate runs the WebGL2 project minus specs that need WebGPU, macOS
+// or hardware pixels; see tests/visual/linuxCiScope.ts.
+const linuxCi=process.env.GEL_VISUAL_SCOPE==='linux-ci';
 
 export default defineConfig({
   testDir: './tests/visual',
+  testIgnore: linuxCi ? linuxCiExcludedSpecs.map(spec=>`**/${spec}`) : undefined,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  retries: 0,
   snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}',
   use: {
     // An external server is an explicit diagnostic opt-in, not the default gate.
@@ -23,19 +28,21 @@ export default defineConfig({
     timeout: 30_000,
   },
   projects: [
-    {
-      name: 'chromium-webgpu',
-      use: {
-        ...devices['Desktop Chrome'],
-        launchOptions: {
-          args: [
-            '--enable-unsafe-webgpu',
-            '--enable-features=Vulkan',
-            '--ignore-gpu-blocklist',
-          ],
+    ...(linuxCi ? [] : [
+      {
+        name: 'chromium-webgpu',
+        use: {
+          ...devices['Desktop Chrome'],
+          launchOptions: {
+            args: [
+              '--enable-unsafe-webgpu',
+              '--enable-features=Vulkan',
+              '--ignore-gpu-blocklist',
+            ],
+          },
         },
       },
-    },
+    ]),
     {
       name: 'chromium-webgl2',
       use: {

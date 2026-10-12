@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     defaults:
       run:
         working-directory: web/ts
@@ -38,9 +39,11 @@ jobs:
           fi
           echo "Found SwiftShader Vulkan ICD at: $ICD"
           echo "VK_ICD_FILENAMES=$ICD" >> $GITHUB_ENV
-      # Runs both Playwright projects: chromium-webgpu and chromium-webgl2.
-      # WebGPU tests still self-skip on Linux (chromium-headless can't acquire a
-      # Vulkan adapter reliably even with mesa-vulkan-drivers + the SwiftShader
-      # ICD). WebGL2 tests run everywhere — they're the M4 acceptance gate.
+      # Linux has no WebGPU adapter (even with mesa-vulkan-drivers + the
+      # SwiftShader ICD) and renders WebGL2 in software, so CI runs only the
+      # chromium-webgl2 project minus the specs listed in
+      # tests/visual/linuxCiScope.ts. The full suite runs locally on macOS.
       - run: npm run test:visual
+        env:
+          GEL_VISUAL_SCOPE: linux-ci
       - run: npm run build
