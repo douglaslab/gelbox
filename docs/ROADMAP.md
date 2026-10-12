@@ -76,7 +76,10 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    native/web trace across all four configurations ([evidence](../reference/native/replay/occupied-loupe/README.md)).
    An [Option tube clone followed by destination selection](../reference/native/replay/option-clone/README.md)
    now matches the complete native saved document and final selected sample/species
-   in all four configurations. Continue persistent-loupe clone histories/Shift-lock,
+   in all four configurations. [Shift-band transfer](../reference/native/replay/shift-band/README.md)
+   also preserves the exact 719-base fragment while changing lanes despite vertical
+   pointer movement, matching the full native save and final panels in four configurations.
+   Continue persistent-loupe clone histories and other modifier combinations,
    remaining picked aggregate offsets and slider/focus/secondary-button branches.
    Keep exact saved-document comparisons and observable view/selection checks.
    The native clone trace is lane2→lane3 followed by a click on the clone, as

@@ -3,6 +3,44 @@ import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {serveBuiltApp} from './built-app';
 
+test('native Shift band transfer preserves size despite downward pointer movement',async({page},info)=>{
+ const root=path.resolve('../reference/native/replay/shift-band');
+ const before=JSON.parse(await readFile(path.join(root,'native-before-shift.json'),'utf8'));
+ const native=JSON.parse(await readFile(path.join(root,'native-after-shift.json'),'utf8'));
+ expect(native.Gel.Samples[4].Fragments).toEqual(before.Gel.Samples[3].Fragments);
+ expect(native.Gel.Samples[3].Fragments).toBeNull();
+ const app=await serveBuiltApp('/gelbox/');
+ try{
+  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.goto(`${app.url}#/gel`);
+  const menu=page.getByRole('button',{name:'Application settings'});
+  await menu.click();await page.getByTestId('file-input').setInputFiles(path.join(root,'native-before-shift.json'));
+  await page.getByTestId('band-2').click();
+  await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('before-shift.png')});
+  const band=(await page.getByTestId('band-3').boundingBox())!;
+  const target=(await page.getByTestId('microtube-4').boundingBox())!;
+  await page.keyboard.down('Shift');
+  await page.mouse.move(band.x+band.width/2,band.y+band.height/2);await page.mouse.down();
+  await page.mouse.move(target.x+target.width/2,band.y+band.height/2+70,{steps:8});
+  await page.mouse.up();await page.keyboard.up('Shift');
+  await expect(page.locator('[data-testid^="band-"]')).toHaveCount(4);
+  await expect(page.getByTestId('microtube-3')).not.toHaveAttribute('data-empty','true');
+  await expect(page.getByTestId('sample-view')).toHaveAttribute('data-lane-index','4');
+  await expect(page.getByTestId('fragment-view')).toBeVisible();
+  await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+  const bytes=await readFile((await (await pending).path())!);
+  const actual=JSON.parse(bytes.toString());
+  // Native encodes the retained empty source's Fragments as null; web uses [].
+  expect(actual.Gel.Samples[3].Fragments).toEqual([]);
+  const comparable=structuredClone(native);comparable.Gel.Samples[3].Fragments=[];
+  expect(actual).toEqual(comparable);
+  expect(actual.Gel.Samples[4].Fragments[0].Bases).toBe(719);
+  await writeFile(info.outputPath('web-after-shift.json'),bytes);
+  if(await menu.getAttribute('aria-expanded')==='true')await menu.click();
+  await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('after-shift.png')});
+ }finally{await app.close();}
+});
+
 test('native Option tube clone and destination click retain the complete sample',async({page},info)=>{
  const root=path.resolve('../reference/native/replay/option-clone');
  const native=async(name:string)=>JSON.parse(await readFile(path.join(root,name),'utf8'));

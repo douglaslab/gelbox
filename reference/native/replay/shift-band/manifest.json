@@ -1,0 +1,20 @@
+{
+  "README.md": "0ff6f582b9a9024203a1ff519919d7c0694800a0c54703b3ee7f869e4b90fc67",
+  "chromium-webgl2/after-shift.png": "7e7697fe4186071f9be7729272488513c841f64812860eadd66872ded3b6014f",
+  "chromium-webgl2/before-shift.png": "ce2438fdcb3bf381797ae730747bdb0a313352ed12a04bac3858bbf4eb9ee08d",
+  "chromium-webgl2/web-after-shift.json": "74d14b87aad45f42495a08aa754a6702c3ea659da6d511a4fe1c8dda14100b52",
+  "chromium-webgpu/after-shift.png": "7e7697fe4186071f9be7729272488513c841f64812860eadd66872ded3b6014f",
+  "chromium-webgpu/before-shift.png": "ce2438fdcb3bf381797ae730747bdb0a313352ed12a04bac3858bbf4eb9ee08d",
+  "chromium-webgpu/web-after-shift.json": "74d14b87aad45f42495a08aa754a6702c3ea659da6d511a4fe1c8dda14100b52",
+  "compatibility.log": "5c7e9097baf8241657107e83c2860dea6fda7886b7c9ba4e5d2a8d7ad6d3a863",
+  "compiled-assets.json": "4c6aab2a1e52638e0298bf0a68c36c1ec55352a2ef0b388487ec86150a4a5a8c",
+  "firefox-webgl2/after-shift.png": "fa002e3d728593953c28a86bae498a49ec8237da8f7dde9a7bbc97ce33a43587",
+  "firefox-webgl2/before-shift.png": "006ed6892185b38e8e4efa6e063f9e1122419dfb2331475d8e811f03fde70a60",
+  "firefox-webgl2/web-after-shift.json": "74d14b87aad45f42495a08aa754a6702c3ea659da6d511a4fe1c8dda14100b52",
+  "native-after-shift.json": "375e00283885b6f4944bcfad3d1fb855d93669876c5191c7baa86aea8c5b804b",
+  "native-before-shift.json": "b004cbae4cf3d9870960246a3e67af46f20839244d1b8e26969df3a9c4fc274b",
+  "production.log": "bdd965efa39eb14910cbf59398290561fb5ee79b6d60cbfba8d0a6a0258c2937",
+  "webkit-webgl2/after-shift.png": "41da569aaf410faa25b9e46cefdcf7f7946b945782f2e24546dba6a6e15a8e47",
+  "webkit-webgl2/before-shift.png": "dfeec0d2cec08c82d139bd28d6a102c8cdc4763a0a1a3bbc4e3b13a3919701fe",
+  "webkit-webgl2/web-after-shift.json": "74d14b87aad45f42495a08aa754a6702c3ea659da6d511a4fe1c8dda14100b52"
+}
