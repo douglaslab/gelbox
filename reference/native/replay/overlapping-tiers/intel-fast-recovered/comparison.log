@@ -1,0 +1,14 @@
+[?25l
+ RUN  v3.0.0 /private/tmp/gel-intel-fast-reference-check/ts
+
+ ✓ tests/unit/nativeLoupe.test.ts (26 tests) 52ms
+ ✓ tests/unit/nativeSolver.test.ts (509 tests) 648ms
+ ✓ tests/unit/nativeMolecular.test.ts (509 tests) 663ms
+ ✓ tests/unit/nativeNumerical.test.ts (514 tests) 688ms
+
+ Test Files  4 passed (4)
+      Tests  1558 passed (1558)
+   Start at  17:38:19
+   Duration  923ms (transform 89ms, setup 0ms, collect 227ms, tests 2.05s, environment 0ms, prepare 138ms)
+
+[?25h

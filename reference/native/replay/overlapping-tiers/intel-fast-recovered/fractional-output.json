@@ -1,0 +1,266 @@
+[
+  {
+    "bands": [
+      {
+        "aggregate": 1,
+        "blur": 1,
+        "brightness": 0.8814587593078613,
+        "color": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "flameHeight": 0.0,
+        "mass": 125.0,
+        "randSeed": 9066,
+        "rect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 49.2686767578125,
+          "y2": 55.870819091796875
+        },
+        "smearAbove": 0.0,
+        "smearBelow": -0.5153579711914063,
+        "smearBrightnessAbove": [
+          0.8814587593078613,
+          0.0
+        ],
+        "smearBrightnessBelow": [
+          0.0,
+          0.0
+        ],
+        "smileExp": 4.0,
+        "smileHeight": 2.3107497692108154,
+        "wellDamage": 0.0,
+        "wellDamageRandSeed": 0
+      }
+    ],
+    "id": "shape-boundary-y61",
+    "loupeProbes": [],
+    "molecular": [
+      {
+        "aggregateWeightSum": 1.0,
+        "isDye": false,
+        "radius": {
+          "x": 11.582767486572266,
+          "y": 9.652305603027344
+        },
+        "targetPop": 35.71428680419922,
+        "wholenessHi": 1.0,
+        "wholenessLo": 1.0
+      }
+    ],
+    "molecularFiltered": [],
+    "nativeMetadata": [
+      {
+        "aspectRatio": 1.2000000476837158,
+        "bases": 4001,
+        "degradeHi": 1,
+        "degradeLo": 1,
+        "dye": -1,
+        "focusColor": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "fragment": 0,
+        "lane": 0,
+        "uiRect": {
+          "x1": 12.928571701049805,
+          "x2": 42.78571319580078,
+          "y1": 48.2686767578125,
+          "y2": 56.35546112060547
+        },
+        "wellRect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 17.214284896850586,
+          "y2": 22.78571319580078
+        }
+      }
+    ],
+    "solved": [
+      {
+        "aggregate": 1,
+        "bases": 3001,
+        "targetY": 61
+      }
+    ]
+  },
+  {
+    "bands": [
+      {
+        "aggregate": 1,
+        "blur": 1,
+        "brightness": 0.8814587593078613,
+        "color": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "flameHeight": 0.0,
+        "mass": 125.0,
+        "randSeed": 9418,
+        "rect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 50.739051818847656,
+          "y2": 57.3411979675293
+        },
+        "smearAbove": 0.0,
+        "smearBelow": -0.5153579711914063,
+        "smearBrightnessAbove": [
+          0.8814587593078613,
+          0.0
+        ],
+        "smearBrightnessBelow": [
+          0.0,
+          0.0
+        ],
+        "smileExp": 4.0,
+        "smileHeight": 2.31075119972229,
+        "wellDamage": 0.0,
+        "wellDamageRandSeed": 0
+      }
+    ],
+    "id": "shape-boundary-y63",
+    "loupeProbes": [],
+    "molecular": [
+      {
+        "aggregateWeightSum": 1.0,
+        "isDye": false,
+        "radius": {
+          "x": 11.582767486572266,
+          "y": 9.652305603027344
+        },
+        "targetPop": 35.71428680419922,
+        "wholenessHi": 1.0,
+        "wholenessLo": 1.0
+      }
+    ],
+    "molecularFiltered": [],
+    "nativeMetadata": [
+      {
+        "aspectRatio": 1.2000000476837158,
+        "bases": 4001,
+        "degradeHi": 1,
+        "degradeLo": 1,
+        "dye": -1,
+        "focusColor": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "fragment": 0,
+        "lane": 0,
+        "uiRect": {
+          "x1": 12.928571701049805,
+          "x2": 42.78571319580078,
+          "y1": 49.739051818847656,
+          "y2": 57.82583999633789
+        },
+        "wellRect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 17.214284896850586,
+          "y2": 22.78571319580078
+        }
+      }
+    ],
+    "solved": [
+      {
+        "aggregate": 1,
+        "bases": 3001,
+        "targetY": 63
+      }
+    ]
+  },
+  {
+    "bands": [
+      {
+        "aggregate": 1,
+        "blur": 1,
+        "brightness": 0.8814587593078613,
+        "color": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "flameHeight": 0.0,
+        "mass": 125.0,
+        "randSeed": 10475,
+        "rect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 55.15019989013672,
+          "y2": 61.75234603881836
+        },
+        "smearAbove": 0.0,
+        "smearBelow": -0.5153579711914063,
+        "smearBrightnessAbove": [
+          0.8814587593078613,
+          0.0
+        ],
+        "smearBrightnessBelow": [
+          0.0,
+          0.0
+        ],
+        "smileExp": 4.0,
+        "smileHeight": 2.31075119972229,
+        "wellDamage": 0.0,
+        "wellDamageRandSeed": 0
+      }
+    ],
+    "id": "shape-boundary-y69",
+    "loupeProbes": [],
+    "molecular": [
+      {
+        "aggregateWeightSum": 1.0,
+        "isDye": false,
+        "radius": {
+          "x": 11.582767486572266,
+          "y": 9.652305603027344
+        },
+        "targetPop": 35.71428680419922,
+        "wholenessHi": 1.0,
+        "wholenessLo": 1.0
+      }
+    ],
+    "molecularFiltered": [],
+    "nativeMetadata": [
+      {
+        "aspectRatio": 1.2000000476837158,
+        "bases": 4001,
+        "degradeHi": 1,
+        "degradeLo": 1,
+        "dye": -1,
+        "focusColor": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "fragment": 0,
+        "lane": 0,
+        "uiRect": {
+          "x1": 12.928571701049805,
+          "x2": 42.78571319580078,
+          "y1": 54.15019989013672,
+          "y2": 62.23698806762695
+        },
+        "wellRect": {
+          "x1": 13.928571701049805,
+          "x2": 41.78571319580078,
+          "y1": 17.214284896850586,
+          "y2": 22.78571319580078
+        }
+      }
+    ],
+    "solved": [
+      {
+        "aggregate": 1,
+        "bases": 3001,
+        "targetY": 69
+      }
+    ]
+  }
+]

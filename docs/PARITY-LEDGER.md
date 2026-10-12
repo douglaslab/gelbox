@@ -297,3 +297,14 @@ numerical, loupe and molecular cases. See
 [Intel-backed evidence](../reference/native/replay/overlapping-tiers/intel-math-diagnostic/recovered-native/README.md).
 The historical54-failure result remains valid for its old diagnostic fixture.
 No canonical corpus, runtime patch or staged website was replaced.
+
+## Recovered Intel source-control comparison
+
+A clean-rebuilt Intel simulation-only fast-math source control now produces
+repeatable509-case output. It matches all12 independent original-GUI integer and
+fractional solver checkpoints. The four unchanged suites containing the remaining
+52 failures all pass (1558 cases) against this capture in an isolated directory.
+[Evidence and limitations](../reference/native/replay/overlapping-tiers/intel-fast-recovered/README.md).
+This identifies the older strict reference build as the cause of those failures;
+canonical capture integration, historical-reference retention, main-gate rerun
+and final candidate qualification are still pending. No website refresh occurred.
