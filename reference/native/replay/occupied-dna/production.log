@@ -1,0 +1,15 @@
+
+Running 2 tests using 2 workers
+
+(node:50775) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50775) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium-webgl2] › tube-movement.spec.ts:6:1 › native occupied DNA transfer and post-save deletion preserve destination sample (660ms)
+  ✓  2 [chromium-webgpu] › tube-movement.spec.ts:6:1 › native occupied DNA transfer and post-save deletion preserve destination sample (661ms)
+
+  2 passed (1.0s)

@@ -3,6 +3,47 @@ import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {serveBuiltApp} from './built-app';
 
+test('native occupied DNA transfer and post-save deletion preserve destination sample',async({page},info)=>{
+ const root=path.resolve('../reference/native/replay/occupied-dna');
+ const app=await serveBuiltApp('/gelbox/');
+ try{
+  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.goto(`${app.url}#/gel`);
+  const menu=page.getByRole('button',{name:'Application settings'});
+  await menu.click();await page.getByTestId('file-input').setInputFiles(path.join(root,'input.json'));
+  await page.getByTestId('band-3').click();
+  await page.keyboard.press('a');
+  // Native screenshot /2 minus the 28-logical-pixel title bar.
+  await page.mouse.move(459,392);await page.mouse.down();
+  await page.mouse.move(347,392);await page.mouse.up();
+  await expect(page.getByTestId('sample-view')).toHaveAttribute('data-lane-index','2');
+  await expect(page.getByTestId('fragment-view')).toBeVisible();
+  await expect(page.locator('[data-testid^="band-"]')).toHaveCount(4);
+  for(const lane of [3,4])await expect(page.getByTestId(`microtube-${lane}`)).not.toHaveAttribute('data-empty','true');
+  const checkpoint=async(name:string)=>{
+   await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+   const bytes=await readFile((await (await pending).path())!);
+   const actual=JSON.parse(bytes.toString());
+   const native=JSON.parse(await readFile(path.join(root,`native-after-${name}.json`),'utf8'));
+   for(const lane of [3,4]){
+    expect(native.Gel.Samples[lane].Fragments).toBeNull();
+    expect(actual.Gel.Samples[lane].Fragments).toEqual([]);
+    native.Gel.Samples[lane].Fragments=[];
+   }
+   expect(actual).toEqual(native);
+   await writeFile(info.outputPath(`web-after-${name}.json`),bytes);
+   if(await menu.getAttribute('aria-expanded')==='true')await menu.click();
+   await page.mouse.move(0,0);await page.screenshot({path:info.outputPath(`after-${name}.png`)});
+  };
+  await checkpoint('transfer');
+  await page.keyboard.press('Backspace');
+  await expect(page.locator('[data-testid^="band-"]')).toHaveCount(3);
+  await expect(page.getByTestId('sample-view')).toHaveAttribute('data-lane-index','2');
+  await expect(page.getByTestId('fragment-view')).toHaveCount(0);
+  await checkpoint('delete');
+ }finally{await app.close();}
+});
+
 test('native Shift band transfer preserves size despite downward pointer movement',async({page},info)=>{
  const root=path.resolve('../reference/native/replay/shift-band');
  const before=JSON.parse(await readFile(path.join(root,'native-before-shift.json'),'utf8'));

@@ -79,6 +79,8 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    in all four configurations. [Shift-band transfer](../reference/native/replay/shift-band/README.md)
    also preserves the exact 719-base fragment while changing lanes despite vertical
    pointer movement, matching the full native save and final panels in four configurations.
+   [Occupied DNA transfer followed by post-save deletion](../reference/native/replay/occupied-dna/README.md)
+   also matches both native documents and panel transitions in four configurations.
    Continue persistent-loupe clone histories and other modifier combinations,
    remaining picked aggregate offsets and slider/focus/secondary-button branches.
    Keep exact saved-document comparisons and observable view/selection checks.
