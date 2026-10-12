@@ -46,6 +46,12 @@ under the repository's pinned runner. Retained views, resumed paint and saved
 state are verified. These three automated cases do not replace shipping-browser,
 physical display or OS sleep observations.
 
+A [shipping Safari current-runtime sample-view check](../reference/web/lifecycle/release-profile-safari/README.md)
+now verifies actual tab-away/tab-back, visible resumed particle motion and exact
+before/after saved documents. Persistent-loupe continuation and physical
+sleep/display checks remain open; no hidden-frame or internal-identity claim
+is made from these observations.
+
 ## How to read the records
 
 **Verified** means the stated bounded scenario or comparison is proved by the
