@@ -9,6 +9,8 @@ http://www.douglaslab.org/gelbox/
 
 ## To build
 
+### macOS
+
 Gelbox is a [Cinder](https://libcinder.org) app and builds with CMake on macOS. It needs Xcode (for the command-line tools and SDK), CMake 3.16 or newer (`brew install cmake`), and a Cinder checkout next to this repository. Cinder's `master` branch is required; the last tagged release, v0.9.3, does not compile against current macOS SDKs. Cinder commit `f90f332d1` is known to work.
 
 1. Clone and build Cinder as a sibling of the Gelbox directory:
@@ -38,6 +40,35 @@ The build links `assets/` into `Gelbox.app/Contents/Resources` (and beside the a
 
 To work in Xcode, generate a project instead of makefiles: `cmake -S proj/cmake -B build-xcode -G Xcode`, then open `build-xcode/Gelbox.xcodeproj`.
 
+### Windows
+
+Install Visual Studio 2022 Build Tools and Git for Windows:
+
+```powershell
+winget install --id Microsoft.VisualStudio.2022.BuildTools --exact --override "--quiet --wait --norestart --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+winget install --id Git.Git --exact
+```
+
+Clone Cinder beside Gelbox, check out `f90f332d1a4d453282c76435f3401271f25922f9`,
+and run `git submodule update --init --recursive`. From the Gelbox checkout:
+
+```bat
+tools\win\build-cinder.cmd Release
+tools\win\build.cmd Release
+```
+
+The app is `build-win-Release\Gelbox.exe`, with a real `assets` folder beside
+it. For an installer, install Inno Setup 6 with
+`winget install --id JRSoftware.InnoSetup --exact`, then run
+`tools\win\package.cmd 1.0.2`. Output: `dist\Gelbox-Setup-1.0.2.exe`.
+See [Windows build and testing details](tools/win/README.md).
+
+Desktop downloads and installation instructions are published at
+[the Gelbox website](https://douglaslab.org/gelbox/); release assets are also
+available from [GitHub Releases](https://github.com/douglaslab/gelbox/releases).
+The Windows release is unsigned. The Apple Silicon release is ad-hoc signed
+and not notarized. OS warnings are expected; see the download instructions.
+
 ## Commands and Shortcuts
 
 On Windows, read Ctrl for the command key and Alt for option.
@@ -65,10 +96,10 @@ On Windows, read Ctrl for the command key and Alt for option.
 
 ## Distribution builds
 
-For a self-contained Apple Silicon build with the 2026-10-10 fixes:
+For a self-contained Apple Silicon distribution build:
 
 ```sh
-cmake -S proj/cmake -B build-distribution -DCMAKE_BUILD_TYPE=Release -DCINDER_COPY_ASSETS=ON -DGELBOX_VERSION=1.0.1 -DGELBOX_BUILD_NUMBER=20261010
+cmake -S proj/cmake -B build-distribution -DCMAKE_BUILD_TYPE=Release -DCINDER_COPY_ASSETS=ON -DGELBOX_VERSION=1.0.2 -DGELBOX_BUILD_NUMBER=20261011
 cmake --build build-distribution -j 8
 ```
 
@@ -76,5 +107,6 @@ Version 1.0.1 starts DNA bands flat and ramps curvature over the first ten
 simulated minutes; negative voltage reverses the curvature. The macOS build
 uses current Cinder and embeds its assets for distribution. The arm64 build
 is not an Intel binary. Public Developer ID signing and notarization are
-separate release steps; the locally prepared 2026-10-10 package is ad-hoc
-signed and not notarized.
+optional future release steps; version 1.0.2 is ad-hoc signed and not notarized.
+Version 1.0.2 adds the Windows port and command-line file opening without
+changing the simulation model.

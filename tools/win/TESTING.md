@@ -3,7 +3,8 @@
 Last tested: 2026-10-11 on ndskpc1, Windows 11, Intel Arc 140T.
 Plan: [2026-10-10 Windows port](../../docs/superpowers/plans/2026-10-10-windows-port.md).
 
-Tasks 1–10 are complete. Task 11, numerical rendering parity, is next.
+Tasks 1–14 are complete, with Task 13 changed to unsigned distribution at
+Shawn’s request. Release documentation and final review are in progress.
 
 ## Verified
 
@@ -43,19 +44,27 @@ sign-in settings were changed by the test scripts.
 - Close the old gel settings panel when loading a new gel: its buffer controls
   held a reference to the previous model and could otherwise edit that old gel.
 
-## Still to do, in plan order
+## Release validation
 
-1. **Task 11: numerical Mac/Windows render parity.** Create the shared fixture,
-   compare gel crops and lane centroids, and consider ANGLE only if measured
-   differences exceed the plan's limits. Smooth molecular circles alone do not
-   establish gel-render parity. Also resolve the existing startup-file interface:
-   `run.ps1 -Open` passes a path, but the app currently has no command-line loader.
-2. **Task 12: installer.** Package, install, launch and uninstall the unsigned build.
-3. **Task 13: signing checkpoint with Shawn.** Certificate choice, purchase and
-   identity verification belong to Shawn; wire signing after those are available.
-4. **Tasks 14–15:** Windows CI, release/build documentation, final cleanup and
-   whole-change review. Confirm any screen/sign-in settings Shawn changed are
-   restored. There is no signed installer or CI validation yet.
+- Task 11: native Mac/Windows parity passes: mean grayscale difference0.0861/255,
+  maximum lane-centroid difference0.1568px. Startup file loading verified.
+- Task 12: Inno Setup6.7.3 installer installs, launches and uninstalls successfully.
+  All99 installed asset files match their source SHA-256 hashes; Start menu
+  shortcut created and removed; installation directory removed after uninstall.
+- Task 13: user chose unsigned Windows distribution; no signing purchase pending.
+- Task 14: [hosted Windows build](https://github.com/douglaslab/gelbox/actions/runs/38207870780)
+  passes and uploads executable plus assets.
+- Mac1.0.2: embedded-assets Release build is arm64; ad-hoc signature and disk-image
+  checksum verify. Launch directly from mounted read-only DMG passes eleven loads
+  and four MSAA samples, with only the known missing high-resolution tube icon.
 
-The detailed execution ledger and screenshots remain in the ignored
-`.superpowers/sdd/2026-10-10-windows-port/` workspace on the Mac.
+The Windows test processes are stopped and the GelboxRun, GelboxShot,
+GelboxTest and GelboxInstall scheduled tasks are removed. No agent changes
+were made to power, sign-in or security settings; Shawn restored display scale
+to100%, verified earlier at nativeDPI96.
+
+## Remaining release work
+
+Final whole-change review, upload and public download verification.
+Reference-based buffer and sample-load modeling is a separate follow-up:
+[research notes](../../docs/research/2026-10-11-gel-model-reference.md).

@@ -122,3 +122,16 @@ executable and installer are **unsigned**. Windows may show SmartScreen or an
 for this release. The download page must disclose this status and provide
 SHA-256 checksums. Signing can be added later; no credentials or signing
 configuration are stored in this repository.
+
+### Continuous integration and downloads
+
+The `windows` GitHub Actions workflow builds the pinned Cinder revision on
+`windows-2022`, caches it, builds Gelbox and uploads executable plus assets.
+The first run passed: https://github.com/douglaslab/gelbox/actions/runs/38207870780.
+The compressed artifact is about1.7MB; installed assets occupy more space.
+
+Public downloads: https://douglaslab.org/gelbox/ and
+https://github.com/douglaslab/gelbox/releases. Version1.0.2 is unsigned.
+Remote development helpers require an unlocked console session. Use
+`run.ps1`, `screenshot.ps1` and `stop.ps1`; remove the `GelboxShot` task after
+screenshots with `Unregister-ScheduledTask GelboxShot -Confirm:$false`.
