@@ -1,5 +1,7 @@
 # Gelbox web parity roadmap
 
+> **Beta release decision — 2026-10-12:** Shawn approved launching the current web app as a beta and continuing detailed parity testing during beta. The remaining native/platform scenarios below are follow-up work, not prerequisites for this beta. This does not claim complete native parity. The qualified runtime and its accepted differences remain unchanged.
+
 _2026-10-09 · Replacement roadmap · Product direction confirmed; native reference collection underway._
 
 Current execution evidence and the finite remaining acceptance packages are in

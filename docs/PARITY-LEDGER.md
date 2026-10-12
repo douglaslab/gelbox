@@ -1,5 +1,7 @@
 # Current parity acceptance ledger
 
+> **Beta release decision — 2026-10-12:** Shawn approved launching the current web app as a beta and continuing detailed parity testing during beta. The remaining native/platform scenarios below are follow-up work, not prerequisites for this beta. This does not claim complete native parity. The qualified runtime and its accepted differences remain unchanged.
+
 Evidence index updated through runtime `812ff8a` and its completed two-hour run, 2026-10-11; bounded records retain their
 own source revisions. This replaces the initial
 findings in [PORT-AUDIT](PORT-AUDIT.md) as the current evidence index. The
