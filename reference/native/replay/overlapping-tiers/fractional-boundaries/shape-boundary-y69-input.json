@@ -1,0 +1,53 @@
+{
+  "Gel": {
+    "Buffer": {
+      "Tris": 44.5,
+      "Borate": 44.5,
+      "Acetate": 0,
+      "EDTA": 1
+    },
+    "Samples": [
+      {
+        "Buffer": {
+          "Tris": 44.5,
+          "Borate": 44.5,
+          "Acetate": 0,
+          "EDTA": 1
+        },
+        "Fragments": [
+          {
+            "Aggregate": [
+              1
+            ],
+            "AspectRatio": 1.2,
+            "Bases": 4001,
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "Degrade": 0,
+            "Mass": 125
+          }
+        ],
+        "icon": "microtube1500ul.png",
+        "iconScale": 0.625,
+        "id": 2147483647,
+        "name": "shape-boundary-y69"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "Time": 0.37,
+    "Voltage": 45.85369110107422,
+    "WellDamage": 0
+  },
+  "Gelbox": {
+    "type": "gel",
+    "version": "1.0"
+  }
+}

@@ -21,3 +21,14 @@ shape diagnostic cases). The 24-case diagnostic fails eight cases before the
 change and two afterward. This is an unqualified intermediate candidate, retained
 uncommitted in the main worktree. Website and stability-test bundles are unchanged.
 The earlier candidate's full browser/visual passes do not certify this patch.
+
+## Subsequent original-app qualification
+
+The nine integer boundaries now match original native saves and36 compiled
+replays (../boundaries/). Three additional fractional-shape drag controls now
+produce3001bp in the original app, matching the candidate and contradicting the
+arm64 powf hook's2937/2937/2999 predictions. All3 units and12 compiled cases pass;
+see ../fractional-boundaries/. This supplies original-GUI evidence for the
+disputed power input. The old host-hook geometry diagnostics remain historical
+comparisons rather than certified native expectations. Broader source-reference
+reconciliation and final candidate qualification remain outstanding.

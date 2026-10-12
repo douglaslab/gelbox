@@ -1,0 +1,11 @@
+[?25l
+ RUN  v3.0.0 /Users/shawn/.codex/worktrees/3f9f/gel/ts
+
+ ✓ tests/unit/nativeFractionalBoundaries.test.ts (3 tests) 6ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  17:30:09
+   Duration  264ms (transform 56ms, setup 0ms, collect 66ms, tests 6ms, environment 0ms, prepare 34ms)
+
+[?25h

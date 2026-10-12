@@ -275,3 +275,13 @@ captures failed. The unchanged verifier rejects the retained report. See
 [complete evidence](../reference/web/performance/session-duration/frozen-session/README.md).
 W08 remains open. Do not repeat this soak until the capture failure is resolved;
 this result does not qualify the separate uncommitted numerical candidate.
+
+## Original-native fractional-shape qualification
+
+Three carefully selected fractional-shape drags now distinguish rounded double
+power from the arm64 power hook. Original native saves3001bp in all three cases,
+matching the candidate, with3 unit and12 compiled comparisons passing. The hook
+predicts2937/2937/2999 and is rejected for these scenarios. See
+[fractional boundary evidence](../reference/native/replay/overlapping-tiers/fractional-boundaries/README.md).
+This resolves the observable behavior for the disputed power input; it does not
+qualify the full source-reference corpus or all math-library inputs.

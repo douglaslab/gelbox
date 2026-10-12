@@ -62,3 +62,29 @@ for(const [id,target] of [['boundary-bp1001-y233',233],['boundary-bp1001-y254',2
   }finally{await app.close();}
  });
 }
+
+for(const [target,startY,delta] of [[61,176.5,12],[63,178,13],[69,182.5,14]] as const){
+ test(`original GUI fractional boundary y${target}`,async({page},info)=>{
+  const app=await serveBuiltApp('/gelbox/');
+  try{
+   const root=path.resolve('../reference/native/replay/overlapping-tiers/fractional-boundaries');
+   const id=`shape-boundary-y${target}`;
+   await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+   await page.goto(`${app.url}#/gel`);
+   const menu=page.getByRole('button',{name:'Application settings'});
+   await menu.click();await page.getByTestId('file-input').setInputFiles(path.join(root,`${id}-input.json`));
+   await expect(menu).toHaveAttribute('aria-expanded','false');
+   await page.mouse.move(236,startY);await page.mouse.down();await page.mouse.move(236,startY+delta);await page.mouse.up();
+   await expect(page.getByTestId('fragment-view')).toBeVisible();
+   await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-sample-btn').click();
+   const bytes=await readFile((await (await pending).path())!);await writeFile(info.outputPath(`${id}-web.json`),bytes);
+   const actual=JSON.parse(bytes.toString());
+   const native=JSON.parse(await readFile(path.join(root,`${id}-native.json`),'utf8'));
+   expect(actual.Sample.Fragments).toHaveLength(1);
+   expect(actual.Sample.Fragments[0].AspectRatio).toBe(1.2);
+   expect(native.Sample.Fragments[0].AspectRatio).toBe(Math.fround(1.2));
+   actual.Sample.Fragments[0].AspectRatio=Math.fround(actual.Sample.Fragments[0].AspectRatio);
+   expect(actual).toEqual(native);
+  }finally{await app.close();}
+ });
+}
