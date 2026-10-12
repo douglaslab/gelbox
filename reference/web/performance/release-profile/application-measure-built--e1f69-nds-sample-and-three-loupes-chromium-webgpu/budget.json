@@ -1,0 +1,9 @@
+{
+  "profile": "m5-max",
+  "steadyP95Ms": 26,
+  "steadyP99Ms": 34,
+  "callbackP95Ms": 4,
+  "gestureP95Ms": 26,
+  "gestureP99Ms": 34,
+  "resourceGrowth": 0
+}

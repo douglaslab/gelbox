@@ -52,6 +52,11 @@ before/after saved documents. Persistent-loupe continuation and physical
 sleep/display checks remain open; no hidden-frame or internal-identity claim
 is made from these observations.
 
+The [staged runtime responsiveness gate](../reference/web/performance/release-profile/README.md)
+passes both backends under the unchanged M5 Max budget, with50bands and three
+populated persistent loupes. This bounded timing/resource check does not replace
+the still-running two-hour memory acceptance.
+
 ## How to read the records
 
 **Verified** means the stated bounded scenario or comparison is proved by the
