@@ -1,0 +1,2 @@
+# Evidence data stays in the repository but out of source archives.
+web/reference/ export-ignore
