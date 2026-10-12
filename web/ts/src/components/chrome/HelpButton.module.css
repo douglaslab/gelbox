@@ -1,0 +1,3 @@
+.helpButton img { display: block; }
+.helpButton:hover img { filter: brightness(.9); }
+.helpButton:active:hover img { filter: brightness(.7); }

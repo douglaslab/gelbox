@@ -1,0 +1,20 @@
+{
+  "source_parent": "989b29f",
+  "artifacts": {
+    "visual.log.gz": "b12a7002c19012b86f9bd984dc7ad3a9a220fcb71c409bc89f413f64a937e2dc",
+    "typecheck.log.gz": "0f03a0c93637a34d4ed5dee8c2250e738ac47d9ba80cdad0bdfce5a4251adb4e",
+    "website-release.json": "7f8a18882716a6a78a484fcec82e32b5bc7d1fa24dab80f2bafc97a79d76b00a",
+    "full-unit.log.gz": "256d8c991067071dc61580e9f703f5c0082da5319a54787bd621ad8d469a9402",
+    "compiled-assets.json": "4ad3d45b75d6fe432c277eeb0a77c5bd54ef13f37fb19750a7b2e97828dcd610",
+    "unit.log.gz": "e70d35c71d0ec7ac4432749ece2a26d16943483b1ef2ce60ea1d98fae0a8c54e",
+    "full-compatibility.log.gz": "63b75801dcf04d8517b90ea3e7dbbbd9c22cae9e6d8f4da4836da9301d7f87eb",
+    "native-accelerator.txt": "0ab9af0ffeef262afa63fc0862134b2f277bb854148e20b4361f4459b67487bd",
+    "README.md": "8eab5f8e9f41c2d348417ed3619b096f67e857963312ec6bafd89d9e1fdf042a",
+    "full-production.log.gz": "c32ee9719eb773b7120a7cc3ea3bdb96f81feb12919ec8953763af7589d1b5b1",
+    "platform-unit.log.gz": "d0f4a089ac4879b55ebe3f96cff4cfcb236b5bf264d94fec66fd53e9fa36acad",
+    "compiled-modifiers.log.gz": "a093f2331709cee0910a4627264fb5f0de71f63511f508fe8778b35168d1e805",
+    "red.log.gz": "76c079e680908a3dcbb6f4a01268b92d628edd6540d9f7e8ae64b2c91412ecf7"
+  },
+  "compiled_runtime_commit": "bdc7fbd",
+  "compiled_interaction_test_sha256": "00f7520768ac91ec79e9deade10c4f6d1003a619de95d1b198484992e5e3c826"
+}

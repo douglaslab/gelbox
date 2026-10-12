@@ -1,0 +1,161 @@
+.root {
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  font-family: 'Avenir', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: #777777;
+}
+
+.iconSlot {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.icon {
+  display: block;
+  flex: 0 0 auto;
+  pointer-events: auto;
+}
+
+.icon[data-highlighted="true"] {
+  filter: brightness(0.5);
+}
+
+.disabled .icon {
+  filter: brightness(0.85) opacity(0.5);
+}
+
+.track {
+  position: relative;
+  flex: 1 1 auto;
+  height: 20px;
+}
+
+.line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  color: #979797;
+}
+
+.disabled .line {
+  color: #E5E5E5;
+}
+
+.handle {
+  position: absolute;
+  width: 16px;
+  height: 20px;
+  top: 0;
+  cursor: grab;
+}
+
+.handle:active { cursor: grabbing; }
+
+.disabled .handle {
+  cursor: default;
+}
+
+.bar {
+  position: relative;
+  flex: 1 1 auto;
+  height: 23px;
+  border-radius: 4px;
+  background: #E8EBF1;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.barFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: #AEB6C3;
+  border-radius: inherit;
+}
+
+.barLabel {
+  position: absolute;
+  /* Native baseline is bar bottom - 8; Avenir's 18px line box has a 13px baseline. */
+  top: calc(100% - 21px);
+  line-height: 18px;
+  font-size: 12px;
+  color: #333333;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.disabled .bar {
+  cursor: default;
+}
+
+.graph {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  height: 32px;
+}
+
+.graphCol {
+  position: relative;
+  flex: 1 1 0;
+  background: #4990E2;
+  margin: 0 1px;
+  cursor: ns-resize;
+}
+
+/* Native's bottom-up Rectf is not canonicalized: its stroke stays at baseline. */
+.graphCol::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.5px;
+  height: 1px;
+  background: #979797;
+  pointer-events: none;
+}
+
+.graphCap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -0.5px;
+  height: 1px;
+  background: #E6E6FF;
+  pointer-events: none;
+}
+
+.notch {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgb(75.5, 75.5, 75.5);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.sliderLabel {
+  position: absolute;
+  top: 22px;
+  font-size: 12px;
+  color: #000000;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.disabled .notch {
+  background: rgb(210.125, 210.125, 210.125);
+}

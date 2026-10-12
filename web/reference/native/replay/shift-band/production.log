@@ -1,0 +1,15 @@
+
+Running 2 tests using 2 workers
+
+(node:48696) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48696) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48697) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48697) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium-webgpu] › tube-movement.spec.ts:6:1 › native Shift band transfer preserves size despite downward pointer movement (842ms)
+  ✓  2 [chromium-webgl2] › tube-movement.spec.ts:6:1 › native Shift band transfer preserves size despite downward pointer movement (860ms)
+
+  2 passed (1.5s)

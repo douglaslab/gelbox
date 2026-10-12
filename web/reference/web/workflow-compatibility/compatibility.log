@@ -1,0 +1,45 @@
+
+Running 8 tests using 8 workers
+
+(node:57022) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57022) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57023) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57023) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57026) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57025) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57026) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57027) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57025) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57029) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57027) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57029) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  8 [webkit-webgl2] › file-workflow.spec.ts:64:1 › compiled queued mixed drops use the new layout and preserve occupied or full lanes (837ms)
+  ✓  2 [webkit-webgl2] › hidden-lanes.spec.ts:6:37 › compiled lane controls retain hidden data and reset selection (loupe:false) (1.5s)
+  ✓  6 [webkit-webgl2] › hidden-lanes.spec.ts:6:37 › compiled lane controls retain hidden data and reset selection (loupe:true) (1.6s)
+  ✓  5 [webkit-webgl2] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen (1.7s)
+  ✓  1 [firefox-webgl2] › hidden-lanes.spec.ts:6:37 › compiled lane controls retain hidden data and reset selection (loupe:false) (2.1s)
+  ✓  4 [firefox-webgl2] › file-workflow.spec.ts:64:1 › compiled queued mixed drops use the new layout and preserve occupied or full lanes (1.1s)
+  ✓  7 [firefox-webgl2] › hidden-lanes.spec.ts:6:37 › compiled lane controls retain hidden data and reset selection (loupe:true) (1.9s)
+  ✓  3 [firefox-webgl2] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen (6.7s)
+
+  8 passed (8.3s)

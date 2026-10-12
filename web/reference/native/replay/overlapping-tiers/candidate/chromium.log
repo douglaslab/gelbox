@@ -1,0 +1,31 @@
+
+Running 10 tests using 2 workers
+
+(node:7230) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7231) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7230) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7231) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native (462ms)
+  ✓  2 [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-356 drag matches original native (462ms)
+  ✓  3 [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-358 drag matches original native (472ms)
+  ✓  4 [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers trimer-only drag matches original native (473ms)
+(node:7274) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7274) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers dimer-only drag matches original native (450ms)
+(node:7281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  6 [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native (435ms)
+  ✓  8 [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-358 drag matches original native (529ms)
+  ✓  7 [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-356 drag matches original native (517ms)
+  ✓  9 [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers trimer-only drag matches original native (581ms)
+  ✓  10 [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers dimer-only drag matches original native (577ms)
+
+  10 passed (3.4s)

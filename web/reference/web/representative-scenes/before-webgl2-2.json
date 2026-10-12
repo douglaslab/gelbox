@@ -1,0 +1,110 @@
+[
+  {
+    "id": "whole-1-select-False-hover-False-2-241",
+    "differentChannels": 2346,
+    "maxChannelDifference": 63,
+    "absoluteChannelDifference": 9526
+  },
+  {
+    "id": "whole-1-select-False-hover-False-2-255",
+    "differentChannels": 1638,
+    "maxChannelDifference": 67,
+    "absoluteChannelDifference": 9525
+  },
+  {
+    "id": "whole-0.5-select-False-hover-False-2-241",
+    "differentChannels": 468,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 2802
+  },
+  {
+    "id": "whole-0.5-select-False-hover-False-2-255",
+    "differentChannels": 334,
+    "maxChannelDifference": 67,
+    "absoluteChannelDifference": 2894
+  },
+  {
+    "id": "multi-25-3-whole-0.5-2-241",
+    "differentChannels": 1215,
+    "maxChannelDifference": 63,
+    "absoluteChannelDifference": 9097
+  },
+  {
+    "id": "multi-25-3-whole-0.5-2-255",
+    "differentChannels": 894,
+    "maxChannelDifference": 67,
+    "absoluteChannelDifference": 9571
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-False-2-241",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-False-2-255",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "fade-0.01-2-241",
+    "differentChannels": 811,
+    "maxChannelDifference": 2,
+    "absoluteChannelDifference": 824
+  },
+  {
+    "id": "fade-0.01-2-255",
+    "differentChannels": 88,
+    "maxChannelDifference": 1,
+    "absoluteChannelDifference": 88
+  },
+  {
+    "id": "fade-0.25-2-241",
+    "differentChannels": 1638,
+    "maxChannelDifference": 24,
+    "absoluteChannelDifference": 4169
+  },
+  {
+    "id": "fade-0.25-2-255",
+    "differentChannels": 222,
+    "maxChannelDifference": 26,
+    "absoluteChannelDifference": 3112
+  },
+  {
+    "id": "fade-0.5-2-241",
+    "differentChannels": 222,
+    "maxChannelDifference": 48,
+    "absoluteChannelDifference": 5651
+  },
+  {
+    "id": "fade-0.5-2-255",
+    "differentChannels": 222,
+    "maxChannelDifference": 51,
+    "absoluteChannelDifference": 6230
+  },
+  {
+    "id": "fade-0.999-2-241",
+    "differentChannels": 222,
+    "maxChannelDifference": 95,
+    "absoluteChannelDifference": 11279
+  },
+  {
+    "id": "fade-0.999-2-255",
+    "differentChannels": 222,
+    "maxChannelDifference": 102,
+    "absoluteChannelDifference": 12403
+  },
+  {
+    "id": "fade-1-2-241",
+    "differentChannels": 222,
+    "maxChannelDifference": 95,
+    "absoluteChannelDifference": 11279
+  },
+  {
+    "id": "fade-1-2-255",
+    "differentChannels": 222,
+    "maxChannelDifference": 102,
+    "absoluteChannelDifference": 12403
+  }
+]

@@ -1,0 +1,215 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@22/22.23.3/bin/node",
+      "/tmp/gel-browser-compat-1.64/node_modules/@playwright/test/cli.js",
+      "test",
+      "-c",
+      "/tmp/gel-browser-compat-1.64/playwright.config.ts"
+    ],
+    "configFile": "/tmp/gel-browser-compat-1.64/playwright.config.ts",
+    "rootDir": "/tmp/gel-browser-compat-1.64",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/gel-browser-compat-1.64/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "firefox-webgl2",
+        "name": "firefox-webgl2",
+        "testDir": "/tmp/gel-browser-compat-1.64",
+        "testIgnore": [],
+        "testMatch": [
+          "*.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/tmp/gel-browser-compat-1.64/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "firefox-webgl2",
+        "testDir": "/tmp/gel-browser-compat-1.64",
+        "snapshotDir": "/tmp/gel-browser-compat-1.64",
+        "testIgnore": [],
+        "testMatch": "*.spec.ts",
+        "timeout": 30000,
+        "use": {
+          "browserName": "firefox",
+          "viewport": {
+            "width": 1365,
+            "height": 768
+          },
+          "deviceScaleFactor": 2,
+          "launchOptions": {
+            "timeout": 15000
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "firefox-webgl2"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/tmp/gel-browser-compat-1.64/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "deployment.spec.ts",
+      "file": "deployment.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "built app at / loads controls and roundtrips native files",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox-webgl2",
+              "projectName": "firefox-webgl2",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 0,
+                  "error": {
+                    "message": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-vJ9KPM -juggler-pipe -silent\n<launched> pid=46775\n[pid=46775][err] *** You are running in headless mode.\n[pid=46775][err] Could not find profile folder.\n[pid=46775] <process did exit: exitCode=1, signal=null>\n[pid=46775] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-vJ9KPM -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=46775\u001b[22m\n\u001b[2m  - [pid=46775][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=46775][err] Could not find profile folder.\u001b[22m\n\u001b[2m  - [pid=46775] <process did exit: exitCode=1, signal=null>\u001b[22m\n\u001b[2m  - [pid=46775] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=46775] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=46775] <kill>\u001b[22m\n\u001b[2m  - [pid=46775] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=46775] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=46775] <gracefully close end>\u001b[22m\n",
+                    "stack": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-vJ9KPM -juggler-pipe -silent\n<launched> pid=46775\n[pid=46775][err] *** You are running in headless mode.\n[pid=46775][err] Could not find profile folder.\n[pid=46775] <process did exit: exitCode=1, signal=null>\n[pid=46775] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-vJ9KPM -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=46775\u001b[22m\n\u001b[2m  - [pid=46775][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=46775][err] Could not find profile folder.\u001b[22m\n\u001b[2m  - [pid=46775] <process did exit: exitCode=1, signal=null>\u001b[22m\n\u001b[2m  - [pid=46775] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=46775] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=46775] <kill>\u001b[22m\n\u001b[2m  - [pid=46775] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=46775] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=46775] <gracefully close end>\u001b[22m\n"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-vJ9KPM -juggler-pipe -silent\n<launched> pid=46775\n[pid=46775][err] *** You are running in headless mode.\n[pid=46775][err] Could not find profile folder.\n[pid=46775] <process did exit: exitCode=1, signal=null>\n[pid=46775] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-vJ9KPM -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=46775\u001b[22m\n\u001b[2m  - [pid=46775][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=46775][err] Could not find profile folder.\u001b[22m\n\u001b[2m  - [pid=46775] <process did exit: exitCode=1, signal=null>\u001b[22m\n\u001b[2m  - [pid=46775] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=46775] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=46775] <kill>\u001b[22m\n\u001b[2m  - [pid=46775] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=46775] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=46775] <gracefully close end>\u001b[22m\n"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:42:31.632Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/gel-browser-compat-1.64/results/deployment-built-app-at-lo-89ceb-and-roundtrips-native-files-firefox-webgl2/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f3e554c6199c48d65fc5-7cab0f53eff13227f681",
+          "file": "../../private/tmp/gel-browser-compat-1.64/deployment.spec.ts",
+          "line": 6,
+          "column": 42
+        },
+        {
+          "title": "built app at /gelbox/ loads controls and roundtrips native files",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox-webgl2",
+              "projectName": "firefox-webgl2",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 0,
+                  "error": {
+                    "message": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-H6iykQ -juggler-pipe -silent\n<launched> pid=46778\n[pid=46778][err] *** You are running in headless mode.\n[pid=46778][err] Could not find profile folder.\n[pid=46778] <process did exit: exitCode=1, signal=null>\n[pid=46778] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-H6iykQ -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=46778\u001b[22m\n\u001b[2m  - [pid=46778][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=46778][err] Could not find profile folder.\u001b[22m\n\u001b[2m  - [pid=46778] <process did exit: exitCode=1, signal=null>\u001b[22m\n\u001b[2m  - [pid=46778] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=46778] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=46778] <kill>\u001b[22m\n\u001b[2m  - [pid=46778] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=46778] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=46778] <gracefully close end>\u001b[22m\n",
+                    "stack": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-H6iykQ -juggler-pipe -silent\n<launched> pid=46778\n[pid=46778][err] *** You are running in headless mode.\n[pid=46778][err] Could not find profile folder.\n[pid=46778] <process did exit: exitCode=1, signal=null>\n[pid=46778] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-H6iykQ -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=46778\u001b[22m\n\u001b[2m  - [pid=46778][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=46778][err] Could not find profile folder.\u001b[22m\n\u001b[2m  - [pid=46778] <process did exit: exitCode=1, signal=null>\u001b[22m\n\u001b[2m  - [pid=46778] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=46778] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=46778] <kill>\u001b[22m\n\u001b[2m  - [pid=46778] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=46778] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=46778] <gracefully close end>\u001b[22m\n"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-H6iykQ -juggler-pipe -silent\n<launched> pid=46778\n[pid=46778][err] *** You are running in headless mode.\n[pid=46778][err] Could not find profile folder.\n[pid=46778] <process did exit: exitCode=1, signal=null>\n[pid=46778] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-H6iykQ -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=46778\u001b[22m\n\u001b[2m  - [pid=46778][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=46778][err] Could not find profile folder.\u001b[22m\n\u001b[2m  - [pid=46778] <process did exit: exitCode=1, signal=null>\u001b[22m\n\u001b[2m  - [pid=46778] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=46778] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=46778] <kill>\u001b[22m\n\u001b[2m  - [pid=46778] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=46778] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=46778] <gracefully close end>\u001b[22m\n"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:42:33.009Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/gel-browser-compat-1.64/results/deployment-built-app-at-ge-bfb0e-and-roundtrips-native-files-firefox-webgl2/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f3e554c6199c48d65fc5-d5ac828c5aecd42c8f26",
+          "file": "../../private/tmp/gel-browser-compat-1.64/deployment.spec.ts",
+          "line": 6,
+          "column": 42
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-10T08:42:31.439Z",
+    "duration": 1702.492,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

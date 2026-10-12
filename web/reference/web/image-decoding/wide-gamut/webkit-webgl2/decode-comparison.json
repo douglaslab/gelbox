@@ -1,0 +1,317 @@
+[
+  {
+    "file": "alpha.png",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 235,
+    "differentChannels": 1344,
+    "maxVisibleChannelError": 1,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "animated.gif",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "gamma-linear.png",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "opaque.png",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "orientation-1.jpg",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "orientation-2.jpg",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "orientation-3.jpg",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "orientation-4.jpg",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "orientation-5.jpg",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "orientation-6.jpg",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "orientation-6.png",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "orientation-7.jpg",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "orientation-8.jpg",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "plain.jpg",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "srgb.jpg",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "srgb.png",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "display-p3.png",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "display-p3.jpg",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "display-p3-alpha.png",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 235,
+    "differentChannels": 1344,
+    "maxVisibleChannelError": 1,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "adobe-rgb.png",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  },
+  {
+    "file": "adobe-rgb.jpg",
+    "nativeSize": [
+      32,
+      24
+    ],
+    "webSize": [
+      32,
+      24
+    ],
+    "maxChannelError": 0,
+    "differentChannels": 0,
+    "maxVisibleChannelError": 0,
+    "maxPremultipliedChannelError": 0
+  }
+]

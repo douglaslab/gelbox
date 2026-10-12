@@ -1,0 +1,47 @@
+[
+  {
+    "id": "boundary-bp1001-y233",
+    "targetY": 233,
+    "nativeBases": 1001
+  },
+  {
+    "id": "boundary-bp1001-y254",
+    "targetY": 254,
+    "nativeBases": 1001
+  },
+  {
+    "id": "boundary-bp1001-y310",
+    "targetY": 310,
+    "nativeBases": 1001
+  },
+  {
+    "id": "boundary-bp1001-y352",
+    "targetY": 352,
+    "nativeBases": 1001
+  },
+  {
+    "id": "boundary-bp2001-y156",
+    "targetY": 156,
+    "nativeBases": 2001
+  },
+  {
+    "id": "boundary-bp2001-y240",
+    "targetY": 240,
+    "nativeBases": 2001
+  },
+  {
+    "id": "boundary-bp3001-y135",
+    "targetY": 135,
+    "nativeBases": 3001
+  },
+  {
+    "id": "boundary-bp3001-y177",
+    "targetY": 177,
+    "nativeBases": 3001
+  },
+  {
+    "id": "boundary-bp3001-y219",
+    "targetY": 219,
+    "nativeBases": 3001
+  }
+]

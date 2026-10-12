@@ -1,0 +1,77 @@
+
+Running 2 tests using 2 workers
+
+(node:48264) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48264) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48265) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48265) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample (1.3s)
+  ✘  2 [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample (5.2s)
+
+
+  1) [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 5[39m
+    [31m+ Received  + 5[39m
+
+    [33m@@ -12,15 +12,15 @@[39m
+    [2m      },[22m
+    [2m      "Fragments": Array [[22m
+    [2m        Object {[22m
+    [2m          "Aggregate": Array [[22m
+    [2m            0.5,[22m
+    [32m-           0,[39m
+    [32m-           0,[39m
+    [32m-           0,[39m
+    [32m-           0,[39m
+    [32m-           0,[39m
+    [31m+           0.5,[39m
+    [31m+           0.5,[39m
+    [31m+           0.5,[39m
+    [31m+           0.5,[39m
+    [31m+           0.5,[39m
+    [2m            0.5,[22m
+    [2m          ],[22m
+    [2m          "AspectRatio": 1.25,[22m
+    [2m          "Bases": 1642,[22m
+    [2m          "Color": Array [[22m
+
+      48 |   ] as const){
+      49 |    await drag(x,y,tx,ty);
+    > 50 |    expect(await save('sample',`web-${name}.json`)).toEqual(await native(`native-${name}.json`));
+         |                                                    ^
+      51 |   }
+      52 |  }finally{await app.close();}
+      53 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/multimer-drag.spec.ts:50:52
+
+  2) [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
+
+    Error: [31mTimed out 5000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m
+
+    Locator: getByTestId('fragment-view')
+    Expected string: [32m"2,500 bp"[39m
+    Received: <element(s) not found>
+    Call log:
+    [2m  - expect.toContainText with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('fragment-view')[22m
+
+
+      15 |   // Native screenshot coordinates / 2, subtracting its 28 logical pixel title bar.
+      16 |   await page.mouse.click(582,231);
+    > 17 |   await expect(page.getByTestId('fragment-view')).toContainText('2,500 bp');
+         |                                                   ^
+      18 |   const drag=async(x:number,y:number,tx:number,ty:number)=>{await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(tx,ty,{steps:10});await page.mouse.up();};
+      19 |   const save=async(kind:'sample'|'gel',name:string)=>{
+      20 |    await menu.click();const pending=page.waitForEvent('download');await page.getByTestId(`save-${kind}-btn`).click();
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/multimer-drag.spec.ts:17:51
+
+  2 failed
+    [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
+    [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 

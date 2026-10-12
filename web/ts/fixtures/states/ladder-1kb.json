@@ -1,0 +1,180 @@
+{
+  "schema": "gel-sample-v0",
+  "name": "1kb ladder",
+  "icon": "microtube1500ul.png",
+  "iconScale": 0.5,
+  "id": -1,
+  "buffer": {
+    "tris": 44.5,
+    "borate": 44.5,
+    "acetate": 0,
+    "edta": 1
+  },
+  "fragments": [
+    {
+      "bases": 10002,
+      "mass": 42,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [
+        1
+      ],
+      "aspectRatio": 1,
+      "color": [
+        0.20000001788139343,
+        0.20000001788139343,
+        0.20000001788139343
+      ]
+    },
+    {
+      "bases": 8001,
+      "mass": 42,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [
+        1
+      ],
+      "aspectRatio": 1,
+      "color": [
+        0,
+        0.40000003576278687,
+        0.8000000715255737
+      ]
+    },
+    {
+      "bases": 6001,
+      "mass": 50,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [
+        1
+      ],
+      "aspectRatio": 1,
+      "color": [
+        0.8000000715255737,
+        0,
+        0
+      ]
+    },
+    {
+      "bases": 5001,
+      "mass": 42,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [
+        1
+      ],
+      "aspectRatio": 1,
+      "color": [
+        0.9686275124549866,
+        0.26274511218070984,
+        0.0313725508749485
+      ]
+    },
+    {
+      "bases": 4001,
+      "mass": 33,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [
+        1
+      ],
+      "aspectRatio": 1,
+      "color": [
+        0.9686275124549866,
+        0.5764706134796143,
+        0.11764706671237946
+      ]
+    },
+    {
+      "bases": 3001,
+      "mass": 125,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [
+        1
+      ],
+      "aspectRatio": 1,
+      "color": [
+        0.6666666865348816,
+        0.6666666865348816,
+        0
+      ]
+    },
+    {
+      "bases": 2000,
+      "mass": 48,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [
+        1
+      ],
+      "aspectRatio": 1,
+      "color": [
+        0.34117648005485535,
+        0.7333333492279053,
+        0
+      ]
+    },
+    {
+      "bases": 1500,
+      "mass": 36,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [
+        1
+      ],
+      "aspectRatio": 1,
+      "color": [
+        0,
+        0.44705885648727417,
+        0
+      ]
+    },
+    {
+      "bases": 1000,
+      "mass": 42,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [
+        1
+      ],
+      "aspectRatio": 1,
+      "color": [
+        0.011764707043766975,
+        0.7137255072593689,
+        0.6352941393852234
+      ]
+    },
+    {
+      "bases": 517,
+      "mass": 21,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [
+        1
+      ],
+      "aspectRatio": 1,
+      "color": [
+        0.09019608050584793,
+        0,
+        0.8705883026123047
+      ]
+    },
+    {
+      "bases": 500,
+      "mass": 21,
+      "degrade": 0,
+      "dye": -1,
+      "aggregate": [
+        1
+      ],
+      "aspectRatio": 1,
+      "color": [
+        0.7215686440467834,
+        0.019607843831181526,
+        0.4235294461250305
+      ]
+    }
+  ]
+}

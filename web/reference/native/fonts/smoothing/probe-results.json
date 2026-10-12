@@ -1,0 +1,82 @@
+{
+  "gel-text-ctline-smoothfalse-whitefalse.png": {
+    "alphaSum": 125300,
+    "bbox": [
+      10,
+      19,
+      104,
+      37
+    ],
+    "sha256": "c93c4c98db129259c705036f5f8f92289503a022a4577207e281d509a054ed6c"
+  },
+  "gel-text-ctline-smoothfalse-whitetrue.png": {
+    "alphaSum": 125300,
+    "bbox": [
+      10,
+      19,
+      104,
+      37
+    ],
+    "sha256": "b889b3f53082b1d4a741cc090f65126607f0c521dfabe29f94453317b08e7012"
+  },
+  "gel-text-ctline-smoothtrue-whitefalse.png": {
+    "alphaSum": 144038,
+    "bbox": [
+      10,
+      18,
+      104,
+      37
+    ],
+    "sha256": "a5d4418c291a6d2b1eb3c98880205c9dd9b490d074c73d5c27405adbdfb8edb1"
+  },
+  "gel-text-ctline-smoothtrue-whitetrue.png": {
+    "alphaSum": 165373,
+    "bbox": [
+      10,
+      18,
+      104,
+      37
+    ],
+    "sha256": "7e240b90937334eb0e0a1597c3a4ba36d3e7bf04d8138127dc5440c7c48da9f9"
+  },
+  "gel-text-legacy-smoothfalse-whitefalse.png": {
+    "alphaSum": 125300,
+    "bbox": [
+      10,
+      19,
+      104,
+      37
+    ],
+    "sha256": "c93c4c98db129259c705036f5f8f92289503a022a4577207e281d509a054ed6c"
+  },
+  "gel-text-legacy-smoothfalse-whitetrue.png": {
+    "alphaSum": 125300,
+    "bbox": [
+      10,
+      19,
+      104,
+      37
+    ],
+    "sha256": "b889b3f53082b1d4a741cc090f65126607f0c521dfabe29f94453317b08e7012"
+  },
+  "gel-text-legacy-smoothtrue-whitefalse.png": {
+    "alphaSum": 144038,
+    "bbox": [
+      10,
+      18,
+      104,
+      37
+    ],
+    "sha256": "a5d4418c291a6d2b1eb3c98880205c9dd9b490d074c73d5c27405adbdfb8edb1"
+  },
+  "gel-text-legacy-smoothtrue-whitetrue.png": {
+    "alphaSum": 165373,
+    "bbox": [
+      10,
+      18,
+      104,
+      37
+    ],
+    "sha256": "7e240b90937334eb0e0a1597c3a4ba36d3e7bf04d8138127dc5440c7c48da9f9"
+  }
+}

@@ -1,0 +1,29 @@
+{
+   "Gelbox" : {
+      "type" : "sample",
+      "version" : "1.0"
+   },
+   "Sample" : {
+      "Buffer" : {
+         "Acetate" : 7.75,
+         "Borate" : 0,
+         "EDTA" : 0.25,
+         "Tris" : 10.125
+      },
+      "Fragments" : [
+         {
+            "Aggregate" : [ 1 ],
+            "AspectRatio" : 3,
+            "Bases" : 1000,
+            "Color" : [ 0.75, 0.25, 0.5 ],
+            "Degrade" : 0.5,
+            "Dye" : "Xylene cyanol",
+            "Mass" : 125
+         }
+      ],
+      "icon" : "microtube1500ul.png",
+      "iconScale" : 0.625,
+      "id" : 42,
+      "name" : "Dye transfer destination"
+   }
+}

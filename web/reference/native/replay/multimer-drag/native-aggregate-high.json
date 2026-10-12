@@ -1,0 +1,28 @@
+{
+   "Gelbox" : {
+      "type" : "sample",
+      "version" : "1.0"
+   },
+   "Sample" : {
+      "Buffer" : {
+         "Acetate" : 0,
+         "Borate" : 44.5,
+         "EDTA" : 1,
+         "Tris" : 44.5
+      },
+      "Fragments" : [
+         {
+            "Aggregate" : [ 0, 0, 0, 0, 0, 0, 1 ],
+            "AspectRatio" : 1.25,
+            "Bases" : 1642,
+            "Color" : [ 0.25, 0.5, 0.75 ],
+            "Degrade" : 0.375,
+            "Mass" : 35.125
+         }
+      ],
+      "icon" : "",
+      "iconScale" : 1,
+      "id" : -1,
+      "name" : ""
+   }
+}

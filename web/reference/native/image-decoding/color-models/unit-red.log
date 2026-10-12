@@ -1,0 +1,151 @@
+
+> @douglaslab/gel@0.0.1 test:unit
+> vitest run tests/unit/imageDecode.test.ts
+
+[?25l
+ RUN  v3.0.0 /Users/shawn/.codex/worktrees/3f9f/gel/ts
+
+ ❯ tests/unit/imageDecode.test.ts (41 tests | 13 failed) 50ms
+   ✓ removes EXIF orientation 1 without changing encoded JPEG pixels
+   ✓ removes EXIF orientation 2 without changing encoded JPEG pixels
+   ✓ removes EXIF orientation 3 without changing encoded JPEG pixels
+   ✓ removes EXIF orientation 4 without changing encoded JPEG pixels
+   ✓ removes EXIF orientation 5 without changing encoded JPEG pixels
+   ✓ removes EXIF orientation 6 without changing encoded JPEG pixels
+   ✓ removes EXIF orientation 7 without changing encoded JPEG pixels
+   ✓ removes EXIF orientation 8 without changing encoded JPEG pixels
+   ✓ leaves opaque.png unchanged, including color profiles
+   ✓ leaves alpha.png unchanged, including color profiles
+   ✓ leaves animated.gif unchanged, including color profiles
+   ✓ leaves orientation-6.png unchanged, including color profiles
+   ✓ leaves plain.jpg unchanged, including color profiles
+   ✓ leaves srgb.jpg unchanged, including color profiles
+   ✓ leaves srgb.png unchanged, including color profiles
+   ✓ retains non-EXIF APP1 metadata and ICC segments while removing EXIF
+   ✓ leaves malformed input to the decoder: 255
+   ✓ leaves malformed input to the decoder: 255
+   ✓ leaves malformed input to the decoder: 255
+   ✓ leaves malformed input to the decoder: 255
+   ✓ removes PNG eXIf without changing pixel chunks or their CRCs
+   ✓ preserves PNG color data and unrelated formats: opaque.png
+   ✓ preserves PNG color data and unrelated formats: alpha.png
+   ✓ preserves PNG color data and unrelated formats: gamma-linear.png
+   ✓ preserves PNG color data and unrelated formats: srgb.png
+   ✓ preserves PNG color data and unrelated formats: animated.gif
+   ✓ preserves PNG color data and unrelated formats: plain.jpg
+   ✓ leaves a truncated PNG to the decoder unchanged
+   × reads the JPEG frame color components for cmyk.jpg 2ms
+     → jpegColorComponents is not a function
+   × reads the JPEG frame color components for cmyk-progressive.jpg 0ms
+     → jpegColorComponents is not a function
+   × reads the JPEG frame color components for gray.jpg 0ms
+     → jpegColorComponents is not a function
+   × recognizes RGB JPEGs without removing EXIF or ICC metadata 0ms
+     → jpegColorComponents is not a function
+   × skips marker fill bytes and standalone TEM markers 0ms
+     → jpegColorComponents is not a function
+   × does not treat marker-looking bytes inside metadata as a frame 0ms
+     → jpegColorComponents is not a function
+   × leaves malformed/missing JPEG frame metadata to the decoder (255) 0ms
+     → jpegColorComponents is not a function
+   × leaves malformed/missing JPEG frame metadata to the decoder (255) 0ms
+     → jpegColorComponents is not a function
+   × leaves malformed/missing JPEG frame metadata to the decoder (255) 0ms
+     → jpegColorComponents is not a function
+   × leaves malformed/missing JPEG frame metadata to the decoder (255) 0ms
+     → jpegColorComponents is not a function
+   × leaves malformed/missing JPEG frame metadata to the decoder (255) 0ms
+     → jpegColorComponents is not a function
+   × leaves malformed/missing JPEG frame metadata to the decoder (255) 0ms
+     → jpegColorComponents is not a function
+   × does not classify non-JPEG files as four-component JPEGs 0ms
+     → jpegColorComponents is not a function
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 13 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/imageDecode.test.ts > reads the JPEG frame color components for cmyk.jpg
+ FAIL  tests/unit/imageDecode.test.ts > reads the JPEG frame color components for cmyk-progressive.jpg
+ FAIL  tests/unit/imageDecode.test.ts > reads the JPEG frame color components for gray.jpg
+TypeError: jpegColorComponents is not a function
+ ❯ tests/unit/imageDecode.test.ts:35:9
+     33| const colorFixture=(name:string)=>new Uint8Array(readFileSync(`../refe…
+     34| it.each([['cmyk.jpg',4],['cmyk-progressive.jpg',4],['gray.jpg',1]] as …
+     35|  expect(jpegColorComponents(colorFixture(name))).toBe(count);
+       |         ^
+     36| });
+     37| it('recognizes RGB JPEGs without removing EXIF or ICC metadata',()=>{
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/13]⎯
+
+ FAIL  tests/unit/imageDecode.test.ts > recognizes RGB JPEGs without removing EXIF or ICC metadata
+TypeError: jpegColorComponents is not a function
+ ❯ tests/unit/imageDecode.test.ts:38:9
+     36| });
+     37| it('recognizes RGB JPEGs without removing EXIF or ICC metadata',()=>{
+     38|  expect(jpegColorComponents(fixture('orientation-6.jpg'))).toBe(3);
+       |         ^
+     39|  expect(jpegColorComponents(fixture('srgb.jpg'))).toBe(3);
+     40| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/13]⎯
+
+ FAIL  tests/unit/imageDecode.test.ts > skips marker fill bytes and standalone TEM markers
+TypeError: jpegColorComponents is not a function
+ ❯ tests/unit/imageDecode.test.ts:43:9
+     41| it('skips marker fill bytes and standalone TEM markers',()=>{
+     42|  const plain=fixture('plain.jpg');
+     43|  expect(jpegColorComponents(new Uint8Array([...plain.slice(0,2),255,1,…
+       |         ^
+     44| });
+     45| it('does not treat marker-looking bytes inside metadata as a frame',()…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/13]⎯
+
+ FAIL  tests/unit/imageDecode.test.ts > does not treat marker-looking bytes inside metadata as a frame
+TypeError: jpegColorComponents is not a function
+ ❯ tests/unit/imageDecode.test.ts:48:9
+     46|  const plain=fixture('plain.jpg');
+     47|  const app=new Uint8Array([255,238,0,10,255,192,0,8,8,0,0,4]);
+     48|  expect(jpegColorComponents(new Uint8Array([...plain.slice(0,2),...app…
+       |         ^
+     49| });
+     50| it.each([
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/13]⎯
+
+ FAIL  tests/unit/imageDecode.test.ts > leaves malformed/missing JPEG frame metadata to the decoder (255)
+ FAIL  tests/unit/imageDecode.test.ts > leaves malformed/missing JPEG frame metadata to the decoder (255)
+ FAIL  tests/unit/imageDecode.test.ts > leaves malformed/missing JPEG frame metadata to the decoder (255)
+ FAIL  tests/unit/imageDecode.test.ts > leaves malformed/missing JPEG frame metadata to the decoder (255)
+ FAIL  tests/unit/imageDecode.test.ts > leaves malformed/missing JPEG frame metadata to the decoder (255)
+ FAIL  tests/unit/imageDecode.test.ts > leaves malformed/missing JPEG frame metadata to the decoder (255)
+TypeError: jpegColorComponents is not a function
+ ❯ tests/unit/imageDecode.test.ts:58:9
+     56|  [255,216,0,192,0,20],
+     57| ])('leaves malformed/missing JPEG frame metadata to the decoder (%s)',…
+     58|  expect(jpegColorComponents(new Uint8Array(bytes))).toBeNull();
+       |         ^
+     59| });
+     60| it('does not classify non-JPEG files as four-component JPEGs',()=>{
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/13]⎯
+
+ FAIL  tests/unit/imageDecode.test.ts > does not classify non-JPEG files as four-component JPEGs
+TypeError: jpegColorComponents is not a function
+ ❯ tests/unit/imageDecode.test.ts:61:9
+     59| });
+     60| it('does not classify non-JPEG files as four-component JPEGs',()=>{
+     61|  expect(jpegColorComponents(fixture('opaque.png'))).toBeNull();
+       |         ^
+     62|  expect(jpegColorComponents(fixture('animated.gif'))).toBeNull();
+     63| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/13]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  13 failed | 28 passed (41)
+   Start at  13:16:30
+   Duration  263ms (transform 18ms, setup 0ms, collect 17ms, tests 50ms, environment 0ms, prepare 37ms)
+
+[?25h

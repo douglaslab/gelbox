@@ -1,0 +1,92 @@
+[
+  {
+    "id": "whole-1-select-False-hover-False-1",
+    "differentChannels": 2544,
+    "maxChannelDifference": 63,
+    "absoluteChannelDifference": 57033
+  },
+  {
+    "id": "whole-0.5-select-False-hover-False-1",
+    "differentChannels": 2061,
+    "maxChannelDifference": 62,
+    "absoluteChannelDifference": 54755
+  },
+  {
+    "id": "multi-25-3-whole-0.5-1",
+    "differentChannels": 2289,
+    "maxChannelDifference": 63,
+    "absoluteChannelDifference": 58539
+  },
+  {
+    "id": "narrow-25-3-whole-0.001-select-False-1",
+    "differentChannels": 1938,
+    "maxChannelDifference": 50,
+    "absoluteChannelDifference": 53901
+  },
+  {
+    "id": "fade-0.01-1",
+    "differentChannels": 2148,
+    "maxChannelDifference": 50,
+    "absoluteChannelDifference": 54117
+  },
+  {
+    "id": "fade-0.25-1",
+    "differentChannels": 2370,
+    "maxChannelDifference": 50,
+    "absoluteChannelDifference": 55214
+  },
+  {
+    "id": "fade-0.5-1",
+    "differentChannels": 2022,
+    "maxChannelDifference": 50,
+    "absoluteChannelDifference": 55892
+  },
+  {
+    "id": "fade-0.999-1",
+    "differentChannels": 2022,
+    "maxChannelDifference": 95,
+    "absoluteChannelDifference": 57872
+  },
+  {
+    "id": "fade-1-1",
+    "differentChannels": 2022,
+    "maxChannelDifference": 95,
+    "absoluteChannelDifference": 57872
+  },
+  {
+    "id": "empty-1",
+    "differentChannels": 1938,
+    "maxChannelDifference": 50,
+    "absoluteChannelDifference": 53901
+  },
+  {
+    "id": "large-crossing-1",
+    "differentChannels": 15248,
+    "maxChannelDifference": 79,
+    "absoluteChannelDifference": 78813
+  },
+  {
+    "id": "large-faint-1",
+    "differentChannels": 5836,
+    "maxChannelDifference": 50,
+    "absoluteChannelDifference": 57520
+  },
+  {
+    "id": "large-subquantum-1",
+    "differentChannels": 1938,
+    "maxChannelDifference": 50,
+    "absoluteChannelDifference": 53901
+  },
+  {
+    "id": "large-opaque-1",
+    "differentChannels": 2046,
+    "maxChannelDifference": 108,
+    "absoluteChannelDifference": 72560
+  },
+  {
+    "id": "large-round-1",
+    "differentChannels": 32353,
+    "maxChannelDifference": 67,
+    "absoluteChannelDifference": 77886
+  }
+]

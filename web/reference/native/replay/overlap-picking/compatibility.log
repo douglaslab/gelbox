@@ -1,0 +1,15 @@
+
+Running 2 tests using 2 workers
+
+(node:72232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72231) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72231) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [webkit-webgl2] › overlap-picking.spec.ts:6:1 › native tied-band deletion and persistent loupe tube move-return (1.1s)
+  ✓  2 [firefox-webgl2] › overlap-picking.spec.ts:6:1 › native tied-band deletion and persistent loupe tube move-return (1.3s)
+
+  2 passed (2.2s)

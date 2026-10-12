@@ -1,0 +1,15 @@
+{
+  "source_commit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "recorded_library_sha256": "b41dbbb9992d295c007824264960099be590e31f4eac8105711be25eaa3e8793",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+  "cmake": "cmake version 4.4.3",
+  "sdk": "27.0",
+  "architectures": [
+    "x86_64",
+    "arm64"
+  ],
+  "deployment_target": "10.13",
+  "build_type": "Release",
+  "original_source_path": "/Users/shawn/code/Cinder",
+  "clean_source_path": "/tmp/gel-cinder-provenance-20261011/source"
+}

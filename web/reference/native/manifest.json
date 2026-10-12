@@ -1,0 +1,209 @@
+{
+  "capturedOn": "2026-10-09",
+  "sourceTarget": {
+    "repository": "gelbox",
+    "commit": "5f51097"
+  },
+  "executable": {
+    "origin": "https://douglaslab.org/gelbox/files/Gelbox1.0.dmg",
+    "dmgSha256": "b07efb382ab5074f8adf5431ce22fa2625d7fd00b520bab846130964635fe64d",
+    "binarySha256": "037514b74bd7fcb673b7a276749fd31bfeabc0773fd11b790457412e905a78a7",
+    "architecture": "x86_64, running through Rosetta on arm64",
+    "buildCommit": "unverified",
+    "assetFilesMatchingSource": 96,
+    "extraction": "Official DMG did not mount on this host; extracted with 7zz 26.04. No executable or asset patches."
+  },
+  "host": {
+    "os": "macOS 27.0.1",
+    "build": "26A434"
+  },
+  "capture": {
+    "windowPixels": [
+      2730,
+      1592
+    ],
+    "clientLogicalSize": [
+      1365,
+      768
+    ],
+    "displayScale": 2,
+    "titlebarPixels": 56,
+    "method": "cua native App.getScreenshot",
+    "limitations": [
+      "Exploratory references, not certified pixel goldens.",
+      "Cursor overlay may be present; exclude it from automated comparison.",
+      "Live particle state and capture timestep were not frozen.",
+      "Binary equivalence to source commit is not yet proven."
+    ]
+  },
+  "observations": [
+    "Global settings contain Open, Save Gel, Loupe on hover and Render.",
+    "Selecting a sample exposes live particles; selecting a band also exposes Species controls.",
+    "Gel buffer component controls and rotation are visibly disabled.",
+    "H2O visibly distorts the rendered ladder."
+  ],
+  "scenarios": [
+    {
+      "id": "startup",
+      "actions": "Launch release; no sample selected.",
+      "capture": "captures/startup.png",
+      "sha256": "fa4dadfedfba75f5e50b1c7f0a92c63cb1833034ca439f8714c13b3ebafe896e"
+    },
+    {
+      "id": "sample-selected",
+      "actions": "Raise native window, Escape to clear incidental loupe, click first tube.",
+      "capture": "captures/sample-selected.png",
+      "sha256": "94968d16ffea8c565f41ac6fe9158ffb3020d9af00d9814aeaccfe472ad305cf"
+    },
+    {
+      "id": "species-selected",
+      "actions": "From sample-selected, click the approximately 3000 bp band.",
+      "capture": "captures/species-selected.png",
+      "sha256": "c35c04c50ec7ea2ba4db8876d8b7261b7cc393283f2f9e4d7f1ad9e5f05334ee"
+    },
+    {
+      "id": "gel-settings",
+      "actions": "From species-selected, click gel settings beside timeline.",
+      "capture": "captures/gel-settings.png",
+      "sha256": "bfe5409a3a4b8cf12afcad1e7161eb52f81a033815306d88d42753ab1e1553a6"
+    },
+    {
+      "id": "app-settings",
+      "actions": "From gel-settings, click global settings at bottom left.",
+      "capture": "captures/app-settings.png",
+      "sha256": "8df131a2bb1d9551f8587b77e225b6cc03b2cb46bff7bace4fe67b6efc005fa0"
+    },
+    {
+      "id": "gel-h2o",
+      "actions": "After exporting gel and closing global settings, show gel settings and choose H2O.",
+      "capture": "captures/gel-h2o.png",
+      "sha256": "86931f4c5588f4db6a93892f44e19f1b4d7dce70afb7c6c3de1bfeece0f3c63f"
+    }
+  ],
+  "files": [
+    {
+      "path": "files/ladder-after-selection.gel.json",
+      "sha256": "059b5dd12891b319157a065ad55654469b7fe2ec14b733fcf4ea763562ca7814",
+      "provenance": "Exported using native Save Gel after the species-selected and gel-settings scenarios, before selecting H2O. Preserve exact native bytes; do not treat as untouched startup state."
+    },
+    {
+      "path": "files/1kbladder.xml",
+      "sha256": "54ff81a1bd811c1f459b8978de34275a2c3cb43b7071c3cf691186b070418472",
+      "provenance": "Copied verbatim from pinned native assets/palette/1kbladder.xml; native asset parity verified in this manifest."
+    }
+  ],
+  "remaining": [
+    "Confirm source/executable behavior equivalence or build pinned source.",
+    "Complete control, gesture, loupe and image scenarios.",
+    "Capture clean reproducible pixel baselines and numeric outputs.",
+    "Define tolerances and compare the web application."
+  ],
+  "assetSha256": {
+    "settings.png": "57b4c1655e42e16a302c7fb2ae4cbb59ea4a707173060807dab7eb7bc7f27bd6",
+    "new-btn.png": "56b0e1ccb1da2aa5a349531b35e1eacc64cf87694da773e4a49638a96147f2f0",
+    "app-settings-line.png": "e577d74a1df4b5287f9908181b8da1485ba2e120e3e1701dee056c7335d9e99e",
+    "brace@2x.png": "6f0c23bd9c85eb0ee4c38eaf95dc1d8ade4c948d086f273d8750252f7c5f1188",
+    "microtube1500ul.png": "b1dbe804a74e1b0bba27c65e2111dfc5c4d80aada15374661b8b014742b625d2",
+    "Credits.rtf": "0f022fb0c07d66df047b19a1b94fc1a79addf23ff3a835e1701f990c5025531c",
+    "help.png": "aeba3e1adc5b130c3fcff81571217da974476228b6b52362f7b89f36087d0e63",
+    "help@2x.png": "8a7c9338ccccdec5872516950ac85161ee068e064fd005b608536a465d84b469",
+    "app-settings-line@2x.png": "c1d982b70fad1abf6193ddfb68f5af1dfe22cfb59249ae0895402d120a925a11",
+    "settings@2x.png": "5edc58d9c40176d8a604021353435ecd255fc57cd4c4af64288a44688c551f13",
+    "brace.png": "0b0e2a5a0b8e6d35fca592b40b1aa4f9e25217b40810506c2c9cdcba9df4e45c",
+    "new-btn@2x.png": "f6d215407c842389216bf2f96f3679cfc72e54f45c260497e133c0b316d918bc",
+    "molecules/Borate@2x.png": "8b125d7ce6b023269e1da5e2a0aadae3e0c9a5ba8f97c4c7cc30ead1979f96ac",
+    "molecules/Acetate@2x.png": "ee10fb353e81ec445e23dbc12c3ae0bd1c0d2a9c546f2ff9d4f981fc449d783f",
+    "molecules/Acetate.png": "03798701c5d88ef1a4e5b5bccd4d4703bdf22eb09767e836c32adabd399402e5",
+    "molecules/Bromphenol.png": "1b7de7b20ffb3d9c2e21a62a91d684f1d424635766796b0910982f5cf8a9354f",
+    "molecules/Bromphenol@2x.png": "3c28f0efc8389f6a4ed84c11a92967d89cbda68022a65c520f3c9c240fef0f8e",
+    "molecules/Xylene@2x.png": "2546cff59ee26619589f7bbb26678c9fe3b7e6af6bea911144024a036856a413",
+    "molecules/EDTA.png": "2e53564834d7060ed029701d09dcea40da393dd26a52db66be4f6d51413abd24",
+    "molecules/Orange G@2x.png": "8080350bacf4f9aaac0e9644d7f4dcf1bb2fe0b39f3653eac4850115a393c7c6",
+    "molecules/Orange G.png": "9c551a1996cbe0f4a9b07ba84e09907531961927d8fbe67dce167bcc8aa44c2c",
+    "molecules/EDTA@2x.png": "7dc22eef31aabdbab218701c42133615433e8824952277e30e3db5b2996a5187",
+    "molecules/Tris.png": "8411f92fa7b28c292c568144490d113bc15e927a8eb6f3dd7f45fab9bfcd2b15",
+    "molecules/Xylene.png": "d2035df7c20789023e8a921d51fe4d1871a22ba04be30a23dc790552eb39f8a7",
+    "molecules/Tris@2x.png": "cfac1f2056eef5a84085590efa4a72fc0a926f9ce31bdd18b9ebed346e39fb57",
+    "molecules/Cresol@2x.png": "ffe6ac4c82396ac123f96e1831153fe890a0d5cd8fbf80ac16e689bd55753fc5",
+    "molecules/Borate.png": "260ddcef44a3d0728b5043648d204bd75ef899324169db77deba747efa25c7de",
+    "molecules/Cresol.png": "f0ff013f508f59951c32d37c20f8ff77d667a740cc3aa106e3aa5796324e14c6",
+    "slider-icons/clock-lo.png": "b1ede6965fbc55aa2bf2f0588dbf193fb40b2a830d9135d3a6d968cbce2d58a7",
+    "slider-icons/dye-orange-g-3d-spheres@2x.png": "5540cf89affd33f31e676215df8b14f030d5ba919eb7237e36d45da35a1bf552",
+    "slider-icons/clock-hi@2x.png": "004f1ef16b7d0135ffba5902e0d70917ec9e1e5f95c493882788952c79554714",
+    "slider-icons/voltage-hi.png": "088149e461678e4e75ef743be560432bd9565e692d9f8ec5f9d39951133ab451",
+    "slider-icons/dye-cresol-red-3d-spheres.png": "60a938cd85bd0813c73819bbfe35d18838287493acb536063a66f4643797ce3f",
+    "slider-icons/degrade-lo.png": "21af33b4ae2c77be15ba801d6c3de772e25fbe2afde69b8619ac378fbed00ddf",
+    "slider-icons/concentration-hi.png": "644a66c2b0c96e5a263177c148fc7815603129269e67f167b085daa7efcdee1e",
+    "slider-icons/well-damage-hi.png": "6c1e1d709af7dccb8ab74e4291c80f908a9baf6c109531bf0fcddeb25bbe1fe7",
+    "slider-icons/degrade-lo@2x.png": "7cebb0703d8eb18c5f39a4bca1d0e0fbc43ebd3bd0076b2a5742c14424c7455b",
+    "slider-icons/concentration-lo@2x.png": "543770a91070c696f7b9d2156bfc0a684ed7ae1240079d4aa74de45f73e41432",
+    "slider-icons/dye-xylene-cyanol-3d-spheres.png": "61b963d3694fb7a67464b1e20d27995fdd4e02dc853a3f6a54520e169778af04",
+    "slider-icons/dye-bromphenol-blue-3d-sticks@2x.png": "e6263fb057960bf8e0309b992002b0f1534caa6ae95609b5464d07a9df6b9e07",
+    "slider-icons/dye-bromphenol-blue-3d-sticks.png": "076f4f5110de01a9e9d2c656e51b3b3d4a5b3302b44d66f740e6226cd9e09aa4",
+    "slider-icons/voltage-lo@2x.png": "26233b01a8d9e6d0e54292d34827f6008d71215a6ed7faf4f6349b212f05c217",
+    "slider-icons/size-hi@2x.png": "c63d2be0ffbabdb35778dc548300196856ecb3781ea1edcf829f2e54b5ad7f8d",
+    "slider-icons/gel-rotate-lo@2x.png": "4becfee34c58556375566fbb1c1e1b83a5ff4d3a671c7392ee7f8255a47e2ca6",
+    "slider-icons/multimer-lo.png": "b620047ae9eeda8aa4ac4caf899ca4a9b107d7d97afa7fb49222a1efc79edebe",
+    "slider-icons/gel-rotate-lo.png": "d45a1aa0aea4a5d292ac52f46a79516a3b80376978b9d7c9a19a8f2dc53ad7f2",
+    "slider-icons/multimer-hi@2x.png": "02257bc36876beae7cfbbf11e1533948efc2548f54f495741b1936056337456b",
+    "slider-icons/dye-cresol-red-3d-sticks@2x.png": "e88b85836b9b479a0336237bdad48c3c7fcd65770514e84c075a4fcda5882893",
+    "slider-icons/aspect-hi@2x.png": "edec84e8456cd131dafc91c294d58129201d8d5e0429ef2136784ecbece9d587",
+    "slider-icons/size-hi.png": "a2a6c24e497b7b85244305d11776fc546164a432cf3377f49d332a9edf379770",
+    "slider-icons/degrade-hi copy.png": "4766af34e918ebeeb97f46aa1201a432c7b1bc4965c5bc071a1f4165711ec9e9",
+    "slider-icons/dye-xylene-cyanol-3d-sticks@2x.png": "cc478224a181ff67bf40b8eeb9d1fc1f8dc47d3a0b8e608583c38d3f315b7bbf",
+    "slider-icons/gel-lanes-hi.png": "5308b8c7421c709832fad44d815d1c50eefff8a5b67c0847e2ad907560f7623d",
+    "slider-icons/dye-orange-g-3d-spheres.png": "b88fd41aca27fa2bebb65cf6c63caa51a141d1cc91afd9dddfabac14406ba6a0",
+    "slider-icons/aspect-hi.png": "6a08ba04df51bb4562bcc3a18e857db6433715fa8447388d183667faf2694fe8",
+    "slider-icons/dye-cresol-red-3d-sticks.png": "a8661e34da38289a2c88524753bcaffd690b173c5efd26f5a8234b1b85b16e8e",
+    "slider-icons/gel-lanes-hi@2x.png": "fdbc9144c91715c3d09dcdc562823883ff7efd9c37dd3c9e2e8b529266cb07c1",
+    "slider-icons/well-damage-lo@2x.png": "1499eaea7c36c40e4960fb8b559da619a6ffc1bef68c677f3a30721013d9e411",
+    "slider-icons/dye-bromphenol-blue-3d-spheres@2x.png": "d1ac022c848cc625b84f4af6cafa8cef116405bb30d079659b75d5569eeafd2b",
+    "slider-icons/clock-lo@2x.png": "ed66fbc223a811f0f53ea70acf1b7150e4ea93457ac453c1aa3a03e296358e9e",
+    "slider-icons/dye-orange-g-3d-sticks.png": "052ce4784103851a9e6ea807a6ffc42d2ed4d263b1b59241ef4b96933175947c",
+    "slider-icons/well-damage-lo.png": "bab38f452f386c05f704b589225186fd1c99bd1d2b64826eb2211b074259af3d",
+    "slider-icons/degrade-hi.png": "d6c3fa81831617ed6299dc008e9121eb7cacf665557318ec2509414585a5aaa7",
+    "slider-icons/concentration-lo.png": "1f4ab47e5cbe97e7041ab2c3fddfb5e035c78d55309705b3b517712fef9b918e",
+    "slider-icons/voltage-lo.png": "bd68e7f35034163b816839d3d83b944e714dd5c05c28d99460a262a21ccaf3e1",
+    "slider-icons/voltage-hi@2x.png": "7ff756f56ed0723f1b87b98bd79d6833093da2b97e129bb070a8dc9b9e05c441",
+    "slider-icons/degrade-hi@2x.png": "b543bf58a43bf7f3598b82370cbfb7106cd21ba2301c1e48803c1df6158181aa",
+    "slider-icons/clock-hi.png": "9a91d15ba3b1305fdb3dd56855e361a3c36401f2d31372a77831eb0d0dd3f489",
+    "slider-icons/concentration-hi@2x.png": "ef75178140bc2953a9d45b294e99a55d350638b1b3d8945697783c210dbfbda6",
+    "slider-icons/dye-cresol-red-3d-spheres@2x.png": "788e3739384a11a3754a135e00febc9726ea7f11ba13df15f1171006bbdb3666",
+    "slider-icons/multimer-lo@2x.png": "94cb8a7bc80c88a23926ed15927a95b0fbfde9981d2ea9f3e25b342b8a0a395e",
+    "slider-icons/dye-bromphenol-blue-3d-spheres.png": "6c98d067b44dac75fec89e75dcc74ae65ecfbc580e7be8a28d5bcc32e7773940",
+    "slider-icons/aspect-lo@2x.png": "e4d8d8d478c0d2b82c874ab56751fc8cd556bb4dd7b6beee64a398b9fb042ef1",
+    "slider-icons/size-lo@2x.png": "2e9917f4b248ade98872dad71c33d215f75f74153f78a8957a92b8a043c6ddac",
+    "slider-icons/dye-xylene-cyanol-3d-sticks.png": "462c97afed9ef90e85fcf981a0cf490c1d2310d72ff32441bc7182da483d5cf1",
+    "slider-icons/gel-rotate-hi@2x.png": "21a8a7b0d2251344233a59fba088c33193556e978f0dd37a8d7368e0c84229c5",
+    "slider-icons/aspect-lo.png": "9dae93174859ac067811fbad53dc01f4fcfe13dcb43c2b1cd38bcaeef693101a",
+    "slider-icons/gel-lanes-lo.png": "c14a3c94503669e192c82e605ceba8ee011a8faf330370ae6da91a0858f14f02",
+    "slider-icons/size-lo.png": "0e93f7de84ed56aaf8343cb7770adfba6c7900be96e9c763c74bfe2c78c9c154",
+    "slider-icons/gel-lanes-lo@2x.png": "be70605dc39496c1119a1c93858fe4981fa7268ce7fa80b4de0513522a12bd43",
+    "slider-icons/well-damage-hi@2x.png": "7d6cd32051ae54e5cbd020237cb58d43f90a39fdb226da977fbf8561f0509195",
+    "slider-icons/gel-rotate-hi.png": "eba50afaf6ebfd8e4479ef22c9e0e9c28031bfedbdbaa9efcd863bdce01c96d6",
+    "slider-icons/multimer-hi.png": "f416c3d4b193c5a98b63b88fda563cc38a0ff50a9c325bc75954fba678aa071c",
+    "slider-icons/dye-xylene-cyanol-3d-spheres@2x.png": "6d7adfb4db6a7e2f027715a3534dcc0452232ffe415597e83c5580b5713d0e9a",
+    "slider-icons/dye-orange-g-3d-sticks@2x.png": "a063afa5333d59fe2b777b15a6bcf6a1209c2da6e274c44c21d7ccd203a2bad9",
+    "shaders/gel-passthrough.frag": "4c541a964dded611d01f5cf5da2a197a0a8e2089a78e32bb3994cfe7a8009f63",
+    "shaders/blur5.frag": "0e40d1f4ed40a626ca5dff9a6e02404257c177e2928689afe8b8023c638f79fc",
+    "shaders/blur9.frag": "081390c8f16a7791328587243c3c30cf667306dd7ddac436ec97af56f421e0e4",
+    "shaders/blur13.frag": "79224f9b682555f62a51c5bdbfb02b7e577a156cea0e5bb17513bd479f084f7b",
+    "shaders/warp.frag": "eb02007d31a2e72062731abd69d69e3307a9b1bab15a686cdd7d605017e9f7e1",
+    "shaders/passthrough.vert": "9fce06e4c166d436b19db014d04a21bbeb8bd3bca8425193faafaa7ede59731b",
+    "tuning/gel-sim.json": "199b5ce3f7b6b256ab58e802b8daf16afa38494e8358bde698999ce37614cfae",
+    "tuning/molecular-sim.json": "680d573672cd3bb2387788ce6291d5e89e97b507e95b6145fae2d225681961d7",
+    "tuning/gel-render.json": "12333b3d28f39fbc611d62803111edc9c4367f9440facf2629c5e24fc6d9be45",
+    "palette/1kbladder.xml": "54ff81a1bd811c1f459b8978de34275a2c3cb43b7071c3cf691186b070418472",
+    "palette/1kbladder-degraded.xml": "59151866b2bb7ce9e3908bd8e35a9538e0d963566284908d096a8ab2eb8e39d4"
+  },
+  "roundtrip": {
+    "sequence": [
+      "files/ladder-after-selection.gel.json",
+      "files/web-roundtrip.gel.json",
+      "files/native-reread.gel.json"
+    ],
+    "result": "All JSON fields semantically identical after native \u2192 web codec \u2192 native Open and Save Gel.",
+    "capture": "captures/web-roundtrip-opened.png",
+    "scope": "Default ladder document; not exhaustive sample/dye/edge-case certification."
+  }
+}

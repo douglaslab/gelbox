@@ -1,0 +1,98 @@
+[
+  {
+    "id": "plain-1",
+    "differentPixels": 64,
+    "maximumError": 153,
+    "absoluteRgbDifferenceSum": 29376
+  },
+  {
+    "id": "blur-1",
+    "differentPixels": 1064,
+    "maximumError": 23,
+    "absoluteRgbDifferenceSum": 29928
+  },
+  {
+    "id": "smile-1",
+    "differentPixels": 128,
+    "maximumError": 151,
+    "absoluteRgbDifferenceSum": 29376
+  },
+  {
+    "id": "damage-1",
+    "differentPixels": 129,
+    "maximumError": 150,
+    "absoluteRgbDifferenceSum": 29376
+  },
+  {
+    "id": "smear-1",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "flames-1",
+    "differentPixels": 122,
+    "maximumError": 153,
+    "absoluteRgbDifferenceSum": 32934
+  },
+  {
+    "id": "water-1",
+    "differentPixels": 169,
+    "maximumError": 38,
+    "absoluteRgbDifferenceSum": 10731
+  },
+  {
+    "id": "combined-1",
+    "differentPixels": 2377,
+    "maximumError": 41,
+    "absoluteRgbDifferenceSum": 37527
+  },
+  {
+    "id": "plain-2",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "blur-2",
+    "differentPixels": 3781,
+    "maximumError": 120,
+    "absoluteRgbDifferenceSum": 523362
+  },
+  {
+    "id": "smile-2",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "damage-2",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "smear-2",
+    "differentPixels": 0,
+    "maximumError": 0,
+    "absoluteRgbDifferenceSum": 0
+  },
+  {
+    "id": "flames-2",
+    "differentPixels": 619,
+    "maximumError": 153,
+    "absoluteRgbDifferenceSum": 172197
+  },
+  {
+    "id": "water-2",
+    "differentPixels": 162,
+    "maximumError": 38,
+    "absoluteRgbDifferenceSum": 14691
+  },
+  {
+    "id": "combined-2",
+    "differentPixels": 8639,
+    "maximumError": 38,
+    "absoluteRgbDifferenceSum": 451971
+  }
+]

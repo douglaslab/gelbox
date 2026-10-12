@@ -1,0 +1,6 @@
+{
+  "macos": "27.0.1",
+  "architecture": "arm64",
+  "decoder_sha256": "0a26f1256f79b8ab1e9257fc5189df0b371586ed7f0710aa1d40a209d6e21d58",
+  "driver_sha256": "c51d492bd3bb3c4ec222f120b6ca05d45efad925990ae155bdf60e2c99058d7e"
+}

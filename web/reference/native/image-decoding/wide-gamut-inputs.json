@@ -1,0 +1,32 @@
+[
+  {
+    "file": "display-p3.png",
+    "profile": "Display P3.icc",
+    "profile_sha256": "0ff6958f98684c61f6bbdce1368ddeaf3873baf84545baba482e920d92a914c0",
+    "input_sha256": "0d813e5a502b474e6e69cd6d579d6629f928eb88714da966600eed47d0602a26"
+  },
+  {
+    "file": "display-p3.jpg",
+    "profile": "Display P3.icc",
+    "profile_sha256": "0ff6958f98684c61f6bbdce1368ddeaf3873baf84545baba482e920d92a914c0",
+    "input_sha256": "0e16759a03cdbd61e5107bd9c4ba46b15b8e78815a6861b15ec4865655535bd0"
+  },
+  {
+    "file": "display-p3-alpha.png",
+    "profile": "Display P3.icc",
+    "profile_sha256": "0ff6958f98684c61f6bbdce1368ddeaf3873baf84545baba482e920d92a914c0",
+    "input_sha256": "e6b98c75935a2dbc7c76960ef027fbf5ec04ebf08496c171d211978e18f8cef3"
+  },
+  {
+    "file": "adobe-rgb.png",
+    "profile": "AdobeRGB1998.icc",
+    "profile_sha256": "304f569a83c1e5eddaddac54e99ed03339333db013738bb499ab64f049887e28",
+    "input_sha256": "8b3b7f5fe987aaccdf69d928dd3b871fc0f6a97969be3f7892d66830b78736b9"
+  },
+  {
+    "file": "adobe-rgb.jpg",
+    "profile": "AdobeRGB1998.icc",
+    "profile_sha256": "304f569a83c1e5eddaddac54e99ed03339333db013738bb499ab64f049887e28",
+    "input_sha256": "e06f0f9e41afedc1c7b3a7408038d1d0cb008ffb297e72b38537861b5e4a3cb1"
+  }
+]

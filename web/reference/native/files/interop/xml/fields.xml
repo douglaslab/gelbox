@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<Sample name="A &amp; B β" icon="microtube1500ul.png" iconScale="0.625" id="99">
+  <Buffer><b name="Tris" mass="0"/></Buffer>
+  <Fragment><Bases value="2500"/><Mass value="19.5"/><Degrade value="0.375"/><Color value="4080c0"/><Dye value="3"/><AspectRatio value="7"/><Aggregate Size="0" Weight="2"/></Fragment>
+  <Fragment><Bases value="700"/><Mass value="8.25"/><Color value="0x123456"/></Fragment>
+  <Fragment><Bases value="400"/><Mass value="5"/><Color value="  0Xabcdef  "/></Fragment>
+</Sample>

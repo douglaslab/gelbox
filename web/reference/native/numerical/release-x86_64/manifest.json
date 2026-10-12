@@ -1,0 +1,18 @@
+{
+  "files": {
+    "README.md": "daa86126d3807f697168a5182b9832e44da20a755a477b7729394ee342d199fc",
+    "band-solver.log": "cb9e774afe47d27da6cbb3738314abd9b1ba6436b187a1afe66a80025f648ca6",
+    "compatibility-missing-pngjs.log": "5bd7be18f73998cb535dcb882483cdbd9e1fde6fdb2016ae3d28a9a4fb87da70",
+    "compatibility.log": "f00a70e8b7516d4264bbe1b6f8dbce00ed60ec5b6ffd5247b10f938ded68df95",
+    "integration-check.json": "607ac8083070a952922034cf745f7e4acdf960e7c21021ed3f46fbcccb6bd8c1",
+    "native-build.log": "560e7a8ba27a56e718db3334b06f5bab03a1960a23a37e86b5117ae01c1ca86c",
+    "outputs.json": "ce39bf4d1ace90059851c2b89fa8fb1494bba953669aac53572bef1181be4fe0",
+    "production.log": "77b0ec8bdd578257e246126509680ec225923540ca20f0a2725977ebd4d80219",
+    "provenance.json": "887499094ecac728d15d4f118a235d101b4b82047f79e5fe537ccb6641186bf2",
+    "review.md": "fa7263f3269e7bc91249dfb48dd5685c931c44ffa44abb0664cc49de50278cdd",
+    "runtime.patch": "d675769dfebdedf36a56ab63ae41bd83db9377297ffc419686ca6a68d6988cd0",
+    "units.log": "5da84f3fba8af3a9589f3ebda98b34e8ebaf6e907bb177010d87bd9bdf80dae1",
+    "visual.log": "ea231447949f29de0714490214d335378e3d934022df7b9941cdf8c3fcc37a70",
+    "web-build.log": "8f067c9978f43ae7be92a27b133c994ed7e7e63a917d2828e307ae298ab15e85"
+  }
+}

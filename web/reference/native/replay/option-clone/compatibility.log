@@ -1,0 +1,15 @@
+
+Running 2 tests using 2 workers
+
+(node:43810) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43809) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43810) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43809) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [webkit-webgl2] › tube-movement.spec.ts:6:1 › native Option tube clone and destination click retain the complete sample (856ms)
+  ✓  2 [firefox-webgl2] › tube-movement.spec.ts:6:1 › native Option tube clone and destination click retain the complete sample (1.2s)
+
+  2 passed (2.1s)

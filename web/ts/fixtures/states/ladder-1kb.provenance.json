@@ -1,0 +1,14 @@
+{
+  "kind": "native startup sample",
+  "reference": "../../../reference/native/files/ladder-after-selection.gel.json",
+  "referenceProvenance": "../../../reference/native/manifest.json",
+  "nativeSource": "5f51097 GelboxApp::setup, assets/palette/1kbladder.xml",
+  "generator": "node ts/scripts/gen-ladder-1kb.mjs (from repository root)",
+  "fixtureSha256": "4fe304e0318be1f100d9186a5a0ba2263f679abdc6c6342ad2754500db3e9b9f",
+  "notes": [
+    "Exact recorded native sample fields; RGB floats are preserved without gamma decoding.",
+    "Selection is not a serialized native document field.",
+    "Aggregate [1] is preserved; unlike an empty aggregate, it consumes an RNG draw in the native and web particle generator.",
+    "Matching the startup document does not certify numerical or raster parity."
+  ]
+}

@@ -1,0 +1,252 @@
+diff --git a/include/Buffer.h b/include/Buffer.h
+index 416283a..54f7d68 100644
+--- a/include/Buffer.h
++++ b/include/Buffer.h
+@@ -11,7 +11,7 @@
+ #include <memory>
+ #include "cinder/gl/Texture.h"
+ #include "cinder/Xml.h"
+-#include "cinder/Json.h"
++#include "JsonTree.h"
+ 
+ namespace Gelbox
+ {
+diff --git a/include/FileWatch.h b/include/FileWatch.h
+index ffd9057..43127b8 100644
+--- a/include/FileWatch.h
++++ b/include/FileWatch.h
+@@ -10,14 +10,18 @@
+ #define FileWatch_hpp
+ 
+ #include "cinder/Xml.h"
+-#include "cinder/Json.h"
++#include "JsonTree.h"
+ #include "cinder/Filesystem.h"
++#include "cinder/gl/GlslProg.h"
++#include "cinder/DataSource.h"
+ #include <ctime>
++#include <functional>
++#include <map>
++#include <vector>
+ 
+ using namespace ci;
+ using namespace ci::app;
+ using namespace std;
+-using namespace boost;
+ 
+ class FileWatch
+ {
+@@ -48,7 +52,7 @@ private:
+ 	
+ 	void doLoad( fs::path, tCallback );
+ 	
+-	map< fs::path, pair<time_t,tCallback> > mFileWatch ;
++	map< fs::path, pair<fs::file_time_type,tCallback> > mFileWatch ;
+ 
+ 	
+ };
+diff --git a/include/Gel.h b/include/Gel.h
+index 9be0dc8..6453490 100644
+--- a/include/Gel.h
++++ b/include/Gel.h
+@@ -13,7 +13,7 @@
+ #include "glm/vec2.hpp"
+ #include "cinder/Rand.h"
+ #include "cinder/Color.h"
+-#include "cinder/Json.h"
++#include "JsonTree.h"
+ #include "Buffer.h"
+ #include "GelSim.h"
+ #include "GelRender.h"
+diff --git a/include/GelSim.h b/include/GelSim.h
+index bf6a4fc..1c65414 100644
+--- a/include/GelSim.h
++++ b/include/GelSim.h
+@@ -11,7 +11,7 @@
+ #include "Buffer.h"
+ #include "Band.h"
+ #include "Dye.h"
+-#include "cinder/Json.h"
++#include "JsonTree.h"
+ 
+ class Sample;
+ 
+diff --git a/include/Gelbox_Prefix.h b/include/Gelbox_Prefix.h
+new file mode 100644
+index 0000000..226b4a6
+--- /dev/null
++++ b/include/Gelbox_Prefix.h
+@@ -0,0 +1,12 @@
++#if defined( __cplusplus )
++	#include "cinder/Cinder.h"
++	
++	#include "cinder/app/App.h"
++	
++	#include "cinder/gl/gl.h"
++	
++	#include "cinder/CinderMath.h"
++	#include "cinder/Matrix.h"
++	#include "cinder/Vector.h"
++	#include "cinder/Quaternion.h"
++#endif
+diff --git a/include/Layout.h b/include/Layout.h
+index 1237394..5d05053 100644
+--- a/include/Layout.h
++++ b/include/Layout.h
+@@ -8,6 +8,8 @@
+ 
+ #pragma once
+ 
++#include "cinder/Font.h"
++
+ #include <map>
+ #include <string>
+ 
+diff --git a/include/MolecularSim.h b/include/MolecularSim.h
+index f6e6f1f..9d90a3a 100644
+--- a/include/MolecularSim.h
++++ b/include/MolecularSim.h
+@@ -11,6 +11,8 @@
+ 
+ #pragma once
+ 
++#include "cinder/TriMesh.h"
++
+ class DegradeFilter : public std::map<int,int> {}; // fragment => base pair size equiv
+ 
+ class MolecularSimTuning
+diff --git a/include/Sample.h b/include/Sample.h
+index b95a134..9c69b74 100644
+--- a/include/Sample.h
++++ b/include/Sample.h
+@@ -11,7 +11,7 @@
+ #include <vector>
+ #include "cinder/Rand.h"
+ #include "cinder/Xml.h"
+-#include "cinder/Json.h"
++#include "JsonTree.h"
+ #include "Dye.h"
+ #include "Buffer.h"
+ #include "Aggregate.h"
+diff --git a/include/Serialize.h b/include/Serialize.h
+index 984d1d2..afdc646 100644
+--- a/include/Serialize.h
++++ b/include/Serialize.h
+@@ -6,7 +6,7 @@
+ //
+ 
+ #include <string>
+-#include "cinder/Json.h"
++#include "JsonTree.h"
+ #include "cinder/Xml.h"
+ #include "cinder/Color.h"
+ 
+diff --git a/src/FileWatch.cpp b/src/FileWatch.cpp
+index d15c771..e9c3ac8 100644
+--- a/src/FileWatch.cpp
++++ b/src/FileWatch.cpp
+@@ -26,10 +26,10 @@ void FileWatch::scanFiles()
+ {
+ 	for( auto &i : mFileWatch )
+ 	{
+-		if ( boost::filesystem::exists(i.first) )
++		if ( fs::exists(i.first) )
+ 		{
+-			time_t lastreadtime = i.second.first ;
+-			time_t modtime = boost::filesystem::last_write_time(i.first);
++			fs::file_time_type lastreadtime = i.second.first ;
++			fs::file_time_type modtime = fs::last_write_time(i.first);
+ 			
+ 			if ( modtime > lastreadtime )
+ 			{
+@@ -47,11 +47,11 @@ void FileWatch::load( fs::path path, tCallback func )
+ 	
+ 	doLoad(path,func);
+ 
+-	time_t modtime = boost::filesystem::exists(path)
+-						? boost::filesystem::last_write_time(path)
+-						: (time_t)0; // epoch; not found, so keep trying...
++	fs::file_time_type modtime = fs::exists(path)
++						? fs::last_write_time(path)
++						: fs::file_time_type(); // epoch; not found, so keep trying...
+ 
+-	mFileWatch[path] = pair<time_t,tCallback>(modtime,func) ;
++	mFileWatch[path] = pair<fs::file_time_type,tCallback>(modtime,func) ;
+ }
+ 
+ void FileWatch::load ( vector<fs::path> ps, tMultiCallback func )
+@@ -141,7 +141,7 @@ void FileWatch::doLoad( fs::path path, tCallback func )
+ {
+ 	cout << "FileWatch::doLoad " << path << endl;
+ 	
+-	if ( boost::filesystem::exists(path) )
++	if ( fs::exists(path) )
+ 	{
+ 		func(path);
+ 	}
+diff --git a/src/GelboxApp.cpp b/src/GelboxApp.cpp
+index ea8f355..b921e28 100644
+--- a/src/GelboxApp.cpp
++++ b/src/GelboxApp.cpp
+@@ -372,7 +372,7 @@ void GelboxApp::load( ci::fs::path i, const vec2 *dropLoc, SampleRef *sampleOut
+ {
+ 	const vector<string>	imgExtensions = {".jpg",".png",".gif"};
+ 
+-	auto doSample = [=]( SampleRef source )
++	auto doSample = [=, this]( SampleRef source )
+ 	{
+ 		if ( !source ) return;
+ 		
+@@ -399,7 +399,7 @@ void GelboxApp::load( ci::fs::path i, const vec2 *dropLoc, SampleRef *sampleOut
+ 		}		
+ 	};
+ 	
+-	auto doGel = [=]( GelRef gel )
++	auto doGel = [=, this]( GelRef gel )
+ 	{
+ 		if (gel && mGelView) mGelView->setGel(gel);		
+ 	};
+diff --git a/src/MolecularSim.cpp b/src/MolecularSim.cpp
+index 94cc50a..8fbccab 100644
+--- a/src/MolecularSim.cpp
++++ b/src/MolecularSim.cpp
+@@ -9,6 +9,7 @@
+ #include "GelSim.h"
+ #include "Sample.h"
+ #include "Layout.h"
++#include "PolyClip.h"
+ 
+ using namespace std;
+ using namespace ci;
+@@ -790,13 +791,13 @@ void MolecularSim::Part::makeMesh_slice(
+ 	{
+ 		vector<PolyLine2> cutWith(1);
+ 		makeDegradeIntersectShape( radius, inflateRadius, mWholeness, r, cutWith[0] );
+-		vector<PolyLine2> out = PolyLine2::calcIntersection( circle, cutWith );
++		PolyLine2 out = calcConvexIntersection( circle[0], cutWith[0] );
+ 
+-		if ( out.empty() ) {
+-			// calcIntersection might fail..., so fallback
+-			out = cutWith;
++		if ( out.size() < 3 ) {
++			// clipping might fail..., so fallback
++			polylineToMesh( cutWith[0], color, mesh );
+ 		}
+-		else polylineToMesh( out[0], color, mesh );
++		else polylineToMesh( out, color, mesh );
+ 	}
+ 	else
+ 	{
+diff --git a/src/SampleView.cpp b/src/SampleView.cpp
+index a4469a5..0f12741 100644
+--- a/src/SampleView.cpp
++++ b/src/SampleView.cpp
+@@ -6,7 +6,7 @@
+ //
+ //
+ 
+-#include "cinder/ConvexHull.h"
++#include "ConvexHull.h"
+ #include "cinder/Rand.h"
+ 
+ #include "SampleView.h"

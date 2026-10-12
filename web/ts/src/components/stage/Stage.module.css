@@ -1,0 +1,6 @@
+.stage {
+  position: relative;
+  background: #FFFFFF;
+}
+.slot { position: absolute; }
+.braceWrap { position: absolute; pointer-events: none; }

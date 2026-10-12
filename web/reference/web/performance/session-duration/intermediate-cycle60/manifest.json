@@ -1,0 +1,16 @@
+{
+  "artifacts": {
+    "README.md": "3bc19968df1e81412d755151056c82f5d68000a12154f4dff98e3e3957086025",
+    "assessment.json": "ca9987339368b573cdf307fd6050bd1367cc6e9e58a463f995f784a22fda1272",
+    "webgl2-vmmap-10-GPU-85259.txt.gz": "c758078835be579ef19d58713f090136f5620f3096d1a63e652da760a724e297",
+    "webgl2-vmmap-10-renderer-85263.txt.gz": "b8d95053b373052f3dd092c551475c430c10b76ab075cb7c5cfa0c703cb9e6b9",
+    "webgl2-vmmap-60-GPU-85259.txt.gz": "36e380094483f76119c2555fd1bc82102d5593dff0d0f26aa5fe9186e00cd96b",
+    "webgl2-vmmap-60-renderer-85263.txt.gz": "a48a4f0f3af87d95f080a20bce87e47f81b58208d4bb73e0ac9a367a1f723256",
+    "webgl2.json": "7f9b99bd1cc30a1ac127e7ab4de7222326205c0da22760958451ebd5c87caa8f",
+    "webgpu-vmmap-10-GPU-85258.txt.gz": "351b5a3a42e82eb55e09d20f19e7662389b02dc23290e6473489e74fcc11f0f6",
+    "webgpu-vmmap-10-renderer-85262.txt.gz": "a6a68f761327f17f2b913c81e770f5b4ad69dcf6b0c37eb19efe96933a6d2f50",
+    "webgpu-vmmap-60-GPU-85258.txt.gz": "bd20c15a2fc5dcd4d5c51c7fe81d8cb1eeb390579a63c484d02f904b42da89d3",
+    "webgpu-vmmap-60-renderer-85262.txt.gz": "df4278159f57cc6a24ad4054c2a01bc2cb45910cf18f7fd4036bb4d2f402eafb",
+    "webgpu.json": "137d7751ea98a0e00fd02a2d2cedcf46160168528d863a48da3f43b22773313a"
+  }
+}

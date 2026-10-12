@@ -1,0 +1,54 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.production.config.ts voltage-curvature.spec.ts --output=/tmp/gel-voltage-curvature-red
+
+
+Running 2 tests using 2 workers
+
+(node:3379) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3379) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-webgpu] › voltage-curvature.spec.ts:5:1 › negative voltage reverses visible band curvature and positive voltage restores it (668ms)
+  ✘  2 [chromium-webgl2] › voltage-curvature.spec.ts:5:1 › negative voltage reverses visible band curvature and positive voltage restores it (834ms)
+
+
+  1) [chromium-webgpu] › voltage-curvature.spec.ts:5:1 › negative voltage reverses visible band curvature and positive voltage restores it 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: > [32m0.25[39m
+    Received:   [31m-0.9602873023973828[39m
+
+      33 |   const positive=await read('positive');expect(positive.bend.delta).toBeLessThan(-.25);
+      34 |   await page.getByTestId('gel-voltage-icon-lo').click();
+    > 35 |   const negative=await read('negative');expect(negative.bend.delta).toBeGreaterThan(.25);
+         |                                                                     ^
+      36 |   await page.getByTestId('gel-voltage-icon-hi').click();
+      37 |   const restored=await read('restored');expect(restored.png).toEqual(positive.png);
+      38 |   await writeFile(info.outputPath('curvature.json'),JSON.stringify({positive:positive.bend,negative:negative.bend,restored:restored.bend},null,2));
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/voltage-curvature.spec.ts:35:69
+
+  2) [chromium-webgl2] › voltage-curvature.spec.ts:5:1 › negative voltage reverses visible band curvature and positive voltage restores it 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: > [32m0.25[39m
+    Received:   [31m-0.9602873023973828[39m
+
+      33 |   const positive=await read('positive');expect(positive.bend.delta).toBeLessThan(-.25);
+      34 |   await page.getByTestId('gel-voltage-icon-lo').click();
+    > 35 |   const negative=await read('negative');expect(negative.bend.delta).toBeGreaterThan(.25);
+         |                                                                     ^
+      36 |   await page.getByTestId('gel-voltage-icon-hi').click();
+      37 |   const restored=await read('restored');expect(restored.png).toEqual(positive.png);
+      38 |   await writeFile(info.outputPath('curvature.json'),JSON.stringify({positive:positive.bend,negative:negative.bend,restored:restored.bend},null,2));
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/voltage-curvature.spec.ts:35:69
+
+  2 failed
+    [chromium-webgpu] › voltage-curvature.spec.ts:5:1 › negative voltage reverses visible band curvature and positive voltage restores it 
+    [chromium-webgl2] › voltage-curvature.spec.ts:5:1 › negative voltage reverses visible band curvature and positive voltage restores it 

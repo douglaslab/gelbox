@@ -1,0 +1,80 @@
+{
+  "implementationCommit": "8d577da",
+  "nativeManifestSha256": "bed5fe11da97fed7e6619ce1b92b389c5644133767d29144f9c581b8c6158306",
+  "prototypePatchSha256": "a88b3d04cf9830df0de4eeda871673a3e9e490562d321269fac09e48a384d706",
+  "groups": [
+    {
+      "renderer": "before",
+      "backend": "webgpu",
+      "scale": 1,
+      "cases": 18,
+      "mismatches": 16,
+      "maxChannelDifference": 102,
+      "differentChannels": 3143
+    },
+    {
+      "renderer": "before",
+      "backend": "webgl2",
+      "scale": 2,
+      "cases": 18,
+      "mismatches": 16,
+      "maxChannelDifference": 102,
+      "differentChannels": 10986
+    },
+    {
+      "renderer": "before",
+      "backend": "webgl2",
+      "scale": 1,
+      "cases": 18,
+      "mismatches": 16,
+      "maxChannelDifference": 102,
+      "differentChannels": 3143
+    },
+    {
+      "renderer": "before",
+      "backend": "webgpu",
+      "scale": 2,
+      "cases": 18,
+      "mismatches": 16,
+      "maxChannelDifference": 102,
+      "differentChannels": 10986
+    },
+    {
+      "renderer": "msaa",
+      "backend": "webgpu",
+      "scale": 1,
+      "cases": 18,
+      "mismatches": 16,
+      "maxChannelDifference": 1,
+      "differentChannels": 2538
+    },
+    {
+      "renderer": "msaa",
+      "backend": "webgl2",
+      "scale": 2,
+      "cases": 18,
+      "mismatches": 16,
+      "maxChannelDifference": 1,
+      "differentChannels": 9361
+    },
+    {
+      "renderer": "msaa",
+      "backend": "webgl2",
+      "scale": 1,
+      "cases": 18,
+      "mismatches": 16,
+      "maxChannelDifference": 1,
+      "differentChannels": 2538
+    },
+    {
+      "renderer": "msaa",
+      "backend": "webgpu",
+      "scale": 2,
+      "cases": 18,
+      "mismatches": 16,
+      "maxChannelDifference": 1,
+      "differentChannels": 9361
+    }
+  ],
+  "status": "Both current renderer and transparent MSAA prototype fail exact native compositing. Prototype reverted; production unchanged."
+}

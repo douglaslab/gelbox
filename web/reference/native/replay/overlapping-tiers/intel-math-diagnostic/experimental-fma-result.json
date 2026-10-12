@@ -1,0 +1,44 @@
+{
+  "variants": [
+    {
+      "address": "0x7ff8148330e0",
+      "result": 0.41024816036224365
+    },
+    {
+      "address": "0x7ff814832e30",
+      "result": 0.41062676906585693
+    }
+  ],
+  "fusedOperations": [
+    [
+      -2.41349022405096,
+      0.006069489462365851,
+      2.32031452687584,
+      2.3056658733934396
+    ],
+    [
+      1.163617385926952,
+      0.006069489462365851,
+      2.15422269549933,
+      2.1612852589614393
+    ],
+    [
+      1.645755478153965,
+      -0.0019738371818277573,
+      1.645755478153965,
+      1.642507024798988
+    ]
+  ],
+  "qualified": false,
+  "sanity": [
+    {
+      "precision": 80,
+      "roundedFloat32": 0.41024816036224365
+    },
+    {
+      "precision": 160,
+      "roundedFloat32": 0.41024816036224365
+    }
+  ],
+  "limitation": "Experimental FMA-hook execution gives an alternate-variant result inconsistent with both high-precision controls. Not an acceptance oracle; no reference fixtures changed."
+}

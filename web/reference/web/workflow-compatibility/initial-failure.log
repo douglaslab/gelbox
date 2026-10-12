@@ -1,0 +1,82 @@
+
+Running 8 tests using 8 workers
+
+(node:56859) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56854) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56858) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56859) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56854) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56855) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56858) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56857) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56855) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56857) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56856) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56856) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  6 [webkit-webgl2] › file-workflow.spec.ts:63:1 › compiled queued mixed drops use the new layout and preserve occupied or full lanes (850ms)
+  ✓  8 [webkit-webgl2] › hidden-lanes.spec.ts:6:37 › compiled lane controls retain hidden data and reset selection (loupe:false) (1.5s)
+  ✓  5 [webkit-webgl2] › hidden-lanes.spec.ts:6:37 › compiled lane controls retain hidden data and reset selection (loupe:true) (1.6s)
+  ✓  4 [firefox-webgl2] › file-workflow.spec.ts:63:1 › compiled queued mixed drops use the new layout and preserve occupied or full lanes (1.2s)
+  ✓  1 [firefox-webgl2] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen (2.0s)
+  ✓  7 [firefox-webgl2] › hidden-lanes.spec.ts:6:37 › compiled lane controls retain hidden data and reset selection (loupe:false) (1.7s)
+  ✓  2 [firefox-webgl2] › hidden-lanes.spec.ts:6:37 › compiled lane controls retain hidden data and reset selection (loupe:true) (6.8s)
+  ✘  3 [webkit-webgl2] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen (30.0s)
+
+
+  1) [webkit-webgl2] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForEvent: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for event "download"
+    ============================================================
+
+       8 |  const menu=page.getByRole('button',{name:'Application settings'});
+       9 |  if(await menu.getAttribute('aria-expanded')!=='true')await menu.click();
+    > 10 |  const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+         |                     ^
+      11 |  const doc=JSON.parse(await readFile((await (await pending).path())!,'utf8'));
+      12 |  await page.keyboard.press('Escape');return doc;
+      13 | }
+        at save (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/file-workflow.spec.ts:10:21)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/file-workflow.spec.ts:27:10
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByTestId('save-gel-btn')[22m
+
+
+       8 |  const menu=page.getByRole('button',{name:'Application settings'});
+       9 |  if(await menu.getAttribute('aria-expanded')!=='true')await menu.click();
+    > 10 |  const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+         |                                                                                     ^
+      11 |  const doc=JSON.parse(await readFile((await (await pending).path())!,'utf8'));
+      12 |  await page.keyboard.press('Escape');return doc;
+      13 | }
+        at save (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/file-workflow.spec.ts:10:85)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/file-workflow.spec.ts:27:10
+
+  1 failed
+    [webkit-webgl2] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen 
+  7 passed (30.6s)

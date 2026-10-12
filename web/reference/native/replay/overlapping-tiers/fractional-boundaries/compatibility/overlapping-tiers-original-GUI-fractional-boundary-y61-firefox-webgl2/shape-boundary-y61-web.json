@@ -1,0 +1,34 @@
+{
+  "Gelbox": {
+    "version": "1.0",
+    "type": "sample"
+  },
+  "Sample": {
+    "name": "shape-boundary-y61",
+    "icon": "microtube1500ul.png",
+    "iconScale": 0.625,
+    "id": 2147483647,
+    "Buffer": {
+      "Tris": 44.5,
+      "Borate": 44.5,
+      "Acetate": 0,
+      "EDTA": 1
+    },
+    "Fragments": [
+      {
+        "Bases": 3001,
+        "Mass": 125,
+        "Degrade": 0,
+        "AspectRatio": 1.2,
+        "Color": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "Aggregate": [
+          1
+        ]
+      }
+    ]
+  }
+}

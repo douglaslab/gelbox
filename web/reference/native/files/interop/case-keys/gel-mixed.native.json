@@ -1,0 +1,45 @@
+{
+   "Gel" : {
+      "Buffer" : {
+         "Acetate" : 0,
+         "Borate" : 11,
+         "EDTA" : 1,
+         "Tris" : 22
+      },
+      "Samples" : [
+         {
+            "Buffer" : {
+               "Acetate" : 3,
+               "Borate" : 2,
+               "EDTA" : 0.5,
+               "Tris" : 12.5
+            },
+            "Fragments" : [
+               {
+                  "Aggregate" : [ 0, 1 ],
+                  "AspectRatio" : 2,
+                  "Bases" : 2500,
+                  "Color" : [ 0.25, 0.5, 0.75 ],
+                  "Degrade" : 0.25,
+                  "Dye" : "Orange G",
+                  "Mass" : 32
+               }
+            ],
+            "icon" : "",
+            "iconScale" : 0.5,
+            "id" : 42,
+            "name" : "uppercase wins"
+         },
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      ],
+      "Time" : 0.5,
+      "Voltage" : 80,
+      "WellDamage" : 0.25
+   }
+}
+

@@ -1,0 +1,30 @@
+{
+  "scope": "Accelerated sampling consistency control, not two-hour acceptance",
+  "runtime": "26b4eb0",
+  "results": [
+    {
+      "backend": "chromium-webgpu",
+      "elapsedMs": 40198,
+      "baselineHeapBytes": 6623772,
+      "maximumHeapGrowthBytes": 792992,
+      "finalHeapGrowthBytes": 778380,
+      "resourceBaseline": 66,
+      "cycles": 120,
+      "holdMs": 0,
+      "checkpoints": 12,
+      "samplesPerCheckpoint": 3
+    },
+    {
+      "backend": "chromium-webgl2",
+      "elapsedMs": 41043,
+      "baselineHeapBytes": 6606088,
+      "maximumHeapGrowthBytes": 792424,
+      "finalHeapGrowthBytes": 792424,
+      "resourceBaseline": 37,
+      "cycles": 120,
+      "holdMs": 0,
+      "checkpoints": 12,
+      "samplesPerCheckpoint": 3
+    }
+  ]
+}

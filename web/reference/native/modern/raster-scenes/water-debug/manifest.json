@@ -1,0 +1,53 @@
+{
+  "base": "../manifest.json",
+  "patches": [
+    "GelRender.cpp.patch (replaces previous GelRender patch)",
+    "RasterProbe.h.patch"
+  ],
+  "sourceSha256": {
+    "src/GelRender.cpp": "e390fbf5abb83ec4e710579b45d5ea4e8a60a129896ae17e748ca48a0d182d69",
+    "src/RasterProbe.h": "d47f6f5dfb69b914be966beaade14a5b2c7452f951c1fd13e3bc12ac63928844",
+    "src/GelboxApp.cpp": "6d1dfdd4d337a829f213081e81cf4ecf942c7bacd89b47a439d7e4e3d4ffa4f6"
+  },
+  "executableSha256": "4567db3aff4ee60b2e9b1f6cd26b5b3d9e7625fe6c17c4bc4d1a21d89865d85a",
+  "nativeScenePngsUnchanged": true,
+  "nativeRuntime": {
+    "scale": [
+      5,
+      10
+    ],
+    "amount": 3.5,
+    "faint": 0.25,
+    "blend": true,
+    "depthTest": false,
+    "scissorTest": false
+  },
+  "comparison": {
+    "water-1": {
+      "preWarpDifferentPixels": 0,
+      "controlDifferentPixels": 0
+    },
+    "combined-1": {
+      "preWarpDifferentPixels": 0,
+      "controlDifferentPixels": 0
+    },
+    "water-2": {
+      "preWarpDifferentPixels": 0,
+      "controlDifferentPixels": 0
+    },
+    "combined-2": {
+      "preWarpDifferentPixels": 0,
+      "controlDifferentPixels": 0
+    }
+  },
+  "captures": {
+    "combined-1-before.png": "91d0d90c820579dee5f81e86a2611dace4b08a3d3d9a134615d36e0292f36770",
+    "combined-1-control.png": "9ae8bc07a16a6bdee87e1cc38fb30e248d800670d6dc5847d03c446661a802f3",
+    "combined-2-before.png": "a5809ebe76629fb6140cc1babb97f705f76f3936dc012b37b5874c23b0e6ba29",
+    "combined-2-control.png": "6edd6418d836fe9e8fe9e29a657796b024925cddd1dff5e634647f9170615d0c",
+    "water-1-before.png": "517c173639aba3a537dbbd59c48c68049c7485da21da2f086bced61a3ac55880",
+    "water-1-control.png": "9ae8bc07a16a6bdee87e1cc38fb30e248d800670d6dc5847d03c446661a802f3",
+    "water-2-before.png": "d61f9b364251fedca5041a2395c41146b0c62b51b8b7b1f063b87cf0dbe679eb",
+    "water-2-control.png": "6edd6418d836fe9e8fe9e29a657796b024925cddd1dff5e634647f9170615d0c"
+  }
+}

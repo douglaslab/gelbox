@@ -1,0 +1,19 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.production.config.ts image-decoding.spec.ts -g retain native orientation --output=/tmp/gel-wide-gamut-production
+
+
+Running 2 tests using 2 workers
+
+(node:20745) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20746) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20745) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20746) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium-webgpu] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences (368ms)
+  ✓  1 [chromium-webgl2] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences (372ms)
+
+  2 passed (733ms)

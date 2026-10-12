@@ -1,0 +1,8 @@
+Avenir-Medium 12.0 44.5 mM 47.784
+Avenir-Medium 12.0 70 V 24.240000000000002
+Avenir-Medium 12.0 3:00 23.352
+Avenir-Medium 12.0 .5x TBE 41.352
+Avenir-Heavy 24.0 Gel 38.688
+Avenir-Heavy 24.0 Sample 82.67999999999999
+Avenir-Heavy 24.0 Species 84.912
+Avenir-Heavy 12.0 Buffer 34.452

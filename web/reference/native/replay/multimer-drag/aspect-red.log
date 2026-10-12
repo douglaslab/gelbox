@@ -1,0 +1,78 @@
+
+Running 2 tests using 2 workers
+
+(node:50906) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50905) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50906) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50905) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample (2.1s)
+  ✘  1 [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample (2.1s)
+
+
+  1) [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [33m@@ -19,11 +19,11 @@[39m
+    [2m            0,[22m
+    [2m            0.4000000059604645,[22m
+    [2m            0,[22m
+    [2m            0,[22m
+    [2m          ],[22m
+    [32m-         "AspectRatio": 8.556390762329102,[39m
+    [31m+         "AspectRatio": 9,[39m
+    [2m          "Bases": 7100,[22m
+    [2m          "Color": Array [[22m
+    [2m            0.25,[22m
+    [2m            0.5,[22m
+    [2m            0.75,[22m
+
+      56 |   expect(await save('sample','web-aggregate-fractional.json')).toEqual(await native('native-aggregate-fractional.json'));
+      57 |   await page.mouse.click(1193,439);await page.mouse.click(1193,327);await page.mouse.click(1196,551);
+    > 58 |   expect(await save('sample','web-quantized-controls.json')).toEqual(await native('native-quantized-controls.json'));
+         |                                                              ^
+      59 |  }finally{await app.close();}
+      60 | });
+      61 |
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/multimer-drag.spec.ts:58:62
+
+  2) [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [33m@@ -19,11 +19,11 @@[39m
+    [2m            0,[22m
+    [2m            0.4000000059604645,[22m
+    [2m            0,[22m
+    [2m            0,[22m
+    [2m          ],[22m
+    [32m-         "AspectRatio": 8.556390762329102,[39m
+    [31m+         "AspectRatio": 9,[39m
+    [2m          "Bases": 7100,[22m
+    [2m          "Color": Array [[22m
+    [2m            0.25,[22m
+    [2m            0.5,[22m
+    [2m            0.75,[22m
+
+      56 |   expect(await save('sample','web-aggregate-fractional.json')).toEqual(await native('native-aggregate-fractional.json'));
+      57 |   await page.mouse.click(1193,439);await page.mouse.click(1193,327);await page.mouse.click(1196,551);
+    > 58 |   expect(await save('sample','web-quantized-controls.json')).toEqual(await native('native-quantized-controls.json'));
+         |                                                              ^
+      59 |  }finally{await app.close();}
+      60 | });
+      61 |
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/multimer-drag.spec.ts:58:62
+
+  2 failed
+    [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 
+    [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample 

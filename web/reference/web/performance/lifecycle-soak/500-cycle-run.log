@@ -1,0 +1,124 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test renderer-lifecycle.spec.ts --workers=1 --output=/tmp/gel-lifecycle-soak-500
+
+[2m[WebServer] [22m(node:57283) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:57286) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57286) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/500
+Lifecycle cycles completed: 20/500
+Lifecycle cycles completed: 30/500
+Lifecycle cycles completed: 40/500
+Lifecycle cycles completed: 50/500
+Lifecycle cycles completed: 60/500
+Lifecycle cycles completed: 70/500
+Lifecycle cycles completed: 80/500
+Lifecycle cycles completed: 90/500
+Lifecycle cycles completed: 100/500
+Lifecycle cycles completed: 110/500
+Lifecycle cycles completed: 120/500
+Lifecycle cycles completed: 130/500
+Lifecycle cycles completed: 140/500
+Lifecycle cycles completed: 150/500
+Lifecycle cycles completed: 160/500
+Lifecycle cycles completed: 170/500
+Lifecycle cycles completed: 180/500
+Lifecycle cycles completed: 190/500
+Lifecycle cycles completed: 200/500
+Lifecycle cycles completed: 210/500
+Lifecycle cycles completed: 220/500
+Lifecycle cycles completed: 230/500
+Lifecycle cycles completed: 240/500
+Lifecycle cycles completed: 250/500
+Lifecycle cycles completed: 260/500
+Lifecycle cycles completed: 270/500
+Lifecycle cycles completed: 280/500
+Lifecycle cycles completed: 290/500
+Lifecycle cycles completed: 300/500
+Lifecycle cycles completed: 310/500
+Lifecycle cycles completed: 320/500
+Lifecycle cycles completed: 330/500
+Lifecycle cycles completed: 340/500
+Lifecycle cycles completed: 350/500
+Lifecycle cycles completed: 360/500
+Lifecycle cycles completed: 370/500
+Lifecycle cycles completed: 380/500
+Lifecycle cycles completed: 390/500
+Lifecycle cycles completed: 400/500
+Lifecycle cycles completed: 410/500
+Lifecycle cycles completed: 420/500
+Lifecycle cycles completed: 430/500
+Lifecycle cycles completed: 440/500
+Lifecycle cycles completed: 450/500
+Lifecycle cycles completed: 460/500
+Lifecycle cycles completed: 470/500
+Lifecycle cycles completed: 480/500
+Lifecycle cycles completed: 490/500
+Lifecycle cycles completed: 500/500
+  ✓  1 [chromium-webgpu] › renderer-lifecycle.spec.ts:6:1 › repeated sample/loupe disposal and route remount release owned GPU resources (2.3m)
+(node:57354) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57354) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/500
+Lifecycle cycles completed: 20/500
+Lifecycle cycles completed: 30/500
+Lifecycle cycles completed: 40/500
+Lifecycle cycles completed: 50/500
+Lifecycle cycles completed: 60/500
+Lifecycle cycles completed: 70/500
+Lifecycle cycles completed: 80/500
+Lifecycle cycles completed: 90/500
+Lifecycle cycles completed: 100/500
+Lifecycle cycles completed: 110/500
+Lifecycle cycles completed: 120/500
+Lifecycle cycles completed: 130/500
+Lifecycle cycles completed: 140/500
+Lifecycle cycles completed: 150/500
+Lifecycle cycles completed: 160/500
+Lifecycle cycles completed: 170/500
+Lifecycle cycles completed: 180/500
+Lifecycle cycles completed: 190/500
+Lifecycle cycles completed: 200/500
+Lifecycle cycles completed: 210/500
+Lifecycle cycles completed: 220/500
+Lifecycle cycles completed: 230/500
+Lifecycle cycles completed: 240/500
+Lifecycle cycles completed: 250/500
+Lifecycle cycles completed: 260/500
+Lifecycle cycles completed: 270/500
+Lifecycle cycles completed: 280/500
+Lifecycle cycles completed: 290/500
+Lifecycle cycles completed: 300/500
+Lifecycle cycles completed: 310/500
+Lifecycle cycles completed: 320/500
+Lifecycle cycles completed: 330/500
+Lifecycle cycles completed: 340/500
+Lifecycle cycles completed: 350/500
+Lifecycle cycles completed: 360/500
+Lifecycle cycles completed: 370/500
+Lifecycle cycles completed: 380/500
+Lifecycle cycles completed: 390/500
+Lifecycle cycles completed: 400/500
+Lifecycle cycles completed: 410/500
+Lifecycle cycles completed: 420/500
+Lifecycle cycles completed: 430/500
+Lifecycle cycles completed: 440/500
+Lifecycle cycles completed: 450/500
+Lifecycle cycles completed: 460/500
+Lifecycle cycles completed: 470/500
+Lifecycle cycles completed: 480/500
+Lifecycle cycles completed: 490/500
+Lifecycle cycles completed: 500/500
+  ✓  2 [chromium-webgl2] › renderer-lifecycle.spec.ts:6:1 › repeated sample/loupe disposal and route remount release owned GPU resources (1.8m)
+
+  Slow test file: [chromium-webgpu] › renderer-lifecycle.spec.ts (2.3m)
+  Slow test file: [chromium-webgl2] › renderer-lifecycle.spec.ts (1.8m)
+  Consider splitting slow test files to speed up parallel execution
+  2 passed (4.1m)

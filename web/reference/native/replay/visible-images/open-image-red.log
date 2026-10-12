@@ -1,0 +1,66 @@
+
+Running 2 tests using 2 workers
+
+(node:76315) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:76314) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:76315) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:76314) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-webgpu] › image-decoding.spec.ts:6:1 › original-release visible image open move resize and gel replacement sequence (5.3s)
+  ✘  1 [chromium-webgl2] › image-decoding.spec.ts:6:1 › original-release visible image open move resize and gel replacement sequence (5.3s)
+
+
+  1) [chromium-webgpu] › image-decoding.spec.ts:6:1 › original-release visible image open move resize and gel replacement sequence 
+
+    Error: [31mTimed out 5000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoHaveAttribute[2m([22m[32mexpected[39m[2m)[22m
+
+    Locator: getByRole('button', { name: 'Application settings' })
+    Expected string: [32m"[7mfals[27me"[39m
+    Received string: [31m"[7mtru[27me"[39m
+    Call log:
+    [2m  - expect.toHaveAttribute with timeout 5000ms[22m
+    [2m  - waiting for getByRole('button', { name: 'Application settings' })[22m
+    [2m    9 × locator resolved to <button type="button" aria-expanded="true" data-shared-ready="1" aria-label="Application settings" aria-controls="application-file-menu">…</button>[22m
+    [2m      - unexpected value "true"[22m
+
+
+      14 |   const open=async(file:string)=>{
+      15 |    await menu.click();await page.getByTestId('file-input').setInputFiles(file);
+    > 16 |    await expect(menu).toHaveAttribute('aria-expanded','false');
+         |                       ^
+      17 |   };
+      18 |   const save=async(name:string)=>{
+      19 |    await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+        at open (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:16:23)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:31:4
+
+  2) [chromium-webgl2] › image-decoding.spec.ts:6:1 › original-release visible image open move resize and gel replacement sequence 
+
+    Error: [31mTimed out 5000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoHaveAttribute[2m([22m[32mexpected[39m[2m)[22m
+
+    Locator: getByRole('button', { name: 'Application settings' })
+    Expected string: [32m"[7mfals[27me"[39m
+    Received string: [31m"[7mtru[27me"[39m
+    Call log:
+    [2m  - expect.toHaveAttribute with timeout 5000ms[22m
+    [2m  - waiting for getByRole('button', { name: 'Application settings' })[22m
+    [2m    9 × locator resolved to <button type="button" aria-expanded="true" data-shared-ready="1" aria-label="Application settings" aria-controls="application-file-menu">…</button>[22m
+    [2m      - unexpected value "true"[22m
+
+
+      14 |   const open=async(file:string)=>{
+      15 |    await menu.click();await page.getByTestId('file-input').setInputFiles(file);
+    > 16 |    await expect(menu).toHaveAttribute('aria-expanded','false');
+         |                       ^
+      17 |   };
+      18 |   const save=async(name:string)=>{
+      19 |    await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+        at open (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:16:23)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:31:4
+
+  2 failed
+    [chromium-webgpu] › image-decoding.spec.ts:6:1 › original-release visible image open move resize and gel replacement sequence 
+    [chromium-webgl2] › image-decoding.spec.ts:6:1 › original-release visible image open move resize and gel replacement sequence 

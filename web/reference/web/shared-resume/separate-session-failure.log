@@ -1,0 +1,60 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.lifecycle.config.ts --output=/tmp/gel-built-resume-real
+
+
+Running 2 tests using 1 worker
+
+(node:91141) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91141) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-webgpu] › renderer-resume.spec.ts:5:1 › application frames and retained views resume after browser freezing (5.7s)
+(node:91164) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91164) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-webgl2] › renderer-resume.spec.ts:5:1 › application frames and retained views resume after browser freezing (5.7s)
+
+
+  1) [chromium-webgpu] › renderer-resume.spec.ts:5:1 › application frames and retained views resume after browser freezing 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m"hidden"[39m
+    Received: [31m"visible"[39m
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      46 |   for(let i=0;i<2;i++){
+      47 |    await cover.bringToFront();
+    > 48 |    await expect.poll(()=>page.evaluate(()=>document.visibilityState)).toBe('hidden');
+         |    ^
+      49 |    await cdp.send('Page.setWebLifecycleState',{state:'frozen'});
+      50 |    const frozen=await page.evaluate(()=>(window as any).__resumeFrames);
+      51 |    await page.waitForTimeout(200);
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/lifecycle/renderer-resume.spec.ts:48:4
+
+  2) [chromium-webgl2] › renderer-resume.spec.ts:5:1 › application frames and retained views resume after browser freezing 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m"hidden"[39m
+    Received: [31m"visible"[39m
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      46 |   for(let i=0;i<2;i++){
+      47 |    await cover.bringToFront();
+    > 48 |    await expect.poll(()=>page.evaluate(()=>document.visibilityState)).toBe('hidden');
+         |    ^
+      49 |    await cdp.send('Page.setWebLifecycleState',{state:'frozen'});
+      50 |    const frozen=await page.evaluate(()=>(window as any).__resumeFrames);
+      51 |    await page.waitForTimeout(200);
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/lifecycle/renderer-resume.spec.ts:48:4
+
+  2 failed
+    [chromium-webgpu] › renderer-resume.spec.ts:5:1 › application frames and retained views resume after browser freezing 
+    [chromium-webgl2] › renderer-resume.spec.ts:5:1 › application frames and retained views resume after browser freezing 

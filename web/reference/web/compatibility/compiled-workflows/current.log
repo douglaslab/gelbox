@@ -1,0 +1,19 @@
+
+Running 10 tests using 1 worker
+
+(node:93258) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/shared-production/deployment.spec.ts:5:42 › built app at / loads controls and roundtrips native files (1.3s)
+  ✓   2 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/shared-production/deployment.spec.ts:5:42 › built app at /gelbox/ loads controls and roundtrips native files (697ms)
+  ✓   3 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/shared-production/interactions.spec.ts:3:60 › compiled editing and left loupe gestures survive mode changes and resize (1.2s)
+  ✓   4 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/shared-production/interactions.spec.ts:3:60 › compiled editing and right loupe gestures survive mode changes and resize (6.2s)
+  ✓   5 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/shared-production/interactions.spec.ts:3:60 › compiled editing and middle loupe gestures survive mode changes and resize (1.5s)
+(node:93330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/shared-production/deployment.spec.ts:5:42 › built app at / loads controls and roundtrips native files (1.2s)
+  ✓   7 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/shared-production/deployment.spec.ts:5:42 › built app at /gelbox/ loads controls and roundtrips native files (707ms)
+  ✓   8 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/shared-production/interactions.spec.ts:3:60 › compiled editing and left loupe gestures survive mode changes and resize (1.2s)
+  ✓   9 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/shared-production/interactions.spec.ts:3:60 › compiled editing and right loupe gestures survive mode changes and resize (1.1s)
+  ✓  10 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/shared-production/interactions.spec.ts:3:60 › compiled editing and middle loupe gestures survive mode changes and resize (1.1s)
+
+  10 passed (17.5s)

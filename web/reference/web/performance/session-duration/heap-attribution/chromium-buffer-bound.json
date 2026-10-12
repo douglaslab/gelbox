@@ -1,0 +1,23 @@
+{
+  "browser": "HeadlessChrome/153.0.8010.12",
+  "revision": "971a7443b0c9b0a9b2860529b33331b76077ec62",
+  "jsVersion": "15.3.76.4",
+  "revisionMethod": "Browser.getVersion on a separate launch of the same test executable; active session not modified",
+  "sourceUrl": "https://chromium.googlesource.com/chromium/src/+/971a7443b0c9b0a9b2860529b33331b76077ec62/third_party/blink/renderer/core/timing/performance.cc?format=TEXT",
+  "decodedSourceSha256": "ff28d26044d705b1580a504d3b59814d0023d85ce700bc77c40c0d1724dc6234",
+  "layoutShiftBufferLimit": 150,
+  "behavior": "Insert only while size is below limit; otherwise increment dropped-entry count.",
+  "snapshotCounts": {
+    "10": {
+      "LayoutShift": 55,
+      "LayoutShiftAttribution": 165,
+      "DOMRectReadOnly": 330
+    },
+    "30": {
+      "LayoutShift": 150,
+      "LayoutShiftAttribution": 450,
+      "DOMRectReadOnly": 900
+    }
+  },
+  "scope": "Bound for browser layout-shift buffer only; not code memory, whole-browser heap, or overall acceptance."
+}

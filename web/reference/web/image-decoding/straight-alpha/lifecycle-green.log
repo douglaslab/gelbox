@@ -1,0 +1,73 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c .tmp-image-lifecycle.config.ts --output=/tmp/gel-alpha-lifecycle
+
+[2m[WebServer] [22m(node:22912) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 54 tests using 1 worker
+
+(node:22915) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22915) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium-webgpu] › reference-images.spec.ts:24:1 › shared:false › PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position (566ms)
+  ✓  2 [chromium-webgpu] › reference-images.spec.ts:40:1 › shared:false › GIF uses static first frame, Escape preserves image and Delete owns only image focus (483ms)
+  ✓  3 [chromium-webgpu] › reference-images.spec.ts:50:1 › shared:false › multi-file errors preserve successes, document replacement retains images and saves exclude them (348ms)
+  ✓  4 [chromium-webgpu] › reference-images.spec.ts:60:1 › shared:false › fully off-window release deletes; capture loss ends drag without later movement (324ms)
+  ✓  5 [chromium-webgpu] › reference-images.spec.ts:68:1 › shared:false › images and loupes share insertion order; only clicking a loupe raises it (275ms)
+  ✓  6 [chromium-webgpu] › reference-images.spec.ts:77:1 › shared:false › deletion and route unmount each release the owned bitmap exactly once (276ms)
+  ✓  7 [chromium-webgpu] › reference-images.spec.ts:91:1 › shared:false › later sample settings stay below images; later species inspectors append above them (392ms)
+  ✓  8 [chromium-webgpu] › reference-images.spec.ts:104:1 › shared:false › a second drop waits for the first decode, retaining arrival order (183ms)
+  ✓  9 [chromium-webgpu] › reference-images.spec.ts:122:1 › shared:false › a mixed file batch picks sample placement using the newly loaded gel layout (146ms)
+  ✓  10 [chromium-webgpu] › reference-images.spec.ts:133:1 › shared:false › Open waits for an earlier pending drop before replacing its document (362ms)
+  ✓  11 [chromium-webgpu] › reference-images.spec.ts:153:1 › shared:false › application settings preserves image keyboard ownership until a sample takes focus (383ms)
+  ✓  12 [chromium-webgpu] › reference-images.spec.ts:166:1 › shared:false › earlier reference image remains visible through empty Species panel space (365ms)
+  ✓  13 [chromium-webgpu] › reference-images.spec.ts:24:1 › shared:true › PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position (484ms)
+  ✓  14 [chromium-webgpu] › reference-images.spec.ts:40:1 › shared:true › GIF uses static first frame, Escape preserves image and Delete owns only image focus (466ms)
+  ✓  15 [chromium-webgpu] › reference-images.spec.ts:50:1 › shared:true › multi-file errors preserve successes, document replacement retains images and saves exclude them (352ms)
+  ✓  16 [chromium-webgpu] › reference-images.spec.ts:60:1 › shared:true › fully off-window release deletes; capture loss ends drag without later movement (307ms)
+  ✓  17 [chromium-webgpu] › reference-images.spec.ts:68:1 › shared:true › images and loupes share insertion order; only clicking a loupe raises it (289ms)
+  ✓  18 [chromium-webgpu] › reference-images.spec.ts:77:1 › shared:true › deletion and route unmount each release the owned bitmap exactly once (282ms)
+  ✓  19 [chromium-webgpu] › reference-images.spec.ts:91:1 › shared:true › later sample settings stay below images; later species inspectors append above them (444ms)
+  ✓  20 [chromium-webgpu] › reference-images.spec.ts:104:1 › shared:true › a second drop waits for the first decode, retaining arrival order (179ms)
+  ✓  21 [chromium-webgpu] › reference-images.spec.ts:122:1 › shared:true › a mixed file batch picks sample placement using the newly loaded gel layout (148ms)
+  ✓  22 [chromium-webgpu] › reference-images.spec.ts:133:1 › shared:true › Open waits for an earlier pending drop before replacing its document (356ms)
+  ✓  23 [chromium-webgpu] › reference-images.spec.ts:153:1 › shared:true › application settings preserves image keyboard ownership until a sample takes focus (428ms)
+  ✓  24 [chromium-webgpu] › reference-images.spec.ts:166:1 › shared:true › earlier reference image remains visible through empty Species panel space (388ms)
+  ✓  25 [chromium-webgpu] › shared-image.spec.ts:29:1 › reference image uses shared graphics and releases its texture on removal (243ms)
+  ✓  26 [chromium-webgpu] › shared-image.spec.ts:40:1 › late upload import and late image decode cannot allocate after removal (317ms)
+  ✓  27 [chromium-webgpu] › shared-image.spec.ts:60:1 › image survives backend loss and failed upload rollback, then retry reuses its bitmap (880ms)
+(node:22979) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22979) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  28 [chromium-webgl2] › reference-images.spec.ts:24:1 › shared:false › PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position (568ms)
+  ✓  29 [chromium-webgl2] › reference-images.spec.ts:40:1 › shared:false › GIF uses static first frame, Escape preserves image and Delete owns only image focus (478ms)
+  ✓  30 [chromium-webgl2] › reference-images.spec.ts:50:1 › shared:false › multi-file errors preserve successes, document replacement retains images and saves exclude them (338ms)
+  ✓  31 [chromium-webgl2] › reference-images.spec.ts:60:1 › shared:false › fully off-window release deletes; capture loss ends drag without later movement (337ms)
+  ✓  32 [chromium-webgl2] › reference-images.spec.ts:68:1 › shared:false › images and loupes share insertion order; only clicking a loupe raises it (290ms)
+  ✓  33 [chromium-webgl2] › reference-images.spec.ts:77:1 › shared:false › deletion and route unmount each release the owned bitmap exactly once (284ms)
+  ✓  34 [chromium-webgl2] › reference-images.spec.ts:91:1 › shared:false › later sample settings stay below images; later species inspectors append above them (430ms)
+  ✓  35 [chromium-webgl2] › reference-images.spec.ts:104:1 › shared:false › a second drop waits for the first decode, retaining arrival order (171ms)
+  ✓  36 [chromium-webgl2] › reference-images.spec.ts:122:1 › shared:false › a mixed file batch picks sample placement using the newly loaded gel layout (148ms)
+  ✓  37 [chromium-webgl2] › reference-images.spec.ts:133:1 › shared:false › Open waits for an earlier pending drop before replacing its document (264ms)
+  ✓  38 [chromium-webgl2] › reference-images.spec.ts:153:1 › shared:false › application settings preserves image keyboard ownership until a sample takes focus (402ms)
+  ✓  39 [chromium-webgl2] › reference-images.spec.ts:166:1 › shared:false › earlier reference image remains visible through empty Species panel space (430ms)
+  ✓  40 [chromium-webgl2] › reference-images.spec.ts:24:1 › shared:true › PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position (519ms)
+  ✓  41 [chromium-webgl2] › reference-images.spec.ts:40:1 › shared:true › GIF uses static first frame, Escape preserves image and Delete owns only image focus (478ms)
+  ✓  42 [chromium-webgl2] › reference-images.spec.ts:50:1 › shared:true › multi-file errors preserve successes, document replacement retains images and saves exclude them (354ms)
+  ✓  43 [chromium-webgl2] › reference-images.spec.ts:60:1 › shared:true › fully off-window release deletes; capture loss ends drag without later movement (343ms)
+  ✓  44 [chromium-webgl2] › reference-images.spec.ts:68:1 › shared:true › images and loupes share insertion order; only clicking a loupe raises it (289ms)
+  ✓  45 [chromium-webgl2] › reference-images.spec.ts:77:1 › shared:true › deletion and route unmount each release the owned bitmap exactly once (285ms)
+  ✓  46 [chromium-webgl2] › reference-images.spec.ts:91:1 › shared:true › later sample settings stay below images; later species inspectors append above them (442ms)
+  ✓  47 [chromium-webgl2] › reference-images.spec.ts:104:1 › shared:true › a second drop waits for the first decode, retaining arrival order (196ms)
+  ✓  48 [chromium-webgl2] › reference-images.spec.ts:122:1 › shared:true › a mixed file batch picks sample placement using the newly loaded gel layout (162ms)
+  ✓  49 [chromium-webgl2] › reference-images.spec.ts:133:1 › shared:true › Open waits for an earlier pending drop before replacing its document (379ms)
+  ✓  50 [chromium-webgl2] › reference-images.spec.ts:153:1 › shared:true › application settings preserves image keyboard ownership until a sample takes focus (443ms)
+  ✓  51 [chromium-webgl2] › reference-images.spec.ts:166:1 › shared:true › earlier reference image remains visible through empty Species panel space (419ms)
+  ✓  52 [chromium-webgl2] › shared-image.spec.ts:29:1 › reference image uses shared graphics and releases its texture on removal (246ms)
+  ✓  53 [chromium-webgl2] › shared-image.spec.ts:40:1 › late upload import and late image decode cannot allocate after removal (344ms)
+  ✓  54 [chromium-webgl2] › shared-image.spec.ts:60:1 › image survives backend loss and failed upload rollback, then retry reuses its bitmap (910ms)
+
+  54 passed (20.8s)

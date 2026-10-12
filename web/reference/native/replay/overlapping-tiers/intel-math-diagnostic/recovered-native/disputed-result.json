@@ -1,0 +1,6 @@
+{
+  "returncode": 0,
+  "elapsedSeconds": 0.2816297500394285,
+  "stdout": "{\"base\":0.78599178791046143,\"exponent\":3.7000000476837158,\"result\":0.41024816036224365,\"image\":\"/usr/lib/system/libsystem_m.dylib\",\"symbolOffset\":94432}\n",
+  "stderr": ""
+}

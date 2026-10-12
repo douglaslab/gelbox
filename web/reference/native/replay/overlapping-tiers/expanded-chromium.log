@@ -1,0 +1,239 @@
+
+Running 10 tests using 2 workers
+
+(node:5853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5854) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5854) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-356 drag matches original native (320ms)
+  ✘  1 [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native (321ms)
+(node:5871) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5871) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers trimer-only drag matches original native (523ms)
+  ✘  3 [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-358 drag matches original native (703ms)
+(node:5902) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5902) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers dimer-only drag matches original native (451ms)
+(node:5906) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5906) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  6 [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native (510ms)
+  ✘  7 [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-356 drag matches original native (414ms)
+(node:5919) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5919) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5922) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5922) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  8 [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-358 drag matches original native (463ms)
+(node:5935) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5935) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  9 [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers trimer-only drag matches original native (509ms)
+  ✓  10 [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers dimer-only drag matches original native (463ms)
+
+
+  1) [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [33m@@ -20,11 +20,11 @@[39m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m              ],[22m
+    [2m              "AspectRatio": 1,[22m
+    [32m-             "Bases": 922,[39m
+    [31m+             "Bases": 1001,[39m
+    [2m              "Color": Array [[22m
+    [2m                0.5,[22m
+    [2m                0.25,[22m
+    [2m                0.75,[22m
+    [2m              ],[22m
+
+      28 |    expect(actual.Gel.Time).toBe(0.1);
+      29 |    expect(native.Gel.Time).toBe(Math.fround(actual.Gel.Time));
+    > 30 |    expect({...actual,Gel:{...actual.Gel,Time:Math.fround(actual.Gel.Time)}}).toEqual(native);
+         |                                                                              ^
+      31 |    await page.mouse.move(0,0);await page.screenshot({path:info.outputPath(`${name}.png`)});
+      32 |   }finally{await app.close();}
+      33 |  });
+        at /private/tmp/gel-modifier-compiled-bdc7fbd/ts/tests/production/overlapping-tiers.spec.ts:30:78
+
+  2) [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-356 drag matches original native 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [33m@@ -20,11 +20,11 @@[39m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m              ],[22m
+    [2m              "AspectRatio": 1,[22m
+    [32m-             "Bases": 922,[39m
+    [31m+             "Bases": 1001,[39m
+    [2m              "Color": Array [[22m
+    [2m                0.5,[22m
+    [2m                0.25,[22m
+    [2m                0.75,[22m
+    [2m              ],[22m
+
+      28 |    expect(actual.Gel.Time).toBe(0.1);
+      29 |    expect(native.Gel.Time).toBe(Math.fround(actual.Gel.Time));
+    > 30 |    expect({...actual,Gel:{...actual.Gel,Time:Math.fround(actual.Gel.Time)}}).toEqual(native);
+         |                                                                              ^
+      31 |    await page.mouse.move(0,0);await page.screenshot({path:info.outputPath(`${name}.png`)});
+      32 |   }finally{await app.close();}
+      33 |  });
+        at /private/tmp/gel-modifier-compiled-bdc7fbd/ts/tests/production/overlapping-tiers.spec.ts:30:78
+
+  3) [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-358 drag matches original native 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [33m@@ -20,11 +20,11 @@[39m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m              ],[22m
+    [2m              "AspectRatio": 1,[22m
+    [32m-             "Bases": 922,[39m
+    [31m+             "Bases": 1001,[39m
+    [2m              "Color": Array [[22m
+    [2m                0.5,[22m
+    [2m                0.25,[22m
+    [2m                0.75,[22m
+    [2m              ],[22m
+
+      28 |    expect(actual.Gel.Time).toBe(0.1);
+      29 |    expect(native.Gel.Time).toBe(Math.fround(actual.Gel.Time));
+    > 30 |    expect({...actual,Gel:{...actual.Gel,Time:Math.fround(actual.Gel.Time)}}).toEqual(native);
+         |                                                                              ^
+      31 |    await page.mouse.move(0,0);await page.screenshot({path:info.outputPath(`${name}.png`)});
+      32 |   }finally{await app.close();}
+      33 |  });
+        at /private/tmp/gel-modifier-compiled-bdc7fbd/ts/tests/production/overlapping-tiers.spec.ts:30:78
+
+  4) [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [33m@@ -20,11 +20,11 @@[39m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m              ],[22m
+    [2m              "AspectRatio": 1,[22m
+    [32m-             "Bases": 922,[39m
+    [31m+             "Bases": 1001,[39m
+    [2m              "Color": Array [[22m
+    [2m                0.5,[22m
+    [2m                0.25,[22m
+    [2m                0.75,[22m
+    [2m              ],[22m
+
+      28 |    expect(actual.Gel.Time).toBe(0.1);
+      29 |    expect(native.Gel.Time).toBe(Math.fround(actual.Gel.Time));
+    > 30 |    expect({...actual,Gel:{...actual.Gel,Time:Math.fround(actual.Gel.Time)}}).toEqual(native);
+         |                                                                              ^
+      31 |    await page.mouse.move(0,0);await page.screenshot({path:info.outputPath(`${name}.png`)});
+      32 |   }finally{await app.close();}
+      33 |  });
+        at /private/tmp/gel-modifier-compiled-bdc7fbd/ts/tests/production/overlapping-tiers.spec.ts:30:78
+
+  5) [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-356 drag matches original native 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [33m@@ -20,11 +20,11 @@[39m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m              ],[22m
+    [2m              "AspectRatio": 1,[22m
+    [32m-             "Bases": 922,[39m
+    [31m+             "Bases": 1001,[39m
+    [2m              "Color": Array [[22m
+    [2m                0.5,[22m
+    [2m                0.25,[22m
+    [2m                0.75,[22m
+    [2m              ],[22m
+
+      28 |    expect(actual.Gel.Time).toBe(0.1);
+      29 |    expect(native.Gel.Time).toBe(Math.fround(actual.Gel.Time));
+    > 30 |    expect({...actual,Gel:{...actual.Gel,Time:Math.fround(actual.Gel.Time)}}).toEqual(native);
+         |                                                                              ^
+      31 |    await page.mouse.move(0,0);await page.screenshot({path:info.outputPath(`${name}.png`)});
+      32 |   }finally{await app.close();}
+      33 |  });
+        at /private/tmp/gel-modifier-compiled-bdc7fbd/ts/tests/production/overlapping-tiers.spec.ts:30:78
+
+  6) [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-358 drag matches original native 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [33m@@ -20,11 +20,11 @@[39m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m                1,[22m
+    [2m              ],[22m
+    [2m              "AspectRatio": 1,[22m
+    [32m-             "Bases": 922,[39m
+    [31m+             "Bases": 1001,[39m
+    [2m              "Color": Array [[22m
+    [2m                0.5,[22m
+    [2m                0.25,[22m
+    [2m                0.75,[22m
+    [2m              ],[22m
+
+      28 |    expect(actual.Gel.Time).toBe(0.1);
+      29 |    expect(native.Gel.Time).toBe(Math.fround(actual.Gel.Time));
+    > 30 |    expect({...actual,Gel:{...actual.Gel,Time:Math.fround(actual.Gel.Time)}}).toEqual(native);
+         |                                                                              ^
+      31 |    await page.mouse.move(0,0);await page.screenshot({path:info.outputPath(`${name}.png`)});
+      32 |   }finally{await app.close();}
+      33 |  });
+        at /private/tmp/gel-modifier-compiled-bdc7fbd/ts/tests/production/overlapping-tiers.spec.ts:30:78
+
+  6 failed
+    [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native 
+    [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-356 drag matches original native 
+    [chromium-webgpu] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-358 drag matches original native 
+    [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-drag drag matches original native 
+    [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-356 drag matches original native 
+    [chromium-webgl2] › overlapping-tiers.spec.ts:7:2 › overlapping aggregate tiers overlap-358 drag matches original native 
+  4 passed (4.8s)

@@ -1,0 +1,10 @@
+{
+  "sessionSeconds": 7200,
+  "cycles": 120,
+  "holdMs": 60000,
+  "physicalFootprintPeakMiB": {"renderer": 256, "GPU": 1024},
+  "maximumClosedFootprintGrowthAfterCycle10MiB": 64,
+  "maximumRetainedHeapGrowthAfterCycle10Bytes": 1048576,
+  "maximumDomGrowthAfterCycle10": 0,
+  "ownedResourceGrowth": 0
+}

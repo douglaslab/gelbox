@@ -1,0 +1,185 @@
+[
+  {
+    "id": "shape-boundary-y61",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 4001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1.2,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.25,
+            0.5,
+            0.75
+          ]
+        }
+      ]
+    },
+    "ctx": {
+      "voltage": 38.839881896972656,
+      "time": 0.37,
+      "ySpaceScale": 468.85714285714283,
+      "wellDamage": 0,
+      "gelBuffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "sampleBuffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      }
+    },
+    "wellRect": {
+      "x1": 13.928571701049805,
+      "y1": 17.214284896850586,
+      "x2": 41.78571319580078,
+      "y2": 22.78571319580078
+    },
+    "lane": 0,
+    "fragment": 0,
+    "solverTargets": [
+      {
+        "targetY": 61,
+        "aggregate": 1
+      }
+    ],
+    "loupeProbes": false
+  },
+  {
+    "id": "shape-boundary-y63",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 4001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1.2,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.25,
+            0.5,
+            0.75
+          ]
+        }
+      ]
+    },
+    "ctx": {
+      "voltage": 40.59333419799805,
+      "time": 0.37,
+      "ySpaceScale": 468.85714285714283,
+      "wellDamage": 0,
+      "gelBuffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "sampleBuffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      }
+    },
+    "wellRect": {
+      "x1": 13.928571701049805,
+      "y1": 17.214284896850586,
+      "x2": 41.78571319580078,
+      "y2": 22.78571319580078
+    },
+    "lane": 0,
+    "fragment": 0,
+    "solverTargets": [
+      {
+        "targetY": 63,
+        "aggregate": 1
+      }
+    ],
+    "loupeProbes": false
+  },
+  {
+    "id": "shape-boundary-y69",
+    "sample": {
+      "buffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "fragments": [
+        {
+          "bases": 4001,
+          "mass": 125,
+          "degrade": 0,
+          "dye": -1,
+          "aspectRatio": 1.2,
+          "aggregate": [
+            1
+          ],
+          "color": [
+            0.25,
+            0.5,
+            0.75
+          ]
+        }
+      ]
+    },
+    "ctx": {
+      "voltage": 45.85369110107422,
+      "time": 0.37,
+      "ySpaceScale": 468.85714285714283,
+      "wellDamage": 0,
+      "gelBuffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      },
+      "sampleBuffer": {
+        "tris": 44.5,
+        "borate": 44.5,
+        "acetate": 0,
+        "edta": 1
+      }
+    },
+    "wellRect": {
+      "x1": 13.928571701049805,
+      "y1": 17.214284896850586,
+      "x2": 41.78571319580078,
+      "y2": 22.78571319580078
+    },
+    "lane": 0,
+    "fragment": 0,
+    "solverTargets": [
+      {
+        "targetY": 69,
+        "aggregate": 1
+      }
+    ],
+    "loupeProbes": false
+  }
+]

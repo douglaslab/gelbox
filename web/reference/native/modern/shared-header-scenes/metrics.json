@@ -1,0 +1,60 @@
+[
+  {
+    "descent": 8.784000396728516,
+    "fontName": "Avenir Heavy",
+    "heading": [
+      51.0,
+      -49.0,
+      134.0,
+      -16.0
+    ],
+    "height": 33,
+    "level1Width": 0,
+    "magFilter": 9729,
+    "minFilter": 9729,
+    "scale": 1,
+    "topDown": false,
+    "tube": [
+      10.5,
+      -60.97872543334961,
+      29.5,
+      -25.0
+    ],
+    "uv": [
+      0.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "width": 83
+  },
+  {
+    "descent": 8.784000396728516,
+    "fontName": "Avenir Heavy",
+    "heading": [
+      51.0,
+      -49.0,
+      134.0,
+      -16.0
+    ],
+    "height": 66,
+    "level1Width": 0,
+    "magFilter": 9729,
+    "minFilter": 9729,
+    "scale": 2,
+    "topDown": false,
+    "tube": [
+      10.5,
+      -60.97872543334961,
+      29.5,
+      -25.0
+    ],
+    "uv": [
+      0.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "width": 166
+  }
+]

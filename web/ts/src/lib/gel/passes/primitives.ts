@@ -1,0 +1,62 @@
+import type { Band } from '../../sim/band';
+import { createVerticalFlipPass } from './flip';
+import type { PingPong } from '../../gpu/target';
+import { type Mesh, VERTEX_STRIDE } from '../mesh';
+import { buildSmearMesh } from '../smear';
+import { buildBodyMesh } from '../body';
+import { buildFlamesMesh } from '../flames';
+import { createMeshBatch } from '../../gpu/meshBatch';
+
+export interface PrimitivePass {
+  /**
+   * Render band primitives into the ping-pong target. ALWAYS produces a
+   * defined target: if the band has no visible geometry (smearAbove/smearBelow/
+   * flameHeight all zero etc.), emits a clear-only pass so downstream passes
+   * (warp, blur, composite) sample a clean RT. Callers MUST NOT skip this call
+   * based on band emptiness.
+   *
+   * `callIdx` is forwarded to the underlying MeshBatch to select a per-call
+   * VBO slot; pass a unique value per draw within a frame.
+   */
+  draw(encoder: GPUCommandEncoder, target: PingPong, band: Band, callIdx: number): void;
+  destroy(): void;
+}
+
+export function createPrimitivePass(
+  device: GPUDevice,
+  gelSize: { width: number; height: number },
+  format: GPUTextureFormat = 'rgba8unorm-srgb',
+): PrimitivePass {
+  const batch = createMeshBatch(device, { viewport: gelSize, blend: 'over', format, flipY: true });
+
+  const flip = createVerticalFlipPass(device, format);
+
+  function combine(meshes: Mesh[]): Mesh {
+    let total = 0;
+    for (const m of meshes) total += m.data.length;
+    const data = new Float32Array(total);
+    let off = 0;
+    for (const m of meshes) { data.set(m.data, off); off += m.data.length; }
+    return { data, vertexCount: total / VERTEX_STRIDE };
+  }
+
+  return {
+    draw(encoder, target, band, callIdx) {
+      const mesh = combine([
+        buildSmearMesh(band),
+        buildBodyMesh(band),
+        buildFlamesMesh(band),
+      ]);
+      // Always clear (even when empty) so downstream passes sample a clean RT.
+      // Reflect before rasterization to match native horizontal edge coverage,
+      // then restore normal texture orientation without changing pixel values.
+      batch.draw(encoder, target.next.view, mesh, {
+        clear: true,
+        clearColor: { r: 0, g: 0, b: 0, a: 1 },
+        callIdx,
+      });
+      flip.run(encoder, target.next, target.current);
+    },
+    destroy() { batch.destroy(); },
+  };
+}

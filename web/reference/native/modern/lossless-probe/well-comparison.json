@@ -1,0 +1,14 @@
+{
+  "native": "startup.png",
+  "web": "web-webgl2-well-fix.png",
+  "cropPhysicalPixels": [
+    416,
+    260,
+    1196,
+    310
+  ],
+  "differentPixelsAfterFix": 240,
+  "scope": "Horizontal interior samples match exactly. Remaining vertical/corner differences are not waived. Full startup scene is not certified.",
+  "webCaptureMethod": "Temporary Playwright startup capture at 1365x768 DPR2, fonts ready, 500ms render wait; both backend captures retained.",
+  "webBaseCommit": "5e87b28 plus pending GelOverlay well stroke correction"
+}

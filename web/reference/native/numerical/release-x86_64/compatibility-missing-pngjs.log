@@ -1,0 +1,18 @@
+Error: Cannot find module 'pngjs'
+Require stack:
+- /private/tmp/gel-browser-compat-1.64/instruction-full/production/image-decoding.spec.ts
+- /private/tmp/gel-browser-compat-1.64/node_modules/playwright/lib/common/index.js
+- /private/tmp/gel-browser-compat-1.64/node_modules/playwright/lib/program.js
+- /private/tmp/gel-browser-compat-1.64/node_modules/@playwright/test/cli.js
+
+   at image-decoding.spec.ts:4
+
+  2 | import {readFile,writeFile} from 'node:fs/promises';
+  3 | import path from 'node:path';
+> 4 | import {PNG} from 'pngjs';
+    | ^
+  5 | import {serveBuiltApp} from './built-app';
+  6 |
+  7 | test('original-release visible image open move resize and gel replacement sequence',async({page},info)=>{
+    at Object.<anonymous> (/private/tmp/gel-browser-compat-1.64/instruction-full/production/image-decoding.spec.ts:4:1)
+

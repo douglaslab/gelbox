@@ -1,0 +1,22 @@
+{
+  "gelboxCommit": "5f51097",
+  "pinnedHashes": {
+    "assets/tuning/gel-sim.json": "199b5ce3f7b6b256ab58e802b8daf16afa38494e8358bde698999ce37614cfae",
+    "assets/tuning/molecular-sim.json": "680d573672cd3bb2387788ce6291d5e89e97b507e95b6145fae2d225681961d7",
+    "include/Aggregate.h": "ec00f39c39239e9bf8596383a9efa9b9255b7c7238770c49ef1cf0885c5c3e97",
+    "include/Band.h": "ad2e2da5beacc27ded660ba025d9c18787b48ce40672e0b8f70bb050103b583c",
+    "include/Buffer.h": "80ff6fe8a50aeb867055c7e1d1745f2d96b4e3737d2af803c901df68a9f0689e",
+    "include/Config.h": "fd98c4bdd17876e22d0f4344150442c8c0763de42681830cc505e5152ad8ffd3",
+    "include/Dye.h": "2f79d16e2da24ab3822ef9d817cbb18c4a94ed0dc295d4c2cf06c473b30c26df",
+    "include/GelSim.h": "e7bbc0bd7ec5bac4b6803b5236de49934d0926cac858b6c053a3ee460d3c6c42",
+    "include/GelView.h": "bfbcec13a9fe98ae0e727b18def2946f8dfb0c33e82db38c91627c257d53e518",
+    "include/MolecularSim.h": "1809751d527ba891a592381b11a57294f33f0f7237b69d16d8ef28e10bd042dd",
+    "include/Sample.h": "e580003d0e6c21c28d0166ab865251165e643b329f88016cff5ca8c3de894c3d",
+    "src/GelSim.cpp": "198f05d2591e88c8ff5821d07ab70682cf9c7f65c6e04b5ebdcf8df01569953d",
+    "src/GelView.cpp": "20159d314759e38b6e2f626fba2c5a401eb4cbf894f15682c597c6145e96a3e6",
+    "src/MolecularSim.cpp": "7816bdebddb3aea6933bd7be028c76cd09295e918edacd45494b8b0e4c198dcd"
+  },
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "cinderLibrarySha256": "b41dbbb9992d295c007824264960099be590e31f4eac8105711be25eaa3e8793",
+  "scope": "Simulation-only fast-math source control; Cinder differs from original release."
+}

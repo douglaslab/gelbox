@@ -1,0 +1,16 @@
+{
+  "qualified": false,
+  "runtimePatchSha256": "d675769dfebdedf36a56ab63ae41bd83db9377297ffc419686ca6a68d6988cd0",
+  "build": "passed",
+  "units": {
+    "passed": 3034,
+    "failed": 54
+  },
+  "fractionalShapes": {
+    "matchedBefore": 16,
+    "matchedAfter": 22,
+    "total": 24
+  },
+  "remainingShapeFailures": "Same power inputs differ between rounded JS Math.pow and host arm64 powf by one float32 ULP. Original Intel powf remains unqualified.",
+  "previousBrowserRegression": "96 production, 76 compatibility, 969 visual + 1 skip apply to preceding instruction-order candidate, not this new patch."
+}

@@ -1,0 +1,49 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceHashes": {
+    "layout": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+    "layoutMethods": "092147a6172861d89fe4d22cbd6889b2366cffad40ce359cce2ab0cfdf0e3ecb",
+    "sampleView": "c69251430da6eedbf1b73cf9fdbf0c5eedc4f4f19a172be935661238e2ac555a",
+    "drawHeader": "828f1d18271beb5a6be8fecb49176b4e6cee0975c31ed280b62624249aad36cb",
+    "headerLayout": "dcab36ed8db49ca426c559be59d07d571ffc89a4117c8241b206c18b8b62b8e4"
+  },
+  "inputs": {
+    "driver.cpp": "e820e1a95cc089f1020c14a0cd91dc06b460301fdce0a9a31870c5d0495b5108",
+    "capture.py": "0a38098d86dd8f3c9283e8e99294b151f4b146e878b946f4094af5d2efcfafec",
+    "../shared-tube-scenes/microtube1500ul.png": "b1dbe804a74e1b0bba27c65e2111dfc5c4d80aada15374661b8b014742b625d2"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "files": [
+    {
+      "file": "sample-1.png",
+      "sha256": "c4d77f02a7b7756a4f556d46264608d77143e19a8c405b9a66e430afa64d8213"
+    },
+    {
+      "file": "integer-1.png",
+      "sha256": "05222483e888debba7a30bba03b9b504d4935662b911a43ecf6568adfd0bee7b"
+    },
+    {
+      "file": "fractional-1.png",
+      "sha256": "47921c2f6240a77d36c88261057e2c1e06f4976cb02e1bb2d1b5ca8556c6d75a"
+    },
+    {
+      "file": "sample-2.png",
+      "sha256": "dc208bdcb71ddb75dea57b9fe08e624168c4358594bb0f910ad58ea95e953669"
+    },
+    {
+      "file": "integer-2.png",
+      "sha256": "a854c7e398f06a623fd6ce0856175bbf599eda0ab0a81f9e20d4fefe54764262"
+    },
+    {
+      "file": "fractional-2.png",
+      "sha256": "0c78f5c3a217be11f7bd4416fa911b83a428c9ef9239568c2b963f9410d699ac"
+    }
+  ],
+  "limits": [
+    "Pinned SampleView drawHeader and contiguous header layout, pinned Layout renderHead/renderText/layoutHeadingText/snap methods.",
+    "Modern Cinder and installed macOS Avenir-Heavy rasterization; not certification of original-release GUI or other fonts/platforms.",
+    "Raw RGBA text texture preserves straight alpha; one level and linear filtering. Scene captures use RGBA8 MSAA4, raw rows, no screenshot color conversion."
+  ]
+}

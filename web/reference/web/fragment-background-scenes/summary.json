@@ -1,0 +1,24 @@
+{
+  "baselineCommit": "4115939",
+  "prototypePatchSha256": "2beb156627462ca76bb90ee365f92986c884d7583fd0c48b099313e785a881dd",
+  "nativeManifestSha256": "7df3f95c946487c025191cde5563e6bfb626ed545ddf196cf4be5cfa6b35d523",
+  "comparisonCount": 180,
+  "baseline": {
+    "mismatchingScenes": 120,
+    "maxChannelDifference": 229
+  },
+  "transparentPrototype": {
+    "mismatchingScenes": 180,
+    "maxChannelDifference": 2,
+    "channelDifferenceHistogram": {
+      "0": 212452414,
+      "1": 253138,
+      "2": 448
+    }
+  },
+  "limits": [
+    "Exact pixel acceptance still fails; the 2/255 regression bound does not certify an accepted parity deviation.",
+    "Standalone CGL reference; not original native GUI capture.",
+    "Browser results are Chromium on this host, both graphics backends at DPR 1 and 2."
+  ]
+}

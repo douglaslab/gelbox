@@ -1,0 +1,25 @@
+{
+  "nativeSourceCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "originalReleaseObservations": "../composed-move/manifest.json",
+  "input": "../composed-move/input.json",
+  "webBaseCommit": "ed59931",
+  "webChanges": "Nearest native palette marker, sample header geometry and unlabeled degradation.",
+  "sources": {
+    "src/ColorPaletteView.cpp": "3903d1b193d9ec0541f6bd2003f4032e569159d871fa4f8970d9802dbbc5ec1f",
+    "src/FragmentView.cpp": "d9345eda3ae73104684344f99676588e22f7369e93ff1d3e5ab7d1e95e035b02",
+    "src/SampleView.cpp": "c69251430da6eedbf1b73cf9fdbf0c5eedc4f4f19a172be935661238e2ac555a",
+    "src/Slider.cpp": "34dcc77498366d0b3d7ad48298e4f08c97b02ca1b7fa2285b57dac4723ca01d5",
+    "include/Layout.h": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c"
+  },
+  "captures": {
+    "web-webgl2.png": "42cccdd728a8f506e800c4451345309b79360542915bd98dbafef38aec9909d9",
+    "web-webgpu.png": "c9b845dd5ab6b3348d30d6cd7d33005765a6ffd3de6fb1569dc1f2229fcd4662"
+  },
+  "verification": {
+    "unitTests": 2867,
+    "browserTests": 433,
+    "browserSkipped": 1,
+    "productionChecks": 4,
+    "nativePixelsCertified": false
+  }
+}

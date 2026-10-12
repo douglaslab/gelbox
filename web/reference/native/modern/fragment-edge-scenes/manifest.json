@@ -1,0 +1,115 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "numericalProvenanceSha256": "4b9e14f5bab81cc9cf113c7a4ec45593792e54f9f414532ac6119f224b3d2cc9",
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatCaptureIdentical": true,
+  "meshCaptureRepeated": true,
+  "geometrySha256": "9710fb2fda8703f99f0fe003d548704c58a1170427567138b6cfbff91f09e1de",
+  "geometryProvenanceSha256": "2523ea37c3d27360280f11dd4c61f3316a62169aff60d2ea082e6f688d73a910",
+  "meshSha256": "36f293f56987eb8ea428cd84db532f485439c1f0cb586d169c44a4936d1fa258",
+  "casesSha256": "5ed81523a1886ecc9882bba50a9f331121c4a08191089677a58cf9d9e74d1266",
+  "driverSha256": "ee790f423be0c37c2c47285d6d969f5fb39ba8554dd276dce57535440fb120b2",
+  "executableSha256": "f0d096e07e1afc2c23eed57501e26c87b96c842896b27e8dd0d77922058291f4",
+  "appSha256": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+  "contextSha256": "09b2fe8cafc83636cad73ae0bf95f61f2b1b8dac485f95477ced97852d938a0a",
+  "layoutSha256": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+  "fragmentViewSha256": "d9345eda3ae73104684344f99676588e22f7369e93ff1d3e5ab7d1e95e035b02",
+  "cases": [
+    {
+      "id": "empty-1-diagonal",
+      "mesh": "empty",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "c64651a8fa6380b253f417578267e3a96456c6c41702b16dbe745334d31ff4ae"
+    },
+    {
+      "id": "empty-2-diagonal",
+      "mesh": "empty",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "6d7f0e7c2f0576da78a857be4bac652889b1f26e94bb7dc0a5437044e6155ab4"
+    },
+    {
+      "id": "large-crossing-1-diagonal",
+      "mesh": "large-crossing",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "b1f7721d87c8630588da7c466076376db2d54d82d0f1aa644a81268e920c75d7"
+    },
+    {
+      "id": "large-crossing-2-diagonal",
+      "mesh": "large-crossing",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "d4aa938eefba7682ae53718aad9d0f592bed61e07b15d682900cb92eb5fddf86"
+    },
+    {
+      "id": "large-round-1-diagonal",
+      "mesh": "large-round",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "fed3e3cd9af61bea72722f5c4a68fd70b994f0cd22a2cfeb9c4193a2d8dbb812"
+    },
+    {
+      "id": "large-round-2-diagonal",
+      "mesh": "large-round",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "15c2c14a92c43a3584280317383a0682a9beda6cd36f5bae3b60d74eb60b2df5"
+    },
+    {
+      "id": "underlay-1-diagonal",
+      "mesh": "underlay",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "86e096dc59900578ce2f8d6f5b80b957511cee6cf725d3e04933675a4b97d975"
+    },
+    {
+      "id": "underlay-2-diagonal",
+      "mesh": "underlay",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "35f233d510702dff09d5c07f681c755b4db085fb67de989f5e96100e369b28c2"
+    }
+  ],
+  "limits": [
+    "Native captured meshes, standalone CGL RGBA8 MSAA4; not original GUI output.",
+    "303x520 fragment panel; opaque rose triangle over navy, then native well and body; RGB only. Underlay case omits inspector.",
+    "Positive-Y projection/raw row order follows window-validated well oracle.",
+    "Legacy Cinder rounded geometry; one physical pixel GL_LINES stroke. Body meshes captured at well center117,111.",
+    "Excludes heading, brace, controls, picking, animated representative selection, and overflow outside panel; not full GUI certification."
+  ]
+}

@@ -1,0 +1,1017 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "numericalProvenanceSha256": "4b9e14f5bab81cc9cf113c7a4ec45593792e54f9f414532ac6119f224b3d2cc9",
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatCaptureIdentical": true,
+  "meshCaptureRepeated": true,
+  "geometrySha256": "9710fb2fda8703f99f0fe003d548704c58a1170427567138b6cfbff91f09e1de",
+  "geometryProvenanceSha256": "2523ea37c3d27360280f11dd4c61f3316a62169aff60d2ea082e6f688d73a910",
+  "meshSha256": "7b1686812dc7717f19cdbcbfca76fc4b669716a140764e5daf87a6af62c7b2bf",
+  "casesSha256": "b7955544f474005d42bd5a31c7c8d814be9de341a6241c90c1994dc73cbbc801",
+  "driverSha256": "38b11c4712bb572fac97b1961e9374541d1802d48925e7608468f172ccc3e20d",
+  "executableSha256": "458a44aa1df339f5d3aa221c1fca21c79251364d65690f837b9b6aa87544c9ab",
+  "appSha256": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+  "contextSha256": "09b2fe8cafc83636cad73ae0bf95f61f2b1b8dac485f95477ced97852d938a0a",
+  "layoutSha256": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+  "fragmentViewSha256": "d9345eda3ae73104684344f99676588e22f7369e93ff1d3e5ab7d1e95e035b02",
+  "cases": [
+    {
+      "id": "whole-1-select-False-hover-False-1-white",
+      "mesh": "whole-1-select-False-hover-False",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "b342b05f6935feeb0f03541602372d1aa6de5c408f6da598d526fbff5eb5814a"
+    },
+    {
+      "id": "whole-1-select-False-hover-False-1-rose",
+      "mesh": "whole-1-select-False-hover-False",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "4d168ef7f84271f3e6308085961833a11bda55d1e942eaac6ad15195120e04c5"
+    },
+    {
+      "id": "whole-1-select-False-hover-False-1-navy",
+      "mesh": "whole-1-select-False-hover-False",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "cba84ed700979d0f44bebc48a7784fa89775fb62bb8d9b0456c2a38b52e4777c"
+    },
+    {
+      "id": "whole-1-select-False-hover-False-2-white",
+      "mesh": "whole-1-select-False-hover-False",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "ace71404960650269071125c9b3e47b0136885702082f2cb9714bc36209cc805"
+    },
+    {
+      "id": "whole-1-select-False-hover-False-2-rose",
+      "mesh": "whole-1-select-False-hover-False",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "7503f92c0e9a231d147ab9d401f7b698cb1f1025bfc6fc545c96d708c987885a"
+    },
+    {
+      "id": "whole-1-select-False-hover-False-2-navy",
+      "mesh": "whole-1-select-False-hover-False",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "e74c9830b92953e4c2a5a6e9b600fb583d126dd8abafcbcc11488a31392b35a6"
+    },
+    {
+      "id": "whole-0.5-select-False-hover-False-1-white",
+      "mesh": "whole-0.5-select-False-hover-False",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "223d648e4fa6a398c01a76a2ef8a008d40dc9b46c542e809e713ea08a89423a4"
+    },
+    {
+      "id": "whole-0.5-select-False-hover-False-1-rose",
+      "mesh": "whole-0.5-select-False-hover-False",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "9f8b74ef72a2f73016c71259092412190c4c567f9328fc0590d0b9530a7ac2f7"
+    },
+    {
+      "id": "whole-0.5-select-False-hover-False-1-navy",
+      "mesh": "whole-0.5-select-False-hover-False",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "93fcefce894423ede84c2b36c196429a99ad490a67cadd5b2d016b04360870cb"
+    },
+    {
+      "id": "whole-0.5-select-False-hover-False-2-white",
+      "mesh": "whole-0.5-select-False-hover-False",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "1c39d9c0da97ac237c1c9d94121f9209debb62f018689222ecaa7e294b48cced"
+    },
+    {
+      "id": "whole-0.5-select-False-hover-False-2-rose",
+      "mesh": "whole-0.5-select-False-hover-False",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "a04838d7ddd70b0fed483da4931c1c7d7ed028dc3f44177c729041e5234601a7"
+    },
+    {
+      "id": "whole-0.5-select-False-hover-False-2-navy",
+      "mesh": "whole-0.5-select-False-hover-False",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "2dbc97d319aaa71e288205f3d79e160e541a6d68efdb8c00b879dfce1353d565"
+    },
+    {
+      "id": "multi-25-3-whole-0.5-1-white",
+      "mesh": "multi-25-3-whole-0.5",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "cb1dda8fad78247433589fb6358c46b27419fc7c96c5bb086de309064b4c99f6"
+    },
+    {
+      "id": "multi-25-3-whole-0.5-1-rose",
+      "mesh": "multi-25-3-whole-0.5",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "db80a46c62833dc8ee88a92038001c0fef9fba1e719340fd1a844098b3e19753"
+    },
+    {
+      "id": "multi-25-3-whole-0.5-1-navy",
+      "mesh": "multi-25-3-whole-0.5",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "df120a181a9b9a8c1870958f3aba921a3b7369754ba89c638b4cf4e96fe1c410"
+    },
+    {
+      "id": "multi-25-3-whole-0.5-2-white",
+      "mesh": "multi-25-3-whole-0.5",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "f30bd24b9a63634abc7b05b9830e22dc6b1ec502b36420361019539701eea57d"
+    },
+    {
+      "id": "multi-25-3-whole-0.5-2-rose",
+      "mesh": "multi-25-3-whole-0.5",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "b15bb44f5f7f4c757ac47dd1db83da43e3e380d98b34de3e3a65ea63e6259e0a"
+    },
+    {
+      "id": "multi-25-3-whole-0.5-2-navy",
+      "mesh": "multi-25-3-whole-0.5",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "96cb4ce905332c709d74175c8126d3a3c2d996cf07802f9a5f292403d3e6b2f0"
+    },
+    {
+      "id": "narrow-25-3-whole-0.001-select-False-1-white",
+      "mesh": "narrow-25-3-whole-0.001-select-False",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "9e1de05a54b6ab60f242c5887a2bd62b17c6b18d00237f1bebaaf43b1404c275"
+    },
+    {
+      "id": "narrow-25-3-whole-0.001-select-False-1-rose",
+      "mesh": "narrow-25-3-whole-0.001-select-False",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "fd0df3ab4001b2a309c2200e04043f99248c9152fa0e4bbe46631c5d6029c9ec"
+    },
+    {
+      "id": "narrow-25-3-whole-0.001-select-False-1-navy",
+      "mesh": "narrow-25-3-whole-0.001-select-False",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "8bec0a9daf83a48f1e3a51eca9a0287ee895f1269d8eb9be86ef4bdbcb0ca81b"
+    },
+    {
+      "id": "narrow-25-3-whole-0.001-select-False-2-white",
+      "mesh": "narrow-25-3-whole-0.001-select-False",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "67d0bcb28fc45485016e17880bfbf45c16adcb941bf5226303de2088832b2b7d"
+    },
+    {
+      "id": "narrow-25-3-whole-0.001-select-False-2-rose",
+      "mesh": "narrow-25-3-whole-0.001-select-False",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "f1f972d720549ca3befeea7d5482b5a4e8d9af421718e05ce90d91aa62685157"
+    },
+    {
+      "id": "narrow-25-3-whole-0.001-select-False-2-navy",
+      "mesh": "narrow-25-3-whole-0.001-select-False",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "5fb2ab979d8b458376ad21416c2b86f67410c5f62556da160a5c04cd78725c4d"
+    },
+    {
+      "id": "fade-0.01-1-white",
+      "mesh": "fade-0.01",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "8f6e168f3dee9c0ccf811faf80621d62b53574f4aa6ed1d86d931bee7f8cd052"
+    },
+    {
+      "id": "fade-0.01-1-rose",
+      "mesh": "fade-0.01",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "4dfb90f4b5444070010102893470f23895f7631eb4d3d19871a1a6ccccad841b"
+    },
+    {
+      "id": "fade-0.01-1-navy",
+      "mesh": "fade-0.01",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "a5f73848f93566af102f14dffb12f2a263853a9d1513a6d9708756436a25c79c"
+    },
+    {
+      "id": "fade-0.01-2-white",
+      "mesh": "fade-0.01",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "5be5c9cebf1139180f3e076c0fdfc60f5aa6d039bc7c18c0cbdc471ce667471e"
+    },
+    {
+      "id": "fade-0.01-2-rose",
+      "mesh": "fade-0.01",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "5f8a41bf2c98664e09535301caada0316d1c0ad75cc410c621ed4fee214a77ed"
+    },
+    {
+      "id": "fade-0.01-2-navy",
+      "mesh": "fade-0.01",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "da33f10db105001aaae5037c624e8ef989b008c56153af41477a580a367f8ede"
+    },
+    {
+      "id": "fade-0.25-1-white",
+      "mesh": "fade-0.25",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "1d5f3faee3ec2508523c8e4e0bb7780c27d944fa6b13444cf47509f4cf669255"
+    },
+    {
+      "id": "fade-0.25-1-rose",
+      "mesh": "fade-0.25",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "c6cba59e94458e777f0bb296ddf8883b57b55f63843a765dbea614e54c57c8fb"
+    },
+    {
+      "id": "fade-0.25-1-navy",
+      "mesh": "fade-0.25",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "4bb7b2f207d91a9bed26804943a2364c6e126c622f8ac916436643d8ae986f8b"
+    },
+    {
+      "id": "fade-0.25-2-white",
+      "mesh": "fade-0.25",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "7cea0cea94cd8cef832594003c645db30fa5b4aad5b2bd5e4d33ca30c312fb9c"
+    },
+    {
+      "id": "fade-0.25-2-rose",
+      "mesh": "fade-0.25",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "ed9c3e64f9a382dc757fb5280dbc8910e8946d119a18b7b546093470c00b0ce0"
+    },
+    {
+      "id": "fade-0.25-2-navy",
+      "mesh": "fade-0.25",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "f651e7f5e9eb4a865da22cc20330c09342305bb1e2eb21cec06c6a40ffa8d9c9"
+    },
+    {
+      "id": "fade-0.5-1-white",
+      "mesh": "fade-0.5",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "c6de10087d4a4df354f4ac638fa2d2e110d1b82932e426df61a1678edd748e40"
+    },
+    {
+      "id": "fade-0.5-1-rose",
+      "mesh": "fade-0.5",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "59bad59771418ce7c9bb57278e84c8b10a4a66400f8743e3678b508acf9e9d27"
+    },
+    {
+      "id": "fade-0.5-1-navy",
+      "mesh": "fade-0.5",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "c23b02b73da9b0a721289d43fe034941fd08f3e2fe38120526bbff153b579ed0"
+    },
+    {
+      "id": "fade-0.5-2-white",
+      "mesh": "fade-0.5",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "3361505ce0c148655f3ae144369065c8afcad3c290040582154a12d17fbadd8b"
+    },
+    {
+      "id": "fade-0.5-2-rose",
+      "mesh": "fade-0.5",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "24c4d00262951ba265bc8d389dfddc7903dd89eb2bf99cfc68fa37766694508c"
+    },
+    {
+      "id": "fade-0.5-2-navy",
+      "mesh": "fade-0.5",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "41ceeadba3ae6b3d79101759cd4f7c0fe92e921bc2101d8b41fc3fe5c62fe7b4"
+    },
+    {
+      "id": "fade-0.999-1-white",
+      "mesh": "fade-0.999",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "6a97dc4500bb0c99587e4015fa8876467e87b18a4f38186d4b7519366b24943a"
+    },
+    {
+      "id": "fade-0.999-1-rose",
+      "mesh": "fade-0.999",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "87c3f5de8ea0ac1c05a09a550a2fda3739ddcfcc9d5610b4ccb5b26b6cc7b7ef"
+    },
+    {
+      "id": "fade-0.999-1-navy",
+      "mesh": "fade-0.999",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "629e2a0f6d5aab4b29a0b835d35e4bc4259b63a814554ddef59337c7272d2ca6"
+    },
+    {
+      "id": "fade-0.999-2-white",
+      "mesh": "fade-0.999",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "0e037b12e3aa0f66c5b12579194feb2de5ea248a500bd1eac6ec73a4fb90d38f"
+    },
+    {
+      "id": "fade-0.999-2-rose",
+      "mesh": "fade-0.999",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "237dffc1286b951267e45163a1f53df158630d5838decc75c7e015be0916a9e0"
+    },
+    {
+      "id": "fade-0.999-2-navy",
+      "mesh": "fade-0.999",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "e3bcf1ee1fdc3b37ba2c1d482bafd08e9b27c40cbd75f079ffb8c86aade515ee"
+    },
+    {
+      "id": "fade-1-1-white",
+      "mesh": "fade-1",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "6a97dc4500bb0c99587e4015fa8876467e87b18a4f38186d4b7519366b24943a"
+    },
+    {
+      "id": "fade-1-1-rose",
+      "mesh": "fade-1",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "87c3f5de8ea0ac1c05a09a550a2fda3739ddcfcc9d5610b4ccb5b26b6cc7b7ef"
+    },
+    {
+      "id": "fade-1-1-navy",
+      "mesh": "fade-1",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "629e2a0f6d5aab4b29a0b835d35e4bc4259b63a814554ddef59337c7272d2ca6"
+    },
+    {
+      "id": "fade-1-2-white",
+      "mesh": "fade-1",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "0e037b12e3aa0f66c5b12579194feb2de5ea248a500bd1eac6ec73a4fb90d38f"
+    },
+    {
+      "id": "fade-1-2-rose",
+      "mesh": "fade-1",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "237dffc1286b951267e45163a1f53df158630d5838decc75c7e015be0916a9e0"
+    },
+    {
+      "id": "fade-1-2-navy",
+      "mesh": "fade-1",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "e3bcf1ee1fdc3b37ba2c1d482bafd08e9b27c40cbd75f079ffb8c86aade515ee"
+    },
+    {
+      "id": "empty-1-white",
+      "mesh": "empty",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "9e1de05a54b6ab60f242c5887a2bd62b17c6b18d00237f1bebaaf43b1404c275"
+    },
+    {
+      "id": "empty-1-rose",
+      "mesh": "empty",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "fd0df3ab4001b2a309c2200e04043f99248c9152fa0e4bbe46631c5d6029c9ec"
+    },
+    {
+      "id": "empty-1-navy",
+      "mesh": "empty",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "8bec0a9daf83a48f1e3a51eca9a0287ee895f1269d8eb9be86ef4bdbcb0ca81b"
+    },
+    {
+      "id": "empty-2-white",
+      "mesh": "empty",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "67d0bcb28fc45485016e17880bfbf45c16adcb941bf5226303de2088832b2b7d"
+    },
+    {
+      "id": "empty-2-rose",
+      "mesh": "empty",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "f1f972d720549ca3befeea7d5482b5a4e8d9af421718e05ce90d91aa62685157"
+    },
+    {
+      "id": "empty-2-navy",
+      "mesh": "empty",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "5fb2ab979d8b458376ad21416c2b86f67410c5f62556da160a5c04cd78725c4d"
+    },
+    {
+      "id": "large-crossing-1-white",
+      "mesh": "large-crossing",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "e9caea2e116bdc306ee6bd223aa29fbbf92342b22813f910a1e6fbb0fed74f76"
+    },
+    {
+      "id": "large-crossing-1-rose",
+      "mesh": "large-crossing",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "79a7a2dccc7a9739ee7b2dbe3c2fcdfe47bbd4e12705b754d0dc5bdaffe66c64"
+    },
+    {
+      "id": "large-crossing-1-navy",
+      "mesh": "large-crossing",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "dc614396b008d79da19d974108e19dbb0387c8cd7aca8b202da68d9158e1a46c"
+    },
+    {
+      "id": "large-crossing-2-white",
+      "mesh": "large-crossing",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "5153a00b52d969b5176646daf9ad06503ea5035f672e54f3e4b893ea83d3647f"
+    },
+    {
+      "id": "large-crossing-2-rose",
+      "mesh": "large-crossing",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "681822bba957d037a13d24ad57b9ac2c31a8240e8ff602cf0cfdfa11317f93ff"
+    },
+    {
+      "id": "large-crossing-2-navy",
+      "mesh": "large-crossing",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "f79ccc3c7597346ef5078452425ab1c6be275d94af717de0c5a3a673222179eb"
+    },
+    {
+      "id": "large-faint-1-white",
+      "mesh": "large-faint",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "e7d72dece77aa913cddc96ec6fa85b52ae29c224ba9bb4ccde27a38b1dd2ef5b"
+    },
+    {
+      "id": "large-faint-1-rose",
+      "mesh": "large-faint",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "d7a39a57723874d9758a38f6a4eb0a27e0870f6c5a48214f4cc6c2954ce2a4d8"
+    },
+    {
+      "id": "large-faint-1-navy",
+      "mesh": "large-faint",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "bcbe7d7ec25347e1e4ba7ea8641470a41565383ef96684c47efc40144be2b599"
+    },
+    {
+      "id": "large-faint-2-white",
+      "mesh": "large-faint",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "6783eb6d5345a5e49c50d4b9199d8f0e459d5f318a9667524543486b4b0243a4"
+    },
+    {
+      "id": "large-faint-2-rose",
+      "mesh": "large-faint",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "cee94849e6ca4c75050bce527bfe0ab00b8724fd45504f97ad753ea8d07ecc08"
+    },
+    {
+      "id": "large-faint-2-navy",
+      "mesh": "large-faint",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "c7319d10bbfc4f65c96c62750885fa078760f2092d91b0477a04a52501884b28"
+    },
+    {
+      "id": "large-subquantum-1-white",
+      "mesh": "large-subquantum",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "9e1de05a54b6ab60f242c5887a2bd62b17c6b18d00237f1bebaaf43b1404c275"
+    },
+    {
+      "id": "large-subquantum-1-rose",
+      "mesh": "large-subquantum",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "fd0df3ab4001b2a309c2200e04043f99248c9152fa0e4bbe46631c5d6029c9ec"
+    },
+    {
+      "id": "large-subquantum-1-navy",
+      "mesh": "large-subquantum",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "8bec0a9daf83a48f1e3a51eca9a0287ee895f1269d8eb9be86ef4bdbcb0ca81b"
+    },
+    {
+      "id": "large-subquantum-2-white",
+      "mesh": "large-subquantum",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "67d0bcb28fc45485016e17880bfbf45c16adcb941bf5226303de2088832b2b7d"
+    },
+    {
+      "id": "large-subquantum-2-rose",
+      "mesh": "large-subquantum",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "f1f972d720549ca3befeea7d5482b5a4e8d9af421718e05ce90d91aa62685157"
+    },
+    {
+      "id": "large-subquantum-2-navy",
+      "mesh": "large-subquantum",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "5fb2ab979d8b458376ad21416c2b86f67410c5f62556da160a5c04cd78725c4d"
+    },
+    {
+      "id": "large-opaque-1-white",
+      "mesh": "large-opaque",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "04f008e6fd4d50956f3d948494f586aa68a19d9a1eef0dabdf28d768addae85e"
+    },
+    {
+      "id": "large-opaque-1-rose",
+      "mesh": "large-opaque",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "8bec762eb514c467c5c853a68b86b434905a938e915ef69456f82acadd62a93d"
+    },
+    {
+      "id": "large-opaque-1-navy",
+      "mesh": "large-opaque",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "3b50050850be4afaa3f0a32e9fa550067959b294e524d7a43a00ecabb42862f2"
+    },
+    {
+      "id": "large-opaque-2-white",
+      "mesh": "large-opaque",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "78096cdca4c444fe34e002900ce8c091cc7537eacb5961db246c67e0d1b46354"
+    },
+    {
+      "id": "large-opaque-2-rose",
+      "mesh": "large-opaque",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "d886b7b94097ceb30688f36c5a00e5eaeea44c7d1e50ae0a98bf538f0f0658e1"
+    },
+    {
+      "id": "large-opaque-2-navy",
+      "mesh": "large-opaque",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "34bbcd4b4508da1670bb0cd7ab565d23bd1c2fae87cc938fa951fe475a15b8e2"
+    },
+    {
+      "id": "large-round-1-white",
+      "mesh": "large-round",
+      "scale": 1,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "f045994d9ec69580ff4d443368ca2a7793c422ff99e292517970309614feef47"
+    },
+    {
+      "id": "large-round-1-rose",
+      "mesh": "large-round",
+      "scale": 1,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "d8ac0e451e1004dad41b4b7668960e7d870dec36e4692d35375c4a480951e58d"
+    },
+    {
+      "id": "large-round-1-navy",
+      "mesh": "large-round",
+      "scale": 1,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "b4462854368808128e4600fa77f0fad155c4fb22c28b192aeb91ae671667bbbc"
+    },
+    {
+      "id": "large-round-2-white",
+      "mesh": "large-round",
+      "scale": 2,
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "sha256": "d780e50e32cd6f42fa5d48ec3f95e088f977eb8c5063a804564c33bef544e642"
+    },
+    {
+      "id": "large-round-2-rose",
+      "mesh": "large-round",
+      "scale": 2,
+      "background": [
+        217,
+        45,
+        81
+      ],
+      "sha256": "e3af0e4788f8525193b1b9f813ac5bc1fd8e8debcc3f33d14e9e576f270c2bcd"
+    },
+    {
+      "id": "large-round-2-navy",
+      "mesh": "large-round",
+      "scale": 2,
+      "background": [
+        26,
+        39,
+        65
+      ],
+      "sha256": "095575714a37e1c2daefd7e21ecefecceacfdfb64c108506ceced7e76cebf866"
+    }
+  ],
+  "limits": [
+    "Native captured meshes, standalone CGL RGBA8 MSAA4; not original GUI output.",
+    "303x520 fragment panel coordinates, white/rose/navy backgrounds, well shadow/fill/stroke then representative; RGB comparison only.",
+    "Positive-Y projection/raw row order follows window-validated well oracle.",
+    "Legacy Cinder rounded geometry; one physical pixel GL_LINES stroke. Body meshes captured at well center117,111.",
+    "Excludes heading, brace, controls, picking, animated representative selection, and overflow outside panel; not full GUI certification."
+  ]
+}

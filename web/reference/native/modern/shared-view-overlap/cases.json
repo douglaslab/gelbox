@@ -1,0 +1,262 @@
+[
+  {
+    "id": "empty",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 10,
+        "y": 24
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 20,
+      "top": 30,
+      "width": 120,
+      "height": 180
+    },
+    "fragmentOrigin": {
+      "x": 40,
+      "y": 10
+    },
+    "sampleLast": false
+  },
+  {
+    "id": "large-crossing",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 20,
+      "top": 30,
+      "width": 120,
+      "height": 180
+    },
+    "fragmentOrigin": {
+      "x": 40,
+      "y": 10
+    },
+    "sampleLast": false
+  },
+  {
+    "id": "large-round",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 64
+      },
+      "angle": 0,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 20,
+      "top": 30,
+      "width": 120,
+      "height": 180
+    },
+    "fragmentOrigin": {
+      "x": 40,
+      "y": 10
+    },
+    "sampleLast": false
+  },
+  {
+    "id": "sample-last",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 20,
+      "top": 30,
+      "width": 120,
+      "height": 180
+    },
+    "fragmentOrigin": {
+      "x": 40,
+      "y": 10
+    },
+    "sampleLast": true
+  },
+  {
+    "id": "fractional-clip",
+    "part": {
+      "fragment": 0,
+      "loc": {
+        "x": 116,
+        "y": 90
+      },
+      "vel": {
+        "x": 0,
+        "y": 0
+      },
+      "radius": {
+        "x": 64,
+        "y": 24
+      },
+      "angle": 0.4,
+      "angleVel": 0,
+      "color": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "age": 0,
+      "fade": 0.65,
+      "alive": true,
+      "degradeKey": 0.37,
+      "wholeness": 1,
+      "multi": [
+        {
+          "loc": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0
+        }
+      ]
+    },
+    "selected": false,
+    "rollover": false,
+    "sampleRect": {
+      "left": 20.75,
+      "top": 30.25,
+      "width": 120.75,
+      "height": 180.75
+    },
+    "fragmentOrigin": {
+      "x": 40.5,
+      "y": 10.25
+    },
+    "sampleLast": false
+  }
+]

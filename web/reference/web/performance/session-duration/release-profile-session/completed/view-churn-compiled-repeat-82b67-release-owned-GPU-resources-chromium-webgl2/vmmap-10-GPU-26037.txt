@@ -1,0 +1,85 @@
+Process:         chrome-headless-shell [26037]
+Path:            /Users/USER/Library/Caches/*/chrome-headless-shell
+Load Address:    0x100650000
+Identifier:      chrome-headless-shell
+Version:         ???
+Code Type:       ARM64
+Platform:        macOS
+Parent Process:  chrome-headless-shell [26035]
+Target Type:     live task
+
+Date/Time:       2026-10-11 18:02:05.806 -0700
+Launch Time:     2026-10-11 17:50:59.757 -0700
+OS Version:      macOS 27.0.1 (26A434)
+Report Version:  7
+Analysis Tool:   /usr/bin/vmmap
+
+Physical footprint:         507.9M
+Physical footprint (peak):  630.8M
+Idle exit:                  untracked
+----
+
+ReadOnly portion of Libraries: Total=3.1G resident=633.7M(20%) swapped_out_or_unallocated=2.4G(80%)
+Writable regions: Total=712.5M written=387.6M(54%) resident=502.3M(70%) swapped_out=5104K(1%) unallocated=205.2M(29%)
+
+                                VIRTUAL RESIDENT    DIRTY  SWAPPED VOLATILE   NONVOL    EMPTY   REGION 
+REGION TYPE                        SIZE     SIZE     SIZE     SIZE     SIZE     SIZE     SIZE    COUNT (non-coalesced) 
+===========                     ======= ========    =====  ======= ========   ======    =====  ======= 
+Activity Tracing                   256K      32K      32K       0K       0K      32K       0K        1 
+App-Specific Tag 14               48.0G    10.6M    10.4M    2304K       0K       0K       0K      287 
+ColorSync                           48K      16K      16K      32K       0K       0K       0K        2 
+Deferred Reclaim                  64.0M      16K      16K       0K       0K       0K       0K        1 
+Guard                            385.0G       0K       0K       0K       0K       0K       0K        1 
+IOAccelerator                      112K     112K     112K       0K       0K       0K       0K        3 
+IOAccelerator (graphics)          47.2M    36.9M    35.5M    1440K       0K    36.9M    9056K      224 
+IOKit                               80K      80K      80K       0K       0K      16K       0K        5 
+IOSurface                         93.2M    80.6M    80.6M       0K       0K    80.6M       0K       36 
+Mach Message                        96K      80K      80K      16K       0K       0K       0K        3 
+Malloc Guard Page                 3600K       0K       0K       0K       0K       0K       0K        4         see MALLOC ZONE table below
+Malloc Metadata                    752K      96K      96K     640K       0K       0K       0K        5         see MALLOC ZONE table below
+Malloc Metadata metadata          1296K     160K     160K     192K       0K       0K       0K        2         see MALLOC ZONE table below
+Malloc Nano metadata                32K       0K       0K      16K       0K       0K       0K        1         see MALLOC ZONE table below
+Malloc Small                       672K     416K     416K     144K       0K       0K       0K        7         see MALLOC ZONE table below
+Malloc Small (empty)              11.3M       0K       0K       0K       0K       0K       0K        3         see MALLOC ZONE table below
+Malloc Tiny                       4096K      80K      80K      16K       0K       0K       0K        1         see MALLOC ZONE table below
+OS Alloc Once                       32K      16K      16K       0K       0K       0K       0K        1 
+PROTECTED_MEMORY                    16K       0K       0K       0K       0K       0K       0K        1 
+Stack                             89.2M     336K     336K     176K       0K       0K       0K       13 
+Stack (reserved)                   544K       0K       0K       0K       0K       0K       0K        1         reserved VM address space (unallocated)
+Stack Guard                       56.2M       0K       0K       0K       0K       0K       0K       14 
+Untagged                            16K       0K       0K      16K       0K       0K       0K        1 
+__AUTH                            6600K    5781K      89K      69K       0K       0K       0K      688 
+__AUTH_CONST                      99.6M    56.2M       0K       0K       0K       0K       0K     1041 
+__CTF                               824      824       0K       0K       0K       0K       0K        1 
+__DATA                            43.0M    11.1M     820K     175K       0K       0K       0K     1048 
+__DATA_CONST                      42.5M    20.2M       0K       0K       0K       0K       0K     1046 
+__DATA_DIRTY                      14.6M    7337K     515K     242K       0K       0K       0K      930 
+__FONT_DATA                        2352     2352       0K       0K       0K       0K       0K        1 
+__LINKEDIT                         1.6G    64.5M       0K       0K       0K       0K       0K        2 
+__OBJC_RO                        118.0M    72.1M       0K       0K       0K       0K       0K        1 
+__OBJC_RW                         2735K    2399K      15K      32K       0K       0K       0K        1 
+__TEXT                             1.5G   569.1M       0K       0K       0K       0K       0K     1134 
+__TPRO_CONST                       132K      20K      16K      64K       0K       0K       0K        4 
+mapped file                       87.3M    2608K       0K       0K       0K       0K       0K       13 
+owned unmapped                    10.0M    10.0M    10.0M       0K       0K       0K       0K       20 
+owned unmapped (graphics)        365.4M   361.4M   361.4M       0K       0K       0K       0K       57 
+page table in kernel               737K     737K     737K       0K       0K       0K       0K        1 
+shared memory                     3312K     704K     704K     112K       0K       0K       0K       28 
+unused but dirty shlib __DATA      219K      65K      65K     153K       0K       0K       0K      175 
+===========                     ======= ========    =====  ======= ========   ======    =====  ======= 
+TOTAL                            437.2G     1.3G   502.3M    5840K       0K   117.6M    9056K     6808 
+TOTAL, minus reserved VM space   437.2G     1.3G   502.3M    5840K       0K   117.6M    9056K     6808 
+
+                                          VIRTUAL   RESIDENT      DIRTY    SWAPPED ALLOCATION      BYTES DIRTY+SWAP          REGION
+MALLOC ZONE                                  SIZE       SIZE       SIZE       SIZE      COUNT  ALLOCATED  FRAG SIZE  % FRAG   COUNT
+===========                               =======  =========  =========  =========  =========  =========  =========  ======  ======
+DefaultMallocZone_0x10b0f8000               16.8M       272K       272K       368K        251        68K       572K     90%       9
+QuartzCore_0x115b18000                       464K       352K       352K         0K        194        24K       328K     94%       3
+objc-class_rw_t_0x10f6ec000                   32K        32K        32K         0K        854        20K        12K     38%       2
+DefaultPurgeableMallocZone_0x10f7a8000         0K         0K         0K         0K          0         0K         0K      0%       0
+===========                               =======  =========  =========  =========  =========  =========  =========  ======  ======
+TOTAL                                       17.3M       656K       656K       368K       1299       112K       912K     90%      14
+
+Can't examine target process's malloc zone PartitionAlloc_0x10a667ac0, so memory analysis will be incomplete or incorrect.
+Reason: failed to resolve canonical path for /Users/shawn/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell in dyld shared cache.
+

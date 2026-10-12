@@ -1,0 +1,15 @@
+{
+  "base": "eaaa8301aa6f4de046bede828fc19aa984cc3c1f",
+  "scope": "Development shared effects gel startup; original full GUI and other overlapping views remain uncertified",
+  "sha256": {
+    "ts/src/components/gel/SharedGelCanvas.tsx": "b5d9e761e46f83abef0e83e2b67c01da26243b7f5811602ba2265caec9d8e431",
+    "ts/src/components/gel/MicrotubeRow.tsx": "3f218dadd083e10286e83b9c7d55c016f378eb6404e9fbe548c67b9283b40634",
+    "ts/src/components/gel/ScenePresentation.tsx": "fc0fe4d999bd1b159ce519e86fea83cbe2ada3da0e9dd0249fd1a34b5ae886bb",
+    "ts/src/lib/gel/scenePresentation.ts": "fc781454ba27ff7dca29f8674fe1186b059a745797e516572bc039a276c45009",
+    "ts/src/lib/gel/render-gl.ts": "28dbe42c201f142a8b8427b1aa5dd0afa790ab8eacde609d11e7da45ae48f0e1",
+    "ts/src/lib/gpu/gl/allocations.ts": "578b6a5b0944ef125086cced9ab51b2c0233d5bf5ad6ee3e00697dde1505e917",
+    "ts/tests/visual/shared-gel.spec.ts": "717151c5da8d8a7f30b2ad4c3c3d47fd1e06223b868087f192d99ea31d0169a1",
+    "ts/tests/visual/shared-scene-lifecycle.spec.ts": "4170edd3379d2fc17837d8e49decd75df171437797a332dc0072787a1e9e7ceb",
+    "reference/native/modern/lossless-probe/startup.png": "80693c47b37b9073beb319f66853b65d194aea8a024c32baea95b4d48b3e84d9"
+  }
+}

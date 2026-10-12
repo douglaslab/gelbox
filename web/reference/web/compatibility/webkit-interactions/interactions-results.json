@@ -1,0 +1,868 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@22/22.23.3/bin/node",
+      "/tmp/gel-browser-compat-1.64/node_modules/@playwright/test/cli.js",
+      "test",
+      "-c",
+      "/tmp/gel-browser-compat-1.64/interactions.config.ts"
+    ],
+    "configFile": "/tmp/gel-browser-compat-1.64/interactions.config.ts",
+    "rootDir": "/tmp/gel-browser-compat-1.64/interactions",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": {},
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/gel-browser-compat-1.64/interactions-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "webkit-webgl2",
+        "name": "webkit-webgl2",
+        "testDir": "/tmp/gel-browser-compat-1.64/interactions",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": {},
+        "outputDir": "/tmp/gel-browser-compat-1.64/interactions-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "webkit-webgl2",
+        "testDir": "/tmp/gel-browser-compat-1.64/interactions",
+        "snapshotDir": "/tmp/gel-browser-compat-1.64/interactions",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "browserName": "webkit",
+          "baseURL": "http://localhost:5178",
+          "viewport": {
+            "width": 1365,
+            "height": 768
+          },
+          "deviceScaleFactor": 2
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "webkit-webgl2"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/tmp/gel-browser-compat-1.64/interactions-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "none",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 4,
+    "webServer": {
+      "command": "npm run dev -- --port 5178",
+      "cwd": "/Users/shawn/.codex/worktrees/3f9f/gel/ts",
+      "url": "http://localhost:5178",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "loupe-interactions.spec.ts",
+      "file": "loupe-interactions.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "persistent loupe frame, three drag modes, resize and keyboard ownership",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2020,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:51:58.392Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6e11de3f8c55911ce32a-8d3072704a575d503243",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "Cmd drag creates a loupe on empty gel and moves frame and anchor",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 542,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:51:58.391Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6e11de3f8c55911ce32a-9adceeddfa2f4719c186",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts",
+          "line": 47,
+          "column": 5
+        },
+        {
+          "title": "losing creation capture and canceling frame drag release ownership",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 573,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:51:58.393Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6e11de3f8c55911ce32a-817f4a6d115198f65b1f",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts",
+          "line": 64,
+          "column": 5
+        },
+        {
+          "title": "clicking an older loupe raises it and retains its drag and keyboard focus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 579,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:51:58.393Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6e11de3f8c55911ce32a-74f349272d1fb47f2475",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts",
+          "line": 78,
+          "column": 5
+        },
+        {
+          "title": "an anchor inside its frame keeps priority over frame dragging",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 390,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:51:59.121Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6e11de3f8c55911ce32a-dc7d384ca83f1728c07d",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts",
+          "line": 91,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "native-composed-move.spec.ts",
+      "file": "native-composed-move.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "original-release selected multimer follows tube move with hover enabled",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 679,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:51:59.152Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9fac7a9fa07087ff8e6c-57bd6e893330b112ae3e",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/native-composed-move.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "Species preview draws the existing selected molecule and updates its color",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 629,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:51:59.157Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9fac7a9fa07087ff8e6c-76c6c54892c44259b2dc",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/native-composed-move.spec.ts",
+          "line": 44,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "native-inspector-details.spec.ts",
+      "file": "native-inspector-details.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "native closest palette marker preserves imported custom color",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 491,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:51:59.524Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7aa29050f9c4f0dd657b-35c12ad121c3333cb68b",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/native-inspector-details.spec.ts",
+          "line": 14,
+          "column": 5
+        },
+        {
+          "title": "native sample header tube width and baseline",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 371,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:51:59.794Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7aa29050f9c4f0dd657b-645bc628424555e2f639",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/native-inspector-details.spec.ts",
+          "line": 27,
+          "column": 5
+        },
+        {
+          "title": "native degradation control has no numeric label",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 337,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:51:59.842Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7aa29050f9c4f0dd657b-580d843f6d76d373fc82",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/native-inspector-details.spec.ts",
+          "line": 35,
+          "column": 5
+        },
+        {
+          "title": "pointer color edit retains native sample keyboard ownership",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 457,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:52:00.023Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7aa29050f9c4f0dd657b-f1d7f8e768b6e5462b60",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/native-inspector-details.spec.ts",
+          "line": 38,
+          "column": 5
+        },
+        {
+          "title": "palette retains explicit keyboard activation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 363,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:52:00.171Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7aa29050f9c4f0dd657b-a31dfcb34f6590a2b88b",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/native-inspector-details.spec.ts",
+          "line": 54,
+          "column": 5
+        },
+        {
+          "title": "native palette drag edits on press, crosses cells and retains the last valid color outside",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 436,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:52:00.185Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7aa29050f9c4f0dd657b-efe6259c522a752d5de6",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/native-inspector-details.spec.ts",
+          "line": 60,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "species-editing.spec.ts",
+      "file": "species-editing.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "create an empty sample, add species, edit, delete final species and save",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 798,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:52:00.488Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fda7bf0fc8016b3aafcc-4d527868092343c0e5f8",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/species-editing.spec.ts",
+          "line": 19,
+          "column": 5
+        },
+        {
+          "title": "right-click creates a species at gel position; Alt clone appends and deletion restores order",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 635,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:52:00.541Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fda7bf0fc8016b3aafcc-40f52b6a926806963104",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/species-editing.spec.ts",
+          "line": 47,
+          "column": 5
+        },
+        {
+          "title": "sample background toggles settings and Tab includes deselection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 507,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:52:00.599Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fda7bf0fc8016b3aafcc-79c4d0db52d8e7a08448",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/species-editing.spec.ts",
+          "line": 62,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "tube-drag.spec.ts",
+      "file": "tube-drag.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "tube follows continuous movement and can re-enter after leaving the row",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 453,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:52:00.628Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3cd689f36de08d9b4c28-2ffaa6be3fe7ab46f259",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/tube-drag.spec.ts",
+          "line": 20,
+          "column": 5
+        },
+        {
+          "title": "Alt at mouse-down clones even after releasing Alt; occupied drop preserves destination",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 520,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:52:01.088Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3cd689f36de08d9b4c28-c46f8ae5d9ee22ac468e",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/tube-drag.spec.ts",
+          "line": 36,
+          "column": 5
+        },
+        {
+          "title": "repeated tube click closes sample; right click does not start a tube drag",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 391,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:52:01.117Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3cd689f36de08d9b4c28-4360320b32e376fb13ed",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/tube-drag.spec.ts",
+          "line": 50,
+          "column": 5
+        },
+        {
+          "title": "unexpected capture loss ends the gesture and permits selecting another tube",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 386,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:52:01.183Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3cd689f36de08d9b4c28-5adfeffb67d41e3e663b",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/tube-drag.spec.ts",
+          "line": 57,
+          "column": 5
+        },
+        {
+          "title": "Tab and Delete while holding a tube persist when it moves",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 482,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:52:01.294Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3cd689f36de08d9b4c28-7ff094470e523ea41e07",
+          "file": "../../../private/tmp/gel-browser-compat-1.64/interactions/tube-drag.spec.ts",
+          "line": 68,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-10T08:51:57.737Z",
+    "duration": 4068.6129999999994,
+    "expected": 21,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

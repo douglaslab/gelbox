@@ -1,0 +1,26 @@
+[
+  {
+    "id": "mixed-blends-2",
+    "differentChannels": 30975,
+    "maxChannelDifference": 174,
+    "absoluteChannelDifference": 1914400
+  },
+  {
+    "id": "transform-and-clip-2",
+    "differentChannels": 22315,
+    "maxChannelDifference": 140,
+    "absoluteChannelDifference": 1204006
+  },
+  {
+    "id": "empty-and-reset-2",
+    "differentChannels": 49152,
+    "maxChannelDifference": 69,
+    "absoluteChannelDifference": 2242256
+  },
+  {
+    "id": "empty-scene-2",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  }
+]

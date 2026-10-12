@@ -1,0 +1,15 @@
+
+Running 2 tests using 2 workers
+
+(node:76496) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:76498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:76496) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:76498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [webkit-webgl2] › image-decoding.spec.ts:6:1 › original-release visible image open move resize and gel replacement sequence (2.0s)
+  ✓  1 [firefox-webgl2] › image-decoding.spec.ts:6:1 › original-release visible image open move resize and gel replacement sequence (2.2s)
+
+  2 passed (3.0s)

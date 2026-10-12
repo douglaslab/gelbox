@@ -1,0 +1,129 @@
+{
+    "Gel": {
+        "Buffer": {
+            "Acetate": 8.5,
+            "Borate": 0.0,
+            "EDTA": 0.5,
+            "Tris": 12.25
+        },
+        "Samples": [
+            null,
+            {
+                "Buffer": {
+                    "Acetate": 7.75,
+                    "Borate": 0.0,
+                    "EDTA": 0.25,
+                    "Tris": 10.125
+                },
+                "Fragments": [
+                    {
+                        "Aggregate": [
+                            0.0,
+                            0.25,
+                            1.0
+                        ],
+                        "AspectRatio": 1.25,
+                        "Bases": 2500,
+                        "Color": [
+                            0.25,
+                            0.5,
+                            0.75
+                        ],
+                        "Degrade": 0.375,
+                        "Mass": 35.125
+                    },
+                    {
+                        "Aggregate": [
+                            1.0
+                        ],
+                        "AspectRatio": 1.0,
+                        "Bases": 700,
+                        "Color": [
+                            0.5,
+                            0.25,
+                            0.75
+                        ],
+                        "Degrade": 0.0,
+                        "Mass": 19.5
+                    },
+                    {
+                        "Aggregate": [
+                            1.0
+                        ],
+                        "AspectRatio": 1.0,
+                        "Bases": 100,
+                        "Color": [
+                            0.125,
+                            0.25,
+                            0.5
+                        ],
+                        "Degrade": 0.0,
+                        "Dye": "Xylene cyanol",
+                        "Mass": 10.25
+                    },
+                    {
+                        "Aggregate": [
+                            1.0
+                        ],
+                        "AspectRatio": 1.0,
+                        "Bases": 101,
+                        "Color": [
+                            0.125,
+                            0.25,
+                            0.5
+                        ],
+                        "Degrade": 0.0,
+                        "Dye": "Cresol red",
+                        "Mass": 11.25
+                    },
+                    {
+                        "Aggregate": [
+                            1.0
+                        ],
+                        "AspectRatio": 1.0,
+                        "Bases": 102,
+                        "Color": [
+                            0.125,
+                            0.25,
+                            0.5
+                        ],
+                        "Degrade": 0.0,
+                        "Dye": "Bromphenol blue",
+                        "Mass": 12.25
+                    },
+                    {
+                        "Aggregate": [
+                            1.0
+                        ],
+                        "AspectRatio": 1.0,
+                        "Bases": 103,
+                        "Color": [
+                            0.125,
+                            0.25,
+                            0.5
+                        ],
+                        "Degrade": 0.0,
+                        "Dye": "Orange G",
+                        "Mass": 13.25
+                    }
+                ],
+                "icon": "microtube1500ul.png",
+                "iconScale": 0.625,
+                "id": 2147483647,
+                "name": "Interop β – Δ DNA"
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        "Time": 0.625,
+        "Voltage": 83.5,
+        "WellDamage": 0.125
+    },
+    "Gelbox": {
+        "type": "gel",
+        "version": "1.0"
+    }
+}

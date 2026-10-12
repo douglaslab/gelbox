@@ -1,0 +1,100 @@
+✔ webgpu recorded workload meets budget (0.525334ms)
+✔ webgl2 recorded workload meets budget (0.084417ms)
+✖ rejects missing all particles (0.314208ms)
+✖ rejects empty loupe after steady measurement (0.085375ms)
+✖ rejects missing sample after gesture (0.089709ms)
+✖ rejects duplicate loupe identity (0.066791ms)
+✔ rejects slower steady frames (0.11975ms)
+✔ rejects steady tail regression (0.05725ms)
+✔ rejects callback cost regression (0.093917ms)
+✔ rejects gesture stutter (0.092334ms)
+✔ rejects gesture tail regression (0.059833ms)
+✔ rejects steady resource leak (0.269542ms)
+✔ rejects gesture resource leak (0.0615ms)
+✔ rejects inactive resource ledger (0.050125ms)
+✔ rejects missing timing (0.054208ms)
+✔ rejects unsupported hardware (0.040375ms)
+✔ rejects short observation (0.06ms)
+✔ rejects different workload (0.059ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 14
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 83.468833
+
+✖ failing tests:
+
+test at ts/scripts/performance-budget.test.mjs:24:3
+✖ rejects missing all particles (0.314208ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///Users/shawn/.codex/worktrees/3f9f/gel/ts/scripts/performance-budget.test.mjs:24:74)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Performance budget:/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at ts/scripts/performance-budget.test.mjs:24:3
+✖ rejects empty loupe after steady measurement (0.085375ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///Users/shawn/.codex/worktrees/3f9f/gel/ts/scripts/performance-budget.test.mjs:24:74)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Performance budget:/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at ts/scripts/performance-budget.test.mjs:24:3
+✖ rejects missing sample after gesture (0.089709ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///Users/shawn/.codex/worktrees/3f9f/gel/ts/scripts/performance-budget.test.mjs:24:74)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Performance budget:/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at ts/scripts/performance-budget.test.mjs:24:3
+✖ rejects duplicate loupe identity (0.066791ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///Users/shawn/.codex/worktrees/3f9f/gel/ts/scripts/performance-budget.test.mjs:24:74)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Performance budget:/,
+    operator: 'throws',
+    diff: 'simple'
+  }

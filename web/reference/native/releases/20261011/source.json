@@ -1,0 +1,16 @@
+{
+  "native_commit": "f88084187436d1e604daa2bd7905b1eb1b4df026",
+  "configure": [
+    "cmake",
+    "-S",
+    "/tmp/gel-native-release-20261011/source/proj/cmake",
+    "-B",
+    "/tmp/gel-native-release-20261011/build",
+    "-DCINDER_PATH=/Users/shawn/code/Cinder",
+    "-DCMAKE_BUILD_TYPE=Release",
+    "-DCMAKE_OSX_ARCHITECTURES=arm64",
+    "-DCINDER_COPY_ASSETS=ON",
+    "-DGELBOX_VERSION=1.0.1",
+    "-DGELBOX_BUILD_NUMBER=20261011"
+  ]
+}

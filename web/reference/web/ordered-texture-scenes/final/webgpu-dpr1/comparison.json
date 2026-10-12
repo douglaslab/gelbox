@@ -1,0 +1,32 @@
+[
+  {
+    "id": "linear-alpha-1",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "clipped-flipped-tint-1",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "mip-and-filter-switch-1",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "premultiplied-tint-1",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "repeat-and-additive-1",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  }
+]

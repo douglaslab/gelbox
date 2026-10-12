@@ -1,0 +1,16 @@
+--- a/src/GelboxApp.cpp
++++ b/src/GelboxApp.cpp
+@@ -1,3 +1,4 @@
++#include "WellProbe.h"
+ #include "cinder/app/RendererGl.h"
+ #include "cinder/gl/gl.h"
+ 
+@@ -757,6 +758,8 @@
+ 	
+ 	//
+ 	if ( Interaction::get() ) Interaction::get()->draw();
++	static int wellCaptureFrame=0;
++	if (++wellCaptureFrame==30) captureWellScenes();
+ }
+ 
+ void GelboxApp::prepareSettings( Settings *settings )

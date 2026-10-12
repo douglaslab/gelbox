@@ -1,0 +1,66 @@
+{
+  "baselineCommit": "d62c524",
+  "reports": [
+    {
+      "report": "before-webgl2-1.json",
+      "scenes": 15,
+      "mismatches": 15,
+      "maxChannelDifference": 108
+    },
+    {
+      "report": "before-webgpu-1.json",
+      "scenes": 15,
+      "mismatches": 15,
+      "maxChannelDifference": 108
+    },
+    {
+      "report": "before-webgl2-2.json",
+      "scenes": 15,
+      "mismatches": 15,
+      "maxChannelDifference": 102
+    },
+    {
+      "report": "before-webgpu-2.json",
+      "scenes": 15,
+      "mismatches": 15,
+      "maxChannelDifference": 102
+    }
+  ],
+  "nativeManifestSha256": "9a2321194b0fada14f8939e68f3fcd7eb63ae9a57a373dbd060dd65724720a5d",
+  "after": [
+    {
+      "report": "after-webgl2-2.json",
+      "scenes": 15,
+      "mismatches": 0,
+      "maxChannelDifference": 0
+    },
+    {
+      "report": "after-webgpu-2.json",
+      "scenes": 15,
+      "mismatches": 0,
+      "maxChannelDifference": 0
+    },
+    {
+      "report": "after-webgl2-1.json",
+      "scenes": 15,
+      "mismatches": 0,
+      "maxChannelDifference": 0
+    },
+    {
+      "report": "after-webgpu-1.json",
+      "scenes": 15,
+      "mismatches": 0,
+      "maxChannelDifference": 0
+    }
+  ],
+  "transparencyRegression": "All four tests pass; opaque-panel mutation fails at uncovered pixel on all four.",
+  "sourceSha256": {
+    "ts/src/lib/gel/present.ts": "ca584e779833696feece38c35df25a2f618b583c54079e265800a09d3961bf06",
+    "ts/src/lib/gel/present-gl.ts": "e21e8ae3b1ba5e74da198bde91e47fae35ce37f7eac91fed008f445abc150bb3",
+    "ts/src/lib/gel/presentationTypes.ts": "65b78e238eead941809b16ef901b6f176cedac2c0f2a3c8299e36ff5258a6713",
+    "ts/src/lib/gel/fragmentWellGeometry.ts": "aa525a4e7d6f78344177bb04c937efbde6b224d2d336d284a398073450618601",
+    "ts/src/components/sample/SampleSimCanvas.tsx": "b220b6ecd4e8e0b73762b234e5b6fff5491aabcc5f8b55460cb30cab1fe1a8b4",
+    "ts/src/components/inspector/FragmentWell.tsx": "3178df459e514079c4037eea4f807ce2a91a7c4fb58f9e4bbb556a3f48390a65",
+    "ts/tests/visual/native-fragment-well.spec.ts": "09a98aba6e6a75d6514d1890fb0e58272769600d8b64007e19a913d98d739868"
+  }
+}

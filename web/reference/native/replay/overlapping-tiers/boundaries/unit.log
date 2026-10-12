@@ -1,0 +1,11 @@
+[?25l
+ RUN  v3.0.0 /Users/shawn/.codex/worktrees/3f9f/gel/ts
+
+ ✓ tests/unit/nativeOriginalBoundaries.test.ts (9 tests) 16ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  17:25:04
+   Duration  277ms (transform 57ms, setup 0ms, collect 69ms, tests 16ms, environment 0ms, prepare 35ms)
+
+[?25h

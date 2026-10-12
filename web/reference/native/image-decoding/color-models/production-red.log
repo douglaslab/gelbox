@@ -1,0 +1,64 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.production.config.ts image-decoding.spec.ts -g native-unsupported --output=/tmp/gel-cmyk-red
+
+
+Running 2 tests using 2 workers
+
+(node:19196) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19195) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19196) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19195) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-webgpu] › image-decoding.spec.ts:65:1 › compiled image drops reject native-unsupported CMYK and continue the batch (5.4s)
+  ✘  2 [chromium-webgl2] › image-decoding.spec.ts:65:1 › compiled image drops reject native-unsupported CMYK and continue the batch (5.4s)
+
+
+  1) [chromium-webgpu] › image-decoding.spec.ts:65:1 › compiled image drops reject native-unsupported CMYK and continue the batch 
+
+    Error: [31mTimed out 5000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m
+
+    Locator: getByTestId('drop-error')
+    Expected string: [32m"cmyk.jpg"[39m
+    Received: <element(s) not found>
+    Call log:
+    [2m  - expect.toContainText with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('drop-error')[22m
+
+
+      81 |   await drop([{name:'keep.png',source:'inputs/opaque.png'}]);await expect(page.getByTestId('reference-image-1')).toBeVisible();
+      82 |   await drop([{name:'cmyk.jpg',source:'color-models/inputs/cmyk.jpg'},{name:'renamed.png',source:'color-models/inputs/cmyk-progressive.jpg'},{name:'gray.jpg',source:'color-models/inputs/gray.jpg'}]);
+    > 83 |   await expect(page.getByTestId('drop-error')).toContainText('cmyk.jpg');
+         |                                                ^
+      84 |   await expect(page.getByTestId('drop-error')).toContainText('renamed.png');
+      85 |   await expect(page.locator('[data-reference-image]')).toHaveCount(2);
+      86 |   await expect(page.getByTestId('reference-image-1')).toBeVisible();
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:83:48
+
+  2) [chromium-webgl2] › image-decoding.spec.ts:65:1 › compiled image drops reject native-unsupported CMYK and continue the batch 
+
+    Error: [31mTimed out 5000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m
+
+    Locator: getByTestId('drop-error')
+    Expected string: [32m"cmyk.jpg"[39m
+    Received: <element(s) not found>
+    Call log:
+    [2m  - expect.toContainText with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('drop-error')[22m
+
+
+      81 |   await drop([{name:'keep.png',source:'inputs/opaque.png'}]);await expect(page.getByTestId('reference-image-1')).toBeVisible();
+      82 |   await drop([{name:'cmyk.jpg',source:'color-models/inputs/cmyk.jpg'},{name:'renamed.png',source:'color-models/inputs/cmyk-progressive.jpg'},{name:'gray.jpg',source:'color-models/inputs/gray.jpg'}]);
+    > 83 |   await expect(page.getByTestId('drop-error')).toContainText('cmyk.jpg');
+         |                                                ^
+      84 |   await expect(page.getByTestId('drop-error')).toContainText('renamed.png');
+      85 |   await expect(page.locator('[data-reference-image]')).toHaveCount(2);
+      86 |   await expect(page.getByTestId('reference-image-1')).toBeVisible();
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:83:48
+
+  2 failed
+    [chromium-webgpu] › image-decoding.spec.ts:65:1 › compiled image drops reject native-unsupported CMYK and continue the batch 
+    [chromium-webgl2] › image-decoding.spec.ts:65:1 › compiled image drops reject native-unsupported CMYK and continue the batch 

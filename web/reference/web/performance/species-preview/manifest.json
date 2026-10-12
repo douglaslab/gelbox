@@ -1,0 +1,15 @@
+{
+  "baseCommit": "82d3aa2",
+  "productChanges": "Native representative preview, square sample frame and tube focus handoff; files hashed below before commit.",
+  "sourceSha256": {
+    "ts/src/components/gel/MicrotubeRow.tsx": "e7020d3fb9eab71d4ec4a61e45af0d02b4aab12820d85c96ae50f98c0e9de42b",
+    "ts/src/components/inspector/FragmentView.tsx": "e35ee8ebea42892939649b3c99df40984d7e0a32f14c51a197da31c8cd43128e",
+    "ts/src/components/inspector/FragmentWell.tsx": "ebdf394c89925233e326cb1b6ccc0344b590729b3e09dab9c50113894726573b",
+    "ts/src/components/sample/SampleSimCanvas.tsx": "13e649ab0fab343a674253ccb5599d5a03b147104e6155c723a883e77e45610a",
+    "ts/src/components/sample/SampleView.tsx": "67d095e3b9fb7058e773095b1dcac20b91e0c6a4cf700d8ea69302da369423d3",
+    "ts/src/lib/sim/molecularSimMesh.ts": "71f76214a14cc329191835e27a154e274897e4dbc9014cd8bef035b075c48f4d"
+  },
+  "builtAssetsSha256": {
+    "ts/dist/assets/index-Cz5JyLxM.js": "d275e03baff25b385acc6b3b039f86a566261df000d2068a6ed9bde775835e0e"
+  }
+}

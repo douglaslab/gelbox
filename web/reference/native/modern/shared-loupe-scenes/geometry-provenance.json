@@ -1,0 +1,18 @@
+{
+  "legacyCinderCommit": "75f4821216a0e105075f3c55be1fbe38784a18c6",
+  "hostCinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "extractedSha256": "f8e6156fb3ddc5c6c547134926818b37f254fa3e90f96e3a96fb75504f10f6e3",
+  "sources": {
+    "include/cinder/GeomIo.h": "a2b3244d2d922a70ece45f1fc80c6c834c23b93747dbaf1a9317d2604a85b223",
+    "src/cinder/GeomIo.cpp": "fc532bbac1dd9c0293b130a6221a79a9a94f6c5778cd22ef1fc7ed0d1e7e3f8e",
+    "src/cinder/gl/draw.cpp": "e7af99001c613e050416232bce90f04625fb9435c7739672ac37460afa1ba347"
+  },
+  "driverSha256": "0aaf5cf2f5d5f00b20f0ba8c7620e553370fe31681b4d4db6ddb878e3a0eafe8",
+  "executableSha256": "185d5848f6cd6cffe96f412b5837dac112583653225de5472e8c0fee7a598bbb",
+  "geometrySha256": "ef1525f37d7aa0afca53afb8af20691e7712b97365b77f497ddd6d1cc392bd40",
+  "repeatIdentical": true,
+  "limits": [
+    "Legacy class declarations and method bodies extracted verbatim into separate namespace; modern Cinder target/types/link support.",
+    "Legacy Ring TRIANGLE_STRIP geometry, radius16*.65, native explicit segment count."
+  ]
+}

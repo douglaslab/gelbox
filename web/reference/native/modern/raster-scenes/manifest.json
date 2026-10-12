@@ -1,0 +1,40 @@
+{
+  "nativeBase": "../manifest.json",
+  "additionalInputs": [
+    "capture.patch",
+    "RasterProbe.h",
+    "../lossless-probe/offscreen/capture.patch",
+    "../lossless-probe/capture.patch (CMake bundle identifier only)"
+  ],
+  "sourceSha256": {
+    "src/GelboxApp.cpp": "6d1dfdd4d337a829f213081e81cf4ecf942c7bacd89b47a439d7e4e3d4ffa4f6",
+    "src/GelRender.cpp": "969534be74bbf99cc49400c9b238aa285067fbe1680e40d3cdc28566fd5b0e5a",
+    "src/RasterProbe.h": "89249466fc303cad3c6062da387729edcde7aca4bed05a0a159312e225949b63"
+  },
+  "executableSha256": "27ec69a1ed2041b1068a63decf2f3a653731199c9435d782f7e8666ff567adec",
+  "casesSha256": "a26f2588e849b921fd208eff39c9abfd56b1ade9f60a14f89672fe64d33e1077",
+  "captures": {
+    "blur-1.png": "651a2a8592f1488279eea38de93a9d5dd14cc10e436482f785c03797576b961d",
+    "blur-2.png": "6251f950f66050a8bcf9c1fa99de2388b86adfdd1a38d42b21c99769b1e51b92",
+    "combined-1.png": "dfe4f17676ec9f67c4768423f6e42247993e561c4699edbed985966fc703efed",
+    "combined-2.png": "9741d89324ca94858f65b919e96c0a0f5cd53d3b9a0f94a1947d27a1a244a7f8",
+    "damage-1.png": "5a957b6944a4aaf4c5d8b4b105dd444ac3c1c1db88ec9967220f506edc203206",
+    "damage-2.png": "76e85d254cfd1febb481d9f4e16c91bd10fe572875054bc0dfd277fb24e256a8",
+    "flames-1.png": "1846000113bea45249a116e7aeb91a4bdfbc978ff32159148b6453ffae3f182a",
+    "flames-2.png": "4d40b4653cccc7e401ec0540e9bd421092050fd186f71f003566547520c61f36",
+    "plain-1.png": "d3e6ab4e54bd78b3e4a6a93c68312e806d9bcc9cb7fa37e48c34e8f91f88b99d",
+    "plain-2.png": "574325aaa06948fd832faeb1729890a38ddc65e2e92373090daf732e78a13cfe",
+    "smear-1.png": "30807ce2e720bd94bd5d56313bc3fae5eb2c3b95cc374c2c2e67cff1619e7a01",
+    "smear-2.png": "2eaf08a316382f1b40d11fa2d11e49f87412b26985be0cceba9e761c6a2426b9",
+    "smile-1.png": "fe9d46bde7d0b406e3c73a0541c83827737a0a0f698495a0ab970f996c752025",
+    "smile-2.png": "814babf40ea681cd0a7f082af18f83eb09dca3f2b0a021fb53c5e5044a772c35",
+    "water-1.png": "76f99d8218c63ab106e094a508dcb5e5b0f777b2edf2e56ca87e948e3d53ce98",
+    "water-2.png": "60999da8de533260be9ed205f241961bf4880e83d1b1e8964af5ddb18fcbaefe"
+  },
+  "beforeProductCommit": "75b47c9",
+  "limitations": [
+    "Modern native compatibility build, not original executable equivalence.",
+    "Synthetic renderer scenes, not native GUI workflow replay.",
+    "Water and half-pixel edge mismatches remain; see before/after diagnostics."
+  ]
+}

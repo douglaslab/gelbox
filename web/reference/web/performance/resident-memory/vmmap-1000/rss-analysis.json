@@ -1,0 +1,98 @@
+[
+  {
+    "backend": "chromium-webgl2",
+    "browser": "153.0.8010.12",
+    "cycles": 1000,
+    "elapsedMs": 350356,
+    "samples": 101,
+    "closedObjects": 37,
+    "peakObjects": 51,
+    "afterRouteUnmount": 0,
+    "metrics": {
+      "total": {
+        "initialMiB": 359.484375,
+        "finalMiB": 438.734375,
+        "peakMiB": 440.015625,
+        "medianCycles50to100MiB": 400.578125,
+        "medianLast50CyclesMiB": 438.8515625,
+        "medianGrowthMiB": 38.2734375,
+        "lastHalfSlopeKiBPerCycle": 45.94258823529412
+      },
+      "browser": {
+        "initialMiB": 88.84375,
+        "finalMiB": 96.265625,
+        "peakMiB": 96.265625,
+        "medianCycles50to100MiB": 90.3125,
+        "medianLast50CyclesMiB": 96.265625,
+        "medianGrowthMiB": 5.953125,
+        "lastHalfSlopeKiBPerCycle": 4.3228959276018095
+      },
+      "GPU": {
+        "initialMiB": 78.84375,
+        "finalMiB": 83.75,
+        "peakMiB": 84.203125,
+        "medianCycles50to100MiB": 84.1796875,
+        "medianLast50CyclesMiB": 83.75,
+        "medianGrowthMiB": -0.4296875,
+        "lastHalfSlopeKiBPerCycle": 3.062153846153846
+      },
+      "renderer": {
+        "initialMiB": 145.15625,
+        "finalMiB": 201.671875,
+        "peakMiB": 202.953125,
+        "medianCycles50to100MiB": 176.6796875,
+        "medianLast50CyclesMiB": 201.7734375,
+        "medianGrowthMiB": 25.09375,
+        "lastHalfSlopeKiBPerCycle": 31.539113122171944
+      }
+    }
+  },
+  {
+    "backend": "chromium-webgpu",
+    "browser": "153.0.8010.12",
+    "cycles": 1000,
+    "elapsedMs": 352244,
+    "samples": 101,
+    "closedObjects": 66,
+    "peakObjects": 80,
+    "afterRouteUnmount": 0,
+    "metrics": {
+      "total": {
+        "initialMiB": 379.71875,
+        "finalMiB": 470.65625,
+        "peakMiB": 472.796875,
+        "medianCycles50to100MiB": 425.1171875,
+        "medianLast50CyclesMiB": 470.6484375,
+        "medianGrowthMiB": 45.53125,
+        "lastHalfSlopeKiBPerCycle": 40.39819004524887
+      },
+      "browser": {
+        "initialMiB": 88.90625,
+        "finalMiB": 94.71875,
+        "peakMiB": 94.71875,
+        "medianCycles50to100MiB": 89.953125,
+        "medianLast50CyclesMiB": 94.71875,
+        "medianGrowthMiB": 4.765625,
+        "lastHalfSlopeKiBPerCycle": 3.6804343891402715
+      },
+      "GPU": {
+        "initialMiB": 96.171875,
+        "finalMiB": 115.96875,
+        "peakMiB": 116.46875,
+        "medianCycles50to100MiB": 109.3046875,
+        "medianLast50CyclesMiB": 115.9296875,
+        "medianGrowthMiB": 6.625,
+        "lastHalfSlopeKiBPerCycle": 0.49752036199095023
+      },
+      "renderer": {
+        "initialMiB": 148.1875,
+        "finalMiB": 203.046875,
+        "peakMiB": 204.71875,
+        "medianCycles50to100MiB": 176.1171875,
+        "medianLast50CyclesMiB": 203.0625,
+        "medianGrowthMiB": 26.9453125,
+        "lastHalfSlopeKiBPerCycle": 28.85777375565611
+      }
+    }
+  }
+]

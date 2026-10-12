@@ -1,0 +1,22 @@
+{
+  "changes": {
+    "src/GelboxApp.cpp": {
+      "before": "facccd186b9e275ecc9a752e3eb5190e4a9b120be01e40a49e4449be52351d31",
+      "after": "7b4ef820162b6b093b7454054884eff15d55c7eed505d734ead5b65952afd671"
+    },
+    "include/SampleView.h": {
+      "before": "4c6bd19a8dbad08e5f7820a5f237cc8213e118e7038e94ac20fa3480923a2c06",
+      "after": "592cfa693f2e14fa023ce153bc81b5b31575312a3bcee0a68dbe5bfd1983b288"
+    },
+    "include/MolecularSim.h": {
+      "before": "d5ea5477c956bb5731979ee8ed4b2c233bbefee306c463850fb554b3511a91a1",
+      "after": "cadf114299112ed5cb32a91cfbfb44c5d3ce2795bba615a2f65aeb8c53693545"
+    },
+    "proj/cmake/CMakeLists.txt": {
+      "before": "0d490cf54e9070a56fe84046584457492761759d1a64d5361b052ddf087745ce",
+      "after": "f7142e5a4e2a55a241af64fbbe94a5eb55a5567bf944c281844eae0d0fc1d35c"
+    }
+  },
+  "probeSha256": "843699a4638cafac6dad5cd5734286b99036ff0e510cdddcaef1f2df2b3c8f31",
+  "instrumentSha256": "99bbf01a6f182dede73ac47f592bccfdfbf0cfcb64502bb6bd60a7df5254c534"
+}

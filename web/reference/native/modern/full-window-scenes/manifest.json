@@ -1,0 +1,51 @@
+{
+  "baseManifestSha256": "123992ba39525246a08f5a947c4df8c8e243db60f360f4cacb055fa83fbd4d0d",
+  "probeSha256": "346f6b07b96a1817fc30bc4aa70da389df3d8a4132be41e0b206dec19afed895",
+  "instrumentSha256": "7de3ae465d23b0d63ef8fe3e0ee3a7a55150b460adc0ac42e23bd692c227157e",
+  "changes": {
+    "src/GelboxApp.cpp": {
+      "before": "facccd186b9e275ecc9a752e3eb5190e4a9b120be01e40a49e4449be52351d31",
+      "after": "e10eb06475c3c2927acee7fed3a11b7978326a0c1da60fe0237c61bf7af9e679"
+    },
+    "include/SampleView.h": {
+      "before": "4c6bd19a8dbad08e5f7820a5f237cc8213e118e7038e94ac20fa3480923a2c06",
+      "after": "40fff27b318f9c9e3dac4dd7711e4c6ae45c8269ccd8896d2d902fe88aceb8b3"
+    },
+    "include/MolecularSim.h": {
+      "before": "d5ea5477c956bb5731979ee8ed4b2c233bbefee306c463850fb554b3511a91a1",
+      "after": "9e60510b41dedf985df09e0c88660c3e64491c046d7fdb883b075b0a2410619f"
+    },
+    "proj/cmake/CMakeLists.txt": {
+      "before": "0d490cf54e9070a56fe84046584457492761759d1a64d5361b052ddf087745ce",
+      "after": "afc95f1d5a4787e49ad88e1d5062f39733abebd2d7c0b3c230c7ecd03cf3505d"
+    }
+  },
+  "captures": {
+    "sample-matrices.json": "e86a2ed347ca8e465ad10a984900a03f2007995a4739165e768e2c5156d799c9",
+    "sample-mesh.json": "16d577c6c789501924939eddd06c310fa15690d2d3eb010bfe83c06b8be74203",
+    "sample-samples.json": "2ffc7097f6d03449a73874cc9e003d61953f9861af69118a02b5c2136ff967fe",
+    "sample.json": "480b04ad73d032be9be278e72ff014a09a194d19a918c1d15b1b1726b4ea8dc6",
+    "sample.png": "86ff117ce6b07a39472810951e5ce141a5427b7c06d1b493dcedf96fa6e1e78a",
+    "species-matrices.json": "e86a2ed347ca8e465ad10a984900a03f2007995a4739165e768e2c5156d799c9",
+    "species-mesh.json": "df95228cfa242d31f4252f3bc037ca043fe42523809c2fd8d2a00ddbd5eed40a",
+    "species-samples.json": "35dc86d0717d761216860b9e5287d465118578135fa5f76c3798b36a1bfe3cc0",
+    "species.json": "51b47682d0e00d69e685e00798016c788fb1c9bc5a22bd925ecbcbc6e763bb05",
+    "species.png": "2956817b0259c2bc5bf60cf5157950cef60123728a3707eb2e40b9a03588c693",
+    "startup.json": "0394bbcd4b0011387c6f204f1ecf92cacd211397fce3ec656ee7178fea38def8",
+    "startup.png": "80693c47b37b9073beb319f66853b65d194aea8a024c32baea95b4d48b3e84d9"
+  },
+  "repeat": {
+    "allFilesByteIdentical": true,
+    "files": 12
+  },
+  "window": [
+    1365,
+    768
+  ],
+  "scale": 2,
+  "diagnosticExport": {
+    "originalImagesUnchanged": true,
+    "originalStatesUnchanged": true
+  },
+  "executableSha256": "3393cdd1a99e3748a6d98205ad5dc6784cf2f78f14c63236b2103b9b5b73b779"
+}

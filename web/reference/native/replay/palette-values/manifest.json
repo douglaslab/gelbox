@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-10",
+  "nativeBinarySha256": "037514b74bd7fcb673b7a276749fd31bfeabc0773fd11b790457412e905a78a7",
+  "files": {
+    "README.md": "3a48e16e0d69cb675df414e2eed2affedeafcb6b82c4f2d4807c7b836b6eae63",
+    "capture-input.json": "0835ffbff38b71f0335cf192a01f48ac983bec611ab5bf82be3482e63a6831a8",
+    "input.json": "54e508e92e8fe5ac2131aeecb718b2d2d879da7fdfd568d12c03bc6af11c30a8",
+    "native-all-colors.jpg": "ce5fc97935537b967b1c72a711173f815ce4af5798ec7f65d3033ae10b19fe4d",
+    "native-output.json": "07d8496d40708dde1afced679fe1d8020c926471abd83d2a8eb538beff34d0e5",
+    "webgl2-output.json": "21581cb41f33906943a7d43290cada2cc1d5de9ae426e2691e635b633b7fc03c",
+    "webgpu-output.json": "21581cb41f33906943a7d43290cada2cc1d5de9ae426e2691e635b633b7fc03c"
+  }
+}

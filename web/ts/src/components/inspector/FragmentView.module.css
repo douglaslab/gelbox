@@ -1,0 +1,36 @@
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  position: absolute;
+  margin: 0;
+  line-height: 1;
+}
+
+.well {
+  position: absolute;
+}
+
+.palette {
+  position: absolute;
+}
+
+.sliders {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+.empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+}

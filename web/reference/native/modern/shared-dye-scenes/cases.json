@@ -1,0 +1,32 @@
+[
+  {
+    "id": "zero",
+    "values": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "mixed",
+    "values": [
+      12,
+      62,
+      89,
+      110
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "full",
+    "values": [
+      125,
+      125,
+      125,
+      125
+    ],
+    "highlight": 1
+  }
+]

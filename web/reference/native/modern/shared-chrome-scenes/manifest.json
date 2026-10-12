@@ -1,0 +1,153 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceSha256": "d1631c11a2d5c7aa268e504c94faedb4b8185c5db2214980d578944dcc883f59",
+  "braceSourceSha256": "d9345eda3ae73104684344f99676588e22f7369e93ff1d3e5ab7d1e95e035b02",
+  "layoutSourceSha256": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+  "extractedSha256": "2d3866cf65dccb80ebc968da09a692ef48639d565f40d1939c04729667db6849",
+  "inputs": {
+    "driver.cpp": "aa1bd4f2e95e93c990221f428247de3e17b4c1a39793ff3ac2ec9b7a7f0ce920",
+    "../shared-image-scenes/textures.cpp": "e84a284b861c3e26ce7be31233e4bd3312263acb475df0063c63ec891d20ec30",
+    "cases.json": "52195306073e42ddb4a6861725d064e9ec9adf6732a8c3c7f47cd572513c63e4",
+    "help.png": "aeba3e1adc5b130c3fcff81571217da974476228b6b52362f7b89f36087d0e63",
+    "help@2x.png": "8a7c9338ccccdec5872516950ac85161ee068e064fd005b608536a465d84b469",
+    "brace.png": "0b0e2a5a0b8e6d35fca592b40b1aa4f9e25217b40810506c2c9cdcba9df4e45c",
+    "brace@2x.png": "6f0c23bd9c85eb0ee4c38eaf95dc1d8ade4c948d086f273d8750252f7c5f1188",
+    "settings.png": "57b4c1655e42e16a302c7fb2ae4cbb59ea4a707173060807dab7eb7bc7f27bd6",
+    "settings@2x.png": "5edc58d9c40176d8a604021353435ecd255fc57cd4c4af64288a44688c551f13",
+    "textures.json": "c01e0e67a2cafa63b534084c55a8d2c8ed54611b5bf0dfbed8684cdcd348327d"
+  },
+  "executables": {
+    "image-textures": "624bc8d49c4da7d5cc3a8d82f8c92a646c93338839caa8f01b6de7cbc1fb4d42",
+    "image-scenes": "b6a4d6f07f31099604ba637d891d59888a6ae7aef78a6a69b0712d5927064ea3"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "cases": [
+    {
+      "id": "help-idle-1",
+      "scene": "help-idle",
+      "scale": 1,
+      "sha256": "4b7b4133b30cb9e2a5bdb5f149203a8ec5cbaeeb47db50a8fab7d1a734fa6885"
+    },
+    {
+      "id": "help-idle-2",
+      "scene": "help-idle",
+      "scale": 2,
+      "sha256": "c109d42ee4723c19933b887fe4c04d0f6ac5e50a8441c86804c54321012ae42c"
+    },
+    {
+      "id": "help-hover-1",
+      "scene": "help-hover",
+      "scale": 1,
+      "sha256": "9d2862854197ecf9bfac14e3c5f658b6088ae896890fdba3c8e3197095cf7abb"
+    },
+    {
+      "id": "help-hover-2",
+      "scene": "help-hover",
+      "scale": 2,
+      "sha256": "15a66e10d11d460ead4745817ee1445d9c4a71ba49da51908cf63bca655ef5da"
+    },
+    {
+      "id": "help-down-1",
+      "scene": "help-down",
+      "scale": 1,
+      "sha256": "db3673da077d044dd19cb8e8f0a6a7bd34eb873d545f79ea490dc4178ae9c65c"
+    },
+    {
+      "id": "help-down-2",
+      "scene": "help-down",
+      "scale": 2,
+      "sha256": "340cd44126cc31e8af5cfcd3be14007a3a29f330719d407b53fdcc68c9020037"
+    },
+    {
+      "id": "help-covered-1",
+      "scene": "help-covered",
+      "scale": 1,
+      "sha256": "3711b92ba093f0240c159be1a160f441f6cb2d234b4469ca9c05c139954bfe7c"
+    },
+    {
+      "id": "help-covered-2",
+      "scene": "help-covered",
+      "scale": 2,
+      "sha256": "ac5051a0960bb1a7f1d1ff87e1ba2df908e3d1cd88e48b20d15b8f8e96cede5b"
+    },
+    {
+      "id": "brace-idle-1",
+      "scene": "brace-idle",
+      "scale": 1,
+      "sha256": "60d5acffd7dadb59dfd3870800a10ee60ef2d50fd34e799ea256b4a2d6860b7d"
+    },
+    {
+      "id": "brace-idle-2",
+      "scene": "brace-idle",
+      "scale": 2,
+      "sha256": "ffb42147e718ad0072372695e79f85cadd29929d4476485a62a15e30b131aabe"
+    },
+    {
+      "id": "brace-covered-1",
+      "scene": "brace-covered",
+      "scale": 1,
+      "sha256": "4c9272a382fb0966451119abb43ed60855bf7dbd55ae80ffa4005a9ffcfc885e"
+    },
+    {
+      "id": "brace-covered-2",
+      "scene": "brace-covered",
+      "scale": 2,
+      "sha256": "cbb714aeb49ab6388edcd8a8c836fa4de800a85b62d29fe9ef3991174d236efb"
+    },
+    {
+      "id": "settings-idle-1",
+      "scene": "settings-idle",
+      "scale": 1,
+      "sha256": "e258b1dd548ed327460a3a1a23fa7ad5bd5181983e42d0655913305ce515ea21"
+    },
+    {
+      "id": "settings-idle-2",
+      "scene": "settings-idle",
+      "scale": 2,
+      "sha256": "373ee1f54a944639c393aa7f606ca66eeb43e461a7669795969227efed2dc74d"
+    },
+    {
+      "id": "settings-hover-1",
+      "scene": "settings-hover",
+      "scale": 1,
+      "sha256": "a1dcc28f05c1ea7ebe340ad77adc5531e54233e3fcde3b36c4d1481201960690"
+    },
+    {
+      "id": "settings-hover-2",
+      "scene": "settings-hover",
+      "scale": 2,
+      "sha256": "7d9f1935b6b0e6007d92ec39577fa507cf93180ad40e15dd53b2cddce7ff16cd"
+    },
+    {
+      "id": "settings-down-1",
+      "scene": "settings-down",
+      "scale": 1,
+      "sha256": "befc6db67b685cfe7b44293de7ba2df9b3d069723257f31c0297278252062cf4"
+    },
+    {
+      "id": "settings-down-2",
+      "scene": "settings-down",
+      "scale": 2,
+      "sha256": "c41f3e47035687ee5be9d509f6254243489971c6a5c33c8600804e74f8b72a4e"
+    },
+    {
+      "id": "settings-covered-1",
+      "scene": "settings-covered",
+      "scale": 1,
+      "sha256": "074b12df9a95051091affe2b8bb6c36f6175bed6adbf030a5c71cfcc8fc6da2b"
+    },
+    {
+      "id": "settings-covered-2",
+      "scene": "settings-covered",
+      "scale": 2,
+      "sha256": "679824bf56760affdf534a9f5d8547869f5497c8c377c4ddfe5b99c866c251c4"
+    }
+  ],
+  "limits": [
+    "Pinned ButtonView stateColor/draw/drawFill/drawFrame methods with fixed empty fill/frame and native layout colors, modern Cinder actual texture drawing; brace follows FragmentView::draw white textured-rectangle contract.",
+    "Standalone CGL RGBA8 MSAA4, positive-Y projection and raw row order; not original-release GUI.",
+    "Native Help/settings/brace PNGs only; native texture levels are bottom-up, browser canonical image levels are top-down."
+  ]
+}

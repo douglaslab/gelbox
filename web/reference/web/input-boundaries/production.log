@@ -1,0 +1,15 @@
+
+Running 2 tests using 2 workers
+
+(node:56081) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56082) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56081) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56082) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium-webgpu] › legacy-files.spec.ts:5:1 › compiled legacy imports normalize native geometry and reject malformed files without replacing the gel (895ms)
+  ✓  2 [chromium-webgl2] › legacy-files.spec.ts:5:1 › compiled legacy imports normalize native geometry and reject malformed files without replacing the gel (911ms)
+
+  2 passed (1.3s)

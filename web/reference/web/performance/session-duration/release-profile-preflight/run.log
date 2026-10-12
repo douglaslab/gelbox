@@ -1,0 +1,13 @@
+
+Running 2 tests using 2 workers
+
+(node:25912) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/10
+Lifecycle cycles completed: 10/10
+  ✓  1 [chromium-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/frozen-session/performance/view-churn.spec.ts:12:5 › compiled repeated sample/loupe disposal and resize release owned GPU resources (8.6s)
+  ✓  2 [chromium-webgpu] › ../../../../../../../private/tmp/gel-browser-compat-1.64/frozen-session/performance/view-churn.spec.ts:12:5 › compiled repeated sample/loupe disposal and resize release owned GPU resources (8.7s)
+
+  2 passed (9.2s)

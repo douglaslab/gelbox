@@ -1,0 +1,1564 @@
+{
+  "schema": "gel-state-v0",
+  "gelSize": {
+    "width": 320,
+    "height": 240
+  },
+  "pixelsPerUnit": 1,
+  "globalWarp": {
+    "h2oDistort": true,
+    "randSeed": 0
+  },
+  "bands": [
+    {
+      "rect": {
+        "x1": 50,
+        "y1": 25,
+        "x2": 270,
+        "y2": 35
+      },
+      "smearAbove": 7,
+      "smearBelow": 17,
+      "smearBrightnessAbove": [
+        0.4,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.3,
+        0
+      ],
+      "flameHeight": 12,
+      "smileHeight": 3,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.7,
+      "color": [
+        1,
+        0.85,
+        0.8
+      ],
+      "randSeed": 1,
+      "wellDamage": 0.2,
+      "wellDamageRandSeed": 100
+    },
+    {
+      "rect": {
+        "x1": 54,
+        "y1": 29.142857142857146,
+        "x2": 267,
+        "y2": 39.02040816326531
+      },
+      "smearAbove": 6.8979591836734695,
+      "smearBelow": 16.755102040816325,
+      "smearBrightnessAbove": [
+        0.3959183673469388,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2969387755102041,
+        0
+      ],
+      "flameHeight": 11.83673469387755,
+      "smileHeight": 4.288435374475382,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.6918367346938775,
+      "color": [
+        1,
+        0.9341470984807896,
+        0.7755165123780745
+      ],
+      "randSeed": 2,
+      "wellDamage": 0.4890674556251579,
+      "wellDamageRandSeed": 101
+    },
+    {
+      "rect": {
+        "x1": 58,
+        "y1": 33.285714285714285,
+        "x2": 264,
+        "y2": 43.04081632653061
+      },
+      "smearAbove": 6.795918367346939,
+      "smearBelow": 16.51020408163265,
+      "smearBrightnessAbove": [
+        0.3918367346938776,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.29387755102040813,
+        0
+      ],
+      "flameHeight": 11.673469387755102,
+      "smileHeight": 4.97089945997692,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.6836734693877551,
+      "color": [
+        1,
+        0.9409297426825681,
+        0.708060461173628
+      ],
+      "randSeed": 3,
+      "wellDamage": 0.3546504115464393,
+      "wellDamageRandSeed": 102
+    },
+    {
+      "rect": {
+        "x1": 62,
+        "y1": 37.42857142857143,
+        "x2": 261,
+        "y2": 47.06122448979592
+      },
+      "smearAbove": 6.6938775510204085,
+      "smearBelow": 16.26530612244898,
+      "smearBrightnessAbove": [
+        0.38775510204081637,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.29081632653061223,
+        0
+      ],
+      "flameHeight": 11.510204081632654,
+      "smileHeight": 4.726418733297748,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.6755102040816326,
+      "color": [
+        1,
+        0.8641120008059867,
+        0.6141474403335405
+      ],
+      "randSeed": 4,
+      "wellDamage": 0.4063298477551922,
+      "wellDamageRandSeed": 103
+    },
+    {
+      "rect": {
+        "x1": 66,
+        "y1": 41.57142857142857,
+        "x2": 258,
+        "y2": 51.08163265306122
+      },
+      "smearAbove": 6.591836734693878,
+      "smearBelow": 16.02040816326531,
+      "smearBrightnessAbove": [
+        0.38367346938775515,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.28775510204081634,
+        0
+      ],
+      "flameHeight": 11.346938775510203,
+      "smileHeight": 3.66997630031181,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.6673469387755102,
+      "color": [
+        1,
+        0.7743197504692072,
+        0.5167706326905714
+      ],
+      "randSeed": 5,
+      "wellDamage": 0.46503639671604596,
+      "wellDamageRandSeed": 104
+    },
+    {
+      "rect": {
+        "x1": 50,
+        "y1": 45.714285714285715,
+        "x2": 255,
+        "y2": 55.10204081632653
+      },
+      "smearAbove": 6.489795918367347,
+      "smearBelow": 15.775510204081632,
+      "smearBrightnessAbove": [
+        0.3795918367346939,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2846938775510204,
+        0
+      ],
+      "flameHeight": 11.183673469387756,
+      "smileHeight": 2.29843354462076,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.6591836734693877,
+      "color": [
+        1,
+        0.7541075725336861,
+        0.43977127689061324
+      ],
+      "randSeed": 6,
+      "wellDamage": 0.2645359964263447,
+      "wellDamageRandSeed": 105
+    },
+    {
+      "rect": {
+        "x1": 54,
+        "y1": 49.85714285714286,
+        "x2": 252,
+        "y2": 59.12244897959184
+      },
+      "smearAbove": 6.387755102040816,
+      "smearBelow": 15.53061224489796,
+      "smearBrightnessAbove": [
+        0.37551020408163266,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2816326530612245,
+        0
+      ],
+      "flameHeight": 11.020408163265305,
+      "smileHeight": 1.2568484551728245,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.6510204081632652,
+      "color": [
+        1,
+        0.8220584501801074,
+        0.4020015006799109
+      ],
+      "randSeed": 7,
+      "wellDamage": 0.4995630036123815,
+      "wellDamageRandSeed": 106
+    },
+    {
+      "rect": {
+        "x1": 58,
+        "y1": 54,
+        "x2": 270,
+        "y2": 63.14285714285714
+      },
+      "smearAbove": 6.2857142857142865,
+      "smearBelow": 15.285714285714286,
+      "smearBrightnessAbove": [
+        0.37142857142857144,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2785714285714286,
+        0
+      ],
+      "flameHeight": 10.857142857142858,
+      "smileHeight": 1.0350947747513348,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.6428571428571428,
+      "color": [
+        1,
+        0.9156986598718789,
+        0.4127086625418407
+      ],
+      "randSeed": 8,
+      "wellDamage": 0.29572950870480563,
+      "wellDamageRandSeed": 107
+    },
+    {
+      "rect": {
+        "x1": 62,
+        "y1": 58.142857142857146,
+        "x2": 267,
+        "y2": 67.16326530612245
+      },
+      "smearAbove": 6.183673469387755,
+      "smearBelow": 15.040816326530614,
+      "smearBrightnessAbove": [
+        0.3673469387755102,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2755102040816326,
+        0
+      ],
+      "flameHeight": 10.693877551020408,
+      "smileHeight": 1.7374667242553568,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.6346938775510204,
+      "color": [
+        1,
+        0.9489358246623382,
+        0.46927127582727757
+      ],
+      "randSeed": 9,
+      "wellDamage": 0.4483479407256961,
+      "wellDamageRandSeed": 108
+    },
+    {
+      "rect": {
+        "x1": 66,
+        "y1": 62.28571428571429,
+        "x2": 264,
+        "y2": 71.18367346938776
+      },
+      "smearAbove": 6.081632653061225,
+      "smearBelow": 14.795918367346939,
+      "smearBrightnessAbove": [
+        0.363265306122449,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2724489795918367,
+        0
+      ],
+      "flameHeight": 10.53061224489796,
+      "smileHeight": 3.0336278009686994,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.6265306122448979,
+      "color": [
+        1,
+        0.8912118485241757,
+        0.557840840113844
+      ],
+      "randSeed": 10,
+      "wellDamage": 0.4285950751757096,
+      "wellDamageRandSeed": 109
+    },
+    {
+      "rect": {
+        "x1": 50,
+        "y1": 66.42857142857143,
+        "x2": 261,
+        "y2": 75.20408163265306
+      },
+      "smearAbove": 5.979591836734694,
+      "smearBelow": 14.551020408163264,
+      "smearBrightnessAbove": [
+        0.3591836734693878,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2693877551020408,
+        0
+      ],
+      "flameHeight": 10.36734693877551,
+      "smileHeight": 4.313973197437578,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.6183673469387755,
+      "color": [
+        1,
+        0.795597888911063,
+        0.6567324370926453
+      ],
+      "randSeed": 11,
+      "wellDamage": 0.3260501110479923,
+      "wellDamageRandSeed": 110
+    },
+    {
+      "rect": {
+        "x1": 54,
+        "y1": 70.57142857142857,
+        "x2": 258,
+        "y2": 79.22448979591836
+      },
+      "smearAbove": 5.877551020408163,
+      "smearBelow": 14.306122448979592,
+      "smearBrightnessAbove": [
+        0.35510204081632657,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.26632653061224487,
+        0
+      ],
+      "flameHeight": 10.204081632653061,
+      "smileHeight": 4.976336467754001,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.610204081632653,
+      "color": [
+        1,
+        0.7500009793449296,
+        0.741733954858252
+      ],
+      "randSeed": 12,
+      "wellDamage": 0.496031589282384,
+      "wellDamageRandSeed": 111
+    },
+    {
+      "rect": {
+        "x1": 58,
+        "y1": 74.71428571428572,
+        "x2": 255,
+        "y2": 83.24489795918367
+      },
+      "smearAbove": 5.775510204081632,
+      "smearBelow": 14.061224489795919,
+      "smearBrightnessAbove": [
+        0.3510204081632653,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.26326530612244897,
+        0
+      ],
+      "flameHeight": 10.040816326530612,
+      "smileHeight": 4.709197816176562,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.6020408163265305,
+      "color": [
+        1,
+        0.7963427081999565,
+        0.7920340573300733
+      ],
+      "randSeed": 13,
+      "wellDamage": 0.2323260956898327,
+      "wellDamageRandSeed": 112
+    },
+    {
+      "rect": {
+        "x1": 62,
+        "y1": 78.85714285714286,
+        "x2": 252,
+        "y2": 87.26530612244898
+      },
+      "smearAbove": 5.673469387755102,
+      "smearBelow": 13.816326530612244,
+      "smearBrightnessAbove": [
+        0.3469387755102041,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2602040816326531,
+        0
+      ],
+      "flameHeight": 9.877551020408163,
+      "smileHeight": 3.6381967246987044,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.5938775510204081,
+      "color": [
+        1,
+        0.8920167036826641,
+        0.7953175251456047
+      ],
+      "randSeed": 14,
+      "wellDamage": 0.47873720382031093,
+      "wellDamageRandSeed": 113
+    },
+    {
+      "rect": {
+        "x1": 66,
+        "y1": 83,
+        "x2": 270,
+        "y2": 91.28571428571428
+      },
+      "smearAbove": 5.571428571428571,
+      "smearBelow": 13.571428571428571,
+      "smearBrightnessAbove": [
+        0.34285714285714286,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2571428571428571,
+        0
+      ],
+      "flameHeight": 9.714285714285715,
+      "smileHeight": 2.2670417414961466,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.5857142857142856,
+      "color": [
+        1,
+        0.949060735569487,
+        0.7507804508686609
+      ],
+      "randSeed": 15,
+      "wellDamage": 0.3814498467218852,
+      "wellDamageRandSeed": 114
+    },
+    {
+      "rect": {
+        "x1": 50,
+        "y1": 87.14285714285715,
+        "x2": 267,
+        "y2": 95.3061224489796
+      },
+      "smearAbove": 5.469387755102041,
+      "smearBelow": 13.326530612244898,
+      "smearBrightnessAbove": [
+        0.33877551020408164,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2540816326530612,
+        0
+      ],
+      "flameHeight": 9.551020408163264,
+      "smileHeight": 1.24060848005666,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.5775510204081632,
+      "color": [
+        1,
+        0.9150287840157116,
+        0.6693270635670051
+      ],
+      "randSeed": 16,
+      "wellDamage": 0.38166196091588034,
+      "wellDamageRandSeed": 115
+    },
+    {
+      "rect": {
+        "x1": 54,
+        "y1": 91.28571428571429,
+        "x2": 264,
+        "y2": 99.3265306122449
+      },
+      "smearAbove": 5.36734693877551,
+      "smearBelow": 13.081632653061225,
+      "smearBrightnessAbove": [
+        0.3346938775510204,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2510204081632653,
+        0
+      ],
+      "flameHeight": 9.387755102040817,
+      "smileHeight": 1.0416445416973652,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.5693877551020408,
+      "color": [
+        1,
+        0.8212096683334934,
+        0.5708999932382772
+      ],
+      "randSeed": 17,
+      "wellDamage": 0.47863857022317213,
+      "wellDamageRandSeed": 116
+    },
+    {
+      "rect": {
+        "x1": 58,
+        "y1": 95.42857142857143,
+        "x2": 261,
+        "y2": 103.3469387755102
+      },
+      "smearAbove": 5.26530612244898,
+      "smearBelow": 12.836734693877553,
+      "smearBrightnessAbove": [
+        0.3306122448979592,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.24795918367346936,
+        0
+      ],
+      "flameHeight": 9.224489795918368,
+      "smileHeight": 1.7637257755259306,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.5612244897959183,
+      "color": [
+        1,
+        0.7538602508120443,
+        0.47959761946303525
+      ],
+      "randSeed": 18,
+      "wellDamage": 0.23259097862722394,
+      "wellDamageRandSeed": 117
+    },
+    {
+      "rect": {
+        "x1": 62,
+        "y1": 99.57142857142858,
+        "x2": 258,
+        "y2": 107.36734693877551
+      },
+      "smearAbove": 5.163265306122449,
+      "smearBelow": 12.591836734693878,
+      "smearBrightnessAbove": [
+        0.326530612244898,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.24489795918367346,
+        0
+      ],
+      "flameHeight": 9.061224489795919,
+      "smileHeight": 3.0672460944422735,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.5530612244897959,
+      "color": [
+        1,
+        0.7749012753228324,
+        0.4177739476230646
+      ],
+      "randSeed": 19,
+      "wellDamage": 0.4960746674361948,
+      "wellDamageRandSeed": 118
+    },
+    {
+      "rect": {
+        "x1": 66,
+        "y1": 103.71428571428572,
+        "x2": 255,
+        "y2": 111.38775510204081
+      },
+      "smearAbove": 5.061224489795919,
+      "smearBelow": 12.346938775510203,
+      "smearBrightnessAbove": [
+        0.32244897959183677,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.24183673469387754,
+        0
+      ],
+      "flameHeight": 8.89795918367347,
+      "smileHeight": 4.339139524393202,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.5448979591836735,
+      "color": [
+        1,
+        0.8649877209662952,
+        0.40056556876072424
+      ],
+      "randSeed": 20,
+      "wellDamage": 0.3258082748219694,
+      "wellDamageRandSeed": 119
+    },
+    {
+      "rect": {
+        "x1": 50,
+        "y1": 107.85714285714286,
+        "x2": 252,
+        "y2": 115.40816326530611
+      },
+      "smearAbove": 4.959183673469388,
+      "smearBelow": 12.10204081632653,
+      "smearBrightnessAbove": [
+        0.31836734693877555,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2387755102040816,
+        0
+      ],
+      "flameHeight": 8.73469387755102,
+      "smileHeight": 4.9812147113897405,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.536734693877551,
+      "color": [
+        1,
+        0.9412945250727628,
+        0.4321856941847095
+      ],
+      "randSeed": 21,
+      "wellDamage": 0.42876753514388083,
+      "wellDamageRandSeed": 120
+    },
+    {
+      "rect": {
+        "x1": 54,
+        "y1": 112,
+        "x2": 270,
+        "y2": 119.42857142857142
+      },
+      "smearAbove": 4.857142857142857,
+      "smearBelow": 11.857142857142858,
+      "smearBrightnessAbove": [
+        0.3142857142857143,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2357142857142857,
+        0
+      ],
+      "flameHeight": 8.571428571428571,
+      "smileHeight": 4.691493662285868,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.5285714285714285,
+      "color": [
+        1,
+        0.9336655638536056,
+        0.5048926144008015
+      ],
+      "randSeed": 22,
+      "wellDamage": 0.4481983701786136,
+      "wellDamageRandSeed": 121
+    },
+    {
+      "rect": {
+        "x1": 58,
+        "y1": 116.14285714285715,
+        "x2": 267,
+        "y2": 123.44897959183673
+      },
+      "smearAbove": 4.755102040816326,
+      "smearBelow": 11.612244897959183,
+      "smearBrightnessAbove": [
+        0.31020408163265306,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.23265306122448978,
+        0
+      ],
+      "flameHeight": 8.408163265306122,
+      "smileHeight": 3.606236713491408,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.520408163265306,
+      "color": [
+        1,
+        0.8491148690709596,
+        0.6008851395976101
+      ],
+      "randSeed": 23,
+      "wellDamage": 0.2959819885652594,
+      "wellDamageRandSeed": 122
+    },
+    {
+      "rect": {
+        "x1": 62,
+        "y1": 120.28571428571429,
+        "x2": 264,
+        "y2": 127.46938775510203
+      },
+      "smearAbove": 4.653061224489796,
+      "smearBelow": 11.367346938775508,
+      "smearBrightnessAbove": [
+        0.30612244897959184,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.22959183673469385,
+        0
+      ],
+      "flameHeight": 8.244897959183673,
+      "smileHeight": 2.2358571656319883,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.5122448979591836,
+      "color": [
+        1,
+        0.7653779595824829,
+        0.6966609517506012
+      ],
+      "randSeed": 24,
+      "wellDamage": 0.49954850919914434,
+      "wellDamageRandSeed": 123
+    },
+    {
+      "rect": {
+        "x1": 66,
+        "y1": 124.42857142857142,
+        "x2": 261,
+        "y2": 131.48979591836735
+      },
+      "smearAbove": 4.551020408163265,
+      "smearBelow": 11.122448979591837,
+      "smearBrightnessAbove": [
+        0.3020408163265306,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.22653061224489796,
+        0
+      ],
+      "flameHeight": 8.081632653061224,
+      "smileHeight": 1.2248659328369942,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.5040816326530612,
+      "color": [
+        1,
+        0.7594421637993376,
+        0.7687707917464984
+      ],
+      "randSeed": 25,
+      "wellDamage": 0.26427576208876524,
+      "wellDamageRandSeed": 124
+    },
+    {
+      "rect": {
+        "x1": 50,
+        "y1": 128.57142857142856,
+        "x2": 258,
+        "y2": 135.51020408163265
+      },
+      "smearAbove": 4.448979591836735,
+      "smearBelow": 10.877551020408163,
+      "smearBrightnessAbove": [
+        0.2979591836734694,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.22346938775510203,
+        0
+      ],
+      "flameHeight": 7.918367346938775,
+      "smileHeight": 1.0487479890636848,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.4959183673469387,
+      "color": [
+        1,
+        0.8367648249902226,
+        0.7995596558357161
+      ],
+      "randSeed": 26,
+      "wellDamage": 0.4651611270637492,
+      "wellDamageRandSeed": 125
+    },
+    {
+      "rect": {
+        "x1": 54,
+        "y1": 132.71428571428572,
+        "x2": 255,
+        "y2": 139.53061224489795
+      },
+      "smearAbove": 4.346938775510203,
+      "smearBelow": 10.63265306122449,
+      "smearBrightnessAbove": [
+        0.2938775510204082,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2204081632653061,
+        0
+      ],
+      "flameHeight": 7.755102040816326,
+      "smileHeight": 1.7903343551874318,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.4877551020408163,
+      "color": [
+        1,
+        0.9262558450479603,
+        0.7814893562900392
+      ],
+      "randSeed": 27,
+      "wellDamage": 0.4061363438614217,
+      "wellDamageRandSeed": 126
+    },
+    {
+      "rect": {
+        "x1": 58,
+        "y1": 136.85714285714283,
+        "x2": 252,
+        "y2": 143.55102040816325
+      },
+      "smearAbove": 4.244897959183674,
+      "smearBelow": 10.387755102040817,
+      "smearBrightnessAbove": [
+        0.28979591836734697,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2173469387755102,
+        0
+      ],
+      "flameHeight": 7.591836734693878,
+      "smileHeight": 3.1008453756136225,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.47959183673469385,
+      "color": [
+        1,
+        0.9456375928404503,
+        0.7189841326619784
+      ],
+      "randSeed": 28,
+      "wellDamage": 0.3548786660239781,
+      "wellDamageRandSeed": 127
+    },
+    {
+      "rect": {
+        "x1": 62,
+        "y1": 141,
+        "x2": 270,
+        "y2": 147.57142857142856
+      },
+      "smearAbove": 4.142857142857143,
+      "smearBelow": 10.142857142857142,
+      "smearBrightnessAbove": [
+        0.28571428571428575,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2142857142857143,
+        0
+      ],
+      "flameHeight": 7.428571428571429,
+      "smileHeight": 4.363927240136266,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.4714285714285714,
+      "color": [
+        1,
+        0.8770905788307869,
+        0.6273474436415667
+      ],
+      "randSeed": 29,
+      "wellDamage": 0.48899606734212825,
+      "wellDamageRandSeed": 128
+    },
+    {
+      "rect": {
+        "x1": 66,
+        "y1": 145.14285714285714,
+        "x2": 267,
+        "y2": 151.59183673469389
+      },
+      "smearAbove": 4.040816326530612,
+      "smearBelow": 9.89795918367347,
+      "smearBrightnessAbove": [
+        0.28163265306122454,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.21122448979591835,
+        0
+      ],
+      "flameHeight": 7.26530612244898,
+      "smileHeight": 4.985532811671813,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.4632653061224489,
+      "color": [
+        1,
+        0.7836366115787032,
+        0.529015146642259
+      ],
+      "randSeed": 30,
+      "wellDamage": 0.20026644704171528,
+      "wellDamageRandSeed": 129
+    },
+    {
+      "rect": {
+        "x1": 50,
+        "y1": 149.2857142857143,
+        "x2": 264,
+        "y2": 155.6122448979592
+      },
+      "smearAbove": 3.9387755102040813,
+      "smearBelow": 9.653061224489797,
+      "smearBrightnessAbove": [
+        0.27755102040816326,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.20816326530612245,
+        0
+      ],
+      "flameHeight": 7.1020408163265305,
+      "smileHeight": 4.673311277072112,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.45510204081632644,
+      "color": [
+        1,
+        0.7511968375907138,
+        0.4480624174282357
+      ],
+      "randSeed": 31,
+      "wellDamage": 0.48913861588522634,
+      "wellDamageRandSeed": 130
+    },
+    {
+      "rect": {
+        "x1": 54,
+        "y1": 153.42857142857142,
+        "x2": 261,
+        "y2": 159.6326530612245
+      },
+      "smearAbove": 3.836734693877551,
+      "smearBelow": 9.408163265306122,
+      "smearBrightnessAbove": [
+        0.27346938775510204,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.20510204081632652,
+        0
+      ],
+      "flameHeight": 6.938775510204081,
+      "smileHeight": 3.574105302655457,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.446938775510204,
+      "color": [
+        1,
+        0.8095962354676934,
+        0.4043093074362231
+      ],
+      "randSeed": 32,
+      "wellDamage": 0.35442203507714964,
+      "wellDamageRandSeed": 131
+    },
+    {
+      "rect": {
+        "x1": 58,
+        "y1": 157.57142857142858,
+        "x2": 258,
+        "y2": 163.6530612244898
+      },
+      "smearAbove": 3.734693877551021,
+      "smearBelow": 9.16326530612245,
+      "smearBrightnessAbove": [
+        0.2693877551020408,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.2020408163265306,
+        0
+      ],
+      "flameHeight": 6.775510204081633,
+      "smileHeight": 2.2048886337571343,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.4387755102040816,
+      "color": [
+        1,
+        0.905142668124169,
+        0.40846810393532307
+      ],
+      "randSeed": 33,
+      "wellDamage": 0.4065231888913011,
+      "wellDamageRandSeed": 132
+    },
+    {
+      "rect": {
+        "x1": 62,
+        "y1": 161.7142857142857,
+        "x2": 255,
+        "y2": 167.6734693877551
+      },
+      "smearAbove": 3.63265306122449,
+      "smearBelow": 8.918367346938776,
+      "smearBrightnessAbove": [
+        0.2653061224489796,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.1989795918367347,
+        0
+      ],
+      "flameHeight": 6.612244897959184,
+      "smileHeight": 1.2096252643606396,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.43061224489795913,
+      "color": [
+        1,
+        0.9499911860107267,
+        0.45952058849945726
+      ],
+      "randSeed": 34,
+      "wellDamage": 0.46491145730162564,
+      "wellDamageRandSeed": 133
+    },
+    {
+      "rect": {
+        "x1": 66,
+        "y1": 165.85714285714286,
+        "x2": 252,
+        "y2": 171.6938775510204
+      },
+      "smearAbove": 3.5306122448979593,
+      "smearBelow": 8.673469387755102,
+      "smearBrightnessAbove": [
+        0.2612244897959184,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.19591836734693877,
+        0
+      ],
+      "flameHeight": 6.448979591836735,
+      "smileHeight": 1.0564031085122718,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.4224489795918367,
+      "color": [
+        1,
+        0.9029082686120024,
+        0.5449673323896806
+      ],
+      "randSeed": 35,
+      "wellDamage": 0.26479617985646725,
+      "wellDamageRandSeed": 134
+    },
+    {
+      "rect": {
+        "x1": 50,
+        "y1": 170,
+        "x2": 270,
+        "y2": 175.71428571428572
+      },
+      "smearAbove": 3.4285714285714284,
+      "smearBelow": 8.428571428571429,
+      "smearBrightnessAbove": [
+        0.2571428571428571,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.19285714285714284,
+        0
+      ],
+      "flameHeight": 6.285714285714286,
+      "smileHeight": 1.8172849402697513,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.4142857142857142,
+      "color": [
+        1,
+        0.8071817330503849,
+        0.6438879926422918
+      ],
+      "randSeed": 36,
+      "wellDamage": 0.4995772617235311,
+      "wellDamageRandSeed": 135
+    },
+    {
+      "rect": {
+        "x1": 54,
+        "y1": 174.14285714285717,
+        "x2": 267,
+        "y2": 179.73469387755102
+      },
+      "smearAbove": 3.326530612244898,
+      "smearBelow": 8.183673469387754,
+      "smearBrightnessAbove": [
+        0.25306122448979596,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.18979591836734694,
+        0
+      ],
+      "flameHeight": 6.122448979591836,
+      "smileHeight": 3.13441614505095,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.40612244897959177,
+      "color": [
+        1,
+        0.7508221146556884,
+        0.732063341648816
+      ],
+      "randSeed": 37,
+      "wellDamage": 0.2954769533307445,
+      "wellDamageRandSeed": 136
+    },
+    {
+      "rect": {
+        "x1": 58,
+        "y1": 178.28571428571428,
+        "x2": 264,
+        "y2": 183.75510204081633
+      },
+      "smearAbove": 3.224489795918368,
+      "smearBelow": 7.938775510204082,
+      "smearBrightnessAbove": [
+        0.2489795918367347,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.18673469387755104,
+        0
+      ],
+      "flameHeight": 5.959183673469388,
+      "smileHeight": 4.3883293365044835,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.39795918367346933,
+      "color": [
+        1,
+        0.7856461866643001,
+        0.7879049787496512
+      ],
+      "randSeed": 38,
+      "wellDamage": 0.44849731537029364,
+      "wellDamageRandSeed": 137
+    },
+    {
+      "rect": {
+        "x1": 62,
+        "y1": 182.42857142857144,
+        "x2": 261,
+        "y2": 187.77551020408163
+      },
+      "smearAbove": 3.122448979591837,
+      "smearBelow": 7.6938775510204085,
+      "smearBrightnessAbove": [
+        0.2448979591836735,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.18367346938775508,
+        0
+      ],
+      "flameHeight": 5.795918367346939,
+      "smileHeight": 4.989289547755676,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.3897959183673469,
+      "color": [
+        1,
+        0.8796368578709385,
+        0.7977409236373338
+      ],
+      "randSeed": 39,
+      "wellDamage": 0.4284224348865623,
+      "wellDamageRandSeed": 138
+    },
+    {
+      "rect": {
+        "x1": 66,
+        "y1": 186.57142857142856,
+        "x2": 258,
+        "y2": 191.79591836734693
+      },
+      "smearAbove": 3.020408163265306,
+      "smearBelow": 7.448979591836735,
+      "smearBrightnessAbove": [
+        0.24081632653061225,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.18061224489795918,
+        0
+      ],
+      "flameHeight": 5.63265306122449,
+      "smileHeight": 4.654655801190762,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.3816326530612244,
+      "color": [
+        1,
+        0.9463795386284087,
+        0.7591629939627889
+      ],
+      "randSeed": 40,
+      "wellDamage": 0.3262918478428314,
+      "wellDamageRandSeed": 139
+    },
+    {
+      "rect": {
+        "x1": 50,
+        "y1": 190.71428571428572,
+        "x2": 255,
+        "y2": 195.81632653061223
+      },
+      "smearAbove": 2.9183673469387754,
+      "smearBelow": 7.204081632653061,
+      "smearBrightnessAbove": [
+        0.23673469387755103,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.17755102040816326,
+        0
+      ],
+      "flameHeight": 5.469387755102041,
+      "smileHeight": 3.5418115766157383,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.37346938775510197,
+      "color": [
+        1,
+        0.9245113160479349,
+        0.6816164123626783
+      ],
+      "randSeed": 41,
+      "wellDamage": 0.4959882776121456,
+      "wellDamageRandSeed": 140
+    },
+    {
+      "rect": {
+        "x1": 54,
+        "y1": 194.85714285714286,
+        "x2": 252,
+        "y2": 199.83673469387756
+      },
+      "smearAbove": 2.816326530612245,
+      "smearBelow": 6.959183673469387,
+      "smearBrightnessAbove": [
+        0.2326530612244898,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.17448979591836733,
+        0
+      ],
+      "flameHeight": 5.3061224489795915,
+      "smileHeight": 2.17414490151892,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.36530612244897953,
+      "color": [
+        1,
+        0.8341377331195291,
+        0.584087286544292
+      ],
+      "randSeed": 42,
+      "wellDamage": 0.23206118725288444,
+      "wellDamageRandSeed": 141
+    },
+    {
+      "rect": {
+        "x1": 58,
+        "y1": 199,
+        "x2": 270,
+        "y2": 203.85714285714283
+      },
+      "smearAbove": 2.7142857142857144,
+      "smearBelow": 6.714285714285715,
+      "smearBrightnessAbove": [
+        0.2285714285714286,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.17142857142857143,
+        0
+      ],
+      "flameHeight": 5.142857142857143,
+      "smileHeight": 1.1948907835796292,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.3571428571428571,
+      "color": [
+        1,
+        0.7583478452084366,
+        0.4904541479551463
+      ],
+      "randSeed": 43,
+      "wellDamage": 0.4788356175432248,
+      "wellDamageRandSeed": 142
+    },
+    {
+      "rect": {
+        "x1": 62,
+        "y1": 203.14285714285714,
+        "x2": 267,
+        "y2": 207.87755102040816
+      },
+      "smearAbove": 2.612244897959184,
+      "smearBelow": 6.469387755102041,
+      "smearBrightnessAbove": [
+        0.22448979591836737,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.1683673469387755,
+        0
+      ],
+      "flameHeight": 4.979591836734694,
+      "smileHeight": 1.0646077357323878,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.34897959183673466,
+      "color": [
+        1,
+        0.7668225257371402,
+        0.42364165449173513
+      ],
+      "randSeed": 44,
+      "wellDamage": 0.38123758939613817,
+      "wellDamageRandSeed": 143
+    },
+    {
+      "rect": {
+        "x1": 66,
+        "y1": 207.2857142857143,
+        "x2": 264,
+        "y2": 211.89795918367346
+      },
+      "smearAbove": 2.510204081632653,
+      "smearBelow": 6.224489795918368,
+      "smearBrightnessAbove": [
+        0.22040816326530613,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.16530612244897958,
+        0
+      ],
+      "flameHeight": 4.816326530612245,
+      "smileHeight": 1.8445699111085307,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.34081632653061217,
+      "color": [
+        1,
+        0.8517701925105413,
+        0.40000783472107254
+      ],
+      "randSeed": 45,
+      "wellDamage": 0.3818739318108037,
+      "wellDamageRandSeed": 144
+    },
+    {
+      "rect": {
+        "x1": 50,
+        "y1": 211.42857142857144,
+        "x2": 261,
+        "y2": 215.9183673469388
+      },
+      "smearAbove": 2.4081632653061225,
+      "smearBelow": 5.979591836734693,
+      "smearBrightnessAbove": [
+        0.2163265306122449,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.16224489795918368,
+        0
+      ],
+      "flameHeight": 4.653061224489796,
+      "smileHeight": 3.1679489113834864,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.33265306122448973,
+      "color": [
+        1,
+        0.9350903524534118,
+        0.42533907198129683
+      ],
+      "randSeed": 46,
+      "wellDamage": 0.4785397168296136,
+      "wellDamageRandSeed": 145
+    },
+    {
+      "rect": {
+        "x1": 54,
+        "y1": 215.57142857142858,
+        "x2": 258,
+        "y2": 219.93877551020407
+      },
+      "smearAbove": 2.3061224489795915,
+      "smearBelow": 5.73469387755102,
+      "smearBrightnessAbove": [
+        0.21224489795918366,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.15918367346938775,
+        0
+      ],
+      "flameHeight": 4.489795918367347,
+      "smileHeight": 4.412338914360658,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.32448979591836724,
+      "color": [
+        1,
+        0.940178834764881,
+        0.4934333959333205
+      ],
+      "randSeed": 47,
+      "wellDamage": 0.2328558358561125,
+      "wellDamageRandSeed": 146
+    },
+    {
+      "rect": {
+        "x1": 58,
+        "y1": 219.7142857142857,
+        "x2": 255,
+        "y2": 223.95918367346937
+      },
+      "smearAbove": 2.2040816326530615,
+      "smearBelow": 5.4897959183673475,
+      "smearBrightnessAbove": [
+        0.20816326530612247,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.15612244897959185,
+        0
+      ],
+      "flameHeight": 4.326530612244898,
+      "smileHeight": 4.992483857509727,
+      "smileExp": 2,
+      "blur": 3,
+      "brightness": 0.31632653061224486,
+      "color": [
+        1,
+        0.8623573122745224,
+        0.5876189412011159
+      ],
+      "randSeed": 48,
+      "wellDamage": 0.4961175120395966,
+      "wellDamageRandSeed": 147
+    },
+    {
+      "rect": {
+        "x1": 62,
+        "y1": 223.85714285714283,
+        "x2": 252,
+        "y2": 227.9795918367347
+      },
+      "smearAbove": 2.1020408163265305,
+      "smearBelow": 5.244897959183674,
+      "smearBrightnessAbove": [
+        0.20408163265306123,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.15306122448979592,
+        0
+      ],
+      "flameHeight": 4.163265306122449,
+      "smileHeight": 4.635532509052892,
+      "smileExp": 1.2,
+      "blur": 1,
+      "brightness": 0.30816326530612237,
+      "color": [
+        1,
+        0.7731745338676332,
+        0.6848358014673994
+      ],
+      "randSeed": 49,
+      "wellDamage": 0.3255663393555257,
+      "wellDamageRandSeed": 148
+    },
+    {
+      "rect": {
+        "x1": 66,
+        "y1": 228,
+        "x2": 270,
+        "y2": 232
+      },
+      "smearAbove": 2,
+      "smearBelow": 5,
+      "smearBrightnessAbove": [
+        0.2,
+        0
+      ],
+      "smearBrightnessBelow": [
+        0.15,
+        0
+      ],
+      "flameHeight": 4,
+      "smileHeight": 3.50936466568807,
+      "smileExp": 1.6,
+      "blur": 2,
+      "brightness": 0.29999999999999993,
+      "color": [
+        1,
+        0.7546247347240528,
+        0.7612818987824509
+      ],
+      "randSeed": 50,
+      "wellDamage": 0.4289398146550351,
+      "wellDamageRandSeed": 149
+    }
+  ]
+}

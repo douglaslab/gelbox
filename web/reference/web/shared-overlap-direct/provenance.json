@@ -1,0 +1,223 @@
+{
+  "sourceCommit": "4dc7210a1e0638c09559821bf1488cb1a81d6777",
+  "testFile": "ts/tests/visual/shared-overlap-window.spec.ts",
+  "testSha256": "6c021aa1f4957b930731434040d3283c0caeec3e7ba8fc7a811ba8c01f0b1302",
+  "nativeManifest": "reference/native/modern/full-window-overlap-direct/manifest.json",
+  "nativeManifestSha256": "f8bcc6c00d9a653fe5227a82a02d5382b3217b3c9629c458940bb7820f3b56ea",
+  "viewport": {
+    "width": 1365,
+    "height": 768,
+    "deviceScaleFactor": 2
+  },
+  "captures": [
+    {
+      "backend": "webgpu",
+      "scene": "image-before-species",
+      "file": "webgpu-image-before-species.png",
+      "sha256": "098137231ef39059e2c548dec465152a0ac91963baa270066a698a2acb9fb8ad",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "species-above-image",
+      "file": "webgpu-species-above-image.png",
+      "sha256": "2700a696425548dea398fb98ccb88c68f863f4f19c4ca449700e0ce232a9e0ff",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "image-above-species",
+      "file": "webgpu-image-above-species.png",
+      "sha256": "bf79f36e13cc958563aacce83493596728b6c1d66cfa6b8558fa85e057c122f4",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "loupe-created",
+      "file": "webgpu-loupe-created.png",
+      "sha256": "a005c6a8c0ca5a55132e8b22f2844a07615f501af3fb6206db11ce7ec8c78582",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "image-above-loupe",
+      "file": "webgpu-image-above-loupe.png",
+      "sha256": "dbf1e2551b5b7fd18196e0f2475dfed30b44e26272c185653da1512faafdb8ec",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgpu",
+      "scene": "loupe-raised",
+      "file": "webgpu-loupe-raised.png",
+      "sha256": "4f7707388a589eeb40c81a7c94a4d5791ccff036be97818a8e813baf3cd797e6",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "image-before-species",
+      "file": "webgl2-image-before-species.png",
+      "sha256": "098137231ef39059e2c548dec465152a0ac91963baa270066a698a2acb9fb8ad",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "species-above-image",
+      "file": "webgl2-species-above-image.png",
+      "sha256": "2700a696425548dea398fb98ccb88c68f863f4f19c4ca449700e0ce232a9e0ff",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "image-above-species",
+      "file": "webgl2-image-above-species.png",
+      "sha256": "bf79f36e13cc958563aacce83493596728b6c1d66cfa6b8558fa85e057c122f4",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "loupe-created",
+      "file": "webgl2-loupe-created.png",
+      "sha256": "a005c6a8c0ca5a55132e8b22f2844a07615f501af3fb6206db11ce7ec8c78582",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "image-above-loupe",
+      "file": "webgl2-image-above-loupe.png",
+      "sha256": "dbf1e2551b5b7fd18196e0f2475dfed30b44e26272c185653da1512faafdb8ec",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    },
+    {
+      "backend": "webgl2",
+      "scene": "loupe-raised",
+      "file": "webgl2-loupe-raised.png",
+      "sha256": "4f7707388a589eeb40c81a7c94a4d5791ccff036be97818a8e813baf3cd797e6",
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelDifference": 0,
+        "bounds": {
+          "minX": 2730,
+          "minY": 1536,
+          "maxX": -1,
+          "maxY": -1
+        },
+        "tiles": {}
+      }
+    }
+  ],
+  "limits": [
+    "Captured model and particles; not unrestricted RNG histories",
+    "Modern compatibility native build at one window size/DPR",
+    "Shared renderer still development-only"
+  ]
+}

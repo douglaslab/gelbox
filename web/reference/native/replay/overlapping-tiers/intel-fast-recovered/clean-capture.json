@@ -1,0 +1,30 @@
+{
+  "cleanBuild": "passed",
+  "repeatCapturesEqual": true,
+  "matchesPriorCapture": true,
+  "outputSha256": "ce39bf4d1ace90059851c2b89fa8fb1494bba953669aac53572bef1181be4fe0",
+  "caseCount": 509,
+  "executableSha256": "ba296192630ab534fbaa361707c2885f61ad91465693a93f9e5fa09be9b86ff0",
+  "casesSha256": "a771e4c0f33715a9509e312610e98b7ec15230067e49e6cc96aaf860524a44c3",
+  "harnessAndAdapterHashes": {
+    "reference/native/numerical/solver-adapter.h": "79ef2af42a09f9a7304ea6ae013f44a94548d1873a8eb068524984bc1fb3f29f",
+    "reference/native/numerical/molecular-adapter.h": "0f842f7b7ca207e932d793f696e284a4db724fddb4e2a819705a083f3e71f7e9",
+    "reference/native/numerical/driver.cpp": "6eb727bcce3050f11e53872b74ceb225832a9cd16690c7a8b7267a7b1605e444",
+    "/private/tmp/gel-native-numerical/degrade-filter.inc": "ad3dff7532cfd73f105f9429bf156016f5a652081ac7b7291b26643de1716aa7",
+    "/private/tmp/gel-native-numerical/molecular-set-rand.inc": "ffedd256775e4a7c0dc4080fd2081debf080cd931297bfef14733d8af90feea5",
+    "/private/tmp/gel-native-numerical/loupe-seed.inc": "d029e82281c9416bd57611e57c06cb71c714b46b8edbeee3035df6ca3376f453",
+    "/private/tmp/gel-native-numerical/loupe.inc": "fb4f2d0eda8fad9153b26c012e8f8655765dc9057929e582a1387b1a58276be4",
+    "/private/tmp/gel-native-numerical/solver.inc": "69ee71f77a812ba2c448c12215d12ffd2d7c47254e661d1e3b870ee5e68fdfcd",
+    "/private/tmp/gel-native-numerical/molecular-frag.inc": "63a84496741da048418ea59ef145071631edb6b9fc1e34f07db02e9953fd894d",
+    "/private/tmp/gel-native-numerical/pick-bands.inc": "29cff5472b407e76fc371cbc3a81c8836e29994a7952140750399bd4c9693668",
+    "/private/tmp/gel-native-numerical/molecular-tuning.inc": "a048a3e36a38536742c7067e3bb09642cf789f7edc495784ffacbcd564384d45",
+    "/private/tmp/gel-native-numerical/molecular-functions.inc": "72966163b7158572b05a61121402e04ab5f9326fb7f8220f02105d73d3380d4a",
+    "/private/tmp/gel-native-numerical/molecular-mesh.inc": "36a048f6f556f950ddb4e93d13012f6837dcad0d3459b41b2c4e431c32a539d1",
+    "/private/tmp/gel-native-numerical/molecular-part.inc": "87cc5746595be021438646c826789590111e0d9de51f43d6090207d101069e48",
+    "/private/tmp/gel-native-numerical/prefix.h": "9debacec581fac215fe33fb06dddda057fb458952b4feddd49d8eecf63403ef9",
+    "/private/tmp/gel-native-numerical/sample-constructor.cpp": "4838adbe11be9146746de3d27120aa0e0aaff20e9278f3dc46649c120efecf19"
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+  "architecture": "/tmp/gel-fast-source-control/build/gel-numerical: Mach-O 64-bit executable x86_64\n",
+  "validation": "Original nine GUI boundaries agree; 1558 unchanged tests pass in isolated comparison. Model provenance does not imply all original GUI behaviors."
+}

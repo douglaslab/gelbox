@@ -1,0 +1,401 @@
+import {useSharedPresentation} from '../gel/ScenePresentation';
+import {nativeViewScissor,solidSceneRect} from '../../lib/gel/scenePresentation';
+import { watchDeviceLoss, watchDeviceErrors, watchGlLoss } from '../../lib/gpu/loss';
+import { useRendererRecovery } from '../../lib/gpu/useRendererRecovery';
+import { GraphicsFailure } from '../primitives/GraphicsFailure';
+import type {MolecularView} from '../../lib/gel/molecularRuntime';
+import {useGelStore} from '../gel/GelContext';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { LAYOUT } from '../../lib/layout/layout';
+import { MOLECULAR_SIM_TUNING } from '../../lib/sim/molecularSimEngine';
+import { buildRepresentativeMesh, buildMoleculesMesh, type MeshBuildTuning } from '../../lib/sim/molecularSimMesh';
+import { computeBackgroundColor } from '../../lib/sim/molecularSimBackground';
+import { resolveBackend, type Backend } from '../../lib/gel/backend';
+import { hexToLinearRgb } from '../../lib/layout/color';
+import { isDyeFragment } from '../../lib/sim/sample';
+import type { Sample } from '../../lib/sim/sample';
+import { DYE_COUNT } from '../../lib/sim/dye';
+import type { PresentationLayer } from '../../lib/gel/presentationTypes';
+import type { Mesh } from '../../lib/gel/mesh';
+
+/**
+ * Lane-agnostic presentational canvas backed by a live `MolecularSim` engine,
+ * rendered through native multisample presentation (WebGPU primary, WebGL2
+ * fallback, with a visible error when graphics cannot initialize).
+ *
+ * Takes explicit props instead of reading gel state, so it can be used both
+ * by `MolecularSimCanvas` (which wraps it and wires gel state) and by the
+ * loupe (which drives it with a synthetic sample).
+ */
+export interface SampleSimCanvasProps {
+  view: MolecularView;
+  viewKey: string;
+  presentationKey?: string;
+  /** Native loupe rollover includes its anchor and callout outside the canvas. */
+  readBackgroundHighlight?:(canvasDown:boolean)=>0|1|2;
+  /** Draw one representative from this existing engine; never create or tick another. */
+  representativeFragment?: number;
+  representativeCenter?: {x:number;y:number};
+  /** Known white panel underlay, drawn before the representative on one surface. */
+  representativeUnderlay?:readonly PresentationLayer[];
+  width: number;
+  height: number;
+  /** Pointer-down on a particle → its fragment index (omit → non-interactive, e.g. loupe). */
+  onPickFragment?: (fragment: number) => void;
+  onPickBackground?: () => void;
+  /** Pointer-move → hovered fragment index or null on leave/miss (omit → no hover dispatch). */
+  onHoverFragment?: (fragment: number | null) => void;
+  'data-testid'?: string;
+}
+
+// A backend-agnostic handle the mount effect fills in.
+interface RenderHandle {
+  fail(error:unknown):void;
+  resize(wpx: number, hpx: number, wcss: number, hcss: number): void;
+  draw(mesh: Mesh, bgRgb: [number, number, number], alpha?: number): void;
+  destroy(): void;
+}
+
+const SELECT_COLOR = hexToLinearRgb(LAYOUT.sampleViewFragSelectColor);
+const HOVER_COLOR  = hexToLinearRgb(LAYOUT.sampleViewFragHoverColor);
+
+const MESH_TUNING: MeshBuildTuning = {
+  numCirclePartVertices: MOLECULAR_SIM_TUNING.numCirclePartVertices,
+  multimerAdhereOverlapFrac: MOLECULAR_SIM_TUNING.multimerAdhereOverlapFrac,
+  outlineWidth: LAYOUT.sampleViewFragOutlineWidth,
+  selectColor: SELECT_COLOR,
+  hoverColor:  HOVER_COLOR,
+};
+
+export function SampleSimCanvas({
+  view,
+  viewKey,
+  presentationKey,
+  readBackgroundHighlight,
+  representativeFragment,
+  representativeCenter,
+  representativeUnderlay,
+  width,
+  height,
+  onPickFragment,
+  onPickBackground,
+  onHoverFragment,
+  'data-testid': testId = 'molecular-sim-canvas',
+}: SampleSimCanvasProps) {
+  const {failed,attempt,forcedBackend,onFailure,onLoss,onSuccess,onRetry}=useRendererRecovery();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const store = useGelStore();
+  const sim = view.sim;
+  const registry=useSharedPresentation();
+  const shared=registry!==null;
+  const composite = representativeUnderlay !== undefined;
+  const transparent = representativeFragment !== undefined && !composite;
+  const handleRef = useRef<RenderHandle | null>(null);
+  const hoverRef = useRef(false);
+  const downRef = useRef(false);
+  const pointerRef=useRef<{clientX:number;clientY:number}|null>(null);
+  const backgroundHighlight=useCallback(():0|1|2=>{
+    if(readBackgroundHighlight)return readBackgroundHighlight(downRef.current);
+    const p=pointerRef.current,r=canvasRef.current?.getBoundingClientRect();
+    // Native SampleView picks at draw time: a particle can cross a stationary
+    // pointer without generating another input event.
+    if(p&&r&&r.width&&r.height&&sim.pickFragment((p.clientX-r.left)/r.width*width,(p.clientY-r.top)/r.height*height)>=0)return 0;
+    return downRef.current?2:hoverRef.current?1:0;
+  },[readBackgroundHighlight,sim,width,height]);
+  const [, setTick] = useState(0);
+  // GPU surface mount; retry replaces only the drawing canvas, not the live engine.
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || shared) return;
+    let cancelled = false;
+    let lost = false;
+    let viewport={x:0,y:0,width,height};
+    let expanded=false;
+    const cleanup:(()=>void)[]=[];
+    const dispose=()=>{
+      handleRef.current?.destroy();
+      handleRef.current=null;
+      for(const release of cleanup.splice(0).reverse())release();
+    };
+    const handleLoss=(backend:Backend, restartCycle=true)=>{
+      if(cancelled||lost)return;
+      lost=true;
+      dispose();
+      if(restartCycle)onLoss(backend);else onFailure(backend);
+    };
+    const resize=()=>{
+      if(cancelled||lost)return;
+      const dpr=window.devicePixelRatio||1;
+      const wpx=Math.max(1,Math.round(viewport.width*dpr)),hpx=Math.max(1,Math.round(viewport.height*dpr));
+      if(canvas.width===wpx&&canvas.height===hpx)return;
+      canvas.width=wpx;canvas.height=hpx;
+      try {handleRef.current?.resize(wpx,hpx,viewport.width,viewport.height);}
+      catch(error){handleRef.current?.fail(error);}
+    };
+    const fitRepresentative=(mesh:Mesh)=>{
+      if(!composite)return;
+      for(let i=0;i<mesh.vertexCount*6;i+=6){
+        const x=mesh.data[i],y=mesh.data[i+1];
+        if(x<1||y<1||x>width-1||y>height-1){expanded=true;break;}
+      }
+      // Once a molecule overflows, retain a window-sized surface. A tight
+      // rotating bound would repeatedly destroy/reallocate multisample buffers.
+      // The native window is also the allocation limit for huge imported parts.
+      const parent=canvas.parentElement!.getBoundingClientRect();
+      const x1=expanded?Math.floor(-parent.left):Math.max(0,Math.floor(-parent.left));
+      const y1=expanded?Math.floor(-parent.top):Math.max(0,Math.floor(-parent.top));
+      const x2=expanded?Math.ceil(window.innerWidth-parent.left):Math.min(width,Math.ceil(window.innerWidth-parent.left));
+      const y2=expanded?Math.ceil(window.innerHeight-parent.top):Math.min(height,Math.ceil(window.innerHeight-parent.top));
+      const next={x:x1,y:y1,width:Math.max(1,x2-x1),height:Math.max(1,y2-y1)};
+      if(next.x!==viewport.x||next.y!==viewport.y||next.width!==viewport.width||next.height!==viewport.height){
+        viewport=next;canvas.style.position='absolute';canvas.style.left=`${next.x}px`;canvas.style.top=`${next.y}px`;
+        canvas.style.width=`${next.width}px`;canvas.style.height=`${next.height}px`;
+      }
+    };
+    let resolution:MediaQueryList;
+    const watchResolution=()=>{
+      resolution?.removeEventListener('change',watchResolution);
+      resize();resolution=matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+      resolution.addEventListener('change',watchResolution);
+    };
+    watchResolution();window.addEventListener('resize',resize);
+    cleanup.push(()=>{resolution.removeEventListener('change',watchResolution);window.removeEventListener('resize',resize);});
+
+    (async () => {
+      let backend:Backend|null=null;
+      try {
+        backend = forcedBackend ?? await resolveBackend();
+        if (cancelled || lost) return;
+        const fail=(error:unknown)=>{
+          console.error('Molecular frame failed:',error);handleLoss(backend!,false);
+        };
+        if (backend === 'webgl2') {
+          const { configureGl2Context } = await import('../../lib/gpu/gl/context');
+          const { createGlMeshBatch } = await import('../../lib/gpu/gl/meshBatch');
+          const { createGlGelPresentation } = await import('../../lib/gel/present-gl');
+          if (cancelled || lost) return;
+          const { gl } = configureGl2Context(canvas);
+          cleanup.push(watchGlLoss(canvas,()=>handleLoss('webgl2')));
+          cleanup.push(()=>{if(lost||!canvas.isConnected)gl.getExtension('WEBGL_lose_context')?.loseContext();});
+          // Standalone transparent meshes remain available; fragment wells use
+          // the shared native underlay and transparent MSAA presentation.
+          const batch = transparent ? createGlMeshBatch(gl, { viewport: { width, height }, blend: 'over' }) : null;
+          const makePresentation = () => createGlGelPresentation(gl, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', transparent: composite });
+          let presentation = transparent ? null : makePresentation();
+          handleRef.current = {
+            fail,
+            resize: (wp, hp, wc, hc) => {
+              canvas.width = wp; canvas.height = hp; batch?.setViewport(wc, hc);
+              if(presentation){presentation.destroy();presentation=makePresentation();}
+            },
+            draw: (mesh, bg, alpha=1) => {
+              fitRepresentative(mesh);resize();if(lost)return;
+              if(presentation){presentation.draw({mesh,background:bg,underlay:representativeUnderlay,origin:viewport},[],window.devicePixelRatio||1);return;}
+              batch!.draw(
+                { framebuffer: null, width: canvas.width, height: canvas.height },
+                mesh,
+                { clear: true, clearColor: [bg[0], bg[1], bg[2], alpha] },
+              );
+            },
+            destroy: () => {batch?.destroy();presentation?.destroy();},
+          };
+        } else {
+          const { requestDevice } = await import('../../lib/gpu/device');
+          const { configureContext } = await import('../../lib/gpu/context');
+          const { createMeshBatch } = await import('../../lib/gpu/meshBatch');
+          const { createGelPresentation } = await import('../../lib/gel/present');
+          const { device } = await requestDevice();
+          if (cancelled || lost) return;
+          cleanup.push(watchDeviceLoss(device,()=>handleLoss('webgpu')));
+          cleanup.push(watchDeviceErrors(device,()=>handleLoss('webgpu',false)));
+          const { context, format } = configureContext(canvas, device);
+          cleanup.push(()=>context.unconfigure());
+          const batch = transparent ? createMeshBatch(device, { viewport: { width, height }, blend: 'over', format }) : null;
+          const makePresentation = () => createGelPresentation(device, format, { width: canvas.width, height: canvas.height }, { meshBlend: 'over', transparent: composite });
+          let presentation = transparent ? null : makePresentation();
+          handleRef.current = {
+            fail,
+            resize: (_wp, _hp, wc, hc) => {
+              batch?.setViewport(wc, hc);
+              if(presentation){presentation.destroy();presentation=makePresentation();}
+            },
+            draw: (mesh, bg, alpha=1) => {
+              fitRepresentative(mesh);resize();if(lost)return;
+              const enc = device.createCommandEncoder({ label: 'molsim' });
+              if(presentation){
+                presentation.draw(enc,{mesh,background:bg,underlay:representativeUnderlay,origin:viewport},context.getCurrentTexture().createView(),[],window.devicePixelRatio||1);
+                device.queue.submit([enc.finish()]);return;
+              }
+              batch!.draw(enc, context.getCurrentTexture().createView(), mesh, {
+                clear: true,
+                clearColor: { r: bg[0], g: bg[1], b: bg[2], a: alpha },
+                callIdx: 0,
+              });
+              device.queue.submit([enc.finish()]);
+            },
+            destroy: () => {batch?.destroy();presentation?.destroy();},
+          };
+        }
+        if (!cancelled && !lost) onSuccess();
+      } catch (err) {
+        if (cancelled || lost) return;
+        console.error('SampleSimCanvas graphics initialization failed:', err);
+        lost=true;
+        dispose();
+        onFailure(backend);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      dispose();
+    };
+  }, [shared, width, height, transparent, composite, representativeUnderlay, attempt, forcedBackend, onFailure, onLoss, onSuccess]);
+
+  useLayoutEffect(()=>{
+    if(!shared)return;
+    return registry!.register(presentationKey??(viewKey==='fragment-preview'?'inspector-fragment':viewKey),frame=>{
+      const canvas=canvasRef.current;if(!canvas||!view.alive)return [];
+      canvas.dataset.sharedReady='1';
+      const rect=canvas.getBoundingClientRect();
+      const {selected,rollover}=store.getMolecularHighlights(view);
+      const mesh=representativeFragment===undefined?buildMoleculesMesh(sim.parts,selected,rollover,MESH_TUNING)
+        :buildRepresentativeMesh(sim.parts,representativeFragment,representativeCenter??{x:width/2,y:height/2},MESH_TUNING);
+      const transform=[1,0,0,1,rect.left,rect.top] as const;
+      if(representativeFragment!==undefined)return [...(representativeUnderlay??[]),{mesh}].map(op=>({...op,transform}));
+      const highlight=backgroundHighlight();
+      const bg=computeBackgroundColor(dyeMassesFromSample(view.sample),highlight);
+      const focused=canvas.closest('[data-testid="sample-view"], [data-loupe-frame]')?.contains(document.activeElement);
+      return [solidSceneRect(2,4,width-2,height+4,[0,0,0,focused ? .25 : .15]),solidSceneRect(0,0,width,height,bg),
+        {mesh,scissor:nativeViewScissor(rect,frame.height,frame.scale)}].map(op=>({...op,transform}));
+    });
+  },[shared,registry,viewKey,presentationKey,backgroundHighlight,view,store,sim,representativeFragment,representativeCenter,representativeUnderlay,width,height]);
+
+  // Draw after the application frame; acquiring a GPU never gates simulation.
+  useEffect(() => store.subscribeFrame(() => {
+    const handle=handleRef.current;
+    if (handle && view.alive) {
+      // React has not committed this tick's snapshot yet. Resolve current
+      // source identities here so the mesh uses the just-completed frame.
+      const {selected,rollover}=store.getMolecularHighlights(view);
+      const mesh=representativeFragment === undefined
+        ? buildMoleculesMesh(sim.parts,selected,rollover,MESH_TUNING)
+        : buildRepresentativeMesh(sim.parts,representativeFragment,representativeCenter ?? {x:width/2,y:height/2},MESH_TUNING);
+      const highlight=backgroundHighlight();
+      try { handle.draw(mesh,representativeFragment === undefined
+        ? computeBackgroundColor(dyeMassesFromSample(view.sample),highlight)
+        : [0,0,0], representativeFragment === undefined ? 1 : 0); }
+      catch(error) { handle.fail(error); }
+    }
+    setTick(t=>(t+1)%1_000_000);
+  }),[store,view,sim,representativeFragment,representativeCenter,representativeUnderlay,composite,width,height,backgroundHighlight]);
+
+  const eventCoords = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: ((e.clientX - rect.left) / rect.width)  * width,
+      y: ((e.clientY - rect.top)  / rect.height) * height,
+    };
+  }, [width, height, attempt]);
+
+  const onPointerMove = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
+    hoverRef.current = !store.isPointerDown();
+    const c = eventCoords(e);
+    if (!c) return;
+    store.setViewPointer(viewKey,c,true);
+    if(store.isPointerDown())return;
+    const fragIdx = sim.pickFragment(c.x, c.y);
+    if (fragIdx >= 0) {
+      onHoverFragment?.(fragIdx);
+    } else {
+      onHoverFragment?.(null);
+    }
+  }, [eventCoords, onHoverFragment, store, viewKey, sim]);
+
+  const onPointerLeave = useCallback(() => {
+    hoverRef.current = false;
+    store.setViewPointer(viewKey,null,false);
+    onHoverFragment?.(null);
+  }, [onHoverFragment,store,viewKey]);
+
+  const onPointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
+    // SampleView::mouseDown selects/toggles for every mouse button.
+    e.preventDefault();
+    pointerRef.current={clientX:e.clientX,clientY:e.clientY};
+    downRef.current = true;
+    const c = eventCoords(e);
+    if (!c) return;
+    store.setViewPointer(viewKey,c,true,true);
+    const fragIdx = sim.pickFragment(c.x, c.y);
+    if (fragIdx >= 0) {
+      e.preventDefault();
+      onPickFragment?.(fragIdx);
+    } else onPickBackground?.();
+  }, [eventCoords, onPickFragment, onPickBackground, store, viewKey, sim]);
+
+  const onPointerUp = useCallback((e: {clientX:number;clientY:number}) => {
+    pointerRef.current={clientX:e.clientX,clientY:e.clientY};
+    downRef.current = false;
+    hoverRef.current = document.elementFromPoint(e.clientX,e.clientY)===canvasRef.current;
+  }, []);
+
+  // Native mouse-down ownership survives leaving the view until release.
+  useEffect(() => {
+    const move=(e:PointerEvent)=>{pointerRef.current={clientX:e.clientX,clientY:e.clientY};};
+    window.addEventListener('pointermove',move);
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
+    return () => {
+      window.removeEventListener('pointermove',move);
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
+    };
+  }, [onPointerUp]);
+
+  const aliveCount = sim.parts.filter((p) => p.alive).length;
+
+  return (<>
+    <canvas
+      key={attempt}
+      ref={canvasRef}
+      data-testid={testId}
+      data-molecular-view={viewKey}
+      data-alive-count={aliveCount}
+      data-frozen={view.frozen ? '1' : '0'}
+      onPointerEnter={() => { hoverRef.current = true; }}
+      onPointerMove={onPointerMove}
+      onPointerLeave={onPointerLeave}
+      onPointerDown={onPointerDown}
+      onContextMenu={e => e.preventDefault()}
+      onPointerUp={onPointerUp}
+      onPointerCancel={() => { downRef.current = false; onPointerLeave(); }}
+      style={{
+        opacity: shared ? 0 : undefined,
+        width:  `${width}px`,
+        height: `${height}px`,
+        display: 'block',
+        cursor: onPickFragment ? 'pointer' : 'default',
+        touchAction: 'none',
+        pointerEvents: representativeFragment === undefined ? 'auto' : 'none',
+      }}
+    />
+    {failed&&<GraphicsFailure testId={`${testId}-error`} width={width} height={height}
+      onRetry={onRetry} />}
+  </>);
+}
+
+/**
+ * Sum dye fragments like native Sample::getDyes (including duplicates), indexed by
+ * the fragment's dye index. `Fragment.dye` is the dye index per src/lib/sim/
+ * sample.ts (-1 = not a dye; 0..3 = dye index); `isDyeFragment` gates non-dyes.
+ */
+function dyeMassesFromSample(sample: Sample | null): number[] {
+  const out = new Array<number>(DYE_COUNT).fill(0);
+  if (!sample) return out;
+  for (const f of sample.fragments) {
+    if (isDyeFragment(f) && f.dye >= 0 && f.dye < DYE_COUNT) out[f.dye] = Math.fround(out[f.dye] + Math.fround(f.mass));
+  }
+  return out;
+}

@@ -1,0 +1,31 @@
+{
+  "sourceCommit": "bfbc32bf9b1a59df3842b29cc6ae62f7a5936c7f",
+  "date": "2026-10-10",
+  "runner": "@playwright/test@1.64.0",
+  "browsers": {
+    "firefox": {
+      "version": "157.0",
+      "revision": "1555",
+      "productionPassed": 0,
+      "launchFailures": 2
+    },
+    "webkit": {
+      "version": "27.2",
+      "revision": "2370",
+      "productionPassed": 2
+    }
+  },
+  "testSourceIdentical": true,
+  "files": {
+    "build.log": "ef060c38220c64f4f37fc409a4b36b3f60db627297b4f05199d4fd891cbfecea",
+    "deployment.spec.ts": "2fda5f98596b52adb0f5d22fa3209a4361cadac813fdfb3d48e4f726e75d057f",
+    "package-lock.json": "c15abced60e85fc01e6fdf9b74b8f67dedbefebe7aa2231dc9b26e459a004bb8",
+    "playwright.config.ts": "b3ddf09715a4bbb63e9529a6ea61d7bae2daa629371f7e280bfbcafafa4f35d1",
+    "profile-probe.log": "c62ee273b7d8281edf841557a2ffc0fe0da7cfebae02591acdf27cecf1ca8f4a",
+    "results.json": "2dde4f3439c95b6900d0dd5775709506cafded25cead49ef2c5ce16c4b4f1c68",
+    "run.log": "59777eaf3a60260e5622532013e710874dca0f41634cbec78af5a949888d8bad",
+    "webkit-results.json": "c3f0155eb1fca89e083dca9659f1da4b8e36ebaa30a6f4ad22c364a507c351e1",
+    "webkit-run.log": "f5dacd2012ba4d2bf9de849271ab6f5127869a632b6f74f38203ebfe200de5f4",
+    "webkit.config.ts": "75189a367cf9fc29d8a474b4d0c87096faa1f2e765b03b68bec34e21f5acb365"
+  }
+}

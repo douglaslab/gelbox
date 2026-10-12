@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ts/.nvmrc
+          cache: 'npm'
+          cache-dependency-path: ts/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run test:unit
+      - run: npx playwright install --with-deps chromium
+      - name: Install Vulkan loader for WebGPU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvulkan1 mesa-vulkan-drivers vulkan-tools
+          # Verify: vulkaninfo --summary should list at least one device
+          vulkaninfo --summary || true
+      - name: Locate SwiftShader Vulkan ICD
+        run: |
+          ICD=$(find ~/.cache/ms-playwright -name 'vk_swiftshader_icd.json' 2>/dev/null | head -1)
+          if [ -z "$ICD" ]; then
+            echo "WARNING: vk_swiftshader_icd.json not found under ms-playwright cache"
+            ls -la ~/.cache/ms-playwright/ || true
+            exit 0
+          fi
+          echo "Found SwiftShader Vulkan ICD at: $ICD"
+          echo "VK_ICD_FILENAMES=$ICD" >> $GITHUB_ENV
+      # Runs both Playwright projects: chromium-webgpu and chromium-webgl2.
+      # WebGPU tests still self-skip on Linux (chromium-headless can't acquire a
+      # Vulkan adapter reliably even with mesa-vulkan-drivers + the SwiftShader
+      # ICD). WebGL2 tests run everywhere — they're the M4 acceptance gate.
+      - run: npm run test:visual
+      - run: npm run build

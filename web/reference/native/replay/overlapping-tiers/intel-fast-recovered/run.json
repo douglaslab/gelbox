@@ -1,0 +1,12 @@
+{
+  "returncode": 0,
+  "elapsedSeconds": 0.40743975003715605,
+  "command": [
+    "/tmp/gel-fast-source-control/build/gel-numerical",
+    "/private/tmp/gel-native-numerical/pinned/assets/tuning/gel-sim.json",
+    "/Users/shawn/.codex/worktrees/3f9f/gel/reference/native/numerical/cases.json",
+    "/private/tmp/gel-native-numerical/pinned/assets/tuning/molecular-sim.json"
+  ],
+  "executableSha256": "ba296192630ab534fbaa361707c2885f61ad91465693a93f9e5fa09be9b86ff0",
+  "caseCount": 509
+}

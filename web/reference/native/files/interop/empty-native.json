@@ -1,0 +1,19 @@
+{
+  "Sample": {
+    "Buffer": {
+      "Acetate": 0,
+      "Borate": 0,
+      "EDTA": 0,
+      "Tris": 0
+    },
+    "Fragments": null,
+    "icon": "microtube1500ul.png",
+    "iconScale": 0.5,
+    "id": -1,
+    "name": "Empty sample"
+  },
+  "Gelbox": {
+    "version": "1.0",
+    "type": "sample"
+  }
+}

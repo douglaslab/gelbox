@@ -1,0 +1,58 @@
+[
+  {
+    "id": "empty-2-diagonal",
+    "mode": "native-mesh",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "large-crossing-2-diagonal",
+    "mode": "native-mesh",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "large-round-2-diagonal",
+    "mode": "native-mesh",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "underlay-2-diagonal",
+    "mode": "native-mesh",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "empty-2-diagonal",
+    "mode": "generated-mesh",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "large-crossing-2-diagonal",
+    "mode": "generated-mesh",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "large-round-2-diagonal",
+    "mode": "generated-mesh",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "underlay-2-diagonal",
+    "mode": "generated-mesh",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  }
+]

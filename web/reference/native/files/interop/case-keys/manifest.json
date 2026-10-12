@@ -1,0 +1,14 @@
+{
+  "nativeCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "nativeHarnessSha256": "30c2d29c9664689bfd235a2e89997e9e4bc5869f89ed1ac56b0e7a863f2aa67d",
+  "files": {
+    "README.md": "4b2cf8021e34f2d326227a06d339c1d3620dbfea23023066908af71478145098",
+    "capture.py": "778f9f17246f87399ec98dae93f8f3ae665025cbcf7df4b124c259b221f1bee8",
+    "gel-mixed.input.json": "93ff503cfa6f7394f7db579cc89916f19220ba35456da07e5b92861eec41eb40",
+    "gel-mixed.native.json": "66c221b939026d8b7a0254e9b5440f58c4b32eac362e97353a2149103f1f15d5",
+    "sample-mixed.input.json": "2e0c00455d3569b8c75ad4c9cd1923fd137df05b91e251d0964dbaf7e6255d51",
+    "sample-mixed.native.json": "a323b282bc464ab4840b9d56cc91ecfb69a86985cb6d5d1d329e4a03d502e6d4",
+    "sample-reversed.input.json": "928aefecd4240064ad8665b16d6e6813a05b94cdae9f254658bba0f5dc94af32",
+    "sample-reversed.native.json": "a323b282bc464ab4840b9d56cc91ecfb69a86985cb6d5d1d329e4a03d502e6d4"
+  }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "backend": "webgpu",
+    "webExportSha256": "b72b8a1fad3d86503c3c80d7f24b71441616b649829f5dd6b59e3d134c0c9eef",
+    "nativeStateSha256": "1e983789c2e3f4335792f5ca2ec6ce5193ed06616a46a5dd37aa2fd14bb82511",
+    "allFieldsExactlyNativeJsonConversion": true,
+    "repeatIdentical": true,
+    "webEditedMass": 117.57998083587876,
+    "nativeLoadedMass": 117.58000183105469
+  },
+  {
+    "backend": "webgl2",
+    "webExportSha256": "b72b8a1fad3d86503c3c80d7f24b71441616b649829f5dd6b59e3d134c0c9eef",
+    "nativeStateSha256": "1e983789c2e3f4335792f5ca2ec6ce5193ed06616a46a5dd37aa2fd14bb82511",
+    "allFieldsExactlyNativeJsonConversion": true,
+    "repeatIdentical": true,
+    "webEditedMass": 117.57998083587876,
+    "nativeLoadedMass": 117.58000183105469
+  }
+]

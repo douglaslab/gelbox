@@ -1,0 +1,338 @@
+[
+  {
+    "id": "slider-0-enabled",
+    "style": "slider",
+    "value": 0,
+    "enabled": true,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "3:00",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "slider-413-enabled",
+    "style": "slider",
+    "value": 0.413,
+    "enabled": true,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "3:00",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "slider-1000-enabled",
+    "style": "slider",
+    "value": 1,
+    "enabled": true,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "3:00",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": 1
+  },
+  {
+    "id": "slider-0-disabled",
+    "style": "slider",
+    "value": 0,
+    "enabled": false,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "3:00",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "slider-413-disabled",
+    "style": "slider",
+    "value": 0.413,
+    "enabled": false,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "3:00",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "slider-1000-disabled",
+    "style": "slider",
+    "value": 1,
+    "enabled": false,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "3:00",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": 1
+  },
+  {
+    "id": "bar-0-enabled",
+    "style": "bar",
+    "value": 0,
+    "enabled": true,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "89.0 mM",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "bar-413-enabled",
+    "style": "bar",
+    "value": 0.413,
+    "enabled": true,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "89.0 mM",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "bar-850-enabled",
+    "style": "bar",
+    "value": 0.85,
+    "enabled": true,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "89.0 mM",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "bar-1000-enabled",
+    "style": "bar",
+    "value": 1,
+    "enabled": true,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "89.0 mM",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": 1
+  },
+  {
+    "id": "bar-0-disabled",
+    "style": "bar",
+    "value": 0,
+    "enabled": false,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "89.0 mM",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "bar-413-disabled",
+    "style": "bar",
+    "value": 0.413,
+    "enabled": false,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "89.0 mM",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "bar-850-disabled",
+    "style": "bar",
+    "value": 0.85,
+    "enabled": false,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "89.0 mM",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "bar-1000-disabled",
+    "style": "bar",
+    "value": 1,
+    "enabled": false,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "89.0 mM",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": 1
+  },
+  {
+    "id": "graph-500-enabled",
+    "style": "graph",
+    "value": 0.5,
+    "enabled": true,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": -1
+  },
+  {
+    "id": "graph-500-disabled",
+    "style": "graph",
+    "value": 0.5,
+    "enabled": false,
+    "notches": [
+      0,
+      0.33,
+      0.5,
+      1
+    ],
+    "label": "",
+    "graph": [
+      0,
+      0.125,
+      0.75,
+      1,
+      0.3
+    ],
+    "highlight": -1
+  }
+]

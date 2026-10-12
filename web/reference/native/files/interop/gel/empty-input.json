@@ -1,0 +1,18 @@
+{
+  "Gelbox": {
+    "version": "1.0",
+    "type": "gel"
+  },
+  "Gel": {
+    "Samples": [],
+    "Buffer": {
+      "Tris": 12.25,
+      "Borate": 0,
+      "Acetate": 8.5,
+      "EDTA": 0.5
+    },
+    "Time": 0.625,
+    "Voltage": 83.5,
+    "WellDamage": 0.125
+  }
+}

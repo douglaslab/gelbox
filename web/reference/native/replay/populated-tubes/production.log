@@ -1,0 +1,25 @@
+
+Running 4 tests using 4 workers
+
+(node:54460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:54461) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:54459) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:54460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:54462) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:54461) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:54459) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:54462) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [chromium-webgpu] › tube-movement.spec.ts:52:1 › compiled populated occupied and off-gel tube drops match original native documents (668ms)
+  ✓  1 [chromium-webgl2] › tube-movement.spec.ts:52:1 › compiled populated occupied and off-gel tube drops match original native documents (685ms)
+  ✓  3 [chromium-webgpu] › tube-movement.spec.ts:6:1 › compiled tube move and occupied drop match retained native documents (1.2s)
+  ✓  2 [chromium-webgl2] › tube-movement.spec.ts:6:1 › compiled tube move and occupied drop match retained native documents (1.2s)
+
+  4 passed (1.6s)

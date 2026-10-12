@@ -1,0 +1,32 @@
+[
+  {
+    "id": "empty-1",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "large-crossing-1",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "large-round-1",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "sample-last-1",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  },
+  {
+    "id": "fractional-clip-1",
+    "differentChannels": 0,
+    "maxChannelDifference": 0,
+    "absoluteChannelDifference": 0
+  }
+]

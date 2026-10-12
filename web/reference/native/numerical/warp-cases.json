@@ -1,0 +1,2194 @@
+[
+  {
+    "id": "smile-64-0-42",
+    "kind": "smile",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 0,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "smile-64-1-42",
+    "kind": "smile",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "smile-64-7.3-42",
+    "kind": "smile",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 7.3,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-64--0.1-42",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": -0.1,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-64-0-42",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 0,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-64-0.05-0",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-64-0.05-73",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-64-0.05--1",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-64-0.05-2147483647",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "damage-64-0.7-0",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-64-0.7-73",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-64-0.7--1",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-64-0.7-2147483647",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "damage-64-1-0",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-64-1-73",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-64-1--1",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-64-1-2147483647",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "damage-64-2.8-0",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-64-2.8-73",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-64-2.8--1",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-64-2.8-2147483647",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "water-64-0-42",
+    "kind": "water",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 0,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "water-64-3.5-42",
+    "kind": "water",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 3.5,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "smile-71-0-42",
+    "kind": "smile",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 0,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "smile-71-1-42",
+    "kind": "smile",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "smile-71-7.3-42",
+    "kind": "smile",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 7.3,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-71--0.1-42",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": -0.1,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-71-0-42",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 0,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-71-0.05-0",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-71-0.05-73",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-71-0.05--1",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-71-0.05-2147483647",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "damage-71-0.7-0",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-71-0.7-73",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-71-0.7--1",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-71-0.7-2147483647",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "damage-71-1-0",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-71-1-73",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-71-1--1",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-71-1-2147483647",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "damage-71-2.8-0",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-71-2.8-73",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-71-2.8--1",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-71-2.8-2147483647",
+    "kind": "damage",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "water-71-0-42",
+    "kind": "water",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 0,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "water-71-3.5-42",
+    "kind": "water",
+    "width": 71,
+    "height": 39,
+    "ppu": 1.25,
+    "rect": [
+      9.353,
+      3.7,
+      56.54600000000001,
+      13.123
+    ],
+    "amount": 3.5,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "smile-96-0-42",
+    "kind": "smile",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 0,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "smile-96-1-42",
+    "kind": "smile",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "smile-96-7.3-42",
+    "kind": "smile",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 7.3,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-96--0.1-42",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": -0.1,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-96-0-42",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 0,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-96-0.05-0",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-96-0.05-73",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-96-0.05--1",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-96-0.05-2147483647",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "damage-96-0.7-0",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-96-0.7-73",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-96-0.7--1",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-96-0.7-2147483647",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "damage-96-1-0",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-96-1-73",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-96-1--1",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-96-1-2147483647",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "damage-96-2.8-0",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-96-2.8-73",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-96-2.8--1",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-96-2.8-2147483647",
+    "kind": "damage",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "water-96-0-42",
+    "kind": "water",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 0,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "water-96-3.5-42",
+    "kind": "water",
+    "width": 96,
+    "height": 63,
+    "ppu": 2,
+    "rect": [
+      12.603,
+      3.7,
+      76.296,
+      13.123
+    ],
+    "amount": 3.5,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "smile-63-0-42",
+    "kind": "smile",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 0,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "smile-63-1-42",
+    "kind": "smile",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "smile-63-7.3-42",
+    "kind": "smile",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 7.3,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-63--0.1-42",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": -0.1,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-63-0-42",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 0,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-63-0.05-0",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-63-0.05-73",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-63-0.05--1",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-63-0.05-2147483647",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 0.05,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "damage-63-0.7-0",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-63-0.7-73",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-63-0.7--1",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-63-0.7-2147483647",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 0.7,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "damage-63-1-0",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-63-1-73",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-63-1--1",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-63-1-2147483647",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 1,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "damage-63-2.8-0",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": 0
+  },
+  {
+    "id": "damage-63-2.8-73",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": 73
+  },
+  {
+    "id": "damage-63-2.8--1",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": -1
+  },
+  {
+    "id": "damage-63-2.8-2147483647",
+    "kind": "damage",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 2.8,
+    "exp": 1.7,
+    "seed": 2147483647
+  },
+  {
+    "id": "water-63-0-42",
+    "kind": "water",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 0,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "water-63-3.5-42",
+    "kind": "water",
+    "width": 63,
+    "height": 47,
+    "ppu": 0.75,
+    "rect": [
+      8.312999999999999,
+      3.7,
+      50.226000000000006,
+      13.123
+    ],
+    "amount": 3.5,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-0-0",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      0,
+      3.7,
+      128,
+      13.123
+    ],
+    "amount": 7.375,
+    "exp": 0.25,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-0-17.99999",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      17.99999,
+      3.7,
+      18.123456,
+      13.123
+    ],
+    "amount": 7.375,
+    "exp": 0.25,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-0-8.3333",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      8.3333,
+      3.7,
+      91.6667,
+      13.123
+    ],
+    "amount": 7.375,
+    "exp": 0.25,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-1-0",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      0,
+      3.7,
+      128,
+      13.123
+    ],
+    "amount": -3.75,
+    "exp": 0.5,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-1-17.99999",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      17.99999,
+      3.7,
+      18.123456,
+      13.123
+    ],
+    "amount": -3.75,
+    "exp": 0.5,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-1-8.3333",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      8.3333,
+      3.7,
+      91.6667,
+      13.123
+    ],
+    "amount": -3.75,
+    "exp": 0.5,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-2-0",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      0,
+      3.7,
+      128,
+      13.123
+    ],
+    "amount": 7.375,
+    "exp": 1,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-2-17.99999",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      17.99999,
+      3.7,
+      18.123456,
+      13.123
+    ],
+    "amount": 7.375,
+    "exp": 1,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-2-8.3333",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      8.3333,
+      3.7,
+      91.6667,
+      13.123
+    ],
+    "amount": 7.375,
+    "exp": 1,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-3-0",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      0,
+      3.7,
+      128,
+      13.123
+    ],
+    "amount": -3.75,
+    "exp": 2,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-3-17.99999",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      17.99999,
+      3.7,
+      18.123456,
+      13.123
+    ],
+    "amount": -3.75,
+    "exp": 2,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-3-8.3333",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      8.3333,
+      3.7,
+      91.6667,
+      13.123
+    ],
+    "amount": -3.75,
+    "exp": 2,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-4-0",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      0,
+      3.7,
+      128,
+      13.123
+    ],
+    "amount": 7.375,
+    "exp": 3,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-4-17.99999",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      17.99999,
+      3.7,
+      18.123456,
+      13.123
+    ],
+    "amount": 7.375,
+    "exp": 3,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-4-8.3333",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      8.3333,
+      3.7,
+      91.6667,
+      13.123
+    ],
+    "amount": 7.375,
+    "exp": 3,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-5-0",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      0,
+      3.7,
+      128,
+      13.123
+    ],
+    "amount": -3.75,
+    "exp": 5,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-5-17.99999",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      17.99999,
+      3.7,
+      18.123456,
+      13.123
+    ],
+    "amount": -3.75,
+    "exp": 5,
+    "seed": 42
+  },
+  {
+    "id": "smile-boundary-5-8.3333",
+    "kind": "smile",
+    "width": 128,
+    "height": 73,
+    "ppu": 1.7,
+    "rect": [
+      8.3333,
+      3.7,
+      91.6667,
+      13.123
+    ],
+    "amount": -3.75,
+    "exp": 5,
+    "seed": 42
+  },
+  {
+    "id": "damage-boundary-1-0.19999999",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.19999999,
+    "exp": 2,
+    "seed": 1
+  },
+  {
+    "id": "damage-boundary-1-0.2",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.2,
+    "exp": 2,
+    "seed": 1
+  },
+  {
+    "id": "damage-boundary-1-0.39999999",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.39999999,
+    "exp": 2,
+    "seed": 1
+  },
+  {
+    "id": "damage-boundary-1-0.4",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.4,
+    "exp": 2,
+    "seed": 1
+  },
+  {
+    "id": "damage-boundary-1-4",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 4,
+    "exp": 2,
+    "seed": 1
+  },
+  {
+    "id": "damage-boundary-1-12.5",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 12.5,
+    "exp": 2,
+    "seed": 1
+  },
+  {
+    "id": "damage-boundary-2-0.19999999",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.19999999,
+    "exp": 2,
+    "seed": 2
+  },
+  {
+    "id": "damage-boundary-2-0.2",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.2,
+    "exp": 2,
+    "seed": 2
+  },
+  {
+    "id": "damage-boundary-2-0.39999999",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.39999999,
+    "exp": 2,
+    "seed": 2
+  },
+  {
+    "id": "damage-boundary-2-0.4",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.4,
+    "exp": 2,
+    "seed": 2
+  },
+  {
+    "id": "damage-boundary-2-4",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 4,
+    "exp": 2,
+    "seed": 2
+  },
+  {
+    "id": "damage-boundary-2-12.5",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 12.5,
+    "exp": 2,
+    "seed": 2
+  },
+  {
+    "id": "damage-boundary-12345678-0.19999999",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.19999999,
+    "exp": 2,
+    "seed": 12345678
+  },
+  {
+    "id": "damage-boundary-12345678-0.2",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.2,
+    "exp": 2,
+    "seed": 12345678
+  },
+  {
+    "id": "damage-boundary-12345678-0.39999999",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.39999999,
+    "exp": 2,
+    "seed": 12345678
+  },
+  {
+    "id": "damage-boundary-12345678-0.4",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.4,
+    "exp": 2,
+    "seed": 12345678
+  },
+  {
+    "id": "damage-boundary-12345678-4",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 4,
+    "exp": 2,
+    "seed": 12345678
+  },
+  {
+    "id": "damage-boundary-12345678-12.5",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 12.5,
+    "exp": 2,
+    "seed": 12345678
+  },
+  {
+    "id": "damage-boundary--2147483648-0.19999999",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.19999999,
+    "exp": 2,
+    "seed": -2147483648
+  },
+  {
+    "id": "damage-boundary--2147483648-0.2",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.2,
+    "exp": 2,
+    "seed": -2147483648
+  },
+  {
+    "id": "damage-boundary--2147483648-0.39999999",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.39999999,
+    "exp": 2,
+    "seed": -2147483648
+  },
+  {
+    "id": "damage-boundary--2147483648-0.4",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 0.4,
+    "exp": 2,
+    "seed": -2147483648
+  },
+  {
+    "id": "damage-boundary--2147483648-4",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 4,
+    "exp": 2,
+    "seed": -2147483648
+  },
+  {
+    "id": "damage-boundary--2147483648-12.5",
+    "kind": "damage",
+    "width": 203,
+    "height": 87,
+    "ppu": 1.37,
+    "rect": [
+      13.13,
+      7.717,
+      180.654,
+      24.754
+    ],
+    "amount": 12.5,
+    "exp": 2,
+    "seed": -2147483648
+  },
+  {
+    "id": "water-wide",
+    "kind": "water",
+    "width": 257,
+    "height": 131,
+    "ppu": 1.1,
+    "rect": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "amount": 3.5,
+    "exp": 2,
+    "seed": 0
+  },
+  {
+    "id": "smile-float-underflow",
+    "kind": "smile",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 1e-50,
+    "exp": 1.7,
+    "seed": 42
+  },
+  {
+    "id": "damage-float-underflow",
+    "kind": "damage",
+    "width": 64,
+    "height": 48,
+    "ppu": 1,
+    "rect": [
+      8.443,
+      3.7,
+      51.016000000000005,
+      13.123
+    ],
+    "amount": 1e-50,
+    "exp": 1.7,
+    "seed": 42
+  }
+]

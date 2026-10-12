@@ -1,0 +1,33 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 25px);
+  gap: 0;
+  user-select: none;
+  touch-action: none;
+}
+
+.swatch {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  border: 0;
+  padding: 2px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.swatchInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+}
+
+.swatch[data-selected="true"]::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 4px;
+  background: #000;
+  pointer-events: none;
+}

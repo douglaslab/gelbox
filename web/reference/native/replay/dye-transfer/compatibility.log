@@ -1,0 +1,15 @@
+
+Running 2 tests using 2 workers
+
+(node:55275) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55274) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55275) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55274) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [webkit-webgl2] › dye-transfer.spec.ts:6:1 › compiled dye transfer matches native capped merge and retained source DNA (780ms)
+  ✓  1 [firefox-webgl2] › dye-transfer.spec.ts:6:1 › compiled dye transfer matches native capped merge and retained source DNA (5.7s)
+
+  2 passed (6.6s)

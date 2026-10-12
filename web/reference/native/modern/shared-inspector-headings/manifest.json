@@ -1,0 +1,112 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceHashes": {
+    "layout": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+    "layoutMethods": "24eb05626306e901446225d5bbc81760456e7047b6efa047f618ea4834a72149",
+    "gel-settings": "a4df4856764864aa7960cb6d86c10df8105b35305433d482484b60751f45229a",
+    "sample-settings": "208d7767e7ef860a3c8322876da11d6a31c3dd9d669051527ca8783baaba799c",
+    "fragment": "d9345eda3ae73104684344f99676588e22f7369e93ff1d3e5ab7d1e95e035b02"
+  },
+  "extractedHashes": {
+    "layout-methods.inc": "24eb05626306e901446225d5bbc81760456e7047b6efa047f618ea4834a72149",
+    "sample-settings-layout.inc": "821794f8a72575eff8878ab5f051d0de6e65ccf10ec9b4f1ccb9e942bbfbf75f",
+    "gel-settings-layout.inc": "54f318fc991de39c0e2b89c956a672adf3a933f0d56ab10c3822149ce31f7e92",
+    "draw-methods.inc": "ab24c4b96e0136f95fae33a12204c3e0a7aeb4e5742cbc98265f7a74bc566d46",
+    "layout.inc": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c"
+  },
+  "inputs": {
+    "driver.cpp": "c1981ab61acb54d4df167214ad737e1c05890256a95440d244ed5adc79d9bc3a",
+    "capture.py": "95806c2505591bff0f7700ddec16f4a0f501604690b4d211930d973b3f8d8e37",
+    "metrics.json": "e54b3c51554468a4e3ad2e4736ff04570fb9fb7023d686bca6ff7f4c0d2f5ed6"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "files": [
+    {
+      "file": "fragment-heading-1.png",
+      "sha256": "097d8fbb5f6ed4af2247fbff9faac780dedf9fe9a680303d954d9318052b63c9"
+    },
+    {
+      "file": "fragment-behind-1.png",
+      "sha256": "ad3241be0e900ef72a4ac032b3befd5dc93d5e7a22832ca9371384891d6bf0a8"
+    },
+    {
+      "file": "fragment-front-1.png",
+      "sha256": "532bbed128cf3d5a0ff8cf1a45f2e9a9caf5f1dcf19a691de8937735954ef3db"
+    },
+    {
+      "file": "fragment-heading-2.png",
+      "sha256": "21ad8970154d33f3481b59b9bee5486a3b53644caff17733ddb4c8260291e9f0"
+    },
+    {
+      "file": "fragment-behind-2.png",
+      "sha256": "e1bc22acbe010ec9e701e242dc52882e9a750b8f1fd957edb2e82ec7a0aacd35"
+    },
+    {
+      "file": "fragment-front-2.png",
+      "sha256": "4c9c447cee2d6bba23d66c16acce60fb38f79713050748cf0198c278e8605b49"
+    },
+    {
+      "file": "gel-heading-1.png",
+      "sha256": "0178633b7958411feaa896b57f4595c2efdfbf7f7b303cae6a503982c9040931"
+    },
+    {
+      "file": "gel-settings-behind-1.png",
+      "sha256": "5183b420df9fb42572a7445c9da353bd7f58ae14c1e7ec6f32845b1c31693ca2"
+    },
+    {
+      "file": "gel-settings-front-1.png",
+      "sha256": "564530d2fb5997a210160a0f6f3964630fcac870951e4414367e19688a7a4572"
+    },
+    {
+      "file": "gel-heading-2.png",
+      "sha256": "263a8f3402461981e9910a691b31c1fd5d48c1b0efcf820fc991efa35082ea96"
+    },
+    {
+      "file": "gel-settings-behind-2.png",
+      "sha256": "cf3127d18cea0fc4483d50361744c34dcebdf010ded41b7092c7929e0790d4fe"
+    },
+    {
+      "file": "gel-settings-front-2.png",
+      "sha256": "7f298374df4252d7a15a45f7c2f2f30f375bb5ece8220d9ee8d1ce9c0499de03"
+    },
+    {
+      "file": "dyes-subhead-1.png",
+      "sha256": "872717334ad8062e7d804d0acb59e87d6910fae1a863a53e06aab532f8530d49"
+    },
+    {
+      "file": "sample-settings-heading-1.png",
+      "sha256": "24e2a7db414fbb6e2f83d188bc8e4f771f0721c3effbe7e785e1ae5a944b62f9"
+    },
+    {
+      "file": "sample-settings-behind-1.png",
+      "sha256": "dc38ed6bf0ca2ede4e525c2f7d5223788cecaf0db70767f33d3f09fbe1ab73f0"
+    },
+    {
+      "file": "sample-settings-front-1.png",
+      "sha256": "d37ee219cdc4b0b660104b8fe3ec5704451430278aeb5c7ffaa617fd54836a4f"
+    },
+    {
+      "file": "dyes-subhead-2.png",
+      "sha256": "3a719abadbd99ca7fc827a07c3f5e79688193e3cca0d6af14d099329059f396b"
+    },
+    {
+      "file": "sample-settings-heading-2.png",
+      "sha256": "e4345baad27157b75c98a79bb398517bb8a96adff56b5045ac086ee849107509"
+    },
+    {
+      "file": "sample-settings-behind-2.png",
+      "sha256": "86d265ac3912883a48234f121a7086f7560161eac9a0d6481ca57781bef56423"
+    },
+    {
+      "file": "sample-settings-front-2.png",
+      "sha256": "2be9f61298cfc8728b7d1a93ac0e4ae29a56f02d217657de8b9e2442dd51a395"
+    }
+  ],
+  "limits": [
+    "Full pinned GelSettingsView/SampleSettingsView draw with null brace textures; only pinned FragmentView heading draw block, not its well/representative.",
+    "Pinned heading layout blocks and Layout text/snap methods; no child controls.",
+    "Modern Cinder/macOS Avenir Heavy, RGBA8 MSAA4 raw pixels; not original-release GUI."
+  ]
+}

@@ -1,0 +1,3 @@
+initial-global=-779453450
+inspector-draws=0 engine-seed=-779453450 view-seed=-1593094532 loupe-engine-seed=-1423486980 loupe-view-seed=217451357 first-palette-int=469463128 palette-index=4 next-global=-108423167
+inspector-draws=7 engine-seed=-779453450 view-seed=-1593094532 loupe-engine-seed=-970001149 loupe-view-seed=1343729607 first-palette-int=469463128 palette-index=4 next-global=-210675709

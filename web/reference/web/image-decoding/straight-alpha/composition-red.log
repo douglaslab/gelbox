@@ -1,0 +1,501 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.image-compatibility.config.ts --output=/tmp/gel-alpha-composition
+
+[2m[WebServer] [22m(node:21193) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:21196) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21196) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [firefox-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR1 › native ImageView texture, focus and resize frame compose on one surface (1.1s)
+  ✓  2 [firefox-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR2 › native ImageView texture, focus and resize frame compose on one surface (786ms)
+(node:21205) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21205) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [webkit-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR1 › native ImageView texture, focus and resize frame compose on one surface (1.0s)
+(node:21218) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21218) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [webkit-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR2 › native ImageView texture, focus and resize frame compose on one surface (838ms)
+
+
+  1) [webkit-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR1 › native ImageView texture, focus and resize frame compose on one surface 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  -   1[39m
+    [31m+ Received  + 217[39m
+
+    [32m- Array [][39m
+    [31m+ Array [[39m
+    [31m+   Object {[39m
+    [31m+     "different": 5962,[39m
+    [31m+     "first": Array [[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 225,[39m
+    [31m+         "pixel": 20087,[39m
+    [31m+         "web": 224,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 207,[39m
+    [31m+         "pixel": 20087,[39m
+    [31m+         "web": 206,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 207,[39m
+    [31m+         "pixel": 20089,[39m
+    [31m+         "web": 206,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 113,[39m
+    [31m+         "pixel": 20091,[39m
+    [31m+         "web": 112,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 209,[39m
+    [31m+         "pixel": 20092,[39m
+    [31m+         "web": 208,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 210,[39m
+    [31m+         "pixel": 20093,[39m
+    [31m+         "web": 209,[39m
+    [31m+       },[39m
+    [31m+     ],[39m
+    [31m+     "id": "native-focused-1",[39m
+    [31m+     "max": 48,[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "different": 5329,[39m
+    [31m+     "first": Array [[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 58,[39m
+    [31m+         "pixel": 20087,[39m
+    [31m+         "web": 57,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 205,[39m
+    [31m+         "pixel": 20089,[39m
+    [31m+         "web": 204,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 209,[39m
+    [31m+         "pixel": 20092,[39m
+    [31m+         "web": 208,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 210,[39m
+    [31m+         "pixel": 20093,[39m
+    [31m+         "web": 209,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 209,[39m
+    [31m+         "pixel": 20108,[39m
+    [31m+         "web": 199,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 209,[39m
+    [31m+         "pixel": 20108,[39m
+    [31m+         "web": 203,[39m
+    [31m+       },[39m
+    [31m+     ],[39m
+    [31m+     "id": "native-covered-1",[39m
+    [31m+     "max": 48,[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "different": 22731,[39m
+    [31m+     "first": Array [[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 139,[39m
+    [31m+         "pixel": 16074,[39m
+    [31m+         "web": 134,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 65,[39m
+    [31m+         "pixel": 16074,[39m
+    [31m+         "web": 64,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 50,[39m
+    [31m+         "pixel": 16074,[39m
+    [31m+         "web": 47,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 55,[39m
+    [31m+         "pixel": 16076,[39m
+    [31m+         "web": 54,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 143,[39m
+    [31m+         "pixel": 16078,[39m
+    [31m+         "web": 142,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 64,[39m
+    [31m+         "pixel": 16078,[39m
+    [31m+         "web": 63,[39m
+    [31m+       },[39m
+    [31m+     ],[39m
+    [31m+     "id": "magnified-1",[39m
+    [31m+     "max": 63,[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "different": 660,[39m
+    [31m+     "first": Array [[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 204,[39m
+    [31m+         "pixel": 24151,[39m
+    [31m+         "web": 203,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 204,[39m
+    [31m+         "pixel": 24152,[39m
+    [31m+         "web": 203,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 205,[39m
+    [31m+         "pixel": 24152,[39m
+    [31m+         "web": 204,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 205,[39m
+    [31m+         "pixel": 24157,[39m
+    [31m+         "web": 199,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 211,[39m
+    [31m+         "pixel": 24157,[39m
+    [31m+         "web": 203,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 117,[39m
+    [31m+         "pixel": 24157,[39m
+    [31m+         "web": 113,[39m
+    [31m+       },[39m
+    [31m+     ],[39m
+    [31m+     "id": "minified-1",[39m
+    [31m+     "max": 47,[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "different": 484,[39m
+    [31m+     "first": Array [[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 28,[39m
+    [31m+         "pixel": 16086,[39m
+    [31m+         "web": 27,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 51,[39m
+    [31m+         "pixel": 16086,[39m
+    [31m+         "web": 50,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 89,[39m
+    [31m+         "pixel": 16086,[39m
+    [31m+         "web": 88,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 50,[39m
+    [31m+         "pixel": 16097,[39m
+    [31m+         "web": 35,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 63,[39m
+    [31m+         "pixel": 16097,[39m
+    [31m+         "web": 53,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 85,[39m
+    [31m+         "pixel": 16097,[39m
+    [31m+         "web": 81,[39m
+    [31m+       },[39m
+    [31m+     ],[39m
+    [31m+     "id": "odd-minified-1",[39m
+    [31m+     "max": 59,[39m
+    [31m+   },[39m
+    [31m+ ][39m
+
+      52 |   }
+      53 |   await fs.promises.writeFile(info.outputPath('comparison.json'),JSON.stringify(results,null,2));
+    > 54 |   expect(results.filter(r=>r.different)).toEqual([]);
+         |                                          ^
+      55 |  });
+      56 | });
+      57 |
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/visual/shared-image-native.spec.ts:54:42
+
+  2) [webkit-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR2 › native ImageView texture, focus and resize frame compose on one surface 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  -   1[39m
+    [31m+ Received  + 217[39m
+
+    [32m- Array [][39m
+    [31m+ Array [[39m
+    [31m+   Object {[39m
+    [31m+     "different": 18414,[39m
+    [31m+     "first": Array [[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 197,[39m
+    [31m+         "pixel": 80974,[39m
+    [31m+         "web": 193,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 90,[39m
+    [31m+         "pixel": 80974,[39m
+    [31m+         "web": 88,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 93,[39m
+    [31m+         "pixel": 80976,[39m
+    [31m+         "web": 92,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 159,[39m
+    [31m+         "pixel": 80978,[39m
+    [31m+         "web": 158,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 200,[39m
+    [31m+         "pixel": 80979,[39m
+    [31m+         "web": 199,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 162,[39m
+    [31m+         "pixel": 80984,[39m
+    [31m+         "web": 161,[39m
+    [31m+       },[39m
+    [31m+     ],[39m
+    [31m+     "id": "native-focused-2",[39m
+    [31m+     "max": 64,[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "different": 16252,[39m
+    [31m+     "first": Array [[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 184,[39m
+    [31m+         "pixel": 80974,[39m
+    [31m+         "web": 183,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 55,[39m
+    [31m+         "pixel": 80977,[39m
+    [31m+         "web": 54,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 55,[39m
+    [31m+         "pixel": 80981,[39m
+    [31m+         "web": 56,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 162,[39m
+    [31m+         "pixel": 80984,[39m
+    [31m+         "web": 161,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 164,[39m
+    [31m+         "pixel": 80986,[39m
+    [31m+         "web": 163,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 158,[39m
+    [31m+         "pixel": 80989,[39m
+    [31m+         "web": 157,[39m
+    [31m+       },[39m
+    [31m+     ],[39m
+    [31m+     "id": "native-covered-2",[39m
+    [31m+     "max": 64,[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "different": 92086,[39m
+    [31m+     "first": Array [[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 141,[39m
+    [31m+         "pixel": 64147,[39m
+    [31m+         "web": 140,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 68,[39m
+    [31m+         "pixel": 64147,[39m
+    [31m+         "web": 67,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 49,[39m
+    [31m+         "pixel": 64147,[39m
+    [31m+         "web": 48,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 141,[39m
+    [31m+         "pixel": 64148,[39m
+    [31m+         "web": 137,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 67,[39m
+    [31m+         "pixel": 64148,[39m
+    [31m+         "web": 66,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 49,[39m
+    [31m+         "pixel": 64148,[39m
+    [31m+         "web": 47,[39m
+    [31m+       },[39m
+    [31m+     ],[39m
+    [31m+     "id": "magnified-2",[39m
+    [31m+     "max": 64,[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "different": 1599,[39m
+    [31m+     "first": Array [[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 143,[39m
+    [31m+         "pixel": 97103,[39m
+    [31m+         "web": 141,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 153,[39m
+    [31m+         "pixel": 97103,[39m
+    [31m+         "web": 152,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 108,[39m
+    [31m+         "pixel": 97103,[39m
+    [31m+         "web": 107,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 150,[39m
+    [31m+         "pixel": 97104,[39m
+    [31m+         "web": 147,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 153,[39m
+    [31m+         "pixel": 97104,[39m
+    [31m+         "web": 151,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 108,[39m
+    [31m+         "pixel": 97104,[39m
+    [31m+         "web": 107,[39m
+    [31m+       },[39m
+    [31m+     ],[39m
+    [31m+     "id": "minified-2",[39m
+    [31m+     "max": 58,[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "different": 880,[39m
+    [31m+     "first": Array [[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 32,[39m
+    [31m+         "pixel": 64973,[39m
+    [31m+         "web": 28,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 50,[39m
+    [31m+         "pixel": 64973,[39m
+    [31m+         "web": 49,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 2,[39m
+    [31m+         "native": 88,[39m
+    [31m+         "pixel": 64973,[39m
+    [31m+         "web": 86,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 50,[39m
+    [31m+         "pixel": 64974,[39m
+    [31m+         "web": 49,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 1,[39m
+    [31m+         "native": 51,[39m
+    [31m+         "pixel": 64977,[39m
+    [31m+         "web": 52,[39m
+    [31m+       },[39m
+    [31m+       Object {[39m
+    [31m+         "channel": 0,[39m
+    [31m+         "native": 48,[39m
+    [31m+         "pixel": 64978,[39m
+    [31m+         "web": 47,[39m
+    [31m+       },[39m
+    [31m+     ],[39m
+    [31m+     "id": "odd-minified-2",[39m
+    [31m+     "max": 62,[39m
+    [31m+   },[39m
+    [31m+ ][39m
+
+      52 |   }
+      53 |   await fs.promises.writeFile(info.outputPath('comparison.json'),JSON.stringify(results,null,2));
+    > 54 |   expect(results.filter(r=>r.different)).toEqual([]);
+         |                                          ^
+      55 |  });
+      56 | });
+      57 |
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/visual/shared-image-native.spec.ts:54:42
+
+  2 failed
+    [webkit-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR1 › native ImageView texture, focus and resize frame compose on one surface 
+    [webkit-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR2 › native ImageView texture, focus and resize frame compose on one surface 
+  2 passed (5.8s)

@@ -1,0 +1,16 @@
+{
+  "base": "ccedd68",
+  "sha256": {
+    "ts/src/components/gel/DirectBandCanvas.tsx": "21144bfdea92a6544e0f0794aab123cd7cf9ac2b9bcc4562cd0a3b397434438d",
+    "ts/src/components/gel/SharedGelCanvas.tsx": "b5d9e761e46f83abef0e83e2b67c01da26243b7f5811602ba2265caec9d8e431",
+    "ts/tests/visual/shared-gel-overlap.spec.ts": "76df9d9572933638b7e0f39cabe77003eba045a92494a9b7a49a87474d9fa299",
+    "ts/tests/visual/native-direct-raster.spec.ts": "d22f1b92aca626e1dff1b47e1674552a05a803b495b2efffbe241de7562fbcc6",
+    "ts/tests/visual/shared-scene-lifecycle.spec.ts": "a6972f532f10f2c4d9271685b116e7d02dfdcbbb88cc3886ba046a44f1885baa",
+    "reference/native/modern/shared-gel-overlap/manifest.json": "bbc477e53196b043c85602476e337c7b0f79bcc48ba470e485cfbcdb37bfe3c1",
+    "reference/native/modern/shared-gel-overlap/capture.py": "b16131ebce2aa6d22e230fd3fe5ca5efe0cd230a91efd52a4b28bb34e11dbe8f",
+    "reference/native/modern/direct-band-scenes/manifest.json": "e398c1859e55febaa8cc2b867f15b932b5a96adfe64c128b75d9b3d1f5c2baf4"
+  },
+  "limits": [
+    "Development shared renderer; original GUI, rotated gel, loupes, images and complete UI paint remain uncertified."
+  ]
+}

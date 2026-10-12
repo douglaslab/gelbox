@@ -1,0 +1,13 @@
+{
+  "README.md": "86c5882a458197af6ec8e4f5b0962d3c6d2ad06574ac2327d125869e4df6c063",
+  "disputed-result.json": "64b15948c5e722da8d3a48ec276063b9c6177acc88e392e989b6ffdc2912b7bc",
+  "full-units.log.gz": "046a70098086ecdb7fc8c3063cac81300bfe3bbe9ae87a387e1b2963774f9443",
+  "memory-recovery.json": "10ea1b8c6bf71bbf27b34eae0830595c75c1962ffb7154481cc91a6ae696ea83",
+  "pow-probe.c": "344996a6a3b037fe6912da7fa567da3c69f17b08027c33d8e5926397da45c0d0",
+  "provenance.json": "52ab69262f041a3c9b3799832861686e0d95318dd4ec6e6533d25d94396780b1",
+  "qualification-units.log": "0e3adfc86f14ff6192f85500c61e1e56b3a284ae8641eb7bcbd763d4cdefecfd",
+  "shape-changes.json": "d207eb75c2f0cc7e4ee7794523ea280e00e1b761dace1d5af473e776f5af67a8",
+  "shape-geometry.json": "077dcc28e18fb75275b09104cb734146ed7fe2295b44b13655ca0493798ae758",
+  "shape-powers.json": "41303570a0200e2eb2b4cda399326d43a5fd421561a172c4d3eee5ac92bfdbd3",
+  "shape_geometry.py": "cd9fb5813d07425ecceee1d7418e15510dd3e0c1d12b7fef29ee5fad70d4eff3"
+}

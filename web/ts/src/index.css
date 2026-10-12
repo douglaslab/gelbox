@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  /* Light theme tokens (default) */
+  --color-ink:               #1f2933;
+  --color-ink-muted:         #5a6573;
+  --color-surface:           #fbfaf6;
+  --color-surface-raised:    #ffffff;
+  --color-accent:            #2f6fb3;
+  --color-grid:              #e4e1d6;
+  --color-success:           #4f8a4a;
+  --color-warning:           #c08a2a;
+  --color-danger:            #b03a2e;
+}
+
+[data-theme="dark"] {
+  --color-ink:               #e9e6dc;
+  --color-ink-muted:         #9ba2ad;
+  --color-surface:           #15181d;
+  --color-surface-raised:    #1f242b;
+  --color-accent:            #6aa3d8;
+  --color-grid:              #2c313a;
+  --color-success:           #6fb86a;
+  --color-warning:           #d9a657;
+  --color-danger:            #d05a4e;
+}
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size-adjust: 0.493;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-family: inherit;
+  margin: 0;
+}
+
+/* The parity workspace has a fixed native palette, independent of dev theme. */
+.native-workspace {
+  /* Native CoreGraphics text uses smoothing; don't inherit the dev shell override. */
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  --color-ink: #1f2933;
+  --color-ink-muted: #5a6573;
+  --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-accent: #2f6fb3;
+  --color-grid: #e4e1d6;
+  --color-danger: #b03a2e;
+}

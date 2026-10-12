@@ -1,0 +1,47 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.production.config.ts --workers=2 --output=/tmp/gel-compiled-workflow-production
+
+
+Running 22 tests using 2 workers
+
+(node:93236) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93236) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93237) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93237) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium-webgpu] › deployment.spec.ts:5:38 › built app at /gelbox/ loads controls and roundtrips native files (484ms)
+  ✓  2 [chromium-webgpu] › deployment.spec.ts:5:38 › built app at / loads controls and roundtrips native files (484ms)
+  ✓  3 [chromium-webgpu] › interactions.spec.ts:3:56 › compiled editing and left loupe gestures survive mode changes and resize (1.0s)
+  ✓  4 [chromium-webgpu] › interactions.spec.ts:3:56 › compiled editing and right loupe gestures survive mode changes and resize (1.0s)
+  ✓  6 [chromium-webgpu] › native-composition.spec.ts:8:2 › compiled native edge DPR1 › actual production well and representative preserve native composition (401ms)
+  ✓  7 [chromium-webgpu] › native-composition.spec.ts:8:2 › compiled native edge DPR2 › actual production well and representative preserve native composition (452ms)
+  ✓  5 [chromium-webgpu] › interactions.spec.ts:3:56 › compiled editing and middle loupe gestures survive mode changes and resize (1.0s)
+  ✓  8 [chromium-webgpu] › native-composition.spec.ts:8:2 › compiled native background DPR1 › actual production well and representative preserve native composition (3.9s)
+  ✓  9 [chromium-webgpu] › native-composition.spec.ts:8:2 › compiled native background DPR2 › actual production well and representative preserve native composition (4.7s)
+  ✓  10 [chromium-webgpu] › native-window.spec.ts:9:38 › built shared window at / matches native startup and control transitions (3.2s)
+(node:93290) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93290) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 [chromium-webgl2] › deployment.spec.ts:5:38 › built app at / loads controls and roundtrips native files (483ms)
+  ✓  11 [chromium-webgpu] › native-window.spec.ts:9:38 › built shared window at /gelbox/ matches native startup and control transitions (3.3s)
+  ✓  13 [chromium-webgl2] › deployment.spec.ts:5:38 › built app at /gelbox/ loads controls and roundtrips native files (345ms)
+(node:93305) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93305) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  14 [chromium-webgl2] › interactions.spec.ts:3:56 › compiled editing and right loupe gestures survive mode changes and resize (1.1s)
+  ✓  15 [chromium-webgl2] › interactions.spec.ts:3:56 › compiled editing and left loupe gestures survive mode changes and resize (1.3s)
+  ✓  17 [chromium-webgl2] › native-composition.spec.ts:8:2 › compiled native edge DPR1 › actual production well and representative preserve native composition (430ms)
+  ✓  16 [chromium-webgl2] › interactions.spec.ts:3:56 › compiled editing and middle loupe gestures survive mode changes and resize (1.0s)
+  ✓  18 [chromium-webgl2] › native-composition.spec.ts:8:2 › compiled native edge DPR2 › actual production well and representative preserve native composition (491ms)
+  ✓  20 [chromium-webgl2] › native-composition.spec.ts:8:2 › compiled native background DPR2 › actual production well and representative preserve native composition (4.7s)
+  ✓  19 [chromium-webgl2] › native-composition.spec.ts:8:2 › compiled native background DPR1 › actual production well and representative preserve native composition (5.3s)
+  ✓  21 [chromium-webgl2] › native-window.spec.ts:9:38 › built shared window at / matches native startup and control transitions (3.2s)
+  ✓  22 [chromium-webgl2] › native-window.spec.ts:9:38 › built shared window at /gelbox/ matches native startup and control transitions (3.2s)
+
+  22 passed (21.8s)

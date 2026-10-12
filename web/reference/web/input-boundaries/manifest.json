@@ -1,0 +1,15 @@
+{
+  "runtime_commit": "ff35ea9",
+  "scope": "Safe web native JSON input boundaries; not native malformed-input equivalence",
+  "checks": {
+    "unit": 31,
+    "production": 2,
+    "compatibility": 2
+  },
+  "sha256": {
+    "ts/src/lib/gel/nativeFile.ts": "b21c7cd0ea1b2cac33822eed8c92e9ef2e5ffc0d82d2e4eb94884109f876d976",
+    "ts/tests/unit/nativeFile.test.ts": "11efc163f610485a2ade84567d5dd9ce6c629fb79f491fb694462657834e38ea",
+    "ts/tests/production/legacy-files.spec.ts": "1e3593789be7f0f91bbe60e8e183866e9a280ab968359e8e07518d3816259b87",
+    "ts/playwright.compatibility.config.ts": "d1d8fe2586322c9aa43ed5cdc056642100a77fe120f136205cee5dcb8c04416a"
+  }
+}

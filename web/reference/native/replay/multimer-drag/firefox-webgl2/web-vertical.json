@@ -1,0 +1,147 @@
+{
+  "Gelbox": {
+    "version": "1.0",
+    "type": "gel"
+  },
+  "Gel": {
+    "Samples": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "name": "",
+        "icon": "",
+        "iconScale": 1,
+        "id": -1,
+        "Buffer": {
+          "Tris": 44.5,
+          "Borate": 44.5,
+          "Acetate": 0,
+          "EDTA": 1
+        },
+        "Fragments": [
+          {
+            "Bases": 1642,
+            "Mass": 35.125,
+            "Degrade": 0.375,
+            "AspectRatio": 1.25,
+            "Color": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "Aggregate": [
+              0,
+              0.25,
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Interop β – Δ DNA",
+        "icon": "microtube1500ul.png",
+        "iconScale": 0.625,
+        "id": 2147483647,
+        "Buffer": {
+          "Tris": 10.125,
+          "Borate": 0,
+          "Acetate": 7.75,
+          "EDTA": 0.25
+        },
+        "Fragments": [
+          {
+            "Bases": 103,
+            "Mass": 13.25,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.125,
+              0.25,
+              0.5
+            ],
+            "Dye": "Orange G",
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 700,
+            "Mass": 19.5,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.5,
+              0.25,
+              0.75
+            ],
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 100,
+            "Mass": 10.25,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.125,
+              0.25,
+              0.5
+            ],
+            "Dye": "Xylene cyanol",
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 101,
+            "Mass": 11.25,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.125,
+              0.25,
+              0.5
+            ],
+            "Dye": "Cresol red",
+            "Aggregate": [
+              1
+            ]
+          },
+          {
+            "Bases": 102,
+            "Mass": 12.25,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.125,
+              0.25,
+              0.5
+            ],
+            "Dye": "Bromphenol blue",
+            "Aggregate": [
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "Buffer": {
+      "Tris": 12.25,
+      "Borate": 0,
+      "Acetate": 8.5,
+      "EDTA": 0.5
+    },
+    "Time": 0.625,
+    "Voltage": 83.5,
+    "WellDamage": 0.125
+  }
+}

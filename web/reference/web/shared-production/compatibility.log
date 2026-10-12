@@ -1,0 +1,53 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.compatibility.config.ts deployment.spec.ts --workers=1 --output=/tmp/gel-shared-compatibility
+
+
+Running 4 tests using 1 worker
+
+(node:87808) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:87808) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [firefox-webgl2] › deployment.spec.ts:5:38 › built app at / loads controls and roundtrips native files (3ms)
+(node:88024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:88024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [firefox-webgl2] › deployment.spec.ts:5:38 › built app at /gelbox/ loads controls and roundtrips native files (5ms)
+(node:88351) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:88351) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [webkit-webgl2] › deployment.spec.ts:5:38 › built app at / loads controls and roundtrips native files (2.2s)
+  ✓  4 [webkit-webgl2] › deployment.spec.ts:5:38 › built app at /gelbox/ loads controls and roundtrips native files (933ms)
+
+
+  1) [firefox-webgl2] › deployment.spec.ts:5:38 › built app at / loads controls and roundtrips native files 
+
+    TimeoutError: browserType.launch: Timeout 15000ms exceeded.
+    Call log:
+    [2m  - <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1466/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-PdunM6 -juggler-pipe -silent[22m
+    [2m  - <launched> pid=87836[22m
+    [2m  - [pid=87836][err] *** You are running in headless mode.[22m
+    [2m  - [pid=87836][err] sandbox_extension_issue_file_to_process failed for /Users/shawn/Library/Caches/ms-playwright/firefox-1466/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)[22m
+    [2m  5 × [pid=87836][err] JavaScript error: resource://gre/modules/XULStore.sys.mjs, line 84: Error: Can't find profile directory.[22m
+    [2m  - [pid=87836][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=0.916667) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt[22m
+
+
+  2) [firefox-webgl2] › deployment.spec.ts:5:38 › built app at /gelbox/ loads controls and roundtrips native files 
+
+    TimeoutError: browserType.launch: Timeout 15000ms exceeded.
+    Call log:
+    [2m  - <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1466/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-e3mfx5 -juggler-pipe -silent[22m
+    [2m  - <launched> pid=88053[22m
+    [2m  - [pid=88053][err] *** You are running in headless mode.[22m
+    [2m  - [pid=88053][err] sandbox_extension_issue_file_to_process failed for /Users/shawn/Library/Caches/ms-playwright/firefox-1466/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)[22m
+    [2m  5 × [pid=88053][err] JavaScript error: resource://gre/modules/XULStore.sys.mjs, line 84: Error: Can't find profile directory.[22m
+    [2m  - [pid=88053][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=1.125) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt[22m
+
+
+  2 failed
+    [firefox-webgl2] › deployment.spec.ts:5:38 › built app at / loads controls and roundtrips native files 
+    [firefox-webgl2] › deployment.spec.ts:5:38 › built app at /gelbox/ loads controls and roundtrips native files 
+  2 passed (36.1s)

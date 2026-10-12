@@ -1,0 +1,45 @@
+-- The CXX compiler identification is AppleClang 21.0.0.21000334
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /private/tmp/gel-native-release-reference/build
+[ 66%] Building CXX object CMakeFiles/gel-numerical.dir/pinned/src/GelSim.cpp.o
+[ 66%] Building CXX object CMakeFiles/gel-numerical.dir/Users/shawn/.codex/worktrees/3f9f/gel/reference/native/numerical/driver.cpp.o
+[ 66%] Building CXX object CMakeFiles/gel-numerical.dir/Users/shawn/code/Cinder/src/cinder/JsonTree.cpp.o
+[ 66%] Building CXX object CMakeFiles/gel-numerical.dir/sample-constructor.cpp.o
+/Users/shawn/code/Cinder/src/cinder/JsonTree.cpp:727:2: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+  727 |         sprintf( mMessage, "Could not find child: %s for node: %s", childPath.c_str(), node.getPath().c_str() );
+      |         ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/shawn/code/Cinder/src/cinder/JsonTree.cpp:736:2: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+  736 |         sprintf( mMessage, "Unable to convert value for node: %s", node.getPath().c_str() );
+      |         ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/shawn/code/Cinder/src/cinder/JsonTree.cpp:745:2: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+  745 |         sprintf( mMessage, "Unable to parse JSON\n: %s", errorMessage.c_str() );
+      |         ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+3 warnings generated.
+[ 83%] Building CXX object CMakeFiles/gel-numerical.dir/Users/shawn/code/Cinder/src/jsoncpp/jsoncpp.cpp.o
+[100%] Linking CXX executable gel-numerical
+[100%] Built target gel-numerical
+/private/tmp/gel-native-release-reference/build/gel-numerical

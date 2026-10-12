@@ -1,0 +1,23 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test temporary-well-edges.spec.ts --output=/tmp/gel-well-edges
+
+[2m[WebServer] [22m(node:57903) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:57906) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57907) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57906) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57907) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"backend":"webgl2","viewport":{"width":1365,"height":768,"dpr":2},"crop":[416,260,780,50],"variants":[{"rendering":"crispEdges","nativeVsUser":{"differentPixels":0,"maximumChannelError":0,"rows":{}},"nativeVsWeb":{"differentPixels":240,"maximumChannelError":122,"rows":{"282":20,"283":20,"284":20,"285":20,"286":20,"287":20,"288":20,"289":20,"290":20,"291":20,"292":20,"293":20}}},{"rendering":"geometricPrecision","nativeVsUser":{"differentPixels":0,"maximumChannelError":0,"rows":{}},"nativeVsWeb":{"differentPixels":1856,"maximumChannelError":58,"rows":{"281":404,"282":404,"283":24,"284":24,"285":24,"286":24,"287":24,"288":24,"289":24,"290":24,"291":24,"292":24,"293":404,"294":404}}}]}
+{"backend":"webgpu","viewport":{"width":1365,"height":768,"dpr":2},"crop":[416,260,780,50],"variants":[{"rendering":"crispEdges","nativeVsUser":{"differentPixels":0,"maximumChannelError":0,"rows":{}},"nativeVsWeb":{"differentPixels":240,"maximumChannelError":122,"rows":{"282":20,"283":20,"284":20,"285":20,"286":20,"287":20,"288":20,"289":20,"290":20,"291":20,"292":20,"293":20}}},{"rendering":"geometricPrecision","nativeVsUser":{"differentPixels":0,"maximumChannelError":0,"rows":{}},"nativeVsWeb":{"differentPixels":1856,"maximumChannelError":58,"rows":{"281":404,"282":404,"283":24,"284":24,"285":24,"286":24,"287":24,"288":24,"289":24,"290":24,"291":24,"292":24,"293":404,"294":404}}}]}
+  ✓  1 [chromium-webgpu] › temporary-well-edges.spec.ts:7:1 › measure complete native well outlines (577ms)
+  ✓  2 [chromium-webgl2] › temporary-well-edges.spec.ts:7:1 › measure complete native well outlines (577ms)
+
+  2 passed (1.7s)

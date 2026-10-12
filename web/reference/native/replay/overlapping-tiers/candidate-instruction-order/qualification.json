@@ -1,0 +1,45 @@
+{
+  "qualified": false,
+  "runtimePatchSha256": "94b5cedcfd5c2e564d817bc091b8d54cc2b5e7891e0150039642cdd594fe9499",
+  "units": {
+    "passed": 3012,
+    "failed": 52
+  },
+  "diagnosticGeometryAndNativeOverlapUnits": {
+    "passed": 10,
+    "failed": 0
+  },
+  "build": "passed",
+  "failedUnitCategories": {
+    "nativeSolver": 43,
+    "nativeNumerical": 7,
+    "nativeLoupe": 1,
+    "nativeMolecular": 1
+  },
+  "pending": "Original release qualification, complete candidate regression and remaining release roadmap. Website and long-running stability build unchanged.",
+  "compiledOverlap": {
+    "passed": 20,
+    "failedAssertions": 0,
+    "configurations": [
+      "Chromium WebGPU",
+      "Chromium WebGL2",
+      "Firefox WebGL2",
+      "WebKit WebGL2"
+    ],
+    "runnerNote": "The first four-project attempt passed Firefox/WebKit but lacked Chromium 1248. Reran Chromium with the installed repository Playwright version: 10 passed."
+  },
+  "production": {
+    "passed": 96,
+    "failed": 0
+  },
+  "compatibility": {
+    "passed": 76,
+    "failed": 0
+  },
+  "visual": {
+    "passed": 969,
+    "skipped": 1,
+    "failed": 0
+  },
+  "stabilityAssetsRechecked": 223
+}

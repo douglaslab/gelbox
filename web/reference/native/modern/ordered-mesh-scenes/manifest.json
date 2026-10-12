@@ -1,0 +1,80 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "sourceSha256": {
+    "src/GelboxApp.cpp": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+    "src/GelView.cpp": "20159d314759e38b6e2f626fba2c5a401eb4cbf894f15682c597c6145e96a3e6",
+    "src/View.cpp": "779407bb1a374f55a3b54afc5bbe82c3b73d87633f3a955b0c93a1da5c7cefae"
+  },
+  "driverSha256": "bc5965e85fac0af8f14adf3878a51574888e54dd069bab290f1c248ea9b1bd6d",
+  "casesSha256": "4cc89a2b90abf0af20cccc13273c2bdffa1527596cf6dae130b68e0f7547ca0d",
+  "executableSha256": "2872f8f42f85bed22fa3def2f5366acd26de8473b092025a31585ee1a2c88294",
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatCaptureIdentical": true,
+  "cases": [
+    {
+      "id": "mixed-blends-1",
+      "scene": "mixed-blends",
+      "scale": 1,
+      "sha256": "04968784bfe760b13f8e5118113aa630c971b26a56533b7dc6362ebc69a0c638"
+    },
+    {
+      "id": "mixed-blends-2",
+      "scene": "mixed-blends",
+      "scale": 2,
+      "sha256": "7059929356d763d55a0c101e5f032bc8e203ffb3c416235b411d2b64e8fb4dc7"
+    },
+    {
+      "id": "transform-and-clip-1",
+      "scene": "transform-and-clip",
+      "scale": 1,
+      "sha256": "f207acd8d639eef2d91769351960d690afe9d0deb38b41802c93112fbccaaafd"
+    },
+    {
+      "id": "transform-and-clip-2",
+      "scene": "transform-and-clip",
+      "scale": 2,
+      "sha256": "06d8c5a486c7c6acd26ba5f4ce9ec41fe1d33b5dbcaf991a16b0af17e853de7a"
+    },
+    {
+      "id": "empty-and-reset-1",
+      "scene": "empty-and-reset",
+      "scale": 1,
+      "sha256": "dd97b792a72ab8b5fef8c5f4fa2442f0b390e41b510d1dc7687477f8a5a6d5c9"
+    },
+    {
+      "id": "empty-and-reset-2",
+      "scene": "empty-and-reset",
+      "scale": 2,
+      "sha256": "b327832ae0ad892e4b9c558040491af6388abff5d6fbce2d639f7304120668ff"
+    },
+    {
+      "id": "empty-scene-1",
+      "scene": "empty-scene",
+      "scale": 1,
+      "sha256": "c815ad6e2d891f5b895f5a0b8097a624561106559ebca442160b37b89152e2fe"
+    },
+    {
+      "id": "empty-scene-2",
+      "scene": "empty-scene",
+      "scale": 2,
+      "sha256": "b32db4c75d58c99c00827ecd3e1fb0913aff22e6a9a9aa107c6e24611005bff2"
+    },
+    {
+      "id": "clip-before-wells-1",
+      "scene": "clip-before-wells",
+      "scale": 1,
+      "sha256": "22afa712a15c7cd378d5e9a0ed419527676baea7aaaeab191f50d4a7c0167968"
+    },
+    {
+      "id": "clip-before-wells-2",
+      "scene": "clip-before-wells",
+      "scale": 2,
+      "sha256": "c8b999e700a562d9b4a1f681c28bcc732151f51029ff5a09f1bca5182c4fb77b"
+    }
+  ],
+  "limits": [
+    "Constructed standalone CGL scenes using native draw-state contracts; not original GUI captures.",
+    "Logical positive-Y coordinates/raw row order; scissor coordinates multiplied by DPR; physical one-pixel lines.",
+    "64x64 display-domain RGBA8 MSAA4; opaque RGB comparison. No textures or app integration."
+  ]
+}

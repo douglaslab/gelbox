@@ -1,0 +1,38 @@
+
+Running 2 tests using 2 workers
+
+(node:26033) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26034) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/120
+Lifecycle cycles completed: 10/120
+Lifecycle cycles completed: 20/120
+Lifecycle cycles completed: 20/120
+Lifecycle cycles completed: 30/120
+Lifecycle cycles completed: 30/120
+Lifecycle cycles completed: 40/120
+Lifecycle cycles completed: 40/120
+Lifecycle cycles completed: 50/120
+Lifecycle cycles completed: 50/120
+Lifecycle cycles completed: 60/120
+Lifecycle cycles completed: 60/120
+Lifecycle cycles completed: 70/120
+Lifecycle cycles completed: 70/120
+Lifecycle cycles completed: 80/120
+Lifecycle cycles completed: 80/120
+Lifecycle cycles completed: 90/120
+Lifecycle cycles completed: 90/120
+Lifecycle cycles completed: 100/120
+Lifecycle cycles completed: 100/120
+Lifecycle cycles completed: 110/120
+Lifecycle cycles completed: 110/120
+Lifecycle cycles completed: 120/120
+Lifecycle cycles completed: 120/120
+  ✓  2 [chromium-webgpu] › ../../gel-browser-compat-1.64/frozen-session/performance/view-churn.spec.ts:12:5 › compiled repeated sample/loupe disposal and resize release owned GPU resources (2.0h)
+  ✓  1 [chromium-webgl2] › ../../gel-browser-compat-1.64/frozen-session/performance/view-churn.spec.ts:12:5 › compiled repeated sample/loupe disposal and resize release owned GPU resources (2.0h)
+
+  Slow test file: [chromium-webgl2] › ../../gel-browser-compat-1.64/frozen-session/performance/view-churn.spec.ts (2.0h)
+  Slow test file: [chromium-webgpu] › ../../gel-browser-compat-1.64/frozen-session/performance/view-churn.spec.ts (2.0h)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  2 passed (2.0h)

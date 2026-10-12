@@ -1,0 +1,38 @@
+browserType.launchPersistentContext: Failed to launch the browser process.
+Browser logs:
+
+<launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /Users/shawn/Library/Caches/gel-firefox-profile-probe -juggler-pipe about:blank
+<launched> pid=46792
+[pid=46792][err] *** You are running in headless mode.
+[pid=46792][err] Could not find profile folder.
+[pid=46792] <process did exit: exitCode=1, signal=null>
+[pid=46792] starting temporary directories cleanup
+Call log:
+[2m  - <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /Users/shawn/Library/Caches/gel-firefox-profile-probe -juggler-pipe about:blank[22m
+[2m  - <launched> pid=46792[22m
+[2m  - [pid=46792][err] *** You are running in headless mode.[22m
+[2m  - [pid=46792][err] Could not find profile folder.[22m
+[2m  - [pid=46792] <process did exit: exitCode=1, signal=null>[22m
+[2m  - [pid=46792] starting temporary directories cleanup[22m
+[2m  - [pid=46792] <gracefully close start>[22m
+[2m  - [pid=46792] <kill>[22m
+[2m  - [pid=46792] <skipped force kill spawnedProcess.killed=false processClosed=true>[22m
+[2m  - [pid=46792] finished temporary directories cleanup[22m
+[2m  - [pid=46792] <gracefully close end>[22m
+
+    at async file:///Users/shawn/code/gel/[eval1]:3:16 {
+  log: [
+    '  - <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /Users/shawn/Library/Caches/gel-firefox-profile-probe -juggler-pipe about:blank',
+    '  - <launched> pid=46792',
+    '  - [pid=46792][err] *** You are running in headless mode.',
+    '  - [pid=46792][err] Could not find profile folder.',
+    '  - [pid=46792] <process did exit: exitCode=1, signal=null>',
+    '  - [pid=46792] starting temporary directories cleanup',
+    '  - [pid=46792] <gracefully close start>',
+    '  - [pid=46792] <kill>',
+    '  - [pid=46792] <skipped force kill spawnedProcess.killed=false processClosed=true>',
+    '  - [pid=46792] finished temporary directories cleanup',
+    '  - [pid=46792] <gracefully close end>'
+  ],
+  name: 'Error'
+}

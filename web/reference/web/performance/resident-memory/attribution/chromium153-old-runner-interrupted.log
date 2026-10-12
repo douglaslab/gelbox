@@ -1,0 +1,110 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.performance.config.ts view-churn.spec.ts --output=/tmp/gel-memory-current-chromium
+
+
+Running 2 tests using 1 worker
+
+(node:13028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-webgpu] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources (5.0m)
+(node:14306) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14306) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-webgl2] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources (1.6m)
+
+
+  1) [chromium-webgpu] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources 
+
+    [31mTest timeout of 300000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 300000ms exceeded.
+    Call log:
+    [2m  - waiting for getByTestId('band-0')[22m
+    [2m    - locator resolved to <rect stroke-width="2" fill="transparent" stroke-opacity="0" data-lane-index="0" data-testid="band-0" stroke="transparent" x="12.928571701049805" y="42.809837341308594" data-fragment-index="0" height="8.96429443359375" width="29.857141494750977"></rect>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div role="alert" data-testid="shared-scene-error">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div role="alert" data-testid="shared-scene-error">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m    562 × waiting for element to be visible, enabled and stable[22m
+    [2m        - element is visible, enabled and stable[22m
+    [2m        - scrolling into view if needed[22m
+    [2m        - done scrolling[22m
+    [2m        - <div role="alert" data-testid="shared-scene-error">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m      - retrying click action[22m
+    [2m        - waiting 500ms[22m
+
+
+      62 |  const count=()=>page.evaluate(()=>(window as any).__liveResources.size);
+      63 |  const cycle=async()=>{
+    > 64 |   await page.getByTestId('band-0').click();
+         |                                    ^
+      65 |   await expect.poll(async()=>Number(await page.getByTestId('molecular-sim-canvas').getAttribute('data-alive-count'))).toBeGreaterThan(0);
+      66 |   for(let j=0;j<2;j++){
+      67 |    const band=(await page.getByTestId(j===0?'band-0':'band-9').boundingBox())!;
+        at cycle (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/performance/view-churn.spec.ts:64:36)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/performance/view-churn.spec.ts:94:8
+
+  2) [chromium-webgl2] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources 
+
+    Test was interrupted.
+
+    Error: locator.click: Test ended.
+    Call log:
+    [2m  - waiting for getByTestId('band-0')[22m
+    [2m    - locator resolved to <rect stroke-width="2" fill="transparent" stroke-opacity="0" data-lane-index="0" data-testid="band-0" stroke="transparent" x="12.928571701049805" y="42.809837341308594" data-fragment-index="0" height="8.96429443359375" width="29.857141494750977"></rect>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div role="alert" data-testid="shared-scene-error">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div role="alert" data-testid="shared-scene-error">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m    181 × waiting for element to be visible, enabled and stable[22m
+    [2m        - element is visible, enabled and stable[22m
+    [2m        - scrolling into view if needed[22m
+    [2m        - done scrolling[22m
+    [2m        - <div role="alert" data-testid="shared-scene-error">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m      - retrying click action[22m
+    [2m        - waiting 500ms[22m
+
+
+      62 |  const count=()=>page.evaluate(()=>(window as any).__liveResources.size);
+      63 |  const cycle=async()=>{
+    > 64 |   await page.getByTestId('band-0').click();
+         |                                    ^
+      65 |   await expect.poll(async()=>Number(await page.getByTestId('molecular-sim-canvas').getAttribute('data-alive-count'))).toBeGreaterThan(0);
+      66 |   for(let j=0;j<2;j++){
+      67 |    const band=(await page.getByTestId(j===0?'band-0':'band-9').boundingBox())!;
+        at cycle (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/performance/view-churn.spec.ts:64:36)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/performance/view-churn.spec.ts:94:8
+
+  Slow test file: [chromium-webgpu] › view-churn.spec.ts (5.0m)
+  Slow test file: [chromium-webgl2] › view-churn.spec.ts (1.6m)
+  Consider splitting slow test files to speed up parallel execution
+  1 failed
+    [chromium-webgpu] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources 
+  1 interrupted
+    [chromium-webgl2] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources 

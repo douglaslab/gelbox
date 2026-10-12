@@ -1,0 +1,17 @@
+
+Running 6 tests using 2 workers
+
+(node:22039) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22038) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:67:6 › original GUI fractional boundary y61 (1.1s)
+  ✓  3 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:67:6 › original GUI fractional boundary y69 (470ms)
+(node:22069) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:67:6 › original GUI fractional boundary y61 (585ms)
+  ✓  5 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:67:6 › original GUI fractional boundary y63 (473ms)
+  ✓  6 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:67:6 › original GUI fractional boundary y69 (430ms)
+  ✓  1 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:67:6 › original GUI fractional boundary y63 (6.8s)
+
+  6 passed (8.1s)

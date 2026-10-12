@@ -1,0 +1,17 @@
+{
+  "compiledAssets": "../compiled-assets.json",
+  "artifacts": {
+    "README.md": "2d2444650745731a338a07e747504490d2e25b95de8eacdd7fa9b556440bb151",
+    "diagnostic/metal.config.ts": "72fcc4f84550d79e9966c6b4a5f046c8262545894b522e3a0ebdd03e2b23fcba",
+    "diagnostic/performance/view-churn.spec.ts": "a4fbe497ec75d25d4cc5b3eea3afb6cc7bc296139b89db7d20f22b0555d8feee",
+    "diagnostic/production/built-app.ts": "2099582051fc33841c53024849aeb495d1e1138f259a05cf535e5c596c395cde",
+    "paused-attempt/README.md": "361771983ac546599ce07be2e8ef78401595d3f9f663cd22efcc1064e84f2f84",
+    "paused-attempt/diagnostic/metal.config.ts": "72fcc4f84550d79e9966c6b4a5f046c8262545894b522e3a0ebdd03e2b23fcba",
+    "paused-attempt/diagnostic/performance/view-churn.spec.ts": "ccc260b98bce4f2f783aa98c0625aebde8f7460d781aa1079b76da7401d90ce7",
+    "paused-attempt/diagnostic/production/built-app.ts": "2099582051fc33841c53024849aeb495d1e1138f259a05cf535e5c596c395cde",
+    "paused-attempt/manifest.json": "f91b0122c3fe403d9b2baa83f59527d28e256a5f470e3e2a6df59bf7452fc3a4",
+    "paused-attempt/run.log.gz": "3d7c433e99052f368721a6e60a42d04640057f4e67a586f309581ca8e0b8a38a",
+    "resource-lifecycle.json": "71a46bc18e1a1a74692a7f351588dd16600a8b97468f45aec2111f8a1c1fc6a6",
+    "run.log.gz": "f320299629136befca92749f7f1e34fc1b71f39d2008516ce1873aba08e9d7fb"
+  }
+}

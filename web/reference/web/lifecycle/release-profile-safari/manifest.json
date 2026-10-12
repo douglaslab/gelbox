@@ -1,0 +1,9 @@
+{
+  "files": {
+    "README.md": "32bf348bf5e7d72fd98ca69a5d6516628b66e11d990cb9677d8090ff7b9d9450",
+    "after.json": "81dc9883a620af26f74e3700df227dac7ce34ec314923c70ed68f0d47d22517f",
+    "before.json": "81dc9883a620af26f74e3700df227dac7ce34ec314923c70ed68f0d47d22517f",
+    "environment.json": "b26f051abd5998aea5ddc7512c02211087bca820882fe0f01344353b68cb4b0d"
+  },
+  "documentEquality": "exact parsed JSON"
+}

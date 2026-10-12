@@ -1,0 +1,101 @@
+{
+  "scope": "Analysis of retained run, not a new execution or a resident-memory budget claim",
+  "backends": {
+    "webgpu": {
+      "sourceSha256": "00dedbbab7c7bcf3f472cbd1d563b36eade448ee60505602b9ff30657cef4efc",
+      "cycles": [
+        500,
+        1000
+      ],
+      "sampleCount": 51,
+      "heap": {
+        "usedSize": {
+          "initialBytes": 7767592,
+          "finalBytes": 7793568,
+          "netBytes": 25976,
+          "minimumBytes": 7687760,
+          "maximumBytes": 7873792,
+          "slopeBytesPerCycle": -114.1592036199095
+        },
+        "embedderHeapUsedSize": {
+          "initialBytes": 1631968,
+          "finalBytes": 1342352,
+          "netBytes": -289616,
+          "minimumBytes": 1319344,
+          "maximumBytes": 1749008,
+          "slopeBytesPerCycle": -240.37842533936652
+        },
+        "backingStorageSize": {
+          "initialBytes": 805414,
+          "finalBytes": 722273,
+          "netBytes": -83141,
+          "minimumBytes": 722273,
+          "maximumBytes": 805414,
+          "slopeBytesPerCycle": -115.64609049773756
+        }
+      },
+      "domRanges": {
+        "documents": [
+          1,
+          1
+        ],
+        "nodes": [
+          154,
+          154
+        ],
+        "jsEventListeners": [
+          221,
+          221
+        ]
+      }
+    },
+    "webgl2": {
+      "sourceSha256": "3b63ac888c2ad25c408460edf43507ef69d36432e76a7bcc4fc2a1f7e9cdc0af",
+      "cycles": [
+        500,
+        1000
+      ],
+      "sampleCount": 51,
+      "heap": {
+        "usedSize": {
+          "initialBytes": 7812116,
+          "finalBytes": 7807540,
+          "netBytes": -4576,
+          "minimumBytes": 7773208,
+          "maximumBytes": 8607232,
+          "slopeBytesPerCycle": -194.25654298642533
+        },
+        "embedderHeapUsedSize": {
+          "initialBytes": 1606288,
+          "finalBytes": 1339400,
+          "netBytes": -266888,
+          "minimumBytes": 1339400,
+          "maximumBytes": 1887656,
+          "slopeBytesPerCycle": -170.79196380090497
+        },
+        "backingStorageSize": {
+          "initialBytes": 787388,
+          "finalBytes": 704500,
+          "netBytes": -82888,
+          "minimumBytes": 704500,
+          "maximumBytes": 787388,
+          "slopeBytesPerCycle": -92.3961628959276
+        }
+      },
+      "domRanges": {
+        "documents": [
+          1,
+          1
+        ],
+        "nodes": [
+          153,
+          153
+        ],
+        "jsEventListeners": [
+          221,
+          221
+        ]
+      }
+    }
+  }
+}

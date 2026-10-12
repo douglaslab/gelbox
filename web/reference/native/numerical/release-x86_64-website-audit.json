@@ -1,0 +1,45 @@
+{
+  "sourceCommit": "812ff8a588d6fbc238e5e5f75dc9f58ab6f387fe",
+  "assetCount": 223,
+  "assetHashesVerified": true,
+  "nativeDownloadsVerified": {
+    "Gelbox1.0.1-arm64.dmg": "6806be071f60ee1115fa36c77ec83621c1df0b802156b2560c089a26e96af8c8",
+    "Gelbox1.0.1-source.tar.gz": "8d2095c237b95a42b1c06eeac99b0caa9dcc09982da424b8c7e493f784d4615a"
+  },
+  "routes": {
+    "/gelbox/": {
+      "status": 200,
+      "bytes": 31875
+    },
+    "/gelbox/app/": {
+      "status": 200,
+      "bytes": 393
+    },
+    "/gelbox/app/release.json": {
+      "status": 200,
+      "bytes": 25795
+    },
+    "/gelbox/releases/1.0.1.html": {
+      "status": 200,
+      "bytes": 2111
+    },
+    "/gelbox/releases/1.0.1.json": {
+      "status": 200,
+      "bytes": 15220
+    },
+    "/gelbox/files/Gelbox1.0.1-arm64.dmg": {
+      "status": 200,
+      "bytes": 4515610
+    },
+    "/gelbox/files/Gelbox1.0.dmg": {
+      "status": 200,
+      "bytes": 9020928
+    },
+    "/gelbox/files/Gelbox1.0.1-source.tar.gz": {
+      "status": 200,
+      "bytes": 2386612
+    }
+  },
+  "published": false,
+  "websiteCommit": "03d8cf9"
+}

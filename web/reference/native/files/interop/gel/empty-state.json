@@ -1,0 +1,21 @@
+{
+  "buffer": {
+    "Acetate": 8.5,
+    "Borate": 0.0,
+    "EDTA": 0.5,
+    "Tris": 12.25
+  },
+  "samples": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "time": 0.625,
+  "visibleLanes": 7,
+  "voltage": 83.5,
+  "wellDamage": 0.125
+}

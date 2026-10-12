@@ -1,0 +1,18 @@
+{
+  "compiledAssets": "../compiled-assets.json",
+  "artifacts": {
+    "README.md": "5d546ef60003cb12e7a05db15feeb61f73b019bf0bd250c1f7000e1a3c5b6d5d",
+    "chromium-buffer-bound.json": "571d2d70de1c49ea26e38ec6c209ce7c54d1a8059c6d336804010052baa4c3d9",
+    "diagnostic/metal.config.ts": "72fcc4f84550d79e9966c6b4a5f046c8262545894b522e3a0ebdd03e2b23fcba",
+    "diagnostic/performance/view-churn.spec.ts": "f65a42dba284ed6f3a0cdfc91b1e59571b19c71a9f35d4f2acf688140e50c3c0",
+    "diagnostic/production/built-app.ts": "2099582051fc33841c53024849aeb495d1e1138f259a05cf535e5c596c395cde",
+    "heap-10.heapsnapshot.gz": "9a24400c3747c3d97e08dd178f8400912d9b10f339702d3456b03dc0f2838aa3",
+    "heap-30.heapsnapshot.gz": "93981bfe4c229d5aa26876c02ceac14d3a0e9d293f51622390e93cd0b84688c2",
+    "inspect-retainers.py": "89accc816cf674bdde6814754b1bf75014a37cc1dcf7c6fd2888916303c3fd51",
+    "resource-lifecycle.json": "5e265cbcc8629a5985fe7a6544dcf563d1a5479bdd30a48f13a65688e36f2a17",
+    "retainer-paths.txt": "36bf9d384568ef8207d41b7830bcd6a64f418994fa2d36b2533269d1d4ad7426",
+    "run.log.gz": "f2df51ab59302c8f78de6a0d18c7f33a412c54ca835b1ca9042d20336b68d2cc",
+    "shallow-delta.json.gz": "52ddab527e090a43b7a1c1709280dac11947363902fa706b48672a2d6882f1e5",
+    "type-deltas.json": "dcd4156c0860f79d27e0f20277b5c8ebc88f3d5131e3efbc4e0392ac677fad04"
+  }
+}

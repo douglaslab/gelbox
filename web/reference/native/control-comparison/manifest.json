@@ -1,0 +1,12 @@
+{
+  "nativeBinarySha256": "037514b74bd7fcb673b7a276749fd31bfeabc0773fd11b790457412e905a78a7",
+  "nativeSourceEquivalence": "unverified",
+  "sourceTarget": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "webBaseCommit": "d8030f661f30fa2dcacd09452bf1495705ede730",
+  "afterChange": "SliderView barLabel baseline: top calc(100% - 21px), line-height 18px, no translateY",
+  "captures": {
+    "web-settings-before.png": "04594f7bb8c1c39ba696222a2472c5fd7eef74df0db276e52c92ffe470d9e7f8",
+    "native-settings.jpg": "7fe9704019093fade13e50895e307fc1e966ad985fe6b66230a888831a41bafd",
+    "web-settings-after.png": "8d77b592ef057ad7ca99130ff236c81c3c2d93e7460201abc4f03c53c838bc01"
+  }
+}

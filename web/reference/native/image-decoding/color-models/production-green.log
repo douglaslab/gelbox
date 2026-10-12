@@ -1,0 +1,212 @@
+
+> @douglaslab/gel@0.0.1 test:production
+> npm run build && playwright test -c playwright.production.config.ts
+
+
+> @douglaslab/gel@0.0.1 build
+> tsc -b && vite build
+
+vite v5.4.11 building for production...
+transforming...
+✓ 213 modules transformed.
+rendering chunks...
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/sceneImageTexture.ts is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/SharedReferenceImage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/sceneAssets.ts, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/sim/gelSim.ts is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevSimPage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/gelScene.ts, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/sim/solver.ts, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/fixtures/states/ladder-1kb.json is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevSimPage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/gelState.ts, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gpu/device.ts is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/DirectBandCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/GelCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/ScenePresentation.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/sample/SampleSimCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gel/backend.ts, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevSimPage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevMultiPage.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevPage.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevPerfPage.tsx, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/lib/gpu/context.ts is dynamically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/DirectBandCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/GelCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/gel/ScenePresentation.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/components/sample/SampleSimCanvas.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevSimPage.tsx but also statically imported by /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevMultiPage.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevPage.tsx, /Users/shawn/.codex/worktrees/3f9f/gel/ts/src/routes/DevPerfPage.tsx, dynamic import will not move module into another chunk.
+
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+[plugin @tailwindcss/vite:generate:build] Sourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help
+computing gzip size...
+dist/index.html                                             0.39 kB │ gzip:   0.27 kB
+dist/assets/inter-vietnamese-400-normal-DMkecbls.woff2      4.97 kB
+dist/assets/inter-vietnamese-700-normal-DlLaEgI2.woff2      5.10 kB
+dist/assets/inter-vietnamese-500-normal-DOriooB6.woff2      5.11 kB
+dist/assets/inter-greek-ext-400-normal-DGGRlc-M.woff2       5.26 kB
+dist/assets/inter-greek-ext-500-normal-C4iEst2y.woff2       5.43 kB
+dist/assets/inter-greek-ext-700-normal-qfdV9bQt.woff2       5.44 kB
+dist/assets/inter-vietnamese-400-normal-Bbgyi5SW.woff       6.50 kB
+dist/assets/inter-vietnamese-500-normal-mJboJaSs.woff       6.60 kB
+dist/assets/inter-vietnamese-700-normal-BZaoP0fm.woff       6.63 kB
+dist/assets/inter-greek-ext-400-normal-KugGGMne.woff        7.06 kB
+dist/assets/inter-greek-ext-500-normal-2j5mBUwD.woff        7.19 kB
+dist/assets/inter-greek-ext-700-normal-BoQ6DsYi.woff        7.22 kB
+dist/assets/inter-cyrillic-400-normal-obahsSVq.woff2        7.71 kB
+dist/assets/inter-greek-400-normal-B4URO6DV.woff2           7.78 kB
+dist/assets/inter-cyrillic-500-normal-BasfLYem.woff2        7.90 kB
+dist/assets/inter-cyrillic-700-normal-CjBOestx.woff2        7.90 kB
+dist/assets/inter-greek-500-normal-BIZE56-Y.woff2           7.92 kB
+dist/assets/inter-greek-700-normal-C3JjAnD8.woff2           7.92 kB
+dist/assets/inter-cyrillic-400-normal-HOLc17fK.woff         9.78 kB
+dist/assets/inter-cyrillic-700-normal-DrXBdSj3.woff         9.91 kB
+dist/assets/inter-greek-400-normal-q2sYcFCs.woff            9.92 kB
+dist/assets/inter-cyrillic-500-normal-CxZf_p3X.woff         9.94 kB
+dist/assets/inter-greek-500-normal-Xzm54t5V.woff            9.98 kB
+dist/assets/inter-greek-700-normal-BUv2fZ6O.woff            9.98 kB
+dist/assets/inter-cyrillic-ext-400-normal-BQZuk6qB.woff2   10.23 kB
+dist/assets/inter-cyrillic-ext-500-normal-B0yAr1jD.woff2   10.43 kB
+dist/assets/inter-cyrillic-ext-700-normal-BjwYoWNd.woff2   10.50 kB
+dist/assets/inter-cyrillic-ext-400-normal-DQukG94-.woff    13.34 kB
+dist/assets/inter-cyrillic-ext-700-normal-LO58E6JB.woff    13.41 kB
+dist/assets/inter-cyrillic-ext-500-normal-BmqWE9Dz.woff    13.45 kB
+dist/assets/inter-latin-400-normal-C38fXH4l.woff2          23.66 kB
+dist/assets/inter-latin-500-normal-Cerq10X2.woff2          24.27 kB
+dist/assets/inter-latin-700-normal-Yt3aPRUw.woff2          24.36 kB
+dist/assets/inter-latin-400-normal-CyCys3Eg.woff           30.70 kB
+dist/assets/inter-latin-500-normal-BL9OpVg8.woff           31.28 kB
+dist/assets/inter-latin-700-normal-BLAVimhd.woff           31.32 kB
+dist/assets/inter-latin-ext-400-normal-C1nco2VV.woff2      35.00 kB
+dist/assets/inter-latin-ext-500-normal-CV4jyFjo.woff2      36.02 kB
+dist/assets/inter-latin-ext-700-normal-Ca8adRJv.woff2      36.24 kB
+dist/assets/inter-latin-ext-400-normal-77YHD8bZ.woff       47.56 kB
+dist/assets/inter-latin-ext-500-normal-BxGbmqWO.woff       48.49 kB
+dist/assets/inter-latin-ext-700-normal-TidjK2hL.woff       48.63 kB
+dist/assets/index-aSZotJcw.css                             22.39 kB │ gzip:   5.11 kB
+dist/assets/shader-DOwDLr9M.js                              0.25 kB │ gzip:   0.20 kB │ map:     0.98 kB
+dist/assets/context-Bdp54W6L.js                             0.29 kB │ gzip:   0.24 kB │ map:     1.06 kB
+dist/assets/gel-passthrough.frag-C8CjQLHU.js                0.41 kB │ gzip:   0.28 kB │ map:     0.65 kB
+dist/assets/single-band-DjXVxAJG.js                         0.48 kB │ gzip:   0.34 kB │ map:     0.10 kB
+dist/assets/quad-DIZVBlld.js                                0.58 kB │ gzip:   0.41 kB │ map:     1.98 kB
+dist/assets/quad-0DRiqXI7.js                                0.63 kB │ gzip:   0.37 kB │ map:     2.39 kB
+dist/assets/uniforms-CloDekYX.js                            0.63 kB │ gzip:   0.40 kB │ map:     2.58 kB
+dist/assets/passthrough.vert-C2lNNOhN.js                    0.63 kB │ gzip:   0.35 kB │ map:     0.90 kB
+dist/assets/passthrough.vert-Dpbd90Z0.js                    0.91 kB │ gzip:   0.48 kB │ map:     1.23 kB
+dist/assets/gel-passthrough.frag-Cs1BeiKx.js                1.19 kB │ gzip:   0.63 kB │ map:     1.48 kB
+dist/assets/program-DkyvT7kn.js                             1.30 kB │ gzip:   0.66 kB │ map:     4.98 kB
+dist/assets/meshBatch-0EkoqUqc.js                           1.86 kB │ gzip:   0.99 kB │ map:     6.47 kB
+dist/assets/presentationScene-DJs-6lmS.js                   3.41 kB │ gzip:   1.55 kB │ map:    14.88 kB
+dist/assets/meshBatch-BzUxvX2j.js                           3.64 kB │ gzip:   1.62 kB │ map:    10.90 kB
+dist/assets/globalWarp-Bk2L9NII.js                          3.69 kB │ gzip:   1.54 kB │ map:    19.54 kB
+dist/assets/present-gl-BV-nbbe4.js                          8.07 kB │ gzip:   2.63 kB │ map:    21.42 kB
+dist/assets/present-CydHRO3p.js                             8.17 kB │ gzip:   2.71 kB │ map:    21.63 kB
+dist/assets/render-gl-CD7Lsn6a.js                           9.30 kB │ gzip:   2.71 kB │ map:    28.49 kB
+dist/assets/render-DEqh9gP9.js                             15.25 kB │ gzip:   4.04 kB │ map:    50.57 kB
+dist/assets/50-band-2vpD0nLZ.js                            21.40 kB │ gzip:   4.95 kB │ map:     0.10 kB
+dist/assets/index-DCMITND7.js                             409.40 kB │ gzip: 127.10 kB │ map: 1,463.45 kB
+✓ built in 803ms
+
+Running 46 tests using 9 workers
+
+(node:20210) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20209) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20210) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20209) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20206) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20211) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20206) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20211) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20213) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20214) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20213) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20214) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20207) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20207) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  8 [chromium-webgpu] › file-workflow.spec.ts:63:1 › compiled queued mixed drops use the new layout and preserve occupied or full lanes (1.1s)
+  ✓  3 [chromium-webgpu] › image-decoding.spec.ts:65:1 › compiled image drops reject native-unsupported CMYK and continue the batch (1.1s)
+  ✓  7 [chromium-webgpu] › deployment.spec.ts:5:53 › built app at /gelbox/app/ loads controls and roundtrips native files (1.4s)
+  ✓  1 [chromium-webgpu] › deployment.spec.ts:5:53 › built app at /gelbox/ loads controls and roundtrips native files (1.4s)
+  ✓  5 [chromium-webgpu] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences (1.4s)
+  ✓  4 [chromium-webgpu] › deployment.spec.ts:5:53 › built app at / loads controls and roundtrips native files (1.5s)
+  ✓  10 [chromium-webgpu] › import-buffer.spec.ts:6:1 › compiled import keeps the open gel buffer panel bound to the loaded document (360ms)
+  ✓  2 [chromium-webgpu] › hidden-lanes.spec.ts:6:37 › compiled lane controls retain hidden data and reset selection (loupe:false) (1.7s)
+  ✓  6 [chromium-webgpu] › hidden-lanes.spec.ts:6:37 › compiled lane controls retain hidden data and reset selection (loupe:true) (1.9s)
+  ✓  9 [chromium-webgpu] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen (2.0s)
+  ✓  16 [chromium-webgpu] › legacy-files.spec.ts:5:1 › compiled legacy imports normalize native geometry and reject malformed files without replacing the gel (558ms)
+  ✓  17 [chromium-webgpu] › native-composition.spec.ts:8:2 › compiled native edge DPR1 › actual production well and representative preserve native composition (586ms)
+  ✓  18 [chromium-webgpu] › native-composition.spec.ts:8:2 › compiled native edge DPR2 › actual production well and representative preserve native composition (678ms)
+  ✓  14 [chromium-webgpu] › interactions.spec.ts:3:56 › compiled editing and right loupe gestures survive mode changes and resize (1.1s)
+  ✓  12 [chromium-webgpu] › interactions.spec.ts:3:56 › compiled editing and left loupe gestures survive mode changes and resize (1.1s)
+  ✓  15 [chromium-webgpu] › interactions.spec.ts:3:56 › compiled editing and middle loupe gestures survive mode changes and resize (1.3s)
+  ✓  11 [chromium-webgpu] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives loss (1.7s)
+(node:20280) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20280) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20283) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20283) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [chromium-webgpu] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives allocation (2.0s)
+  ✓  23 [chromium-webgpu] › voltage-curvature.spec.ts:5:1 › curvature starts flat, ramps over ten minutes, and reverses with voltage (893ms)
+  ✓  24 [chromium-webgl2] › deployment.spec.ts:5:53 › built app at / loads controls and roundtrips native files (581ms)
+(node:20297) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20297) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20298) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20298) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  26 [chromium-webgl2] › deployment.spec.ts:5:53 › built app at /gelbox/app/ loads controls and roundtrips native files (479ms)
+  ✓  25 [chromium-webgl2] › deployment.spec.ts:5:53 › built app at /gelbox/ loads controls and roundtrips native files (586ms)
+  ✓  29 [chromium-webgl2] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences (439ms)
+  ✓  27 [chromium-webgl2] › hidden-lanes.spec.ts:6:37 › compiled lane controls retain hidden data and reset selection (loupe:false) (1.0s)
+  ✓  32 [chromium-webgl2] › image-decoding.spec.ts:65:1 › compiled image drops reject native-unsupported CMYK and continue the batch (362ms)
+  ✓  31 [chromium-webgl2] › file-workflow.spec.ts:63:1 › compiled queued mixed drops use the new layout and preserve occupied or full lanes (648ms)
+  ✓  28 [chromium-webgl2] › hidden-lanes.spec.ts:6:37 › compiled lane controls retain hidden data and reset selection (loupe:true) (1.1s)
+  ✓  33 [chromium-webgl2] › import-buffer.spec.ts:6:1 › compiled import keeps the open gel buffer panel bound to the loaded document (363ms)
+  ✓  30 [chromium-webgl2] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen (1.3s)
+  ✓  36 [chromium-webgl2] › interactions.spec.ts:3:56 › compiled editing and left loupe gestures survive mode changes and resize (1.1s)
+  ✓  37 [chromium-webgl2] › interactions.spec.ts:3:56 › compiled editing and right loupe gestures survive mode changes and resize (1.1s)
+  ✓  34 [chromium-webgl2] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives loss (1.6s)
+  ✓  35 [chromium-webgl2] › integrated-recovery.spec.ts:5:53 › compiled buffer/loupe/resize workflow survives allocation (1.7s)
+  ✓  39 [chromium-webgl2] › legacy-files.spec.ts:5:1 › compiled legacy imports normalize native geometry and reject malformed files without replacing the gel (549ms)
+  ✓  38 [chromium-webgl2] › interactions.spec.ts:3:56 › compiled editing and middle loupe gestures survive mode changes and resize (1.2s)
+  ✓  40 [chromium-webgl2] › native-composition.spec.ts:8:2 › compiled native edge DPR1 › actual production well and representative preserve native composition (590ms)
+  ✓  21 [chromium-webgpu] › native-window.spec.ts:9:38 › built shared window at / matches native startup and control transitions (4.6s)
+  ✓  41 [chromium-webgl2] › native-composition.spec.ts:8:2 › compiled native edge DPR2 › actual production well and representative preserve native composition (569ms)
+  ✓  19 [chromium-webgpu] › native-composition.spec.ts:8:2 › compiled native background DPR1 › actual production well and representative preserve native composition (5.2s)
+  ✓  22 [chromium-webgpu] › native-window.spec.ts:9:38 › built shared window at /gelbox/ matches native startup and control transitions (4.7s)
+(node:20337) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20337) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  20 [chromium-webgpu] › native-composition.spec.ts:8:2 › compiled native background DPR2 › actual production well and representative preserve native composition (5.3s)
+  ✓  46 [chromium-webgl2] › voltage-curvature.spec.ts:5:1 › curvature starts flat, ramps over ten minutes, and reverses with voltage (879ms)
+  ✓  44 [chromium-webgl2] › native-window.spec.ts:9:38 › built shared window at / matches native startup and control transitions (3.5s)
+  ✓  45 [chromium-webgl2] › native-window.spec.ts:9:38 › built shared window at /gelbox/ matches native startup and control transitions (3.6s)
+  ✓  42 [chromium-webgl2] › native-composition.spec.ts:8:2 › compiled native background DPR1 › actual production well and representative preserve native composition (3.9s)
+  ✓  43 [chromium-webgl2] › native-composition.spec.ts:8:2 › compiled native background DPR2 › actual production well and representative preserve native composition (4.7s)
+
+  46 passed (12.0s)

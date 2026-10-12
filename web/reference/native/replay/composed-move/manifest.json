@@ -1,0 +1,28 @@
+{
+  "executable": "Unmodified official Gelbox 1.0 release",
+  "binarySha256": "037514b74bd7fcb673b7a276749fd31bfeabc0773fd11b790457412e905a78a7",
+  "nativeWindowPixels": [
+    2730,
+    1592
+  ],
+  "clientLogicalSize": [
+    1365,
+    768
+  ],
+  "titlebarPixels": 56,
+  "displayScale": 2,
+  "sourceCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "nativeSaveChangesOnlyLane2To4": true,
+  "method": "CUA original-release GUI input and screenshots; Save Gel raw bytes retained.",
+  "files": {
+    "README.md": "d35ad367cea25d0293fa1e02d3c5ce0e1980c37b645492fded57b8f31eaceb15",
+    "input.json": "e02b84a5c851cf0272f083477bc2e0ef242d6bb160e1274fde5b5d3737a73022",
+    "moved-native.json": "01c0bdd5290e9b35582fb2b7b521bb9c1b468adc730736c78c02cb18ab40ec2f",
+    "moved.jpg": "f3e7317cf1e5199bb60bba558a3bdab4ac57286fd2d66a868cd907393a472ba9",
+    "selected-hover.jpg": "5a28380190730a5365f2f37301cea0c35b82a7ca0502e8b7e3569211ad73f587",
+    "web-webgl2-moved.png": "ed4f81c384f3bc42a3e8c91be50508009e148c2adb4ff210bcc851cc129eb902",
+    "web-webgl2-selected-hover.png": "f30a8c4a5aede50af2b2e7542020f1d67f82cc31ea85988aa444e0e48a38c8da",
+    "web-webgpu-moved.png": "00c77db8ffc1e5d3e7ce3a7a8d1b69c40954a8b3fe60ba8ce9bfea7ded0a794e",
+    "web-webgpu-selected-hover.png": "45e530d9019e56bb18fb2e1b5e76d7a810682e585807ebc12dd261ee51df09ad"
+  }
+}

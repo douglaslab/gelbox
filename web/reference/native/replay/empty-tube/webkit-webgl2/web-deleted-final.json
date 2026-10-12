@@ -1,0 +1,19 @@
+{
+  "Gelbox": {
+    "version": "1.0",
+    "type": "sample"
+  },
+  "Sample": {
+    "name": "",
+    "icon": "",
+    "iconScale": 1,
+    "id": -1,
+    "Buffer": {
+      "Tris": 44.5,
+      "Borate": 44.5,
+      "Acetate": 0,
+      "EDTA": 1
+    },
+    "Fragments": []
+  }
+}

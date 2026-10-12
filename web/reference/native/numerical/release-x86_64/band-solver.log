@@ -1,0 +1,31 @@
+[2m[WebServer] [22m(node:23919) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 2 workers
+
+(node:23923) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:23922) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:23923) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:23922) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium-webgpu] › band-solver.spec.ts:4:68 › multimer drag preserves native tier and offset (clone=true, tied=false) (466ms)
+  ✓  2 [chromium-webgpu] › band-solver.spec.ts:4:68 › multimer drag preserves native tier and offset (clone=false, tied=false) (467ms)
+  ✓  3 [chromium-webgpu] › band-solver.spec.ts:4:68 › multimer drag preserves native tier and offset (clone=false, tied=true) (304ms)
+  ✓  4 [chromium-webgpu] › band-solver.spec.ts:4:68 › multimer drag preserves native tier and offset (clone=true, tied=true) (337ms)
+(node:23934) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:23934) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:23935) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:23935) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [chromium-webgl2] › band-solver.spec.ts:4:68 › multimer drag preserves native tier and offset (clone=false, tied=false) (354ms)
+  ✓  6 [chromium-webgl2] › band-solver.spec.ts:4:68 › multimer drag preserves native tier and offset (clone=true, tied=false) (397ms)
+  ✓  7 [chromium-webgl2] › band-solver.spec.ts:4:68 › multimer drag preserves native tier and offset (clone=false, tied=true) (313ms)
+  ✓  8 [chromium-webgl2] › band-solver.spec.ts:4:68 › multimer drag preserves native tier and offset (clone=true, tied=true) (304ms)
+
+  8 passed (2.6s)

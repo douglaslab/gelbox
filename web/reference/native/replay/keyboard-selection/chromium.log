@@ -1,0 +1,15 @@
+
+Running 2 tests using 2 workers
+
+(node:4242) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4242) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4241) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4241) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium-webgpu] › keyboard-selection.spec.ts:6:1 › compiled backward selection through deselection and last dye matches native deletion (472ms)
+  ✓  1 [chromium-webgl2] › keyboard-selection.spec.ts:6:1 › compiled backward selection through deselection and last dye matches native deletion (474ms)
+
+  2 passed (873ms)

@@ -1,0 +1,36 @@
+{
+   "Gelbox" : {
+      "type" : "sample",
+      "version" : "1.0"
+   },
+   "Sample" : {
+      "Buffer" : {
+         "Acetate" : 0,
+         "Borate" : 44.5,
+         "EDTA" : 1,
+         "Tris" : 44.5
+      },
+      "Fragments" : [
+         {
+            "Aggregate" : [ 1 ],
+            "AspectRatio" : 1,
+            "Bases" : 3001,
+            "Color" : [ 0.25, 0.5, 0.75 ],
+            "Degrade" : 0,
+            "Mass" : 125
+         },
+         {
+            "Aggregate" : [ 1, 0, 0, 0, 0, 0, 0 ],
+            "AspectRatio" : 1,
+            "Bases" : 3001,
+            "Color" : [ 0.96862751245498657, 0.57647061347961426, 0.11764706671237946 ],
+            "Degrade" : 0,
+            "Mass" : 9.312255859375
+         }
+      ],
+      "icon" : "microtube1500ul.png",
+      "iconScale" : 0.625,
+      "id" : 2147483647,
+      "name" : "boundary-bp3001-y219"
+   }
+}

@@ -1,0 +1,186 @@
+{
+  "backend": "chromium-webgpu",
+  "browser": "131.0.6778.33",
+  "cycles": 10,
+  "elapsedMs": 5619,
+  "baseline": 66,
+  "peaks": [
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80
+  ],
+  "closedCycleCounts": [
+    66,
+    66,
+    66,
+    66,
+    66,
+    66,
+    66,
+    66,
+    66,
+    66
+  ],
+  "afterRouteUnmount": 0,
+  "memory": [
+    {
+      "cycle": 0,
+      "usedSize": 5115888,
+      "totalSize": 7077888,
+      "dom": {
+        "documents": 1,
+        "nodes": 158,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 10,
+      "usedSize": 6102648,
+      "totalSize": 8650752,
+      "dom": {
+        "documents": 1,
+        "nodes": 158,
+        "jsEventListeners": 221
+      }
+    },
+    {
+      "cycle": 10.5,
+      "usedSize": 5907804,
+      "totalSize": 7602176,
+      "dom": {
+        "documents": 1,
+        "nodes": 149,
+        "jsEventListeners": 232
+      }
+    },
+    {
+      "cycle": 11,
+      "usedSize": 6152608,
+      "totalSize": 8126464,
+      "dom": {
+        "documents": 1,
+        "nodes": 297,
+        "jsEventListeners": 342
+      }
+    }
+  ],
+  "residentMemory": [
+    {
+      "cycle": 0,
+      "elapsedMs": 542,
+      "processes": [
+        {
+          "pid": 15094,
+          "type": "browser",
+          "rssKiB": 89936
+        },
+        {
+          "pid": 15097,
+          "type": "renderer",
+          "rssKiB": 149344
+        },
+        {
+          "pid": 15095,
+          "type": "GPU",
+          "rssKiB": 93600
+        },
+        {
+          "pid": 15096,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 47136
+        }
+      ],
+      "totalRssKiB": 380016
+    },
+    {
+      "cycle": 10,
+      "elapsedMs": 5407,
+      "processes": [
+        {
+          "pid": 15094,
+          "type": "browser",
+          "rssKiB": 92688
+        },
+        {
+          "pid": 15097,
+          "type": "renderer",
+          "rssKiB": 178928
+        },
+        {
+          "pid": 15095,
+          "type": "GPU",
+          "rssKiB": 107168
+        },
+        {
+          "pid": 15096,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 48400
+        }
+      ],
+      "totalRssKiB": 427184
+    },
+    {
+      "cycle": 10.5,
+      "elapsedMs": 5441,
+      "processes": [
+        {
+          "pid": 15094,
+          "type": "browser",
+          "rssKiB": 92720
+        },
+        {
+          "pid": 15097,
+          "type": "renderer",
+          "rssKiB": 178800
+        },
+        {
+          "pid": 15095,
+          "type": "GPU",
+          "rssKiB": 113152
+        },
+        {
+          "pid": 15096,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 48448
+        }
+      ],
+      "totalRssKiB": 433120
+    },
+    {
+      "cycle": 11,
+      "elapsedMs": 5619,
+      "processes": [
+        {
+          "pid": 15094,
+          "type": "browser",
+          "rssKiB": 92720
+        },
+        {
+          "pid": 15097,
+          "type": "renderer",
+          "rssKiB": 184464
+        },
+        {
+          "pid": 15095,
+          "type": "GPU",
+          "rssKiB": 117184
+        },
+        {
+          "pid": 15096,
+          "type": "network.mojom.NetworkService",
+          "rssKiB": 48480
+        }
+      ],
+      "totalRssKiB": 442848
+    }
+  ],
+  "networkResponseBufferBytes": 1,
+  "scope": "Explicit buffer/texture and GL object destruction. Optional CDP heap samples follow forced GC; final sample is after route remount. Heap observations are not a driver-memory or release-budget assertion. Optional macOS RSS samples cover processes belonging to this test browser, including its GPU process. RSS includes shared pages/caches and is not isolated driver allocation accounting."
+}

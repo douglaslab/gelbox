@@ -1,0 +1,141 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test reference-images.spec.ts shared-image.spec.ts shared-image-native.spec.ts shared-image-mips.spec.ts --output=/tmp/gel-image-workflows-final
+
+
+Running 60 tests using 9 workers
+
+(node:11415) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11416) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11415) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11416) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11412) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11417) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11411) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11414) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11412) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11418) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11417) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11411) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11414) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11418) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11419) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11419) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11413) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11413) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium-webgpu] › reference-images.spec.ts:50:1 › shared:false › multi-file errors preserve successes, document replacement retains images and saves exclude them (803ms)
+  ✓  8 [chromium-webgpu] › reference-images.spec.ts:104:1 › shared:false › a second drop waits for the first decode, retaining arrival order (815ms)
+  ✓  7 [chromium-webgpu] › reference-images.spec.ts:122:1 › shared:false › a mixed file batch picks sample placement using the newly loaded gel layout (815ms)
+  ✓  6 [chromium-webgpu] › reference-images.spec.ts:60:1 › shared:false › fully off-window release deletes; capture loss ends drag without later movement (835ms)
+  ✓  3 [chromium-webgpu] › reference-images.spec.ts:68:1 › shared:false › images and loupes share insertion order; only clicking a loupe raises it (835ms)
+  ✓  9 [chromium-webgpu] › reference-images.spec.ts:77:1 › shared:false › deletion and route unmount each release the owned bitmap exactly once (934ms)
+  ✓  1 [chromium-webgpu] › reference-images.spec.ts:91:1 › shared:false › later sample settings stay below images; later species inspectors append above them (981ms)
+  ✓  4 [chromium-webgpu] › reference-images.spec.ts:24:1 › shared:false › PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position (1.1s)
+  ✓  5 [chromium-webgpu] › reference-images.spec.ts:40:1 › shared:false › GIF uses static first frame, Escape preserves image and Delete owns only image focus (1.1s)
+  ✓  10 [chromium-webgpu] › reference-images.spec.ts:133:1 › shared:false › Open waits for an earlier pending drop before replacing its document (366ms)
+  ✓  11 [chromium-webgpu] › reference-images.spec.ts:153:1 › shared:false › application settings preserves image keyboard ownership until a sample takes focus (576ms)
+  ✓  12 [chromium-webgpu] › reference-images.spec.ts:166:1 › shared:false › earlier reference image remains visible through empty Species panel space (715ms)
+  ✓  13 [chromium-webgpu] › reference-images.spec.ts:24:1 › shared:true › PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position (774ms)
+  ✓  17 [chromium-webgpu] › reference-images.spec.ts:68:1 › shared:true › images and loupes share insertion order; only clicking a loupe raises it (545ms)
+  ✓  15 [chromium-webgpu] › reference-images.spec.ts:50:1 › shared:true › multi-file errors preserve successes, document replacement retains images and saves exclude them (692ms)
+  ✓  14 [chromium-webgpu] › reference-images.spec.ts:40:1 › shared:true › GIF uses static first frame, Escape preserves image and Delete owns only image focus (823ms)
+  ✓  18 [chromium-webgpu] › reference-images.spec.ts:77:1 › shared:true › deletion and route unmount each release the owned bitmap exactly once (527ms)
+  ✓  16 [chromium-webgpu] › reference-images.spec.ts:60:1 › shared:true › fully off-window release deletes; capture loss ends drag without later movement (685ms)
+  ✓  20 [chromium-webgpu] › reference-images.spec.ts:104:1 › shared:true › a second drop waits for the first decode, retaining arrival order (353ms)
+  ✓  19 [chromium-webgpu] › reference-images.spec.ts:91:1 › shared:true › later sample settings stay below images; later species inspectors append above them (701ms)
+  ✓  21 [chromium-webgpu] › reference-images.spec.ts:122:1 › shared:true › a mixed file batch picks sample placement using the newly loaded gel layout (379ms)
+  ✓  22 [chromium-webgpu] › reference-images.spec.ts:133:1 › shared:true › Open waits for an earlier pending drop before replacing its document (457ms)
+  ✓  28 [chromium-webgpu] › shared-image.spec.ts:27:1 › reference image uses shared graphics and releases its texture on removal (483ms)
+  ✓  23 [chromium-webgpu] › reference-images.spec.ts:153:1 › shared:true › application settings preserves image keyboard ownership until a sample takes focus (646ms)
+  ✓  24 [chromium-webgpu] › reference-images.spec.ts:166:1 › shared:true › earlier reference image remains visible through empty Species panel space (750ms)
+  ✓  29 [chromium-webgpu] › shared-image.spec.ts:38:1 › late upload import and late image decode cannot allocate after removal (508ms)
+  ✓  25 [chromium-webgpu] › shared-image-mips.spec.ts:5:1 › reference image decode and generated mip bytes match native Cinder textures (761ms)
+(node:11479) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11479) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11481) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11481) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11483) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11483) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11484) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11484) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  26 [chromium-webgpu] › shared-image-native.spec.ts:7:2 › shared image DPR1 › native ImageView texture, focus and resize frame compose on one surface (1.1s)
+  ✓  30 [chromium-webgpu] › shared-image.spec.ts:58:1 › image survives backend loss and failed upload rollback, then retry reuses its bitmap (927ms)
+  ✓  27 [chromium-webgpu] › shared-image-native.spec.ts:7:2 › shared image DPR2 › native ImageView texture, focus and resize frame compose on one surface (1.2s)
+(node:11499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11501) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11501) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  31 [chromium-webgl2] › reference-images.spec.ts:24:1 › shared:false › PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position (578ms)
+  ✓  32 [chromium-webgl2] › reference-images.spec.ts:50:1 › shared:false › multi-file errors preserve successes, document replacement retains images and saves exclude them (484ms)
+(node:11507) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11507) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  35 [chromium-webgl2] › reference-images.spec.ts:68:1 › shared:false › images and loupes share insertion order; only clicking a loupe raises it (466ms)
+  ✓  36 [chromium-webgl2] › reference-images.spec.ts:77:1 › shared:false › deletion and route unmount each release the owned bitmap exactly once (374ms)
+  ✓  34 [chromium-webgl2] › reference-images.spec.ts:60:1 › shared:false › fully off-window release deletes; capture loss ends drag without later movement (489ms)
+  ✓  33 [chromium-webgl2] › reference-images.spec.ts:40:1 › shared:false › GIF uses static first frame, Escape preserves image and Delete owns only image focus (712ms)
+  ✓  37 [chromium-webgl2] › reference-images.spec.ts:133:1 › shared:false › Open waits for an earlier pending drop before replacing its document (257ms)
+  ✓  38 [chromium-webgl2] › reference-images.spec.ts:153:1 › shared:false › application settings preserves image keyboard ownership until a sample takes focus (503ms)
+  ✓  45 [chromium-webgl2] › reference-images.spec.ts:60:1 › shared:true › fully off-window release deletes; capture loss ends drag without later movement (495ms)
+  ✓  44 [chromium-webgl2] › reference-images.spec.ts:50:1 › shared:true › multi-file errors preserve successes, document replacement retains images and saves exclude them (521ms)
+  ✓  39 [chromium-webgl2] › reference-images.spec.ts:166:1 › shared:false › earlier reference image remains visible through empty Species panel space (636ms)
+  ✓  40 [chromium-webgl2] › reference-images.spec.ts:24:1 › shared:true › PNG/JPG drops preserve dimensions, order, focus, resize and fixed window position (668ms)
+  ✓  41 [chromium-webgl2] › reference-images.spec.ts:40:1 › shared:true › GIF uses static first frame, Escape preserves image and Delete owns only image focus (742ms)
+  ✓  43 [chromium-webgl2] › reference-images.spec.ts:104:1 › shared:false › a second drop waits for the first decode, retaining arrival order (505ms)
+  ✓  46 [chromium-webgl2] › reference-images.spec.ts:122:1 › shared:false › a mixed file batch picks sample placement using the newly loaded gel layout (428ms)
+  ✓  47 [chromium-webgl2] › reference-images.spec.ts:68:1 › shared:true › images and loupes share insertion order; only clicking a loupe raises it (543ms)
+  ✓  42 [chromium-webgl2] › reference-images.spec.ts:91:1 › shared:false › later sample settings stay below images; later species inspectors append above them (728ms)
+  ✓  48 [chromium-webgl2] › reference-images.spec.ts:77:1 › shared:true › deletion and route unmount each release the owned bitmap exactly once (447ms)
+  ✓  49 [chromium-webgl2] › reference-images.spec.ts:104:1 › shared:true › a second drop waits for the first decode, retaining arrival order (452ms)
+  ✓  51 [chromium-webgl2] › reference-images.spec.ts:122:1 › shared:true › a mixed file batch picks sample placement using the newly loaded gel layout (488ms)
+  ✓  52 [chromium-webgl2] › reference-images.spec.ts:133:1 › shared:true › Open waits for an earlier pending drop before replacing its document (432ms)
+  ✓  50 [chromium-webgl2] › reference-images.spec.ts:91:1 › shared:true › later sample settings stay below images; later species inspectors append above them (689ms)
+  ✓  53 [chromium-webgl2] › reference-images.spec.ts:153:1 › shared:true › application settings preserves image keyboard ownership until a sample takes focus (679ms)
+  ✓  58 [chromium-webgl2] › shared-image.spec.ts:27:1 › reference image uses shared graphics and releases its texture on removal (388ms)
+  ✓  54 [chromium-webgl2] › reference-images.spec.ts:166:1 › shared:true › earlier reference image remains visible through empty Species panel space (742ms)
+  ✓  59 [chromium-webgl2] › shared-image.spec.ts:38:1 › late upload import and late image decode cannot allocate after removal (485ms)
+  ✓  55 [chromium-webgl2] › shared-image-mips.spec.ts:5:1 › reference image decode and generated mip bytes match native Cinder textures (749ms)
+  ✓  56 [chromium-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR1 › native ImageView texture, focus and resize frame compose on one surface (1.1s)
+  ✓  60 [chromium-webgl2] › shared-image.spec.ts:58:1 › image survives backend loss and failed upload rollback, then retry reuses its bitmap (981ms)
+  ✓  57 [chromium-webgl2] › shared-image-native.spec.ts:7:2 › shared image DPR2 › native ImageView texture, focus and resize frame compose on one surface (1.1s)
+
+  60 passed (6.3s)

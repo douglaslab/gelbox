@@ -1,0 +1,26 @@
+✔ webgpu recorded workload meets budget (0.531708ms)
+✔ webgl2 recorded workload meets budget (0.094458ms)
+✔ rejects missing all particles (0.160084ms)
+✔ rejects empty loupe after steady measurement (0.082792ms)
+✔ rejects missing sample after gesture (0.077541ms)
+✔ rejects duplicate loupe identity (0.058333ms)
+✔ rejects slower steady frames (0.059542ms)
+✔ rejects steady tail regression (0.057584ms)
+✔ rejects callback cost regression (0.066416ms)
+✔ rejects gesture stutter (0.096791ms)
+✔ rejects gesture tail regression (0.064834ms)
+✔ rejects steady resource leak (0.069625ms)
+✔ rejects gesture resource leak (0.069ms)
+✔ rejects inactive resource ledger (0.060833ms)
+✔ rejects missing timing (0.063334ms)
+✔ rejects unsupported hardware (0.048125ms)
+✔ rejects short observation (0.05ms)
+✔ rejects different workload (0.038292ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 79.145541

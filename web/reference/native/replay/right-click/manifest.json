@@ -1,0 +1,32 @@
+{
+  "runtime_source": "4ba0139",
+  "native_binary_sha256": "037514b74bd7fcb673b7a276749fd31bfeabc0773fd11b790457412e905a78a7",
+  "tests": {
+    "chromium-webgpu": "passed",
+    "chromium-webgl2": "passed",
+    "firefox-webgl2": "passed",
+    "webkit-webgl2": "passed"
+  },
+  "files": {
+    "compatibility/right-click-compiled-right-ee478-etion-match-original-native-firefox-webgl2/empty-after-deletion.png": "0b4b62078809dc5888378aec9772c912749cb200e914d1c4de13a140bd20eb4c",
+    "compatibility/right-click-compiled-right-ee478-etion-match-original-native-firefox-webgl2/web-deleted-final.json": "d11256b53f65a66481dc8b1a8095e94218f4a1a34c49b3dcfee0a25ba61c9462",
+    "compatibility/right-click-compiled-right-ee478-etion-match-original-native-firefox-webgl2/web-edited.json": "0762a4724f0002588ec89f1a3970c97bd37b180e9d2a6d9075601190fa63ac25",
+    "compatibility/right-click-compiled-right-ee478-etion-match-original-native-firefox-webgl2/web-gel-after-deletion.json": "a2cbcb5bf60b2e991c71a5375d0e7d15739149a16021495a4ad936a6be968b79",
+    "compatibility/right-click-compiled-right-ee478-etion-match-original-native-webkit-webgl2/empty-after-deletion.png": "5c8374af02be512126c1b8368c407649cfa6e2677040aa8df5297be636e52332",
+    "compatibility/right-click-compiled-right-ee478-etion-match-original-native-webkit-webgl2/web-deleted-final.json": "d11256b53f65a66481dc8b1a8095e94218f4a1a34c49b3dcfee0a25ba61c9462",
+    "compatibility/right-click-compiled-right-ee478-etion-match-original-native-webkit-webgl2/web-edited.json": "0762a4724f0002588ec89f1a3970c97bd37b180e9d2a6d9075601190fa63ac25",
+    "compatibility/right-click-compiled-right-ee478-etion-match-original-native-webkit-webgl2/web-gel-after-deletion.json": "a2cbcb5bf60b2e991c71a5375d0e7d15739149a16021495a4ad936a6be968b79",
+    "input.json": "744d758185f8a67ae88f3481084653bd289f019cce81b74a68c9d9157bd7b981",
+    "native-created.json": "a51ea0e6f943a72048520ce2df9e6b52c175d05690139d0f9be86a23e49d1ee7",
+    "native-deleted.json": "9c9f52dfded5c96c17e05d3ecf05528c7b427c6c8a5b7f14aac580a27dcf1ddf",
+    "native-edited.json": "46e7414a362e4673cc0f4a8777971cc20d14754cdf9f7420f75dd0a34cb037db",
+    "production/right-click-compiled-right-ee478-etion-match-original-native-chromium-webgl2/empty-after-deletion.png": "cee761dfe96ab34573d306c8a94890a5f5e65440263033696108f92f5b31c249",
+    "production/right-click-compiled-right-ee478-etion-match-original-native-chromium-webgl2/web-deleted-final.json": "d11256b53f65a66481dc8b1a8095e94218f4a1a34c49b3dcfee0a25ba61c9462",
+    "production/right-click-compiled-right-ee478-etion-match-original-native-chromium-webgl2/web-edited.json": "0762a4724f0002588ec89f1a3970c97bd37b180e9d2a6d9075601190fa63ac25",
+    "production/right-click-compiled-right-ee478-etion-match-original-native-chromium-webgl2/web-gel-after-deletion.json": "a2cbcb5bf60b2e991c71a5375d0e7d15739149a16021495a4ad936a6be968b79",
+    "production/right-click-compiled-right-ee478-etion-match-original-native-chromium-webgpu/empty-after-deletion.png": "cee761dfe96ab34573d306c8a94890a5f5e65440263033696108f92f5b31c249",
+    "production/right-click-compiled-right-ee478-etion-match-original-native-chromium-webgpu/web-deleted-final.json": "d11256b53f65a66481dc8b1a8095e94218f4a1a34c49b3dcfee0a25ba61c9462",
+    "production/right-click-compiled-right-ee478-etion-match-original-native-chromium-webgpu/web-edited.json": "0762a4724f0002588ec89f1a3970c97bd37b180e9d2a6d9075601190fa63ac25",
+    "production/right-click-compiled-right-ee478-etion-match-original-native-chromium-webgpu/web-gel-after-deletion.json": "a2cbcb5bf60b2e991c71a5375d0e7d15739149a16021495a4ad936a6be968b79"
+  }
+}

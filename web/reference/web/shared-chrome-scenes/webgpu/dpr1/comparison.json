@@ -1,0 +1,62 @@
+[
+  {
+    "id": "help-idle-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "help-hover-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "help-down-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "help-covered-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "brace-idle-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "brace-covered-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "settings-idle-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "settings-hover-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "settings-down-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  },
+  {
+    "id": "settings-covered-1",
+    "different": 0,
+    "max": 0,
+    "first": []
+  }
+]

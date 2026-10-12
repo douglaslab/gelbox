@@ -1,0 +1,98 @@
+[
+  {
+    "backend": "chromium-webgl2",
+    "browser": "131.0.6778.33",
+    "cycles": 300,
+    "elapsedMs": 142222,
+    "samples": 31,
+    "closedObjects": 37,
+    "peakObjects": 51,
+    "afterRouteUnmount": 0,
+    "metrics": {
+      "total": {
+        "initialMiB": 352.9375,
+        "finalMiB": 514.921875,
+        "peakMiB": 514.921875,
+        "medianCycles50to100MiB": 410.0703125,
+        "medianLast50CyclesMiB": 504.0078125,
+        "medianGrowthMiB": 93.9375,
+        "lastHalfSlopeKiBPerCycle": 458.23058823529414
+      },
+      "browser": {
+        "initialMiB": 87.703125,
+        "finalMiB": 92.234375,
+        "peakMiB": 92.234375,
+        "medianCycles50to100MiB": 90.828125,
+        "medianLast50CyclesMiB": 92.234375,
+        "medianGrowthMiB": 1.40625,
+        "lastHalfSlopeKiBPerCycle": 7.117647058823529
+      },
+      "GPU": {
+        "initialMiB": 78.8125,
+        "finalMiB": 139.734375,
+        "peakMiB": 139.734375,
+        "medianCycles50to100MiB": 91.4453125,
+        "medianLast50CyclesMiB": 134.7890625,
+        "medianGrowthMiB": 43.34375,
+        "lastHalfSlopeKiBPerCycle": 211.49176470588236
+      },
+      "renderer": {
+        "initialMiB": 140.3125,
+        "finalMiB": 232.8125,
+        "peakMiB": 232.8125,
+        "medianCycles50to100MiB": 178.359375,
+        "medianLast50CyclesMiB": 226.84375,
+        "medianGrowthMiB": 48.484375,
+        "lastHalfSlopeKiBPerCycle": 238.86117647058825
+      }
+    }
+  },
+  {
+    "backend": "chromium-webgpu",
+    "browser": "131.0.6778.33",
+    "cycles": 300,
+    "elapsedMs": 143576,
+    "samples": 31,
+    "closedObjects": 66,
+    "peakObjects": 80,
+    "afterRouteUnmount": 0,
+    "metrics": {
+      "total": {
+        "initialMiB": 374.328125,
+        "finalMiB": 513.15625,
+        "peakMiB": 513.15625,
+        "medianCycles50to100MiB": 451.0703125,
+        "medianLast50CyclesMiB": 506.90625,
+        "medianGrowthMiB": 55.8359375,
+        "lastHalfSlopeKiBPerCycle": 246.12235294117647
+      },
+      "browser": {
+        "initialMiB": 88.21875,
+        "finalMiB": 92.234375,
+        "peakMiB": 92.234375,
+        "medianCycles50to100MiB": 90.6796875,
+        "medianLast50CyclesMiB": 91.703125,
+        "medianGrowthMiB": 1.0234375,
+        "lastHalfSlopeKiBPerCycle": 9.576470588235294
+      },
+      "GPU": {
+        "initialMiB": 92.890625,
+        "finalMiB": 120.171875,
+        "peakMiB": 120.171875,
+        "medianCycles50to100MiB": 113.1328125,
+        "medianLast50CyclesMiB": 119.8359375,
+        "medianGrowthMiB": 6.703125,
+        "lastHalfSlopeKiBPerCycle": 5.221176470588235
+      },
+      "renderer": {
+        "initialMiB": 146.84375,
+        "finalMiB": 250.671875,
+        "peakMiB": 250.671875,
+        "medianCycles50to100MiB": 197.8203125,
+        "medianLast50CyclesMiB": 245.296875,
+        "medianGrowthMiB": 47.4765625,
+        "lastHalfSlopeKiBPerCycle": 230.68941176470588
+      }
+    }
+  }
+]

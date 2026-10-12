@@ -1,0 +1,435 @@
+[
+  {
+    "id": "empty",
+    "bands": []
+  },
+  {
+    "id": "body",
+    "bands": [
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": 0,
+        "brightness": 0.5,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 0
+      }
+    ]
+  },
+  {
+    "id": "blur",
+    "bands": [
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": 3,
+        "brightness": 0.5,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 0
+      }
+    ]
+  },
+  {
+    "id": "below",
+    "bands": [
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": 0,
+        "brightness": 0.5,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": 0,
+        "smearBelow": 10,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 0
+      }
+    ]
+  },
+  {
+    "id": "above",
+    "bands": [
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": 0,
+        "brightness": 0.5,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": 10,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 0
+      }
+    ]
+  },
+  {
+    "id": "flame",
+    "bands": [
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": 0,
+        "brightness": 0.5,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 12
+      }
+    ]
+  },
+  {
+    "id": "equal",
+    "bands": [
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": 0,
+        "brightness": 0.5,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": 12,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 12
+      }
+    ]
+  },
+  {
+    "id": "negative",
+    "bands": [
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": 2,
+        "brightness": 0.5,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": -5,
+        "smearBelow": -3,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": -8
+      }
+    ]
+  },
+  {
+    "id": "all",
+    "bands": [
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": 4,
+        "brightness": 0.5,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": 20,
+        "smearBelow": 17,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 12
+      }
+    ]
+  },
+  {
+    "id": "fractional",
+    "bands": [
+      {
+        "rect": {
+          "x1": -1.234567,
+          "y1": 2.345678,
+          "x2": 4.456789,
+          "y2": 5.567891
+        },
+        "blur": 3,
+        "brightness": 0.1234567,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": 1.987654,
+        "smearBelow": 2.876543,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 0
+      }
+    ]
+  },
+  {
+    "id": "zero-brightness",
+    "bands": [
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": 0,
+        "brightness": 0,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": 10,
+        "smearBelow": 10,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 0
+      }
+    ]
+  },
+  {
+    "id": "negative-below",
+    "bands": [
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": 0,
+        "brightness": 0.5,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": 0,
+        "smearBelow": -4,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 0
+      }
+    ]
+  },
+  {
+    "id": "negative-blur",
+    "bands": [
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": -2,
+        "brightness": 0.5,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 0
+      }
+    ]
+  },
+  {
+    "id": "overlap",
+    "bands": [
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": 0,
+        "brightness": 0.5,
+        "color": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 0
+      },
+      {
+        "rect": {
+          "x1": 10,
+          "y1": 30,
+          "x2": 40,
+          "y2": 34
+        },
+        "blur": 0,
+        "brightness": 0.25,
+        "color": [
+          1,
+          0,
+          0
+        ],
+        "smearAbove": 0,
+        "smearBelow": 0,
+        "smearBrightnessAbove": [
+          0.9,
+          0.8
+        ],
+        "smearBrightnessBelow": [
+          0.7,
+          0.1
+        ],
+        "flameHeight": 8
+      }
+    ]
+  }
+]

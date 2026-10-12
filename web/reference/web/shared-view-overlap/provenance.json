@@ -1,0 +1,29 @@
+{
+  "baseCommit": "f6e87f3",
+  "nativeManifestSha256": "c1f6f7e8b668e8e0974737e802d4a5c356daebb9713b514b08a6f4e42aac157d",
+  "sourceSha256": {
+    "ts/src/components/gel/GelContext.tsx": "c1a06d0cf993bcb9a0cadb5d58e79a699935984912726a2038574a746c2876d4",
+    "ts/src/components/gel/ScenePresentation.tsx": "ad81a9ca4a534961ec799eb5d3addcaf8e7c25c494317f14b9e029cdcbf2b355",
+    "ts/src/lib/gel/scenePresentation.ts": "7eab29badfb428fa69f4c68675ef95714aad150d8a87950011b0172c71bd40f7",
+    "ts/src/components/sample/SampleView.tsx": "1e4d2a6dc06fd0430a19aebe6398c876101a41b6443e52ed6c0b7ed715ad3f28",
+    "ts/src/components/sample/SampleSimCanvas.tsx": "1e674f97cdcabeedfb0ded9ea2fb5274fe2051848bcda385c1ec7fa2fdc42e4b",
+    "ts/src/components/inspector/FragmentWell.tsx": "3178df459e514079c4037eea4f807ce2a91a7c4fb58f9e4bbb556a3f48390a65",
+    "ts/tests/visual/shared-scene.spec.ts": "634c9dce6219f79c3bc9de2a03945e77d42954f87cdd9230da45aa946e3508c6",
+    "ts/tests/visual/shared-scene-lifecycle.spec.ts": "6ee751ac85c683e2b4c00082b54b03c40bbd36545caa96521445885f87ce1e53",
+    "ts/tests/visual/shared-view-overlap.spec.ts": "c006860c44291b7007eeb1f356ddeef0785c87e0a6bfe77478fe9d10b982c729"
+  },
+  "comparisons": 20,
+  "exactMismatches": 0,
+  "verification": {
+    "unit": 2916,
+    "browser": 559,
+    "intentionalSkips": 1,
+    "production": 4,
+    "build": true
+  },
+  "limits": [
+    "Static source-backed native CGL body composition, not original full GUI certification.",
+    "Development migration only; gel/loupe/image and ordered chrome/text/frame paint still pending.",
+    "Counts cover explicitly destroyable GPU resources and GL objects, not driver-resident shader/pipeline memory."
+  ]
+}

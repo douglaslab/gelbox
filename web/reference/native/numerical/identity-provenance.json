@@ -1,0 +1,34 @@
+{
+  "gelboxCommit": "5f51097",
+  "gelboxFullCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "sourceHashes": {
+    "include/Sample.h": "e580003d0e6c21c28d0166ab865251165e643b329f88016cff5ca8c3de894c3d",
+    "src/Sample.cpp": "58fe12e7b766ac6064b22e5c3f729dcc9674f915f1f089d8d8e1e8222b1f87e6"
+  },
+  "extractedHashes": {
+    "identity-declaration.inc": "12a7d463ece9f88a939794d128b27585010519a2e215f38e2bc454186328b6cf",
+    "identity-methods.inc": "c124975cbc9bc7c3e34614a54f90a28a56bad2dbe436ad8259333ec94a8b736e"
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+  "compileFlags": [
+    "-std=c++17",
+    "-O2",
+    "-Wall",
+    "-Wextra"
+  ],
+  "host": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "executableSha256": "543cdd605bbcef16717ea2b345d4c50e2ae7eca19a46f5645239713b4ef1b7ef",
+  "repeatCaptureIdentical": true,
+  "hashes": {
+    "build-identity.py": "559f0893e8911e5d0b153c03edcd0eb11c7b8d566451b70c5d3904b5c2e2025b",
+    "identity-driver.cpp": "cbee784661767f19118dda7e930e6e155d15b261766edf35f65a980c2290e003",
+    "identity-outputs.json": "ba1fb9e398e0fdd6d082fe06c22e146639e8dba17412f71c4ab4d923620bfef2",
+    "test_identity.py": "bbcb1f1568d46a89e633d874a31a904204221230e1b3c62108fe07b8e2563fe7"
+  },
+  "limitations": [
+    "Sample storage adapter includes only bases, ancestry, ID and vector storage; no Cinder or native constructor.",
+    "Lane movement and sample copying are driver operations, not extracted GelView transitions.",
+    "No dye compaction, UI selection clearing, focus, RNG, cycles or raster certification.",
+    "Modern clang/libc++ evidence, not original release executable certification."
+  ]
+}

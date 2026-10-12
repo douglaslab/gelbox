@@ -1,0 +1,64 @@
+{
+  "nativeManifestSha256": "b5445bac0b4593369bbdeb10a421de31f215dee33138b6e4d02558ebdcf2270e",
+  "groups": [
+    {
+      "backend": "webgl2",
+      "scale": 1,
+      "cases": 64,
+      "nativeAndWebMeshPixelsIdentical": 64,
+      "mismatchedNativeRasterCases": 57,
+      "maxChannelDifference": 157,
+      "differentChannels": 10337
+    },
+    {
+      "backend": "webgpu",
+      "scale": 1,
+      "cases": 64,
+      "nativeAndWebMeshPixelsIdentical": 64,
+      "mismatchedNativeRasterCases": 57,
+      "maxChannelDifference": 157,
+      "differentChannels": 10337
+    },
+    {
+      "backend": "webgl2",
+      "scale": 2,
+      "cases": 64,
+      "nativeAndWebMeshPixelsIdentical": 64,
+      "mismatchedNativeRasterCases": 57,
+      "maxChannelDifference": 157,
+      "differentChannels": 22212
+    },
+    {
+      "backend": "webgpu",
+      "scale": 2,
+      "cases": 64,
+      "nativeAndWebMeshPixelsIdentical": 64,
+      "mismatchedNativeRasterCases": 57,
+      "maxChannelDifference": 157,
+      "differentChannels": 22212
+    }
+  ],
+  "crossBackendPixelsIdentical": true,
+  "baselineImplementationCommit": "b024d9a",
+  "baselineAuditResult": "4 failed parity assertions; measurement completed for all cases",
+  "correction": {
+    "opaqueSourceOverMSAA": true,
+    "all512MeshRasterComparisonsExact": true,
+    "componentCases": 4,
+    "componentDprValues": [
+      1,
+      2
+    ],
+    "componentBackends": [
+      "webgpu",
+      "webgl2"
+    ],
+    "transparentRepresentatives": "unchanged; native compositing reference still required",
+    "sourceHashes": {
+      "ts/src/lib/gel/present.ts": "1589c911a2f58beda94819f6d458cb3e4da9cac757973ec817cff12f7a1c7a8d",
+      "ts/src/lib/gel/present-gl.ts": "314ca0fc16a5e3532cc9064ef999e8c117d435db91ceac012462c33823d7116e",
+      "ts/src/lib/gel/presentationTypes.ts": "22d7fdd1226cb0fac157c28c3dd9127d52432cb5ac9474c65e70edc712156a6a",
+      "ts/src/components/sample/SampleSimCanvas.tsx": "26a8fb53fa79062d5a90da206d58f05eebb63183e76916c268f19c8cbe789045"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+
+> @douglaslab/gel@0.0.1 test:unit
+> vitest run tests/unit/imageDecode.test.ts
+
+[?25l
+ RUN  v3.0.0 /Users/shawn/.codex/worktrees/3f9f/gel/ts
+
+ ✓ tests/unit/imageDecode.test.ts (41 tests) 66ms
+
+ Test Files  1 passed (1)
+      Tests  41 passed (41)
+   Start at  13:16:42
+   Duration  267ms (transform 22ms, setup 0ms, collect 21ms, tests 66ms, environment 0ms, prepare 32ms)
+
+[?25h

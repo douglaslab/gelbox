@@ -1,0 +1,13 @@
+node_modules
+dist
+.DS_Store
+*.local
+.vite
+*.tsbuildinfo
+.tsbuildinfo*
+
+# Playwright
+test-results/
+test-results-*/
+playwright-report/
+playwright/.cache/

@@ -1,0 +1,33 @@
+{
+  "base": "9fbe97a",
+  "sha256": {
+    "ts/src/lib/gel/sliderPaint.ts": "9840a7ed267ab1363e27c5095cf0909ca6001f3b4242ec02df2df14a0f811a55",
+    "ts/src/lib/gel/fragmentWellGeometry.ts": "8fca540671e8a66f689a7dba2e70e9ab0aa3901f6f20a03203cd2242eddce7e9",
+    "ts/src/components/primitives/SliderScenePaint.tsx": "7edb9b2c6f4f16ce663844d44a45beed50a3801e791e446848e111ea1621b063",
+    "ts/src/components/primitives/SliderView.tsx": "1ffbbe784071edc57a066a1b9a68b2cd81c239c7f30e3a54d4ec3c0a3f8e6283",
+    "ts/src/components/primitives/SliderView.module.css": "ac9c41b8422352317e83a948cc9da680320cedbd4327422dce4f4df38810de2d",
+    "ts/src/components/gel/TimelineSlider.tsx": "cef43d70d0821813622ce364b3e1045bba5ac4b666196d2dfa301f72842357cc",
+    "ts/src/components/inspector/GelSettingsView.tsx": "3f1e6b475e32f735cda2a023376f094e6e78484f4678fec8b8f7e2e1e45497d6",
+    "ts/src/components/inspector/FragmentView.tsx": "5836f8c2ff584c8a034cc5d74168a9081a994f32dacd3ac1c56086488e2c755a",
+    "ts/tests/visual/shared-slider-native.spec.ts": "aa8cd4c3813bdb79a3c1d35dad634c246d8d69eb14a7e71d5d108eaa1e9cc982",
+    "ts/tests/visual/shared-slider.spec.ts": "ded89c79a1c1b97946fe09f0ffc913ffef70b9304869bede35912c576bf12f2d",
+    "ts/tests/visual/slider-gestures.spec.ts": "c6f6b7f1d2f8e9341c9b84276007209acd59d27dc91d3897b67b256332a26c2b",
+    "ts/tests/visual/slider-icons.spec.ts": "6bbcdbf369cbb30b219e1e73b7b4b8a7978436535eac75fc4b20fda9c78012fd",
+    "reference/native/modern/shared-slider-scenes/manifest.json": "6cf6d4c0f90904d33c590ee5f74aa5c62b9427ba51de17ebfc16e0b3eb9faf1b"
+  },
+  "exactNativeComparisons": 128,
+  "verification": {
+    "unitTests": 2920,
+    "browserTests": 745,
+    "intentionalSkips": 1,
+    "productionTests": 4,
+    "build": "passed",
+    "nativeRepeatedScenes": 64
+  },
+  "limits": [
+    "Native pixel comparisons exercise the reusable slider drawing function, with pinned clock icons for all styles.",
+    "Actual Timeline/Gel/Species standard and graph components have separate overlap/picking/gesture checks; full original GUI replay remains open.",
+    "Buffer and Dye bar integration, static labels, presets and molecule icon layout remain open.",
+    "Shared composition remains development-only."
+  ]
+}

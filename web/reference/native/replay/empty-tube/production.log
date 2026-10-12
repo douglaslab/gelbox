@@ -1,0 +1,19 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.production.config.ts empty-tube.spec.ts --output=/tmp/gel-empty-tube-final
+
+
+Running 2 tests using 2 workers
+
+(node:24297) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24296) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24297) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24296) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium-webgpu] › empty-tube.spec.ts:6:1 › compiled empty tube, first species edit and final deletion match original native (830ms)
+  ✓  1 [chromium-webgl2] › empty-tube.spec.ts:6:1 › compiled empty tube, first species edit and final deletion match original native (849ms)
+
+  2 passed (1.2s)

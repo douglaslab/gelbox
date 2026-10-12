@@ -1,0 +1,276 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "numericalProvenanceSha256": "4b9e14f5bab81cc9cf113c7a4ec45593792e54f9f414532ac6119f224b3d2cc9",
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatCaptureIdentical": true,
+  "meshCaptureRepeated": true,
+  "meshSha256": "d3196c5c9256547b6253e2268e73fba979e19aabc17976b403171b412c5682e6",
+  "casesSha256": "a978a0e7be949b93c6d83d8350c6e1b1400e6bc32246dc25d9aab46d48c5ee90",
+  "driverSha256": "ccac9c420e024f507043aa4abb13f2dfcb0a2c693a5788a4de925498aa3fed18",
+  "executableSha256": "7619033d2d7122dada89a72bd8f536bd7d4572e07672280f01c67740f4221ef4",
+  "appSha256": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+  "contextSha256": "09b2fe8cafc83636cad73ae0bf95f61f2b1b8dac485f95477ced97852d938a0a",
+  "layoutSha256": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+  "fragmentViewSha256": "d9345eda3ae73104684344f99676588e22f7369e93ff1d3e5ab7d1e95e035b02",
+  "cases": [
+    {
+      "id": "whole-1-select-False-hover-False-1-241",
+      "mesh": "whole-1-select-False-hover-False",
+      "scale": 1,
+      "background": 241,
+      "sha256": "a3a9feac00763a46fa72830f886bc917752b68e0310b44d6d166c1ff1f4f87b6"
+    },
+    {
+      "id": "whole-1-select-False-hover-False-1-255",
+      "mesh": "whole-1-select-False-hover-False",
+      "scale": 1,
+      "background": 255,
+      "sha256": "46ffbea42e4cbcdb816815af81112ed7956c3ea0c09d532fb5f751de83a380f9"
+    },
+    {
+      "id": "whole-1-select-False-hover-False-2-241",
+      "mesh": "whole-1-select-False-hover-False",
+      "scale": 2,
+      "background": 241,
+      "sha256": "9612a456f31366e37691c856c8dbdf0042c8c3a818c84985b83db93984ebffe4"
+    },
+    {
+      "id": "whole-1-select-False-hover-False-2-255",
+      "mesh": "whole-1-select-False-hover-False",
+      "scale": 2,
+      "background": 255,
+      "sha256": "f9bf16a572eb3812ec21869c0a6bc26bb561a1634e045578ba696082325dc5e5"
+    },
+    {
+      "id": "whole-0.5-select-False-hover-False-1-241",
+      "mesh": "whole-0.5-select-False-hover-False",
+      "scale": 1,
+      "background": 241,
+      "sha256": "e2482f1cc7e695b2e71704f3ebe32799fa807c6c6dcbb3d786495d5976cc9641"
+    },
+    {
+      "id": "whole-0.5-select-False-hover-False-1-255",
+      "mesh": "whole-0.5-select-False-hover-False",
+      "scale": 1,
+      "background": 255,
+      "sha256": "1130b5f279c1c1167972f087b5a12b12a451613d4eba71ee2346df613e561d97"
+    },
+    {
+      "id": "whole-0.5-select-False-hover-False-2-241",
+      "mesh": "whole-0.5-select-False-hover-False",
+      "scale": 2,
+      "background": 241,
+      "sha256": "414ed888fd859b7cd9fbee95a53ef4e96b5aa6ed51d208ed0a8467e16eb0e6f2"
+    },
+    {
+      "id": "whole-0.5-select-False-hover-False-2-255",
+      "mesh": "whole-0.5-select-False-hover-False",
+      "scale": 2,
+      "background": 255,
+      "sha256": "689f24b80be87fa40a38a4cfd068af4d7db86aa3f1a39e01ecd7427221c267d1"
+    },
+    {
+      "id": "multi-25-3-whole-0.5-1-241",
+      "mesh": "multi-25-3-whole-0.5",
+      "scale": 1,
+      "background": 241,
+      "sha256": "63029fb5474e03187911c8b91dee63b16cc826cd796d6c7c7ddc5e1ab0fe8d3d"
+    },
+    {
+      "id": "multi-25-3-whole-0.5-1-255",
+      "mesh": "multi-25-3-whole-0.5",
+      "scale": 1,
+      "background": 255,
+      "sha256": "49856409221f0ff07a41bec3974c28a9572e547ec167a554a48b6a391fffa391"
+    },
+    {
+      "id": "multi-25-3-whole-0.5-2-241",
+      "mesh": "multi-25-3-whole-0.5",
+      "scale": 2,
+      "background": 241,
+      "sha256": "fa044ab3f91c00d9552795feaa5b55e653a7df1a19464191ea37cbf39a84b02c"
+    },
+    {
+      "id": "multi-25-3-whole-0.5-2-255",
+      "mesh": "multi-25-3-whole-0.5",
+      "scale": 2,
+      "background": 255,
+      "sha256": "5196360567c6643cf58406ba4ffda018a92286ff346509843a31e810c7a8b18c"
+    },
+    {
+      "id": "narrow-25-3-whole-0.001-select-False-1-241",
+      "mesh": "narrow-25-3-whole-0.001-select-False",
+      "scale": 1,
+      "background": 241,
+      "sha256": "cdb37ef4b8aa95d5ffdfd2d8dace862d38f3a8330af701cc9746a077851bebee"
+    },
+    {
+      "id": "narrow-25-3-whole-0.001-select-False-1-255",
+      "mesh": "narrow-25-3-whole-0.001-select-False",
+      "scale": 1,
+      "background": 255,
+      "sha256": "772b05e2e72c0b9bee0afbb1f243d53849cf8b481d50646c5d92f1d63dc65689"
+    },
+    {
+      "id": "narrow-25-3-whole-0.001-select-False-2-241",
+      "mesh": "narrow-25-3-whole-0.001-select-False",
+      "scale": 2,
+      "background": 241,
+      "sha256": "23a734ddd764e6d1ae463c5d6dd5ab2346f9ff18af08486a5c2b64a27dcacb64"
+    },
+    {
+      "id": "narrow-25-3-whole-0.001-select-False-2-255",
+      "mesh": "narrow-25-3-whole-0.001-select-False",
+      "scale": 2,
+      "background": 255,
+      "sha256": "20c32678099a137e4dceeab6d92b796d3ab2c880142d546c4dee5e3767f911d7"
+    },
+    {
+      "id": "fade-0.01-1-241",
+      "mesh": "fade-0.01",
+      "scale": 1,
+      "background": 241,
+      "sha256": "34cab61fb96c5d46c1aedcdd9915c3e63a5aa923a3c9ee794f92652c98c917e6"
+    },
+    {
+      "id": "fade-0.01-1-255",
+      "mesh": "fade-0.01",
+      "scale": 1,
+      "background": 255,
+      "sha256": "2a06bcddfbf5cd960af30f176043fec01a6623bee3d2dd80245537195ee6f07d"
+    },
+    {
+      "id": "fade-0.01-2-241",
+      "mesh": "fade-0.01",
+      "scale": 2,
+      "background": 241,
+      "sha256": "079b3e87318eeec2697e791fdaf4f2847fb9bc2529d2ba0b367d89e449057162"
+    },
+    {
+      "id": "fade-0.01-2-255",
+      "mesh": "fade-0.01",
+      "scale": 2,
+      "background": 255,
+      "sha256": "3234eb6576e26e42995201f6ddd4d3f8a6b199a71461774f2e3ab59a4804e360"
+    },
+    {
+      "id": "fade-0.25-1-241",
+      "mesh": "fade-0.25",
+      "scale": 1,
+      "background": 241,
+      "sha256": "7f1379e8db2817f2d3abd0d5ba592d11d09202c079dad3c3d3d8d84cfa011a92"
+    },
+    {
+      "id": "fade-0.25-1-255",
+      "mesh": "fade-0.25",
+      "scale": 1,
+      "background": 255,
+      "sha256": "630d71f1852fd86104c107f00cb94e5b4eed89cd8b9a0a83839932615b273697"
+    },
+    {
+      "id": "fade-0.25-2-241",
+      "mesh": "fade-0.25",
+      "scale": 2,
+      "background": 241,
+      "sha256": "bf96cc9a6a1fa16101362765a6408e534635eb8294689d3dbc36768c44209f97"
+    },
+    {
+      "id": "fade-0.25-2-255",
+      "mesh": "fade-0.25",
+      "scale": 2,
+      "background": 255,
+      "sha256": "f062640c87db7028b950fd2473b8f807c889b0f1128ed5e8811b4d5f3c15d2c1"
+    },
+    {
+      "id": "fade-0.5-1-241",
+      "mesh": "fade-0.5",
+      "scale": 1,
+      "background": 241,
+      "sha256": "38fa6e9e12f45cb4cb25a1a7e2f795a8c8d55a6d790302e08867540c5c9c9ec7"
+    },
+    {
+      "id": "fade-0.5-1-255",
+      "mesh": "fade-0.5",
+      "scale": 1,
+      "background": 255,
+      "sha256": "9e43aa8a298081e7fbee4832eb1caa4b949550b8ea59edd0b2aff771de0a43fc"
+    },
+    {
+      "id": "fade-0.5-2-241",
+      "mesh": "fade-0.5",
+      "scale": 2,
+      "background": 241,
+      "sha256": "3c3541d4851660b89a353607f2a545e6a90b9cd447b8d013fcd48e270969066e"
+    },
+    {
+      "id": "fade-0.5-2-255",
+      "mesh": "fade-0.5",
+      "scale": 2,
+      "background": 255,
+      "sha256": "8b0d043cd9062e8afaf946f5be83767b0026f98777637be7f304654775d34265"
+    },
+    {
+      "id": "fade-0.999-1-241",
+      "mesh": "fade-0.999",
+      "scale": 1,
+      "background": 241,
+      "sha256": "659785a5a6cf6129ba095d0c429dcd3d950e08e5e31316689761cd0ab4cb74f9"
+    },
+    {
+      "id": "fade-0.999-1-255",
+      "mesh": "fade-0.999",
+      "scale": 1,
+      "background": 255,
+      "sha256": "b217469d72fe6dfbbab359b49d59511f1e233539c011b80f88b2c5f060594437"
+    },
+    {
+      "id": "fade-0.999-2-241",
+      "mesh": "fade-0.999",
+      "scale": 2,
+      "background": 241,
+      "sha256": "54de85973a436ba69acedf72b52af558c8abb35c96bc89df0d1c5e0256280ecd"
+    },
+    {
+      "id": "fade-0.999-2-255",
+      "mesh": "fade-0.999",
+      "scale": 2,
+      "background": 255,
+      "sha256": "3c93fcc953cb6bc7ec19f576045414fcf8e711e3d18493a0e16f1e643c329868"
+    },
+    {
+      "id": "fade-1-1-241",
+      "mesh": "fade-1",
+      "scale": 1,
+      "background": 241,
+      "sha256": "659785a5a6cf6129ba095d0c429dcd3d950e08e5e31316689761cd0ab4cb74f9"
+    },
+    {
+      "id": "fade-1-1-255",
+      "mesh": "fade-1",
+      "scale": 1,
+      "background": 255,
+      "sha256": "b217469d72fe6dfbbab359b49d59511f1e233539c011b80f88b2c5f060594437"
+    },
+    {
+      "id": "fade-1-2-241",
+      "mesh": "fade-1",
+      "scale": 2,
+      "background": 241,
+      "sha256": "54de85973a436ba69acedf72b52af558c8abb35c96bc89df0d1c5e0256280ecd"
+    },
+    {
+      "id": "fade-1-2-255",
+      "mesh": "fade-1",
+      "scale": 2,
+      "background": 255,
+      "sha256": "3c93fcc953cb6bc7ec19f576045414fcf8e711e3d18493a0e16f1e643c329868"
+    }
+  ],
+  "limits": [
+    "Native captured meshes, standalone CGL RGBA8 MSAA4; not original GUI output.",
+    "64x64 crop of native coordinates [68,132], #F1F1F1 and white backgrounds; RGB comparison only.",
+    "Positive-Y projection/raw row order follows window-validated well oracle.",
+    "Body-only Part::makeMesh matches representative geometry at unchanged center; does not certify picking, relocation, well border, or composed UI."
+  ]
+}

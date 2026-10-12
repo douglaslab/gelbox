@@ -1,0 +1,68 @@
+
+Running 2 tests using 1 worker
+
+(node:46774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/deployment.spec.ts:6:42 › built app at / loads controls and roundtrips native files (0ms)
+(node:46777) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/deployment.spec.ts:6:42 › built app at /gelbox/ loads controls and roundtrips native files (0ms)
+
+
+  1) [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/deployment.spec.ts:6:42 › built app at / loads controls and roundtrips native files 
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-vJ9KPM -juggler-pipe -silent
+    <launched> pid=46775
+    [pid=46775][err] *** You are running in headless mode.
+    [pid=46775][err] Could not find profile folder.
+    [pid=46775] <process did exit: exitCode=1, signal=null>
+    [pid=46775] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-vJ9KPM -juggler-pipe -silent
+      - <launched> pid=46775
+      - [pid=46775][err] *** You are running in headless mode.
+      - [pid=46775][err] Could not find profile folder.
+      - [pid=46775] <process did exit: exitCode=1, signal=null>
+      - [pid=46775] starting temporary directories cleanup
+      - [pid=46775] <gracefully close start>
+      - [pid=46775] <kill>
+      - [pid=46775] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=46775] finished temporary directories cleanup
+      - [pid=46775] <gracefully close end>
+
+
+    Error Context: ../../../../../../../tmp/gel-browser-compat-1.64/results/deployment-built-app-at-lo-89ceb-and-roundtrips-native-files-firefox-webgl2/error-context.md
+
+  2) [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/deployment.spec.ts:6:42 › built app at /gelbox/ loads controls and roundtrips native files 
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-H6iykQ -juggler-pipe -silent
+    <launched> pid=46778
+    [pid=46778][err] *** You are running in headless mode.
+    [pid=46778][err] Could not find profile folder.
+    [pid=46778] <process did exit: exitCode=1, signal=null>
+    [pid=46778] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/shawn/Library/Caches/ms-playwright/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/_b/5jrnq_5j3_55jbxqz0c250180000gn/T/playwright_firefoxdev_profile-H6iykQ -juggler-pipe -silent
+      - <launched> pid=46778
+      - [pid=46778][err] *** You are running in headless mode.
+      - [pid=46778][err] Could not find profile folder.
+      - [pid=46778] <process did exit: exitCode=1, signal=null>
+      - [pid=46778] starting temporary directories cleanup
+      - [pid=46778] <gracefully close start>
+      - [pid=46778] <kill>
+      - [pid=46778] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=46778] finished temporary directories cleanup
+      - [pid=46778] <gracefully close end>
+
+
+    Error Context: ../../../../../../../tmp/gel-browser-compat-1.64/results/deployment-built-app-at-ge-bfb0e-and-roundtrips-native-files-firefox-webgl2/error-context.md
+
+  2 failed
+    [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/deployment.spec.ts:6:42 › built app at / loads controls and roundtrips native files 
+    [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/deployment.spec.ts:6:42 › built app at /gelbox/ loads controls and roundtrips native files 

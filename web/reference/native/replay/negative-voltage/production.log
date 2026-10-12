@@ -1,0 +1,15 @@
+
+Running 2 tests using 2 workers
+
+(node:58473) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58474) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58473) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58474) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium-webgpu] › negative-voltage.spec.ts:6:1 › negative-voltage upward band drag matches original native saved gel (419ms)
+  ✓  1 [chromium-webgl2] › negative-voltage.spec.ts:6:1 › negative-voltage upward band drag matches original native saved gel (418ms)
+
+  2 passed (793ms)

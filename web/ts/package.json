@@ -1,0 +1,46 @@
+{
+  "name": "@douglaslab/gel",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Gelbox web port \u2014 TypeScript + WebGPU",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
+    "test:production": "npm run build && playwright test -c playwright.production.config.ts",
+    "test:compatibility": "npm run build && playwright test -c playwright.compatibility.config.ts",
+    "test:suspension": "npm run build && playwright test -c playwright.lifecycle.config.ts",
+    "test:performance": "npm run build && playwright test -c playwright.performance.config.ts",
+    "test:fragment-edge": "npm run build && playwright test -c playwright.fragment-edge-audit.config.ts",
+    "test:fragment-background": "npm run build && playwright test -c playwright.fragment-background-audit.config.ts",
+    "test:performance:budget": "GEL_PERF_BUDGET=m5-max npm run test:performance -- application.spec.ts",
+    "test:visibility": "npm run build && playwright test -c playwright.visibility.config.ts"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.2.8",
+    "buffer": "6.0.3",
+    "pngjs": "7.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router-dom": "6.28.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.49.0",
+    "@tailwindcss/vite": "^4.2.4",
+    "@types/node": "25.6.0",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "@vitejs/plugin-react": "4.3.4",
+    "@webgpu/types": "0.1.50",
+    "tailwindcss": "^4.2.4",
+    "typescript": "5.6.3",
+    "vite": "5.4.11",
+    "vitest": "3.0.0"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "observedAt": "2026-10-11T18:51:41.449927+00:00",
+  "partial": true,
+  "results": {
+    "webgpu": {
+      "cycle": 30,
+      "heapGrowthBytesFrom10": 395896,
+      "budgetBytes": 1048576,
+      "withinHeapBudget": true,
+      "domUnchanged": true,
+      "sha256": "f7c8313598e056b544b01103520581fcf3570d95953f356a59151a782835cc6c"
+    },
+    "webgl2": {
+      "cycle": 30,
+      "heapGrowthBytesFrom10": 1221520,
+      "budgetBytes": 1048576,
+      "withinHeapBudget": false,
+      "domUnchanged": true,
+      "sha256": "1cfe37ebba243b16f1d9ccb307c57b03c084b47c193def3aa9137c43ca4ba27a"
+    }
+  }
+}

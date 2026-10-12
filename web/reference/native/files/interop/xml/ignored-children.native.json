@@ -1,0 +1,44 @@
+{
+  "Sample": {
+    "Buffer": {
+      "Acetate": 0,
+      "Borate": 44.5,
+      "EDTA": 1,
+      "Tris": 44.5
+    },
+    "Fragments": [
+      {
+        "Aggregate": [
+          1
+        ],
+        "AspectRatio": 1,
+        "Bases": 900,
+        "Color": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "Degrade": 0,
+        "Mass": 10
+      },
+      {
+        "Aggregate": [
+          1
+        ],
+        "AspectRatio": 1,
+        "Bases": 400,
+        "Color": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "Degrade": 0,
+        "Mass": 5
+      }
+    ],
+    "icon": "",
+    "iconScale": 1,
+    "id": -1,
+    "name": "Filtered children"
+  }
+}

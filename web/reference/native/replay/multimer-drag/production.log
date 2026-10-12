@@ -1,0 +1,15 @@
+
+Running 2 tests using 2 workers
+
+(node:47489) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47489) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47488) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47488) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium-webgpu] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample (907ms)
+  ✓  1 [chromium-webgl2] › multimer-drag.spec.ts:6:1 › compiled degraded multimer transfer and vertical drag match original native sample (922ms)
+
+  2 passed (1.3s)

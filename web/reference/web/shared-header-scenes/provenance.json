@@ -1,0 +1,28 @@
+{
+  "base": "51b8315",
+  "sha256": {
+    "ts/src/components/sample/SampleView.tsx": "36226732f83a65c4f2d5750827514c1c6904428239ffef3c36eff6416684efde",
+    "ts/src/components/sample/SampleHeader.tsx": "d60f08ca10b21e434a62a839fd2699fcfe47c8dd0daf58974e91cd18356c0e9f",
+    "ts/src/lib/gel/sampleHeaderGeometry.ts": "5310c23c3382afac33d3dc088d48d3f09f6fb0255292985f8f6ed304245a969f",
+    "ts/src/lib/gel/sceneAssets.ts": "f5abd8057d5e04d953adfac4fc3586080e54e29a755a8be0ec3d12121ecef400",
+    "ts/src/lib/gel/sceneImageTexture.ts": "95e8068c459917f14ff19f4c387901aa29454f5f9f080a7960135bd7e3a84ba8",
+    "ts/tests/visual/shared-header.spec.ts": "2b145fb629e141d36f6fd229aceeee4b1860ff07e560c3ecf71d5a64bd40bb9f",
+    "ts/tests/visual/shared-header-native.spec.ts": "9f519c0834e90668b9a90d7ca064d74a03cb64d14fa5fbbdcece5d864491b02e",
+    "reference/native/modern/shared-header-scenes/manifest.json": "7016062d3202dc99fe0b833d5b84bceb77204e362f17d71364f676f84f7f8df2",
+    "reference/native/modern/shared-header-scenes/capture.py": "0a38098d86dd8f3c9283e8e99294b151f4b146e878b946f4094af5d2efcfafec"
+  },
+  "exactNativeComparisons": 8,
+  "verification": {
+    "unitTests": 2917,
+    "browserTests": 695,
+    "intentionalSkips": 1,
+    "productionTests": 4,
+    "build": "passed",
+    "nativeRepeatedSceneCaptures": 4,
+    "nativeRepeatedTextTextures": 2
+  },
+  "limits": [
+    "Sample header on modern pinned Cinder/macOS, not original-release full GUI or other text/font certification.",
+    "Shared composition remains development-only."
+  ]
+}

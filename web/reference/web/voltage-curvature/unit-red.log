@@ -1,0 +1,54 @@
+
+> @douglaslab/gel@0.0.1 test:unit
+> vitest run gelSim.test.ts
+
+[?25l
+ RUN  v3.0.0 /Users/shawn/.codex/worktrees/3f9f/gel/ts
+
+ ❯ tests/unit/gelSim.test.ts (19 tests | 3 failed) 24ms
+   ✓ fragToBands band metadata (M26a) > a monomer band carries mass, aggregate=1, degrade
+   ✓ fragToBands band metadata (M26a) > an aggregated fragment emits one band per tier with scaled mass and the tier index
+   ✓ fragToBands band metadata (M26a) > a dye band carries its mass, aggregate=1, degrade=0
+   ✓ fragToBands — dispatch > dye fragment with mass=0 emits zero bands
+   ✓ fragToBands — dispatch > dye fragment with mass>0 emits 1 band
+   ✓ fragToBands — dispatch > fragment with empty aggregate → 1 monomer band
+   ✓ fragToBands — dispatch > fragment with [0,1,0,2] aggregate → 2 bands
+   ✓ fragToBands — dispatch > fragment with all-zero aggregate is treated as monomer
+   × fragToBands — band fields > curvature follows voltage polarity at -200 V 2ms
+     → expected 5.25 to be close to -5.25, received difference is 10.5, but expected 5e-7
+   × fragToBands — band fields > curvature follows voltage polarity at -70 V 0ms
+     → expected 5.25 to be close to -5.25, received difference is 10.5, but expected 5e-7
+   × fragToBands — band fields > curvature follows voltage polarity at -1 V 0ms
+     → expected 5.25 to be close to -5.25, received difference is 10.5, but expected 5e-7
+   ✓ fragToBands — band fields > curvature follows voltage polarity at 0 V
+   ✓ fragToBands — band fields > curvature follows voltage polarity at 1 V
+   ✓ fragToBands — band fields > curvature follows voltage polarity at 70 V
+   ✓ fragToBands — band fields > curvature follows voltage polarity at 200 V
+   ✓ fragToBands — band fields > monomer band has smile (smileHeight = rect.height × 0.35, smileExp = 4)
+   ✓ fragToBands — band fields > dye band has smile/flame disabled (zero)
+   ✓ fragToBands — band fields > overloaded mass (mass=170) gives flames > 0
+   ✓ fragToBands — band fields > different lanes produce different randSeeds (deterministic)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/gelSim.test.ts > fragToBands — band fields > curvature follows voltage polarity at -200 V
+ FAIL  tests/unit/gelSim.test.ts > fragToBands — band fields > curvature follows voltage polarity at -70 V
+ FAIL  tests/unit/gelSim.test.ts > fragToBands — band fields > curvature follows voltage polarity at -1 V
+AssertionError: expected 5.25 to be close to -5.25, received difference is 10.5, but expected 5e-7
+ ❯ tests/unit/gelSim.test.ts:127:32
+    125|     for (const band of bands) {
+    126|       const strength = (band.rect.y2 - band.rect.y1) * .35;
+    127|       expect(band.smileHeight).toBeCloseTo(strength * (voltage < 0 ? -…
+       |                                ^
+    128|     }
+    129|     const [dye] = fragToBands(makeSample({dye: 0}), 0, WELL, 0, {...CT…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 16 passed (19)
+   Start at  12:03:05
+   Duration  255ms (transform 33ms, setup 0ms, collect 37ms, tests 24ms, environment 0ms, prepare 32ms)
+
+[?25h

@@ -1,0 +1,23 @@
+{
+  "schema": "gel-state-v0",
+  "gelSize": { "width": 320, "height": 240 },
+  "pixelsPerUnit": 1,
+  "bands": [
+    {
+      "rect": { "x1": 60, "y1": 90, "x2": 260, "y2": 102 },
+      "smearAbove": 6,
+      "smearBelow": 18,
+      "smearBrightnessAbove": [0.55, 0.0],
+      "smearBrightnessBelow": [0.40, 0.0],
+      "flameHeight": 14,
+      "smileHeight": 7,
+      "smileExp": 1.5,
+      "blur": 3,
+      "brightness": 0.85,
+      "color": [1.0, 0.92, 0.78],
+      "randSeed": 7,
+      "wellDamage": 0.4,
+      "wellDamageRandSeed": 21
+    }
+  ]
+}

@@ -1,0 +1,1640 @@
+
+> @douglaslab/gel@0.0.1 test:unit
+> vitest run
+
+[?25l
+ RUN  v3.0.0 /Users/shawn/.codex/worktrees/3f9f/gel/ts
+
+ ✓ tests/unit/molecularSimMesh.test.ts (12 tests) 20ms
+ ✓ tests/unit/molecularRuntime.test.ts (7 tests) 13ms
+ ✓ tests/unit/serialize.test.ts (12 tests) 20ms
+ ✓ tests/unit/molecularSim.test.ts (16 tests) 25ms
+ ✓ tests/unit/speciesEditing.test.ts (8 tests) 15ms
+ ✓ tests/unit/tubeDrag.test.ts (9 tests) 15ms
+ ✓ tests/unit/gelSettings.test.ts (9 tests) 17ms
+ ✓ tests/unit/sampleSettings.test.ts (11 tests) 18ms
+ ✓ tests/unit/sampleIdentity.test.ts (14 tests) 22ms
+ ✓ tests/unit/sampleFromGel.test.ts (16 tests) 26ms
+ ✓ tests/unit/bandTransfer.test.ts (11 tests) 21ms
+ ✓ tests/unit/nativeFile.test.ts (31 tests) 52ms
+ ✓ tests/unit/gelSim.test.ts (27 tests) 45ms
+ ✓ tests/unit/molecularSimEngine.test.ts (18 tests) 69ms
+ ✓ tests/unit/gelStore.test.ts (13 tests) 47ms
+ ✓ tests/unit/gelState.test.ts (42 tests) 65ms
+ ✓ tests/unit/nativeRuntime.test.ts (16 tests) 78ms
+ ✓ tests/unit/hoverLoupe.test.ts (6 tests) 13ms
+ ✓ tests/unit/mobility.test.ts (17 tests) 25ms
+ ✓ tests/unit/slider.test.ts (15 tests) 23ms
+ ✓ tests/unit/sharedSelection.test.ts (7 tests) 13ms
+ ✓ tests/unit/solver.test.ts (4 tests) 8ms
+ ✓ tests/unit/geometry.test.ts (8 tests) 14ms
+ ✓ tests/unit/palette.test.ts (9 tests) 17ms
+ ✓ tests/unit/backend.test.ts (10 tests) 35ms
+ ✓ tests/unit/legacyFile.test.ts (19 tests) 34ms
+ ✓ tests/unit/imageDecode.test.ts (41 tests) 76ms
+ ✓ tests/unit/overcook.test.ts (5 tests) 27ms
+ ✓ tests/unit/scenePresentation.test.ts (4 tests) 12ms
+ ✓ tests/unit/inspectorSelector.test.ts (7 tests) 13ms
+ ✓ tests/unit/assets.test.ts (7 tests) 33ms
+ ✓ tests/unit/layout.test.ts (7 tests) 19ms
+ ✓ tests/unit/deviceLoss.test.ts (3 tests) 10ms
+ ✓ tests/unit/referenceImages.test.ts (4 tests) 15ms
+ ✓ tests/unit/gpuAllocations.test.ts (3 tests) 15ms
+ ✓ tests/unit/flames.test.ts (6 tests) 12ms
+ ✓ tests/unit/sampleFragRef.test.ts (6 tests) 11ms
+ ✓ tests/unit/presentationGeometry.test.ts (4 tests) 8ms
+ ✓ tests/unit/tuning.test.ts (5 tests) 9ms
+ ✓ tests/unit/smear.test.ts (3 tests) 6ms
+ ✓ tests/unit/bandFocus.test.ts (2 tests) 6ms
+ ✓ tests/unit/nativeMesh.test.ts (64 tests) 343ms
+ ✓ tests/unit/nativeLoupe.test.ts (26 tests) 65ms
+ ✓ tests/unit/dye.test.ts (7 tests) 19ms
+ ✓ tests/unit/molecularSimBackground.test.ts (4 tests) 12ms
+ ✓ tests/unit/diffusion.test.ts (6 tests) 11ms
+ ✓ tests/unit/fileLoadQueue.test.ts (2 tests) 6ms
+ ✓ tests/unit/welldamage-warp.test.ts (3 tests) 6ms
+ ✓ tests/unit/nativeOverlapRelease.test.ts (1 test) 4ms
+ ✓ tests/unit/imageGeometry.test.ts (24 tests) 33ms
+ ✓ tests/unit/color.test.ts (6 tests) 20ms
+ ✓ tests/unit/rng.test.ts (4 tests) 37ms
+ ✓ tests/unit/tubeGeometry.test.ts (2 tests) 4ms
+ ✓ tests/unit/buffer.test.ts (5 tests) 11ms
+ ✓ tests/unit/smile-warp.test.ts (2 tests) 4ms
+ ✓ tests/unit/nativeWarp.test.ts (137 tests) 303ms
+ ✓ tests/unit/brightness.test.ts (6 tests) 10ms
+ ✓ tests/unit/nativeAccelerator.test.ts (3 tests) 7ms
+ ✓ tests/unit/viewOrder.test.ts (1 test) 4ms
+ ✓ tests/unit/loupeGestures.test.ts (4 tests) 9ms
+ ✓ tests/unit/nativeBufferAssets.test.ts (1 test) 43ms
+ ✓ tests/unit/renderMode.test.ts (1 test) 3ms
+ ✓ tests/unit/nativeDyeAssets.test.ts (1 test) 41ms
+ ✓ tests/unit/adapter.test.ts (2 tests) 6ms
+ ✓ tests/unit/directBands.test.ts (14 tests) 23ms
+ ✓ tests/unit/nativeBackground.test.ts (36 tests) 52ms
+ ✓ tests/unit/nativeParticles.test.ts (116 tests) 877ms
+ ✓ tests/unit/nativeUiText.test.ts (3 tests) 147ms
+ ✓ tests/unit/aggregate.test.ts (3 tests) 5ms
+ ✓ tests/unit/startupReference.test.ts (1 test) 3ms
+ ✓ tests/unit/sanity.test.ts (1 test) 3ms
+ ✓ tests/unit/pngPixels.test.ts (52 tests) 149ms
+ ❯ tests/unit/nativeNumerical.test.ts (514 tests | 6 failed) 1013ms
+   ✓ native C++ bands: TBE-V-300-t0-d0
+   ✓ native C++ bands: TBE-V-300-t0-d0.5
+   ✓ native C++ bands: TBE-V-300-t0-d1
+   ✓ native C++ bands: TBE-V-300-t0-d1.5
+   ✓ native C++ bands: TBE-V-300-t0-d2
+   ✓ native C++ bands: TBE-V-300-t0.25-d0
+   ✓ native C++ bands: TBE-V-300-t0.25-d0.5
+   ✓ native C++ bands: TBE-V-300-t0.25-d1
+   ✓ native C++ bands: TBE-V-300-t0.25-d1.5
+   ✓ native C++ bands: TBE-V-300-t0.25-d2
+   ✓ native C++ bands: TBE-V-300-t1-d0
+   ✓ native C++ bands: TBE-V-300-t1-d0.5
+   ✓ native C++ bands: TBE-V-300-t1-d1
+   ✓ native C++ bands: TBE-V-300-t1-d1.5
+   ✓ native C++ bands: TBE-V-300-t1-d2
+   ✓ native C++ bands: TBE-V0-t0-d0
+   ✓ native C++ bands: TBE-V0-t0-d0.5
+   ✓ native C++ bands: TBE-V0-t0-d1
+   ✓ native C++ bands: TBE-V0-t0-d1.5
+   ✓ native C++ bands: TBE-V0-t0-d2
+   ✓ native C++ bands: TBE-V0-t0.25-d0
+   ✓ native C++ bands: TBE-V0-t0.25-d0.5
+   ✓ native C++ bands: TBE-V0-t0.25-d1
+   ✓ native C++ bands: TBE-V0-t0.25-d1.5
+   ✓ native C++ bands: TBE-V0-t0.25-d2
+   ✓ native C++ bands: TBE-V0-t1-d0
+   ✓ native C++ bands: TBE-V0-t1-d0.5
+   ✓ native C++ bands: TBE-V0-t1-d1
+   ✓ native C++ bands: TBE-V0-t1-d1.5
+   ✓ native C++ bands: TBE-V0-t1-d2
+   ✓ native C++ bands: TBE-V70-t0-d0
+   ✓ native C++ bands: TBE-V70-t0-d0.5
+   ✓ native C++ bands: TBE-V70-t0-d1
+   ✓ native C++ bands: TBE-V70-t0-d1.5
+   ✓ native C++ bands: TBE-V70-t0-d2
+   ✓ native C++ bands: TBE-V70-t0.25-d0
+   ✓ native C++ bands: TBE-V70-t0.25-d0.5
+   ✓ native C++ bands: TBE-V70-t0.25-d1
+   ✓ native C++ bands: TBE-V70-t0.25-d1.5
+   ✓ native C++ bands: TBE-V70-t0.25-d2
+   ✓ native C++ bands: TBE-V70-t1-d0
+   ✓ native C++ bands: TBE-V70-t1-d0.5
+   ✓ native C++ bands: TBE-V70-t1-d1
+   ✓ native C++ bands: TBE-V70-t1-d1.5
+   ✓ native C++ bands: TBE-V70-t1-d2
+   ✓ native C++ bands: TBE-V300-t0-d0
+   ✓ native C++ bands: TBE-V300-t0-d0.5
+   ✓ native C++ bands: TBE-V300-t0-d1
+   ✓ native C++ bands: TBE-V300-t0-d1.5
+   ✓ native C++ bands: TBE-V300-t0-d2
+   ✓ native C++ bands: TBE-V300-t0.25-d0
+   ✓ native C++ bands: TBE-V300-t0.25-d0.5
+   ✓ native C++ bands: TBE-V300-t0.25-d1
+   ✓ native C++ bands: TBE-V300-t0.25-d1.5
+   ✓ native C++ bands: TBE-V300-t0.25-d2
+   ✓ native C++ bands: TBE-V300-t1-d0
+   ✓ native C++ bands: TBE-V300-t1-d0.5
+   ✓ native C++ bands: TBE-V300-t1-d1
+   ✓ native C++ bands: TBE-V300-t1-d1.5
+   ✓ native C++ bands: TBE-V300-t1-d2
+   ✓ native C++ bands: TAE-V-300-t0-d0
+   ✓ native C++ bands: TAE-V-300-t0-d0.5
+   ✓ native C++ bands: TAE-V-300-t0-d1
+   ✓ native C++ bands: TAE-V-300-t0-d1.5
+   ✓ native C++ bands: TAE-V-300-t0-d2
+   ✓ native C++ bands: TAE-V-300-t0.25-d0
+   ✓ native C++ bands: TAE-V-300-t0.25-d0.5
+   ✓ native C++ bands: TAE-V-300-t0.25-d1
+   ✓ native C++ bands: TAE-V-300-t0.25-d1.5
+   ✓ native C++ bands: TAE-V-300-t0.25-d2
+   ✓ native C++ bands: TAE-V-300-t1-d0
+   ✓ native C++ bands: TAE-V-300-t1-d0.5
+   ✓ native C++ bands: TAE-V-300-t1-d1
+   ✓ native C++ bands: TAE-V-300-t1-d1.5
+   ✓ native C++ bands: TAE-V-300-t1-d2
+   ✓ native C++ bands: TAE-V0-t0-d0
+   ✓ native C++ bands: TAE-V0-t0-d0.5
+   ✓ native C++ bands: TAE-V0-t0-d1
+   ✓ native C++ bands: TAE-V0-t0-d1.5
+   ✓ native C++ bands: TAE-V0-t0-d2
+   ✓ native C++ bands: TAE-V0-t0.25-d0
+   ✓ native C++ bands: TAE-V0-t0.25-d0.5
+   ✓ native C++ bands: TAE-V0-t0.25-d1
+   ✓ native C++ bands: TAE-V0-t0.25-d1.5
+   ✓ native C++ bands: TAE-V0-t0.25-d2
+   ✓ native C++ bands: TAE-V0-t1-d0
+   ✓ native C++ bands: TAE-V0-t1-d0.5
+   ✓ native C++ bands: TAE-V0-t1-d1
+   ✓ native C++ bands: TAE-V0-t1-d1.5
+   ✓ native C++ bands: TAE-V0-t1-d2
+   ✓ native C++ bands: TAE-V70-t0-d0
+   ✓ native C++ bands: TAE-V70-t0-d0.5
+   ✓ native C++ bands: TAE-V70-t0-d1
+   ✓ native C++ bands: TAE-V70-t0-d1.5
+   ✓ native C++ bands: TAE-V70-t0-d2
+   ✓ native C++ bands: TAE-V70-t0.25-d0
+   ✓ native C++ bands: TAE-V70-t0.25-d0.5
+   ✓ native C++ bands: TAE-V70-t0.25-d1
+   ✓ native C++ bands: TAE-V70-t0.25-d1.5
+   ✓ native C++ bands: TAE-V70-t0.25-d2
+   ✓ native C++ bands: TAE-V70-t1-d0
+   ✓ native C++ bands: TAE-V70-t1-d0.5
+   ✓ native C++ bands: TAE-V70-t1-d1
+   ✓ native C++ bands: TAE-V70-t1-d1.5
+   ✓ native C++ bands: TAE-V70-t1-d2
+   ✓ native C++ bands: TAE-V300-t0-d0
+   ✓ native C++ bands: TAE-V300-t0-d0.5
+   ✓ native C++ bands: TAE-V300-t0-d1
+   ✓ native C++ bands: TAE-V300-t0-d1.5
+   ✓ native C++ bands: TAE-V300-t0-d2
+   ✓ native C++ bands: TAE-V300-t0.25-d0
+   ✓ native C++ bands: TAE-V300-t0.25-d0.5
+   ✓ native C++ bands: TAE-V300-t0.25-d1
+   ✓ native C++ bands: TAE-V300-t0.25-d1.5
+   ✓ native C++ bands: TAE-V300-t0.25-d2
+   ✓ native C++ bands: TAE-V300-t1-d0
+   ✓ native C++ bands: TAE-V300-t1-d0.5
+   ✓ native C++ bands: TAE-V300-t1-d1
+   ✓ native C++ bands: TAE-V300-t1-d1.5
+   ✓ native C++ bands: TAE-V300-t1-d2
+   ✓ native C++ bands: H2O-V-300-t0-d0
+   ✓ native C++ bands: H2O-V-300-t0-d0.5
+   ✓ native C++ bands: H2O-V-300-t0-d1
+   ✓ native C++ bands: H2O-V-300-t0-d1.5
+   ✓ native C++ bands: H2O-V-300-t0-d2
+   ✓ native C++ bands: H2O-V-300-t0.25-d0
+   ✓ native C++ bands: H2O-V-300-t0.25-d0.5
+   ✓ native C++ bands: H2O-V-300-t0.25-d1
+   ✓ native C++ bands: H2O-V-300-t0.25-d1.5
+   ✓ native C++ bands: H2O-V-300-t0.25-d2
+   ✓ native C++ bands: H2O-V-300-t1-d0
+   ✓ native C++ bands: H2O-V-300-t1-d0.5
+   ✓ native C++ bands: H2O-V-300-t1-d1
+   ✓ native C++ bands: H2O-V-300-t1-d1.5
+   ✓ native C++ bands: H2O-V-300-t1-d2
+   ✓ native C++ bands: H2O-V0-t0-d0
+   ✓ native C++ bands: H2O-V0-t0-d0.5
+   ✓ native C++ bands: H2O-V0-t0-d1
+   ✓ native C++ bands: H2O-V0-t0-d1.5
+   ✓ native C++ bands: H2O-V0-t0-d2
+   ✓ native C++ bands: H2O-V0-t0.25-d0
+   ✓ native C++ bands: H2O-V0-t0.25-d0.5
+   ✓ native C++ bands: H2O-V0-t0.25-d1
+   ✓ native C++ bands: H2O-V0-t0.25-d1.5
+   ✓ native C++ bands: H2O-V0-t0.25-d2
+   ✓ native C++ bands: H2O-V0-t1-d0
+   ✓ native C++ bands: H2O-V0-t1-d0.5
+   ✓ native C++ bands: H2O-V0-t1-d1
+   ✓ native C++ bands: H2O-V0-t1-d1.5
+   ✓ native C++ bands: H2O-V0-t1-d2
+   ✓ native C++ bands: H2O-V70-t0-d0
+   ✓ native C++ bands: H2O-V70-t0-d0.5
+   ✓ native C++ bands: H2O-V70-t0-d1
+   ✓ native C++ bands: H2O-V70-t0-d1.5
+   ✓ native C++ bands: H2O-V70-t0-d2
+   ✓ native C++ bands: H2O-V70-t0.25-d0
+   ✓ native C++ bands: H2O-V70-t0.25-d0.5
+   ✓ native C++ bands: H2O-V70-t0.25-d1
+   ✓ native C++ bands: H2O-V70-t0.25-d1.5
+   ✓ native C++ bands: H2O-V70-t0.25-d2
+   ✓ native C++ bands: H2O-V70-t1-d0
+   ✓ native C++ bands: H2O-V70-t1-d0.5
+   ✓ native C++ bands: H2O-V70-t1-d1
+   ✓ native C++ bands: H2O-V70-t1-d1.5
+   ✓ native C++ bands: H2O-V70-t1-d2
+   ✓ native C++ bands: H2O-V300-t0-d0
+   ✓ native C++ bands: H2O-V300-t0-d0.5
+   ✓ native C++ bands: H2O-V300-t0-d1
+   ✓ native C++ bands: H2O-V300-t0-d1.5
+   ✓ native C++ bands: H2O-V300-t0-d2
+   ✓ native C++ bands: H2O-V300-t0.25-d0
+   ✓ native C++ bands: H2O-V300-t0.25-d0.5
+   ✓ native C++ bands: H2O-V300-t0.25-d1
+   ✓ native C++ bands: H2O-V300-t0.25-d1.5
+   ✓ native C++ bands: H2O-V300-t0.25-d2
+   ✓ native C++ bands: H2O-V300-t1-d0
+   ✓ native C++ bands: H2O-V300-t1-d0.5
+   ✓ native C++ bands: H2O-V300-t1-d1
+   ✓ native C++ bands: H2O-V300-t1-d1.5
+   ✓ native C++ bands: H2O-V300-t1-d2
+   ✓ native C++ bands: bases-0
+   ✓ native C++ bands: bases-1
+   ✓ native C++ bands: bases-2
+   ✓ native C++ bands: bases-3
+   ✓ native C++ bands: bases-4
+   ✓ native C++ bands: bases-5
+   ✓ native C++ bands: bases-6
+   ✓ native C++ bands: mass-0
+   ✓ native C++ bands: mass-1
+   ✓ native C++ bands: mass-2
+   ✓ native C++ bands: mass-3
+   ✓ native C++ bands: mass-4
+   ✓ native C++ bands: aspectRatio-0
+   ✓ native C++ bands: aspectRatio-1
+   ✓ native C++ bands: aspectRatio-2
+   ✓ native C++ bands: aggregate-0
+   ✓ native C++ bands: aggregate-1
+   ✓ native C++ bands: aggregate-2
+   ✓ native C++ bands: aggregate-3
+   ✓ native C++ bands: aggregate-4
+   ✓ native C++ bands: dye0-mass0-TBE
+   ✓ native C++ bands: dye0-mass0-TAE
+   ✓ native C++ bands: dye0-mass0-H2O
+   ✓ native C++ bands: dye0-mass62.5-TBE
+   ✓ native C++ bands: dye0-mass62.5-TAE
+   ✓ native C++ bands: dye0-mass62.5-H2O
+   ✓ native C++ bands: dye0-mass125-TBE
+   ✓ native C++ bands: dye0-mass125-TAE
+   ✓ native C++ bands: dye0-mass125-H2O
+   ✓ native C++ bands: dye1-mass0-TBE
+   ✓ native C++ bands: dye1-mass0-TAE
+   ✓ native C++ bands: dye1-mass0-H2O
+   ✓ native C++ bands: dye1-mass62.5-TBE
+   ✓ native C++ bands: dye1-mass62.5-TAE
+   ✓ native C++ bands: dye1-mass62.5-H2O
+   ✓ native C++ bands: dye1-mass125-TBE
+   ✓ native C++ bands: dye1-mass125-TAE
+   ✓ native C++ bands: dye1-mass125-H2O
+   ✓ native C++ bands: dye2-mass0-TBE
+   ✓ native C++ bands: dye2-mass0-TAE
+   ✓ native C++ bands: dye2-mass0-H2O
+   ✓ native C++ bands: dye2-mass62.5-TBE
+   ✓ native C++ bands: dye2-mass62.5-TAE
+   ✓ native C++ bands: dye2-mass62.5-H2O
+   ✓ native C++ bands: dye2-mass125-TBE
+   ✓ native C++ bands: dye2-mass125-TAE
+   ✓ native C++ bands: dye2-mass125-H2O
+   ✓ native C++ bands: dye3-mass0-TBE
+   ✓ native C++ bands: dye3-mass0-TAE
+   ✓ native C++ bands: dye3-mass0-H2O
+   ✓ native C++ bands: dye3-mass62.5-TBE
+   ✓ native C++ bands: dye3-mass62.5-TAE
+   ✓ native C++ bands: dye3-mass62.5-H2O
+   ✓ native C++ bands: dye3-mass125-TBE
+   ✓ native C++ bands: dye3-mass125-TAE
+   ✓ native C++ bands: dye3-mass125-H2O
+   ✓ native C++ bands: damage-0.25
+   ✓ native C++ bands: damage-0.5
+   ✓ native C++ bands: damage-1
+   ✓ native C++ bands: lane-index-sample-buffer
+   ✓ native C++ bands: fractional-bp90-d0.7
+   ✓ native C++ bands: fractional-bp90-d1.7
+   ✓ native C++ bands: fractional-bp100-d0.29
+   ✓ native C++ bands: fractional-bp3001-d0.1
+   ✓ native C++ bands: fractional-bp3001-d1.1
+   ✓ native C++ bands: diffusion-bp1000-V70-t0.6
+   ✓ native C++ bands: diffusion-bp1000-V210-t1
+   ✓ native C++ bands: diffusion-bp1000-V140-t0.9
+   ✓ native C++ bands: startup-fragment-0
+   ✓ native C++ bands: startup-fragment-1
+   ✓ native C++ bands: startup-fragment-2
+   ✓ native C++ bands: startup-fragment-3
+   ✓ native C++ bands: startup-fragment-4
+   ✓ native C++ bands: startup-fragment-5
+   ✓ native C++ bands: startup-fragment-6
+   ✓ native C++ bands: startup-fragment-7
+   ✓ native C++ bands: startup-fragment-8
+   ✓ native C++ bands: startup-fragment-9
+   ✓ native C++ bands: startup-fragment-10
+   ✓ native C++ bands: tied-aggregate-tops
+   ✓ native C++ bands: aggregate-degraded-first-max
+   ✓ native C++ bands: overloaded-H2O
+   ✓ native C++ bands: loupe-degraded-multimer
+   ✓ native C++ bands: loupe-source-index
+   ✓ native C++ bands: loupe-degrade-boundary
+   ✓ native C++ bands: boundary-bp1-y30
+   ✓ native C++ bands: boundary-bp1-y37
+   ✓ native C++ bands: boundary-bp1-y44
+   ✓ native C++ bands: boundary-bp1-y51
+   ✓ native C++ bands: boundary-bp1-y58
+   ✓ native C++ bands: boundary-bp1-y65
+   ✓ native C++ bands: boundary-bp1-y72
+   ✓ native C++ bands: boundary-bp1-y79
+   ✓ native C++ bands: boundary-bp1-y86
+   ✓ native C++ bands: boundary-bp1-y93
+   ✓ native C++ bands: boundary-bp1-y100
+   ✓ native C++ bands: boundary-bp1-y107
+   ✓ native C++ bands: boundary-bp1-y114
+   ✓ native C++ bands: boundary-bp1-y121
+   ✓ native C++ bands: boundary-bp1-y128
+   ✓ native C++ bands: boundary-bp1-y135
+   ✓ native C++ bands: boundary-bp1-y142
+   ✓ native C++ bands: boundary-bp1-y149
+   ✓ native C++ bands: boundary-bp1-y156
+   ✓ native C++ bands: boundary-bp1-y163
+   ✓ native C++ bands: boundary-bp1-y170
+   ✓ native C++ bands: boundary-bp1-y177
+   ✓ native C++ bands: boundary-bp1-y184
+   ✓ native C++ bands: boundary-bp1-y191
+   ✓ native C++ bands: boundary-bp1-y198
+   ✓ native C++ bands: boundary-bp1-y205
+   ✓ native C++ bands: boundary-bp1-y212
+   ✓ native C++ bands: boundary-bp1-y219
+   ✓ native C++ bands: boundary-bp1-y226
+   ✓ native C++ bands: boundary-bp1-y233
+   ✓ native C++ bands: boundary-bp1-y240
+   ✓ native C++ bands: boundary-bp1-y247
+   ✓ native C++ bands: boundary-bp1-y254
+   ✓ native C++ bands: boundary-bp1-y261
+   ✓ native C++ bands: boundary-bp1-y268
+   ✓ native C++ bands: boundary-bp1-y275
+   ✓ native C++ bands: boundary-bp1-y282
+   ✓ native C++ bands: boundary-bp1-y289
+   ✓ native C++ bands: boundary-bp1-y296
+   ✓ native C++ bands: boundary-bp1-y303
+   ✓ native C++ bands: boundary-bp1-y310
+   ✓ native C++ bands: boundary-bp1-y317
+   ✓ native C++ bands: boundary-bp1-y324
+   ✓ native C++ bands: boundary-bp1-y331
+   ✓ native C++ bands: boundary-bp1-y338
+   ✓ native C++ bands: boundary-bp1-y345
+   ✓ native C++ bands: boundary-bp1-y352
+   ✓ native C++ bands: boundary-bp1-y359
+   ✓ native C++ bands: boundary-bp1-y366
+   ✓ native C++ bands: boundary-bp1-y373
+   ✓ native C++ bands: boundary-bp1-y380
+   ✓ native C++ bands: boundary-bp1-y387
+   ✓ native C++ bands: boundary-bp1-y394
+   ✓ native C++ bands: boundary-bp1001-y30
+   ✓ native C++ bands: boundary-bp1001-y37
+   ✓ native C++ bands: boundary-bp1001-y44
+   ✓ native C++ bands: boundary-bp1001-y51
+   ✓ native C++ bands: boundary-bp1001-y58
+   ✓ native C++ bands: boundary-bp1001-y65
+   ✓ native C++ bands: boundary-bp1001-y72
+   ✓ native C++ bands: boundary-bp1001-y79
+   ✓ native C++ bands: boundary-bp1001-y86
+   ✓ native C++ bands: boundary-bp1001-y93
+   ✓ native C++ bands: boundary-bp1001-y100
+   ✓ native C++ bands: boundary-bp1001-y107
+   ✓ native C++ bands: boundary-bp1001-y114
+   ✓ native C++ bands: boundary-bp1001-y121
+   ✓ native C++ bands: boundary-bp1001-y128
+   ✓ native C++ bands: boundary-bp1001-y135
+   ✓ native C++ bands: boundary-bp1001-y142
+   ✓ native C++ bands: boundary-bp1001-y149
+   ✓ native C++ bands: boundary-bp1001-y156
+   ✓ native C++ bands: boundary-bp1001-y163
+   ✓ native C++ bands: boundary-bp1001-y170
+   ✓ native C++ bands: boundary-bp1001-y177
+   ✓ native C++ bands: boundary-bp1001-y184
+   ✓ native C++ bands: boundary-bp1001-y191
+   ✓ native C++ bands: boundary-bp1001-y198
+   ✓ native C++ bands: boundary-bp1001-y205
+   ✓ native C++ bands: boundary-bp1001-y212
+   ✓ native C++ bands: boundary-bp1001-y219
+   ✓ native C++ bands: boundary-bp1001-y226
+   ✓ native C++ bands: boundary-bp1001-y233
+   ✓ native C++ bands: boundary-bp1001-y240
+   ✓ native C++ bands: boundary-bp1001-y247
+   ✓ native C++ bands: boundary-bp1001-y254
+   ✓ native C++ bands: boundary-bp1001-y261
+   ✓ native C++ bands: boundary-bp1001-y268
+   ✓ native C++ bands: boundary-bp1001-y275
+   ✓ native C++ bands: boundary-bp1001-y282
+   ✓ native C++ bands: boundary-bp1001-y289
+   ✓ native C++ bands: boundary-bp1001-y296
+   ✓ native C++ bands: boundary-bp1001-y303
+   ✓ native C++ bands: boundary-bp1001-y310
+   ✓ native C++ bands: boundary-bp1001-y317
+   ✓ native C++ bands: boundary-bp1001-y324
+   ✓ native C++ bands: boundary-bp1001-y331
+   ✓ native C++ bands: boundary-bp1001-y338
+   ✓ native C++ bands: boundary-bp1001-y345
+   ✓ native C++ bands: boundary-bp1001-y352
+   ✓ native C++ bands: boundary-bp1001-y359
+   ✓ native C++ bands: boundary-bp1001-y366
+   ✓ native C++ bands: boundary-bp1001-y373
+   ✓ native C++ bands: boundary-bp1001-y380
+   ✓ native C++ bands: boundary-bp1001-y387
+   ✓ native C++ bands: boundary-bp1001-y394
+   ✓ native C++ bands: boundary-bp2001-y30
+   ✓ native C++ bands: boundary-bp2001-y37
+   ✓ native C++ bands: boundary-bp2001-y44
+   ✓ native C++ bands: boundary-bp2001-y51
+   ✓ native C++ bands: boundary-bp2001-y58
+   ✓ native C++ bands: boundary-bp2001-y65
+   ✓ native C++ bands: boundary-bp2001-y72
+   ✓ native C++ bands: boundary-bp2001-y79
+   ✓ native C++ bands: boundary-bp2001-y86
+   ✓ native C++ bands: boundary-bp2001-y93
+   ✓ native C++ bands: boundary-bp2001-y100
+   ✓ native C++ bands: boundary-bp2001-y107
+   ✓ native C++ bands: boundary-bp2001-y114
+   ✓ native C++ bands: boundary-bp2001-y121
+   ✓ native C++ bands: boundary-bp2001-y128
+   ✓ native C++ bands: boundary-bp2001-y135
+   ✓ native C++ bands: boundary-bp2001-y142
+   ✓ native C++ bands: boundary-bp2001-y149
+   ✓ native C++ bands: boundary-bp2001-y156
+   ✓ native C++ bands: boundary-bp2001-y163
+   ✓ native C++ bands: boundary-bp2001-y170
+   ✓ native C++ bands: boundary-bp2001-y177
+   ✓ native C++ bands: boundary-bp2001-y184
+   ✓ native C++ bands: boundary-bp2001-y191
+   ✓ native C++ bands: boundary-bp2001-y198
+   ✓ native C++ bands: boundary-bp2001-y205
+   ✓ native C++ bands: boundary-bp2001-y212
+   ✓ native C++ bands: boundary-bp2001-y219
+   ✓ native C++ bands: boundary-bp2001-y226
+   ✓ native C++ bands: boundary-bp2001-y233
+   ✓ native C++ bands: boundary-bp2001-y240
+   ✓ native C++ bands: boundary-bp2001-y247
+   ✓ native C++ bands: boundary-bp2001-y254
+   ✓ native C++ bands: boundary-bp2001-y261
+   ✓ native C++ bands: boundary-bp2001-y268
+   ✓ native C++ bands: boundary-bp2001-y275
+   ✓ native C++ bands: boundary-bp2001-y282
+   ✓ native C++ bands: boundary-bp2001-y289
+   ✓ native C++ bands: boundary-bp2001-y296
+   ✓ native C++ bands: boundary-bp2001-y303
+   ✓ native C++ bands: boundary-bp3001-y30
+   ✓ native C++ bands: boundary-bp3001-y37
+   ✓ native C++ bands: boundary-bp3001-y44
+   ✓ native C++ bands: boundary-bp3001-y51
+   × native C++ bands: boundary-bp3001-y58 5ms
+     → boundary-bp3001-y58.0.randSeed: expected 15307 to be 15308 // Object.is equality
+   ✓ native C++ bands: boundary-bp3001-y65
+   ✓ native C++ bands: boundary-bp3001-y72
+   ✓ native C++ bands: boundary-bp3001-y79
+   ✓ native C++ bands: boundary-bp3001-y86
+   ✓ native C++ bands: boundary-bp3001-y93
+   × native C++ bands: boundary-bp3001-y100 3ms
+     → boundary-bp3001-y100.0.randSeed: expected 15350 to be 15349 // Object.is equality
+   ✓ native C++ bands: boundary-bp3001-y107
+   ✓ native C++ bands: boundary-bp3001-y114
+   ✓ native C++ bands: boundary-bp3001-y121
+   ✓ native C++ bands: boundary-bp3001-y128
+   × native C++ bands: boundary-bp3001-y135 2ms
+     → boundary-bp3001-y135.0.randSeed: expected 15384 to be 15385 // Object.is equality
+   ✓ native C++ bands: boundary-bp3001-y142
+   ✓ native C++ bands: boundary-bp3001-y149
+   × native C++ bands: boundary-bp3001-y156 2ms
+     → boundary-bp3001-y156.0.randSeed: expected 15406 to be 15405 // Object.is equality
+   × native C++ bands: boundary-bp3001-y163 2ms
+     → boundary-bp3001-y163.0.randSeed: expected 15413 to be 15412 // Object.is equality
+   ✓ native C++ bands: boundary-bp3001-y170
+   ✓ native C++ bands: boundary-bp3001-y177
+   ✓ native C++ bands: boundary-bp3001-y184
+   ✓ native C++ bands: boundary-bp3001-y191
+   ✓ native C++ bands: boundary-bp3001-y198
+   × native C++ bands: boundary-bp3001-y205 2ms
+     → boundary-bp3001-y205.0.randSeed: expected 15455 to be 15454 // Object.is equality
+   ✓ native C++ bands: boundary-bp3001-y212
+   ✓ native C++ bands: boundary-bp3001-y219
+   ✓ native C++ bands: boundary-bp3001-y226
+   ✓ native C++ bands: boundary-bp4001-y30
+   ✓ native C++ bands: boundary-bp4001-y37
+   ✓ native C++ bands: boundary-bp4001-y44
+   ✓ native C++ bands: boundary-bp4001-y51
+   ✓ native C++ bands: boundary-bp4001-y58
+   ✓ native C++ bands: boundary-bp4001-y65
+   ✓ native C++ bands: boundary-bp4001-y72
+   ✓ native C++ bands: boundary-bp4001-y79
+   ✓ native C++ bands: boundary-bp4001-y86
+   ✓ native C++ bands: boundary-bp4001-y93
+   ✓ native C++ bands: boundary-bp4001-y100
+   ✓ native C++ bands: boundary-bp4001-y107
+   ✓ native C++ bands: boundary-bp4001-y114
+   ✓ native C++ bands: boundary-bp4001-y121
+   ✓ native C++ bands: boundary-bp4001-y128
+   ✓ native C++ bands: boundary-bp4001-y135
+   ✓ native C++ bands: boundary-bp4001-y142
+   ✓ native C++ bands: boundary-bp4001-y149
+   ✓ native C++ bands: boundary-bp4001-y156
+   ✓ native C++ bands: boundary-bp4001-y163
+   ✓ native C++ bands: boundary-bp4001-y170
+   ✓ native C++ bands: boundary-bp5001-y30
+   ✓ native C++ bands: boundary-bp5001-y37
+   ✓ native C++ bands: boundary-bp5001-y44
+   ✓ native C++ bands: boundary-bp5001-y51
+   ✓ native C++ bands: boundary-bp5001-y58
+   ✓ native C++ bands: boundary-bp5001-y65
+   ✓ native C++ bands: boundary-bp5001-y72
+   ✓ native C++ bands: boundary-bp5001-y79
+   ✓ native C++ bands: boundary-bp5001-y86
+   ✓ native C++ bands: boundary-bp5001-y93
+   ✓ native C++ bands: boundary-bp5001-y100
+   ✓ native C++ bands: boundary-bp5001-y107
+   ✓ native C++ bands: boundary-bp5001-y114
+   ✓ native C++ bands: boundary-bp5001-y121
+   ✓ native C++ bands: boundary-bp5001-y128
+   ✓ native C++ bands: boundary-bp6001-y30
+   ✓ native C++ bands: boundary-bp6001-y37
+   ✓ native C++ bands: boundary-bp6001-y44
+   ✓ native C++ bands: boundary-bp6001-y51
+   ✓ native C++ bands: boundary-bp6001-y58
+   ✓ native C++ bands: boundary-bp6001-y65
+   ✓ native C++ bands: boundary-bp6001-y72
+   ✓ native C++ bands: boundary-bp6001-y79
+   ✓ native C++ bands: boundary-bp6001-y86
+   ✓ native C++ bands: boundary-bp6001-y93
+   ✓ native C++ bands: boundary-bp7001-y30
+   ✓ native C++ bands: boundary-bp7001-y37
+   ✓ native C++ bands: boundary-bp7001-y44
+   ✓ native C++ bands: boundary-bp7001-y51
+   ✓ native C++ bands: boundary-bp7001-y58
+   ✓ native C++ bands: boundary-bp7001-y65
+   ✓ native C++ bands: boundary-bp7001-y72
+   ✓ native C++ bands: boundary-bp8001-y30
+   ✓ native C++ bands: boundary-bp8001-y37
+   ✓ native C++ bands: boundary-bp8001-y44
+   ✓ native C++ bands: boundary-bp8001-y51
+   ✓ native C++ bands: boundary-bp8001-y58
+   ✓ native C++ bands: boundary-bp9001-y30
+   ✓ native C++ bands: boundary-bp9001-y37
+   ✓ native C++ bands: boundary-bp9001-y44
+   ✓ native C++ bands: boundary-bp10001-y30
+   ✓ native C++ bands: boundary-bp10001-y37
+   ✓ native C++ bands: boundary-bp11001-y30
+   ✓ native C++ bands: boundary-bp11001-y37
+   ✓ native C++ bands: boundary-bp12001-y30
+   ✓ native C++ bands: boundary-bp12001-y37
+   ✓ native C++ bands: boundary-bp13001-y30
+   ✓ native C++ bands: boundary-bp13001-y37
+   ✓ does not coerce invalid seed undefined into a matching zero
+   ✓ does not coerce invalid seed null into a matching zero
+   ✓ does not coerce invalid seed NaN into a matching zero
+   ✓ does not coerce invalid seed 0.5 into a matching zero
+   ✓ has one unique native output per case
+ ✓ tests/unit/nativePicking.test.ts (511 tests) 849ms
+ ✓ tests/unit/nativeMolecular.test.ts (509 tests) 916ms
+ ❯ tests/unit/nativeSolver.test.ts (509 tests | 19 failed) 726ms
+   ✓ native inverse solver: TBE-V-300-t0-d0
+   ✓ native inverse solver: TBE-V-300-t0-d0.5
+   ✓ native inverse solver: TBE-V-300-t0-d1
+   ✓ native inverse solver: TBE-V-300-t0-d1.5
+   ✓ native inverse solver: TBE-V-300-t0-d2
+   ✓ native inverse solver: TBE-V-300-t0.25-d0
+   ✓ native inverse solver: TBE-V-300-t0.25-d0.5
+   ✓ native inverse solver: TBE-V-300-t0.25-d1
+   ✓ native inverse solver: TBE-V-300-t0.25-d1.5
+   ✓ native inverse solver: TBE-V-300-t0.25-d2
+   ✓ native inverse solver: TBE-V-300-t1-d0
+   ✓ native inverse solver: TBE-V-300-t1-d0.5
+   ✓ native inverse solver: TBE-V-300-t1-d1
+   ✓ native inverse solver: TBE-V-300-t1-d1.5
+   ✓ native inverse solver: TBE-V-300-t1-d2
+   ✓ native inverse solver: TBE-V0-t0-d0
+   ✓ native inverse solver: TBE-V0-t0-d0.5
+   ✓ native inverse solver: TBE-V0-t0-d1
+   ✓ native inverse solver: TBE-V0-t0-d1.5
+   ✓ native inverse solver: TBE-V0-t0-d2
+   ✓ native inverse solver: TBE-V0-t0.25-d0
+   ✓ native inverse solver: TBE-V0-t0.25-d0.5
+   ✓ native inverse solver: TBE-V0-t0.25-d1
+   ✓ native inverse solver: TBE-V0-t0.25-d1.5
+   ✓ native inverse solver: TBE-V0-t0.25-d2
+   ✓ native inverse solver: TBE-V0-t1-d0
+   ✓ native inverse solver: TBE-V0-t1-d0.5
+   ✓ native inverse solver: TBE-V0-t1-d1
+   ✓ native inverse solver: TBE-V0-t1-d1.5
+   ✓ native inverse solver: TBE-V0-t1-d2
+   ✓ native inverse solver: TBE-V70-t0-d0
+   ✓ native inverse solver: TBE-V70-t0-d0.5
+   ✓ native inverse solver: TBE-V70-t0-d1
+   ✓ native inverse solver: TBE-V70-t0-d1.5
+   ✓ native inverse solver: TBE-V70-t0-d2
+   ✓ native inverse solver: TBE-V70-t0.25-d0
+   ✓ native inverse solver: TBE-V70-t0.25-d0.5
+   ✓ native inverse solver: TBE-V70-t0.25-d1
+   ✓ native inverse solver: TBE-V70-t0.25-d1.5
+   ✓ native inverse solver: TBE-V70-t0.25-d2
+   ✓ native inverse solver: TBE-V70-t1-d0
+   ✓ native inverse solver: TBE-V70-t1-d0.5
+   ✓ native inverse solver: TBE-V70-t1-d1
+   ✓ native inverse solver: TBE-V70-t1-d1.5
+   ✓ native inverse solver: TBE-V70-t1-d2
+   ✓ native inverse solver: TBE-V300-t0-d0
+   ✓ native inverse solver: TBE-V300-t0-d0.5
+   ✓ native inverse solver: TBE-V300-t0-d1
+   ✓ native inverse solver: TBE-V300-t0-d1.5
+   ✓ native inverse solver: TBE-V300-t0-d2
+   ✓ native inverse solver: TBE-V300-t0.25-d0
+   ✓ native inverse solver: TBE-V300-t0.25-d0.5
+   ✓ native inverse solver: TBE-V300-t0.25-d1
+   ✓ native inverse solver: TBE-V300-t0.25-d1.5
+   ✓ native inverse solver: TBE-V300-t0.25-d2
+   ✓ native inverse solver: TBE-V300-t1-d0
+   ✓ native inverse solver: TBE-V300-t1-d0.5
+   ✓ native inverse solver: TBE-V300-t1-d1
+   ✓ native inverse solver: TBE-V300-t1-d1.5
+   ✓ native inverse solver: TBE-V300-t1-d2
+   ✓ native inverse solver: TAE-V-300-t0-d0
+   ✓ native inverse solver: TAE-V-300-t0-d0.5
+   ✓ native inverse solver: TAE-V-300-t0-d1
+   ✓ native inverse solver: TAE-V-300-t0-d1.5
+   ✓ native inverse solver: TAE-V-300-t0-d2
+   ✓ native inverse solver: TAE-V-300-t0.25-d0
+   ✓ native inverse solver: TAE-V-300-t0.25-d0.5
+   ✓ native inverse solver: TAE-V-300-t0.25-d1
+   ✓ native inverse solver: TAE-V-300-t0.25-d1.5
+   ✓ native inverse solver: TAE-V-300-t0.25-d2
+   ✓ native inverse solver: TAE-V-300-t1-d0
+   ✓ native inverse solver: TAE-V-300-t1-d0.5
+   ✓ native inverse solver: TAE-V-300-t1-d1
+   ✓ native inverse solver: TAE-V-300-t1-d1.5
+   ✓ native inverse solver: TAE-V-300-t1-d2
+   ✓ native inverse solver: TAE-V0-t0-d0
+   ✓ native inverse solver: TAE-V0-t0-d0.5
+   ✓ native inverse solver: TAE-V0-t0-d1
+   ✓ native inverse solver: TAE-V0-t0-d1.5
+   ✓ native inverse solver: TAE-V0-t0-d2
+   ✓ native inverse solver: TAE-V0-t0.25-d0
+   ✓ native inverse solver: TAE-V0-t0.25-d0.5
+   ✓ native inverse solver: TAE-V0-t0.25-d1
+   ✓ native inverse solver: TAE-V0-t0.25-d1.5
+   ✓ native inverse solver: TAE-V0-t0.25-d2
+   ✓ native inverse solver: TAE-V0-t1-d0
+   ✓ native inverse solver: TAE-V0-t1-d0.5
+   ✓ native inverse solver: TAE-V0-t1-d1
+   ✓ native inverse solver: TAE-V0-t1-d1.5
+   ✓ native inverse solver: TAE-V0-t1-d2
+   ✓ native inverse solver: TAE-V70-t0-d0
+   ✓ native inverse solver: TAE-V70-t0-d0.5
+   ✓ native inverse solver: TAE-V70-t0-d1
+   ✓ native inverse solver: TAE-V70-t0-d1.5
+   ✓ native inverse solver: TAE-V70-t0-d2
+   ✓ native inverse solver: TAE-V70-t0.25-d0
+   ✓ native inverse solver: TAE-V70-t0.25-d0.5
+   ✓ native inverse solver: TAE-V70-t0.25-d1
+   ✓ native inverse solver: TAE-V70-t0.25-d1.5
+   ✓ native inverse solver: TAE-V70-t0.25-d2
+   ✓ native inverse solver: TAE-V70-t1-d0
+   ✓ native inverse solver: TAE-V70-t1-d0.5
+   ✓ native inverse solver: TAE-V70-t1-d1
+   ✓ native inverse solver: TAE-V70-t1-d1.5
+   ✓ native inverse solver: TAE-V70-t1-d2
+   ✓ native inverse solver: TAE-V300-t0-d0
+   ✓ native inverse solver: TAE-V300-t0-d0.5
+   ✓ native inverse solver: TAE-V300-t0-d1
+   ✓ native inverse solver: TAE-V300-t0-d1.5
+   ✓ native inverse solver: TAE-V300-t0-d2
+   ✓ native inverse solver: TAE-V300-t0.25-d0
+   ✓ native inverse solver: TAE-V300-t0.25-d0.5
+   ✓ native inverse solver: TAE-V300-t0.25-d1
+   ✓ native inverse solver: TAE-V300-t0.25-d1.5
+   ✓ native inverse solver: TAE-V300-t0.25-d2
+   ✓ native inverse solver: TAE-V300-t1-d0
+   ✓ native inverse solver: TAE-V300-t1-d0.5
+   ✓ native inverse solver: TAE-V300-t1-d1
+   ✓ native inverse solver: TAE-V300-t1-d1.5
+   ✓ native inverse solver: TAE-V300-t1-d2
+   ✓ native inverse solver: H2O-V-300-t0-d0
+   ✓ native inverse solver: H2O-V-300-t0-d0.5
+   ✓ native inverse solver: H2O-V-300-t0-d1
+   ✓ native inverse solver: H2O-V-300-t0-d1.5
+   ✓ native inverse solver: H2O-V-300-t0-d2
+   ✓ native inverse solver: H2O-V-300-t0.25-d0
+   ✓ native inverse solver: H2O-V-300-t0.25-d0.5
+   ✓ native inverse solver: H2O-V-300-t0.25-d1
+   ✓ native inverse solver: H2O-V-300-t0.25-d1.5
+   ✓ native inverse solver: H2O-V-300-t0.25-d2
+   ✓ native inverse solver: H2O-V-300-t1-d0
+   ✓ native inverse solver: H2O-V-300-t1-d0.5
+   ✓ native inverse solver: H2O-V-300-t1-d1
+   ✓ native inverse solver: H2O-V-300-t1-d1.5
+   ✓ native inverse solver: H2O-V-300-t1-d2
+   ✓ native inverse solver: H2O-V0-t0-d0
+   ✓ native inverse solver: H2O-V0-t0-d0.5
+   ✓ native inverse solver: H2O-V0-t0-d1
+   ✓ native inverse solver: H2O-V0-t0-d1.5
+   ✓ native inverse solver: H2O-V0-t0-d2
+   ✓ native inverse solver: H2O-V0-t0.25-d0
+   ✓ native inverse solver: H2O-V0-t0.25-d0.5
+   ✓ native inverse solver: H2O-V0-t0.25-d1
+   ✓ native inverse solver: H2O-V0-t0.25-d1.5
+   ✓ native inverse solver: H2O-V0-t0.25-d2
+   ✓ native inverse solver: H2O-V0-t1-d0
+   ✓ native inverse solver: H2O-V0-t1-d0.5
+   ✓ native inverse solver: H2O-V0-t1-d1
+   ✓ native inverse solver: H2O-V0-t1-d1.5
+   ✓ native inverse solver: H2O-V0-t1-d2
+   ✓ native inverse solver: H2O-V70-t0-d0
+   ✓ native inverse solver: H2O-V70-t0-d0.5
+   ✓ native inverse solver: H2O-V70-t0-d1
+   ✓ native inverse solver: H2O-V70-t0-d1.5
+   ✓ native inverse solver: H2O-V70-t0-d2
+   ✓ native inverse solver: H2O-V70-t0.25-d0
+   ✓ native inverse solver: H2O-V70-t0.25-d0.5
+   ✓ native inverse solver: H2O-V70-t0.25-d1
+   ✓ native inverse solver: H2O-V70-t0.25-d1.5
+   ✓ native inverse solver: H2O-V70-t0.25-d2
+   ✓ native inverse solver: H2O-V70-t1-d0
+   ✓ native inverse solver: H2O-V70-t1-d0.5
+   ✓ native inverse solver: H2O-V70-t1-d1
+   ✓ native inverse solver: H2O-V70-t1-d1.5
+   ✓ native inverse solver: H2O-V70-t1-d2
+   ✓ native inverse solver: H2O-V300-t0-d0
+   ✓ native inverse solver: H2O-V300-t0-d0.5
+   ✓ native inverse solver: H2O-V300-t0-d1
+   ✓ native inverse solver: H2O-V300-t0-d1.5
+   ✓ native inverse solver: H2O-V300-t0-d2
+   ✓ native inverse solver: H2O-V300-t0.25-d0
+   ✓ native inverse solver: H2O-V300-t0.25-d0.5
+   ✓ native inverse solver: H2O-V300-t0.25-d1
+   ✓ native inverse solver: H2O-V300-t0.25-d1.5
+   ✓ native inverse solver: H2O-V300-t0.25-d2
+   ✓ native inverse solver: H2O-V300-t1-d0
+   ✓ native inverse solver: H2O-V300-t1-d0.5
+   ✓ native inverse solver: H2O-V300-t1-d1
+   ✓ native inverse solver: H2O-V300-t1-d1.5
+   ✓ native inverse solver: H2O-V300-t1-d2
+   ✓ native inverse solver: bases-0
+   ✓ native inverse solver: bases-1
+   ✓ native inverse solver: bases-2
+   ✓ native inverse solver: bases-3
+   ✓ native inverse solver: bases-4
+   ✓ native inverse solver: bases-5
+   ✓ native inverse solver: bases-6
+   ✓ native inverse solver: mass-0
+   ✓ native inverse solver: mass-1
+   ✓ native inverse solver: mass-2
+   ✓ native inverse solver: mass-3
+   ✓ native inverse solver: mass-4
+   ✓ native inverse solver: aspectRatio-0
+   ✓ native inverse solver: aspectRatio-1
+   ✓ native inverse solver: aspectRatio-2
+   ✓ native inverse solver: aggregate-0
+   ✓ native inverse solver: aggregate-1
+   ✓ native inverse solver: aggregate-2
+   ✓ native inverse solver: aggregate-3
+   ✓ native inverse solver: aggregate-4
+   ✓ native inverse solver: dye0-mass0-TBE
+   ✓ native inverse solver: dye0-mass0-TAE
+   ✓ native inverse solver: dye0-mass0-H2O
+   ✓ native inverse solver: dye0-mass62.5-TBE
+   ✓ native inverse solver: dye0-mass62.5-TAE
+   ✓ native inverse solver: dye0-mass62.5-H2O
+   ✓ native inverse solver: dye0-mass125-TBE
+   ✓ native inverse solver: dye0-mass125-TAE
+   ✓ native inverse solver: dye0-mass125-H2O
+   ✓ native inverse solver: dye1-mass0-TBE
+   ✓ native inverse solver: dye1-mass0-TAE
+   ✓ native inverse solver: dye1-mass0-H2O
+   ✓ native inverse solver: dye1-mass62.5-TBE
+   ✓ native inverse solver: dye1-mass62.5-TAE
+   ✓ native inverse solver: dye1-mass62.5-H2O
+   ✓ native inverse solver: dye1-mass125-TBE
+   ✓ native inverse solver: dye1-mass125-TAE
+   ✓ native inverse solver: dye1-mass125-H2O
+   ✓ native inverse solver: dye2-mass0-TBE
+   ✓ native inverse solver: dye2-mass0-TAE
+   ✓ native inverse solver: dye2-mass0-H2O
+   ✓ native inverse solver: dye2-mass62.5-TBE
+   ✓ native inverse solver: dye2-mass62.5-TAE
+   ✓ native inverse solver: dye2-mass62.5-H2O
+   ✓ native inverse solver: dye2-mass125-TBE
+   ✓ native inverse solver: dye2-mass125-TAE
+   ✓ native inverse solver: dye2-mass125-H2O
+   ✓ native inverse solver: dye3-mass0-TBE
+   ✓ native inverse solver: dye3-mass0-TAE
+   ✓ native inverse solver: dye3-mass0-H2O
+   ✓ native inverse solver: dye3-mass62.5-TBE
+   ✓ native inverse solver: dye3-mass62.5-TAE
+   ✓ native inverse solver: dye3-mass62.5-H2O
+   ✓ native inverse solver: dye3-mass125-TBE
+   ✓ native inverse solver: dye3-mass125-TAE
+   ✓ native inverse solver: dye3-mass125-H2O
+   ✓ native inverse solver: damage-0.25
+   ✓ native inverse solver: damage-0.5
+   ✓ native inverse solver: damage-1
+   ✓ native inverse solver: lane-index-sample-buffer
+   ✓ native inverse solver: fractional-bp90-d0.7
+   ✓ native inverse solver: fractional-bp90-d1.7
+   ✓ native inverse solver: fractional-bp100-d0.29
+   ✓ native inverse solver: fractional-bp3001-d0.1
+   ✓ native inverse solver: fractional-bp3001-d1.1
+   ✓ native inverse solver: diffusion-bp1000-V70-t0.6
+   ✓ native inverse solver: diffusion-bp1000-V210-t1
+   ✓ native inverse solver: diffusion-bp1000-V140-t0.9
+   ✓ native inverse solver: startup-fragment-0
+   ✓ native inverse solver: startup-fragment-1
+   ✓ native inverse solver: startup-fragment-2
+   ✓ native inverse solver: startup-fragment-3
+   ✓ native inverse solver: startup-fragment-4
+   ✓ native inverse solver: startup-fragment-5
+   ✓ native inverse solver: startup-fragment-6
+   ✓ native inverse solver: startup-fragment-7
+   ✓ native inverse solver: startup-fragment-8
+   ✓ native inverse solver: startup-fragment-9
+   ✓ native inverse solver: startup-fragment-10
+   ✓ native inverse solver: tied-aggregate-tops
+   ✓ native inverse solver: aggregate-degraded-first-max
+   ✓ native inverse solver: overloaded-H2O
+   ✓ native inverse solver: loupe-degraded-multimer
+   ✓ native inverse solver: loupe-source-index
+   ✓ native inverse solver: loupe-degrade-boundary
+   ✓ native inverse solver: boundary-bp1-y30
+   ✓ native inverse solver: boundary-bp1-y37
+   ✓ native inverse solver: boundary-bp1-y44
+   ✓ native inverse solver: boundary-bp1-y51
+   ✓ native inverse solver: boundary-bp1-y58
+   ✓ native inverse solver: boundary-bp1-y65
+   ✓ native inverse solver: boundary-bp1-y72
+   ✓ native inverse solver: boundary-bp1-y79
+   ✓ native inverse solver: boundary-bp1-y86
+   ✓ native inverse solver: boundary-bp1-y93
+   ✓ native inverse solver: boundary-bp1-y100
+   ✓ native inverse solver: boundary-bp1-y107
+   ✓ native inverse solver: boundary-bp1-y114
+   ✓ native inverse solver: boundary-bp1-y121
+   ✓ native inverse solver: boundary-bp1-y128
+   ✓ native inverse solver: boundary-bp1-y135
+   ✓ native inverse solver: boundary-bp1-y142
+   ✓ native inverse solver: boundary-bp1-y149
+   ✓ native inverse solver: boundary-bp1-y156
+   ✓ native inverse solver: boundary-bp1-y163
+   ✓ native inverse solver: boundary-bp1-y170
+   ✓ native inverse solver: boundary-bp1-y177
+   ✓ native inverse solver: boundary-bp1-y184
+   ✓ native inverse solver: boundary-bp1-y191
+   ✓ native inverse solver: boundary-bp1-y198
+   ✓ native inverse solver: boundary-bp1-y205
+   ✓ native inverse solver: boundary-bp1-y212
+   ✓ native inverse solver: boundary-bp1-y219
+   ✓ native inverse solver: boundary-bp1-y226
+   ✓ native inverse solver: boundary-bp1-y233
+   ✓ native inverse solver: boundary-bp1-y240
+   ✓ native inverse solver: boundary-bp1-y247
+   ✓ native inverse solver: boundary-bp1-y254
+   ✓ native inverse solver: boundary-bp1-y261
+   ✓ native inverse solver: boundary-bp1-y268
+   ✓ native inverse solver: boundary-bp1-y275
+   ✓ native inverse solver: boundary-bp1-y282
+   ✓ native inverse solver: boundary-bp1-y289
+   ✓ native inverse solver: boundary-bp1-y296
+   ✓ native inverse solver: boundary-bp1-y303
+   ✓ native inverse solver: boundary-bp1-y310
+   ✓ native inverse solver: boundary-bp1-y317
+   ✓ native inverse solver: boundary-bp1-y324
+   ✓ native inverse solver: boundary-bp1-y331
+   ✓ native inverse solver: boundary-bp1-y338
+   ✓ native inverse solver: boundary-bp1-y345
+   ✓ native inverse solver: boundary-bp1-y352
+   ✓ native inverse solver: boundary-bp1-y359
+   ✓ native inverse solver: boundary-bp1-y366
+   ✓ native inverse solver: boundary-bp1-y373
+   ✓ native inverse solver: boundary-bp1-y380
+   ✓ native inverse solver: boundary-bp1-y387
+   ✓ native inverse solver: boundary-bp1-y394
+   ✓ native inverse solver: boundary-bp1001-y30
+   ✓ native inverse solver: boundary-bp1001-y37
+   ✓ native inverse solver: boundary-bp1001-y44
+   ✓ native inverse solver: boundary-bp1001-y51
+   ✓ native inverse solver: boundary-bp1001-y58
+   ✓ native inverse solver: boundary-bp1001-y65
+   ✓ native inverse solver: boundary-bp1001-y72
+   ✓ native inverse solver: boundary-bp1001-y79
+   × native inverse solver: boundary-bp1001-y86 4ms
+     → target 86, aggregate 1: expected 1001 to be 999 // Object.is equality
+   × native inverse solver: boundary-bp1001-y93 1ms
+     → target 93, aggregate 1: expected 1001 to be 999 // Object.is equality
+   ✓ native inverse solver: boundary-bp1001-y100
+   ✓ native inverse solver: boundary-bp1001-y107
+   ✓ native inverse solver: boundary-bp1001-y114
+   ✓ native inverse solver: boundary-bp1001-y121
+   ✓ native inverse solver: boundary-bp1001-y128
+   × native inverse solver: boundary-bp1001-y135 2ms
+     → target 135, aggregate 1: expected 999 to be 1001 // Object.is equality
+   ✓ native inverse solver: boundary-bp1001-y142
+   × native inverse solver: boundary-bp1001-y149 2ms
+     → target 149, aggregate 1: expected 999 to be 1001 // Object.is equality
+   ✓ native inverse solver: boundary-bp1001-y156
+   ✓ native inverse solver: boundary-bp1001-y163
+   × native inverse solver: boundary-bp1001-y170 2ms
+     → target 170, aggregate 1: expected 999 to be 1001 // Object.is equality
+   ✓ native inverse solver: boundary-bp1001-y177
+   ✓ native inverse solver: boundary-bp1001-y184
+   ✓ native inverse solver: boundary-bp1001-y191
+   ✓ native inverse solver: boundary-bp1001-y198
+   ✓ native inverse solver: boundary-bp1001-y205
+   ✓ native inverse solver: boundary-bp1001-y212
+   ✓ native inverse solver: boundary-bp1001-y219
+   ✓ native inverse solver: boundary-bp1001-y226
+   ✓ native inverse solver: boundary-bp1001-y233
+   ✓ native inverse solver: boundary-bp1001-y240
+   ✓ native inverse solver: boundary-bp1001-y247
+   ✓ native inverse solver: boundary-bp1001-y254
+   ✓ native inverse solver: boundary-bp1001-y261
+   ✓ native inverse solver: boundary-bp1001-y268
+   ✓ native inverse solver: boundary-bp1001-y275
+   × native inverse solver: boundary-bp1001-y282 1ms
+     → target 282, aggregate 1: expected 999 to be 1001 // Object.is equality
+   ✓ native inverse solver: boundary-bp1001-y289
+   ✓ native inverse solver: boundary-bp1001-y296
+   ✓ native inverse solver: boundary-bp1001-y303
+   ✓ native inverse solver: boundary-bp1001-y310
+   ✓ native inverse solver: boundary-bp1001-y317
+   ✓ native inverse solver: boundary-bp1001-y324
+   ✓ native inverse solver: boundary-bp1001-y331
+   ✓ native inverse solver: boundary-bp1001-y338
+   ✓ native inverse solver: boundary-bp1001-y345
+   ✓ native inverse solver: boundary-bp1001-y352
+   ✓ native inverse solver: boundary-bp1001-y359
+   ✓ native inverse solver: boundary-bp1001-y366
+   ✓ native inverse solver: boundary-bp1001-y373
+   ✓ native inverse solver: boundary-bp1001-y380
+   ✓ native inverse solver: boundary-bp1001-y387
+   ✓ native inverse solver: boundary-bp1001-y394
+   ✓ native inverse solver: boundary-bp2001-y30
+   ✓ native inverse solver: boundary-bp2001-y37
+   ✓ native inverse solver: boundary-bp2001-y44
+   ✓ native inverse solver: boundary-bp2001-y51
+   ✓ native inverse solver: boundary-bp2001-y58
+   ✓ native inverse solver: boundary-bp2001-y65
+   ✓ native inverse solver: boundary-bp2001-y72
+   ✓ native inverse solver: boundary-bp2001-y79
+   ✓ native inverse solver: boundary-bp2001-y86
+   ✓ native inverse solver: boundary-bp2001-y93
+   ✓ native inverse solver: boundary-bp2001-y100
+   ✓ native inverse solver: boundary-bp2001-y107
+   ✓ native inverse solver: boundary-bp2001-y114
+   ✓ native inverse solver: boundary-bp2001-y121
+   ✓ native inverse solver: boundary-bp2001-y128
+   ✓ native inverse solver: boundary-bp2001-y135
+   ✓ native inverse solver: boundary-bp2001-y142
+   ✓ native inverse solver: boundary-bp2001-y149
+   ✓ native inverse solver: boundary-bp2001-y156
+   × native inverse solver: boundary-bp2001-y163 1ms
+     → target 163, aggregate 1: expected 2001 to be 1999 // Object.is equality
+   ✓ native inverse solver: boundary-bp2001-y170
+   ✓ native inverse solver: boundary-bp2001-y177
+   ✓ native inverse solver: boundary-bp2001-y184
+   ✓ native inverse solver: boundary-bp2001-y191
+   ✓ native inverse solver: boundary-bp2001-y198
+   × native inverse solver: boundary-bp2001-y205 1ms
+     → target 205, aggregate 1: expected 1999 to be 2001 // Object.is equality
+   ✓ native inverse solver: boundary-bp2001-y212
+   ✓ native inverse solver: boundary-bp2001-y219
+   ✓ native inverse solver: boundary-bp2001-y226
+   ✓ native inverse solver: boundary-bp2001-y233
+   × native inverse solver: boundary-bp2001-y240 2ms
+     → target 240, aggregate 1: expected 1999 to be 2001 // Object.is equality
+   ✓ native inverse solver: boundary-bp2001-y247
+   ✓ native inverse solver: boundary-bp2001-y254
+   × native inverse solver: boundary-bp2001-y261 1ms
+     → target 261, aggregate 1: expected 2001 to be 1999 // Object.is equality
+   ✓ native inverse solver: boundary-bp2001-y268
+   ✓ native inverse solver: boundary-bp2001-y275
+   ✓ native inverse solver: boundary-bp2001-y282
+   ✓ native inverse solver: boundary-bp2001-y289
+   ✓ native inverse solver: boundary-bp2001-y296
+   ✓ native inverse solver: boundary-bp2001-y303
+   ✓ native inverse solver: boundary-bp3001-y30
+   ✓ native inverse solver: boundary-bp3001-y37
+   ✓ native inverse solver: boundary-bp3001-y44
+   ✓ native inverse solver: boundary-bp3001-y51
+   × native inverse solver: boundary-bp3001-y58 2ms
+     → target 58, aggregate 1: expected 2937 to be 3001 // Object.is equality
+   ✓ native inverse solver: boundary-bp3001-y65
+   ✓ native inverse solver: boundary-bp3001-y72
+   ✓ native inverse solver: boundary-bp3001-y79
+   ✓ native inverse solver: boundary-bp3001-y86
+   ✓ native inverse solver: boundary-bp3001-y93
+   × native inverse solver: boundary-bp3001-y100 1ms
+     → target 100, aggregate 1: expected 3001 to be 2999 // Object.is equality
+   ✓ native inverse solver: boundary-bp3001-y107
+   ✓ native inverse solver: boundary-bp3001-y114
+   ✓ native inverse solver: boundary-bp3001-y121
+   ✓ native inverse solver: boundary-bp3001-y128
+   × native inverse solver: boundary-bp3001-y135 1ms
+     → target 135, aggregate 1: expected 2999 to be 3001 // Object.is equality
+   ✓ native inverse solver: boundary-bp3001-y142
+   ✓ native inverse solver: boundary-bp3001-y149
+   × native inverse solver: boundary-bp3001-y156 2ms
+     → target 156, aggregate 1: expected 3001 to be 2999 // Object.is equality
+   × native inverse solver: boundary-bp3001-y163 1ms
+     → target 163, aggregate 1: expected 3001 to be 2999 // Object.is equality
+   ✓ native inverse solver: boundary-bp3001-y170
+   ✓ native inverse solver: boundary-bp3001-y177
+   ✓ native inverse solver: boundary-bp3001-y184
+   ✓ native inverse solver: boundary-bp3001-y191
+   ✓ native inverse solver: boundary-bp3001-y198
+   × native inverse solver: boundary-bp3001-y205 1ms
+     → target 205, aggregate 1: expected 3001 to be 2999 // Object.is equality
+   ✓ native inverse solver: boundary-bp3001-y212
+   ✓ native inverse solver: boundary-bp3001-y219
+   ✓ native inverse solver: boundary-bp3001-y226
+   ✓ native inverse solver: boundary-bp4001-y30
+   ✓ native inverse solver: boundary-bp4001-y37
+   ✓ native inverse solver: boundary-bp4001-y44
+   ✓ native inverse solver: boundary-bp4001-y51
+   ✓ native inverse solver: boundary-bp4001-y58
+   ✓ native inverse solver: boundary-bp4001-y65
+   ✓ native inverse solver: boundary-bp4001-y72
+   ✓ native inverse solver: boundary-bp4001-y79
+   ✓ native inverse solver: boundary-bp4001-y86
+   ✓ native inverse solver: boundary-bp4001-y93
+   ✓ native inverse solver: boundary-bp4001-y100
+   ✓ native inverse solver: boundary-bp4001-y107
+   ✓ native inverse solver: boundary-bp4001-y114
+   ✓ native inverse solver: boundary-bp4001-y121
+   ✓ native inverse solver: boundary-bp4001-y128
+   ✓ native inverse solver: boundary-bp4001-y135
+   ✓ native inverse solver: boundary-bp4001-y142
+   ✓ native inverse solver: boundary-bp4001-y149
+   ✓ native inverse solver: boundary-bp4001-y156
+   ✓ native inverse solver: boundary-bp4001-y163
+   ✓ native inverse solver: boundary-bp4001-y170
+   ✓ native inverse solver: boundary-bp5001-y30
+   ✓ native inverse solver: boundary-bp5001-y37
+   ✓ native inverse solver: boundary-bp5001-y44
+   ✓ native inverse solver: boundary-bp5001-y51
+   ✓ native inverse solver: boundary-bp5001-y58
+   ✓ native inverse solver: boundary-bp5001-y65
+   ✓ native inverse solver: boundary-bp5001-y72
+   ✓ native inverse solver: boundary-bp5001-y79
+   ✓ native inverse solver: boundary-bp5001-y86
+   ✓ native inverse solver: boundary-bp5001-y93
+   ✓ native inverse solver: boundary-bp5001-y100
+   ✓ native inverse solver: boundary-bp5001-y107
+   ✓ native inverse solver: boundary-bp5001-y114
+   ✓ native inverse solver: boundary-bp5001-y121
+   ✓ native inverse solver: boundary-bp5001-y128
+   ✓ native inverse solver: boundary-bp6001-y30
+   ✓ native inverse solver: boundary-bp6001-y37
+   ✓ native inverse solver: boundary-bp6001-y44
+   ✓ native inverse solver: boundary-bp6001-y51
+   ✓ native inverse solver: boundary-bp6001-y58
+   ✓ native inverse solver: boundary-bp6001-y65
+   ✓ native inverse solver: boundary-bp6001-y72
+   ✓ native inverse solver: boundary-bp6001-y79
+   ✓ native inverse solver: boundary-bp6001-y86
+   ✓ native inverse solver: boundary-bp6001-y93
+   × native inverse solver: boundary-bp7001-y30 2ms
+     → target 30, aggregate 1: expected 7001 to be 6813 // Object.is equality
+   ✓ native inverse solver: boundary-bp7001-y37
+   ✓ native inverse solver: boundary-bp7001-y44
+   ✓ native inverse solver: boundary-bp7001-y51
+   ✓ native inverse solver: boundary-bp7001-y58
+   ✓ native inverse solver: boundary-bp7001-y65
+   × native inverse solver: boundary-bp7001-y72 1ms
+     → target 72, aggregate 1: expected 6999 to be 7001 // Object.is equality
+   ✓ native inverse solver: boundary-bp8001-y30
+   ✓ native inverse solver: boundary-bp8001-y37
+   ✓ native inverse solver: boundary-bp8001-y44
+   ✓ native inverse solver: boundary-bp8001-y51
+   × native inverse solver: boundary-bp8001-y58 1ms
+     → target 58, aggregate 1: expected 8001 to be 7937 // Object.is equality
+   ✓ native inverse solver: boundary-bp9001-y30
+   ✓ native inverse solver: boundary-bp9001-y37
+   ✓ native inverse solver: boundary-bp9001-y44
+   ✓ native inverse solver: boundary-bp10001-y30
+   ✓ native inverse solver: boundary-bp10001-y37
+   ✓ native inverse solver: boundary-bp11001-y30
+   ✓ native inverse solver: boundary-bp11001-y37
+   ✓ native inverse solver: boundary-bp12001-y30
+   ✓ native inverse solver: boundary-bp12001-y37
+   ✓ native inverse solver: boundary-bp13001-y30
+   ✓ native inverse solver: boundary-bp13001-y37
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 25 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/nativeNumerical.test.ts > native C++ bands: boundary-bp3001-y58
+AssertionError: boundary-bp3001-y58.0.randSeed: expected 15307 to be 15308 // Object.is equality
+
+- Expected
++ Received
+
+- 15308
++ 15307
+
+ ❯ compare tests/unit/nativeNumerical.test.ts:12:95
+     10|     const field = path.split('.').at(-1)!;
+     11|     if (exact.has(field) && !Number.isInteger(actual)) throw Error(`No…
+     12|     if (field === 'randSeed' || field === 'wellDamageRandSeed') expect…
+       |                                                                                               ^
+     13|     else if (exact.has(field)) expect.soft(actual, path).toBe(expected…
+     14|     else expect.soft(Math.abs(actual - expected), `${path}: web ${actu…
+ ❯ compare tests/unit/nativeNumerical.test.ts:21:52
+ ❯ tests/unit/nativeNumerical.test.ts:19:32
+ ❯ compare tests/unit/nativeNumerical.test.ts:19:14
+ ❯ tests/unit/nativeNumerical.test.ts:35:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/25]⎯
+
+ FAIL  tests/unit/nativeNumerical.test.ts > native C++ bands: boundary-bp3001-y100
+AssertionError: boundary-bp3001-y100.0.randSeed: expected 15350 to be 15349 // Object.is equality
+
+- Expected
++ Received
+
+- 15349
++ 15350
+
+ ❯ compare tests/unit/nativeNumerical.test.ts:12:95
+     10|     const field = path.split('.').at(-1)!;
+     11|     if (exact.has(field) && !Number.isInteger(actual)) throw Error(`No…
+     12|     if (field === 'randSeed' || field === 'wellDamageRandSeed') expect…
+       |                                                                                               ^
+     13|     else if (exact.has(field)) expect.soft(actual, path).toBe(expected…
+     14|     else expect.soft(Math.abs(actual - expected), `${path}: web ${actu…
+ ❯ compare tests/unit/nativeNumerical.test.ts:21:52
+ ❯ tests/unit/nativeNumerical.test.ts:19:32
+ ❯ compare tests/unit/nativeNumerical.test.ts:19:14
+ ❯ tests/unit/nativeNumerical.test.ts:35:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/25]⎯
+
+ FAIL  tests/unit/nativeNumerical.test.ts > native C++ bands: boundary-bp3001-y135
+AssertionError: boundary-bp3001-y135.0.randSeed: expected 15384 to be 15385 // Object.is equality
+
+- Expected
++ Received
+
+- 15385
++ 15384
+
+ ❯ compare tests/unit/nativeNumerical.test.ts:12:95
+     10|     const field = path.split('.').at(-1)!;
+     11|     if (exact.has(field) && !Number.isInteger(actual)) throw Error(`No…
+     12|     if (field === 'randSeed' || field === 'wellDamageRandSeed') expect…
+       |                                                                                               ^
+     13|     else if (exact.has(field)) expect.soft(actual, path).toBe(expected…
+     14|     else expect.soft(Math.abs(actual - expected), `${path}: web ${actu…
+ ❯ compare tests/unit/nativeNumerical.test.ts:21:52
+ ❯ tests/unit/nativeNumerical.test.ts:19:32
+ ❯ compare tests/unit/nativeNumerical.test.ts:19:14
+ ❯ tests/unit/nativeNumerical.test.ts:35:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/25]⎯
+
+ FAIL  tests/unit/nativeNumerical.test.ts > native C++ bands: boundary-bp3001-y156
+AssertionError: boundary-bp3001-y156.0.randSeed: expected 15406 to be 15405 // Object.is equality
+
+- Expected
++ Received
+
+- 15405
++ 15406
+
+ ❯ compare tests/unit/nativeNumerical.test.ts:12:95
+     10|     const field = path.split('.').at(-1)!;
+     11|     if (exact.has(field) && !Number.isInteger(actual)) throw Error(`No…
+     12|     if (field === 'randSeed' || field === 'wellDamageRandSeed') expect…
+       |                                                                                               ^
+     13|     else if (exact.has(field)) expect.soft(actual, path).toBe(expected…
+     14|     else expect.soft(Math.abs(actual - expected), `${path}: web ${actu…
+ ❯ compare tests/unit/nativeNumerical.test.ts:21:52
+ ❯ tests/unit/nativeNumerical.test.ts:19:32
+ ❯ compare tests/unit/nativeNumerical.test.ts:19:14
+ ❯ tests/unit/nativeNumerical.test.ts:35:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/25]⎯
+
+ FAIL  tests/unit/nativeNumerical.test.ts > native C++ bands: boundary-bp3001-y163
+AssertionError: boundary-bp3001-y163.0.randSeed: expected 15413 to be 15412 // Object.is equality
+
+- Expected
++ Received
+
+- 15412
++ 15413
+
+ ❯ compare tests/unit/nativeNumerical.test.ts:12:95
+     10|     const field = path.split('.').at(-1)!;
+     11|     if (exact.has(field) && !Number.isInteger(actual)) throw Error(`No…
+     12|     if (field === 'randSeed' || field === 'wellDamageRandSeed') expect…
+       |                                                                                               ^
+     13|     else if (exact.has(field)) expect.soft(actual, path).toBe(expected…
+     14|     else expect.soft(Math.abs(actual - expected), `${path}: web ${actu…
+ ❯ compare tests/unit/nativeNumerical.test.ts:21:52
+ ❯ tests/unit/nativeNumerical.test.ts:19:32
+ ❯ compare tests/unit/nativeNumerical.test.ts:19:14
+ ❯ tests/unit/nativeNumerical.test.ts:35:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/25]⎯
+
+ FAIL  tests/unit/nativeNumerical.test.ts > native C++ bands: boundary-bp3001-y205
+AssertionError: boundary-bp3001-y205.0.randSeed: expected 15455 to be 15454 // Object.is equality
+
+- Expected
++ Received
+
+- 15454
++ 15455
+
+ ❯ compare tests/unit/nativeNumerical.test.ts:12:95
+     10|     const field = path.split('.').at(-1)!;
+     11|     if (exact.has(field) && !Number.isInteger(actual)) throw Error(`No…
+     12|     if (field === 'randSeed' || field === 'wellDamageRandSeed') expect…
+       |                                                                                               ^
+     13|     else if (exact.has(field)) expect.soft(actual, path).toBe(expected…
+     14|     else expect.soft(Math.abs(actual - expected), `${path}: web ${actu…
+ ❯ compare tests/unit/nativeNumerical.test.ts:21:52
+ ❯ tests/unit/nativeNumerical.test.ts:19:32
+ ❯ compare tests/unit/nativeNumerical.test.ts:19:14
+ ❯ tests/unit/nativeNumerical.test.ts:35:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp1001-y86
+AssertionError: target 86, aggregate 1: expected 1001 to be 999 // Object.is equality
+
+- Expected
++ Received
+
+- 999
++ 1001
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp1001-y93
+AssertionError: target 93, aggregate 1: expected 1001 to be 999 // Object.is equality
+
+- Expected
++ Received
+
+- 999
++ 1001
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp1001-y135
+AssertionError: target 135, aggregate 1: expected 999 to be 1001 // Object.is equality
+
+- Expected
++ Received
+
+- 1001
++ 999
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp1001-y149
+AssertionError: target 149, aggregate 1: expected 999 to be 1001 // Object.is equality
+
+- Expected
++ Received
+
+- 1001
++ 999
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp1001-y170
+AssertionError: target 170, aggregate 1: expected 999 to be 1001 // Object.is equality
+
+- Expected
++ Received
+
+- 1001
++ 999
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp1001-y282
+AssertionError: target 282, aggregate 1: expected 999 to be 1001 // Object.is equality
+
+- Expected
++ Received
+
+- 1001
++ 999
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp2001-y163
+AssertionError: target 163, aggregate 1: expected 2001 to be 1999 // Object.is equality
+
+- Expected
++ Received
+
+- 1999
++ 2001
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp2001-y205
+AssertionError: target 205, aggregate 1: expected 1999 to be 2001 // Object.is equality
+
+- Expected
++ Received
+
+- 2001
++ 1999
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp2001-y240
+AssertionError: target 240, aggregate 1: expected 1999 to be 2001 // Object.is equality
+
+- Expected
++ Received
+
+- 2001
++ 1999
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp2001-y261
+AssertionError: target 261, aggregate 1: expected 2001 to be 1999 // Object.is equality
+
+- Expected
++ Received
+
+- 1999
++ 2001
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp3001-y58
+AssertionError: target 58, aggregate 1: expected 2937 to be 3001 // Object.is equality
+
+- Expected
++ Received
+
+- 3001
++ 2937
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp3001-y100
+AssertionError: target 100, aggregate 1: expected 3001 to be 2999 // Object.is equality
+
+- Expected
++ Received
+
+- 2999
++ 3001
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp3001-y135
+AssertionError: target 135, aggregate 1: expected 2999 to be 3001 // Object.is equality
+
+- Expected
++ Received
+
+- 3001
++ 2999
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp3001-y156
+AssertionError: target 156, aggregate 1: expected 3001 to be 2999 // Object.is equality
+
+- Expected
++ Received
+
+- 2999
++ 3001
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp3001-y163
+AssertionError: target 163, aggregate 1: expected 3001 to be 2999 // Object.is equality
+
+- Expected
++ Received
+
+- 2999
++ 3001
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp3001-y205
+AssertionError: target 205, aggregate 1: expected 3001 to be 2999 // Object.is equality
+
+- Expected
++ Received
+
+- 2999
++ 3001
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp7001-y30
+AssertionError: target 30, aggregate 1: expected 7001 to be 6813 // Object.is equality
+
+- Expected
++ Received
+
+- 6813
++ 7001
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp7001-y72
+AssertionError: target 72, aggregate 1: expected 6999 to be 7001 // Object.is equality
+
+- Expected
++ Received
+
+- 7001
++ 6999
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/25]⎯
+
+ FAIL  tests/unit/nativeSolver.test.ts > native inverse solver: boundary-bp8001-y58
+AssertionError: target 58, aggregate 1: expected 8001 to be 7937 // Object.is equality
+
+- Expected
++ Received
+
+- 7937
++ 8001
+
+ ❯ tests/unit/nativeSolver.test.ts:12:68
+     10|     expect.soft(solveBasesForY({ targetY: expected.targetY, aggregate:…
+     11|       frag: c.sample.fragments[c.fragment], lane: c.lane, ctx:c.ctx, w…
+     12|     `target ${expected.targetY}, aggregate ${expected.aggregate}`).toB…
+       |                                                                    ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/25]⎯
+
+
+ Test Files  2 failed | 74 passed (76)
+      Tests  25 failed | 3030 passed (3055)
+   Start at  13:59:29
+   Duration  2.13s (transform 1.32s, setup 0ms, collect 3.59s, tests 6.79s, environment 6ms, prepare 3.37s)
+
+[?25h

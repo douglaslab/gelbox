@@ -1,0 +1,37 @@
+{
+  "scope": "Startup timeline interior; fixed physical x650. Source line center endpointY+0.5 logical units, width one physical pixel.",
+  "samples": {
+    "startup.png": [
+      [
+        1346,
+        203
+      ],
+      [
+        1347,
+        203
+      ]
+    ],
+    "user-startup.png": [
+      [
+        1346,
+        203
+      ],
+      [
+        1347,
+        203
+      ]
+    ],
+    "web-webgl2-well-fix.png": [
+      [
+        1346,
+        151
+      ],
+      [
+        1347,
+        151
+      ]
+    ]
+  },
+  "finding": "CSS rectangle fills both rows with RGB151; native antialiased line splits coverage into RGB203 on each row. SVG line implements the source center/width without altering source color.",
+  "remaining": "Typography, handle/rounded-edge raster, tube outlines, well vertical edges and band raster differences remain unverified."
+}

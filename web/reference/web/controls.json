@@ -1,0 +1,23 @@
+{
+  "capturedOn": "2026-10-09",
+  "capture": "captures/gel-settings-controls.png",
+  "sha256": "fe12aaab5da0739723a934b8f9e92592955ec5c7d9074ac38d3b204c5004bb28",
+  "viewport": [
+    1365,
+    800
+  ],
+  "displayScale": 1,
+  "backend": "webgl2",
+  "nativeReference": "../native/captures/gel-settings.png",
+  "verifiedBehavior": [
+    "Native four-control order; timeline below gel only",
+    "Rotation and individual buffer concentrations disabled; presets enabled",
+    "Custom imported buffer concentrations preserved through disabled-control clicks and native JSON saving"
+  ],
+  "limitations": [
+    "Not a pixel-parity certification",
+    "Native reference viewport height is 768 at DPR 2; this web capture is 800 at DPR 1",
+    "Native slider icon assets have differing natural dimensions; current web icon boxes rescale them",
+    "Heading baselines, exact text rasterization, preset notch marks and other detailed slider visuals remain open"
+  ]
+}

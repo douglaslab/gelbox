@@ -1,0 +1,170 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceHashes": {
+    "include/Layout.h": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+    "src/Layout.cpp": "5a01b7a13aa4438e9d28d46f84dedc79d4a9e96750f333ca79356bc704f1d814",
+    "include/Gelbox.h": "607dd57d2bddf81f74744f25527c01a01afbe73104fcd08919ff009114774734",
+    "include/ButtonView.h": "14e92b13c1a9933488d8d7d6da38e50b034768190d699a79f9c009ea07c4968d",
+    "src/ButtonView.cpp": "d1631c11a2d5c7aa268e504c94faedb4b8185c5db2214980d578944dcc883f59",
+    "include/CheckboxView.h": "71da4ccbe2cf01be690939496ebd2a3b55116793c4e225c962dfdd5b62555e47",
+    "src/CheckboxView.cpp": "daf4e35e3dae257c5c1e8ec4f36c1c9f1517008a04e0c18d5fe976df8ae81ce5",
+    "include/AppSettingsView.h": "517a56a85d2d490b27b252c6e9bdee0e4a36b361ae68be9c54288373eb0c1f99",
+    "src/AppSettingsView.cpp": "20244f2300609d8571e6f394bc8b85f83a04a660262b1d7fcfd0210ca37434e5"
+  },
+  "methodSha256": "ffecff164fd704bffd6602d1043e89b3640d125c6c74677ce36ee3e87d8d4737",
+  "inputs": {
+    "driver.cpp": "2b1a25f601e478893901f0d28a95b140c1296d4c52122ddd628505abeac7874f",
+    "view-adapter.h": "178584ae14d450c5dd0f2d7d973f5c401fa9a81bbc13d0467e027e95197dbd0d",
+    "capture.py": "0aea02d07ed01e3777431dfb11ade84e2b7003207ffbbc3a69e8849b602b5e75",
+    "cases.json": "188de19e7beede1d5b8333a649eaff4e607d5f592e223eafb19b47f5e615765f",
+    "metrics.json": "58d167f079702cf3c94e4b568a17c929a0785699b3bb0b3cadba86df6c07c9c5",
+    "app-settings-line.png": "e577d74a1df4b5287f9908181b8da1485ba2e120e3e1701dee056c7335d9e99e",
+    "app-settings-line@2x.png": "c1d982b70fad1abf6193ddfb68f5af1dfe22cfb59249ae0895402d120a925a11"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "files": [
+    {
+      "file": "no-sample-front-1.png",
+      "sha256": "0952f989c78411eb82211b5f06623b439801ee440ad7c7919ac5016c9a0c446d"
+    },
+    {
+      "file": "no-sample-behind-1.png",
+      "sha256": "244b286a48a71cc1edde3fc44dac027b22b7e84f69d939c7dd7f89a90a543d16"
+    },
+    {
+      "file": "no-sample-front-2.png",
+      "sha256": "4c68b4ba2dc327e70752a9585c086239a3a06717ef06207b69a368fe2b313fbe"
+    },
+    {
+      "file": "no-sample-behind-2.png",
+      "sha256": "9c141ffaa6f9636e1cd4d1492f6f9c3e03a749c65ac6c0eec86044f5b80b5d14"
+    },
+    {
+      "file": "selected-front-1.png",
+      "sha256": "e45de610ee41bc80ce74fd53c1a88ad3cc7f24951eada7606ce937af110e9c03"
+    },
+    {
+      "file": "selected-behind-1.png",
+      "sha256": "a615e0533b587162fdabdf95dd62e789b4cd105c1a5169781fe26afaac917366"
+    },
+    {
+      "file": "selected-front-2.png",
+      "sha256": "add35269d00d61e41df677d61d823b5a83a643f1f5371d1612be8d0c441643b7"
+    },
+    {
+      "file": "selected-behind-2.png",
+      "sha256": "1e83d32e6c95878d9fa11f4e9e6d79edcc354599bcea97325217da0bea350b29"
+    },
+    {
+      "file": "hover-front-1.png",
+      "sha256": "a9631cf397927feb0acd2df59c749a4450715c33be121b74ea47e46f3c1f88a1"
+    },
+    {
+      "file": "hover-behind-1.png",
+      "sha256": "b3fb436995d97d7f3bd92378dedb5da2039ffffdeb4955966f35660a0b6b75d4"
+    },
+    {
+      "file": "hover-front-2.png",
+      "sha256": "ca9d680b91dad34b19add644543d538fbdd57a55f905c2cddb7aaaf690b5207e"
+    },
+    {
+      "file": "hover-behind-2.png",
+      "sha256": "ca2c7ebfc524accdf5838b555afba42005289e3698e0357dbff15b0eaaed3c34"
+    },
+    {
+      "file": "held-checked-front-1.png",
+      "sha256": "96b9343e34a54fdd494fcd1aeddb61336102636bdacfec2ab1a978974aac6190"
+    },
+    {
+      "file": "held-checked-behind-1.png",
+      "sha256": "b572f668d64f565df3ae4dbd2ed7014886eb8ec97fa49a2acb5ec00b817ce908"
+    },
+    {
+      "file": "held-checked-front-2.png",
+      "sha256": "d16ef7f137609b06b6ff068691ecd5febc189a80e854dc9d4dda959bc47d1116"
+    },
+    {
+      "file": "held-checked-behind-2.png",
+      "sha256": "a3b82e6f86424db8efff61bc969bc2410ae5cf2103e73beca91a0c16b7b0e91d"
+    },
+    {
+      "file": "held-unchecked-front-1.png",
+      "sha256": "c6596859b7421f7237cb8da60800cb7e3d19a37e0b057d1719d722d6710f0296"
+    },
+    {
+      "file": "held-unchecked-behind-1.png",
+      "sha256": "6eee889abef81c7234bea86a0a2baa08ceb6aa88c3bd8976263c2e001e725e06"
+    },
+    {
+      "file": "held-unchecked-front-2.png",
+      "sha256": "cd8f14fb6dbfae4ad666cb1bed6bfb454f167b6f7ae4c1856b607eb58ec6d11a"
+    },
+    {
+      "file": "held-unchecked-behind-2.png",
+      "sha256": "af2e1fdca75e302212a95bf492926f8f02bf02a47a59d8bb8410b3e631c996d5"
+    },
+    {
+      "file": "held-outside-front-1.png",
+      "sha256": "e45de610ee41bc80ce74fd53c1a88ad3cc7f24951eada7606ce937af110e9c03"
+    },
+    {
+      "file": "held-outside-behind-1.png",
+      "sha256": "a615e0533b587162fdabdf95dd62e789b4cd105c1a5169781fe26afaac917366"
+    },
+    {
+      "file": "held-outside-front-2.png",
+      "sha256": "add35269d00d61e41df677d61d823b5a83a643f1f5371d1612be8d0c441643b7"
+    },
+    {
+      "file": "held-outside-behind-2.png",
+      "sha256": "1e83d32e6c95878d9fa11f4e9e6d79edcc354599bcea97325217da0bea350b29"
+    },
+    {
+      "file": "menu-check-0-1.png",
+      "sha256": "a2c1da91bc5c0805c7eeb4101a293a4381417c3633246986f2c3bf41bf86feee"
+    },
+    {
+      "file": "menu-check-1-1.png",
+      "sha256": "7a8f47510edcffbcb5f8e0f45e21441de561c187f3c53e6b3b3ab2357381ba71"
+    },
+    {
+      "file": "menu-button-2-1.png",
+      "sha256": "59d35b8bbbc4492c7769432deda2d47226f6419dcec696d61f7fed9cb41026be"
+    },
+    {
+      "file": "menu-button-3-1.png",
+      "sha256": "f6fe7f032767eb98216932685eb57cde255df5d876938542058adc0772877fcc"
+    },
+    {
+      "file": "menu-button-4-1.png",
+      "sha256": "9ef8bfd220b32775f6813f1c0db9f936a90c1b7842beb25fe136059d9cf5f4e7"
+    },
+    {
+      "file": "menu-check-0-2.png",
+      "sha256": "9fc30bb1048f0710e50f5b6a9caa598abedc1edfd1dbaf3e5743ec428a716004"
+    },
+    {
+      "file": "menu-check-1-2.png",
+      "sha256": "664f5d49bae177102c03779c1a1a1a2d5ce2e2dc509c21170d44a5c56743aaea"
+    },
+    {
+      "file": "menu-button-2-2.png",
+      "sha256": "59d35b8bbbc4492c7769432deda2d47226f6419dcec696d61f7fed9cb41026be"
+    },
+    {
+      "file": "menu-button-3-2.png",
+      "sha256": "f6fe7f032767eb98216932685eb57cde255df5d876938542058adc0772877fcc"
+    },
+    {
+      "file": "menu-button-4-2.png",
+      "sha256": "9ef8bfd220b32775f6813f1c0db9f936a90c1b7842beb25fe136059d9cf5f4e7"
+    }
+  ],
+  "limits": [
+    "Actual pinned AppSettingsView setup/draw, ButtonView and CheckboxView setup/draw, Layout text rasterization.",
+    "Translation-only View adapter; fixture hover/down/inside flags; Gel/App callbacks stubbed. Window scale and asset path adapters.",
+    "Modern Cinder/macOS RGBA8 MSAA4; not original-release full GUI or interaction certification."
+  ]
+}

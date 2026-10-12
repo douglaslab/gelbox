@@ -1,0 +1,71 @@
+{
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "windowComparisons": [
+    {
+      "id": "2-1-0",
+      "differentChannels": 0
+    },
+    {
+      "id": "2-1-quarter",
+      "differentChannels": 0
+    },
+    {
+      "id": "2-2-0",
+      "differentChannels": 0
+    },
+    {
+      "id": "2-2-quarter",
+      "differentChannels": 0
+    },
+    {
+      "id": "7-1-0",
+      "differentChannels": 0
+    },
+    {
+      "id": "7-1-quarter",
+      "differentChannels": 0
+    },
+    {
+      "id": "7-2-0",
+      "differentChannels": 0
+    },
+    {
+      "id": "7-2-quarter",
+      "differentChannels": 0
+    },
+    {
+      "id": "12-1-0",
+      "differentChannels": 0
+    },
+    {
+      "id": "12-1-quarter",
+      "differentChannels": 0
+    },
+    {
+      "id": "12-2-0",
+      "differentChannels": 0
+    },
+    {
+      "id": "12-2-quarter",
+      "differentChannels": 0
+    },
+    {
+      "id": "20-1-0",
+      "differentChannels": 0
+    },
+    {
+      "id": "20-1-quarter",
+      "differentChannels": 0
+    },
+    {
+      "id": "20-2-0",
+      "differentChannels": 0
+    },
+    {
+      "id": "20-2-quarter",
+      "differentChannels": 0
+    }
+  ],
+  "coloredCasesVerified": 32,
+  "captureSha256": "da50845426e2b81b4cc34aae52065bbc205d9879aad3a33ff849f2614eaad058"
+}

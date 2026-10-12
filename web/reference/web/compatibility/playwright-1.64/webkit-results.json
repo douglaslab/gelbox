@@ -1,0 +1,187 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@22/22.23.3/bin/node",
+      "/tmp/gel-browser-compat-1.64/node_modules/@playwright/test/cli.js",
+      "test",
+      "-c",
+      "/tmp/gel-browser-compat-1.64/webkit.config.ts"
+    ],
+    "configFile": "/tmp/gel-browser-compat-1.64/webkit.config.ts",
+    "rootDir": "/tmp/gel-browser-compat-1.64",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/gel-browser-compat-1.64/webkit-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "webkit-webgl2",
+        "name": "webkit-webgl2",
+        "testDir": "/tmp/gel-browser-compat-1.64",
+        "testIgnore": [],
+        "testMatch": [
+          "*.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/tmp/gel-browser-compat-1.64/webkit-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "webkit-webgl2",
+        "testDir": "/tmp/gel-browser-compat-1.64",
+        "snapshotDir": "/tmp/gel-browser-compat-1.64",
+        "testIgnore": [],
+        "testMatch": "*.spec.ts",
+        "timeout": 30000,
+        "use": {
+          "browserName": "webkit",
+          "viewport": {
+            "width": 1365,
+            "height": 768
+          },
+          "deviceScaleFactor": 2,
+          "launchOptions": {
+            "timeout": 15000
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "webkit-webgl2"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/tmp/gel-browser-compat-1.64/webkit-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "deployment.spec.ts",
+      "file": "deployment.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "built app at / loads controls and roundtrips native files",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1268,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:42:57.765Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f3e554c6199c48d65fc5-ed48444e012b61e0b05b",
+          "file": "../../private/tmp/gel-browser-compat-1.64/deployment.spec.ts",
+          "line": 6,
+          "column": 42
+        },
+        {
+          "title": "built app at /gelbox/ loads controls and roundtrips native files",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-webgl2",
+              "projectName": "webkit-webgl2",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 458,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:43:01.562Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f3e554c6199c48d65fc5-60e7481d0566029dfc7d",
+          "file": "../../private/tmp/gel-browser-compat-1.64/deployment.spec.ts",
+          "line": 6,
+          "column": 42
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-10T08:42:57.586Z",
+    "duration": 4454.872,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

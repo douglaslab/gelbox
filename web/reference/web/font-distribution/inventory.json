@@ -1,0 +1,339 @@
+{
+  "source_base": "37476ed",
+  "native_text_assets": [
+    {
+      "path": "ts/public/assets/native-text/buffer-heading.png",
+      "sha256": "0db465c5fd204b31034e817142032166d00a48872c4010fa0b90232d9801962a",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-heading-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-heading@2x.png",
+      "sha256": "25669f3dff100a891b38e6e4be730a874b8d6e707cc4b58adc37512db5c549cb",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-heading-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-label-0.png",
+      "sha256": "18787b5466c8fbe23bdea1d5e12c7c7cfa1b65ec97c1b3be7e8ca2cdd1667504",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-label-0-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-label-0@2x.png",
+      "sha256": "8b599d95a44796e45073baaea8fe6b7a3fb945e0bac11f7d90694c6ddc0adc73",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-label-0-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-label-1.png",
+      "sha256": "9e8dd910e1abd6fc93f02dc068d1d56deed10f4b329c47b2f4e0f374adbc7646",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-label-1-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-label-1@2x.png",
+      "sha256": "d26a32a7c8a4ef7606658764dec78029955813bb7dc66e6482567c5cc5bab1ea",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-label-1-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-label-2.png",
+      "sha256": "34efda83c297f50e2b4eff6efb4d3cdd89144a56fe44223d9fa283ff8a08872c",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-label-2-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-label-2@2x.png",
+      "sha256": "aead4fe3ba03f9bcc0c0eba466789252ac870c14312b996413c51cde2f463d6f",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-label-2-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-label-3.png",
+      "sha256": "28efec5075b6ef8963f2d780730176d244fea54709de6de85e7b4b98019bcbfc",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-label-3-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-label-3@2x.png",
+      "sha256": "feff6c469c1a25c9d652f5c9483d9992b99b3a0a8bafa87bf88f3b090854faa6",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-label-3-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-preset-0.png",
+      "sha256": "0b3ec8f45ea2f14aac761ac1337d840baadc0b37b5c59956e96ffa9a4a963c14",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-preset-0-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-preset-0@2x.png",
+      "sha256": "bc3653c0ae4b9e996a5981a1ab1bea21a0712326aa3f9d440b9486c64d518d11",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-preset-0-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-preset-1.png",
+      "sha256": "dea8d36afcbe6df98e610949115e49c868bf627bef76efac20e114db9bedeab5",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-preset-1-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-preset-1@2x.png",
+      "sha256": "cbf603a15a1497e4f83d23e9746225c58ec22e668d701b57088013860b896fef",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-preset-1-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-preset-2.png",
+      "sha256": "2863ceb6cd32aec3dcddd6e46a32d7b57b1f037ce99689f2d69407cd8aa05d44",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-preset-2-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/buffer-preset-2@2x.png",
+      "sha256": "8271e84a7cc092f926859b708031492ed0241400fa5002cd8f19f76b6d3d241b",
+      "native_matches": [
+        "reference/native/modern/shared-buffer-scenes/buffer-preset-2-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/dye-label-0.png",
+      "sha256": "ed27e35ebeac3ae6c465ffa0369b78a4936e77c5aeb7ddccd0112a899e110825",
+      "native_matches": [
+        "reference/native/modern/shared-dye-scenes/dye-label-0-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/dye-label-0@2x.png",
+      "sha256": "f67eaf2887fdb30f62429c82cac2c34825dc7b1036505484931bd6f65dab4e77",
+      "native_matches": [
+        "reference/native/modern/shared-dye-scenes/dye-label-0-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/dye-label-1.png",
+      "sha256": "b36a076a6af71e0e05385f9ebf8b2ec9e640fd6ac8a0d26da1f34833eea7b078",
+      "native_matches": [
+        "reference/native/modern/shared-dye-scenes/dye-label-1-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/dye-label-1@2x.png",
+      "sha256": "fab094946bd63019d9ea73376ddb7da700bfafb05212c2c3b53ba7b5bdf0a690",
+      "native_matches": [
+        "reference/native/modern/shared-dye-scenes/dye-label-1-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/dye-label-2.png",
+      "sha256": "92570653e2a9040bef306b3d1ec2f50c9e48a00c96c0a4b5a96e76a014970ee8",
+      "native_matches": [
+        "reference/native/modern/shared-dye-scenes/dye-label-2-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/dye-label-2@2x.png",
+      "sha256": "a00039ddc04fe1d8564aadef5e1a250d2bc94e4862ef50da39c6068f0ea7e7b4",
+      "native_matches": [
+        "reference/native/modern/shared-dye-scenes/dye-label-2-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/dye-label-3.png",
+      "sha256": "47494f48dc77eb730500d3cb99bcc1fb4f172265947208e0e28f1edba800bbf6",
+      "native_matches": [
+        "reference/native/modern/shared-dye-scenes/dye-label-3-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/dye-label-3@2x.png",
+      "sha256": "60e10d2a8576931f9254ff4c2f91d741bf447b235a07867ae56c270f6ae8a4d0",
+      "native_matches": [
+        "reference/native/modern/shared-dye-scenes/dye-label-3-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/dyes-subhead.png",
+      "sha256": "872717334ad8062e7d804d0acb59e87d6910fae1a863a53e06aab532f8530d49",
+      "native_matches": [
+        "reference/native/modern/shared-inspector-headings/dyes-subhead-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/dyes-subhead@2x.png",
+      "sha256": "3a719abadbd99ca7fc827a07c3f5e79688193e3cca0d6af14d099329059f396b",
+      "native_matches": [
+        "reference/native/modern/shared-inspector-headings/dyes-subhead-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/fragment-heading.png",
+      "sha256": "097d8fbb5f6ed4af2247fbff9faac780dedf9fe9a680303d954d9318052b63c9",
+      "native_matches": [
+        "reference/native/modern/shared-inspector-headings/fragment-heading-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/fragment-heading@2x.png",
+      "sha256": "21ad8970154d33f3481b59b9bee5486a3b53644caff17733ddb4c8260291e9f0",
+      "native_matches": [
+        "reference/native/modern/shared-inspector-headings/fragment-heading-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/gel-heading.png",
+      "sha256": "0178633b7958411feaa896b57f4595c2efdfbf7f7b303cae6a503982c9040931",
+      "native_matches": [
+        "reference/native/modern/shared-inspector-headings/gel-heading-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/gel-heading@2x.png",
+      "sha256": "263a8f3402461981e9910a691b31c1fd5d48c1b0efcf820fc991efa35082ea96",
+      "native_matches": [
+        "reference/native/modern/shared-inspector-headings/gel-heading-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/menu-button-2-1.png",
+      "sha256": "59d35b8bbbc4492c7769432deda2d47226f6419dcec696d61f7fed9cb41026be",
+      "native_matches": [
+        "reference/native/modern/shared-menu-scenes/menu-button-2-2.png",
+        "reference/native/modern/shared-menu-scenes/menu-button-2-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/menu-button-2-2.png",
+      "sha256": "59d35b8bbbc4492c7769432deda2d47226f6419dcec696d61f7fed9cb41026be",
+      "native_matches": [
+        "reference/native/modern/shared-menu-scenes/menu-button-2-2.png",
+        "reference/native/modern/shared-menu-scenes/menu-button-2-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/menu-button-3-1.png",
+      "sha256": "f6fe7f032767eb98216932685eb57cde255df5d876938542058adc0772877fcc",
+      "native_matches": [
+        "reference/native/modern/shared-menu-scenes/menu-button-3-1.png",
+        "reference/native/modern/shared-menu-scenes/menu-button-3-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/menu-button-3-2.png",
+      "sha256": "f6fe7f032767eb98216932685eb57cde255df5d876938542058adc0772877fcc",
+      "native_matches": [
+        "reference/native/modern/shared-menu-scenes/menu-button-3-1.png",
+        "reference/native/modern/shared-menu-scenes/menu-button-3-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/menu-button-4-1.png",
+      "sha256": "9ef8bfd220b32775f6813f1c0db9f936a90c1b7842beb25fe136059d9cf5f4e7",
+      "native_matches": [
+        "reference/native/modern/shared-menu-scenes/menu-button-4-2.png",
+        "reference/native/modern/shared-menu-scenes/menu-button-4-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/menu-button-4-2.png",
+      "sha256": "9ef8bfd220b32775f6813f1c0db9f936a90c1b7842beb25fe136059d9cf5f4e7",
+      "native_matches": [
+        "reference/native/modern/shared-menu-scenes/menu-button-4-2.png",
+        "reference/native/modern/shared-menu-scenes/menu-button-4-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/menu-check-0-1.png",
+      "sha256": "a2c1da91bc5c0805c7eeb4101a293a4381417c3633246986f2c3bf41bf86feee",
+      "native_matches": [
+        "reference/native/modern/shared-menu-scenes/menu-check-0-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/menu-check-0-2.png",
+      "sha256": "9fc30bb1048f0710e50f5b6a9caa598abedc1edfd1dbaf3e5743ec428a716004",
+      "native_matches": [
+        "reference/native/modern/shared-menu-scenes/menu-check-0-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/menu-check-1-1.png",
+      "sha256": "7a8f47510edcffbcb5f8e0f45e21441de561c187f3c53e6b3b3ab2357381ba71",
+      "native_matches": [
+        "reference/native/modern/shared-menu-scenes/menu-check-1-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/menu-check-1-2.png",
+      "sha256": "664f5d49bae177102c03779c1a1a1a2d5ce2e2dc509c21170d44a5c56743aaea",
+      "native_matches": [
+        "reference/native/modern/shared-menu-scenes/menu-check-1-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/sample-settings-heading.png",
+      "sha256": "24e2a7db414fbb6e2f83d188bc8e4f771f0721c3effbe7e785e1ae5a944b62f9",
+      "native_matches": [
+        "reference/native/modern/shared-inspector-headings/sample-settings-heading-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/sample-settings-heading@2x.png",
+      "sha256": "e4345baad27157b75c98a79bb398517bb8a96adff56b5045ac086ee849107509",
+      "native_matches": [
+        "reference/native/modern/shared-inspector-headings/sample-settings-heading-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/sample.png",
+      "sha256": "c4d77f02a7b7756a4f556d46264608d77143e19a8c405b9a66e430afa64d8213",
+      "native_matches": [
+        "reference/native/modern/shared-header-scenes/sample-1.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/sample@2x.png",
+      "sha256": "dc208bdcb71ddb75dea57b9fe08e624168c4358594bb0f910ad58ea95e953669",
+      "native_matches": [
+        "reference/native/modern/shared-header-scenes/sample-2.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/ui-font-0.png",
+      "sha256": "9916d927ea1630f004466217d602e843667aa7d08bad2d223e6b460fd8c196b3",
+      "native_matches": [
+        "reference/native/modern/ui-text/atlas-1-0.png"
+      ]
+    },
+    {
+      "path": "ts/public/assets/native-text/ui-font-0@2x.png",
+      "sha256": "d78f5663c95531ccce3f90b2f5aab210fa79cd006de7861de5070f6ac4784297",
+      "native_matches": [
+        "reference/native/modern/ui-text/atlas-2-0.png"
+      ]
+    }
+  ],
+  "dynamic_character_sets": {
+    "1": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~",
+    "2": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+  },
+  "inter_version": "5.2.8",
+  "inter_license_sha256": "3b0a5fca3d17942cde889069889dedbbbd075e9b599968c82a95f4d944e9b345"
+}

@@ -1,0 +1,6 @@
+{
+  "executable": "/tmp/gel-fast-source-control/build-arm64/gel-numerical",
+  "sha256": "646346007097b1df1d60d4ca9dfaca803fc0e750d88adfff2bd9960260338bba",
+  "cmake": "/tmp/gel-fast-source-control/CMakeLists.txt",
+  "scope": "Only GelSim.cpp compiled with -ffast-math; input, parser, driver and tuning unchanged."
+}

@@ -1,0 +1,3 @@
+[  3%] Building CXX object CMakeFiles/Gelbox.dir/tmp/gel-native-perf-attribution-20261010/source/src/GelboxApp.cpp.o
+[  7%] Linking CXX executable Gelbox.app/Contents/MacOS/Gelbox
+[100%] Built target Gelbox

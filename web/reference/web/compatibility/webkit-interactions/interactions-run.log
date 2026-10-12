@@ -1,0 +1,36 @@
+[WebServer] (node:50747) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 21 tests using 4 workers
+
+(node:50751) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50750) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50752) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50753) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts:47:5 › Cmd drag creates a loupe on empty gel and moves frame and anchor (542ms)
+  ✓   3 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts:64:5 › losing creation capture and canceling frame drag release ownership (573ms)
+  ✓   4 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts:78:5 › clicking an older loupe raises it and retains its drag and keyboard focus (579ms)
+  ✓   5 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts:91:5 › an anchor inside its frame keeps priority over frame dragging (390ms)
+  ✓   7 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/native-composed-move.spec.ts:44:5 › Species preview draws the existing selected molecule and updates its color (629ms)
+  ✓   6 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/native-composed-move.spec.ts:6:5 › original-release selected multimer follows tube move with hover enabled (679ms)
+  ✓   8 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/native-inspector-details.spec.ts:14:5 › native closest palette marker preserves imported custom color (491ms)
+  ✓   9 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/native-inspector-details.spec.ts:27:5 › native sample header tube width and baseline (371ms)
+  ✓  10 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/native-inspector-details.spec.ts:35:5 › native degradation control has no numeric label (337ms)
+  ✓  11 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/native-inspector-details.spec.ts:38:5 › pointer color edit retains native sample keyboard ownership (457ms)
+  ✓  12 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/native-inspector-details.spec.ts:54:5 › palette retains explicit keyboard activation (363ms)
+  ✓   2 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts:6:5 › persistent loupe frame, three drag modes, resize and keyboard ownership (2.0s)
+  ✓  13 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/native-inspector-details.spec.ts:60:5 › native palette drag edits on press, crosses cells and retains the last valid color outside (436ms)
+  ✓  17 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/tube-drag.spec.ts:20:5 › tube follows continuous movement and can re-enter after leaving the row (453ms)
+  ✓  16 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/species-editing.spec.ts:62:5 › sample background toggles settings and Tab includes deselection (507ms)
+  ✓  15 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/species-editing.spec.ts:47:5 › right-click creates a species at gel position; Alt clone appends and deletion restores order (635ms)
+  ✓  14 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/species-editing.spec.ts:19:5 › create an empty sample, add species, edit, delete final species and save (798ms)
+  ✓  19 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/tube-drag.spec.ts:50:5 › repeated tube click closes sample; right click does not start a tube drag (391ms)
+  ✓  20 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/tube-drag.spec.ts:57:5 › unexpected capture loss ends the gesture and permits selecting another tube (386ms)
+  ✓  18 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/tube-drag.spec.ts:36:5 › Alt at mouse-down clones even after releasing Alt; occupied drop preserves destination (520ms)
+  ✓  21 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/tube-drag.spec.ts:68:5 › Tab and Delete while holding a tube persist when it moves (482ms)
+
+  21 passed (4.1s)

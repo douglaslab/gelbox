@@ -1,0 +1,74 @@
+
+Running 2 tests using 2 workers
+
+(node:71917) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:71916) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:71917) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:71916) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-webgl2] › overlap-picking.spec.ts:6:1 › tied overlapping band selection matches original native deletion (608ms)
+  ✘  2 [chromium-webgpu] › overlap-picking.spec.ts:6:1 › tied overlapping band selection matches original native deletion (608ms)
+
+
+  1) [chromium-webgpu] › overlap-picking.spec.ts:6:1 › tied overlapping band selection matches original native deletion 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 4[39m
+    [31m+ Received  + 4[39m
+
+    [2m  Object {[22m
+    [32m-   "height": 22.29998779296875,[39m
+    [32m-   "width": 22.29998779296875,[39m
+    [32m-   "x": 227.85000610351562,[39m
+    [32m-   "y": 389.8500061035156,[39m
+    [31m+   "height": 21.899993896484375,[39m
+    [31m+   "width": 21.899993896484375,[39m
+    [31m+   "x": 228.0500030517578,[39m
+    [31m+   "y": 390.0500183105469,[39m
+    [2m  }[22m
+
+      43 |   await expect(page.getByTestId('loupe-frame-2')).toHaveCount(0);
+      44 |   const checkpoint=async(name:string)=>{
+    > 45 |    expect(await frame.boundingBox()).toEqual(initialFrame);expect(await anchor.boundingBox()).toEqual(initialAnchor);
+         |                                                                                               ^
+      46 |    expect(await originalFrame!.evaluate(el=>el===document.querySelector('[data-testid="loupe-frame-1"]'))).toBe(true);
+      47 |    expect(await originalCanvas!.evaluate(el=>el===document.querySelector('[data-testid="loupe-canvas-1"]'))).toBe(true);
+      48 |    await menu.click();const download=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+        at checkpoint (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/overlap-picking.spec.ts:45:95)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/overlap-picking.spec.ts:54:64
+
+  2) [chromium-webgl2] › overlap-picking.spec.ts:6:1 › tied overlapping band selection matches original native deletion 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 4[39m
+    [31m+ Received  + 4[39m
+
+    [2m  Object {[22m
+    [32m-   "height": 22.29998779296875,[39m
+    [32m-   "width": 22.29998779296875,[39m
+    [32m-   "x": 227.85000610351562,[39m
+    [32m-   "y": 389.8500061035156,[39m
+    [31m+   "height": 21.899993896484375,[39m
+    [31m+   "width": 21.899993896484375,[39m
+    [31m+   "x": 228.0500030517578,[39m
+    [31m+   "y": 390.0500183105469,[39m
+    [2m  }[22m
+
+      43 |   await expect(page.getByTestId('loupe-frame-2')).toHaveCount(0);
+      44 |   const checkpoint=async(name:string)=>{
+    > 45 |    expect(await frame.boundingBox()).toEqual(initialFrame);expect(await anchor.boundingBox()).toEqual(initialAnchor);
+         |                                                                                               ^
+      46 |    expect(await originalFrame!.evaluate(el=>el===document.querySelector('[data-testid="loupe-frame-1"]'))).toBe(true);
+      47 |    expect(await originalCanvas!.evaluate(el=>el===document.querySelector('[data-testid="loupe-canvas-1"]'))).toBe(true);
+      48 |    await menu.click();const download=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+        at checkpoint (/Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/overlap-picking.spec.ts:45:95)
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/overlap-picking.spec.ts:54:64
+
+  2 failed
+    [chromium-webgpu] › overlap-picking.spec.ts:6:1 › tied overlapping band selection matches original native deletion 
+    [chromium-webgl2] › overlap-picking.spec.ts:6:1 › tied overlapping band selection matches original native deletion 

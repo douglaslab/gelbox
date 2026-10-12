@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-10",
+  "baseCommit": "c8be517dde2942378f52bdd70b4437f7375a1e1a",
+  "runner": "1.64.0",
+  "webkitVersion": "27.2",
+  "webkitRevision": "2370",
+  "sourceTests": {
+    "species-editing.spec.ts": "237b9c4aab6934adf55fc7c7ce8629e80445f8642cdf01b8af95ce442741c588",
+    "native-inspector-details.spec.ts": "cd46d691b1f0fc042996640d2e9b64d74f7467d8e5a839fb9153346676d973dd",
+    "loupe-interactions.spec.ts": "d4183e30f15d0f8057ba459a0e18683ae1af1e54e26da987ddb045f81bbee53b",
+    "native-composed-move.spec.ts": "8afebda1c973c7607be9c04bb4551ad80c63d41c57db03b5e2058d176d81aa2b",
+    "tube-drag.spec.ts": "746f47d9025a28c4f603af77b0cea36dbe13e13a344a8778c8db8830d9ae2ba8"
+  },
+  "excludedTest": "loupe particles remain paused without the screenshot freeze hook",
+  "reason": "No reviewed WebKit screenshot baseline",
+  "passed": 21,
+  "failed": 0,
+  "files": {
+    "loupe-after.png": "09398adfccfdc2d10f3de03179780584b585627335c2c54b8a9a643bab6fd447",
+    "interactions-run.log": "8add58b2628c5da7f8d2e72bb0b7440491068304793405902441e1340a5a3584",
+    "interactions-results.json": "52e0ae0a15761379bd381a211b739fb8e77929d9763a33cf35c35e8bd456e51c",
+    "interactions.config.ts": "367f05e58ddf1267d1e23353f79ae52aec295c25920ff659d5fdc93cc82c2658",
+    "loupe-raster-probe.log": "df4564db3ca2b42bac8c21028a966032e2bb63c2d2185dcdf11b7d6492c13f82",
+    "loupe-before.png": "3f3fc2d46b63e70af54d92764ca1df2a9a48633371658666781fc3e21b4a0003",
+    "pointer-probe.log": "6bc41736319f901f91fa8236eb87828f1b67e39bc4479e32cfa4ab9f6ce32a4e",
+    "chromium-loupe-run.log": "2850ff9535691e8c3cd5ec791c1264d225681d5385962d10c9e39494dd71d6a4"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "base": "5c49b77",
+  "sha256": {
+    "ts/src/components/inspector/BufferView.tsx": "e9c2568e5c6a185ad22fad624409c9cb37931bc5c537e2f1e395e8efaa058dae",
+    "ts/src/components/inspector/BufferPresetPaint.tsx": "33ff326c77d59f07f828b1528ac7bef12197baa7d2118bc46d0f31401ed52242",
+    "ts/src/components/inspector/GelSettingsView.tsx": "e59592bc81ad73744e70a415b329b77acd477da53e549c56ba6a6a097ec5b4cd",
+    "ts/src/components/inspector/SampleSettingsView.tsx": "a0a79dbf31d966d48a4c432b85da35a66aedfd8e5be1bc0a1bb2c4653104176f",
+    "ts/src/components/primitives/SliderView.tsx": "1e7348a5de10d151faa3906ec43cb5d0395ee8730a0ff84d916553b5f9cb9f6a",
+    "ts/src/lib/layout/nativeBufferText.json": "eee612e89a4154f36842a8f59d444c96177b2756bb5020da3d65dee3a6f08d29",
+    "ts/tests/visual/shared-buffer-native.spec.ts": "6bf729e48a0edfaad549d33652e753a0f0dc651d5edbba8b8e90b60c40133600",
+    "ts/tests/visual/shared-buffer.spec.ts": "06dfbd9724db4e379f9869469d7c51b1c1dc1aa02cfa28c28a20b87183550442",
+    "ts/tests/visual/buffer-notches.spec.ts": "4db3cb865a33db045fd438445dfadc89e6440421407add97f878b6746d4dc2aa",
+    "ts/tests/unit/nativeBufferAssets.test.ts": "934460291137748005e53fceb00e6af51800bea9d659c78340a68293f14bac5c",
+    "reference/native/modern/shared-buffer-scenes/manifest.json": "bb55f6551279f277c95589f2170f9784ccd440740ae18dd1ddddb24d098b41d1"
+  },
+  "exactNativeComparisons": 40,
+  "verification": {
+    "unitTests": 2922,
+    "browserTests": 785,
+    "intentionalSkips": 1,
+    "productionTests": 4,
+    "build": "passed",
+    "nativeRepeatedScenes": 20,
+    "nativeRepeatedTextTextures": 16,
+    "previousSliderComparisonsStillExact": 128,
+    "previousDyeComparisonsStillExact": 24
+  },
+  "limits": [
+    "Actual BufferView component pixels at DPR1/2; modern pinned Cinder/macOS reference.",
+    "Native drawing adapters supply explicit selected/notch/getter state; native event dispatch not captured by this fixture.",
+    "Native-source-backed real-app preset timing, disabled controls and custom-notch lifecycle tested separately.",
+    "Menus/palette/checkboxes/overlays, full interaction review and production/platform/performance/acceptance gates remain open."
+  ]
+}

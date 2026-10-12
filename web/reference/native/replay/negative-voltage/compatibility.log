@@ -1,0 +1,15 @@
+
+Running 2 tests using 2 workers
+
+(node:58508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58509) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58509) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [webkit-webgl2] › negative-voltage.spec.ts:6:1 › negative-voltage upward band drag matches original native saved gel (634ms)
+  ✓  2 [firefox-webgl2] › negative-voltage.spec.ts:6:1 › negative-voltage upward band drag matches original native saved gel (880ms)
+
+  2 passed (1.7s)

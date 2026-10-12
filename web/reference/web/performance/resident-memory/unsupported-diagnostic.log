@@ -1,0 +1,71 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.performance.config.ts view-churn.spec.ts --output=/tmp/gel-resident-diagnostic
+
+
+Running 2 tests using 1 worker
+
+(node:12121) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12121) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/100
+Lifecycle cycles completed: 20/100
+Lifecycle cycles completed: 30/100
+Lifecycle cycles completed: 40/100
+Lifecycle cycles completed: 50/100
+Lifecycle cycles completed: 60/100
+Lifecycle cycles completed: 70/100
+Lifecycle cycles completed: 80/100
+Lifecycle cycles completed: 90/100
+Lifecycle cycles completed: 100/100
+  ✘  1 [chromium-webgpu] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources (48.8s)
+(node:12187) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12187) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Lifecycle cycles completed: 10/100
+Lifecycle cycles completed: 20/100
+Lifecycle cycles completed: 30/100
+Lifecycle cycles completed: 40/100
+Lifecycle cycles completed: 50/100
+Lifecycle cycles completed: 60/100
+Lifecycle cycles completed: 70/100
+Lifecycle cycles completed: 80/100
+Lifecycle cycles completed: 90/100
+Lifecycle cycles completed: 100/100
+  ✘  2 [chromium-webgl2] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources (49.1s)
+
+
+  1) [chromium-webgpu] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources 
+
+    Error: cdpSession.send: Protocol error (Memory.prepareForLeakDetection): Failed to run leak detection
+
+      103 |  if(diagnose){
+      104 |   await writeFile(info.outputPath('native-allocations.json'),JSON.stringify(await heap!.send('Memory.getSamplingProfile'),null,2));
+    > 105 |   await heap!.send('Memory.prepareForLeakDetection');
+          |               ^
+      106 |   await browserSession!.send('Memory.simulatePressureNotification',{level:'critical'});
+      107 |   await measure(cycles+2);
+      108 |   await expect.poll(async()=>Number(await page.getByTestId('molecular-sim-canvas').getAttribute('data-alive-count'))).toBeGreaterThan(0);
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/performance/view-churn.spec.ts:105:15
+
+  2) [chromium-webgl2] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources 
+
+    Error: cdpSession.send: Protocol error (Memory.prepareForLeakDetection): Failed to run leak detection
+
+      103 |  await measure(cycles+1);
+      104 |  if(diagnose){
+    > 105 |   await writeFile(info.outputPath('native-allocations.json'),JSON.stringify(await heap!.send('Memory.getSamplingProfile'),null,2));
+          |               ^
+      106 |   try{await heap!.send('Memory.prepareForLeakDetection');}catch(error){
+      107 |    const message=String(error);if(!message.includes('Failed to run leak detection'))throw error;
+      108 |    diagnosticErrors.push(message);
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/performance/view-churn.spec.ts:105:15
+
+  Slow test file: [chromium-webgl2] › view-churn.spec.ts (49.1s)
+  Slow test file: [chromium-webgpu] › view-churn.spec.ts (48.8s)
+  Consider splitting slow test files to speed up parallel execution
+  2 failed
+    [chromium-webgpu] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources 
+    [chromium-webgl2] › view-churn.spec.ts:10:1 › compiled repeated sample/loupe disposal and resize release owned GPU resources 

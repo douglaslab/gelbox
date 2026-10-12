@@ -1,0 +1,83 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.compatibility.config.ts --output=/tmp/gel-alpha-compatibility
+
+
+Running 18 tests using 9 workers
+
+(node:22498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22500) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22500) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22495) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22503) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22496) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22501) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22502) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22495) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22501) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22496) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22503) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22502) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  8 [firefox-webgl2] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences (1.8s)
+  ✓  2 [firefox-webgl2] › deployment.spec.ts:5:53 › built app at / loads controls and roundtrips native files (1.6s)
+  ✓  9 [firefox-webgl2] › image-decoding.spec.ts:65:1 › compiled image drops reject native-unsupported CMYK and continue the batch (1.6s)
+(node:22604) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22604) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22605) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22605) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22615) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22615) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [webkit-webgl2] › deployment.spec.ts:5:53 › built app at /gelbox/ loads controls and roundtrips native files (1.5s)
+  ✓  10 [webkit-webgl2] › deployment.spec.ts:5:53 › built app at / loads controls and roundtrips native files (1.7s)
+  ✓  12 [webkit-webgl2] › deployment.spec.ts:5:53 › built app at /gelbox/app/ loads controls and roundtrips native files (1.3s)
+  ✓  1 [firefox-webgl2] › interactions.spec.ts:3:56 › compiled editing and right loupe gestures survive mode changes and resize (3.0s)
+  ✓  14 [webkit-webgl2] › image-decoding.spec.ts:65:1 › compiled image drops reject native-unsupported CMYK and continue the batch (792ms)
+  ✓  5 [firefox-webgl2] › deployment.spec.ts:5:53 › built app at /gelbox/ loads controls and roundtrips native files (2.4s)
+  ✓  13 [webkit-webgl2] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences (890ms)
+(node:22681) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22681) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22682) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22682) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  6 [firefox-webgl2] › interactions.spec.ts:3:56 › compiled editing and left loupe gestures survive mode changes and resize (6.6s)
+  ✓  16 [webkit-webgl2] › interactions.spec.ts:3:56 › compiled editing and right loupe gestures survive mode changes and resize (1.5s)
+  ✓  17 [webkit-webgl2] › interactions.spec.ts:3:56 › compiled editing and left loupe gestures survive mode changes and resize (1.6s)
+  ✓  7 [firefox-webgl2] › image-decoding.spec.ts:93:1 › compiled PNG uploads preserve native straight pixels across formats (6.1s)
+  ✓  3 [firefox-webgl2] › interactions.spec.ts:3:56 › compiled editing and middle loupe gestures survive mode changes and resize (7.0s)
+  ✓  18 [webkit-webgl2] › interactions.spec.ts:3:56 › compiled editing and middle loupe gestures survive mode changes and resize (2.1s)
+  ✓  4 [firefox-webgl2] › deployment.spec.ts:5:53 › built app at /gelbox/app/ loads controls and roundtrips native files (7.0s)
+  ✓  15 [webkit-webgl2] › image-decoding.spec.ts:93:1 › compiled PNG uploads preserve native straight pixels across formats (5.3s)
+
+  18 passed (11.1s)

@@ -1,0 +1,216 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceHashes": {
+    "include/Layout.h": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c",
+    "src/FragmentView.cpp": "d9345eda3ae73104684344f99676588e22f7369e93ff1d3e5ab7d1e95e035b02",
+    "src/ColorPaletteView.cpp": "3903d1b193d9ec0541f6bd2003f4032e569159d871fa4f8970d9802dbbc5ec1f"
+  },
+  "methodSha256": "cb4e509b3e05412ba77d35d99a855078cce95cb2379477378aea7930bb7ded7c",
+  "inputs": {
+    "driver.cpp": "3c80283378603c3eeb7237c7eb60d37671d2aea1a98b505edd9b6bb8e02201f1",
+    "capture.py": "570f8eecf082b20dafebfbc2d42dc65a762a98e1dee9e66b12070f67486ca060",
+    "cases.json": "c12e02b11660053e81ff19664577de3bfc997b1bcf830034886687a94a21b5ad"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "files": [
+    {
+      "file": "selected-0-front-1.png",
+      "sha256": "bf32be668cafc233db5357483eb791b7375e02ac94384e0f0b00777aa9295257"
+    },
+    {
+      "file": "selected-0-behind-1.png",
+      "sha256": "60049c75ac26c59bca0729999b5d4241eba59281429906acd44e25e97ee3c076"
+    },
+    {
+      "file": "selected-0-front-2.png",
+      "sha256": "d2a3536686b1b90795a3550929ad573bc27a5f5fd81f88de40a2e5da7cf9ed99"
+    },
+    {
+      "file": "selected-0-behind-2.png",
+      "sha256": "feed7a2650dbd299ef43cac28d9b626f0818d41c66b9b8160a02abe80f923db2"
+    },
+    {
+      "file": "selected-1-front-1.png",
+      "sha256": "562b4a2375911db524180aeccae8f70043596ea307d513089ac30252b59f41d2"
+    },
+    {
+      "file": "selected-1-behind-1.png",
+      "sha256": "c3d23872685b96f9a318f8e80c2472d8978769b4f17a608ea1070402cc29b64c"
+    },
+    {
+      "file": "selected-1-front-2.png",
+      "sha256": "d9799d7fc953406cc07307632ff02b4e7fbe30387d96d1182ca60892bf417203"
+    },
+    {
+      "file": "selected-1-behind-2.png",
+      "sha256": "72bf1c3ed694ebd698da8a863feafbf50ce933b41c1c4b78d9f0c8a746537479"
+    },
+    {
+      "file": "selected-2-front-1.png",
+      "sha256": "474cad2e7ca678f4d208d91a4594d54402669012cf556973029fc17d06240679"
+    },
+    {
+      "file": "selected-2-behind-1.png",
+      "sha256": "52551c06fdfa934d35b28a0ea52abd15e7a5f7ffae9b21af7a736ea1a9e69e0c"
+    },
+    {
+      "file": "selected-2-front-2.png",
+      "sha256": "082e6b979c7d534b970988654bddfd70fc8e3f7355058b6e4afe70091b41e110"
+    },
+    {
+      "file": "selected-2-behind-2.png",
+      "sha256": "90e2a46e2831f08086ced309ef41c8438d44aa83c68f69ba446cb76444c29d03"
+    },
+    {
+      "file": "selected-3-front-1.png",
+      "sha256": "2b89276f729b4b8787e640c2394e5b1de77c8baf00c2f9006eda36950dd814f3"
+    },
+    {
+      "file": "selected-3-behind-1.png",
+      "sha256": "023a39d4209a78266eb0200dd5ab4a881fe5468d14f965e517daaca1afc5ebae"
+    },
+    {
+      "file": "selected-3-front-2.png",
+      "sha256": "9ccfa0884108c83092654f83cf4deda304f4e3a2625fdc14fb529660b1a8625d"
+    },
+    {
+      "file": "selected-3-behind-2.png",
+      "sha256": "8c971283e77331df5fb56d2e7d700d23fa0b33145c99175749528a4d94a900e2"
+    },
+    {
+      "file": "selected-4-front-1.png",
+      "sha256": "b8a30c9f0fc3a59ae7f0a3cf5eaca50090c648c8a68eef66276786c44107f5e4"
+    },
+    {
+      "file": "selected-4-behind-1.png",
+      "sha256": "44ef2d95dfdd17ddaf8e5917d3d6ff986bda8af332b2df26ec9971c66c09d09d"
+    },
+    {
+      "file": "selected-4-front-2.png",
+      "sha256": "65e2ef0144df17226525e45f61f68c96e71421a962ada691273ec3bd77269b78"
+    },
+    {
+      "file": "selected-4-behind-2.png",
+      "sha256": "1114958501ce06c4e3996b06610c5aeb8e21287b38f9f4a12eea14af50d897b5"
+    },
+    {
+      "file": "selected-5-front-1.png",
+      "sha256": "7068af3b12072fc0d9e43d3f4ec02677426dec40716bd41e90b26cf7866b1390"
+    },
+    {
+      "file": "selected-5-behind-1.png",
+      "sha256": "a4a559a2144e42fc7a5e181951595f1cf11a8d0bee61eec7a658d14c1d24d7fd"
+    },
+    {
+      "file": "selected-5-front-2.png",
+      "sha256": "38ceb74a73658cff8d23bfacafb2cc33ea05f67a4541a5eb1a515c039cee0183"
+    },
+    {
+      "file": "selected-5-behind-2.png",
+      "sha256": "b051e4bb988521f2ffd3ee50f76b4d5c553006cfc13712c9c13901c054d234f3"
+    },
+    {
+      "file": "selected-6-front-1.png",
+      "sha256": "71d45534d021e93c8ad5c4016ed9db42c40112c4dc4888632cb220e6a20c2bd4"
+    },
+    {
+      "file": "selected-6-behind-1.png",
+      "sha256": "c62ca5950e37b6e9001dfc75f6b7bed60a6f02c2e97a4be881917ab0caf423a0"
+    },
+    {
+      "file": "selected-6-front-2.png",
+      "sha256": "289e5bfc42ca2633957661de3f78b0aa8889995f9c6ae60850ae6192fbb0b97f"
+    },
+    {
+      "file": "selected-6-behind-2.png",
+      "sha256": "2789e3e7df6d534ca0fdeb162311a143225e13058a4252ad86cdbe8b6d21086a"
+    },
+    {
+      "file": "selected-7-front-1.png",
+      "sha256": "34ccc157b181e5b6ad0c752d297e17e4b36e3af37f99c0eb50bf213405050e09"
+    },
+    {
+      "file": "selected-7-behind-1.png",
+      "sha256": "14280c6022353e6b92b218b1f43daff1b0b922dc9801e17264742d52c28486c8"
+    },
+    {
+      "file": "selected-7-front-2.png",
+      "sha256": "eb1a1c8c974a17ebbaa738d4d5e819b059b1dbd3d6989153063e4bed6186f50d"
+    },
+    {
+      "file": "selected-7-behind-2.png",
+      "sha256": "e502582881cfa98180e9b31fde1a4c99af51c20472d4d2aba5af1606b3238c08"
+    },
+    {
+      "file": "selected-8-front-1.png",
+      "sha256": "13f1b65bf9a8df5510c58a67656c77e081633b46765c9b64cf2df17baa544ec0"
+    },
+    {
+      "file": "selected-8-behind-1.png",
+      "sha256": "3e2a687766cd370479675b64a4c8d3df91ce748a3b768357351af22b06a6d4df"
+    },
+    {
+      "file": "selected-8-front-2.png",
+      "sha256": "3e54bf09106947b243fabd9a5212c6f2aa4fcefece794d5d3466e69a08f4a0d4"
+    },
+    {
+      "file": "selected-8-behind-2.png",
+      "sha256": "b9c036aa046fc312539636fc82092527d18f032f13938e780305cecb2f76f2e8"
+    },
+    {
+      "file": "selected-9-front-1.png",
+      "sha256": "1643c5ad1b28a6948ef4befc9747c0ee407547ca620391ea63724e876534fc39"
+    },
+    {
+      "file": "selected-9-behind-1.png",
+      "sha256": "c26c3fa1419d0652984f36597ff5dea0c186224fc8743b63321118ba97e0da59"
+    },
+    {
+      "file": "selected-9-front-2.png",
+      "sha256": "3600cd1421dc5a15e173658484ecea4ccaad7dfa4feddfc21676e57dd1bd4fae"
+    },
+    {
+      "file": "selected-9-behind-2.png",
+      "sha256": "80ec3c1ed490e3fc54cb16d6311e7cdc8c2ace4a7b3b11ee6cf414fe1965fa9b"
+    },
+    {
+      "file": "selected-10-front-1.png",
+      "sha256": "e034ffdf3232ad562f3b1c60011b7518a08c09ac8ada5c657abe7bfae5fd3a80"
+    },
+    {
+      "file": "selected-10-behind-1.png",
+      "sha256": "750eade76731e77131f70c0ed6b3a273124478c9db5784595125744fdb05334f"
+    },
+    {
+      "file": "selected-10-front-2.png",
+      "sha256": "5e8fc81991c2ee8672a6126104b5255d3f3a60172f6fd857871bdc92c3b5cba2"
+    },
+    {
+      "file": "selected-10-behind-2.png",
+      "sha256": "c1d60c99c8b9c146d739699fbf16aaf4acfcbb9d15d485e07fa8b1a147d2d386"
+    },
+    {
+      "file": "selected-11-front-1.png",
+      "sha256": "f57a526dbda82a032b53f127643915921a25b21deb6d896a93f9ae2cb6385de4"
+    },
+    {
+      "file": "selected-11-behind-1.png",
+      "sha256": "b08a3822a8efc70bfdcbf49641d939ac811744d75d764b28eaba69fed220fe50"
+    },
+    {
+      "file": "selected-11-front-2.png",
+      "sha256": "3a9fe35fa847031138fb3c7b62ae27136e03b12a845b3213747006a4c4722512"
+    },
+    {
+      "file": "selected-11-behind-2.png",
+      "sha256": "2dfcab736a9c486f9a9adbee0bf7ea18ba19b5677432ced6ad0c609b07ffb4fa"
+    }
+  ],
+  "limits": [
+    "Actual pinned palette colors, layout, calcColorRect and draw methods; minimal frame/bounds adapter.",
+    "All twelve selected cells, both scales and translucent overlap orders.",
+    "Modern Cinder/macOS RGBA8 MSAA4; native input interactions and full original GUI are separate gates."
+  ]
+}

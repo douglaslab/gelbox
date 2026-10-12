@@ -1,0 +1,107 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.production.config.ts file-workflow.spec.ts --output=/tmp/gel-file-workflow
+
+
+Running 2 tests using 2 workers
+
+(node:1642) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1641) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1642) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1641) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-webgl2] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen (30.0s)
+  ✘  1 [chromium-webgpu] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen (30.0s)
+
+
+  1) [chromium-webgpu] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('[data-lane-index="1"][data-fragment-index="1"]').first()[22m
+    [2m    - locator resolved to <rect stroke-width="2" fill="transparent" stroke-opacity="0" data-lane-index="1" data-testid="band-2" stroke="transparent" y="315.0271911621094" x="61.642860412597656" data-fragment-index="1" width="43.857139587402344" height="22.44195556640625"></rect>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <rect stroke-width="2" fill="transparent" stroke-opacity="0" data-lane-index="1" data-testid="band-4" stroke="transparent" y="306.3350830078125" x="55.642860412597656" data-fragment-index="3" width="55.857139587402344" height="37.053558349609375"></rect> intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <rect stroke-width="2" fill="transparent" stroke-opacity="0" data-lane-index="1" data-testid="band-4" stroke="transparent" y="306.3350830078125" x="55.642860412597656" data-fragment-index="3" width="55.857139587402344" height="37.053558349609375"></rect> intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m    55 × waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <rect stroke-width="2" fill="transparent" stroke-opacity="0" data-lane-index="1" data-testid="band-4" stroke="transparent" y="306.3350830078125" x="55.642860412597656" data-fragment-index="3" width="55.857139587402344" height="37.053558349609375"></rect> intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+
+
+      32 |   await page.getByTestId('sample-buffer-view-preset-TAE').click();
+      33 |   // Select the distinct second DNA species, avoiding the degraded aggregate overlap.
+    > 34 |   await page.locator('[data-lane-index="1"][data-fragment-index="1"]').first().click();
+         |                                                                                ^
+      35 |   const track=page.getByTestId('frag-mass-track'),box=(await track.boundingBox())!;
+      36 |   await page.mouse.click(box.x+box.width*.67,box.y+box.height/2);
+      37 |   await expect(page.getByTestId('fragment-representative')).toHaveAttribute('data-shared-ready','1');
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/file-workflow.spec.ts:34:80
+
+  2) [chromium-webgl2] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('[data-lane-index="1"][data-fragment-index="1"]').first()[22m
+    [2m    - locator resolved to <rect stroke-width="2" fill="transparent" stroke-opacity="0" data-lane-index="1" data-testid="band-2" stroke="transparent" y="315.0271911621094" x="61.642860412597656" data-fragment-index="1" width="43.857139587402344" height="22.44195556640625"></rect>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <rect stroke-width="2" fill="transparent" stroke-opacity="0" data-lane-index="1" data-testid="band-4" stroke="transparent" y="306.3350830078125" x="55.642860412597656" data-fragment-index="3" width="55.857139587402344" height="37.053558349609375"></rect> intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <rect stroke-width="2" fill="transparent" stroke-opacity="0" data-lane-index="1" data-testid="band-4" stroke="transparent" y="306.3350830078125" x="55.642860412597656" data-fragment-index="3" width="55.857139587402344" height="37.053558349609375"></rect> intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m    55 × waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <rect stroke-width="2" fill="transparent" stroke-opacity="0" data-lane-index="1" data-testid="band-4" stroke="transparent" y="306.3350830078125" x="55.642860412597656" data-fragment-index="3" width="55.857139587402344" height="37.053558349609375"></rect> intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+
+
+      32 |   await page.getByTestId('sample-buffer-view-preset-TAE').click();
+      33 |   // Select the distinct second DNA species, avoiding the degraded aggregate overlap.
+    > 34 |   await page.locator('[data-lane-index="1"][data-fragment-index="1"]').first().click();
+         |                                                                                ^
+      35 |   const track=page.getByTestId('frag-mass-track'),box=(await track.boundingBox())!;
+      36 |   await page.mouse.click(box.x+box.width*.67,box.y+box.height/2);
+      37 |   await expect(page.getByTestId('fragment-representative')).toHaveAttribute('data-shared-ready','1');
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/file-workflow.spec.ts:34:80
+
+  Slow test file: [chromium-webgl2] › file-workflow.spec.ts (30.0s)
+  Slow test file: [chromium-webgpu] › file-workflow.spec.ts (30.0s)
+  Consider splitting slow test files to speed up parallel execution
+  2 failed
+    [chromium-webgpu] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen 
+    [chromium-webgl2] › file-workflow.spec.ts:15:1 › compiled native mixed gel supports species and buffer edits before native reopen 

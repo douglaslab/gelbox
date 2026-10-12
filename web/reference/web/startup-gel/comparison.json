@@ -1,0 +1,28 @@
+{
+  "native": "reference/native/modern/lossless-probe/user-startup.png",
+  "nativeSha256": "7a45789dd65d46ab81f55d2860ba6b4195cae761c0659f8ecb03d46f2f8d78f0",
+  "viewport": {
+    "width": 1365,
+    "height": 768,
+    "dpr": 2
+  },
+  "nativeTitlebarPixels": 64,
+  "gelPhysicalRect": {
+    "x": 416,
+    "y": 248,
+    "width": 780,
+    "height": 1040
+  },
+  "backends": {
+    "webgpu": {
+      "captureSha256": "520cbc785f2274d83353218bc077de30de0dbfaa70baaa2ed4e4b264c29cf671",
+      "differentGelChannels": 0,
+      "maximumGelChannelError": 0
+    },
+    "webgl2": {
+      "captureSha256": "520cbc785f2274d83353218bc077de30de0dbfaa70baaa2ed4e4b264c29cf671",
+      "differentGelChannels": 0,
+      "maximumGelChannelError": 0
+    }
+  }
+}

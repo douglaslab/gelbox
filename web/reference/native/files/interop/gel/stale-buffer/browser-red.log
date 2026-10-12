@@ -1,0 +1,68 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.production.config.ts import-buffer.spec.ts --output=/tmp/gel-import-buffer
+
+
+Running 2 tests using 2 workers
+
+(node:422) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:423) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:422) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:423) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-webgpu] › import-buffer.spec.ts:6:1 › compiled import keeps the open gel buffer panel bound to the loaded document (5.4s)
+  ✘  1 [chromium-webgl2] › import-buffer.spec.ts:6:1 › compiled import keeps the open gel buffer panel bound to the loaded document (5.5s)
+
+
+  1) [chromium-webgpu] › import-buffer.spec.ts:6:1 › compiled import keeps the open gel buffer panel bound to the loaded document 
+
+    Error: [31mTimed out 5000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m
+
+    Locator: getByTestId('gel-buffer-view').getByText('12.5 mM', { exact: true })
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Call log:
+    [2m  - expect.toHaveCount with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('gel-buffer-view').getByText('12.5 mM', { exact: true })[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      18 |   await page.getByTestId('file-input').setInputFiles(fixture);
+      19 |   await expect(menu).toHaveAttribute('aria-expanded','false');
+    > 20 |   await expect(panel.getByText('12.5 mM',{exact:true})).toHaveCount(1);
+         |                                                         ^
+      21 |   await expect(panel.getByText('8.5 mM',{exact:true})).toHaveCount(1);
+      22 |   await page.getByTestId('gel-buffer-view-preset-H2O').click();
+      23 |   await expect(panel.getByText('0.0 mM',{exact:true})).toHaveCount(4);
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/import-buffer.spec.ts:20:57
+
+  2) [chromium-webgl2] › import-buffer.spec.ts:6:1 › compiled import keeps the open gel buffer panel bound to the loaded document 
+
+    Error: [31mTimed out 5000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m
+
+    Locator: getByTestId('gel-buffer-view').getByText('12.5 mM', { exact: true })
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Call log:
+    [2m  - expect.toHaveCount with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('gel-buffer-view').getByText('12.5 mM', { exact: true })[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      18 |   await page.getByTestId('file-input').setInputFiles(fixture);
+      19 |   await expect(menu).toHaveAttribute('aria-expanded','false');
+    > 20 |   await expect(panel.getByText('12.5 mM',{exact:true})).toHaveCount(1);
+         |                                                         ^
+      21 |   await expect(panel.getByText('8.5 mM',{exact:true})).toHaveCount(1);
+      22 |   await page.getByTestId('gel-buffer-view-preset-H2O').click();
+      23 |   await expect(panel.getByText('0.0 mM',{exact:true})).toHaveCount(4);
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/import-buffer.spec.ts:20:57
+
+  2 failed
+    [chromium-webgpu] › import-buffer.spec.ts:6:1 › compiled import keeps the open gel buffer panel bound to the loaded document 
+    [chromium-webgl2] › import-buffer.spec.ts:6:1 › compiled import keeps the open gel buffer panel bound to the loaded document 

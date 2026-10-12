@@ -1,0 +1,27 @@
+
+Running 6 tests using 2 workers
+
+(node:22020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22019) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22019) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium-webgpu] › overlapping-tiers.spec.ts:67:2 › original GUI fractional boundary y63 (315ms)
+  ✓  2 [chromium-webgpu] › overlapping-tiers.spec.ts:67:2 › original GUI fractional boundary y61 (315ms)
+(node:22041) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22041) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [chromium-webgpu] › overlapping-tiers.spec.ts:67:2 › original GUI fractional boundary y69 (254ms)
+(node:22044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [chromium-webgl2] › overlapping-tiers.spec.ts:67:2 › original GUI fractional boundary y61 (350ms)
+  ✓  5 [chromium-webgl2] › overlapping-tiers.spec.ts:67:2 › original GUI fractional boundary y63 (361ms)
+  ✓  6 [chromium-webgl2] › overlapping-tiers.spec.ts:67:2 › original GUI fractional boundary y69 (293ms)
+
+  6 passed (1.8s)

@@ -1,0 +1,19 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c playwright.lifecycle.config.ts --output=/tmp/gel-built-resume-paint
+
+
+Running 2 tests using 1 worker
+
+(node:91807) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91807) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium-webgpu] › renderer-resume.spec.ts:6:1 › application frames and retained views resume after browser freezing (2.9s)
+(node:91830) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91830) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium-webgl2] › renderer-resume.spec.ts:6:1 › application frames and retained views resume after browser freezing (2.8s)
+
+  2 passed (6.7s)

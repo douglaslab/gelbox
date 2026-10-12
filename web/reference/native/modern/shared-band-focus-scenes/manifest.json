@@ -1,0 +1,202 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceHashes": {
+    "src/GelView.cpp": "20159d314759e38b6e2f626fba2c5a401eb4cbf894f15682c597c6145e96a3e6",
+    "src/GelSim.cpp": "198f05d2591e88c8ff5821d07ab70682cf9c7f65c6e04b5ebdcf8df01569953d",
+    "include/Sample.h": "e580003d0e6c21c28d0166ab865251165e643b329f88016cff5ca8c3de894c3d",
+    "include/View.h": "6b9b0cbfcff84e4bc6fa8be4e82370ce685dc752906a0fa527df4879ef428950",
+    "src/View.cpp": "779407bb1a374f55a3b54afc5bbe82c3b73d87633f3a955b0c93a1da5c7cefae"
+  },
+  "methodSha256": "ecd5c634201416710f80e97833e37b317872fac3a7542e2f770c912136a684fe",
+  "inputs": {
+    "driver.cpp": "9a8086f20f5148bdbeb3c635148ad6d9f87db3fca24b645fe7c2d5d37628db9a",
+    "capture.py": "333b35abb3d2d1232f86366696aa3092f0a01f7d850a1fe671d6bbc9205e357e",
+    "cases.json": "b75193f35b56b449bf877a86863c687615fbdf7d06d486c6df007f85fea2dc84"
+  },
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatIdentical": true,
+  "files": [
+    {
+      "file": "none-front-1.png",
+      "sha256": "5e7e7c2e7732403fa2ef993cf4a60cefab9696d24e3b725ce5ef0021a012aeed"
+    },
+    {
+      "file": "none-behind-1.png",
+      "sha256": "1802d5fa21d1218ae5f24bb57c3a02403463b3b28fbe863d6403542d98b0aa8c"
+    },
+    {
+      "file": "none-front-2.png",
+      "sha256": "034a69ec180b7f139a4575ac7014c73004d31402a4a1ac8aa5e6e725d26c9d2b"
+    },
+    {
+      "file": "none-behind-2.png",
+      "sha256": "fcb20e0578d23daa26b67d4a3614ec9650fdfce2633efaeced635f527145e8a6"
+    },
+    {
+      "file": "selected-front-1.png",
+      "sha256": "20f8d53cdee8b9b15915c527e716a8fffbec53a62502c74373d79da240fb3f08"
+    },
+    {
+      "file": "selected-behind-1.png",
+      "sha256": "b66e395c38c1abb6344f0a31e2dd05796bb2d85265689227ce06ab42647fe10c"
+    },
+    {
+      "file": "selected-front-2.png",
+      "sha256": "33f87a881a0e606be9ed5a307acb0ce66bbd851b1ac7252e721aee9c656733e7"
+    },
+    {
+      "file": "selected-behind-2.png",
+      "sha256": "6fa311ac3483aca64e0c21a51499de1cdf38985331e3db2377bc79cf191bb7a7"
+    },
+    {
+      "file": "hover-front-1.png",
+      "sha256": "d337e9d06577d538bdeed6c55b1c27ac2f00d74386b2c6e5321e607ab459b24e"
+    },
+    {
+      "file": "hover-behind-1.png",
+      "sha256": "bd39d760e162c37662241282270abe2bff9ccc757f94c8361067757da48709bc"
+    },
+    {
+      "file": "hover-front-2.png",
+      "sha256": "da4480933d1b86f1aa7b7a3d224c21c4369329c7eadb79cdb4ef4d94cfaa7f6d"
+    },
+    {
+      "file": "hover-behind-2.png",
+      "sha256": "0209b6d8909565f7998a8e5ee83fbca98a18714ee7fb77e795144eb982956c83"
+    },
+    {
+      "file": "both-front-1.png",
+      "sha256": "28c4d29da0c71328266a221562564a9878f3baef05810b0fa6476ea577a2ba34"
+    },
+    {
+      "file": "both-behind-1.png",
+      "sha256": "0ded4ac294cd5e8b509d9f289a7fa5c39a55f8697f1d9f311843ee64edc36a8e"
+    },
+    {
+      "file": "both-front-2.png",
+      "sha256": "0881ccc22598877d72661a5e2bcfd9b9c0808c127a04defe16fd978b438aa35d"
+    },
+    {
+      "file": "both-behind-2.png",
+      "sha256": "cd0234f42a56b02ca05e289394354f4bc8b61f89afdcdbe85923d87cc6333b6b"
+    },
+    {
+      "file": "overlapping-front-1.png",
+      "sha256": "b76a4c78ac38fbc714f83241f8ecbe230ee8afb17aa4517574d2c73f5106f278"
+    },
+    {
+      "file": "overlapping-behind-1.png",
+      "sha256": "d081fc6443f041f46aeb3aee753c80c0b5cb783759c8a7f6c5583022a366615a"
+    },
+    {
+      "file": "overlapping-front-2.png",
+      "sha256": "d6ebada662110c816f5c39ffc78a022ddc8fae02ce69ec98bdc6f1e28c0a0d20"
+    },
+    {
+      "file": "overlapping-behind-2.png",
+      "sha256": "6b637d8b36680f6debab974def49d0dda37539560d018bc86e00c43bd712a314"
+    },
+    {
+      "file": "other-sample-front-1.png",
+      "sha256": "d6e770ac3e3fa7dfde139e70e1d75978d75fd3c627d191782486526e53a1f9d5"
+    },
+    {
+      "file": "other-sample-behind-1.png",
+      "sha256": "f0406f1e35ca107c70c2c030b7a72669a3843f1a041bf34f84873c8190b80553"
+    },
+    {
+      "file": "other-sample-front-2.png",
+      "sha256": "272df8b61d60028503ac55642c46b2f6e0d78970e102128786891873e8d9bd47"
+    },
+    {
+      "file": "other-sample-behind-2.png",
+      "sha256": "689fec0247cb35bc6f4e93bf72586fad3ba0820c7873beba9cc5ffcea6d1c149"
+    },
+    {
+      "file": "left-front-1.png",
+      "sha256": "1accab6a0e98056ff79fcf854966b70daeef137abf703cf294babd54d3955657"
+    },
+    {
+      "file": "left-behind-1.png",
+      "sha256": "f8a9cb2819d1cb793eb6632dd9a8387733db1861cd14606d83dff17d2cf8cd0a"
+    },
+    {
+      "file": "left-front-2.png",
+      "sha256": "bab5146de3d9ef18ca93111e9cdc6f070f99e3eebce4d3a514c11764c3aec9ca"
+    },
+    {
+      "file": "left-behind-2.png",
+      "sha256": "6ad735a2582b95f8d6b3bbb179cec8428d7433a05d140d2f9996950d6e6d2def"
+    },
+    {
+      "file": "right-front-1.png",
+      "sha256": "66ba0aedeb89f852e315c77a43e524f1ee154e56568375b9cdb0a5b6dbf5b596"
+    },
+    {
+      "file": "right-behind-1.png",
+      "sha256": "497e379cd29eb448cad84df2efcf08638c8b977bff3bfef4c7b45da46e481811"
+    },
+    {
+      "file": "right-front-2.png",
+      "sha256": "84038ecd71b0c8e1e120383a03af07330eab4c9859af7af5fb61bcf53b5bf222"
+    },
+    {
+      "file": "right-behind-2.png",
+      "sha256": "d423a76928dd1f4dc3f0d9daebd40fd6386fb646a9162d175876f8c0472fd402"
+    },
+    {
+      "file": "top-front-1.png",
+      "sha256": "1e5fc48d4e5e7a1fd73eea404b15cbf79e3ab532c21f6c658a54a2e65011e4cd"
+    },
+    {
+      "file": "top-behind-1.png",
+      "sha256": "61f68395e51828450f95691ffb15fd8ce41d36a142fa9150adb5427bc799b738"
+    },
+    {
+      "file": "top-front-2.png",
+      "sha256": "da426a6207ada95325ceebc8331b90b61dd551e51a81b5aa1b66ab6f13570a9d"
+    },
+    {
+      "file": "top-behind-2.png",
+      "sha256": "f2212407953f79ba351e0e31dd2904920914bd4bdd86d45ae703cdef0df47770"
+    },
+    {
+      "file": "bottom-front-1.png",
+      "sha256": "671f42f85abdcfdbb71b14266d87ceec93b7509fa897f0725176ce2b779d6e95"
+    },
+    {
+      "file": "bottom-behind-1.png",
+      "sha256": "0d6c0e258a932ade19bcf586361d39c536192ec4fbe901418ca4bad837d1676d"
+    },
+    {
+      "file": "bottom-front-2.png",
+      "sha256": "eccb57b6c5417aca768999bbf8e4a5ee0bcfe0113e672feaf416290000ef537b"
+    },
+    {
+      "file": "bottom-behind-2.png",
+      "sha256": "83be1b2585cdc546fbd53c4ab3814c216a31064306faa079c7b6ce15c18eee39"
+    },
+    {
+      "file": "narrow-front-1.png",
+      "sha256": "a4eecca8d62b3a46588fa023416f3b95e73c0e1896036ae6e5037052f5f1d3f4"
+    },
+    {
+      "file": "narrow-behind-1.png",
+      "sha256": "3748bdd41263f7bcc06b0ea045cd8901efdf064319977ab19d65de2c38d7a87f"
+    },
+    {
+      "file": "narrow-front-2.png",
+      "sha256": "73a6f0d986c258957cb75be008dea130912352312ca159d1eb590823050825f4"
+    },
+    {
+      "file": "narrow-behind-2.png",
+      "sha256": "0eecdfb0142eba32b64ce8c526529b9c7557f9e3c7fab2bf58bfb63d8ad4c2fb"
+    }
+  ],
+  "limits": [
+    "Actual pinned GelView drawBandFocus; fixture bands and SampleFragRef identity adapter.",
+    "Explicit native View scissor arithmetic; fixture focus colors and UI rectangles, scientific generation checked separately.",
+    "Modern Cinder/macOS RGBA8 MSAA4; both scales and overlap orders, not original-release full GUI certification."
+  ]
+}

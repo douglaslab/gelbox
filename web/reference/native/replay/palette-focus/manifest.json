@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-10",
+  "webBaseCommit": "d4c6a4d",
+  "nativeInput": "../composed-move/moved-native.json",
+  "nativeBinarySha256": "037514b74bd7fcb673b7a276749fd31bfeabc0773fd11b790457412e905a78a7",
+  "browserTest": "ts/tests/visual/native-palette-focus.spec.ts",
+  "files": {
+    "README.md": "cb4956ef114035caa8cdbdb094014cc21c3c36ddb778b30a4881b365e1384aa3",
+    "deleted-native.json": "bde94511634eda16fc9b1f3dd5ec1a4f468b2dbd3b6f0bd54a339a8989d43e7f",
+    "deleted.jpg": "ea54709b29536bf4c662f06f721cbf27fc4a44fe03413808b9f0f46103cc69e8",
+    "palette-drag.jpg": "50602b2272e25898df27d09ecd6da9be456273015bec899273b3680e6505682b",
+    "palette-native.json": "ee3b9d36531ce5d24dacab7e147554fb1c50cc1ee20b515c19c416f589330c3c",
+    "webgl2-deleted.png": "38cd7ff8b955c6ceb821fed932f64c1d0070c6c230a42da47cc862f68c4afe4b",
+    "webgl2-palette-drag.png": "9d521df3dc5074c56779c0785f6527aa4273f856246e127ac3ebfd5b2a503447",
+    "webgpu-deleted.png": "4fa1ddd80c5ea11d9d3707cb7c06981d205e4c06096f7714a4d1463431db47d9",
+    "webgpu-palette-drag.png": "5b4f8fe9f8c0483797eecef9b4435239fc5aec7da72e98b305873911c53c3d1a"
+  }
+}

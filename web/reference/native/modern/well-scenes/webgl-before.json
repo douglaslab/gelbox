@@ -1,0 +1,114 @@
+[
+  {
+    "id": "2-1-0",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 0,
+    "maximumChannelError": 0
+  },
+  {
+    "id": "2-1-quarter",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 0,
+    "maximumChannelError": 0
+  },
+  {
+    "id": "2-2-0",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 0,
+    "maximumChannelError": 0
+  },
+  {
+    "id": "2-2-quarter",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 0,
+    "maximumChannelError": 0
+  },
+  {
+    "id": "7-1-0",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 24,
+    "maximumChannelError": 41
+  },
+  {
+    "id": "7-1-quarter",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 27,
+    "maximumChannelError": 41
+  },
+  {
+    "id": "7-2-0",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 32,
+    "maximumChannelError": 41
+  },
+  {
+    "id": "7-2-quarter",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 40,
+    "maximumChannelError": 41
+  },
+  {
+    "id": "12-1-0",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 816,
+    "maximumChannelError": 41
+  },
+  {
+    "id": "12-1-quarter",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 774,
+    "maximumChannelError": 81
+  },
+  {
+    "id": "12-2-0",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 0,
+    "maximumChannelError": 0
+  },
+  {
+    "id": "12-2-quarter",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 0,
+    "maximumChannelError": 0
+  },
+  {
+    "id": "20-1-0",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 100,
+    "maximumChannelError": 41
+  },
+  {
+    "id": "20-1-quarter",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 90,
+    "maximumChannelError": 41
+  },
+  {
+    "id": "20-2-0",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 240,
+    "maximumChannelError": 41
+  },
+  {
+    "id": "20-2-quarter",
+    "samples": 4,
+    "antialias": true,
+    "differentPixels": 160,
+    "maximumChannelError": 41
+  }
+]

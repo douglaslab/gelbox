@@ -1,0 +1,12 @@
+{
+  "baseCommit": "dc642b0",
+  "nativeManifestSha256": "47980fe8f5d247833b4cc91fcf83a43d56bb61f7405e4b454680fd0d80402b32",
+  "sourceSha256": {
+    "ts/src/lib/gel/present.ts": "455fa2fa69b8c9014080714b9618d4042ede13b755a819bba3e0e04cfdfbf94e",
+    "ts/src/lib/gel/present-gl.ts": "77e885b25557a687d93eea8dec444811aad05f7c370bdafb985e6d1c347986aa",
+    "ts/src/lib/gel/presentationTypes.ts": "3534c27500e8a50aa2193b9f9d9817e9b65dc05c4a20fd25725c85543ceb4d18",
+    "ts/tests/visual/ordered-mesh.spec.ts": "e663115d3433cae82d4f5f045cabd3e3ccbddd27b592ef50f9f310a6e1b5139f"
+  },
+  "finalComparisons": 20,
+  "exactMismatches": 0
+}

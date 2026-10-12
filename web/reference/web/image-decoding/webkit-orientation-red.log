@@ -1,0 +1,78 @@
+
+> @douglaslab/gel@0.0.1 test:visual
+> playwright test -c /tmp/gel-image-compat.config.cjs
+
+
+Running 2 tests using 2 workers
+
+(node:10498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [webkit-webgl2] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences (877ms)
+  ✓  1 [firefox-webgl2] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences (1.2s)
+
+
+  1) [webkit-webgl2] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences 
+
+    Error: alpha.png raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: <= [32m0[39m
+    Received:    [31m235[39m
+
+      48 |    // JPEG's measured one-level codec rounding difference remains an explicit
+      49 |    // parity decision, not a claim of exact native JPEG pixels. PNG/GIF are exact.
+    > 50 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBeLessThanOrEqual(result.file.endsWith('.jpg')?1:0);
+         |                                                                  ^
+      51 |   }
+      52 |  }finally{await app.close();}
+      53 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:50:66
+
+    Error: orientation-6.png dimensions
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [32m-   32,[39m
+    [2m    24,[22m
+    [31m+   32,[39m
+    [2m  ][22m
+
+      45 |   await writeFile(info.outputPath('decode-comparison.json'),JSON.stringify(report,null,2));
+      46 |   for(const result of report){
+    > 47 |    expect.soft(result.webSize,result.file+' dimensions').toEqual(result.nativeSize);
+         |                                                          ^
+      48 |    // JPEG's measured one-level codec rounding difference remains an explicit
+      49 |    // parity decision, not a claim of exact native JPEG pixels. PNG/GIF are exact.
+      50 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBeLessThanOrEqual(result.file.endsWith('.jpg')?1:0);
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:47:58
+
+    Error: orientation-6.png raw pixels
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: <= [32m0[39m
+    Received:    [31m220[39m
+
+      48 |    // JPEG's measured one-level codec rounding difference remains an explicit
+      49 |    // parity decision, not a claim of exact native JPEG pixels. PNG/GIF are exact.
+    > 50 |    expect.soft(result.maxChannelError,result.file+' raw pixels').toBeLessThanOrEqual(result.file.endsWith('.jpg')?1:0);
+         |                                                                  ^
+      51 |   }
+      52 |  }finally{await app.close();}
+      53 | });
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/image-decoding.spec.ts:50:66
+
+  1 failed
+    [webkit-webgl2] › image-decoding.spec.ts:6:1 › compiled images retain native orientation and bounded codec pixel differences 
+  1 passed (2.3s)

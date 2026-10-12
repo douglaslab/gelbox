@@ -1,0 +1,25 @@
+{
+  "executable": "/tmp/gel-native-reference/extracted/Gelbox/Gelbox.app/Contents/MacOS/Gelbox",
+  "binarySha256": "037514b74bd7fcb673b7a276749fd31bfeabc0773fd11b790457412e905a78a7",
+  "method": "Original release CUA Cmd+O / Cmd+S GUI replay; raw saved JSON retained.",
+  "webInputSha256": "b72b8a1fad3d86503c3c80d7f24b71441616b649829f5dd6b59e3d134c0c9eef",
+  "nativeWriterDataLossConfirmed": true,
+  "nativeReloadVisibleLanes": 7,
+  "survivingSampleLaneOneBased": 2,
+  "webRecoveryExportsExactlyMatchReleaseRecovery": true,
+  "files": {
+    "README.md": "f2d5695c3c52ccfc720a382774a0ed948f7f7b22bf2a426296cc6ffb89634f2e",
+    "loaded-state.json": "84dd9114f74f708bb8baa0b87f73490d4fcce031e815895f44019861ae767304",
+    "opened.jpg": "5d9c22f35a6b36b12f43b48400f9c1feb16770f50b915256f5cf617860cc9ccc",
+    "recovered-native.json": "e02b84a5c851cf0272f083477bc2e0ef242d6bb160e1274fde5b5d3737a73022",
+    "reloaded.jpg": "3ed177b4a48f4b246f219e3918b82c0784483be2fb3ecf071338db82d2bb4e79",
+    "reread.json": "95f6437bc8eabc66d5d52d28b8917c3d55c38962eb9f8d5dab674492f6f93b95",
+    "webgl2-recovered.json": "283afeeb9d37adc3734f38e97f92eaee190349b5d6e2d1f037c4e7309350da0b",
+    "webgpu-recovered.json": "283afeeb9d37adc3734f38e97f92eaee190349b5d6e2d1f037c4e7309350da0b"
+  },
+  "limitations": [
+    "One twelve-lane document and its recovery; not exhaustive GUI interchange.",
+    "CUA JPEG screenshots are exploratory, not pixel goldens.",
+    "Source/binary equivalence remains unproven beyond this observed behavior."
+  ]
+}

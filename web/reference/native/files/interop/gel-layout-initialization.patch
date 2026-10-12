@@ -1,0 +1,17 @@
+--- a/include/Gel.h
++++ b/include/Gel.h
+@@ -106,10 +106,10 @@
+ 	float					mWellDamage = 0.f;
+ 	
+ 	// layout
+-	glm::vec2				mSize; // ( lane dimension, pos elec dimension ) cm
++	glm::vec2				mSize = glm::vec2(390,520); // ( lane dimension, pos elec dimension ) cm
+ 	
+-	float					mYMargin;
+-	float					mLaneWidth; // = mSize.x / mNumLanes
+-	int						mNumLanes;
++	float					mYMargin = 20.f;
++	float					mLaneWidth = 390.f/7.f; // = mSize.x / mNumLanes
++	int						mNumLanes = 7;
+ 	
+ };

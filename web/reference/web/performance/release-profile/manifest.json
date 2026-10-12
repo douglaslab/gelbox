@@ -1,0 +1,13 @@
+{
+  "runtimeCommit": "812ff8a588d6fbc238e5e5f75dc9f58ab6f387fe",
+  "files": {
+    "README.md": "682f33592d85f4ed57453cef77775f3b0fb6986b990793eec0ccd5607e1e75b9",
+    "application-measure-built--e1f69-nds-sample-and-three-loupes-chromium-webgl2/application-performance.json": "1edf1a5cee3dfc36001b00b3f458839006a7cdbacf2b6092aa975400e6c1b0b2",
+    "application-measure-built--e1f69-nds-sample-and-three-loupes-chromium-webgl2/budget.json": "634b287aeba889ed85a23efddc245b8d19563d18cfcc316d2b3e1eb593fdf3e7",
+    "application-measure-built--e1f69-nds-sample-and-three-loupes-chromium-webgl2/workload.png": "93e52c26f11223dc846cfc78145d5f53e48d0ff74da102fceb71498994d33167",
+    "application-measure-built--e1f69-nds-sample-and-three-loupes-chromium-webgpu/application-performance.json": "86a0ebfd3ca6ba6ea16cc4de25a61958e32907fd5de6d5f96991ea62a873253d",
+    "application-measure-built--e1f69-nds-sample-and-three-loupes-chromium-webgpu/budget.json": "634b287aeba889ed85a23efddc245b8d19563d18cfcc316d2b3e1eb593fdf3e7",
+    "application-measure-built--e1f69-nds-sample-and-three-loupes-chromium-webgpu/workload.png": "548dfe497f015efcf260ca05799f4488f25c168f9d98293bba6d2f25b105b8b9",
+    "run.log": "b6c1c440dfe89ef0c08dd0e278bc98379a4ac7a561d75fbe518fc33a3dc15ae4"
+  }
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "no-sample",
+    "selected": false,
+    "checked": false,
+    "hover": false,
+    "down": false,
+    "inside": true
+  },
+  {
+    "id": "selected",
+    "selected": true,
+    "checked": true,
+    "hover": false,
+    "down": false,
+    "inside": true
+  },
+  {
+    "id": "hover",
+    "selected": true,
+    "checked": true,
+    "hover": true,
+    "down": false,
+    "inside": true
+  },
+  {
+    "id": "held-checked",
+    "selected": true,
+    "checked": true,
+    "hover": true,
+    "down": true,
+    "inside": true
+  },
+  {
+    "id": "held-unchecked",
+    "selected": true,
+    "checked": false,
+    "hover": true,
+    "down": true,
+    "inside": true
+  },
+  {
+    "id": "held-outside",
+    "selected": true,
+    "checked": true,
+    "hover": false,
+    "down": true,
+    "inside": false
+  }
+]

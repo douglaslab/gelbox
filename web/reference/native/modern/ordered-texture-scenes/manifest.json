@@ -1,0 +1,85 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "75f4821216a0e105075f3c55be1fbe38784a18c6",
+  "textureSourceSha256": "0982c2b77f5797eeb9f040e70db20d191f3140c275878431c22849e2ccd57b7d",
+  "textHeaderSha256": "c71aa81429343c9d7cc670a1bbe393ccbae9cb1d8b0b08face73ec64aa41542a",
+  "sourceSha256": {
+    "src/GelboxApp.cpp": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+    "src/GelView.cpp": "20159d314759e38b6e2f626fba2c5a401eb4cbf894f15682c597c6145e96a3e6",
+    "src/View.cpp": "779407bb1a374f55a3b54afc5bbe82c3b73d87633f3a955b0c93a1da5c7cefae",
+    "src/Layout.cpp": "5a01b7a13aa4438e9d28d46f84dedc79d4a9e96750f333ca79356bc704f1d814"
+  },
+  "driverSha256": "0d1a9b6493ed37e7bc6413a83d1cec6a937b114061adb1198642e1e470886fb8",
+  "casesSha256": "7c8ef6511724fc5449de46b62f0bba826658110a4b2b72bc558aaaa7fcee0e9a",
+  "texturesSha256": "1fb9b0e9835d3650412a2db1c4554f6c6a7bca8494074ca79791a2c7ce572864",
+  "executableSha256": "cd6b65ddfbefc0ef706b2d8d09b46ea90058d15ba9393a0fcdeeec4e2863b48e",
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "repeatCaptureIdentical": true,
+  "cases": [
+    {
+      "id": "linear-alpha-1",
+      "scene": "linear-alpha",
+      "scale": 1,
+      "sha256": "3e5603079a67c9af930873daa3c190bd987c4c26aba72ed721e5c5951f6b07aa"
+    },
+    {
+      "id": "linear-alpha-2",
+      "scene": "linear-alpha",
+      "scale": 2,
+      "sha256": "d80743408878ef4a65a2f48c7c2f9213ef8d2e99770470c4c2b66650497a1307"
+    },
+    {
+      "id": "clipped-flipped-tint-1",
+      "scene": "clipped-flipped-tint",
+      "scale": 1,
+      "sha256": "cbaed86a931a411464f04329a8008683e8ac90166fc7e60e1f1756a1e6e0e80c"
+    },
+    {
+      "id": "clipped-flipped-tint-2",
+      "scene": "clipped-flipped-tint",
+      "scale": 2,
+      "sha256": "16506bd0dc498c2105e083ce76a740ad1b1739821a1dbed90f5e0a426bd23eab"
+    },
+    {
+      "id": "mip-and-filter-switch-1",
+      "scene": "mip-and-filter-switch",
+      "scale": 1,
+      "sha256": "9cefbd76676d7907c941cd118ae06a7d4cdf9e03f2563e5152eab594260aaedb"
+    },
+    {
+      "id": "mip-and-filter-switch-2",
+      "scene": "mip-and-filter-switch",
+      "scale": 2,
+      "sha256": "1ad77d6792c4002c5d9c7f08ce9c3c7a2f041f5599c10c69a52b7f843be5d3ec"
+    },
+    {
+      "id": "premultiplied-tint-1",
+      "scene": "premultiplied-tint",
+      "scale": 1,
+      "sha256": "b12122aac26153d6191d0d6ef43d3963c7f15dd553e48d53f74f469ae461698e"
+    },
+    {
+      "id": "premultiplied-tint-2",
+      "scene": "premultiplied-tint",
+      "scale": 2,
+      "sha256": "de7edd44b50e336e2e5c41e6abe5bc8c1479ec3cfa347d171f101f80c7590f14"
+    },
+    {
+      "id": "repeat-and-additive-1",
+      "scene": "repeat-and-additive",
+      "scale": 1,
+      "sha256": "6fdfbdd78a064c0090e3fc31d67b0ca6c197e535f2fb96bed83cb62f70336e6d"
+    },
+    {
+      "id": "repeat-and-additive-2",
+      "scene": "repeat-and-additive",
+      "scale": 2,
+      "sha256": "7272b3e81da2fdb01b741e1d2d2f17124f1d2bac3952795606dbbaf7642f73f6"
+    }
+  ],
+  "limits": [
+    "Constructed standalone CGL scenes using native draw-state contracts; not original GUI captures.",
+    "Logical positive-Y coordinates/raw row order; scissor coordinates multiplied by DPR; physical one-pixel lines.",
+    "64x64 RGBA8 MSAA4; straight/premultiplied RGBA8 textures with explicit diagnostic mip levels; no app integration or image-decoder certification."
+  ]
+}

@@ -1,0 +1,35 @@
+[WebServer] (node:50184) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:50187) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+pointer-coordinate-probe {"requested":{"x":235.85713958740234,"y":187.2919921875},"delivered":{"x":235,"y":187},"frame":{"x":320.5,"y":101.5,"width":171,"height":171}}
+  ✘  1 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts:6:5 › persistent loupe frame, three drag modes, resize and keyboard ownership (1.7s)
+
+
+  1) [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts:6:5 › persistent loupe frame, three drag modes, resize and keyboard ownership 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 321.35713958740234
+    Received: 320.5
+
+    Expected precision:    1
+    Expected difference: < 0.05
+    Received difference:   0.8571395874023438
+
+      15 |  let f=(await frame.boundingBox())!;
+      16 |  console.log('pointer-coordinate-probe',JSON.stringify({requested:{x,y},delivered:await page.evaluate(()=>(window as any).__probePoint),frame:f}));
+    > 17 |  expect(f.x).toBeCloseTo(x+85.5,1);expect(f.y).toBeCloseTo(y-85.5,1);
+         |              ^
+      18 |  const before=await canvas.screenshot();
+      19 |  // Body moves only the frame; seed/content remain unchanged.
+      20 |  await page.mouse.move(f.x+10,f.y+155);await page.mouse.down();await page.mouse.move(f.x+40,f.y+175);await page.mouse.up();await page.mouse.move(0,0);
+        at /private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts:17:14
+
+    Error Context: ../../../../../../../tmp/gel-browser-compat-1.64/interactions-results/loupe-interactions-persist-c7309-size-and-keyboard-ownership-webkit-webgl2/error-context.md
+
+  1 failed
+    [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/interactions/loupe-interactions.spec.ts:6:5 › persistent loupe frame, three drag modes, resize and keyboard ownership 

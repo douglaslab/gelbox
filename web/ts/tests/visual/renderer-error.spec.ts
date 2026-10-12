@@ -1,0 +1,42 @@
+import {test,expect} from '@playwright/test';
+import {readFile} from 'node:fs/promises';
+for(const absent of [true,false])test(`graphics failure is visible and retry preserves the gel (GPU absent=${absent})`,async({page},info)=>{
+ await page.addInitScript(absent=>{
+  localStorage.setItem('gelBackend','webgpu');
+  Object.defineProperty(navigator,'gpu',{configurable:true,value:absent?undefined:{requestAdapter:async()=>null}});
+  (window as any).allowGraphics=false;
+  const original=HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext=function(type:any,options:any){
+   if(type==='webgl2'&&!(window as any).allowGraphics)return null;
+   const result=original.call(this,type,options);
+   if(result)this.setAttribute('data-probe-context',type);
+   return result;
+  } as typeof original;
+ },absent);
+ await page.goto('/#/gel');
+ const gelError=page.getByTestId('gel-canvas-error');
+ await expect(gelError).toContainText('Graphics could not start');
+ const fixture=await readFile('../reference/native/files/ladder-after-selection.gel.json','utf8');
+ await page.getByTestId('file-input').setInputFiles({name:'native.json',mimeType:'application/json',buffer:Buffer.from(fixture)});
+ await page.getByTestId('microtube-0').click();
+ const sampleError=page.getByTestId('molecular-sim-canvas-error');
+ await expect(sampleError).toContainText('Graphics could not start');
+ await expect(page.getByTestId('molecular-sim-canvas')).not.toHaveAttribute('data-probe-context','2d');
+ await page.screenshot({path:info.outputPath('graphics-failed.png')});
+ const oldGel=await page.getByTestId('gel-canvas').elementHandle();
+ const oldSample=await page.getByTestId('molecular-sim-canvas').elementHandle();
+ await page.getByRole('button',{name:'Application settings'}).click();
+ const download=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+ expect(JSON.parse(await readFile((await(await download).path())!,'utf8'))).toEqual(JSON.parse(fixture));
+ const menu=page.getByRole('button',{name:'Application settings'});
+ if(await menu.getAttribute('aria-expanded')==='true')await menu.click();
+ await page.evaluate(()=>(window as any).allowGraphics=true);
+ await gelError.getByRole('button',{name:'Retry graphics'}).click();
+ await expect(gelError).toHaveCount(0);
+ await expect(page.getByTestId('gel-canvas')).toHaveAttribute('data-probe-context','webgl2');
+ await sampleError.getByRole('button',{name:'Retry graphics'}).click();
+ await expect(sampleError).toHaveCount(0);
+ expect(await oldGel!.evaluate(el=>el.isConnected)).toBe(false);
+ expect(await oldSample!.evaluate(el=>el.isConnected)).toBe(false);
+ await expect(page.getByTestId('molecular-sim-canvas')).toHaveAttribute('data-probe-context','webgl2');
+});

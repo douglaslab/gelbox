@@ -1,0 +1,30 @@
+{
+  "base": "22a3795",
+  "sha256": {
+    "ts/src/components/gel/SharedReferenceImage.tsx": "d38a7820ac5983ad9567be7288743dd9a2d7c800adb8723ec137177cf5a2d805",
+    "ts/src/components/gel/ReferenceImageLayer.tsx": "e6a3a8e9eff4b8155f0c3256a6a93ff9ae761ce674116251bb4955ed40ad6316",
+    "ts/src/lib/gel/sceneImageTexture.ts": "03f005c48b69c98090f41ce15a958aea12cae7dec7a2864cf6f2038941aac741",
+    "ts/src/lib/gel/referenceImages.ts": "8cc467673783a86c65d9d1c4dd57ae94e5553af599e1e0b6210d46e98ec64940",
+    "ts/tests/visual/shared-image-native.spec.ts": "e04415bf564fa960e50ff19c1b6ef05f9d69e14939daff3352124b40a372b86e",
+    "ts/tests/visual/shared-image-mips.spec.ts": "98180048b4c78287610e42f336e108bbfa04fffbebb9bd6fe95862c096a1dc0e",
+    "ts/tests/visual/shared-image.spec.ts": "89afb2c4688846413d77c4097d7069a5c9e73ea16ddb6ce00c5622e854182c97",
+    "ts/tests/visual/reference-images.spec.ts": "54016066c23866ce6ca9d5238230b0ab7f71e40b177b5152308dbe29c61b78ab",
+    "reference/native/modern/shared-image-scenes/manifest.json": "c5c13a56644c07f1e8ac844300ed64287d83689099c4ac0e4e46a3e057b2afe5",
+    "reference/native/modern/shared-image-scenes/capture.py": "40a05790efdef26610d197e7d2a0cb575f1d27211e9e4a8766f2e1878b732e5f"
+  },
+  "exactNativeSceneComparisons": 20,
+  "exactNativeMipComparisons": 28,
+  "limits": [
+    "8-bit PNG fixtures; broader codecs, profiles and 16-bit images are not certified.",
+    "Development-only shared rendering; this does not certify original-release GUI or remaining control paint."
+  ],
+  "verification": {
+    "unitTests": 2917,
+    "browserTests": 629,
+    "intentionalBrowserSkips": 1,
+    "productionTests": 4,
+    "build": "passed",
+    "nativeRepeatedCaptures": 10,
+    "freshBrowserLog": "/tmp/gel-shared-image-fresh.log"
+  }
+}

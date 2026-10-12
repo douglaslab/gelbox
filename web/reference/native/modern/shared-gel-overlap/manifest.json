@@ -1,0 +1,82 @@
+{
+  "scientificTextureSha256": "d3e6ab4e54bd78b3e4a6a93c68312e806d9bcc9cb7fa37e48c34e8f91f88b99d",
+  "scientificManifestSha256": "b89cdb1693dee1426125148bda1709262cbb44b9efcaba4b2133d9770bc39d2b",
+  "directMeshSha256": "e3c868eae48305873d09b2435f0b0f23bb6bed1eec283cebceeffcb8db960064",
+  "directProvenanceSha256": "23c1bc36e31582fae70e5130c7bf64e959c1a517f4f7ff0fe6c37675b1134d2c",
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "sourceSha256": {
+    "src/GelView.cpp": "20159d314759e38b6e2f626fba2c5a401eb4cbf894f15682c597c6145e96a3e6",
+    "src/GelRender.cpp": "3d4551851be1ba79223009c0bdf58620e5f6e1048b9d5047ec968e59449c9fe3",
+    "src/SampleView.cpp": "c69251430da6eedbf1b73cf9fdbf0c5eedc4f4f19a172be935661238e2ac555a",
+    "src/FragmentView.cpp": "d9345eda3ae73104684344f99676588e22f7369e93ff1d3e5ab7d1e95e035b02",
+    "src/View.cpp": "779407bb1a374f55a3b54afc5bbe82c3b73d87633f3a955b0c93a1da5c7cefae",
+    "src/GelboxApp.cpp": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+    "src/MolecularSim.cpp": "7816bdebddb3aea6933bd7be028c76cd09295e918edacd45494b8b0e4c198dcd",
+    "include/Layout.h": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c"
+  },
+  "numericalProvenanceSha256": "4b9e14f5bab81cc9cf113c7a4ec45593792e54f9f414532ac6119f224b3d2cc9",
+  "geometrySha256": "9710fb2fda8703f99f0fe003d548704c58a1170427567138b6cfbff91f09e1de",
+  "geometryProvenanceSha256": "2523ea37c3d27360280f11dd4c61f3316a62169aff60d2ea082e6f688d73a910",
+  "casesSha256": "73320c4960fa77e8c81ad84678d13033f920d78f77115ed1edbd4ff215e1a9fd",
+  "meshSha256": "ce48826898c3f747ac05c861779c33881fe09279959d4b1c687708e6441235d1",
+  "driverSha256": "b387232d66318673edf83a9100d67e778116b2952fcd0009015d4af308d330a8",
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "executableSha256": "d834b78f44af55bb538256da6f0cf74ff89c945beb007cae97488e41176c4c28",
+  "repeatCaptureIdentical": true,
+  "meshCaptureRepeated": true,
+  "cases": [
+    {
+      "id": "direct-first-1",
+      "scene": "direct-first",
+      "scale": 1,
+      "sha256": "66060472ae38e44ca11db711a8f5b9186574defed17542f5018e62191720e408"
+    },
+    {
+      "id": "direct-first-2",
+      "scene": "direct-first",
+      "scale": 2,
+      "sha256": "e4b0fa5217083987a7e81b84b29172241f41c3bcce26445b9cc9240e0110a7e2"
+    },
+    {
+      "id": "direct-last-1",
+      "scene": "direct-last",
+      "scale": 1,
+      "sha256": "83cba4acfa6235117689b08b83f2f29432c54050c37b7bbec8700da0299ae609"
+    },
+    {
+      "id": "direct-last-2",
+      "scene": "direct-last",
+      "scale": 2,
+      "sha256": "deb1108d8c8c1fb8c771b835250352ed48c7384b43d10641048d349fa93e52f8"
+    },
+    {
+      "id": "effects-first-1",
+      "scene": "effects-first",
+      "scale": 1,
+      "sha256": "66060472ae38e44ca11db711a8f5b9186574defed17542f5018e62191720e408"
+    },
+    {
+      "id": "effects-first-2",
+      "scene": "effects-first",
+      "scale": 2,
+      "sha256": "e4b0fa5217083987a7e81b84b29172241f41c3bcce26445b9cc9240e0110a7e2"
+    },
+    {
+      "id": "effects-last-1",
+      "scene": "effects-last",
+      "scale": 1,
+      "sha256": "23796efa7cfbc6e6990eed78bfcbc876daaf0058d9a18850e24c5f48f480a63c"
+    },
+    {
+      "id": "effects-last-2",
+      "scene": "effects-last",
+      "scale": 2,
+      "sha256": "ebe08897aa5813849a561a16efc5366fbc23fab9179aab0c7153d35a76f978a1"
+    }
+  ],
+  "limits": [
+    "Static pinned-native particle meshes on standalone CGL RGBA8 MSAA4; not original GUI output.",
+    "Fractionally translated direct/effects gel with native wells, sample body and fragment representative, gel first/last.",
+    "No header, focus/frame, brace, control or text paint; those contributions migrate in Task4."
+  ]
+}

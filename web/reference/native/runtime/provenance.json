@@ -1,0 +1,205 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "cinderCommit": "f90f332d1a4d453282c76435f3401271f25922f9",
+  "sourceHashes": {
+    "src/MolecularSim.cpp": "7816bdebddb3aea6933bd7be028c76cd09295e918edacd45494b8b0e4c198dcd",
+    "include/MolecularSim.h": "1809751d527ba891a592381b11a57294f33f0f7237b69d16d8ef28e10bd042dd",
+    "src/SampleView.cpp": "c69251430da6eedbf1b73cf9fdbf0c5eedc4f4f19a172be935661238e2ac555a",
+    "include/SampleView.h": "4c6bd19a8dbad08e5f7820a5f237cc8213e118e7038e94ac20fa3480923a2c06",
+    "src/FragmentView.cpp": "d9345eda3ae73104684344f99676588e22f7369e93ff1d3e5ab7d1e95e035b02",
+    "src/ColorPaletteView.cpp": "3903d1b193d9ec0541f6bd2003f4032e569159d871fa4f8970d9802dbbc5ec1f",
+    "src/View.cpp": "779407bb1a374f55a3b54afc5bbe82c3b73d87633f3a955b0c93a1da5c7cefae",
+    "src/GelView.cpp": "20159d314759e38b6e2f626fba2c5a401eb4cbf894f15682c597c6145e96a3e6",
+    "src/GelboxApp.cpp": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+    "include/Config.h": "fd98c4bdd17876e22d0f4344150442c8c0763de42681830cc505e5152ad8ffd3",
+    "src/GelSim.cpp": "198f05d2591e88c8ff5821d07ab70682cf9c7f65c6e04b5ebdcf8df01569953d",
+    "include/GelSim.h": "e7bbc0bd7ec5bac4b6803b5236de49934d0926cac858b6c053a3ee460d3c6c42",
+    "src/Sample.cpp": "58fe12e7b766ac6064b22e5c3f729dcc9674f915f1f089d8d8e1e8222b1f87e6",
+    "include/Sample.h": "e580003d0e6c21c28d0166ab865251165e643b329f88016cff5ca8c3de894c3d",
+    "include/Buffer.h": "80ff6fe8a50aeb867055c7e1d1745f2d96b4e3737d2af803c901df68a9f0689e",
+    "include/Band.h": "ad2e2da5beacc27ded660ba025d9c18787b48ce40672e0b8f70bb050103b583c",
+    "include/Dye.h": "2f79d16e2da24ab3822ef9d817cbb18c4a94ed0dc295d4c2cf06c473b30c26df",
+    "include/Aggregate.h": "ec00f39c39239e9bf8596383a9efa9b9255b7c7238770c49ef1cf0885c5c3e97",
+    "assets/tuning/gel-sim.json": "199b5ce3f7b6b256ab58e802b8daf16afa38494e8358bde698999ce37614cfae",
+    "assets/tuning/molecular-sim.json": "680d573672cd3bb2387788ce6291d5e89e97b507e95b6145fae2d225681961d7"
+  },
+  "extractions": {
+    "MolecularSim::MolecularSim()": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "ab47a40d7b08a4e8b44f9e81aedb10d6432d352a9b07d4298f169e59b931432a"
+    },
+    "void MolecularSimTuning::load(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "74e8c992ef255c8f64c6e381e8d6bd88ec61da962df669a90e87e49ebebc630d"
+    },
+    "static float basesToRadius(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "03338e3a7327c4e3c62ef9c55d5e559b6d06c0eb203232afcb096a043728de0b"
+    },
+    "float MolecularSim::calcTargetPop(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "1b23261e601e5bedb4e4b079b47a2d794888a9265c806b2def2fa2c7a9810b00"
+    },
+    "void MolecularSim::setSample(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "e308c5f48dfc17fe0b669af6b97df2b5b6cae5466ceb4d319757b39d795a9920"
+    },
+    "void MolecularSim::setBounds(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "ba34897922d1ee1987f6e843757ea985a06857db53d3de58954f3e668d66007c"
+    },
+    "void MolecularSim::preroll(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "39a7e88e651755eb5b61973b9c6242cc5e37a6bc55d29fc7b4c4a53b8ee2f6e3"
+    },
+    "void MolecularSim::tick(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "58a0c79392cc6925e630186584ceff1817ee6d86caac05acd89b930801377c97"
+    },
+    "int\nMolecularSim::getRandomWeightedAggregateSize(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "d7b8b305771b1205dab84c01b2586b2e119f29fd5c211b438858c2f1d7499110"
+    },
+    "MolecularSim::Part\nMolecularSim::randomPart(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "d9382d687fa15d25104e8fe654e09ef1c1426fa8612bc7f926caae03c602cc34"
+    },
+    "int  MolecularSim::pickPart(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "201b20c17ef2ffbdff595ffdb162df6c54bffb5e83ea0122b4bad0e19fc2aa8a"
+    },
+    "int  MolecularSim::pickFragment(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "cf07fec4c24e91c790e69f7a226cf6eac3ea10c07dcd9d892aeddc5afb18a5f7"
+    },
+    "glm::mat4\nMolecularSim::Part::getRootTransform(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "e23c28acbc7576012630fe22a52fad654f0ba817e2b1d9a6b9ec31f3b9edf249"
+    },
+    "glm::mat4\nMolecularSim::Part::getTransform(": {
+      "source": "src/MolecularSim.cpp",
+      "sha256": "f3e21cff2fa3a098d99cac35fe206ecb0488c7289aa9ed1a88f3e0bcaf455bcc"
+    },
+    "class MolecularSimTuning": {
+      "source": "include/MolecularSim.h",
+      "sha256": "e4f47128471e76b4e6dfde0e7f1ee4e9b08bb528c51a9a349d77ca2f79933fea"
+    },
+    "\tclass Frag\n": {
+      "source": "include/MolecularSim.h",
+      "sha256": "a5ba1506d49b53a04480c8348cd19a3ce025adbdda1ac649d08128991866b216"
+    },
+    "\tclass Part\n": {
+      "source": "include/MolecularSim.h",
+      "sha256": "0a17c6eb485a1422ae0c433f5de14b6014b5c92e63e5a6c4bdd36066cf2b40cf"
+    },
+    "void setRand(": {
+      "source": "include/SampleView.h",
+      "sha256": "f94947060455d2b4d0bedec1e219ff7135a1e9925930779b6bb52c78b29d3270"
+    },
+    "class DegradeFilter :": {
+      "source": "include/MolecularSim.h",
+      "sha256": "c3bff3fc243c1a97a7f50038c7ef849e8548e893fac38ab322fdcf1faa23b7c6"
+    },
+    "void Sample::clearDyes()": {
+      "source": "src/Sample.cpp",
+      "sha256": "faf8614b70b10fcdf5090d13ca7a6b6c3cd921b44f2e1cbb2776c8cb60c71979"
+    },
+    "void ViewCollection::tick( float dt )": {
+      "source": "src/View.cpp",
+      "sha256": "985f5297296edffc4d24f59ad618b4f5b69650049a1f7446fdc15de70033de60"
+    },
+    "mRand.seed( randInt() )": {
+      "source": "src/SampleView.cpp",
+      "sha256": "750e7e1c5d96367856c3c68886ad35db5d6d5ac33f9303790ec7fae0b291b5a3"
+    },
+    "aggregate.mGraphValues.resize(": {
+      "source": "src/FragmentView.cpp",
+      "sha256": "8520cf0e716a75bd46afb9e451b7a0b5807db07b5c1fd262e3a51164c9f7a33c"
+    },
+    "for( float &x : aggregate.mGraphValues )": {
+      "source": "src/FragmentView.cpp",
+      "sha256": "2d28ba321707ff2ecf14516b75b302883e0b364cca1ceb3b521dd5d21156a8a5"
+    },
+    "const int kRandFragMinNumBases =": {
+      "source": "src/SampleView.cpp",
+      "sha256": "42464c9632e3ce2ed932cb05bf53f9256b1438639518920fc6f4165e4817b674"
+    },
+    "const int kRandFragMaxNumBases =": {
+      "source": "src/SampleView.cpp",
+      "sha256": "38baf18b7b49ba4145346af4393160e5935a175c0f8693981a112c776b5c51f1"
+    },
+    "const float kRandFragMaxAspect =": {
+      "source": "src/SampleView.cpp",
+      "sha256": "a2ef25fb990d6e77468038f1b89b0a80e33576d7e2be4d7f50bbf8203a8a6ecd"
+    },
+    "const int kNewFragNumAggregateBands =": {
+      "source": "src/SampleView.cpp",
+      "sha256": "c6d051fc21cd20e81e21e93c5061d04bd726a12863c4d737f63687ca12354c5f"
+    },
+    "ci::Color ColorPaletteView::Palette::getRandomColor(": {
+      "source": "src/ColorPaletteView.cpp",
+      "sha256": "044e7ca63d79297357afe3a5715e9dcec3c7e92595b8657c9c8a3a90c3084aac"
+    },
+    "ColorPaletteView::Palette::Palette(": {
+      "source": "src/ColorPaletteView.cpp",
+      "sha256": "75ce50cea6c3e9261bb4267a26dbb144da6f60ecc75656b8ead79f03542d6622"
+    },
+    "const vector<Color>& FragmentView::getColorPalette()": {
+      "source": "src/FragmentView.cpp",
+      "sha256": "a440926da315bc4f583ab304d5496fad6fbf5d2ae38e6288a75600ac47c6f069"
+    },
+    "ci::Color FragmentView::getRandomColorFromPalette(": {
+      "source": "src/FragmentView.cpp",
+      "sha256": "1150b5ce8e9a49b6c7666320384fa9ae0419d2e3e51f605f03922c72111b117e"
+    },
+    "void SampleView::newFragment()": {
+      "source": "src/SampleView.cpp",
+      "sha256": "f0a4338bceeca9fd3fd11751f151020d5bb5ac6109d76be1d8fc1aa6ebdeac3b"
+    },
+    "loupe seed expression": {
+      "source": "src/GelView.cpp",
+      "sha256": "6ba53c7f002af9d703ef251ddc60db9e328050778844d1e72f18eda84d321218"
+    }
+  },
+  "generatedHashes": {
+    "degrade-filter.inc": "ad3dff7532cfd73f105f9429bf156016f5a652081ac7b7291b26643de1716aa7",
+    "species-methods.inc": "25bf61bd13985906b01f522ec147ff70b2889924a9f9b1a346c117931ab3766e",
+    "molecular-set-rand.inc": "ffedd256775e4a7c0dc4080fd2081debf080cd931297bfef14733d8af90feea5",
+    "loupe-seed.inc": "3dfe8b3f365f0ae55c2b4f6fcb86460baf67941f1c92726b893503fdfef1a484",
+    "molecular-frag.inc": "63a84496741da048418ea59ef145071631edb6b9fc1e34f07db02e9953fd894d",
+    "view-tick.inc": "9a80eac8575b36a3f913392d2181d61f660cfe294149d60258734ccdc5c47ff5",
+    "molecular-tuning.inc": "a048a3e36a38536742c7067e3bb09642cf789f7edc495784ffacbcd564384d45",
+    "sample-set-rand.inc": "5f5f0d8cc51478b020c000a5994e0db20b67872d467d200695ae2b83f826541b",
+    "molecular-functions.inc": "ba5a54dba31da747b5262661653bcdb4f4e521e59176506923adba78f5e0eac1",
+    "view-setup-seed.inc": "5e03e44e25476fa84f756a51d162712a79f98a080b14076317982a2455636870",
+    "inspector-random.inc": "1820c2975bce416df048850ca367805a80ea0c2168cd4280bcdd13cb4971b698",
+    "molecular-part.inc": "87cc5746595be021438646c826789590111e0d9de51f43d6090207d101069e48"
+  },
+  "cinderHashes": {
+    "include/cinder/Rand.h": "cd6bb6f631c00662b699d1723ab2f410933d30815ab3652b30e5a075a2d7d49f",
+    "src/cinder/Rand.cpp": "9f5e6718bb38672a4ddc39ba2669c7039b0ebfd932ff2c0bbda8c635026cc79c",
+    "include/cinder/CinderMath.h": "e24d99566e70f296814395efff117d918b348025b5580a2fefd4158d2ec124ce"
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+  "host": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "compileFlags": "# CMAKE generated file: DO NOT EDIT!\n# Generated by \"Unix Makefiles\" Generator, CMake Version 4.4\n\n# compile CXX with /usr/bin/c++\nCXX_DEFINES = -DCINDER_GLFW -DFT2_BUILD_LIBRARY -DFT_DEBUG_LEVEL_TRACE -D_GLFW_COCOA\n\nCXX_INCLUDES = -I/private/tmp/gel-native-runtime -I/private/tmp/gel-native-runtime/pinned/include -isystem /Users/shawn/code/Cinder/include\n\nCXX_FLAGSarm64 = -O3 -DNDEBUG -std=gnu++20 -arch arm64 -include /private/tmp/gel-native-runtime/prefix.h\n\nCXX_FLAGS = -O3 -DNDEBUG -std=gnu++20 -arch arm64 -include /private/tmp/gel-native-runtime/prefix.h\n\n",
+  "librarySha256": "b41dbbb9992d295c007824264960099be590e31f4eac8105711be25eaa3e8793",
+  "executableSha256": "f5cac7e7809b8ffc33c55beefa3f095ba0ab35dfe8863bcc0ff0e3b688907316",
+  "repeatCaptureIdentical": true,
+  "hashes": {
+    "build.py": "7e46b91fe5017df2e09a641b5a01aa63ff81da3a329e177d2c86d8e5fe95ba34",
+    "driver.cpp": "910f2678e934d11954ec1300dc82cdc360b67d95cfb537d1e5a2cd07d37d6cfa",
+    "cases.json": "6fb7f78fe3577516171141b888fda03816db38e2f38660f39547f19911d39d12",
+    "outputs.json": "6648c4aa5708c00d0e1ff0dc45de190d431769dce1cf11109a8e5471b0b64511",
+    "test_runtime.py": "86f1e6dfa2c0a928675af3b02a90d50e7cb1104f5705fa347a973e861bb349cf",
+    "../numerical/molecular-adapter.h": "0f842f7b7ca207e932d793f696e284a4db724fddb4e2a819705a083f3e71f7e9"
+  },
+  "limitations": [
+    "Modern Cinder/ARM64 toolchain, not original executable equivalence or raster certification.",
+    "Native methods are unchanged; GUI setup contributes only its seed statement and inspector contributes only graph allocation/random initialization.",
+    "View ownership, scripted events, sample input and molecular tick dispatch are adapters; native SampleView/GelView GUI orchestration is not executed.",
+    "fragmentDidChange records notification only; source-to-loupe refresh is an explicit script operation, not an automatically verified GUI callback.",
+    "Loupe input is a supplied sample; native band-to-loupe extraction is covered by the separate numerical harness.",
+    "RNG peeks copy local streams; terminal global probe intentionally consumes one integer after all scenario actions."
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "gelboxCommit": "5f5109705279085fcf6bcac6c8be1c9806b6d3d6",
+  "sourceSha256": {
+    "src/SampleView.cpp": "c69251430da6eedbf1b73cf9fdbf0c5eedc4f4f19a172be935661238e2ac555a",
+    "src/FragmentView.cpp": "d9345eda3ae73104684344f99676588e22f7369e93ff1d3e5ab7d1e95e035b02",
+    "src/View.cpp": "779407bb1a374f55a3b54afc5bbe82c3b73d87633f3a955b0c93a1da5c7cefae",
+    "src/GelboxApp.cpp": "60b3b146eff30d3bbcece66ca34e846777792f5094ca648b0e7771d914c72e47",
+    "src/MolecularSim.cpp": "7816bdebddb3aea6933bd7be028c76cd09295e918edacd45494b8b0e4c198dcd",
+    "include/Layout.h": "3260f35d1baf6ec7896c32fde1b3a327fd74356df6136efbae7a3337c94ad54c"
+  },
+  "numericalProvenanceSha256": "4b9e14f5bab81cc9cf113c7a4ec45593792e54f9f414532ac6119f224b3d2cc9",
+  "geometrySha256": "9710fb2fda8703f99f0fe003d548704c58a1170427567138b6cfbff91f09e1de",
+  "geometryProvenanceSha256": "2523ea37c3d27360280f11dd4c61f3316a62169aff60d2ea082e6f688d73a910",
+  "casesSha256": "2bb843993cac515f4c5dfca751c5f2d8ae2a5fc5bd59c93fe94838ea304f1c4a",
+  "meshSha256": "217a59a915149f42d47641c766c9a0ecc8b5657ae5f4f101211b70014b618eff",
+  "driverSha256": "6ee5e9a7e3925d3119677a9a6e79549fad935e79ae24b49dc3b72c73da7582bd",
+  "renderer": "Apple / Apple M5 Max / 4.1 Metal - 91.7",
+  "executableSha256": "c9b15515ebfdeb86b868939eeefc3f3c4323942c0ceca1299e4bbcdf6b152570",
+  "repeatCaptureIdentical": true,
+  "meshCaptureRepeated": true,
+  "cases": [
+    {
+      "id": "empty-1",
+      "scene": "empty",
+      "scale": 1,
+      "sha256": "8b5410c931e4f9b7db93a07e88aa144c12101f27bcf532cf81620b166edcd7d9"
+    },
+    {
+      "id": "empty-2",
+      "scene": "empty",
+      "scale": 2,
+      "sha256": "adf95466757ba3bead6ff3d6ba7d0a6f72d7388301b64f16a527d4e124b2a913"
+    },
+    {
+      "id": "large-crossing-1",
+      "scene": "large-crossing",
+      "scale": 1,
+      "sha256": "b8af9306d2d1f1727414608c96d97c84c08b84bd1a07645150ca9798a06d6735"
+    },
+    {
+      "id": "large-crossing-2",
+      "scene": "large-crossing",
+      "scale": 2,
+      "sha256": "e483e381170de2964da7fc961c144a8f482ecd56d2af5606cc614fd45a709e9e"
+    },
+    {
+      "id": "large-round-1",
+      "scene": "large-round",
+      "scale": 1,
+      "sha256": "e4e243b4285b2a89812e63f20960d476fad9a6a8fe2966f797d1ab3450e21eae"
+    },
+    {
+      "id": "large-round-2",
+      "scene": "large-round",
+      "scale": 2,
+      "sha256": "def14e8c2b5a3f6bb27a6f7221a2cd5ebf82814f2ada5eac4d472874eba128fd"
+    },
+    {
+      "id": "sample-last-1",
+      "scene": "sample-last",
+      "scale": 1,
+      "sha256": "86f013a51658a8b5329f565d17a36760230de67ec6a92eec9b898f542ff71785"
+    },
+    {
+      "id": "sample-last-2",
+      "scene": "sample-last",
+      "scale": 2,
+      "sha256": "df2e8c7e4bdf31bab8914ad033398ede779ade4d98a82dcafb79d8ee99c2ad86"
+    },
+    {
+      "id": "fractional-clip-1",
+      "scene": "fractional-clip",
+      "scale": 1,
+      "sha256": "92c890cc19cb687f0f2fb4437f5adc8523b1ca8bfa3681ef4ff55cee9df2b214"
+    },
+    {
+      "id": "fractional-clip-2",
+      "scene": "fractional-clip",
+      "scale": 2,
+      "sha256": "011b149eb86898af2b915b48288981ec74b641fabd8ee6d66f03544c2ffe74fe"
+    }
+  ],
+  "limits": [
+    "Static pinned-native particle meshes on standalone CGL RGBA8 MSAA4; not original GUI output.",
+    "Sample shadow/background/clipped body plus unscissored fragment well/representative, both view orders.",
+    "No header, focus/frame, brace, control or text paint; those contributions migrate in Task4."
+  ]
+}

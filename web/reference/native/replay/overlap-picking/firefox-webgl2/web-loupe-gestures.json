@@ -1,0 +1,53 @@
+{
+  "Gelbox": {
+    "version": "1.0",
+    "type": "gel"
+  },
+  "Gel": {
+    "Samples": [
+      {
+        "name": "Dye transfer source",
+        "icon": "microtube1500ul.png",
+        "iconScale": 0.625,
+        "id": 2147483647,
+        "Buffer": {
+          "Tris": 10.125,
+          "Borate": 0,
+          "Acetate": 7.75,
+          "EDTA": 0.25
+        },
+        "Fragments": [
+          {
+            "Bases": 700,
+            "Mass": 19.5,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.125,
+              0.5,
+              0.25
+            ],
+            "Aggregate": [
+              1
+            ]
+          }
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "Buffer": {
+      "Tris": 12.25,
+      "Borate": 0,
+      "Acetate": 8.5,
+      "EDTA": 0.5
+    },
+    "Time": 0.625,
+    "Voltage": 70,
+    "WellDamage": 0.125
+  }
+}

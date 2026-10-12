@@ -1,0 +1,8 @@
+{
+  "source": "reference/native/files/ladder-after-selection.gel.json",
+  "sourceSha256": "059b5dd12891b319157a065ad55654469b7fe2ec14b733fcf4ea763562ca7814",
+  "fixture": "five-ladders.gel.json",
+  "fixtureSha256": "9837e59e56953d4a441b7032bdf89a6a78510047097c359ee4cead1cc2a39598",
+  "transformation": "Take the first ten fragments of source Gel.Samples[0], deep-copy that sample into five lanes, append two empty lanes; preserve all other Gel/document fields.",
+  "purpose": "Repeatable 50-band real-application performance workload; not a new native behavioral reference."
+}

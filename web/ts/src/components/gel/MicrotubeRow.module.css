@@ -1,0 +1,23 @@
+.row {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  user-select: none;
+}
+.cell { position: absolute; inset: 0; pointer-events: none; }
+.underlay {
+  position: absolute;
+  background: #E8F2F3;
+  pointer-events: none;
+}
+.cell[data-selected="true"] .underlay { background: #A1D6FF; }
+.tube {
+  position: absolute;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.tube:active { cursor: grabbing; }
+.icon { position: absolute; display: block; pointer-events: none; user-select: none; }

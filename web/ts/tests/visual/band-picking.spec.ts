@@ -1,0 +1,25 @@
+import { test, expect } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+for(const equalHeight of [false,true]) test(`native overlapping band priority (equal heights=${equalHeight})`,async({page},info)=>{
+  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.includes('webgl2')?'webgl2':'webgpu');
+  await page.setViewportSize({width:1365,height:768});await page.goto('/#/gel');
+  const doc=JSON.parse(await readFile('../reference/native/files/ladder-after-selection.gel.json','utf8'));
+  const frag={Bases:3001,Mass:80,Degrade:0,AspectRatio:1,Aggregate:[1],Color:[.2,.4,.8]};
+  doc.Gel.Samples[0].Fragments=[frag,{...frag,Mass:equalHeight?90:200}];
+  await page.getByRole('button',{name:'Application settings'}).click();
+  await page.getByTestId('file-input').setInputFiles({name:'overlap.gel.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(doc))});
+  await expect(page.locator('[data-testid^="band-"]')).toHaveCount(2);
+  const gel=(await page.getByTestId('gel-overlay').boundingBox())!;
+  const box=(await page.getByTestId('band-0').boundingBox())!;
+  await page.mouse.move(box.x+box.width/2,box.y+box.height/2);
+  await expect(page.getByTestId('band-0')).not.toHaveAttribute('stroke','transparent');
+  await expect(page.getByTestId('band-1')).toHaveAttribute('stroke','transparent');
+  await page.mouse.down();
+  await expect(page.getByTestId('selection-info')).toContainText('fragment 0');
+  await page.keyboard.down('Shift');await page.mouse.move(gel.x+83.57,gel.y+250);await page.mouse.up();await page.keyboard.up('Shift');
+  await page.getByRole('button',{name:'Application settings'}).click();
+  const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+  const saved=JSON.parse(await readFile((await (await pending).path())!,'utf8'));
+  expect(saved.Gel.Samples[1].Fragments[0].Mass).toBe(80);
+  expect(saved.Gel.Samples[0].Fragments[0].Mass).toBe(equalHeight?90:200);
+});
