@@ -62,7 +62,7 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    ([evidence](../reference/native/replay/overlapping-tiers/boundaries/README.md)).
    The Intel reference profile now resolves the identified solver, seed, loupe
    and fractional-shape corpus disagreements with independent native evidence.
-   Finish the current regression gate, then continue composed editing histories. Persistent-loupe
+   The current regression gate is complete; continue composed editing histories. Persistent-loupe
    move/return, left-button frame/probe/wedge gestures, molecule/background
    selection, water→TBE, hidden-lane reduction/restoration and populated off-gel
    removal now have paired traces. Tied and unequal-overlap deletion, one zero-
@@ -91,8 +91,9 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    Avenir asset distribution strategy and supported text/platform scope before
    public distribution. The Inter license notice is already shipped. Do not
    substitute a fallback font silently or assert legal rights from visual tests.
-4. **Finish reliability disposition (W08).** Resolve the process-memory capture failures from the completed
-   fixed-revision run before attempting another acceptance run. Existing 1,000-cycle
+4. **Finish reliability disposition (W08).** Complete and verify the live current-runtime
+   two-hour run after recovered measurement controls passed. Retain the preceding
+   failed run as failed; later captures cannot replace its missing samples. Existing 1,000-cycle
    RSS/physical-footprint reports do not establish a long-term bound.
    Retained JS/DOM and explicit GPU resources are stable in their measured scopes;
    native allocator/driver retention remains incompletely attributed. Resolve
