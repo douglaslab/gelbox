@@ -31,7 +31,7 @@ in its own repository.
 - [x] Run compiled production and compatibility browser tests after relocation.
 - [x] Verify imported tree against the original and native sources unchanged;
   configure/build native with the existing pinned Cinder checkout.
-- [ ] Integrate the verified migration into the native repository's mainline.
+- [x] Integrate the verified migration into the native repository's mainline.
 
 This is a repository migration, not an application rewrite. Runtime behavior,
 reference expectations and deployment URLs are unchanged.
@@ -51,8 +51,8 @@ reference expectations and deployment URLs are unchanged.
   `-DCINDER_PATH=/Users/shawn/code/Cinder`. This is a compile/link smoke check,
   not a claim of binary equivalence to the packaged 1.1 release.
 
-Review branch: `integration/web-monorepo`. It remains separate from `master`
-until Shawn's offered native/source comparison. The complete expected path list
+Review branch: `integration/web-monorepo`, integrated into `master` after
+Shawn confirmed identical native trees and accepted retaining the 1.1 binaries. The complete expected path list
 outside `web/` relative to `7a0bef6` is:
 
 ```text
@@ -68,8 +68,8 @@ git diff --name-status 7a0bef6 HEAD -- . ':!web'
 git diff --exit-code 7a0bef6 HEAD -- src include assets proj tools .github/workflows/windows.yml
 ```
 
-The native source/build tree must remain unchanged. Shawn will compare the
-Mac/Windows 1.1 binaries against a build of that tree. After integration, re-cut
+The native source/build tree must remain unchanged. Shawn confirmed the
+Mac/Windows 1.1 binaries remain valid because that native tree is identical. Re-cut
 the 1.1 source archive from the final merged commit so it includes both apps,
 and update the source commit and archive checksum in the release manifest.
 Existing native binaries can be retained if that comparison passes. No source
