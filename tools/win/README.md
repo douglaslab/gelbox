@@ -100,8 +100,8 @@ Pillow and NumPy are required for this developer tool.
 ### Packaging
 
 Install Inno Setup 6 (`winget install --id JRSoftware.InnoSetup --exact`),
-stop the test app, then run `tools\win\package.cmd 1.0.2`. The unsigned
-installer is written to `dist\Gelbox-Setup-1.0.2.exe`. The wrapper finds Inno
+stop the test app, then run `tools\win\package.cmd 1.1`. The unsigned
+installer is written to `dist\Gelbox-Setup-1.1.exe`. The wrapper finds Inno
 in its machine or per-user install location (winget installed 6.7.3 per-user
 on ndskpc1). Cinder/Gelbox use the static MSVC runtime (`-MT`).
 The installer supports all-user or per-user installation and deliberately
@@ -131,7 +131,7 @@ The first run passed: https://github.com/douglaslab/gelbox/actions/runs/38207870
 The compressed artifact is about1.7MB; installed assets occupy more space.
 
 Public downloads: https://douglaslab.org/gelbox/ and
-https://github.com/douglaslab/gelbox/releases. Version1.0.2 is unsigned.
+https://github.com/douglaslab/gelbox/releases. Version 1.1 is unsigned.
 Remote development helpers require an unlocked console session. Use
 `run.ps1`, `screenshot.ps1` and `stop.ps1`; remove the `GelboxShot` task after
 screenshots with `Unregister-ScheduledTask GelboxShot -Confirm:$false`.

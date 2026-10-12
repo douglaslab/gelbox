@@ -54,7 +54,7 @@ sign-in settings were changed by the test scripts.
 - Task 13: user chose unsigned Windows distribution; no signing purchase pending.
 - Task 14: [hosted Windows build](https://github.com/douglaslab/gelbox/actions/runs/38207870780)
   passes and uploads executable plus assets.
-- Mac1.0.2: embedded-assets Release build is arm64; ad-hoc signature and disk-image
+- Mac 1.1: embedded-assets Release build is arm64; ad-hoc signature and disk-image
   checksum verify. Launch directly from mounted read-only DMG passes eleven loads
   and four MSAA samples, with only the known missing high-resolution tube icon.
 

@@ -60,7 +60,7 @@ tools\win\build.cmd Release
 The app is `build-win-Release\Gelbox.exe`, with a real `assets` folder beside
 it. For an installer, install Inno Setup 6 with
 `winget install --id JRSoftware.InnoSetup --exact`, then run
-`tools\win\package.cmd 1.0.2`. Output: `dist\Gelbox-Setup-1.0.2.exe`.
+`tools\win\package.cmd 1.1`. Output: `dist\Gelbox-Setup-1.1.exe`.
 See [Windows build and testing details](tools/win/README.md).
 
 Desktop downloads and installation instructions are published at
@@ -99,7 +99,7 @@ On Windows, read Ctrl for the command key and Alt for option.
 For a self-contained Apple Silicon distribution build:
 
 ```sh
-cmake -S proj/cmake -B build-distribution -DCMAKE_BUILD_TYPE=Release -DCINDER_COPY_ASSETS=ON -DGELBOX_VERSION=1.0.2 -DGELBOX_BUILD_NUMBER=20261011
+cmake -S proj/cmake -B build-distribution -DCMAKE_BUILD_TYPE=Release -DCINDER_COPY_ASSETS=ON -DGELBOX_VERSION=1.1 -DGELBOX_BUILD_NUMBER=20261012
 cmake --build build-distribution -j 8
 ```
 
@@ -107,6 +107,6 @@ Version 1.0.1 starts DNA bands flat and ramps curvature over the first ten
 simulated minutes; negative voltage reverses the curvature. The macOS build
 uses current Cinder and embeds its assets for distribution. The arm64 build
 is not an Intel binary. Public Developer ID signing and notarization are
-optional future release steps; version 1.0.2 is ad-hoc signed and not notarized.
-Version 1.0.2 adds the Windows port and command-line file opening without
+optional future release steps; version 1.1 is ad-hoc signed and not notarized.
+Version 1.1 adds the Windows port and command-line file opening without
 changing the simulation model.

@@ -2,7 +2,7 @@
 rem Build and package the unsigned Windows release. Usage: package.cmd [version]
 setlocal
 set "VERSION=%~1"
-if "%VERSION%"=="" set "VERSION=1.0.2"
+if "%VERSION%"=="" set "VERSION=1.1"
 set "ROOT=%~dp0..\.."
 set "ISCC=C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
 if not exist "%ISCC%" set "ISCC=%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe"
