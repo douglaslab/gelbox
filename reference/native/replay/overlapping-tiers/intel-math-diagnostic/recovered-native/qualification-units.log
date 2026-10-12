@@ -1,0 +1,14 @@
+[?25l
+ RUN  v3.0.0 /Users/shawn/.codex/worktrees/3f9f/gel/ts
+
+ ✓ tests/unit/nativeOverlapRelease.test.ts (1 test) 4ms
+ ✓ tests/unit/nativeFractionalBoundaries.test.ts (3 tests) 7ms
+ ✓ tests/unit/nativeOriginalBoundaries.test.ts (9 tests) 17ms
+ ✓ tests/unit/nativeReleaseGeometryInstructions.test.ts (33 tests) 41ms
+
+ Test Files  4 passed (4)
+      Tests  46 passed (46)
+   Start at  17:35:52
+   Duration  277ms (transform 102ms, setup 0ms, collect 219ms, tests 68ms, environment 0ms, prepare 140ms)
+
+[?25h

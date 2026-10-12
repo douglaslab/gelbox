@@ -285,3 +285,15 @@ predicts2937/2937/2999 and is rejected for these scenarios. See
 [fractional boundary evidence](../reference/native/replay/overlapping-tiers/fractional-boundaries/README.md).
 This resolves the observable behavior for the disputed power input; it does not
 qualify the full source-reference corpus or all math-library inputs.
+
+## Intel-backed shape diagnostic reconciliation
+
+After OS recovery, a native x86_64 probe captured all12 power inputs for the
+fractional-shape grid. Using these measured results in the original-instruction
+diagnostic changes exactly the two former arm64-hook discrepancies. Exact
+assertions now pass across46 focused cases. The fresh full unit result is3048
+passing and52 failing; the remaining failures are source-reference solver,
+numerical, loupe and molecular cases. See
+[Intel-backed evidence](../reference/native/replay/overlapping-tiers/intel-math-diagnostic/recovered-native/README.md).
+The historical54-failure result remains valid for its old diagnostic fixture.
+No canonical corpus, runtime patch or staged website was replaced.
