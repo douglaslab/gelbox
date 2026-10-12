@@ -7,6 +7,33 @@ Created by Chaim Gingold in collaboration with Shawn Douglas for the Douglas Lab
 http://www.douglaslab.org/gelbox/
 
 
+## Native and web development
+
+This repository contains both maintained versions of Gelbox:
+
+- `src/`, `include/`, `assets/`, `proj/`, `tools/`: native macOS and Windows app.
+- `web/ts/`: TypeScript/React web app, shaders, browser tests and build tools.
+- `web/docs/`: web architecture, parity ledger and beta roadmap.
+- `web/reference/`: native/web comparison fixtures and retained verification evidence.
+
+For web development (Node 22):
+
+```sh
+cd web/ts
+npm ci
+npm run dev
+```
+
+Run `npm run test:unit`, `npm run test:production` and
+`npm run test:compatibility` from `web/ts`. Build with `npm run build`; output is
+`web/ts/dist/`. See [web development](web/README.md) and
+[repository migration](docs/web-monorepo.md).
+
+Native and web changes can now be reviewed and committed together. Their
+implementations and build systems remain separate; shared behavior is checked
+against the parity fixtures rather than assuming the engines are identical.
+The root GitHub workflows run web checks and the native Windows build.
+
 ## To build
 
 ### macOS

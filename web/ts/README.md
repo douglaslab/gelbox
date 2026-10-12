@@ -4,11 +4,14 @@ A web port of [Gelbox](https://github.com/douglaslab/gelbox), the gel electropho
 
 ## Status
 
-The web implementation reached historical milestone **M26a**: gel simulation/rendering, three-panel editing, live molecular particles, and synthetic-sample loupes are implemented. Native behavior and visual parity are **not complete**: file controls are disconnected, native file compatibility and editing workflows are missing, and rendering/interaction differences remain.
+The web app is released as a beta. Native-file interoperability, editing,
+rendering and browser reliability have extensive retained regression coverage;
+remaining detailed native/platform parity checks continue during beta.
 
-The confirmed goal is **strict native behavior and visual parity first; improvements afterward**. Finish the web app first; reconsider Rust/native only for a concrete need.
-
-Start with the replacement [roadmap](../docs/ROADMAP.md), [current status](../docs/STATUS.md), and [parity audit](../docs/PORT-AUDIT.md). The old phase plans are historical references. The next increment establishes a runnable native reference and an independent parity test corpus.
+The canonical source now lives at `web/ts/` in the native Gelbox repository.
+Run the commands below from that directory. See the [web overview](../README.md),
+[roadmap](../docs/ROADMAP.md), [status](../docs/STATUS.md), and
+[parity ledger](../docs/PARITY-LEDGER.md) for evidence and remaining limitations.
 
 ## Quick start
 

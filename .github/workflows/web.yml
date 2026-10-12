@@ -1,4 +1,4 @@
-name: CI
+name: web
 
 on:
   push:
@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ts
+        working-directory: web/ts
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: ts/.nvmrc
+          node-version-file: web/ts/.nvmrc
           cache: 'npm'
-          cache-dependency-path: ts/package-lock.json
+          cache-dependency-path: web/ts/package-lock.json
       - run: npm ci
       - run: npm run typecheck
       - run: npm run test:unit
