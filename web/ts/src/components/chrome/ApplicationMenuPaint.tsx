@@ -22,7 +22,7 @@ export function ApplicationMenuPaint({element}:{element:RefObject<HTMLDivElement
   const commands:PresentationCommand<SceneTexture>[]=[];
   // Native child insertion is Render, Loupe, optional Sample, Save Gel, Open.
   for(const child of [...el.querySelectorAll<HTMLElement>('[data-menu-text]')].reverse()){
-   const index=Number(child.dataset.menuText),row=rows[index],r=child.getBoundingClientRect(),transform=[1,0,0,1,r.left,r.top] as const;
+   const index=Number(child.dataset.menuText),row=index<2?rows[index]:text['1'][index],r=child.getBoundingClientRect(),transform=[1,0,0,1,r.left,r.top] as const;
    const down=child.dataset.menuDown==='true',hover=child.dataset.menuHover==='true';
    const part:PresentationCommand<SceneTexture>[]=[];
    let tint:readonly[number,number,number,number]=[1,1,1,1];

@@ -159,16 +159,14 @@ function ApplicationMenu({children}:{children:ReactNode}){
  const {zIndex}=useViewLayer('app-settings');
  const registry=useSharedPresentation(),element=useRef<HTMLDivElement>(null),divider=useRef<HTMLImageElement>(null);
  const items=Children.toArray(children);
- // Native text buttons render a 1x texture and divide its size by the window
- // scale; CheckboxView explicitly renders its label at the window scale.
+ // Keep file buttons at readable logical sizes on Retina displays.
  const scale=useDisplayScale()>=2?2:1;
  return <div ref={element} id="application-file-menu" className={styles.menu} style={{
    opacity:registry?0:undefined,left:LAYOUT.btnGutter,bottom:LAYOUT.btnGutter+LAYOUT.btnSize.y,zIndex,
    fontFamily:LAYOUT.uiFont,fontWeight:LAYOUT.uiFontWeight,
-   '--button-font-size':`${LAYOUT.uiFontSize/scale}px`,
-   '--button-line-height':`${Math.floor(17/scale)}px`,
-   '--menu-scale':scale,
-   '--open-width':`${Math.floor(50/scale)}px`,'--save-width':`${Math.floor(67/scale)}px`,'--sample-width':`${Math.floor(139/scale)}px`,
+   '--button-font-size':`${LAYOUT.uiFontSize}px`,
+   '--button-line-height':`17px`,
+   '--open-width':`50px`,'--save-width':`67px`,'--sample-width':`139px`,
    // CoreText Avenir-Medium 12 ascent + descent; native rounds texture pixels up.
    '--label-line-height':`${Math.floor(Math.ceil(16.3919677734375*scale)/scale)}px`,
  } as CSSProperties}>

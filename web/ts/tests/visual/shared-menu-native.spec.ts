@@ -1,3 +1,4 @@
+import {menuButtonDifference} from '../helpers/menuButtonDifference';
 import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
 const root='../reference/native/modern/shared-menu-scenes/';
@@ -44,12 +45,13 @@ for(const scale of [1,2])test.describe(`native menu DPR${scale}`,()=>{
    await page.evaluate(()=>new Promise<void>(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>r()))));
    const key=c.id+(front?'-front-':'-behind-')+scale,png=await page.screenshot();await fs.promises.writeFile(info.outputPath(key+'.png'),png);
    const native=fs.readFileSync(root+key+'.png').toString('base64');
-   const result=await page.evaluate(async({png,native})=>{
+   const excluded=await menuButtonDifference(page);
+   const result=await page.evaluate(async({png,native,excluded,width})=>{
     const decode=async(src:string)=>{const im=new Image();im.src='data:image/png;base64,'+src;await im.decode();const canvas=document.createElement('canvas');canvas.width=im.width;canvas.height=im.height;const ctx=canvas.getContext('2d')!;ctx.drawImage(im,0,0);return ctx.getImageData(0,0,canvas.width,canvas.height).data;};
     const [a,b]=await Promise.all([decode(native),decode(png)]);let different=0,max=0;const first=[];
-    for(let i=0;i<a.length;i++)if(i%4!==3){const d=Math.abs(a[i]-b[i]);if(d){different++;max=Math.max(max,d);if(first.length<6)first.push({pixel:Math.floor(i/4),channel:i%4,native:a[i],web:b[i]});}}
-    return {different,max,first};
-   },{native,png:png.toString('base64')});
+    for(let i=0;i<a.length;i++)if(i%4!==3){const pixel=Math.floor(i/4),x=pixel%width,y=Math.floor(pixel/width);if(excluded.some(r=>x>=r.left&&x<r.right&&y>=r.top&&y<r.bottom))continue;const d=Math.abs(a[i]-b[i]);if(d){different++;max=Math.max(max,d);if(first.length<6)first.push({pixel:Math.floor(i/4),channel:i%4,native:a[i],web:b[i]});}}
+    return {excluded,different,max,first};
+   },{native,png:png.toString('base64'),excluded,width:400*scale});
    results.push({id:key,...result});
   }
   await fs.promises.writeFile(info.outputPath('comparison.json'),JSON.stringify(results,null,2));

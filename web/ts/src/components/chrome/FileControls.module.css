@@ -24,8 +24,7 @@
   white-space: pre;
   cursor: pointer;
 }
-/* Avenir-Medium 12 texture extents, rounded up by native TextLayout.
-   ButtonView divides the 1x texture dimensions by the window scale. */
+/* Avenir-Medium 12 logical extents, independent of display pixel density. */
 .openButton { width: var(--open-width); }
 .saveGelButton { width: var(--save-width); }
 .saveSampleButton { width: var(--sample-width); }

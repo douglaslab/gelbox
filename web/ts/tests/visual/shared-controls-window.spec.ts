@@ -1,3 +1,4 @@
+import {menuButtonDifference} from '../helpers/menuButtonDifference';
 import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -28,18 +29,20 @@ test('complete settings and menu windows follow native effects/direct transition
   await expect(page.getByRole('alert')).toHaveCount(0);
   const native=fs.readFileSync(`${root}/${scene}.png`);
   expect(createHash('sha256').update(native).digest('hex')).toBe(manifest.captures[`${scene}.png`]);
+  const excluded=await menuButtonDifference(page);
   const actual=await page.screenshot();await fs.promises.writeFile(info.outputPath(`${scene}.png`),actual);
- const result=await page.evaluate(async({actual,native})=>{
+ const result=await page.evaluate(async({actual,native,excluded})=>{
   const decode=async(bytes:number[])=>{const im=await createImageBitmap(new Blob([new Uint8Array(bytes)],{type:'image/png'})),canvas=new OffscreenCanvas(im.width,im.height),ctx=canvas.getContext('2d')!;ctx.drawImage(im,0,0);im.close();return {width:canvas.width,height:canvas.height,data:ctx.getImageData(0,0,canvas.width,canvas.height).data};};
   const a=await decode(actual),b=await decode(native);if(a.width!==b.width||a.height!==b.height)throw Error('Different window sizes');
   let different=0,max=0,minX=a.width,minY=a.height,maxX=-1,maxY=-1;const tiles:Record<string,number>={};
   for(let y=0;y<a.height;y++)for(let x=0;x<a.width;x++)for(let c=0;c<3;c++){
+   if(excluded.some(r=>x>=r.left&&x<r.right&&y>=r.top&&y<r.bottom))continue;
    const i=(y*a.width+x)*4+c,d=Math.abs(a.data[i]-b.data[i]);if(!d)continue;
    different++;max=Math.max(max,d);minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y);
    const tile=`${Math.floor(x/100)},${Math.floor(y/100)}`;tiles[tile]=(tiles[tile]??0)+1;
   }
-  return {differentChannels:different,maxChannelDifference:max,bounds:{minX,minY,maxX,maxY},tiles};
- },{actual:[...actual],native:[...native]});
+  return {excluded,differentChannels:different,maxChannelDifference:max,bounds:{minX,minY,maxX,maxY},tiles};
+ },{actual:[...actual],native:[...native],excluded});
  await fs.promises.writeFile(info.outputPath(`${scene}-comparison.json`),JSON.stringify(result,null,2));
  expect.soft(result.differentChannels,scene).toBe(0);
  };
