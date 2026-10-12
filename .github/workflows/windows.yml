@@ -1,0 +1,61 @@
+name: windows
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 45
+    env:
+      CINDER_COMMIT: f90f332d1a4d453282c76435f3401271f25922f9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: gelbox
+
+      - name: Cache Cinder
+        id: cinder-cache
+        uses: actions/cache@v4
+        with:
+          path: Cinder
+          key: cinder-msw-x64-${{ env.CINDER_COMMIT }}-v1
+
+      - name: Clone Cinder
+        if: steps.cinder-cache.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          git clone https://github.com/cinder/Cinder.git
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          git -C Cinder checkout $env:CINDER_COMMIT
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          git -C Cinder submodule update --init --recursive
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+
+      - name: Build Cinder
+        if: steps.cinder-cache.outputs.cache-hit != 'true'
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
+          cmake -S Cinder -B Cinder\build\Release -G Ninja -DCMAKE_BUILD_TYPE=Release || exit /b 1
+          cmake --build Cinder\build\Release || exit /b 1
+
+      - name: Build Gelbox
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
+          cmake -S gelbox\proj\cmake -B gelbox\build-win-Release -G Ninja -DCMAKE_BUILD_TYPE=Release "-DCINDER_PATH=%CD%\Cinder" || exit /b 1
+          cmake --build gelbox\build-win-Release || exit /b 1
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Gelbox-windows-x64
+          if-no-files-found: error
+          path: |
+            gelbox/build-win-Release/Gelbox.exe
+            gelbox/build-win-Release/assets
