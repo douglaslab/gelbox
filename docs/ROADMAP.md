@@ -72,7 +72,9 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    voltage drag and one negative-voltage drag are also verified in their stated
    scopes. Right-click creation, deterministic species edits and post-save deletion
    now also match the native saved samples across four configurations.
-   Continue modifier clone/Shift-lock, occupied destinations with loupes,
+   Occupied-destination drops with a persistent source loupe now also have a paired
+   native/web trace across all four configurations ([evidence](../reference/native/replay/occupied-loupe/README.md)).
+   Continue modifier clone/Shift-lock,
    remaining picked aggregate offsets and slider/focus/secondary-button branches.
    Keep exact saved-document comparisons and observable view/selection checks.
    Native Option-drag tube cloning is prepared on the current one-species fixture;
