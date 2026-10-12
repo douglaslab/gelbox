@@ -73,3 +73,11 @@ the window through its exposed accessibility action and repeating the click
 had the same outcome. This confirms the automation limitation persists, without
 establishing that physical clicks fail. A physical-click observation is pending.
 No app bytes or document inputs were changed by this check.
+
+A further activation control opened the exact app bundle through Finder's
+exposed Open Finder item action. The native title and all three window controls
+became active/colored. The same settings click still highlighted the button
+without opening its panel. Simple inactive-window status therefore does not
+explain this automated outcome. The optional CUA launch_app API was unavailable;
+Finder supplied the supported foreground-opening path. Physical mouse behavior
+is still unverified. No changes were made to the original reference fixtures.
