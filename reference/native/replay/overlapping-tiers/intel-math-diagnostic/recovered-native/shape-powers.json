@@ -1,0 +1,86 @@
+[
+  {
+    "base": 0.7857892513275146,
+    "exponent": 3.700000047683716,
+    "result": 0.4098571538925171,
+    "image": "/usr/lib/system/libsystem_m.dylib",
+    "symbolOffset": 94432
+  },
+  {
+    "base": 0.7859917879104614,
+    "exponent": 3.700000047683716,
+    "result": 0.41024816036224365,
+    "image": "/usr/lib/system/libsystem_m.dylib",
+    "symbolOffset": 94432
+  },
+  {
+    "base": 0.7867267727851868,
+    "exponent": 3.700000047683716,
+    "result": 0.4116693437099457,
+    "image": "/usr/lib/system/libsystem_m.dylib",
+    "symbolOffset": 94432
+  },
+  {
+    "base": 0.7894605398178101,
+    "exponent": 3.700000047683716,
+    "result": 0.4169870615005493,
+    "image": "/usr/lib/system/libsystem_m.dylib",
+    "symbolOffset": 94432
+  },
+  {
+    "base": 0.7910767793655396,
+    "exponent": 3.700000047683716,
+    "result": 0.4201544225215912,
+    "image": "/usr/lib/system/libsystem_m.dylib",
+    "symbolOffset": 94432
+  },
+  {
+    "base": 0.805555522441864,
+    "exponent": 3.700000047683716,
+    "result": 0.44931742548942566,
+    "image": "/usr/lib/system/libsystem_m.dylib",
+    "symbolOffset": 94432
+  },
+  {
+    "base": 0.9120035767555237,
+    "exponent": 3.700000047683716,
+    "result": 0.7111925482749939,
+    "image": "/usr/lib/system/libsystem_m.dylib",
+    "symbolOffset": 94432
+  },
+  {
+    "base": 0.9122061133384705,
+    "exponent": 3.700000047683716,
+    "result": 0.7117770910263062,
+    "image": "/usr/lib/system/libsystem_m.dylib",
+    "symbolOffset": 94432
+  },
+  {
+    "base": 0.9129410982131958,
+    "exponent": 3.700000047683716,
+    "result": 0.7139013409614563,
+    "image": "/usr/lib/system/libsystem_m.dylib",
+    "symbolOffset": 94432
+  },
+  {
+    "base": 0.9156748652458191,
+    "exponent": 3.700000047683716,
+    "result": 0.7218430638313293,
+    "image": "/usr/lib/system/libsystem_m.dylib",
+    "symbolOffset": 94432
+  },
+  {
+    "base": 0.9172911047935486,
+    "exponent": 3.700000047683716,
+    "result": 0.7265685200691223,
+    "image": "/usr/lib/system/libsystem_m.dylib",
+    "symbolOffset": 94432
+  },
+  {
+    "base": 0.931769847869873,
+    "exponent": 3.700000047683716,
+    "result": 0.7699136137962341,
+    "image": "/usr/lib/system/libsystem_m.dylib",
+    "symbolOffset": 94432
+  }
+]

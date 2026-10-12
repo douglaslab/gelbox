@@ -1,0 +1,8 @@
+{
+  "command": "/usr/bin/clang -arch x86_64 -O0 /tmp/gel-intel-pow-recovery.c -o /tmp/gel-intel-pow-recovery",
+  "executableSha256": "c9c442815fe209b2630c7ed79ce90d667ff06d3c9d9d525444310ed971cc8298",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+  "file": "/tmp/gel-intel-pow-recovery: Mach-O 64-bit executable x86_64\n",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "scope": "Native translated x86_64 system powf, resolved via dlsym. Separate probe, not attachment to the original GUI process."
+}
