@@ -3,3 +3,5 @@
 # CMake build output (see README)
 /build/
 /build-*/
+dist/
+__pycache__/

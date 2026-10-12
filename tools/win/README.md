@@ -96,3 +96,20 @@ Maximum populated-lane centroid difference: **0.1568 px** (limit 3).
 All four empty lanes remain empty. Native Intel OpenGL passes; ANGLE is not
 needed. The comparison exits nonzero on a failed threshold or a missing band.
 Pillow and NumPy are required for this developer tool.
+
+### Packaging
+
+Install Inno Setup 6 (`winget install --id JRSoftware.InnoSetup --exact`),
+stop the test app, then run `tools\win\package.cmd 1.0.2`. The unsigned
+installer is written to `dist\Gelbox-Setup-1.0.2.exe`. The wrapper finds Inno
+in its machine or per-user install location (winget installed 6.7.3 per-user
+on ndskpc1). Cinder/Gelbox use the static MSVC runtime (`-MT`).
+The installer supports all-user or per-user installation and deliberately
+does not claim the generic `.json` file association.
+
+Installer verification on ndskpc1: all-user installation and uninstallation
+exit 0; the Start menu shortcut is created and removed. All 99 installed asset
+files match the build by SHA-256. The installed app launches with eleven asset
+loads, four MSAA samples and no startup errors. Silent Inno execution directly
+in SSH session 0 returned initialization exit 1 without a log; running the same
+command through an interactive scheduled task at highest privilege passed.
