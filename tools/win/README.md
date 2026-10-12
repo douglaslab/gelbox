@@ -113,3 +113,12 @@ files match the build by SHA-256. The installed app launches with eleven asset
 loads, four MSAA samples and no startup errors. Silent Inno execution directly
 in SSH session 0 returned initialization exit 1 without a log; running the same
 command through an interactive scheduled task at highest privilege passed.
+
+### Signing status
+
+Shawn chose to distribute without developer signing on 2026-10-11. The Windows
+executable and installer are **unsigned**. Windows may show SmartScreen or an
+“Unknown publisher” warning. No certificate enrollment or purchase is required
+for this release. The download page must disclose this status and provide
+SHA-256 checksums. Signing can be added later; no credentials or signing
+configuration are stored in this repository.
