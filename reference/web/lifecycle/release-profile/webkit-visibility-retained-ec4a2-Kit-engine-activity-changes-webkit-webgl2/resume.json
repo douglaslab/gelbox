@@ -1,0 +1,29 @@
+{
+  "backend": "webkit-webgl2",
+  "browser": "18.2",
+  "resumedPaint": {
+    "before": "cf17d72c94bb5fe4d34c28781b0cd2e13ee752c0d0a25aa6c3ee5b32c2713652",
+    "after": "c08e4f95d179f4b92be3a5110759a97c48012c4da31fd4935f1377a7d4ce9911"
+  },
+  "cycles": [
+    {
+      "cycle": 0,
+      "hiddenStart": 6,
+      "hiddenEnd": 6,
+      "resumed": 28
+    },
+    {
+      "cycle": 1,
+      "hiddenStart": 28,
+      "hiddenEnd": 28,
+      "resumed": 49
+    }
+  ],
+  "events": [],
+  "visibilityEvents": [
+    "hidden",
+    "visible",
+    "hidden",
+    "visible"
+  ]
+}

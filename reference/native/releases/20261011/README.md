@@ -62,3 +62,14 @@ startup, Open and exact Save Gel roundtrip are now verified on this exact binary
 The site's manifest and release notes record this narrower completed scope.
 The originally requested manual Command-S step is no longer needed. No runtime
 or packaged-file bytes changed during this verification.
+
+## Current mouse-input recheck
+
+On the later release-profile validation pass, the exact isolated bundle was
+opened at its startup ladder. All105 bundle hashes still match the distribution
+manifest. Clicking the title bar and then the visible gel-settings button at
+screenshot(1164,1414) highlighted the button but did not open a panel. Raising
+the window through its exposed accessibility action and repeating the click
+had the same outcome. This confirms the automation limitation persists, without
+establishing that physical clicks fail. A physical-click observation is pending.
+No app bytes or document inputs were changed by this check.

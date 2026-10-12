@@ -40,6 +40,12 @@ runtime candidate. A [current-runtime two-hour run](../reference/web/performance
 is now live after both ten-cycle measurement preflights passed. The website refresh is complete locally; completed current-runtime reliability
 acceptance remains pending.
 
+The [current runtime lifecycle gate](../reference/web/lifecycle/release-profile/README.md)
+passes Chromium WebGPU/WebGL2 freeze/resume and WebKit engine activity checks
+under the repository's pinned runner. Retained views, resumed paint and saved
+state are verified. These three automated cases do not replace shipping-browser,
+physical display or OS sleep observations.
+
 ## How to read the records
 
 **Verified** means the stated bounded scenario or comparison is proved by the

@@ -1,0 +1,32 @@
+{
+  "backend": "chromium-webgl2",
+  "browser": "131.0.6778.33",
+  "resumedPaint": {
+    "before": "290d55e478b6fa1faea77c2bb49e9bb605c86002f6fd889957f8d7ef24bc0a0e",
+    "after": "909c33d00d6a5e7ce8693b7fbb569c7c6a0255ba99279721428cba772a4bb31c"
+  },
+  "cycles": [
+    {
+      "cycle": 0,
+      "frozen": 6,
+      "resumed": 28
+    },
+    {
+      "cycle": 1,
+      "frozen": 28,
+      "resumed": 50
+    }
+  ],
+  "events": [
+    "freeze",
+    "resume",
+    "freeze",
+    "resume"
+  ],
+  "visibilityEvents": [
+    "hidden",
+    "visible",
+    "hidden",
+    "visible"
+  ]
+}

@@ -1,0 +1,25 @@
+
+Running 1 test using 1 worker
+
+(node:27044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/release-profile-lifecycle/lifecycle/webkit-visibility.spec.ts:6:5 › retained views resume after WebKit engine activity changes (1.0s)
+
+
+  1) [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/release-profile-lifecycle/lifecycle/webkit-visibility.spec.ts:6:5 › retained views resume after WebKit engine activity changes 
+
+    TypeError: page._toImpl is not a function
+
+      44 |  // WebKit protocol controls the browser engine's activity/visibility state.
+      45 |  // This is not an OS sleep or physical tab-switch test.
+    > 46 |  const proxy=(page as any)._toImpl()._delegate._pageProxySession;
+         |                            ^
+      47 |  if(typeof proxy?.send!=='function')throw Error('Pinned WebKit page proxy unavailable');
+      48 |  const cycles:any[]=[];
+      49 |  try{
+        at /private/tmp/gel-browser-compat-1.64/release-profile-lifecycle/lifecycle/webkit-visibility.spec.ts:46:28
+
+    Error Context: ../../../../../../../tmp/gel-release-profile-webkit-lifecycle/webkit-visibility-retained-ec4a2-Kit-engine-activity-changes-webkit-webgl2/error-context.md
+
+  1 failed
+    [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/release-profile-lifecycle/lifecycle/webkit-visibility.spec.ts:6:5 › retained views resume after WebKit engine activity changes 
