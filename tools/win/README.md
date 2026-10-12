@@ -64,3 +64,35 @@ Loading a new gel closes the existing gel settings panel. The buffer editor
 holds its own gel reference; retaining that panel after a load displayed and
 edited the previous gel instead of the newly loaded one. Reopening the panel
 now binds it to the current gel. This fix applies on both platforms.
+
+### Linker cannot open Gelbox.exe
+
+`LNK1104: cannot open file Gelbox.exe` can mean the previous test app is still
+running. Run `stop.ps1` before rebuilding; Windows locks running executables.
+The Task 11 build compiled successfully, then linked successfully after stopping
+the test instance. No compiler or warning workaround is needed.
+
+### Rendering parity
+
+Task 11 compared the eight-lane fixture in `research/parity/parity.json` on
+Apple M5 Max and Intel Arc 140T, both with 4x MSAA. It contains the bundled
+1 kb ladder in lanes 1 and 4, two custom samples, 60 minutes and 70 V.
+The app accepts existing file paths as positional command-line arguments;
+`run.ps1 -Open` now loads the requested file at startup.
+
+Normalize the Mac Retina capture to the 1365×768 logical client size with
+2×2 box averaging; crop Windows to its 1365×768 client. Compare the gel below
+the well outlines (client rectangle `208,149,390,495`). Well outlines are UI
+strokes with different Retina pixel coverage, not DNA bands. Including them
+biases the brightness-weighted centroid toward the wells.
+
+```sh
+python3 -I tools/compare-renders.py mac.png windows.png --gel 208,149,390,495
+python3 -m unittest discover -s tools/tests -v
+```
+
+Measured mean grayscale difference: **0.0861 / 255** (limit 6).
+Maximum populated-lane centroid difference: **0.1568 px** (limit 3).
+All four empty lanes remain empty. Native Intel OpenGL passes; ANGLE is not
+needed. The comparison exits nonzero on a failed threshold or a missing band.
+Pillow and NumPy are required for this developer tool.

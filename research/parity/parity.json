@@ -1,0 +1,376 @@
+{
+  "Gelbox": {
+    "version": "1.0",
+    "type": "gel"
+  },
+  "Gel": {
+    "Samples": [
+      {
+        "name": "1kb ladder",
+        "icon": "microtube1500ul.png",
+        "iconScale": 0.5,
+        "id": 1,
+        "Buffer": {
+          "Tris": 44.5,
+          "Borate": 44.5,
+          "Acetate": 0,
+          "EDTA": 1
+        },
+        "Fragments": [
+          {
+            "Bases": 10002,
+            "Mass": 42.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.2,
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "Bases": 8001,
+            "Mass": 42.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.0,
+              0.4,
+              0.8
+            ]
+          },
+          {
+            "Bases": 6001,
+            "Mass": 50.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.8,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "Bases": 5001,
+            "Mass": 42.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.9686274509803922,
+              0.2627450980392157,
+              0.03137254901960784
+            ]
+          },
+          {
+            "Bases": 4001,
+            "Mass": 33.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.9686274509803922,
+              0.5764705882352941,
+              0.11764705882352941
+            ]
+          },
+          {
+            "Bases": 3001,
+            "Mass": 125.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.6666666666666666,
+              0.6666666666666666,
+              0.0
+            ]
+          },
+          {
+            "Bases": 2000,
+            "Mass": 48.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.3411764705882353,
+              0.7333333333333333,
+              0.0
+            ]
+          },
+          {
+            "Bases": 1500,
+            "Mass": 36.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.0,
+              0.4470588235294118,
+              0.0
+            ]
+          },
+          {
+            "Bases": 1000,
+            "Mass": 42.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.011764705882352941,
+              0.7137254901960784,
+              0.6352941176470588
+            ]
+          },
+          {
+            "Bases": 517,
+            "Mass": 21.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.09019607843137255,
+              0.0,
+              0.8705882352941177
+            ]
+          },
+          {
+            "Bases": 500,
+            "Mass": 21.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.7215686274509804,
+              0.0196078431372549,
+              0.4235294117647059
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Custom A",
+        "icon": "microtube1500ul.png",
+        "iconScale": 0.5,
+        "id": 2,
+        "Buffer": {
+          "Tris": 44.5,
+          "Borate": 44.5,
+          "Acetate": 0,
+          "EDTA": 1
+        },
+        "Fragments": [
+          {
+            "Bases": 7200,
+            "Mass": 90,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.8666666666666667,
+              0.3333333333333333,
+              0.26666666666666666
+            ]
+          },
+          {
+            "Bases": 2500,
+            "Mass": 60,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.26666666666666666,
+              0.6666666666666666,
+              0.5333333333333333
+            ]
+          },
+          {
+            "Bases": 850,
+            "Mass": 45,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.3333333333333333,
+              0.5333333333333333,
+              0.8666666666666667
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Custom B",
+        "icon": "microtube1500ul.png",
+        "iconScale": 0.5,
+        "id": 3,
+        "Buffer": {
+          "Tris": 44.5,
+          "Borate": 44.5,
+          "Acetate": 0,
+          "EDTA": 1
+        },
+        "Fragments": [
+          {
+            "Bases": 5500,
+            "Mass": 70,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.6666666666666666,
+              0.4,
+              0.8
+            ]
+          },
+          {
+            "Bases": 1800,
+            "Mass": 110,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.8666666666666667,
+              0.6666666666666666,
+              0.26666666666666666
+            ]
+          }
+        ]
+      },
+      {
+        "name": "1kb ladder",
+        "icon": "microtube1500ul.png",
+        "iconScale": 0.5,
+        "id": 1,
+        "Buffer": {
+          "Tris": 44.5,
+          "Borate": 44.5,
+          "Acetate": 0,
+          "EDTA": 1
+        },
+        "Fragments": [
+          {
+            "Bases": 10002,
+            "Mass": 42.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.2,
+              0.2,
+              0.2
+            ]
+          },
+          {
+            "Bases": 8001,
+            "Mass": 42.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.0,
+              0.4,
+              0.8
+            ]
+          },
+          {
+            "Bases": 6001,
+            "Mass": 50.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.8,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "Bases": 5001,
+            "Mass": 42.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.9686274509803922,
+              0.2627450980392157,
+              0.03137254901960784
+            ]
+          },
+          {
+            "Bases": 4001,
+            "Mass": 33.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.9686274509803922,
+              0.5764705882352941,
+              0.11764705882352941
+            ]
+          },
+          {
+            "Bases": 3001,
+            "Mass": 125.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.6666666666666666,
+              0.6666666666666666,
+              0.0
+            ]
+          },
+          {
+            "Bases": 2000,
+            "Mass": 48.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.3411764705882353,
+              0.7333333333333333,
+              0.0
+            ]
+          },
+          {
+            "Bases": 1500,
+            "Mass": 36.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.0,
+              0.4470588235294118,
+              0.0
+            ]
+          },
+          {
+            "Bases": 1000,
+            "Mass": 42.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.011764705882352941,
+              0.7137254901960784,
+              0.6352941176470588
+            ]
+          },
+          {
+            "Bases": 517,
+            "Mass": 21.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.09019607843137255,
+              0.0,
+              0.8705882352941177
+            ]
+          },
+          {
+            "Bases": 500,
+            "Mass": 21.0,
+            "Degrade": 0,
+            "AspectRatio": 1,
+            "Color": [
+              0.7215686274509804,
+              0.0196078431372549,
+              0.4235294117647059
+            ]
+          }
+        ]
+      },
+      null,
+      null,
+      null,
+      null
+    ],
+    "Buffer": {
+      "Tris": 44.5,
+      "Borate": 44.5,
+      "Acetate": 0,
+      "EDTA": 1
+    },
+    "Time": 0.3333333333333333,
+    "Voltage": 70,
+    "WellDamage": 0
+  }
+}

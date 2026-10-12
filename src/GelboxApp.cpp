@@ -144,6 +144,16 @@ void GelboxApp::setup()
 			}
 		});
 	}
+
+	// Cinder supplies UTF-8 command-line arguments on both desktop platforms.
+	// Ignore OS launch switches and load existing positional files, as when dropped.
+	const auto &args = getCommandLineArgs();
+	for (size_t i = 1; i < args.size(); ++i) {
+		if (args[i].empty() || args[i][0] == '-') continue;
+		const auto path = fs::u8path(args[i]);
+		std::error_code error;
+		if (fs::is_regular_file(path, error)) load(path);
+	}
 }
 
 void GelboxApp::makeGel()
