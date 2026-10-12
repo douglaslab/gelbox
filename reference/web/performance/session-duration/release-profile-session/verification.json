@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "budget": {
+    "sessionSeconds": 7200,
+    "cycles": 120,
+    "holdMs": 60000,
+    "physicalFootprintPeakMiB": {
+      "renderer": 256,
+      "GPU": 1024
+    },
+    "maximumClosedFootprintGrowthAfterCycle10MiB": 64,
+    "maximumRetainedHeapGrowthAfterCycle10Bytes": 1048576,
+    "maximumDomGrowthAfterCycle10": 0,
+    "ownedResourceGrowth": 0
+  },
+  "results": [
+    {
+      "backend": "chromium-webgpu",
+      "elapsedSeconds": 7245.77,
+      "maxRetainedHeapGrowthBytes": 660792,
+      "footprints": [
+        {
+          "cycle": 60,
+          "process": "renderer",
+          "footprintMiB": 51.8,
+          "peakMiB": 199.1
+        },
+        {
+          "cycle": 10,
+          "process": "renderer",
+          "footprintMiB": 51.9,
+          "peakMiB": 199.1
+        },
+        {
+          "cycle": 60,
+          "process": "GPU",
+          "footprintMiB": 493.3,
+          "peakMiB": 571.2
+        },
+        {
+          "cycle": 10,
+          "process": "GPU",
+          "footprintMiB": 496.3,
+          "peakMiB": 552.5
+        },
+        {
+          "cycle": 0,
+          "process": "GPU",
+          "footprintMiB": 485.7,
+          "peakMiB": 520.0
+        },
+        {
+          "cycle": 120,
+          "process": "renderer",
+          "footprintMiB": 53.3,
+          "peakMiB": 199.1
+        },
+        {
+          "cycle": 120,
+          "process": "GPU",
+          "footprintMiB": 474.2,
+          "peakMiB": 580.8
+        },
+        {
+          "cycle": 0,
+          "process": "renderer",
+          "footprintMiB": 50.5,
+          "peakMiB": 132.3
+        }
+      ]
+    },
+    {
+      "backend": "chromium-webgl2",
+      "elapsedSeconds": 7245.66,
+      "maxRetainedHeapGrowthBytes": 667856,
+      "footprints": [
+        {
+          "cycle": 60,
+          "process": "renderer",
+          "footprintMiB": 43.1,
+          "peakMiB": 160.4
+        },
+        {
+          "cycle": 10,
+          "process": "renderer",
+          "footprintMiB": 45.5,
+          "peakMiB": 160.4
+        },
+        {
+          "cycle": 120,
+          "process": "GPU",
+          "footprintMiB": 512.5,
+          "peakMiB": 670.1
+        },
+        {
+          "cycle": 0,
+          "process": "GPU",
+          "footprintMiB": 506.6,
+          "peakMiB": 626.8
+        },
+        {
+          "cycle": 120,
+          "process": "renderer",
+          "footprintMiB": 42.0,
+          "peakMiB": 160.4
+        },
+        {
+          "cycle": 60,
+          "process": "GPU",
+          "footprintMiB": 510.1,
+          "peakMiB": 649.7
+        },
+        {
+          "cycle": 0,
+          "process": "renderer",
+          "footprintMiB": 44.3,
+          "peakMiB": 146.8
+        },
+        {
+          "cycle": 10,
+          "process": "GPU",
+          "footprintMiB": 507.9,
+          "peakMiB": 630.8
+        }
+      ]
+    }
+  ]
+}

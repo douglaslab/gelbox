@@ -50,9 +50,12 @@ Converged heap growth, DOM/listeners and owned-resource cleanup pass in their
 recorded scopes. The full result is retained under frozen-session/completed; a fresh
 measurement control now succeeds after the earlier stuck processes disappeared.
 A separate [current-runtime run](../reference/web/performance/session-duration/release-profile-session/README.md)
-is now live against an isolated build after both ten-cycle measurement preflights
-passed. It cannot replace missing samples from the previous run. The previous
-run does not include the separate numerical candidate.
+has completed120 cycles on each backend and passes the unchanged acceptance
+verifier. Both exceed7,245 measured seconds; all16 process-footprint captures
+succeed, retained heap growth stays below1MiB, and owned resources reach zero
+after route exit. This closes the declared two-hour web memory gate for812ff8a.
+It does not repair the previous failed run or attribute the historical native
+missing-view observation.
 
 The next completion work is ordered below. These are the remaining portions of
 P0–P5 and W01–W09, not new milestones or a reduced definition of done.
@@ -91,9 +94,9 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    Avenir asset distribution strategy and supported text/platform scope before
    public distribution. The Inter license notice is already shipped. Do not
    substitute a fallback font silently or assert legal rights from visual tests.
-4. **Finish reliability disposition (W08).** Complete and verify the live current-runtime
-   two-hour run after recovered measurement controls passed. Retain the preceding
-   failed run as failed; later captures cannot replace its missing samples. Existing 1,000-cycle
+4. **Finish reliability disposition (W08).** The current-runtime two-hour web memory
+   gate now passes. Retain the preceding failed runs as failed; later captures
+   cannot replace their missing samples. Existing 1,000-cycle
    RSS/physical-footprint reports do not establish a long-term bound.
    Retained JS/DOM and explicit GPU resources are stable in their measured scopes;
    native allocator/driver retention remains incompletely attributed. Resolve

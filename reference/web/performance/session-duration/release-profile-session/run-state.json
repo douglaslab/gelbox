@@ -1,0 +1,15 @@
+{
+  "status": "completed",
+  "sessionId": 53835,
+  "output": "/tmp/gel-release-profile-session-2h",
+  "cwd": "/tmp/gel-release-profile-session-20261011/ts",
+  "cycles": 120,
+  "holdMs": 60000,
+  "acceptance": "passed unchanged frozen-session verifier",
+  "exitCode": 0,
+  "runtimeCommit": "812ff8a588d6fbc238e5e5f75dc9f58ab6f387fe",
+  "websiteCommit": "03d8cf9",
+  "assetCount": 223,
+  "retainedOutput": "completed",
+  "verification": "verification.json"
+}

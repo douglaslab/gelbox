@@ -1,0 +1,10 @@
+{
+  "runtimeCommit": "812ff8a588d6fbc238e5e5f75dc9f58ab6f387fe",
+  "websiteCommitAtVerification": "03d8cf9",
+  "assetCount": 223,
+  "acceptanceSources": {
+    "reference/web/performance/session-duration/budget.json": "a6b58f63bf4c36d740218dab5428756db0768026cd4a584dc6159af004cc49cb",
+    "reference/web/performance/session-duration/verify.py": "a21ba8c56759f7f31031ee185789a445ad380cbf449b1f9dd165cdf6aad6ea71",
+    "reference/web/performance/session-duration/frozen-session/verify.py": "a18fb6225ff1a00865b0646ba62e0becacd67cf1c51304cca48472ad2417db6d"
+  }
+}
