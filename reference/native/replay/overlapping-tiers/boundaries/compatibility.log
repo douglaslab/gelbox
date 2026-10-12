@@ -1,0 +1,29 @@
+
+Running 18 tests using 2 workers
+
+(node:21558) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21559) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp1001-y254 (910ms)
+  ✓   2 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp1001-y233 (925ms)
+  ✓   3 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp1001-y310 (456ms)
+  ✓   5 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp2001-y156 (427ms)
+  ✓   6 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp2001-y240 (396ms)
+  ✓   4 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp1001-y352 (6.2s)
+  ✓   7 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp3001-y135 (6.2s)
+  ✓   9 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp3001-y219 (507ms)
+(node:21585) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp1001-y233 (771ms)
+  ✓  11 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp1001-y254 (489ms)
+  ✓  12 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp1001-y310 (463ms)
+  ✓  13 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp1001-y352 (424ms)
+  ✓  14 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp2001-y156 (466ms)
+  ✓  15 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp2001-y240 (443ms)
+  ✓  16 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp3001-y135 (430ms)
+  ✓  17 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp3001-y177 (459ms)
+  ✓   8 [firefox-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp3001-y177 (6.2s)
+  ✓  18 [webkit-webgl2] › ../../../../../../../private/tmp/gel-browser-compat-1.64/instruction-full/production/overlapping-tiers.spec.ts:40:6 › original GUI solver boundary boundary-bp3001-y219 (445ms)
+
+  18 passed (14.7s)

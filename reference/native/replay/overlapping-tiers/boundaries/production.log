@@ -1,0 +1,39 @@
+
+Running 18 tests using 2 workers
+
+(node:21513) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21514) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21514) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21513) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium-webgpu] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp1001-y233 (368ms)
+  ✓  1 [chromium-webgpu] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp1001-y254 (368ms)
+  ✓  3 [chromium-webgpu] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp1001-y310 (225ms)
+  ✓  4 [chromium-webgpu] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp1001-y352 (225ms)
+  ✓  6 [chromium-webgpu] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp2001-y240 (236ms)
+  ✓  5 [chromium-webgpu] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp2001-y156 (236ms)
+  ✓  8 [chromium-webgpu] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp3001-y177 (328ms)
+  ✓  7 [chromium-webgpu] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp3001-y135 (328ms)
+(node:21530) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21530) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  9 [chromium-webgpu] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp3001-y219 (211ms)
+(node:21531) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21531) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [chromium-webgl2] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp1001-y233 (292ms)
+  ✓  11 [chromium-webgl2] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp1001-y254 (305ms)
+  ✓  12 [chromium-webgl2] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp1001-y310 (226ms)
+  ✓  13 [chromium-webgl2] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp1001-y352 (245ms)
+  ✓  14 [chromium-webgl2] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp2001-y156 (350ms)
+  ✓  15 [chromium-webgl2] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp2001-y240 (349ms)
+  ✓  16 [chromium-webgl2] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp3001-y135 (246ms)
+  ✓  17 [chromium-webgl2] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp3001-y177 (245ms)
+  ✓  18 [chromium-webgl2] › overlapping-tiers.spec.ts:40:2 › original GUI solver boundary boundary-bp3001-y219 (249ms)
+
+  18 passed (3.4s)

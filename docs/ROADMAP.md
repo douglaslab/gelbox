@@ -55,10 +55,11 @@ not include the separate numerical candidate.
 The next completion work is ordered below. These are the remaining portions of
 P0–P5 and W01–W09, not new milestones or a reduced definition of done.
 
-1. **Complete original-native editing traces (W02–W05).** First capture the
-   prepared numerical boundary inputs in the original app and resolve the
-   candidate's solver, seed and loupe reference disagreements. The original
-   chooser is waiting for manual input because automated Return resets its path.
+1. **Complete original-native editing traces (W02–W05).** The nine prepared numerical boundary inputs are now captured in the original
+   app and match the candidate in9 unit and36 compiled browser/backend cases
+   ([evidence](../reference/native/replay/overlapping-tiers/boundaries/README.md)).
+   Resolve the remaining solver, seed, loupe and fractional-shape reference
+   disagreements without replacing canonical expectations by assumption.
    Then continue the remaining composed editing histories. Persistent-loupe
    move/return, left-button frame/probe/wedge gestures, molecule/background
    selection, water→TBE, hidden-lane reduction/restoration and populated off-gel
