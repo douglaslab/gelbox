@@ -74,12 +74,13 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
    now also match the native saved samples across four configurations.
    Occupied-destination drops with a persistent source loupe now also have a paired
    native/web trace across all four configurations ([evidence](../reference/native/replay/occupied-loupe/README.md)).
-   Continue modifier clone/Shift-lock,
+   An [Option tube clone followed by destination selection](../reference/native/replay/option-clone/README.md)
+   now matches the complete native saved document and final selected sample/species
+   in all four configurations. Continue persistent-loupe clone histories/Shift-lock,
    remaining picked aggregate offsets and slider/focus/secondary-button branches.
    Keep exact saved-document comparisons and observable view/selection checks.
-   Native Option-drag tube cloning is prepared on the current one-species fixture;
-   a manual lane1→lane2 Option-drag was requested because the UI tool cannot hold
-   a modifier during a drag. Do not mutate that native fixture while awaiting it.
+   The native clone trace is lane2→lane3 followed by a click on the clone, as
+   confirmed by Shawn. Immediate post-drag selection was not independently captured.
    Independent reference/platform work can continue. Automated web tests do not
    replace the required native traces.
 2. **Finish remaining native file/image and platform observations (W01, W06,

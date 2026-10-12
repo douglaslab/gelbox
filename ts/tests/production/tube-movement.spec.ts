@@ -3,6 +3,45 @@ import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {serveBuiltApp} from './built-app';
 
+test('native Option tube clone and destination click retain the complete sample',async({page},info)=>{
+ const root=path.resolve('../reference/native/replay/option-clone');
+ const native=async(name:string)=>JSON.parse(await readFile(path.join(root,name),'utf8'));
+ const before=await native('native-after-clone.json');
+ const after=await native('native-three-lanes.json');
+ expect(after.Gel.Samples[2]).toEqual(before.Gel.Samples[1]);
+ expect(after.Gel.Samples.slice(0,2)).toEqual(before.Gel.Samples.slice(0,2));
+ const app=await serveBuiltApp('/gelbox/');
+ try{
+  await page.addInitScript(b=>localStorage.setItem('gelBackend',b),info.project.name.endsWith('webgl2')?'webgl2':'webgpu');
+  await page.goto(`${app.url}#/gel`);
+  const menu=page.getByRole('button',{name:'Application settings'});
+  await menu.click();await page.getByTestId('file-input').setInputFiles(path.join(root,'native-after-clone.json'));
+  await page.getByTestId('band-1').click();
+  await expect(page.getByTestId('fragment-view')).toBeVisible();
+  await expect(page.getByTestId('sample-view')).toHaveAttribute('data-lane-index','1');
+  await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('before-tube-clone.png')});
+  const tube=(lane:number)=>page.getByTestId(`microtube-${lane}`);
+  const from=(await tube(1).boundingBox())!,to=(await tube(2).boundingBox())!;
+  await page.keyboard.down('Alt');
+  await page.mouse.move(from.x+from.width/2,from.y+15);await page.mouse.down();
+  await page.mouse.move(to.x+to.width/2,to.y+15,{steps:8});await page.mouse.up();
+  await page.keyboard.up('Alt');
+  await expect(page.locator('[data-testid^="band-"]')).toHaveCount(3);
+  for(const lane of [0,1,2])await expect(tube(lane)).not.toHaveAttribute('data-empty','true');
+  // The user confirmed clicking the clone afterward to inspect its color.
+  // Native final selection therefore includes this explicit follow-up action.
+  await page.getByTestId('band-2').click();
+  await expect(page.getByTestId('sample-view')).toHaveAttribute('data-lane-index','2');
+  await expect(page.getByTestId('fragment-view')).toBeVisible();
+  await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+  const bytes=await readFile((await (await pending).path())!);
+  expect(JSON.parse(bytes.toString())).toEqual(after);
+  await writeFile(info.outputPath('web-after-tube-clone.json'),bytes);
+  if(await menu.getAttribute('aria-expanded')==='true')await menu.click();
+  await page.mouse.move(0,0);await page.screenshot({path:info.outputPath('after-tube-clone.png')});
+ }finally{await app.close();}
+});
+
 test('compiled tube move and occupied drop match retained native documents',async({page},info)=>{
  const root=path.resolve('../reference/native/replay/tube-movement');
  const inputPath=path.resolve('../reference/native/replay/hidden-lanes/input-twelve.json');

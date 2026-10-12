@@ -1,0 +1,64 @@
+
+Running 2 tests using 2 workers
+
+(node:43171) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43171) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43172) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43172) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [webkit-webgl2] › tube-movement.spec.ts:6:1 › native Option tube clone retains source and selects destination (6.0s)
+  ✘  1 [firefox-webgl2] › tube-movement.spec.ts:6:1 › native Option tube clone retains source and selects destination (6.4s)
+
+
+  1) [firefox-webgl2] › tube-movement.spec.ts:6:1 › native Option tube clone retains source and selects destination 
+
+    Error: [31mTimed out 5000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoHaveAttribute[2m([22m[32mexpected[39m[2m)[22m
+
+    Locator: getByTestId('sample-view')
+    Expected string: [32m"2"[39m
+    Received string: [31m"1"[39m
+    Call log:
+    [2m  - expect.soft.toHaveAttribute with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('sample-view')[22m
+    [2m    9 × locator resolved to <div tabindex="0" data-lane-index="1" data-testid="sample-view" data-shared-frame-ready="1">…</div>[22m
+    [2m      - unexpected value "1"[22m
+
+
+      31 |   // Keep collecting the document comparison while the native post-drag
+      32 |   // selection history is being clarified; this mismatch remains a failure.
+    > 33 |   await expect.soft(page.getByTestId('sample-view')).toHaveAttribute('data-lane-index','2');
+         |                                                      ^
+      34 |   await expect(page.getByTestId('fragment-view')).toBeVisible();
+      35 |   await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+      36 |   const bytes=await readFile((await (await pending).path())!);
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/tube-movement.spec.ts:33:54
+
+  2) [webkit-webgl2] › tube-movement.spec.ts:6:1 › native Option tube clone retains source and selects destination 
+
+    Error: [31mTimed out 5000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoHaveAttribute[2m([22m[32mexpected[39m[2m)[22m
+
+    Locator: getByTestId('sample-view')
+    Expected string: [32m"2"[39m
+    Received string: [31m"1"[39m
+    Call log:
+    [2m  - expect.soft.toHaveAttribute with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('sample-view')[22m
+    [2m    9 × locator resolved to <div tabindex="0" data-lane-index="1" data-testid="sample-view" data-shared-frame-ready="1">…</div>[22m
+    [2m      - unexpected value "1"[22m
+
+
+      31 |   // Keep collecting the document comparison while the native post-drag
+      32 |   // selection history is being clarified; this mismatch remains a failure.
+    > 33 |   await expect.soft(page.getByTestId('sample-view')).toHaveAttribute('data-lane-index','2');
+         |                                                      ^
+      34 |   await expect(page.getByTestId('fragment-view')).toBeVisible();
+      35 |   await menu.click();const pending=page.waitForEvent('download');await page.getByTestId('save-gel-btn').click();
+      36 |   const bytes=await readFile((await (await pending).path())!);
+        at /Users/shawn/.codex/worktrees/3f9f/gel/ts/tests/production/tube-movement.spec.ts:33:54
+
+  2 failed
+    [firefox-webgl2] › tube-movement.spec.ts:6:1 › native Option tube clone retains source and selects destination 
+    [webkit-webgl2] › tube-movement.spec.ts:6:1 › native Option tube clone retains source and selects destination 
