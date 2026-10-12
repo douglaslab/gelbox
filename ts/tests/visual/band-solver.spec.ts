@@ -9,7 +9,7 @@ for (const tied of [false,true]) for (const clone of [false,true]) test(`multime
   await page.getByRole('button',{name:'Application settings'}).click();
   await page.getByTestId('file-input').setInputFiles({name:'multimer.gel.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(doc))});
   await expect(page.locator('[data-testid^="band-"]')).toHaveCount(3);
-  const native=JSON.parse(await readFile(root+'numerical/outputs.json','utf8')).find((r:any)=>r.id===(tied?'tied-aggregate-tops':'aggregate-3'));
+  const native=JSON.parse(await readFile(root+'numerical/release-x86_64/outputs.json','utf8')).find((r:any)=>r.id===(tied?'tied-aggregate-tops':'aggregate-3'));
   const band=native.bands.find((b:any)=>b.aggregate===(clone ? 1 : 3));
   // Native picks the smallest UI height and first tie at the actual mouse point.
   const hitIndices=native.nativeMetadata.map((m:any,i:number)=>({r:m.uiRect,i}))

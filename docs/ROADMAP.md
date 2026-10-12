@@ -30,27 +30,29 @@ A separate [120-cycle frozen-sampling control](../reference/web/performance/sess
 now converges at every checkpoint on both renderers, with maximum heap growth
 below0.8MB. This supports the measurement method, not two-hour acceptance.
 
-The local numerical candidate is separate from that staged build. Original
-Release fast-math instruction ordering changes float32 band positions and which
-multimer wins an overlap. The [current candidate evidence](../reference/native/replay/overlapping-tiers/candidate-fractional-shape/README.md)
-records 3,034 passing and 54 failing units. The preceding instruction-order
-candidate passed 96 production, 76 compatibility and 969 visual cases with one
-existing skip, including all 20 paired overlap cases. Those browser results do
-not certify the latest fractional-shape change. Two new diagnostic failures
-expose differing host math-library results; original Intel qualification and
-the reference-unit failures remain unresolved. The [offline original-instruction diagnostic](../reference/native/replay/overlapping-tiers/emulated-diagnostic/README.md)
-matches all 505 corpus band rectangles; host math hooks mean it does not replace
-original-app confirmation. Keep canonical expectations unchanged until the
-reference discrepancy is qualified. The runtime patch remains uncommitted and
-must not be copied to the website as an accepted release.
+The local numerical candidate remains separate from the staged website build.
+Original Release fast-math instruction ordering changes float32 positions and
+which multimer wins an overlap. The [qualified Intel reference profile](../reference/native/numerical/release-x86_64/README.md)
+now reproduces the independent clean Intel capture exactly. Original-app saves
+cover nine integer and three fractional-shape solver boundaries; measured Intel
+power results resolve the two host-math discrepancies. All3,100 current units,
+120 production and100 compatibility cases pass without changing assertion
+tolerances. The full visual suite passes969 cases with one existing skip. Historical strict outputs
+remain preserved. This is case-specific reference qualification, not a claim
+that a modern compiler/Cinder build is equivalent to the entire original app.
+The runtime patch has completed its regression gate and independent code review.
+Refresh the local website after recording the source commit.
 
 The fixed `4ba0139` [two-hour frozen-sampling run](../reference/web/performance/session-duration/frozen-session/README.md)
 has completed120 cycles on both renderers. Lifecycle tests pass, but the unchanged
 acceptance verifier rejects missing process-footprint captures at cycles60 and120.
 Converged heap growth, DOM/listeners and owned-resource cleanup pass in their
-recorded scopes. The full result is retained under frozen-session/completed; no
-repeat run is scheduled until the measurement failure is resolved. This run does
-not include the separate numerical candidate.
+recorded scopes. The full result is retained under frozen-session/completed; a fresh
+measurement control now succeeds after the earlier stuck processes disappeared.
+A separate [current-runtime run](../reference/web/performance/session-duration/release-profile-session/README.md)
+is now live against an isolated build after both ten-cycle measurement preflights
+passed. It cannot replace missing samples from the previous run. The previous
+run does not include the separate numerical candidate.
 
 The next completion work is ordered below. These are the remaining portions of
 P0–P5 and W01–W09, not new milestones or a reduced definition of done.
@@ -58,9 +60,9 @@ P0–P5 and W01–W09, not new milestones or a reduced definition of done.
 1. **Complete original-native editing traces (W02–W05).** The nine prepared numerical boundary inputs are now captured in the original
    app and match the candidate in9 unit and36 compiled browser/backend cases
    ([evidence](../reference/native/replay/overlapping-tiers/boundaries/README.md)).
-   Resolve the remaining solver, seed, loupe and fractional-shape reference
-   disagreements without replacing canonical expectations by assumption.
-   Then continue the remaining composed editing histories. Persistent-loupe
+   The Intel reference profile now resolves the identified solver, seed, loupe
+   and fractional-shape corpus disagreements with independent native evidence.
+   Finish the current regression gate, then continue composed editing histories. Persistent-loupe
    move/return, left-button frame/probe/wedge gestures, molecule/background
    selection, water→TBE, hidden-lane reduction/restoration and populated off-gel
    removal now have paired traces. Tied and unequal-overlap deletion, one zero-

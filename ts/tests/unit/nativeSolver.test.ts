@@ -3,7 +3,7 @@ import { it, expect } from 'vitest';
 import { solveBasesForY } from '../../src/lib/sim/solver';
 const root = '../reference/native/numerical/';
 const cases = JSON.parse(readFileSync(root+'cases.json','utf8'));
-const outputs = JSON.parse(readFileSync(root+'outputs.json','utf8'));
+const outputs = JSON.parse(readFileSync(root+'release-x86_64/outputs.json','utf8'));
 it.each(cases.map((c: any, i: number) => [c.id,c,outputs[i]]))('native inverse solver: %s', (_id,c,ref) => {
   expect(ref.solved).toHaveLength(c.solverTargets.length);
   for(const expected of ref.solved) {

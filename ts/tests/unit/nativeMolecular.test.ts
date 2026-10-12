@@ -4,7 +4,7 @@ import { MolecularSim } from '../../src/lib/sim/molecularSimEngine';
 import { fragToBands } from '../../src/lib/sim/gelSim';
 import { makeSampleFromGel } from '../../src/lib/sim/sampleFromGel';
 const cases=JSON.parse(readFileSync('../reference/native/numerical/cases.json','utf8'));
-const outputs=JSON.parse(readFileSync('../reference/native/numerical/outputs.json','utf8'));
+const outputs=JSON.parse(readFileSync('../reference/native/numerical/release-x86_64/outputs.json','utf8'));
 function check(actual:any,expected:any,path='fragment') {
   if(typeof expected==='number') {
     expect.soft(Number.isFinite(actual),path).toBe(true);

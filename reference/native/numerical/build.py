@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Build the pinned native model in isolation; never reads edited source files."""
-import argparse, subprocess, pathlib, hashlib, json, platform
-p=argparse.ArgumentParser();p.add_argument('--gelbox',default='/Users/shawn/code/gelbox');p.add_argument('--cinder',default='/Users/shawn/code/Cinder');p.add_argument('--build',default='/tmp/gel-native-numerical');p.add_argument('--boost',default='/tmp/gel-native-boost');p.add_argument('--capture',action='store_true');a=p.parse_args()
+import argparse, subprocess, pathlib, hashlib, json, platform, sys
+p=argparse.ArgumentParser();p.add_argument('--gelbox',default='/Users/shawn/code/gelbox');p.add_argument('--cinder',default='/Users/shawn/code/Cinder');p.add_argument('--build');p.add_argument('--boost',default='/tmp/gel-native-boost');p.add_argument('--capture',action='store_true');p.add_argument('--profile',choices=['strict','release-x86_64'],default='strict');a=p.parse_args()
+release=a.profile=='release-x86_64'
+a.build=a.build or ('/tmp/gel-native-release-reference' if release else '/tmp/gel-native-numerical')
 a.cinder=str(pathlib.Path(a.cinder).resolve());a.gelbox=str(pathlib.Path(a.gelbox).resolve());a.build=str(pathlib.Path(a.build).resolve())
 expected_cinder='f90f332d1a4d453282c76435f3401271f25922f9'
 assert subprocess.check_output(['git','-C',a.cinder,'rev-parse','HEAD']).decode().strip()==expected_cinder, 'Cinder revision differs from reference'
@@ -88,11 +90,17 @@ target_compile_definitions(gel-mesh PRIVATE GEL_MESH_CAPTURE _LIBCPP_ENABLE_CXX1
 target_compile_options(gel-mesh PRIVATE -include "{out}/prefix.h")
 target_link_libraries(gel-mesh PRIVATE cinder)
 '''
+if release:
+  # Match the qualified simulation source-control profile. Keep JSON parsing,
+  # solver adapters and molecular code strict; this is not a whole-app build.
+  cmake+=f'\nset_source_files_properties("{out}/pinned/src/GelSim.cpp" PROPERTIES COMPILE_OPTIONS "-ffast-math")\n'
 (out/'CMakeLists.txt').write_text(cmake)
-subprocess.run(['cmake','-S',str(out),'-B',str(out/'build'),'-DCMAKE_BUILD_TYPE=Release'],check=True)
-subprocess.run(['cmake','--build',str(out/'build'),'-j','4'],check=True)
+subprocess.run(['cmake','-S',str(out),'-B',str(out/'build'),'-DCMAKE_BUILD_TYPE=Release']+(['-DCMAKE_OSX_ARCHITECTURES=x86_64'] if release else []),check=True)
+subprocess.run(['cmake','--build',str(out/'build'),'-j','4']+(['--target','gel-numerical'] if release else []),check=True)
 manifest={'gelboxCommit':'5f51097','sourceHashes':hashes,'cinderCommit':subprocess.check_output(['git','-C',a.cinder,'rev-parse','HEAD']).decode().strip(),'compiler':subprocess.check_output(['clang++','--version']).decode(),'cinderLibrarySha256':hashlib.sha256((pathlib.Path(a.cinder)/'lib/macosx/Release/libcinder.a').read_bytes()).hexdigest(),'limitations':['Cinder revision differs from original 0.9.0; not shipped-binary numerical certification.','Sample::clearDyes extracted verbatim to satisfy constructor; other Sample methods are not linked.','No native GUI or rendering included.','Library/source correspondence is recorded by hashes, not independently verified.']}
 manifest.update(host=platform.platform(), architecture=platform.machine(),
+  profile=a.profile, targetArchitecture='x86_64' if release else platform.machine(),
+  geometryFastMath=release,
   executableSha256=hashlib.sha256((out/'build/gel-numerical').read_bytes()).hexdigest(),
   compileFlags=(out/'build/CMakeFiles/gel-numerical.dir/flags.make').read_text(),
   harnessHashes={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in ['build.py','driver.cpp','generate-cases.py','solver-adapter.h','molecular-adapter.h','particle-driver.cpp','generate-particles.py','mesh-driver.cpp','generate-mesh.py']})
@@ -101,7 +109,15 @@ if a.capture:
   result=subprocess.check_output(command)
   assert result==subprocess.check_output(command), 'Native reference output is not deterministic'
   manifest.update(casesSha256=hashlib.sha256((root/'cases.json').read_bytes()).hexdigest(),outputsSha256=hashlib.sha256(result).hexdigest(),caseCount=len(json.loads(result)))
-  (root/'outputs.json').write_bytes(result)
+  capture_root=root/'release-x86_64' if release else root
+  capture_root.mkdir(exist_ok=True)
+  (capture_root/'outputs.json').write_bytes(result)
+  if release:
+    manifest['limitations'].append('Simulation-only fast-math profile; qualified by original GUI solver traces, not a whole original application rebuild. Strict particle/mesh captures remain separate.')
+    (capture_root/'provenance.json').write_text(json.dumps(manifest,indent=2)+'\n')
+    (out/'provenance.json').write_text(json.dumps(manifest,indent=2)+'\n')
+    print(out/'build/gel-numerical')
+    sys.exit(0)
   particle_command=[str(out/'build/gel-particles'),str(out/'pinned/assets/tuning/gel-sim.json'),str(root/'particle-cases.json'),str(out/'pinned/assets/tuning/molecular-sim.json')]
   particle_result=subprocess.check_output(particle_command)
   assert particle_result==subprocess.check_output(particle_command), 'Native particle output is not deterministic'

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { expect, it } from 'vitest';
 import { fragToBands } from '../../src/lib/sim/gelSim';
 const cases = JSON.parse(readFileSync('../reference/native/numerical/cases.json', 'utf8'));
-const outputs = JSON.parse(readFileSync('../reference/native/numerical/outputs.json', 'utf8'));
+const outputs = JSON.parse(readFileSync('../reference/native/numerical/release-x86_64/outputs.json', 'utf8'));
 const exact = new Set(['blur', 'randSeed', 'wellDamageRandSeed', 'aggregate']);
 function compare(actual: any, expected: any, path: string, spatialTolerance: number) {
   if (typeof expected === 'number') {

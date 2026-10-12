@@ -20,13 +20,24 @@ verified all 223 web asset hashes, eight local HTTP routes and both native
 download hashes. Website commit `3316a54` corrects the Safari Save Sample
 verification note without changing the app bundle. Nothing is published.
 
-The uncommitted [fractional-shape candidate](../reference/native/replay/overlapping-tiers/candidate-fractional-shape/README.md)
-builds but fails 54 current units, including two new math-library diagnostic
-boundaries. Full browser/visual passes apply to the preceding instruction-order
-candidate, not this subsequent change. It is unqualified. The original instruction diagnostic supports
-its geometry changes, with explicit external-math limitations; it does not close
-D02 or supersede canonical reference data. The fixed staged build's two-hour
-stability run is still live and cannot qualify this different candidate.
+The reviewed fractional-shape runtime candidate now passes all 3,100 units
+using the independently qualified [Intel Release reference profile](../reference/native/numerical/release-x86_64/README.md).
+Its clean pinned-source capture is repeatable and byte-identical to the earlier
+Intel fast-math control. Nine integer and three fractional-shape original-app
+saves qualify the disputed solver boundaries; measured Intel power results
+resolve the two host-math discrepancies. Historical strict outputs are preserved,
+and assertions/tolerances are unchanged. Current production and compatibility
+runs pass 120 and 100 cases respectively; the full visual run passes969 cases with one existing skip.
+These results do not close all D02 or other native interaction requirements.
+
+The fixed staged build's two-hour frozen-sampling run has finished. Its lifecycle
+tests pass, but acceptance fails because process-footprint captures at cycles60
+and120 are missing. See the [retained result](../reference/web/performance/session-duration/frozen-session/completed/README.md).
+A subsequent [fresh measurement control](../reference/native/replay/overlapping-tiers/intel-math-diagnostic/recovered-native/README.md)
+now succeeds; it does not repair the missing measurements or qualify the current
+runtime candidate. A [current-runtime two-hour run](../reference/web/performance/session-duration/release-profile-session/README.md)
+is now live after both ten-cycle measurement preflights passed. Website refresh
+and completed current-runtime reliability acceptance remain pending.
 
 ## How to read the records
 

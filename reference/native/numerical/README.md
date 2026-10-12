@@ -1,5 +1,30 @@
 # Pinned native simulation reference
 
+## Active simulation profile
+
+The numerical/solver/loupe/molecular and picking gates now read
+`release-x86_64/outputs.json`. Reproduce this profile without changing historical
+strict, particle or mesh captures:
+
+```sh
+python3 reference/native/numerical/build.py --profile release-x86_64 --capture
+```
+
+It builds pinned GelSim.cpp with O3/fast-math for x86_64; the surrounding driver,
+JSON and molecular adapters keep strict compilation. The new build directory is
+isolated at `/tmp/gel-native-release-reference`. A capture repeats twice and must
+match byte-for-byte. Output and provenance go only into `release-x86_64/`.
+The profile reproduces the independently clean-rebuilt Intel capture exactly,
+including twelve original-GUI solver checkpoints. Its current full unit gate is
+3,100 passing. See [profile evidence and limits](release-x86_64/README.md).
+
+The older `outputs.json` and provenance remain unchanged as a historical strict
+source model. The original instructions below describe that older profile and
+separate particle/mesh captures; `--profile strict` is still the default for
+backward compatibility. Strict output is no longer the active simulation oracle
+because it disagrees with the original Release fast-math behavior.
+
+
 This runs **unmodified `GelSim.cpp` from Gelbox `5f51097`**, with its pinned headers and effective `assets/tuning/gel-sim.json`. It uses real Cinder types/math and the retained legacy `JsonTree` implementation. It is independent of the TypeScript simulation.
 
 The executable is a model reference, not the distributed Gelbox binary. Cinder is the clean local checkout at `f90f332d1a4d453282c76435f3401271f25922f9`, rather than original Cinder 0.9.0. Its prebuilt library hash is recorded; correspondence between that library and its source revision is not independently established. Native molecular fragment setup and seeded particle lifecycle run in this harness; no GUI or GPU renderer runs.

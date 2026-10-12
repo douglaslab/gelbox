@@ -38,8 +38,12 @@ export function calcBandGeometry(ctx: SimContext, input: GeometryInput): Geometr
 
   // Inflate (vertical only)
   const fatscale = f(ctx.time);
-  const height = f(y2 - y1);
-  const inflateAmt = f(f(f(f(fatness) - 1) * fatscale) * 0.5) * height;
+  // Original Release keeps the well height before translation (0x1000574f8)
+  // and groups height*time before half the excess fatness (0x100057523/527).
+  // Subtracting translated endpoints can change integer inverse-solver results.
+  const height = f(f(wellRect.y2) - f(wellRect.y1));
+  const halfExcess = f(f(f(fatness) - 1) * 0.5);
+  const inflateAmt = f(f(height * fatscale) * halfExcess);
   y1 = f(y1 - f(inflateAmt));
   y2 = f(y2 + f(inflateAmt));
 

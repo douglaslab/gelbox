@@ -46,24 +46,60 @@ export function calcDegradeAsBP(degrade: number, bases: number): DegradeBP {
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
-export function calcDeltaY(
+function mobilityFactors(
   bases: number,
   aggregation: number,
   aspectRatio: number,
   ctx: SimContext,
-): number {
+  releaseGeometry = false,
+): { curve: number; voltage: number; time: number } {
   // Native inputs, tuning and every arithmetic intermediate are float32.
   // Rounding only the returned Y changes inverse-search decisions at integer pixels.
   const f = Math.fround;
   const T = GEL_SIM_TUNING;
   const curveBase = f(bufferEquals(ctx.gelBuffer, BUFFER_TAE) ? T.deltaY.curveBaseTAE : T.deltaY.curveBase);
   const time = f(ctx.time);
-  let y = clamp(f(f(bases * aggregation) / f(T.baseCountHigh)), 0, 1);
-  const aspectDelta = f(f(f(f(aspectRatio) - 1) / f(T.aspectRatioMax)) * f(T.deltaY.aspectRatioScale));
-  y = f(y - f(aspectDelta * time));
-  y = f(curveBase + f(Math.pow(f(1 - y), f(T.deltaY.curveExp))));
+  // Release calcBandGeometry shares a rounded reciprocal between endpoints
+  // (original x86 0x1000573ba/3c2), unlike the standalone source-model helper.
+  const effectiveBases = f(bases * aggregation);
+  const normalized = releaseGeometry
+    ? f(effectiveBases * f(1 / f(T.baseCountHigh)))
+    : f(effectiveBases / f(T.baseCountHigh));
+  let y = clamp(normalized, 0, 1);
+  const aspectUnit = f(f(f(aspectRatio) - 1) / f(T.aspectRatioMax));
+  let powerBase: number;
+  if (releaseGeometry) {
+    // Release x86 0x1000573da/3e2/3e6 scales shape by time first, then
+    // 0x1000573f9/40e adds it to (1-normalized). Reassociation changes
+    // float32 rounding for fractional shape/time controls.
+    const aspectShift = f(f(aspectUnit * time) * f(T.deltaY.aspectRatioScale));
+    powerBase = f(f(1 - y) + aspectShift);
+  } else {
+    const aspectDelta = f(aspectUnit * f(T.deltaY.aspectRatioScale));
+    y = f(y - f(aspectDelta * time));
+    powerBase = f(1 - y);
+  }
+  y = f(curveBase + f(Math.pow(powerBase, f(T.deltaY.curveExp))));
   const notch = f(T.voltageNotch);
   const vn = f(f(f(ctx.voltage) - notch) / notch);
-  y = f(y * f(1 + vn));
-  return f(y * time);
+  return { curve: y, voltage: f(1 + vn), time };
+}
+
+/** Unscaled source-model mobility, used by callers outside band geometry. */
+export function calcDeltaY(bases: number, aggregation: number, aspectRatio: number, ctx: SimContext): number {
+  const { curve, voltage, time } = mobilityFactors(bases, aggregation, aspectRatio, ctx);
+  return Math.fround(Math.fround(curve * voltage) * time);
+}
+
+/** Original Release calcBandGeometry groups the spatial scale before the curve.
+ * Its fast-math x86 instructions at 0x10005744c/4ab/4af and 4bc/4c0/4c5
+ * use these respective upper/lower groupings. Preserve each float32 result:
+ * subpixel changes can decide which overlapping aggregate is selected.
+ */
+export function calcBandDeltaY(bases: number, aggregation: number, aspectRatio: number, ctx: SimContext, lower: boolean): number {
+  const f = Math.fround;
+  const { curve, voltage, time } = mobilityFactors(bases, aggregation, aspectRatio, ctx, true);
+  const space = f(ctx.ySpaceScale);
+  const scale = lower ? f(f(space * time) * voltage) : f(f(time * voltage) * space);
+  return f(scale * curve);
 }

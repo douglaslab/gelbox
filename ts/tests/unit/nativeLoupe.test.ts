@@ -3,7 +3,7 @@ import { expect, it } from 'vitest';
 import { fragToBands } from '../../src/lib/sim/gelSim';
 import { makeSampleFromGel } from '../../src/lib/sim/sampleFromGel';
 const cases=JSON.parse(readFileSync('../reference/native/numerical/cases.json','utf8'));
-const outputs=JSON.parse(readFileSync('../reference/native/numerical/outputs.json','utf8'));
+const outputs=JSON.parse(readFileSync('../reference/native/numerical/release-x86_64/outputs.json','utf8'));
 it.each(cases.filter((c:any)=>c.loupeProbes).map((c:any)=>[c.id,c]))('native synthetic loupe sample: %s',(_id,c)=>{
   const probes=outputs.find((r:any)=>r.id===c.id).loupeProbes;
   expect(probes.length).toBeGreaterThan(0);

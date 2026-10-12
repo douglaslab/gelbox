@@ -1,0 +1,22 @@
+{
+  "baseCommit": "f73e716d729c815d6135b24d2578bb5e1ce41c2b",
+  "runtimeFiles": {
+    "ts/src/lib/gel/gelState.ts": "0bee57c6d50cb65cb7617976b58292c74cf40cc70ee24551071270d301a89f58",
+    "ts/src/lib/sim/gelSim.ts": "275a75495166603b8ef81969fee6d12a1470b5adfb3e0afd9b38e2fd7cc5757e",
+    "ts/src/lib/sim/geometry.ts": "4e9b6b4eefa42a14e60c56140a00e065ca9e68d051d91da1ac05e3f63b3cbecd",
+    "ts/src/lib/sim/mobility.ts": "d12bab3f0522218ee130c53587470b9423ff79e4217624f7c43e1b9866626b69"
+  },
+  "runtimePatchSha256": "d675769dfebdedf36a56ab63ae41bd83db9377297ffc419686ca6a68d6988cd0",
+  "strictCaptureUnchanged": true,
+  "releaseMatchesIndependentIntelCapture": true,
+  "releaseCaseCount": 509,
+  "releaseOutputSha256": "ce39bf4d1ace90059851c2b89fa8fb1494bba953669aac53572bef1181be4fe0",
+  "visualStatus": "completed: 969 passed, 1 existing skip; exit0",
+  "gates": {
+    "units": 3100,
+    "production": 120,
+    "compatibility": 100,
+    "visualPassed": 969,
+    "visualSkipped": 1
+  }
+}

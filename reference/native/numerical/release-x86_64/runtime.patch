@@ -1,0 +1,150 @@
+diff --git a/ts/src/lib/gel/gelState.ts b/ts/src/lib/gel/gelState.ts
+index 5c112dd..4b12a5c 100644
+--- a/ts/src/lib/gel/gelState.ts
++++ b/ts/src/lib/gel/gelState.ts
+@@ -140,19 +140,18 @@ const BUFFER_BY_KEY = {
+ 
+ // C++ Gel::getWellSize() = (laneWidth*0.5, laneWidth*0.1) centered at (laneCenterX, yMargin).
+ function computeWellRects(numLanes: number, gelSize: { width: number; height: number }): Rect[] {
+-  const laneWidth = gelSize.width / numLanes;
+-  const wellWidth  = laneWidth * 0.5;
+-  const wellHeight = laneWidth * 0.1;
++  const f = Math.fround;
++  const laneWidth = f(f(gelSize.width) / numLanes);
++  const wellWidth = f(laneWidth * 0.5);
++  const wellHeight = f(laneWidth * f(0.1));
+   const out: Rect[] = [];
+   for (let i = 0; i < numLanes; i++) {
+-    const cx = laneWidth * (i + 0.5);
+-    const cy = Y_MARGIN;
+-    out.push({
+-      x1: cx - wellWidth / 2,
+-      y1: cy - wellHeight / 2,
+-      x2: cx + wellWidth / 2,
+-      y2: cy + wellHeight / 2,
+-    });
++    // Gel::getWellBounds builds a zero-origin Rectf, then offsetCenterTo.
++    // Deriving symmetric endpoints in double precision changes overlap picks.
++    const cx = f(f(i * laneWidth) + f(laneWidth / 2));
++    const x1 = f(cx - f(wellWidth / 2));
++    const y1 = f(Y_MARGIN - f(wellHeight / 2));
++    out.push({ x1, y1, x2: f(x1 + wellWidth), y2: f(y1 + wellHeight) });
+   }
+   return out;
+ }
+diff --git a/ts/src/lib/sim/gelSim.ts b/ts/src/lib/sim/gelSim.ts
+index 99171f6..b971c6b 100644
+--- a/ts/src/lib/sim/gelSim.ts
++++ b/ts/src/lib/sim/gelSim.ts
+@@ -11,7 +11,7 @@ import type { SimContext } from './mobility';
+ import type { Sample, Fragment } from './sample';
+ import type { Rect } from './band';
+ import { GEL_SIM_TUNING } from '../../data/tuning';
+-import { calcDeltaY, calcDegradeAsBP } from './mobility';
++import { calcDeltaY, calcBandDeltaY, calcDegradeAsBP } from './mobility';
+ import { calcBandAlpha } from './brightness';
+ import { calcBandDiffusion } from './diffusion';
+ import { calcBandGeometry, calcFlames, calcRandSeed, calcWellDamageRandSeed } from './geometry';
+@@ -69,8 +69,8 @@ function fragAggregateToBand(
+   const blur = Math.trunc(calcBandDiffusion(frag.bases, aggregate, frag.aspectRatio, ctx));
+ 
+   // Mobility: y1 from (bases - degradeHi), y2 from (bases - degradeLo)
+-  const deltaY1 = Math.fround(calcDeltaY(frag.bases - degradeHi, aggregate, frag.aspectRatio, ctx) * Math.fround(ctx.ySpaceScale));
+-  const deltaY2 = Math.fround(calcDeltaY(frag.bases - degradeLo, aggregate, frag.aspectRatio, ctx) * Math.fround(ctx.ySpaceScale));
++  const deltaY1 = calcBandDeltaY(frag.bases - degradeHi, aggregate, frag.aspectRatio, ctx, false);
++  const deltaY2 = calcBandDeltaY(frag.bases - degradeLo, aggregate, frag.aspectRatio, ctx, true);
+   const geom = calcBandGeometry(ctx, {
+     wellRect, deltaY1, deltaY2, fatness: GEL_SIM_TUNING.wellToHeightScale,
+   });
+diff --git a/ts/src/lib/sim/geometry.ts b/ts/src/lib/sim/geometry.ts
+index 229d768..a6e3d03 100644
+--- a/ts/src/lib/sim/geometry.ts
++++ b/ts/src/lib/sim/geometry.ts
+@@ -38,8 +38,12 @@ export function calcBandGeometry(ctx: SimContext, input: GeometryInput): Geometr
+ 
+   // Inflate (vertical only)
+   const fatscale = f(ctx.time);
+-  const height = f(y2 - y1);
+-  const inflateAmt = f(f(f(f(fatness) - 1) * fatscale) * 0.5) * height;
++  // Original Release keeps the well height before translation (0x1000574f8)
++  // and groups height*time before half the excess fatness (0x100057523/527).
++  // Subtracting translated endpoints can change integer inverse-solver results.
++  const height = f(f(wellRect.y2) - f(wellRect.y1));
++  const halfExcess = f(f(f(fatness) - 1) * 0.5);
++  const inflateAmt = f(f(height * fatscale) * halfExcess);
+   y1 = f(y1 - f(inflateAmt));
+   y2 = f(y2 + f(inflateAmt));
+ 
+diff --git a/ts/src/lib/sim/mobility.ts b/ts/src/lib/sim/mobility.ts
+index d320f1f..c791fcc 100644
+--- a/ts/src/lib/sim/mobility.ts
++++ b/ts/src/lib/sim/mobility.ts
+@@ -46,24 +46,60 @@ export function calcDegradeAsBP(degrade: number, bases: number): DegradeBP {
+ 
+ const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+ 
+-export function calcDeltaY(
++function mobilityFactors(
+   bases: number,
+   aggregation: number,
+   aspectRatio: number,
+   ctx: SimContext,
+-): number {
++  releaseGeometry = false,
++): { curve: number; voltage: number; time: number } {
+   // Native inputs, tuning and every arithmetic intermediate are float32.
+   // Rounding only the returned Y changes inverse-search decisions at integer pixels.
+   const f = Math.fround;
+   const T = GEL_SIM_TUNING;
+   const curveBase = f(bufferEquals(ctx.gelBuffer, BUFFER_TAE) ? T.deltaY.curveBaseTAE : T.deltaY.curveBase);
+   const time = f(ctx.time);
+-  let y = clamp(f(f(bases * aggregation) / f(T.baseCountHigh)), 0, 1);
+-  const aspectDelta = f(f(f(f(aspectRatio) - 1) / f(T.aspectRatioMax)) * f(T.deltaY.aspectRatioScale));
+-  y = f(y - f(aspectDelta * time));
+-  y = f(curveBase + f(Math.pow(f(1 - y), f(T.deltaY.curveExp))));
++  // Release calcBandGeometry shares a rounded reciprocal between endpoints
++  // (original x86 0x1000573ba/3c2), unlike the standalone source-model helper.
++  const effectiveBases = f(bases * aggregation);
++  const normalized = releaseGeometry
++    ? f(effectiveBases * f(1 / f(T.baseCountHigh)))
++    : f(effectiveBases / f(T.baseCountHigh));
++  let y = clamp(normalized, 0, 1);
++  const aspectUnit = f(f(f(aspectRatio) - 1) / f(T.aspectRatioMax));
++  let powerBase: number;
++  if (releaseGeometry) {
++    // Release x86 0x1000573da/3e2/3e6 scales shape by time first, then
++    // 0x1000573f9/40e adds it to (1-normalized). Reassociation changes
++    // float32 rounding for fractional shape/time controls.
++    const aspectShift = f(f(aspectUnit * time) * f(T.deltaY.aspectRatioScale));
++    powerBase = f(f(1 - y) + aspectShift);
++  } else {
++    const aspectDelta = f(aspectUnit * f(T.deltaY.aspectRatioScale));
++    y = f(y - f(aspectDelta * time));
++    powerBase = f(1 - y);
++  }
++  y = f(curveBase + f(Math.pow(powerBase, f(T.deltaY.curveExp))));
+   const notch = f(T.voltageNotch);
+   const vn = f(f(f(ctx.voltage) - notch) / notch);
+-  y = f(y * f(1 + vn));
+-  return f(y * time);
++  return { curve: y, voltage: f(1 + vn), time };
++}
++
++/** Unscaled source-model mobility, used by callers outside band geometry. */
++export function calcDeltaY(bases: number, aggregation: number, aspectRatio: number, ctx: SimContext): number {
++  const { curve, voltage, time } = mobilityFactors(bases, aggregation, aspectRatio, ctx);
++  return Math.fround(Math.fround(curve * voltage) * time);
++}
++
++/** Original Release calcBandGeometry groups the spatial scale before the curve.
++ * Its fast-math x86 instructions at 0x10005744c/4ab/4af and 4bc/4c0/4c5
++ * use these respective upper/lower groupings. Preserve each float32 result:
++ * subpixel changes can decide which overlapping aggregate is selected.
++ */
++export function calcBandDeltaY(bases: number, aggregation: number, aspectRatio: number, ctx: SimContext, lower: boolean): number {
++  const f = Math.fround;
++  const { curve, voltage, time } = mobilityFactors(bases, aggregation, aspectRatio, ctx, true);
++  const space = f(ctx.ySpaceScale);
++  const scale = lower ? f(f(space * time) * voltage) : f(f(time * voltage) * space);
++  return f(scale * curve);
+ }

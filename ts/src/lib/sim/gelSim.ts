@@ -11,7 +11,7 @@ import type { SimContext } from './mobility';
 import type { Sample, Fragment } from './sample';
 import type { Rect } from './band';
 import { GEL_SIM_TUNING } from '../../data/tuning';
-import { calcDeltaY, calcDegradeAsBP } from './mobility';
+import { calcDeltaY, calcBandDeltaY, calcDegradeAsBP } from './mobility';
 import { calcBandAlpha } from './brightness';
 import { calcBandDiffusion } from './diffusion';
 import { calcBandGeometry, calcFlames, calcRandSeed, calcWellDamageRandSeed } from './geometry';
@@ -69,8 +69,8 @@ function fragAggregateToBand(
   const blur = Math.trunc(calcBandDiffusion(frag.bases, aggregate, frag.aspectRatio, ctx));
 
   // Mobility: y1 from (bases - degradeHi), y2 from (bases - degradeLo)
-  const deltaY1 = Math.fround(calcDeltaY(frag.bases - degradeHi, aggregate, frag.aspectRatio, ctx) * Math.fround(ctx.ySpaceScale));
-  const deltaY2 = Math.fround(calcDeltaY(frag.bases - degradeLo, aggregate, frag.aspectRatio, ctx) * Math.fround(ctx.ySpaceScale));
+  const deltaY1 = calcBandDeltaY(frag.bases - degradeHi, aggregate, frag.aspectRatio, ctx, false);
+  const deltaY2 = calcBandDeltaY(frag.bases - degradeLo, aggregate, frag.aspectRatio, ctx, true);
   const geom = calcBandGeometry(ctx, {
     wellRect, deltaY1, deltaY2, fatness: GEL_SIM_TUNING.wellToHeightScale,
   });

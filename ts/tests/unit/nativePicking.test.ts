@@ -3,7 +3,7 @@ import { expect, it } from 'vitest';
 import { fragToBands } from '../../src/lib/sim/gelSim';
 import { bandUIRect, pickBand } from '../../src/lib/sim/sampleFromGel';
 const cases=JSON.parse(readFileSync('../reference/native/numerical/cases.json','utf8'));
-const outputs=JSON.parse(readFileSync('../reference/native/numerical/outputs.json','utf8'));
+const outputs=JSON.parse(readFileSync('../reference/native/numerical/release-x86_64/outputs.json','utf8'));
 it.each(cases.map((c:any,i:number)=>[c.id,c,outputs[i]]))('native UI rectangle: %s',(_id,c,ref)=>{
   const bands=fragToBands(c.sample,c.fragment,c.wellRect,c.lane,c.ctx);
   expect(bands).toHaveLength(ref.nativeMetadata.length);

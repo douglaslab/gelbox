@@ -140,19 +140,18 @@ const BUFFER_BY_KEY = {
 
 // C++ Gel::getWellSize() = (laneWidth*0.5, laneWidth*0.1) centered at (laneCenterX, yMargin).
 function computeWellRects(numLanes: number, gelSize: { width: number; height: number }): Rect[] {
-  const laneWidth = gelSize.width / numLanes;
-  const wellWidth  = laneWidth * 0.5;
-  const wellHeight = laneWidth * 0.1;
+  const f = Math.fround;
+  const laneWidth = f(f(gelSize.width) / numLanes);
+  const wellWidth = f(laneWidth * 0.5);
+  const wellHeight = f(laneWidth * f(0.1));
   const out: Rect[] = [];
   for (let i = 0; i < numLanes; i++) {
-    const cx = laneWidth * (i + 0.5);
-    const cy = Y_MARGIN;
-    out.push({
-      x1: cx - wellWidth / 2,
-      y1: cy - wellHeight / 2,
-      x2: cx + wellWidth / 2,
-      y2: cy + wellHeight / 2,
-    });
+    // Gel::getWellBounds builds a zero-origin Rectf, then offsetCenterTo.
+    // Deriving symmetric endpoints in double precision changes overlap picks.
+    const cx = f(f(i * laneWidth) + f(laneWidth / 2));
+    const x1 = f(cx - f(wellWidth / 2));
+    const y1 = f(Y_MARGIN - f(wellHeight / 2));
+    out.push({ x1, y1, x2: f(x1 + wellWidth), y2: f(y1 + wellHeight) });
   }
   return out;
 }
