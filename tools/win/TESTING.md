@@ -3,8 +3,8 @@
 Last tested: 2026-10-11 on ndskpc1, Windows 11, Intel Arc 140T.
 Plan: [2026-10-10 Windows port](../../docs/superpowers/plans/2026-10-10-windows-port.md).
 
-Tasks 1–14 are complete, with Task 13 changed to unsigned distribution at
-Shawn’s request. Release documentation and final review are in progress.
+Tasks1–15 are complete, with Task13 changed to unsigned distribution at
+Shawn’s request. The fresh whole-change review found no release blockers.
 
 ## Verified
 
@@ -65,6 +65,7 @@ to100%, verified earlier at nativeDPI96.
 
 ## Remaining release work
 
-Final whole-change review, upload and public download verification.
+Upload and public download verification. Final review and decision record:
+[execution report](../../docs/superpowers/reports/2026-10-11-windows-port.md).
 Reference-based buffer and sample-load modeling is a separate follow-up:
 [research notes](../../docs/research/2026-10-11-gel-model-reference.md).
