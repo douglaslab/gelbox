@@ -4,7 +4,7 @@ const cycles=Number(process.env.GEL_LIFECYCLE_CYCLES??10);
 if(!Number.isInteger(cycles)||cycles<1||cycles>1000)throw new Error('GEL_LIFECYCLE_CYCLES must be an integer from 1 to 1000');
 test.use({viewport:{width:1365,height:768}});
 test('repeated sample/loupe disposal and route remount release owned GPU resources',async({page},info)=>{
- test.setTimeout(Math.max(30000,cycles*3000));
+ test.setTimeout(Math.max(info.timeout,cycles*3000));
  const started=Date.now();
  const heap=process.env.GEL_LIFECYCLE_MEASURE_HEAP==='1'?await page.context().newCDPSession(page):null;
  const memory:unknown[]=[];
