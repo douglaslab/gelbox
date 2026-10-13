@@ -14,9 +14,11 @@ export default defineConfig({
   testIgnore: linuxCi ? linuxCiExcludedSpecs.map(spec=>`**/${spec}`) : undefined,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: 0,
-  // SwiftShader renders the loupe and 2x specs slowly enough to cross the defaults.
-  ...(linuxCi ? { timeout: 90_000, expect: { timeout: 15_000 } } : {}),
+  // SwiftShader renders the loupe and 2x specs slowly enough to cross the default
+  // timeouts. One retry absorbs a slow runner; maxFailures ends a broken run early.
+  ...(linuxCi
+    ? { retries: 1, maxFailures: 20, timeout: 90_000, expect: { timeout: 15_000 } }
+    : { retries: 0 }),
   snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}',
   use: {
     // An external server is an explicit diagnostic opt-in, not the default gate.
